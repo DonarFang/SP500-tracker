@@ -1,0 +1,3 @@
+# 价格文件数量多，标记为二进制避免海量 diff
+data/prices/*.json binary
+data/prices/*.json -diff

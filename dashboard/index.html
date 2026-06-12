@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SP500 Trend Decision Support Cockpit</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+</head>
+<body>
+<div class="shell">
+  <div class="hdr">
+    <div>
+      <h1>📈 SP500 Trend Decision Support Cockpit</h1>
+      <p>Swing Trend Following · 持仓周期 1–3周 · Yahoo Finance · 每交易日 18:00 ET 自动更新</p>
+      <div class="live-badge"><span class="dot"></span><span id="uptime">加载中...</span></div>
+    </div>
+    <button class="btn-refresh" onclick="loadAll()">↻ 刷新</button>
+  </div>
+  <div class="tabs">
+    <button class="tab on"  onclick="go('market',   this)">🌐 Market Regime</button>
+    <button class="tab"     onclick="go('leader',   this)">🏆 Leader Board</button>
+    <button class="tab"     onclick="go('trades',   this)">📋 Trade Dashboard</button>
+    <button class="tab"     onclick="go('lifecycle',this)">🔄 Trend Lifecycle</button>
+    <button class="tab"     onclick="go('watchlist',this)">👁 Watchlist</button>
+  </div>
+  <div id="s-market"    class="section on"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
+  <div id="s-leader"    class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
+  <div id="s-trades"    class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
+  <div id="s-lifecycle" class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
+  <div id="s-watchlist" class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
