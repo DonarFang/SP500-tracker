@@ -42,8 +42,9 @@ from ..utils.config import (
 from ..utils.helpers import read_json, write_json
 from ..utils import logger
 
-# 四大指数的 Yahoo Finance 代码
-WATCH_INDICES = ["^GSPC", "^NDX", "^VIX", "^SOX", "SPY"]
+# 四大指数下载代码：包含原始指数和 ETF 备用
+# 原始指数（^ 开头）在某些环境下可能失败，ETF 作为备用
+WATCH_INDICES = ["^GSPC", "^NDX", "^VIX", "^SOX", "SPY", "QQQ", "SOXX", "VIXY"]
 
 # 文件名安全转换：^ → _（文件系统不支持 ^ 开头）
 def sym_to_file(sym: str) -> str:
@@ -113,22 +114,32 @@ def run_daily_update(force_full: bool = False) -> None:
     updated = sum(1 for sym, df in new_data.items() if append_prices(sym, df) > 0)
     logger.info(f"  → 更新 {updated} 只成分股")
 
-    # 单独下载四大指数
-    # 如果文件不存在则拉取2年历史，否则只拉增量
+    # 四大指数：检查是否需要拉取历史数据
     idx_full_start = (now - timedelta(days=730)).strftime("%Y-%m-%d")
+    indices_need_full = []
+    indices_incremental = []
     for idx_sym in WATCH_INDICES:
-        d_exist, p_exist = get_prices_safe(idx_sym)
-        # 文件不存在或数据不足60条，则拉2年历史
-        idx_start = idx_full_start if len(p_exist) < 60 else start
+        _, p_exist = get_prices_safe(idx_sym)
         if len(p_exist) < 60:
-            logger.info(f"  {idx_sym}: 首次下载2年历史 ({idx_start})...")
-        df = download_single(idx_sym, idx_start, end)
-        if df is not None and not df.empty:
-            n = append_prices(idx_sym, df)
-            if n > 0:
-                logger.info(f"  {idx_sym}: +{n} 条（共{len(p_exist)+n}条）")
+            indices_need_full.append(idx_sym)
         else:
-            logger.warn(f"  {idx_sym}: 下载失败")
+            indices_incremental.append(idx_sym)
+
+    # 需要全量历史的指数：用 download_bulk 批量下载（更稳定）
+    if indices_need_full:
+        logger.info(f"  四大指数首次下载（{len(indices_need_full)}个）：{indices_need_full}")
+        idx_data = download_bulk(indices_need_full, idx_full_start, end, batch_size=len(indices_need_full), sleep=2.0)
+        for sym, df in idx_data.items():
+            n = append_prices(sym, df)
+            logger.ok(f"  {sym}: {n} 条") if n > 0 else logger.warn(f"  {sym}: 无数据")
+
+    # 只需增量的指数
+    if indices_incremental:
+        idx_data2 = download_bulk(indices_incremental, start, end, batch_size=len(indices_incremental), sleep=1.0)
+        for sym, df in idx_data2.items():
+            n = append_prices(sym, df)
+            if n > 0:
+                logger.info(f"  {sym}: +{n} 条")
 
     # ── P0-3: 验证 ────────────────────────────────────
     logger.info("[2/6] 数据验证...")
@@ -149,13 +160,16 @@ def run_daily_update(force_full: bool = False) -> None:
             dates_map[sym]  = d
 
     # P0 修复：SPX 必须用 ^GSPC，不能用 SPY
-    spx_prices = prices_map.get("^GSPC") or prices_map.get("_GSPC", [])
-    if not spx_prices:
-        logger.warn("  ⚠️  ^GSPC 数据缺失，临时用 SPY 替代")
-        spx_prices = prices_map.get(SPY_SYMBOL, [])
-    ndx_prices = prices_map.get("^NDX") or prices_map.get("_NDX", [])
-    vix_prices = prices_map.get("^VIX") or prices_map.get("_VIX", [])
-    sox_prices = prices_map.get("^SOX") or prices_map.get("_SOX", [])
+    def get_idx(*keys):
+        for k in keys:
+            p = prices_map.get(k) or prices_map.get(k.replace("^","_")) or []
+            if len(p) >= 20: return p
+        return []
+
+    spx_prices = get_idx("^GSPC", "SPY")
+    ndx_prices = get_idx("^NDX",  "QQQ")
+    vix_prices = get_idx("^VIX", "VIXY")
+    sox_prices = get_idx("^SOX",  "SOXX")
 
     logger.info(f"  → 有效序列：{len(prices_map)} 只")
     logger.info(f"  → SPX: {len(spx_prices)} bars  NDX: {len(ndx_prices)} bars  VIX: {len(vix_prices)} bars  SOX: {len(sox_prices)} bars")
