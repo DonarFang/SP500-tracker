@@ -113,14 +113,22 @@ def run_daily_update(force_full: bool = False) -> None:
     updated = sum(1 for sym, df in new_data.items() if append_prices(sym, df) > 0)
     logger.info(f"  → 更新 {updated} 只成分股")
 
-    # 单独下载四大指数（逐一避免限流）
+    # 单独下载四大指数
+    # 如果文件不存在则拉取2年历史，否则只拉增量
+    idx_full_start = (now - timedelta(days=730)).strftime("%Y-%m-%d")
     for idx_sym in WATCH_INDICES:
-        df = download_single(idx_sym, start, end)
+        d_exist, p_exist = get_prices_safe(idx_sym)
+        # 文件不存在或数据不足60条，则拉2年历史
+        idx_start = idx_full_start if len(p_exist) < 60 else start
+        if len(p_exist) < 60:
+            logger.info(f"  {idx_sym}: 首次下载2年历史 ({idx_start})...")
+        df = download_single(idx_sym, idx_start, end)
         if df is not None and not df.empty:
-            # 存储时用文件名安全版本
             n = append_prices(idx_sym, df)
             if n > 0:
-                logger.info(f"  {idx_sym}: +{n} 条")
+                logger.info(f"  {idx_sym}: +{n} 条（共{len(p_exist)+n}条）")
+        else:
+            logger.warn(f"  {idx_sym}: 下载失败")
 
     # ── P0-3: 验证 ────────────────────────────────────
     logger.info("[2/6] 数据验证...")
