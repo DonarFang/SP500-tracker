@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-06-12T06:12:49.127710-04:00",
-  "generated_at_display": "2026年6月12日 06:12 ET",
-  "data_status": "FAIL",
+  "generated_at": "2026-06-12T06:23:26.719209-04:00",
+  "generated_at_display": "2026年6月12日 06:23 ET",
+  "data_status": "PASS",
   "universe_count": 506,
-  "valid_symbols": 0,
-  "failed_symbols": 17,
-  "history_coverage_pct": 0.0,
+  "valid_symbols": 488,
+  "failed_symbols": 16,
+  "history_coverage_pct": 96.4,
   "latest_data_date": "2026-06-11",
-  "signal_engine_enabled": false,
+  "signal_engine_enabled": true,
   "checks": {
     "universe": {
       "check": "universe",
@@ -18,13 +18,13 @@
     },
     "history": {
       "check": "history",
-      "valid_symbols": 0,
-      "failed_symbols": 17,
-      "incomplete": 489,
+      "valid_symbols": 488,
+      "failed_symbols": 16,
+      "incomplete": 2,
       "total": 506,
-      "coverage_pct": 0.0,
-      "status": "FAIL",
-      "message": "覆盖率 0.0% (0/506 只达标 ≥450bars)"
+      "coverage_pct": 96.4,
+      "status": "PASS",
+      "message": "覆盖率 96.4% (488/506 只达标 ≥450bars)"
     },
     "freshness": {
       "check": "freshness",

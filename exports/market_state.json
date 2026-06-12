@@ -1,1 +1,76 @@
-{}
+{
+  "generated_at": "2026-06-12T06:23:29.207160-04:00",
+  "generated_at_display": "2026年6月12日 06:23 ET",
+  "data_source": "Yahoo Finance",
+  "phase": "2",
+  "market": {
+    "state": "Risk-Off",
+    "spx_close": 737.76,
+    "spx_ma50": 721.07,
+    "spx_ma200": 683.56,
+    "spx_slope20": -0.000166,
+    "pct_above_ma50": 2.31,
+    "advance_decline": 1.84,
+    "date": "2026-06-12",
+    "advance_count": 316,
+    "decline_count": 172,
+    "notes": "上涨316只 下跌172只",
+    "state_zh": "风险规避",
+    "state_icon": "🔴",
+    "state_color": "#D85A30",
+    "market_score": 38.2,
+    "score_breakdown": {
+      "SPX": {
+        "score": 45.0,
+        "weight": "35%",
+        "above_ma50": true
+      },
+      "NDX": {
+        "score": 30.0,
+        "weight": "25%",
+        "above_ma50": false
+      },
+      "SOX": {
+        "score": 30.0,
+        "weight": "25%",
+        "above_ma50": false
+      },
+      "VIX": {
+        "score": 50.0,
+        "weight": "15%",
+        "vix_state": "未知",
+        "vix_color": "#888"
+      }
+    },
+    "leadership_confirmed": false,
+    "leadership_label": "Leadership Unconfirmed ⚠️",
+    "vix_state": "未知",
+    "vix_color": "#888",
+    "spx_score": 45.0,
+    "ndx_score": 30.0,
+    "sox_score": 30.0,
+    "vix_score": 50.0,
+    "indices": {
+      "SPX": {
+        "code": "SPX",
+        "name": "标普500",
+        "available": false
+      },
+      "NDX": {
+        "code": "NDX",
+        "name": "纳斯达克100",
+        "available": false
+      },
+      "VIX": {
+        "code": "VIX",
+        "name": "波动率指数",
+        "available": false
+      },
+      "SOX": {
+        "code": "SOX",
+        "name": "费城半导体",
+        "available": false
+      }
+    }
+  }
+}
