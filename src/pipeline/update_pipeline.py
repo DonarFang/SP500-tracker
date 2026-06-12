@@ -19,7 +19,7 @@ except:
 
 from ..data_ingestion.fetch_yahoo import (
     fetch_members, download_bulk, download_single,
-    append_prices, get_price_series,
+    download_with_fallback, append_prices, get_price_series,
 )
 from ..features.rs import period_return, rs_percentile
 from ..features.momentum import (
@@ -44,7 +44,16 @@ from ..utils import logger
 
 # 四大指数下载代码：包含原始指数和 ETF 备用
 # 原始指数（^ 开头）在某些环境下可能失败，ETF 作为备用
-WATCH_INDICES = ["^GSPC", "^NDX", "^VIX", "^SOX", "SPY", "QQQ", "SOXX", "VIXY"]
+# 四大指数下载代码（主代码 + fallback）
+WATCH_INDICES = ["^GSPC", "^NDX", "^VIX", "^SOX", "SPY"]
+
+INDEX_FALLBACKS = {
+    "^GSPC": ["SPY"],
+    "^NDX":  ["QQQ"],
+    "^VIX":  ["VIXY"],
+    "^SOX":  ["SOXX"],
+    "SPY":   [],
+}
 
 # 文件名安全转换：^ → _（文件系统不支持 ^ 开头）
 def sym_to_file(sym: str) -> str:
@@ -114,34 +123,29 @@ def run_daily_update(force_full: bool = False) -> None:
     updated = sum(1 for sym, df in new_data.items() if append_prices(sym, df) > 0)
     logger.info(f"  → 更新 {updated} 只成分股")
 
-    # 四大指数：检查是否需要拉取历史数据
+    # 四大指数：用 download_with_fallback 下载
+    # 无论用哪个代码下载成功，统一存储到原始代码路径（如 ^GSPC）
     idx_full_start = (now - timedelta(days=730)).strftime("%Y-%m-%d")
-    indices_need_full = []
-    indices_incremental = []
     for idx_sym in WATCH_INDICES:
         _, p_exist = get_prices_safe(idx_sym)
+        idx_start_date = idx_full_start if len(p_exist) < 60 else start
         if len(p_exist) < 60:
-            indices_need_full.append(idx_sym)
-        else:
-            indices_incremental.append(idx_sym)
-
-    # 需要全量历史的指数：用 download_bulk 批量下载（更稳定）
-    if indices_need_full:
-        logger.info(f"  四大指数首次下载（{len(indices_need_full)}个）：{indices_need_full}")
-        idx_data = download_bulk(indices_need_full, idx_full_start, end, batch_size=len(indices_need_full), sleep=2.0)
-        for sym, df in idx_data.items():
-            n = append_prices(sym, df)
-            logger.ok(f"  {sym}: {n} 条") if n > 0 else logger.warn(f"  {sym}: 无数据")
-
-    # 只需增量的指数
-    if indices_incremental:
-        idx_data2 = download_bulk(indices_incremental, start, end, batch_size=len(indices_incremental), sleep=1.0)
-        for sym, df in idx_data2.items():
-            n = append_prices(sym, df)
+            logger.info(f"  {idx_sym}: 首次下载2年历史...")
+        used_sym, df = download_with_fallback(
+            idx_sym,
+            INDEX_FALLBACKS.get(idx_sym, []),
+            idx_start_date,
+            end,
+        )
+        if df is not None and not df.empty:
+            # 存储到原始代码路径，不管实际用了哪个 fallback
+            n = append_prices(idx_sym, df)
             if n > 0:
-                logger.info(f"  {sym}: +{n} 条")
+                logger.info(f"  {idx_sym}: +{n} 条 (source={used_sym})")
+        else:
+            logger.warn(f"  {idx_sym}: 所有 fallback 下载失败")
 
-    # ── P0-3: 验证 ────────────────────────────────────
+        # ── P0-3: 验证 ────────────────────────────────────
     logger.info("[2/6] 数据验证...")
     health = run_validation(symbols)
     if not health["signal_engine_enabled"]:

@@ -81,16 +81,30 @@ def fetch_members() -> list[dict]:
 def _parse(raw, sym) -> Optional[pd.DataFrame]:
     if raw is None or raw.empty: return None
     try:
-        if isinstance(raw.columns, pd.MultiIndex): raw=raw.droplevel(0,axis=1)
-        df=pd.DataFrame()
+        # yfinance 新版本单只股票也可能返回 MultiIndex
+        if isinstance(raw.columns, pd.MultiIndex):
+            # MultiIndex: (field, ticker) 或 (ticker, field)
+            try:
+                raw = raw.xs(sym, axis=1, level=1)
+            except:
+                try:
+                    raw = raw.xs(sym, axis=1, level=0)
+                except:
+                    raw = raw.droplevel(0, axis=1)
+        df = pd.DataFrame()
         for c in ["Open","High","Low","Close","Volume"]:
-            m=[x for x in raw.columns if x.lower()==c.lower()]
-            if m: df[c.lower()]=raw[m[0]]
-        if "close" not in df.columns: return None
-        df.index.name="date"; df=df.reset_index()
-        df["date"]=df["date"].astype(str).str[:10]
+            m = [x for x in raw.columns if str(x).lower()==c.lower()]
+            if m: df[c.lower()] = raw[m[0]]
+        if "close" not in df.columns:
+            logger.warn(f"  {sym}: 解析后无 close 列，columns={list(raw.columns)[:5]}")
+            return None
+        df.index.name = "date"
+        df = df.reset_index()
+        df["date"] = df["date"].astype(str).str[:10]
         return df.dropna(subset=["close"])
-    except: return None
+    except Exception as e:
+        logger.warn(f"  {sym} _parse error: {e}")
+        return None
 
 def download_bulk(symbols,start,end,batch_size=50,sleep=1.5) -> dict[str,pd.DataFrame]:
     import yfinance as yf
@@ -124,11 +138,56 @@ def download_bulk(symbols,start,end,batch_size=50,sleep=1.5) -> dict[str,pd.Data
     return result
 
 def download_single(symbol,start,end) -> Optional[pd.DataFrame]:
+    """
+    下载单只股票或指数。
+    对指数（^开头）使用 Ticker.history()，比 yf.download 更稳定。
+    """
     import yfinance as yf
+    import pandas as pd
     try:
-        raw=yf.download(symbol,start=start,end=end,interval="1d",auto_adjust=True,progress=False)
-        return _parse(raw,symbol)
-    except Exception as e: logger.warn(f"{symbol}: {e}"); return None
+        # 优先用 Ticker.history()，对 ^GSPC 等指数更可靠
+        ticker = yf.Ticker(symbol)
+        raw = ticker.history(start=start, end=end, interval="1d", auto_adjust=True)
+        if raw is not None and not raw.empty:
+            df = pd.DataFrame()
+            for c in ["Open","High","Low","Close","Volume"]:
+                if c in raw.columns:
+                    df[c.lower()] = raw[c]
+            if "close" not in df.columns:
+                raise ValueError(f"no close column, got {list(raw.columns)}")
+            df.index.name = "date"
+            df = df.reset_index()
+            df["date"] = df["date"].astype(str).str[:10]
+            result = df.dropna(subset=["close"])
+            if not result.empty:
+                return result
+        # fallback: yf.download
+        raw2 = yf.download(symbol, start=start, end=end, interval="1d",
+                           auto_adjust=True, progress=False)
+        return _parse(raw2, symbol)
+    except Exception as e:
+        logger.warn(f"{symbol}: {e}")
+        return None
+
+def download_with_fallback(
+    primary: str,
+    fallbacks: list[str],
+    start: str,
+    end: str,
+) -> tuple[str, any]:
+    """
+    带 fallback 的下载：先试 primary，失败依次试 fallbacks。
+    返回 (used_sym, df)，used_sym 是实际成功的代码。
+    无论用哪个代码下载，调用方应统一存储到 primary 路径。
+    """
+    for sym in [primary] + fallbacks:
+        df = download_single(sym, start, end)
+        if df is not None and not df.empty:
+            if sym != primary:
+                logger.info(f"  {primary}: fallback 到 {sym} 成功")
+            return sym, df
+    return primary, None
+
 
 def load_prices(sym) -> list[dict]:
     d=read_json(price_file(sym)); return d if isinstance(d,list) else []
