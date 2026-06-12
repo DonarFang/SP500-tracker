@@ -1,1 +1,36 @@
-{}
+{
+  "generated_at": "2026-06-12T06:12:49.127710-04:00",
+  "generated_at_display": "2026年6月12日 06:12 ET",
+  "data_status": "FAIL",
+  "universe_count": 506,
+  "valid_symbols": 0,
+  "failed_symbols": 17,
+  "history_coverage_pct": 0.0,
+  "latest_data_date": "2026-06-11",
+  "signal_engine_enabled": false,
+  "checks": {
+    "universe": {
+      "check": "universe",
+      "count": 506,
+      "min": 500,
+      "status": "PASS",
+      "message": "成分股 506 只✅"
+    },
+    "history": {
+      "check": "history",
+      "valid_symbols": 0,
+      "failed_symbols": 17,
+      "incomplete": 489,
+      "total": 506,
+      "coverage_pct": 0.0,
+      "status": "FAIL",
+      "message": "覆盖率 0.0% (0/506 只达标 ≥450bars)"
+    },
+    "freshness": {
+      "check": "freshness",
+      "latest_date": "2026-06-11",
+      "status": "PASS",
+      "message": "最新日期：2026-06-11"
+    }
+  }
+}
