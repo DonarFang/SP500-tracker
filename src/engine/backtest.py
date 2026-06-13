@@ -31,9 +31,9 @@ from ..utils import logger
 LAYER_D_ASSUMPTIONS = {
     "initial_capital":   100_000,
     "max_positions":      3,
-    "buy_size":          1.0,    # Top3: 1/3 portfolio full position
-    "add_size":          0.5,    # Top3: +1/6 portfolio, used only after REDUCE if allowed
-    "max_single_size":   1.0,    # Top3 strategy: 1/3 max per position
+    "buy_size":          1.0,    # Max3: 1/3 portfolio full position
+    "add_size":          0.5,    # Max3: +1/6 portfolio, used only after REDUCE if allowed
+    "max_single_size":   1.0,    # Max3 strategy: 1/3 max per position
     "transaction_cost":  0.0005, # 0.05% one-way
     "slippage":          0.0005, # 0.05% one-way
     "total_one_way":     0.0010, # cost + slippage per direction
@@ -49,10 +49,18 @@ LAYER_D_ASSUMPTIONS = {
     "cash_yield":        0.0,
     "leverage":          False,
     "short_selling":     False,
-    "strategy_variant":  "top3_entry_trend_hold",
-    "entry_top_n":       3,
+    "strategy_variant":  "top10_secondary_selection_trend_hold",
+    "entry_top_n":       10,
+    "min_leader_score":  90.0,
+    "min_trend_health":  80.0,
+    "min_momentum_score": 85.0,
+    "candidate_weights": {
+        "leader_score": 0.50,
+        "trend_health": 0.30,
+        "momentum_score": 0.20,
+    },
     "rank_based_exit":   False,
-    "version":           "1.1-top3",
+    "version":           "1.2-secondary",
 }
 
 
@@ -721,7 +729,7 @@ def run_stateful_simulation(
     market_score_default: float = 60.0,
 ) -> dict:
     """
-    Layer D v1.1: Top3 Entry + Trend-Following Hold Backtest
+    Layer D v1.2: Top10 Candidate + Secondary Selection + Trend-Following Hold
 
     修正项（相比 v3）：
     1. SPX master calendar — 时间轴以 SPX dates 为准
@@ -729,24 +737,35 @@ def run_stateful_simulation(
     3. skipped_orders_by_reason — 跳过原因分类统计
     4. sample_validity 检查 — 样本不足时返回 INSUFFICIENT_SAMPLE
     """
-    logger.info("[Backtest Layer D v1.1] Top3 Entry + Trend-Following Hold Backtest...")
+    logger.info("[Backtest Layer D v1.2] Top10 Candidate + Secondary Selection Backtest...")
 
     # ── 冻结参数 ─────────────────────────────────────────
     a        = assumptions or LAYER_D_ASSUMPTIONS
     max_pos  = a["max_positions"]
-    buy_pct  = a["buy_size"]  / max_pos       # Top3: 1/3 per full slot
-    add_pct  = a["add_size"]  / max_pos       # Top3: +1/6, only useful after REDUCE
-    max_pct  = a["max_single_size"] / max_pos # Top3: max 1/3 per position
+    buy_pct  = a["buy_size"]  / max_pos       # Max3: 1/3 per full slot
+    add_pct  = a["add_size"]  / max_pos       # Max3: +1/6, only useful after REDUCE
+    max_pct  = a["max_single_size"] / max_pos # Max3: max 1/3 per position
     one_way  = a["total_one_way"]             # 0.001
     init_cap = float(a.get("initial_capital", 100_000))
-    strategy_variant = a.get("strategy_variant", "top3_entry_trend_hold")
-    entry_top_n = int(a.get("entry_top_n", 3))
+    strategy_variant = a.get("strategy_variant", "top10_secondary_selection_trend_hold")
+    entry_top_n = int(a.get("entry_top_n", 10))
+    min_leader_score = float(a.get("min_leader_score", 90.0))
+    min_trend_health = float(a.get("min_trend_health", 80.0))
+    min_momentum_score = float(a.get("min_momentum_score", 85.0))
+    candidate_weights = a.get("candidate_weights", {
+        "leader_score": 0.50,
+        "trend_health": 0.30,
+        "momentum_score": 0.20,
+    })
     rank_based_exit = bool(a.get("rank_based_exit", False))
 
     logger.info(f"  v{a.get('version','?')} | Strategy={strategy_variant} "
                 f"| EntryTopN={entry_top_n} | MaxPos={max_pos} "
                 f"BuySlot={buy_pct*100:.1f}% MaxSingle={max_pct*100:.1f}% "
                 f"OneWay={one_way*100:.2f}%")
+    logger.info(f"  Secondary filters: BUY + Leader>={min_leader_score:.0f} "
+                f"+ TrendHealth>={min_trend_health:.0f} "
+                f"+ Momentum>={min_momentum_score:.0f}")
 
     # ── 修正1: SPX master calendar ────────────────────────
     # 时间轴以 SPX dates 为准，不受个股短数据影响
@@ -832,6 +851,9 @@ def run_stateful_simulation(
         "size_at_minimum":          0,
         "not_holding":              0,
         "not_in_entry_top_n":       0,
+        "below_leader_threshold":   0,
+        "below_trend_threshold":    0,
+        "below_momentum_threshold": 0,
     }
     orders_executed = 0
 
@@ -905,6 +927,10 @@ def run_stateful_simulation(
                         "min_close_since_entry": close_ref,
                         "current_close":         close_ref,
                         "leader_score_entry":    ls,
+                        "entry_rank":            order.get("entry_rank"),
+                        "candidate_score_entry": order.get("candidate_score"),
+                        "trend_health_entry":    order.get("trend_health"),
+                        "momentum_score_entry":  order.get("momentum_score"),
                         "action_history":        ["BUY"],
                     }
 
@@ -986,6 +1012,10 @@ def run_stateful_simulation(
                         "holding_days":         holding_days,
                         "size_units_at_exit":   h["size_units"],
                         "leader_score_entry":   round(h.get("leader_score_entry", 0), 1),
+                        "entry_rank":           h.get("entry_rank"),
+                        "candidate_score_entry": h.get("candidate_score_entry"),
+                        "trend_health_entry":   h.get("trend_health_entry"),
+                        "momentum_score_entry": h.get("momentum_score_entry"),
                         "actions_during_trade": h["action_history"],
                         "action_count":         len(h["action_history"]),
                         "execution_model":      "adverse_intraday_v1.0",
@@ -1035,9 +1065,9 @@ def run_stateful_simulation(
 
         # ════════════════════════════════════════════════
         # STEP 3: 生成 T 日信号 → pending_orders for T+1
-        # Strategy v1.1:
-        #   Top 3 只限制“新 BUY 候选池”
-        #   已持仓股票不因跌出 Top 3 而卖出/减仓
+        # Strategy v1.2:
+        #   Leader Top 10 定义候选池，二级标准选择可执行 BUY
+        #   已持仓股票不因跌出候选池而卖出/减仓
         #   REDUCE / EXIT 只由 Trade Action 触发
         # ════════════════════════════════════════════════
         all_ret60 = []
@@ -1048,7 +1078,7 @@ def run_stateful_simulation(
                 if r is not None:
                     all_ret60.append(r)
 
-        # 先重建全市场当日信号与 Leader Score，用于确定 Top 3 Entry Universe
+        # 先重建全市场当日信号与指标，用于定义 Top 10 候选池和二级筛选
         day_signals: dict[str, dict] = {}
         for sym in symbols:
             p = get_close_series_by_date(sym, date_t)
@@ -1084,7 +1114,7 @@ def run_stateful_simulation(
                 "trend_health": th,
             }
 
-        # Top 3 Entry Universe:
+        # Top 10 Candidate Universe:
         # 只限制新开仓 BUY；不限制已有持仓的 HOLD/ADD/REDUCE/EXIT
         top_ranked = sorted(
             ((s, v["leader_score"]) for s, v in day_signals.items()),
@@ -1094,17 +1124,20 @@ def run_stateful_simulation(
         top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])
         top_entry_rank = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}
 
-        pending_orders = []
+        # 持仓管理与排名无关。优先执行 EXIT/REDUCE，再执行 ADD，最后执行 BUY，
+        # 以便释放的仓位可以由当日最高 candidate_score 的候选补上。
+        management_orders = []
+        buy_candidates = []
         for sym, sig in day_signals.items():
             action  = sig["action"]
             ls      = sig["leader_score"]
             close_t = sig["close_t"]
 
-            # 已持仓股票：记录每天动作；是否卖出/减仓只看 Trade Action，不看是否仍在 Top 3
+            # 已持仓股票：记录每天动作；是否卖出/减仓只看 Trade Action，不看排名
             if sym in holdings:
                 holdings[sym]["action_history"].append(action)
 
-            # 新 BUY：只有当日 Top 3 才允许进入
+            # 新 BUY：必须位于 Top 10 候选池并通过二级选股阈值
             if action == "BUY":
                 if sym in holdings:
                     # 已持仓时 BUY 不重复开仓，不算错误
@@ -1112,13 +1145,30 @@ def run_stateful_simulation(
                 if sym not in top_entry_symbols:
                     skip_reasons["not_in_entry_top_n"] += 1
                     continue
-                pending_orders.append({
+                if ls < min_leader_score:
+                    skip_reasons["below_leader_threshold"] += 1
+                    continue
+                if sig["trend_health"] < min_trend_health:
+                    skip_reasons["below_trend_threshold"] += 1
+                    continue
+                if sig["momentum_score"] < min_momentum_score:
+                    skip_reasons["below_momentum_threshold"] += 1
+                    continue
+                candidate_score = (
+                    candidate_weights["leader_score"] * ls
+                    + candidate_weights["trend_health"] * sig["trend_health"]
+                    + candidate_weights["momentum_score"] * sig["momentum_score"]
+                )
+                buy_candidates.append({
                     "sym":         sym,
                     "action":      "BUY",
                     "signal_date": date_t,
                     "ls":          ls,
                     "close_t":     close_t,
                     "entry_rank":  top_entry_rank.get(sym),
+                    "candidate_score": round(candidate_score, 4),
+                    "trend_health": sig["trend_health"],
+                    "momentum_score": sig["momentum_score"],
                     "strategy":    strategy_variant,
                 })
                 continue
@@ -1127,7 +1177,7 @@ def run_stateful_simulation(
             if action in ("ADD", "REDUCE", "EXIT"):
                 if sym not in holdings:
                     continue
-                pending_orders.append({
+                management_orders.append({
                     "sym":         sym,
                     "action":      action,
                     "signal_date": date_t,
@@ -1136,6 +1186,19 @@ def run_stateful_simulation(
                     "entry_rank":  top_entry_rank.get(sym),
                     "strategy":    strategy_variant,
                 })
+
+        action_priority = {"EXIT": 0, "REDUCE": 1, "ADD": 2}
+        management_orders.sort(key=lambda o: action_priority.get(o["action"], 9))
+        buy_candidates.sort(key=lambda o: o["candidate_score"], reverse=True)
+        pending_orders = management_orders + buy_candidates
+
+        if (t - min_history) % 20 == 0:
+            logger.info(
+                f"  Layer D secondary: {t}/{n_days} {date_t} "
+                f"cash={cash:.0f} holdings={len(holdings)} "
+                f"eligible={len(buy_candidates)} pending={len(pending_orders)} "
+                f"trades={len(closed_trades)}"
+            )
 
         if t % 30 == 0:
             daily_records.append({
@@ -1187,6 +1250,10 @@ def run_stateful_simulation(
             "holding_days":         holding_days,
             "size_units_at_exit":   h["size_units"],
             "leader_score_entry":   round(h.get("leader_score_entry", 0), 1),
+            "entry_rank":           h.get("entry_rank"),
+            "candidate_score_entry": h.get("candidate_score_entry"),
+            "trend_health_entry":   h.get("trend_health_entry"),
+            "momentum_score_entry": h.get("momentum_score_entry"),
             "actions_during_trade": h["action_history"],
             "action_count":         len(h["action_history"]),
             "execution_model":      "adverse_intraday_v1.0",
@@ -1271,7 +1338,7 @@ def run_stateful_simulation(
     else:
         status = "FAIL"
 
-    logger.info(f"  Layer D v1.1-top3: {status}")
+    logger.info(f"  Layer D v1.2-secondary: {status}")
     logger.info(f"  ${init_cap:,.0f}→${final_equity:,.2f} ({total_return:+.2f}%) "
                 f"SPX:{spx_total:+.2f}% Alpha:{total_return-spx_total:+.2f}%")
     logger.info(f"  CAGR:{cagr:+.2f}% MaxDD:{max_dd*100:.2f}% "
@@ -1282,10 +1349,19 @@ def run_stateful_simulation(
         "layer":   "D",
         "name":    "Stateful Portfolio Backtest",
         "status":  status,
-        "version": "v1.1-top3",
+        "version": "v1.2-secondary",
         "execution_model": a.get("execution_model", "adverse_intraday"),
         "strategy_variant": strategy_variant,
         "entry_top_n": entry_top_n,
+        "secondary_selection": {
+            "required_action": "BUY",
+            "min_leader_score": min_leader_score,
+            "min_trend_health": min_trend_health,
+            "min_momentum_score": min_momentum_score,
+            "candidate_weights": candidate_weights,
+            "buy_order": "candidate_score_desc",
+            "execution_priority": ["EXIT", "REDUCE", "ADD", "BUY"],
+        },
         "rank_based_exit": rank_based_exit,
         # 样本有效性（完整字段）
         "sample_validity": {
