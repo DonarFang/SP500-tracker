@@ -1,0 +1,384 @@
+{
+  "generated_at": "2026-06-13T06:28:13.198024-04:00",
+  "generated_at_display": "2026年6月13日 06:28 ET",
+  "backtest": {
+    "overall_status": "PARTIAL",
+    "methodology": "Backtest Methodology v1.0",
+    "model_version": "Quantitative Model Spec v1.0 (Frozen)",
+    "results": {
+      "layer_a": {
+        "layer": "A",
+        "name": "Leader Engine Validation",
+        "status": "FAIL",
+        "monotonic": {
+          "fwd5d": false,
+          "fwd10d": false,
+          "fwd20d": false,
+          "fwd30d": false
+        },
+        "bucket_summary": {
+          "A": {
+            "fwd5d": {
+              "n": 42,
+              "avg_ret": 2.673,
+              "med_ret": 0.038,
+              "win_rate": 50.0,
+              "vol": 9.501
+            },
+            "fwd10d": {
+              "n": 42,
+              "avg_ret": 3.869,
+              "med_ret": 0.225,
+              "win_rate": 50.0,
+              "vol": 15.319
+            },
+            "fwd20d": {
+              "n": 42,
+              "avg_ret": 5.107,
+              "med_ret": 1.043,
+              "win_rate": 54.8,
+              "vol": 21.982
+            },
+            "fwd30d": {
+              "n": 42,
+              "avg_ret": 9.032,
+              "med_ret": 1.461,
+              "win_rate": 54.8,
+              "vol": 33.755
+            }
+          },
+          "B": {
+            "fwd5d": {
+              "n": 166,
+              "avg_ret": -0.537,
+              "med_ret": -1.137,
+              "win_rate": 39.8,
+              "vol": 4.516
+            },
+            "fwd10d": {
+              "n": 166,
+              "avg_ret": -0.558,
+              "med_ret": -1.359,
+              "win_rate": 39.2,
+              "vol": 7.587
+            },
+            "fwd20d": {
+              "n": 166,
+              "avg_ret": 0.772,
+              "med_ret": -0.865,
+              "win_rate": 44.6,
+              "vol": 18.151
+            },
+            "fwd30d": {
+              "n": 166,
+              "avg_ret": 4.339,
+              "med_ret": 1.641,
+              "win_rate": 57.8,
+              "vol": 22.132
+            }
+          },
+          "C": {
+            "fwd5d": {
+              "n": 353,
+              "avg_ret": -0.237,
+              "med_ret": -1.157,
+              "win_rate": 34.0,
+              "vol": 5.006
+            },
+            "fwd10d": {
+              "n": 353,
+              "avg_ret": -0.753,
+              "med_ret": -2.009,
+              "win_rate": 31.7,
+              "vol": 8.672
+            },
+            "fwd20d": {
+              "n": 353,
+              "avg_ret": -0.581,
+              "med_ret": -2.349,
+              "win_rate": 39.7,
+              "vol": 13.286
+            },
+            "fwd30d": {
+              "n": 353,
+              "avg_ret": 1.381,
+              "med_ret": 0.197,
+              "win_rate": 51.3,
+              "vol": 14.042
+            }
+          },
+          "D": {
+            "fwd5d": {
+              "n": 486,
+              "avg_ret": -0.623,
+              "med_ret": -1.023,
+              "win_rate": 34.2,
+              "vol": 3.873
+            },
+            "fwd10d": {
+              "n": 486,
+              "avg_ret": -1.156,
+              "med_ret": -2.205,
+              "win_rate": 34.2,
+              "vol": 6.52
+            },
+            "fwd20d": {
+              "n": 486,
+              "avg_ret": -0.35,
+              "med_ret": -1.326,
+              "win_rate": 44.0,
+              "vol": 9.539
+            },
+            "fwd30d": {
+              "n": 486,
+              "avg_ret": 1.977,
+              "med_ret": 0.874,
+              "win_rate": 54.3,
+              "vol": 13.343
+            }
+          },
+          "E": {
+            "fwd5d": {
+              "n": 1893,
+              "avg_ret": -0.398,
+              "med_ret": -1.035,
+              "win_rate": 38.1,
+              "vol": 3.993
+            },
+            "fwd10d": {
+              "n": 1893,
+              "avg_ret": -0.033,
+              "med_ret": -0.941,
+              "win_rate": 43.5,
+              "vol": 6.172
+            },
+            "fwd20d": {
+              "n": 1893,
+              "avg_ret": 0.61,
+              "med_ret": 0.355,
+              "win_rate": 52.0,
+              "vol": 8.385
+            },
+            "fwd30d": {
+              "n": 1893,
+              "avg_ret": 1.721,
+              "med_ret": 0.96,
+              "win_rate": 54.8,
+              "vol": 11.875
+            }
+          }
+        },
+        "buckets_defined": {
+          "A": "90-100",
+          "B": "80-90",
+          "C": "70-80",
+          "D": "60-70",
+          "E": "0-60"
+        }
+      },
+      "layer_c": {
+        "layer": "C",
+        "name": "Trade Rule Validation",
+        "status": "PASS",
+        "buy_vs_spx": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "signal_summary": {
+          "BUY": {
+            "fwd5d": {
+              "n": 36,
+              "avg_ret": 2.774,
+              "med_ret": 0.252,
+              "win_rate": 50.0,
+              "vol": 11.04,
+              "profit_factor": 2.05,
+              "sharpe": 0.89
+            },
+            "fwd10d": {
+              "n": 36,
+              "avg_ret": 4.527,
+              "med_ret": 1.075,
+              "win_rate": 52.8,
+              "vol": 16.697,
+              "profit_factor": 2.44,
+              "sharpe": 0.96
+            },
+            "fwd20d": {
+              "n": 36,
+              "avg_ret": 6.058,
+              "med_ret": 4.189,
+              "win_rate": 63.9,
+              "vol": 23.975,
+              "profit_factor": 2.53,
+              "sharpe": 0.9
+            },
+            "fwd30d": {
+              "n": 36,
+              "avg_ret": 10.432,
+              "med_ret": 3.47,
+              "win_rate": 58.3,
+              "vol": 36.346,
+              "profit_factor": 2.69,
+              "sharpe": 1.02
+            }
+          },
+          "ADD": {
+            "fwd5d": {
+              "n": 28,
+              "avg_ret": 0.668,
+              "med_ret": -0.078,
+              "win_rate": 46.4,
+              "vol": 4.236,
+              "profit_factor": 1.53,
+              "sharpe": 0.56
+            },
+            "fwd10d": {
+              "n": 28,
+              "avg_ret": 0.247,
+              "med_ret": -0.481,
+              "win_rate": 39.3,
+              "vol": 9.194,
+              "profit_factor": 1.09,
+              "sharpe": 0.1
+            },
+            "fwd20d": {
+              "n": 28,
+              "avg_ret": 2.246,
+              "med_ret": -1.718,
+              "win_rate": 35.7,
+              "vol": 16.809,
+              "profit_factor": 1.87,
+              "sharpe": 0.47
+            },
+            "fwd30d": {
+              "n": 28,
+              "avg_ret": 5.996,
+              "med_ret": 4.867,
+              "win_rate": 57.1,
+              "vol": 21.982,
+              "profit_factor": 3.06,
+              "sharpe": 0.97
+            }
+          },
+          "EXIT": {
+            "fwd5d": {
+              "n": 2006,
+              "avg_ret": -0.402,
+              "med_ret": -1.035,
+              "win_rate": 38.0,
+              "vol": 4.127,
+              "profit_factor": 0.77,
+              "sharpe": -0.35
+            },
+            "fwd10d": {
+              "n": 2006,
+              "avg_ret": -0.116,
+              "med_ret": -1.014,
+              "win_rate": 42.7,
+              "vol": 6.378,
+              "profit_factor": 0.95,
+              "sharpe": -0.06
+            },
+            "fwd20d": {
+              "n": 2006,
+              "avg_ret": 0.46,
+              "med_ret": 0.13,
+              "win_rate": 51.1,
+              "vol": 8.738,
+              "profit_factor": 1.16,
+              "sharpe": 0.19
+            },
+            "fwd30d": {
+              "n": 2006,
+              "avg_ret": 1.708,
+              "med_ret": 0.936,
+              "win_rate": 54.5,
+              "vol": 12.622,
+              "profit_factor": 1.61,
+              "sharpe": 0.48
+            }
+          },
+          "HOLD": {
+            "fwd5d": {
+              "n": 255,
+              "avg_ret": -0.592,
+              "med_ret": -1.29,
+              "win_rate": 34.9,
+              "vol": 4.259,
+              "profit_factor": 0.69,
+              "sharpe": -0.49
+            },
+            "fwd10d": {
+              "n": 255,
+              "avg_ret": -0.636,
+              "med_ret": -1.977,
+              "win_rate": 33.7,
+              "vol": 7.079,
+              "profit_factor": 0.76,
+              "sharpe": -0.32
+            },
+            "fwd20d": {
+              "n": 255,
+              "avg_ret": 0.216,
+              "med_ret": -1.429,
+              "win_rate": 40.8,
+              "vol": 16.819,
+              "profit_factor": 1.05,
+              "sharpe": 0.05
+            },
+            "fwd30d": {
+              "n": 255,
+              "avg_ret": 3.539,
+              "med_ret": 1.176,
+              "win_rate": 56.9,
+              "vol": 20.99,
+              "profit_factor": 2.19,
+              "sharpe": 0.6
+            }
+          }
+        },
+        "spx_benchmark": {
+          "fwd5d": {
+            "n": 6,
+            "avg_ret": -0.133,
+            "med_ret": -0.175,
+            "win_rate": 33.3,
+            "vol": 1.688,
+            "profit_factor": 0.8,
+            "sharpe": -0.28
+          },
+          "fwd10d": {
+            "n": 6,
+            "avg_ret": -0.179,
+            "med_ret": 0.085,
+            "win_rate": 66.7,
+            "vol": 2.455,
+            "profit_factor": 0.84,
+            "sharpe": -0.26
+          },
+          "fwd20d": {
+            "n": 6,
+            "avg_ret": -0.256,
+            "med_ret": -0.46,
+            "win_rate": 33.3,
+            "vol": 2.676,
+            "profit_factor": 0.8,
+            "sharpe": -0.34
+          },
+          "fwd30d": {
+            "n": 6,
+            "avg_ret": 0.817,
+            "med_ret": 0.437,
+            "win_rate": 50.0,
+            "vol": 1.94,
+            "profit_factor": 3.25,
+            "sharpe": 1.5
+          }
+        }
+      }
+    }
+  }
+}
