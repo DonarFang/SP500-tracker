@@ -277,14 +277,22 @@ def run_daily_update(force_full: bool = False) -> None:
             "pct_above_ma50": round((spx_prices[-1] - ma50) / ma50 * 100, 2),
         })
 
-    # 四大指数分析（P0修复：传入正确的prices_map，含^符号版本）
+    # 四大指数分析
     indices = analyze_all_indices(prices_map, dates_map)
     market["indices"] = indices
+
+    # market_score 注入每只股票，重新计算 trade_action
+    msc_value = ms.get("market_score", 60)
+    for s in stock_signals:
+        s["market_score"] = msc_value
+    stock_signals = [enrich_action(s) for s in stock_signals]
+    leaders   = stock_signals[:10]
+    watchlist = build_watchlist(stock_signals)
 
     logger.info(f"  Market Score: {ms['market_score']} → {ms['state_icon']} {ms['state_zh']}")
     logger.info(f"  Leadership: {ms['leadership_label']}")
     if spx_prices:
-        logger.info(f"  SPX: {spx_prices[-1]:.2f}  NDX有数据: {bool(ndx_prices)}  VIX有数据: {bool(vix_prices)}  SOX有数据: {bool(sox_prices)}")
+        logger.info(f"  SPX: {spx_prices[-1]:.2f}  NDX: {bool(ndx_prices)}  VIX: {bool(vix_prices)}  SOX: {bool(sox_prices)}")
 
     export_all(market, leaders, watchlist, stock_signals[:50])
     logger.ok(f"=== Phase 2 更新完成 @ {datetime.now(ET).strftime('%H:%M')} ===")
