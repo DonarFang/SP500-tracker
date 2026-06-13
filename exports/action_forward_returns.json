@@ -1,0 +1,197 @@
+{
+  "generated_at": "2026-06-13T10:28:15.524403-04:00",
+  "generated_at_display": "2026年6月13日 10:28 ET",
+  "layer": "C2",
+  "name": "Action Forward Return Validation",
+  "status": "PARTIAL",
+  "hold_positive_count": 2,
+  "reduce_lower_count": 3,
+  "exit_lower_count": 1,
+  "action_summary": {
+    "BUY": {
+      "fwd5d": {
+        "n": 36,
+        "avg_ret": 2.774,
+        "med_ret": 0.252,
+        "win_rate": 50.0,
+        "vol": 11.04
+      },
+      "fwd10d": {
+        "n": 36,
+        "avg_ret": 4.527,
+        "med_ret": 1.075,
+        "win_rate": 52.8,
+        "vol": 16.697
+      },
+      "fwd20d": {
+        "n": 36,
+        "avg_ret": 6.058,
+        "med_ret": 4.189,
+        "win_rate": 63.9,
+        "vol": 23.975
+      },
+      "fwd30d": {
+        "n": 36,
+        "avg_ret": 10.432,
+        "med_ret": 3.47,
+        "win_rate": 58.3,
+        "vol": 36.346
+      }
+    },
+    "ADD": {
+      "fwd5d": {
+        "n": 28,
+        "avg_ret": 0.668,
+        "med_ret": -0.078,
+        "win_rate": 46.4,
+        "vol": 4.236
+      },
+      "fwd10d": {
+        "n": 28,
+        "avg_ret": 0.247,
+        "med_ret": -0.481,
+        "win_rate": 39.3,
+        "vol": 9.194
+      },
+      "fwd20d": {
+        "n": 28,
+        "avg_ret": 2.246,
+        "med_ret": -1.718,
+        "win_rate": 35.7,
+        "vol": 16.809
+      },
+      "fwd30d": {
+        "n": 28,
+        "avg_ret": 5.996,
+        "med_ret": 4.867,
+        "win_rate": 57.1,
+        "vol": 21.982
+      }
+    },
+    "HOLD": {
+      "fwd5d": {
+        "n": 255,
+        "avg_ret": -0.592,
+        "med_ret": -1.29,
+        "win_rate": 34.9,
+        "vol": 4.259
+      },
+      "fwd10d": {
+        "n": 255,
+        "avg_ret": -0.636,
+        "med_ret": -1.977,
+        "win_rate": 33.7,
+        "vol": 7.079
+      },
+      "fwd20d": {
+        "n": 255,
+        "avg_ret": 0.216,
+        "med_ret": -1.429,
+        "win_rate": 40.8,
+        "vol": 16.819
+      },
+      "fwd30d": {
+        "n": 255,
+        "avg_ret": 3.539,
+        "med_ret": 1.176,
+        "win_rate": 56.9,
+        "vol": 20.99
+      }
+    },
+    "REDUCE": {
+      "fwd5d": {
+        "n": 615,
+        "avg_ret": -0.453,
+        "med_ret": -0.99,
+        "win_rate": 34.3,
+        "vol": 4.001
+      },
+      "fwd10d": {
+        "n": 615,
+        "avg_ret": -0.966,
+        "med_ret": -1.786,
+        "win_rate": 35.0,
+        "vol": 7.215
+      },
+      "fwd20d": {
+        "n": 615,
+        "avg_ret": -0.224,
+        "med_ret": -1.385,
+        "win_rate": 44.4,
+        "vol": 9.947
+      },
+      "fwd30d": {
+        "n": 615,
+        "avg_ret": 1.518,
+        "med_ret": 0.631,
+        "win_rate": 53.2,
+        "vol": 9.755
+      }
+    },
+    "EXIT": {
+      "fwd5d": {
+        "n": 2006,
+        "avg_ret": -0.402,
+        "med_ret": -1.035,
+        "win_rate": 38.0,
+        "vol": 4.127
+      },
+      "fwd10d": {
+        "n": 2006,
+        "avg_ret": -0.116,
+        "med_ret": -1.014,
+        "win_rate": 42.7,
+        "vol": 6.378
+      },
+      "fwd20d": {
+        "n": 2006,
+        "avg_ret": 0.46,
+        "med_ret": 0.13,
+        "win_rate": 51.1,
+        "vol": 8.738
+      },
+      "fwd30d": {
+        "n": 2006,
+        "avg_ret": 1.708,
+        "med_ret": 0.936,
+        "win_rate": 54.5,
+        "vol": 12.622
+      }
+    }
+  },
+  "spx_benchmark": {
+    "fwd5d": {
+      "n": 6,
+      "avg_ret": -0.133,
+      "med_ret": -0.175,
+      "win_rate": 33.3,
+      "vol": 1.688
+    },
+    "fwd10d": {
+      "n": 6,
+      "avg_ret": -0.179,
+      "med_ret": 0.085,
+      "win_rate": 66.7,
+      "vol": 2.455
+    },
+    "fwd20d": {
+      "n": 6,
+      "avg_ret": -0.256,
+      "med_ret": -0.46,
+      "win_rate": 33.3,
+      "vol": 2.676
+    },
+    "fwd30d": {
+      "n": 6,
+      "avg_ret": 0.817,
+      "med_ret": 0.437,
+      "win_rate": 50.0,
+      "vol": 1.94
+    }
+  },
+  "interpretation": {
+    "HOLD": "持有期望偏低，需检查",
+    "REDUCE": "减仓有保护 (3/4)",
+    "EXIT": "退出可能过早"
+  }
+}
