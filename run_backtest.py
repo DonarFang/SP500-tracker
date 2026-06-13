@@ -170,8 +170,21 @@ if __name__ == "__main__":
         elif layer_key == "layer_d":
             d = layer_data
             sv = d.get("sample_validity", {})
-            print(f"  Sample Validity: {'✅ VALID' if sv.get('is_valid') else '⚠️  INSUFFICIENT'}")
-            print(f"    sim_days={sv.get('simulation_days','?')}  trades={sv.get('total_trades','?')}  sim_end={sv.get('sim_end_trades','?')}({sv.get('sim_end_ratio_pct','?')}%)")
+            print(f"  ── Sample Validity ──────────────────────────────────")
+            print(f"  sample_status:         {sv.get('sample_status', '?')}")
+            print(f"  simulation_start_date: {sv.get('simulation_start_date', '?')}")
+            print(f"  simulation_end_date:   {sv.get('simulation_end_date', '?')}")
+            print(f"  simulation_days:       {sv.get('simulation_days', '?')}")
+            print(f"  total_trades:          {sv.get('total_trades', '?')}")
+            print(f"  sim_end_trades:        {sv.get('sim_end_trades', '?')}  ({sv.get('sim_end_ratio_pct','?')}%)")
+            print(f"  invalid_trades:        {sv.get('invalid_trades', '?')}")
+            print(f"  sample_valid:          {sv.get('is_valid', '?')}")
+            print(f"  ── Skip Reasons ─────────────────────────────────────")
+            skip = d.get("skipped_orders_by_reason", {})
+            for k, v in skip.items():
+                if v > 0:
+                    print(f"  {k:<35} {v}")
+            print(f"  ─────────────────────────────────────────────────────")
             print(f"  Total Return:   {d.get('total_return_pct',0):+.2f}%  vs SPX {d.get('spx_total_return_pct',0):+.2f}%  Alpha: {d.get('alpha_pct',0):+.2f}%")
             print(f"  CAGR:           {d.get('cagr_pct',0):+.2f}%  vs SPX CAGR {d.get('spx_cagr_pct',0):+.2f}%")
             print(f"  Max Drawdown:   {d.get('max_drawdown_pct',0):.1f}%")

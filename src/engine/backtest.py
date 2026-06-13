@@ -741,7 +741,10 @@ def run_stateful_simulation(
     # 时间轴以 SPX dates 为准，不受个股短数据影响
     master_dates = spx_dates
     n_days       = len(spx_prices)
+    sim_start_date = master_dates[min_history] if len(master_dates) > min_history else (master_dates[0] if master_dates else "?")
+    sim_end_date   = master_dates[-2] if len(master_dates) >= 2 else (master_dates[-1] if master_dates else "?")
     logger.info(f"  时间轴: {master_dates[0] if master_dates else '?'} → {master_dates[-1] if master_dates else '?'} ({n_days} bars)")
+    logger.info(f"  回测区间: {sim_start_date} → {sim_end_date}")
 
     # ── 修正2: Date-based lookup 索引 ─────────────────────
     # 为每只股票建立 date→index 映射，按日期对齐而非 array index
@@ -1212,20 +1215,27 @@ def run_stateful_simulation(
         "status":  status,
         "version": "v4",
         "execution_model": a.get("execution_model", "adverse_intraday"),
-        # 样本有效性
+        # 样本有效性（完整字段）
         "sample_validity": {
-            "is_valid":          sample_valid,
-            "simulation_days":   simulation_days,
-            "total_trades":      total_trades,
-            "completed_trades":  completed_trades,
-            "sim_end_trades":    sim_end_count,
-            "sim_end_ratio_pct": round(sim_end_ratio * 100, 1),
-            "invalid_trades":    len(invalid_trades),
-            "minimum_required":  {
-                "sim_days": 252, "trades": 20,
-                "sim_end_ratio_pct": 50, "invalid": 0,
+            "is_valid":            sample_valid,
+            "sample_status":       status if status == "INSUFFICIENT_SAMPLE" else ("VALID" if sample_valid else "INSUFFICIENT"),
+            "simulation_start_date": sim_start_date,
+            "simulation_end_date":   sim_end_date,
+            "simulation_days":     simulation_days,
+            "total_trades":        total_trades,
+            "completed_trades":    completed_trades,
+            "sim_end_trades":      sim_end_count,
+            "sim_end_ratio_pct":   round(sim_end_ratio * 100, 1),
+            "invalid_trades":      len(invalid_trades),
+            "minimum_required": {
+                "sim_days":            252,
+                "trades":              20,
+                "sim_end_ratio_pct":   50,
+                "invalid":             0,
             },
         },
+        # skip 原因（直接在顶层也输出，方便快速查看）
+        "skipped_orders_by_reason": skip_reasons,
         # 核心指标
         "initial_capital":   init_cap,
         "final_equity":      round(final_equity, 2),
@@ -1247,7 +1257,6 @@ def run_stateful_simulation(
         # 订单统计
         "pending_orders_executed":  orders_executed,
         "pending_orders_skipped":   sum(skip_reasons.values()),
-        "skipped_orders_by_reason": skip_reasons,
         # 执行损耗
         "avg_execution_drag_pct": round(
             sum(t.get("total_execution_drag_pct", 0) for t in closed_trades) / len(closed_trades), 3
