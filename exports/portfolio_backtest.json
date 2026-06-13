@@ -1,13 +1,31 @@
 {
-  "generated_at": "2026-06-13T12:36:02.923362-04:00",
-  "generated_at_display": "2026年6月13日 12:36 ET",
+  "generated_at": "2026-06-13T12:57:23.532510-04:00",
+  "generated_at_display": "2026年6月13日 12:57 ET",
   "layer": "D",
   "name": "Stateful Portfolio Backtest",
   "status": "FAIL",
-  "version": "v1.1-top3",
+  "version": "v1.2-secondary",
   "execution_model": "adverse_intraday",
-  "strategy_variant": "top3_entry_trend_hold",
-  "entry_top_n": 3,
+  "strategy_variant": "top10_secondary_selection_trend_hold",
+  "entry_top_n": 10,
+  "secondary_selection": {
+    "required_action": "BUY",
+    "min_leader_score": 90.0,
+    "min_trend_health": 80.0,
+    "min_momentum_score": 85.0,
+    "candidate_weights": {
+      "leader_score": 0.5,
+      "trend_health": 0.3,
+      "momentum_score": 0.2
+    },
+    "buy_order": "candidate_score_desc",
+    "execution_priority": [
+      "EXIT",
+      "REDUCE",
+      "ADD",
+      "BUY"
+    ]
+  },
   "rank_based_exit": false,
   "sample_validity": {
     "is_valid": true,
@@ -15,10 +33,10 @@
     "simulation_start_date": "2024-12-03",
     "simulation_end_date": "2026-06-11",
     "simulation_days": 382,
-    "total_trades": 41,
-    "completed_trades": 38,
+    "total_trades": 38,
+    "completed_trades": 35,
     "sim_end_trades": 3,
-    "sim_end_ratio_pct": 7.3,
+    "sim_end_ratio_pct": 7.9,
     "invalid_trades": 0,
     "minimum_required": {
       "sim_days": 252,
@@ -28,35 +46,38 @@
     }
   },
   "skipped_orders_by_reason": {
-    "max_positions_reached": 827,
-    "cash_insufficient": 1,
+    "max_positions_reached": 2706,
+    "cash_insufficient": 2,
     "already_holding": 0,
-    "max_single_size_reached": 21,
+    "max_single_size_reached": 29,
     "no_t1_price": 0,
     "invalid_execution_price": 0,
-    "size_at_minimum": 157,
+    "size_at_minimum": 191,
     "not_holding": 0,
-    "not_in_entry_top_n": 3446
+    "not_in_entry_top_n": 1659,
+    "below_leader_threshold": 0,
+    "below_trend_threshold": 0,
+    "below_momentum_threshold": 0
   },
   "initial_capital": 100000.0,
-  "final_equity": 93386.87,
-  "total_return_pct": -6.61,
-  "cagr_pct": -4.41,
-  "max_drawdown_pct": 35.26,
-  "win_rate_pct": 31.7,
-  "profit_factor": 0.64,
-  "sharpe_ratio": -0.51,
-  "number_of_trades": 41,
-  "avg_holding_days": 28.4,
-  "avg_winner_pct": 13.34,
-  "avg_loser_pct": -9.71,
-  "exposure_pct": 101.7,
+  "final_equity": 69629.85,
+  "total_return_pct": -30.37,
+  "cagr_pct": -21.24,
+  "max_drawdown_pct": 33.73,
+  "win_rate_pct": 23.7,
+  "profit_factor": 0.36,
+  "sharpe_ratio": -1.04,
+  "number_of_trades": 38,
+  "avg_holding_days": 30.9,
+  "avg_winner_pct": 10.11,
+  "avg_loser_pct": -8.64,
+  "exposure_pct": 102.5,
   "spx_total_return_pct": 20.12,
   "spx_cagr_pct": 12.85,
-  "alpha_pct": -26.73,
-  "pending_orders_executed": 203,
-  "pending_orders_skipped": 4452,
-  "avg_execution_drag_pct": 5.948,
+  "alpha_pct": -50.49,
+  "pending_orders_executed": 202,
+  "pending_orders_skipped": 4587,
+  "avg_execution_drag_pct": 5.363,
   "p0_passed": true,
   "invalid_trades_count": 0,
   "invalid_trades": [],
@@ -67,104 +88,104 @@
       "position_value": 0.0,
       "total_equity": 100000.0,
       "n_holdings": 0,
-      "pending_orders": 3
+      "pending_orders": 9
     },
     {
       "date": "2025-01-17",
-      "cash": 15880.24,
-      "position_value": 87759.21,
-      "total_equity": 103639.45,
+      "cash": 39786.16,
+      "position_value": 59492.8,
+      "total_equity": 99278.96,
+      "n_holdings": 3,
+      "pending_orders": 10
+    },
+    {
+      "date": "2025-03-04",
+      "cash": 200.67,
+      "position_value": 84193.61,
+      "total_equity": 84394.28,
       "n_holdings": 3,
       "pending_orders": 3
     },
     {
-      "date": "2025-03-04",
-      "cash": 8617.31,
-      "position_value": 80588.39,
-      "total_equity": 89205.71,
-      "n_holdings": 3,
-      "pending_orders": 2
-    },
-    {
       "date": "2025-04-15",
-      "cash": 39864.84,
-      "position_value": 35514.49,
-      "total_equity": 75379.33,
+      "cash": 30072.65,
+      "position_value": 41389.06,
+      "total_equity": 71461.71,
       "n_holdings": 3,
       "pending_orders": 1
     },
     {
       "date": "2025-05-29",
-      "cash": 391.4,
-      "position_value": 73966.54,
-      "total_equity": 74357.95,
+      "cash": 12217.74,
+      "position_value": 57068.3,
+      "total_equity": 69286.04,
       "n_holdings": 3,
-      "pending_orders": 5
+      "pending_orders": 12
     },
     {
       "date": "2025-07-14",
-      "cash": 36442.25,
-      "position_value": 38263.32,
-      "total_equity": 74705.57,
+      "cash": 34171.08,
+      "position_value": 37146.22,
+      "total_equity": 71317.3,
       "n_holdings": 3,
-      "pending_orders": 3
+      "pending_orders": 11
     },
     {
       "date": "2025-08-25",
-      "cash": 31678.63,
-      "position_value": 41576.8,
-      "total_equity": 73255.43,
+      "cash": 28426.86,
+      "position_value": 43444.05,
+      "total_equity": 71870.92,
       "n_holdings": 3,
-      "pending_orders": 4
+      "pending_orders": 10
     },
     {
       "date": "2025-10-07",
-      "cash": 222.36,
-      "position_value": 87896.16,
-      "total_equity": 88118.53,
+      "cash": 11214.11,
+      "position_value": 75154.13,
+      "total_equity": 86368.23,
+      "n_holdings": 3,
+      "pending_orders": 9
+    },
+    {
+      "date": "2025-11-18",
+      "cash": 11343.09,
+      "position_value": 62453.75,
+      "total_equity": 73796.83,
+      "n_holdings": 3,
+      "pending_orders": 9
+    },
+    {
+      "date": "2026-01-02",
+      "cash": 51966.32,
+      "position_value": 27724.41,
+      "total_equity": 79690.73,
       "n_holdings": 3,
       "pending_orders": 3
     },
     {
-      "date": "2025-11-18",
-      "cash": 9219.79,
-      "position_value": 81141.32,
-      "total_equity": 90361.12,
-      "n_holdings": 3,
-      "pending_orders": 4
-    },
-    {
-      "date": "2026-01-02",
-      "cash": 15900.34,
-      "position_value": 70829.03,
-      "total_equity": 86729.37,
-      "n_holdings": 3,
-      "pending_orders": 2
-    },
-    {
       "date": "2026-02-17",
-      "cash": 17601.85,
-      "position_value": 67181.87,
-      "total_equity": 84783.73,
+      "cash": 2.34,
+      "position_value": 78674.22,
+      "total_equity": 78676.56,
       "n_holdings": 3,
-      "pending_orders": 5
+      "pending_orders": 8
     },
     {
       "date": "2026-03-31",
-      "cash": 318.78,
-      "position_value": 91748.31,
-      "total_equity": 92067.09,
+      "cash": 113.56,
+      "position_value": 77123.21,
+      "total_equity": 77236.77,
       "n_holdings": 3,
-      "pending_orders": 2
+      "pending_orders": 5
     },
     {
       "date": "2026-05-13",
-      "cash": 56229.74,
-      "position_value": 27367.27,
-      "total_equity": 83597.01,
+      "cash": 28674.96,
+      "position_value": 42714.65,
+      "total_equity": 71389.61,
       "n_holdings": 3,
-      "pending_orders": 5
+      "pending_orders": 11
     }
   ],
-  "total_trades_all": 41
+  "total_trades_all": 38
 }
