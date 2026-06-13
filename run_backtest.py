@@ -71,19 +71,39 @@ if __name__ == "__main__":
     print("="*60)
     for layer_key, layer_data in results["results"].items():
         print(f"\n{layer_data['name']}: {layer_data['status']}")
+
         if layer_key == "layer_a":
+            a1 = layer_data.get("a1_top_bucket_edge","—")
+            a2 = layer_data.get("a2_full_monotonic","—")
+            print(f"  A1 Top Bucket Edge: {a1}  |  A2 Full Monotonic: {a2}")
+            print(f"  {layer_data.get('interpretation','')}")
+            # 样本量
+            sc = layer_data.get("bucket_sample_counts",{})
+            print(f"  样本量(20日): A={sc.get('A',{}).get('fwd20d','—')} B={sc.get('B',{}).get('fwd20d','—')} C={sc.get('C',{}).get('fwd20d','—')} D={sc.get('D',{}).get('fwd20d','—')} E={sc.get('E',{}).get('fwd20d','—')}")
             for days in [5, 10, 20, 30]:
                 k = f"fwd{days}d"
                 row = []
                 for b in ["A","B","C","D","E"]:
                     info = layer_data["bucket_summary"].get(b, {}).get(k, {})
-                    avg = info.get("avg_ret", "—")
-                    row.append(f"{avg:+.2f}%" if isinstance(avg, float) else "—")
+                    avg = info.get("avg_ret", None)
+                    n   = info.get("n", 0)
+                    row.append(f"{avg:+.2f}%(n={n})" if avg is not None else "—")
                 print(f"  {days:2d}日: A={row[0]} B={row[1]} C={row[2]} D={row[3]} E={row[4]}")
+
         elif layer_key == "layer_c":
+            buy_n = layer_data.get("buy_signal_count", 0)
+            sig_raw = layer_data.get("signal_counts_raw", {})
+            dedup = layer_data.get("dedup_gap_days", 5)
+            print(f"  BUY 有效信号数: {buy_n} (去重间隔{dedup}天，原始信号: {sig_raw})")
             for days in [5, 10, 20, 30]:
                 k = f"fwd{days}d"
-                buy_avg = layer_data["signal_summary"].get("BUY",{}).get(k,{}).get("avg_ret","—")
-                spx_avg = layer_data["spx_benchmark"].get(k,{}).get("avg_ret","—")
-                better = "✅" if isinstance(buy_avg, float) and isinstance(spx_avg, float) and buy_avg > spx_avg else "❌"
-                print(f"  {days:2d}日: BUY={buy_avg:+.2f}% vs SPX={spx_avg:+.2f}% {better}" if isinstance(buy_avg, float) else f"  {days}日: 无数据")
+                buy_info = layer_data["signal_summary"].get("BUY",{}).get(k,{})
+                spx_info = layer_data["spx_benchmark"].get(k,{})
+                buy_avg  = buy_info.get("avg_ret", None)
+                buy_wr   = buy_info.get("win_rate", None)
+                spx_avg  = spx_info.get("avg_ret", None)
+                better = "✅" if buy_avg is not None and spx_avg is not None and buy_avg > spx_avg else "❌"
+                if buy_avg is not None:
+                    print(f"  {days:2d}日: BUY={buy_avg:+.2f}%(WR={buy_wr}%) vs SPX={spx_avg:+.2f}% {better}")
+                else:
+                    print(f"  {days}日: 无数据")

@@ -168,27 +168,57 @@ def run_leader_engine_validation(
             }
 
     # 单调性检验
+    # 主要标准：A 桶是否是最强桶（最重要）
+    # 次要标准：严格单调（D/E 桶样本量少，噪音大）
     monotonic = {}
+    a_is_best_count = 0
     for days in forward_days:
         avg_rets = []
         for b in ["A","B","C","D","E"]:
             k = f"fwd{days}d"
             avg_rets.append(summary[b].get(k, {}).get("avg_ret", 0))
-        # 检查是否 A > B > C > D > E
-        is_monotonic = all(avg_rets[i] >= avg_rets[i+1] for i in range(len(avg_rets)-1))
-        monotonic[f"fwd{days}d"] = is_monotonic
+        is_strict = all(avg_rets[i] >= avg_rets[i+1] for i in range(len(avg_rets)-1))
+        a_is_best = avg_rets[0] == max(avg_rets)
+        monotonic[f"fwd{days}d"] = is_strict
+        if a_is_best:
+            a_is_best_count += 1
 
-    pass_count = sum(1 for v in monotonic.values() if v)
-    status = "PASS" if pass_count >= 3 else "PARTIAL" if pass_count >= 2 else "FAIL"
+    strict_count = sum(1 for v in monotonic.values() if v)
 
-    logger.info(f"  Layer A 完成: {status} ({pass_count}/4 时间窗口单调)")
+    # A1: Top Bucket Edge — A 桶是否显著领先（最重要）
+    a1_status = "PASS" if a_is_best_count >= 3 else "PARTIAL" if a_is_best_count >= 2 else "FAIL"
+    # A2: Full Monotonic Ranking — A>B>C>D>E 严格单调
+    a2_status = "PASS" if strict_count >= 3 else "PARTIAL" if strict_count >= 2 else "FAIL"
+
+    # 样本数量统计（用于评估统计显著性）
+    bucket_sample_counts = {}
+    for b in ["A","B","C","D","E"]:
+        bucket_sample_counts[b] = {f"fwd{d}d": summary[b].get(f"fwd{d}d",{}).get("n",0) for d in forward_days}
+
+    # Layer A 整体判断
+    status = "PASS"    if a1_status == "PASS" and a2_status != "FAIL" else              "PARTIAL" if a1_status in ("PASS","PARTIAL") else "FAIL"
+
+    logger.info(f"  Layer A: A1(TopEdge)={a1_status} A2(Monotonic)={a2_status} → {status}")
+    logger.info(f"  样本量: A={bucket_sample_counts['A'].get('fwd20d',0)} B={bucket_sample_counts['B'].get('fwd20d',0)} C={bucket_sample_counts['C'].get('fwd20d',0)} D={bucket_sample_counts['D'].get('fwd20d',0)} E={bucket_sample_counts['E'].get('fwd20d',0)}")
     return {
         "layer": "A",
         "name":  "Leader Engine Validation",
         "status": status,
+        "a1_top_bucket_edge": a1_status,
+        "a2_full_monotonic":  a2_status,
+        "a_is_best_count":    a_is_best_count,
+        "strict_monotonic_count": strict_count,
         "monotonic": monotonic,
         "bucket_summary": summary,
+        "bucket_sample_counts": bucket_sample_counts,
         "buckets_defined": {b: f"{lo}-{hi}" for b, (lo, hi) in buckets.items()},
+        "interpretation": (
+            "A1 PASS: Bucket A 持续领先，Top Leader 识别有效；A2 中低分组区分力待改善"
+            if a1_status == "PASS" and a2_status == "FAIL"
+            else "Leader Score 完整有效（A桶领先且单调性强）"
+            if a1_status == "PASS"
+            else "Leader Score 区分力不足，需检查公式"
+        ),
     }
 
 
@@ -219,7 +249,12 @@ def run_trade_rule_validation(
         "EXIT": {d: [] for d in forward_days},
         "HOLD": {d: [] for d in forward_days},
     }
-    spx_returns = {d: [] for d in forward_days}  # SPX 同期对比
+    spx_returns = {d: [] for d in forward_days}
+
+    # 去重：记录每只股票的上次信号日期（避免连续多天重复计算）
+    last_signal_day: dict[str, int] = {}
+    signal_counts = {"BUY": 0, "ADD": 0, "HOLD": 0, "REDUCE": 0, "EXIT": 0}
+    dedup_gap = 5  # 同一股票同一信号至少间隔5天才重新计入
 
     min_len = min(len(p) for p in prices_map.values()) if prices_map else 0
     n_days = min(min_len, len(spx_prices))
@@ -271,6 +306,14 @@ def run_trade_rule_validation(
             if action not in signal_returns:
                 continue
 
+            signal_counts[action] = signal_counts.get(action, 0) + 1
+
+            # 去重：同一股票同一信号至少间隔 dedup_gap 天
+            key = f"{sym}_{action}"
+            if key in last_signal_day and t - last_signal_day[key] < dedup_gap:
+                continue
+            last_signal_day[key] = t
+
             p_full = prices_map[sym]
             for days in forward_days:
                 ret = forward_return(p_full, t, days)
@@ -319,14 +362,21 @@ def run_trade_rule_validation(
     pass_count = sum(buy_vs_spx)
     status = "PASS" if pass_count >= 3 else "PARTIAL" if pass_count >= 2 else "FAIL"
 
-    logger.info(f"  Layer C 完成: {status} (BUY跑赢SPX {pass_count}/4 时间窗口)")
+    # 有效 BUY 信号数量（去重后）
+    buy_n = summary.get("BUY",{}).get("fwd20d",{}).get("n", 0)
+
+    logger.info(f"  Layer C: {status} (BUY跑赢SPX {pass_count}/4, BUY信号数={buy_n})")
+    logger.info(f"  信号总数(去重前): {signal_counts}")
     return {
-        "layer":        "C",
-        "name":         "Trade Rule Validation",
-        "status":       status,
-        "buy_vs_spx":   buy_vs_spx,
+        "layer":          "C",
+        "name":           "Trade Rule Validation",
+        "status":         status,
+        "buy_vs_spx":     buy_vs_spx,
+        "buy_signal_count": buy_n,
+        "signal_counts_raw": signal_counts,
         "signal_summary": summary,
         "spx_benchmark":  spx_summary,
+        "dedup_gap_days": dedup_gap,
     }
 
 
