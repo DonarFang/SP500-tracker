@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-13T05:03:06.731094-04:00",
-  "generated_at_display": "2026年6月13日 05:03 ET",
+  "generated_at": "2026-06-13T06:24:14.856983-04:00",
+  "generated_at_display": "2026年6月13日 06:24 ET",
   "data_source": "Yahoo Finance",
   "phase": "2",
   "market": {
-    "state": "Neutral",
+    "state": "Risk-On",
     "spx_close": 7431.46,
     "spx_ma50": 7247.79,
     "spx_ma200": 6881.99,
@@ -15,9 +15,9 @@
     "advance_count": 387,
     "decline_count": 107,
     "notes": "上涨387只 下跌107只",
-    "state_zh": "中性观望",
-    "state_icon": "🟡",
-    "state_color": "#BA7517",
+    "state_zh": "风险偏好",
+    "state_icon": "🟢",
+    "state_color": "#1D9E75",
     "market_score": 71.5,
     "score_breakdown": {
       "SPX": {
