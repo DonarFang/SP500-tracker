@@ -25,6 +25,27 @@ from ..utils import logger
 
 
 # ══════════════════════════════════════════════════════════════════
+# Layer D Frozen Assumptions (v1.0)
+# docs/layer_d_assumptions.md
+# ══════════════════════════════════════════════════════════════════
+LAYER_D_ASSUMPTIONS = {
+    "initial_capital":   100_000,
+    "max_positions":     10,
+    "buy_size":          1.0,    # 10% of portfolio
+    "add_size":          0.5,    # +5% of portfolio
+    "max_single_size":   1.5,    # 15% max
+    "transaction_cost":  0.0005, # 0.05% one-way
+    "slippage":          0.0005, # 0.05% one-way
+    "total_round_trip":  0.0020, # buy + sell total
+    "execution":         "next_day_close",
+    "cash_yield":        0.0,
+    "leverage":          False,
+    "short_selling":     False,
+    "version":           "1.0",
+}
+
+
+# ══════════════════════════════════════════════════════════════════
 # 工具函数
 # ══════════════════════════════════════════════════════════════════
 
@@ -675,7 +696,7 @@ def run_stateful_simulation(
     dates_map:      dict[str, list[str]],
     spx_prices:     list[float],
     spx_dates:      list[str],
-    max_positions:  int   = 10,
+    assumptions:    dict  = None,   # LAYER_D_ASSUMPTIONS v1.0
     step:           int   = 1,
     min_history:    int   = 120,
     market_score_default: float = 60.0,
@@ -697,6 +718,15 @@ def run_stateful_simulation(
     组合：等权重，最多 max_positions 只。
     """
     logger.info("[Backtest Layer D] Stateful Portfolio Backtest...")
+
+    # 使用冻结参数（v1.0）
+    a = assumptions or LAYER_D_ASSUMPTIONS
+    max_positions  = a["max_positions"]
+    buy_size       = a["buy_size"]         # 1.0
+    add_size       = a["add_size"]         # 0.5
+    max_size       = a["max_single_size"]  # 1.5
+    txn_cost       = a["total_round_trip"] # 0.002 (round trip)
+    logger.info(f"  Assumptions v{a.get('version','?')}: MaxPos={max_positions} BuySize={buy_size} TxnCost={txn_cost*100:.2f}%")
 
     min_len = min(len(p) for p in prices_map.values()) if prices_map else 0
     n_days  = min(min_len, len(spx_prices))
@@ -791,7 +821,9 @@ def run_stateful_simulation(
         for sym, exit_sig, exit_price in to_close:
             pos = positions[sym]
             # 基于均价计算最终收益（考虑了 ADD 的成本）
-            ret = (exit_price - pos["avg_cost"]) / pos["avg_cost"] if pos["avg_cost"] > 0 else 0
+            # 扣除卖出手续费+滑点
+            effective_exit = exit_price * (1 - txn_cost / 2)
+            ret = (effective_exit - pos["avg_cost"]) / pos["avg_cost"] if pos["avg_cost"] > 0 else 0
             # 持仓期间最大回撤
             max_dd_trade = (pos["highest_close"] - pos.get("min_close", pos["entry_price"])) / pos["highest_close"] if pos["highest_close"] > 0 else 0
             sym_dates  = dates_map.get(sym, [])
@@ -852,9 +884,11 @@ def run_stateful_simulation(
                     break
                 sym_dates  = dates_map.get(sym, [])
                 entry_date = sym_dates[t] if t < len(sym_dates) else date_str
+                # 扣除交易成本（买入手续费+滑点）
+                effective_entry = entry_price * (1 + txn_cost / 2)
                 positions[sym] = {
-                    "size":            1.0,       # 新开仓 = 满仓
-                    "avg_cost":        entry_price,
+                    "size":            buy_size,  # 新开仓 = 满仓（1.0）
+                    "avg_cost":        effective_entry,
                     "entry_price":     entry_price,
                     "entry_date":      entry_date,
                     "entry_idx":       t,
