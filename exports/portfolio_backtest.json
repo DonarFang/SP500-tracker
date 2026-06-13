@@ -1,34 +1,61 @@
 {
-  "generated_at": "2026-06-13T11:14:26.885939-04:00",
-  "generated_at_display": "2026年6月13日 11:14 ET",
+  "generated_at": "2026-06-13T12:06:37.470934-04:00",
+  "generated_at_display": "2026年6月13日 12:06 ET",
   "layer": "D",
   "name": "Stateful Portfolio Backtest",
   "status": "FAIL",
-  "version": "v3",
+  "version": "v4",
   "execution_model": "adverse_intraday",
+  "sample_validity": {
+    "is_valid": true,
+    "sample_status": "VALID",
+    "simulation_start_date": "2024-12-03",
+    "simulation_end_date": "2026-06-11",
+    "simulation_days": 382,
+    "total_trades": 149,
+    "completed_trades": 139,
+    "sim_end_trades": 10,
+    "sim_end_ratio_pct": 6.7,
+    "invalid_trades": 0,
+    "minimum_required": {
+      "sim_days": 252,
+      "trades": 20,
+      "sim_end_ratio_pct": 50,
+      "invalid": 0
+    }
+  },
+  "skipped_orders_by_reason": {
+    "max_positions_reached": 3543,
+    "cash_insufficient": 10,
+    "already_holding": 0,
+    "max_single_size_reached": 91,
+    "no_t1_price": 0,
+    "invalid_execution_price": 0,
+    "size_at_minimum": 618,
+    "not_holding": 0
+  },
   "initial_capital": 100000.0,
-  "final_equity": 96237.83,
-  "total_return_pct": -3.76,
-  "cagr_pct": -15.35,
-  "max_drawdown_pct": 10.31,
-  "win_rate_pct": 24.0,
-  "profit_factor": 1.25,
-  "sharpe_ratio": 0.18,
-  "number_of_trades": 25,
-  "avg_holding_days": 22.3,
-  "avg_winner_pct": 39.24,
-  "avg_loser_pct": -9.93,
-  "exposure_pct": 96.0,
-  "avg_position_size": 10.0,
-  "spx_total_return_pct": -1.55,
-  "spx_cagr_pct": -6.57,
-  "alpha_pct": -2.21,
-  "avg_execution_drag_pct": 6.655,
+  "final_equity": 47810.53,
+  "total_return_pct": -52.19,
+  "cagr_pct": -38.54,
+  "max_drawdown_pct": 58.31,
+  "win_rate_pct": 16.8,
+  "profit_factor": 0.41,
+  "sharpe_ratio": -0.92,
+  "number_of_trades": 149,
+  "avg_holding_days": 25.9,
+  "avg_winner_pct": 20.96,
+  "avg_loser_pct": -10.26,
+  "exposure_pct": 101.2,
+  "spx_total_return_pct": 20.12,
+  "spx_cagr_pct": 12.85,
+  "alpha_pct": -72.31,
+  "pending_orders_executed": 726,
+  "pending_orders_skipped": 4262,
+  "avg_execution_drag_pct": 6.425,
   "p0_passed": true,
   "invalid_trades_count": 0,
-  "skipped_trades_count": 499,
-  "pending_orders_executed": 99,
-  "pending_orders_skipped": 499,
+  "invalid_trades": [],
   "daily_records": [
     {
       "date": "2024-12-03",
@@ -36,41 +63,104 @@
       "position_value": 0.0,
       "total_equity": 100000.0,
       "n_holdings": 0,
-      "pending_orders": 12,
-      "spx_ref": 1.0
+      "pending_orders": 12
     },
     {
       "date": "2025-01-17",
-      "cash": 22921.8,
-      "position_value": 79089.6,
-      "total_equity": 102011.4,
+      "cash": 19210.7,
+      "position_value": 77992.36,
+      "total_equity": 97203.06,
       "n_holdings": 10,
-      "pending_orders": 18,
-      "spx_ref": 0.9912
+      "pending_orders": 16
+    },
+    {
+      "date": "2025-03-04",
+      "cash": 18548.23,
+      "position_value": 62795.81,
+      "total_equity": 81344.04,
+      "n_holdings": 10,
+      "pending_orders": 9
+    },
+    {
+      "date": "2025-04-15",
+      "cash": 34257.49,
+      "position_value": 33819.79,
+      "total_equity": 68077.28,
+      "n_holdings": 8,
+      "pending_orders": 0
+    },
+    {
+      "date": "2025-05-29",
+      "cash": 0.32,
+      "position_value": 62043.9,
+      "total_equity": 62044.21,
+      "n_holdings": 10,
+      "pending_orders": 14
+    },
+    {
+      "date": "2025-07-14",
+      "cash": 7152.63,
+      "position_value": 55454.55,
+      "total_equity": 62607.18,
+      "n_holdings": 10,
+      "pending_orders": 14
+    },
+    {
+      "date": "2025-08-25",
+      "cash": 8262.99,
+      "position_value": 50783.14,
+      "total_equity": 59046.13,
+      "n_holdings": 10,
+      "pending_orders": 13
+    },
+    {
+      "date": "2025-10-07",
+      "cash": 13316.81,
+      "position_value": 44016.88,
+      "total_equity": 57333.69,
+      "n_holdings": 10,
+      "pending_orders": 10
+    },
+    {
+      "date": "2025-11-18",
+      "cash": 9690.13,
+      "position_value": 44821.7,
+      "total_equity": 54511.83,
+      "n_holdings": 10,
+      "pending_orders": 11
+    },
+    {
+      "date": "2026-01-02",
+      "cash": 25538.67,
+      "position_value": 26529.96,
+      "total_equity": 52068.63,
+      "n_holdings": 9,
+      "pending_orders": 5
+    },
+    {
+      "date": "2026-02-17",
+      "cash": 10642.4,
+      "position_value": 37547.55,
+      "total_equity": 48189.95,
+      "n_holdings": 10,
+      "pending_orders": 13
+    },
+    {
+      "date": "2026-03-31",
+      "cash": 0.41,
+      "position_value": 46744.83,
+      "total_equity": 46745.23,
+      "n_holdings": 10,
+      "pending_orders": 3
+    },
+    {
+      "date": "2026-05-13",
+      "cash": 8977.08,
+      "position_value": 42119.05,
+      "total_equity": 51096.13,
+      "n_holdings": 10,
+      "pending_orders": 26
     }
   ],
-  "total_trades_all": 25,
-  "invalid_trades": [],
-  "skipped_trades": [
-    "TPR BUY: max positions reached",
-    "WBD BUY: max positions reached",
-    "CCL BUY: max positions reached",
-    "DDOG BUY: max positions reached",
-    "GDDY BUY: max positions reached",
-    "SNOW BUY: max positions reached",
-    "TPR BUY: max positions reached",
-    "TSLA BUY: max positions reached",
-    "AAL BUY: max positions reached",
-    "CCL BUY: max positions reached",
-    "COIN BUY: max positions reached",
-    "DDOG BUY: max positions reached",
-    "GDDY BUY: max positions reached",
-    "SNOW BUY: max positions reached",
-    "TSLA BUY: max positions reached",
-    "UAL BUY: max positions reached",
-    "AAL BUY: max positions reached",
-    "COIN BUY: max positions reached",
-    "CRM BUY: max positions reached",
-    "DDOG BUY: max positions reached"
-  ]
+  "total_trades_all": 149
 }

@@ -1,196 +1,196 @@
 {
-  "generated_at": "2026-06-13T11:14:26.885939-04:00",
-  "generated_at_display": "2026年6月13日 11:14 ET",
+  "generated_at": "2026-06-13T12:06:37.470934-04:00",
+  "generated_at_display": "2026年6月13日 12:06 ET",
   "layer": "C2",
   "name": "Action Forward Return Validation",
-  "status": "PARTIAL",
-  "hold_positive_count": 2,
+  "status": "PASS",
+  "hold_positive_count": 4,
   "reduce_lower_count": 3,
   "exit_lower_count": 1,
   "action_summary": {
     "BUY": {
       "fwd5d": {
-        "n": 36,
-        "avg_ret": 2.774,
-        "med_ret": 0.252,
-        "win_rate": 50.0,
-        "vol": 11.04
+        "n": 767,
+        "avg_ret": 0.735,
+        "med_ret": 0.315,
+        "win_rate": 53.6,
+        "vol": 7.141
       },
       "fwd10d": {
-        "n": 36,
-        "avg_ret": 4.527,
-        "med_ret": 1.075,
-        "win_rate": 52.8,
-        "vol": 16.697
+        "n": 765,
+        "avg_ret": 1.92,
+        "med_ret": 0.951,
+        "win_rate": 55.8,
+        "vol": 10.975
       },
       "fwd20d": {
-        "n": 36,
-        "avg_ret": 6.058,
-        "med_ret": 4.189,
-        "win_rate": 63.9,
-        "vol": 23.975
+        "n": 764,
+        "avg_ret": 3.797,
+        "med_ret": 1.807,
+        "win_rate": 57.1,
+        "vol": 15.923
       },
       "fwd30d": {
-        "n": 36,
-        "avg_ret": 10.432,
-        "med_ret": 3.47,
-        "win_rate": 58.3,
-        "vol": 36.346
+        "n": 760,
+        "avg_ret": 6.1,
+        "med_ret": 2.969,
+        "win_rate": 58.4,
+        "vol": 21.034
       }
     },
     "ADD": {
       "fwd5d": {
-        "n": 28,
-        "avg_ret": 0.668,
-        "med_ret": -0.078,
-        "win_rate": 46.4,
-        "vol": 4.236
+        "n": 814,
+        "avg_ret": 0.228,
+        "med_ret": 0.087,
+        "win_rate": 50.4,
+        "vol": 5.347
       },
       "fwd10d": {
-        "n": 28,
-        "avg_ret": 0.247,
-        "med_ret": -0.481,
-        "win_rate": 39.3,
-        "vol": 9.194
+        "n": 814,
+        "avg_ret": 0.774,
+        "med_ret": 0.34,
+        "win_rate": 52.1,
+        "vol": 7.428
       },
       "fwd20d": {
-        "n": 28,
-        "avg_ret": 2.246,
-        "med_ret": -1.718,
-        "win_rate": 35.7,
-        "vol": 16.809
+        "n": 814,
+        "avg_ret": 1.352,
+        "med_ret": 0.331,
+        "win_rate": 52.6,
+        "vol": 11.227
       },
       "fwd30d": {
-        "n": 28,
-        "avg_ret": 5.996,
-        "med_ret": 4.867,
-        "win_rate": 57.1,
-        "vol": 21.982
+        "n": 814,
+        "avg_ret": 1.725,
+        "med_ret": 0.495,
+        "win_rate": 52.6,
+        "vol": 14.386
       }
     },
     "HOLD": {
       "fwd5d": {
-        "n": 255,
-        "avg_ret": -0.592,
-        "med_ret": -1.29,
-        "win_rate": 34.9,
-        "vol": 4.259
+        "n": 4908,
+        "avg_ret": 0.194,
+        "med_ret": 0.24,
+        "win_rate": 53.1,
+        "vol": 4.906
       },
       "fwd10d": {
-        "n": 255,
-        "avg_ret": -0.636,
-        "med_ret": -1.977,
-        "win_rate": 33.7,
-        "vol": 7.079
+        "n": 4908,
+        "avg_ret": 0.505,
+        "med_ret": 0.357,
+        "win_rate": 52.6,
+        "vol": 6.97
       },
       "fwd20d": {
-        "n": 255,
-        "avg_ret": 0.216,
-        "med_ret": -1.429,
-        "win_rate": 40.8,
-        "vol": 16.819
+        "n": 4908,
+        "avg_ret": 0.9,
+        "med_ret": 0.336,
+        "win_rate": 51.7,
+        "vol": 10.473
       },
       "fwd30d": {
-        "n": 255,
-        "avg_ret": 3.539,
-        "med_ret": 1.176,
-        "win_rate": 56.9,
-        "vol": 20.99
+        "n": 4907,
+        "avg_ret": 1.552,
+        "med_ret": 0.587,
+        "win_rate": 52.4,
+        "vol": 13.324
       }
     },
     "REDUCE": {
       "fwd5d": {
-        "n": 615,
-        "avg_ret": -0.453,
-        "med_ret": -0.99,
-        "win_rate": 34.3,
-        "vol": 4.001
+        "n": 7457,
+        "avg_ret": 0.127,
+        "med_ret": 0.089,
+        "win_rate": 51.0,
+        "vol": 4.654
       },
       "fwd10d": {
-        "n": 615,
-        "avg_ret": -0.966,
-        "med_ret": -1.786,
-        "win_rate": 35.0,
-        "vol": 7.215
+        "n": 7456,
+        "avg_ret": 0.174,
+        "med_ret": 0.145,
+        "win_rate": 51.3,
+        "vol": 6.772
       },
       "fwd20d": {
-        "n": 615,
-        "avg_ret": -0.224,
-        "med_ret": -1.385,
-        "win_rate": 44.4,
-        "vol": 9.947
+        "n": 7452,
+        "avg_ret": 0.871,
+        "med_ret": 0.519,
+        "win_rate": 53.0,
+        "vol": 10.13
       },
       "fwd30d": {
-        "n": 615,
-        "avg_ret": 1.518,
-        "med_ret": 0.631,
-        "win_rate": 53.2,
-        "vol": 9.755
+        "n": 7451,
+        "avg_ret": 1.607,
+        "med_ret": 0.859,
+        "win_rate": 54.1,
+        "vol": 12.652
       }
     },
     "EXIT": {
       "fwd5d": {
-        "n": 2006,
-        "avg_ret": -0.402,
-        "med_ret": -1.035,
-        "win_rate": 38.0,
-        "vol": 4.127
+        "n": 20755,
+        "avg_ret": 0.263,
+        "med_ret": 0.216,
+        "win_rate": 52.3,
+        "vol": 5.191
       },
       "fwd10d": {
-        "n": 2006,
-        "avg_ret": -0.116,
-        "med_ret": -1.014,
-        "win_rate": 42.7,
-        "vol": 6.378
+        "n": 20755,
+        "avg_ret": 0.5,
+        "med_ret": 0.404,
+        "win_rate": 53.1,
+        "vol": 7.314
       },
       "fwd20d": {
-        "n": 2006,
-        "avg_ret": 0.46,
-        "med_ret": 0.13,
-        "win_rate": 51.1,
-        "vol": 8.738
+        "n": 20754,
+        "avg_ret": 1.038,
+        "med_ret": 0.693,
+        "win_rate": 53.6,
+        "vol": 10.233
       },
       "fwd30d": {
-        "n": 2006,
-        "avg_ret": 1.708,
-        "med_ret": 0.936,
-        "win_rate": 54.5,
-        "vol": 12.622
+        "n": 20754,
+        "avg_ret": 1.735,
+        "med_ret": 1.072,
+        "win_rate": 54.4,
+        "vol": 13.095
       }
     }
   },
   "spx_benchmark": {
     "fwd5d": {
-      "n": 6,
-      "avg_ret": -0.133,
-      "med_ret": -0.175,
-      "win_rate": 33.3,
-      "vol": 1.688
+      "n": 71,
+      "avg_ret": 0.308,
+      "med_ret": 0.459,
+      "win_rate": 57.7,
+      "vol": 2.458
     },
     "fwd10d": {
-      "n": 6,
-      "avg_ret": -0.179,
-      "med_ret": 0.085,
-      "win_rate": 66.7,
-      "vol": 2.455
+      "n": 71,
+      "avg_ret": 0.627,
+      "med_ret": 0.659,
+      "win_rate": 66.2,
+      "vol": 3.204
     },
     "fwd20d": {
-      "n": 6,
-      "avg_ret": -0.256,
-      "med_ret": -0.46,
-      "win_rate": 33.3,
-      "vol": 2.676
+      "n": 71,
+      "avg_ret": 1.278,
+      "med_ret": 1.573,
+      "win_rate": 66.2,
+      "vol": 4.294
     },
     "fwd30d": {
-      "n": 6,
-      "avg_ret": 0.817,
-      "med_ret": 0.437,
-      "win_rate": 50.0,
-      "vol": 1.94
+      "n": 71,
+      "avg_ret": 2.035,
+      "med_ret": 2.365,
+      "win_rate": 66.2,
+      "vol": 5.33
     }
   },
   "interpretation": {
-    "HOLD": "持有期望偏低，需检查",
+    "HOLD": "持有有效",
     "REDUCE": "减仓有保护 (3/4)",
     "EXIT": "退出可能过早"
   }
