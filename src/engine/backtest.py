@@ -829,6 +829,11 @@ def run_stateful_simulation(
             sell_price = exec_low * (1 - one_way_cost)
 
             if action == "EXIT":
+                # Guard: execution_price > 0
+                if sell_price <= 0:
+                    logger.warn(f"  SKIP EXIT {sym}: invalid sell price {sell_price}")
+                    continue
+
                 # P0 校验：exit_date > entry_date
                 entry_date = h["entry_date"]
                 if date_t1 <= entry_date:
@@ -880,12 +885,17 @@ def run_stateful_simulation(
                 del holdings[sym]
 
             elif action == "REDUCE":
+                # Guard: execution_price > 0
+                if sell_price <= 0:
+                    logger.warn(f"  SKIP REDUCE {sym}: invalid sell price {sell_price}")
+                    continue
                 # 减仓一半（只有持仓大于最小值才减）
                 portfolio_val = cash + sum(h2["shares"] * h2.get("current_close", h2["avg_cost"]) for h2 in holdings.values())
                 current_pct   = h["shares"] * sell_price / portfolio_val if portfolio_val > 0 else 0
                 if current_pct > max_pct / 2:
                     sell_shares = h["shares"] / 2
                     proceeds    = sell_shares * sell_price
+                    # Guard: cash >= 0 (selling increases cash, always fine)
                     cash       += proceeds
                     h["shares"] -= sell_shares
 
@@ -921,11 +931,39 @@ def run_stateful_simulation(
                     exec_high = prices_map[sym][t1] if t1 < len(prices_map[sym]) else close_t
                 buy_price = exec_high * (1 + one_way_cost)
 
-                shares = target_value / buy_price if buy_price > 0 else 0
+                # Guard 1: execution_price > 0
+                if buy_price <= 0:
+                    logger.warn(f"  SKIP BUY {sym}: invalid exec price {buy_price}")
+                    continue
+
+                shares = target_value / buy_price
                 if shares <= 0:
                     continue
 
-                cash -= shares * buy_price
+                cost = shares * buy_price
+
+                # Guard 2: cash >= 0 after trade
+                if cash - cost < 0:
+                    # 用现有现金最大化买入
+                    cost   = cash * 0.99
+                    shares = cost / buy_price if buy_price > 0 else 0
+                    if shares <= 0:
+                        continue
+
+                # Guard 3: open_positions_count <= max_positions (已在外层检查)
+
+                # Guard 4: position_size <= max_single_size
+                portfolio_est = cash + sum(
+                    h2["shares"] * h2.get("current_close", h2["avg_cost"])
+                    for h2 in holdings.values()
+                )
+                if portfolio_est > 0 and cost / portfolio_est > max_pct:
+                    cost   = portfolio_est * max_pct
+                    shares = cost / buy_price if buy_price > 0 else 0
+                    if shares <= 0:
+                        continue
+
+                cash -= cost
                 sym_dates = dates_map.get(sym, [])
                 entry_date = date_t1  # 入场日期 = T+1（执行日）
 
@@ -953,6 +991,11 @@ def run_stateful_simulation(
         # P0 校验：无杠杆
         if position_value > total_equity * 1.01:  # 1% 容差
             logger.warn(f"  Day {t}: leverage detected! pos={position_value:.0f} equity={total_equity:.0f}")
+
+        # P0 校验：cash >= 0
+        if cash < -1.0:  # 允许 $1 浮点误差
+            logger.warn(f"  Day {t}: negative cash detected! cash={cash:.2f}")
+            cash = 0.0  # 强制归零，防止进一步错误
 
         equity_curve.append(total_equity)
         spx_curve.append(spx_prices[t] / spx_entry if spx_entry > 0 else 1.0)
