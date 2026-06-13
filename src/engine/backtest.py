@@ -541,6 +541,8 @@ def run_action_forward_validation(
     symbols:       list[str],
     prices_map:    dict[str, list[float]],
     spx_prices:    list[float],
+    dates_map:     dict[str, list[str]] | None = None,
+    spx_dates:     list[str] | None = None,
     forward_days:  list[int] = [5, 10, 20, 30],
     step:          int = 5,
     min_history:   int = 120,
@@ -557,7 +559,8 @@ def run_action_forward_validation(
     - EXIT → 退出后是否避免了进一步下跌？
     """
     logger.info("[Backtest Layer C2] Action Forward Return Validation...")
-
+    dates_map = dates_map or {}
+    spx_dates = spx_dates or []
     action_returns = {
         a: {d: [] for d in forward_days}
         for a in ["BUY","ADD","HOLD","REDUCE","EXIT"]
@@ -1311,7 +1314,11 @@ def run_full_backtest(
 
     # Layer C2: Action Forward Return Validation
     results["layer_c2"] = run_action_forward_validation(
-        symbols, prices_map, spx_prices
+        symbols=symbols,
+        prices_map=prices_map,
+        spx_prices=spx_prices,
+        dates_map=dates_map,
+        spx_dates=spx_dates,
     )
 
     # Layer D: Stateful Portfolio Backtest（完整状态机）
