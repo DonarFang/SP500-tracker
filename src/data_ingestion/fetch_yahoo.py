@@ -56,6 +56,64 @@ SECTOR_MAP = {
     "ALK":"Airlines","ENPH":"Clean Energy","BE":"Clean Energy","FSLR":"Clean Energy",
     "PLD":"REITs","EQIX":"REITs","GEV":"Industrials","HOOD":"Fintech","DASH":"Delivery",
     "RBLX":"Gaming","TTWO":"Gaming","TKO":"Entertainment",
+    # Storage / Hardware
+    "STX":"Technology","WDC":"Technology","NTAP":"Technology","SMCI":"Technology",
+    # Industrials / Construction
+    "URI":"Industrials","CTAS":"Industrials","PWR":"Industrials","PCAR":"Industrials",
+    "JBHT":"Transportation","ODFL":"Transportation","NSC":"Transportation",
+    "UNP":"Transportation","CSX":"Transportation","DAL":"Airlines","UAL":"Airlines",
+    "LUV":"Airlines","AAL":"Airlines",
+    # Materials / Steel
+    "STLD":"Materials","NUE":"Materials","RS":"Materials","X":"Materials",
+    "CLF":"Materials","AA":"Materials","FCX":"Mining","NEM":"Mining",
+    "ALB":"Chemicals","LIN":"Chemicals","PPG":"Chemicals","SHW":"Chemicals",
+    "DD":"Chemicals","DOW":"Chemicals","LYB":"Chemicals","CE":"Chemicals",
+    "EMN":"Chemicals","IFF":"Chemicals","RPM":"Chemicals",
+    # Cybersecurity
+    "FTNT":"Cybersecurity","PANW":"Cybersecurity","CRWD":"Cybersecurity",
+    "ZS":"Cybersecurity","OKTA":"Cybersecurity","S":"Cybersecurity",
+    # Healthcare / Managed Care
+    "HUM":"Healthcare","UNH":"Healthcare","ELV":"Healthcare","CNC":"Healthcare",
+    "MOH":"Healthcare","CVS":"Healthcare",
+    # Medical Devices
+    "MDT":"Med Devices","EW":"Med Devices","ZBH":"Med Devices","STE":"Med Devices",
+    "RVTY":"Med Devices","WAT":"Med Devices","IDXX":"Med Devices",
+    # Real Estate
+    "AMT":"REITs","CCI":"REITs","SBAC":"REITs","DLR":"REITs","EXR":"REITs",
+    "PSA":"REITs","AVB":"REITs","EQR":"REITs","MAA":"REITs","UDR":"REITs",
+    # Utilities
+    "NEE":"Utilities","DUK":"Utilities","SO":"Utilities","AEP":"Utilities",
+    "EXC":"Utilities","XEL":"Utilities","ED":"Utilities","ES":"Utilities",
+    "WEC":"Utilities","ETR":"Utilities","FE":"Utilities","PPL":"Utilities",
+    "AEE":"Utilities","CMS":"Utilities","NI":"Utilities","EVRG":"Utilities",
+    "LNT":"Utilities","ATO":"Utilities","PNW":"Utilities",
+    # Energy
+    "XOM":"Energy","CVX":"Energy","COP":"Energy","SLB":"Energy","EOG":"Energy",
+    "PXD":"Energy","DVN":"Energy","MRO":"Energy","HES":"Energy","APA":"Energy",
+    "FANG":"Energy","PSX":"Energy","VLO":"Energy","MPC":"Energy",
+    # Consumer Discretionary
+    "AMZN":"E-Commerce/Cloud","TSLA":"Auto","HD":"Retail","LOW":"Retail",
+    "MCD":"Food & Bev","SBUX":"Food & Bev","NKE":"Apparel","LULU":"Apparel",
+    "TJX":"Retail","ROST":"Retail","BKNG":"Travel","MAR":"Travel",
+    "HLT":"Travel","CCL":"Travel","RCL":"Travel","NCLH":"Travel",
+    "LVS":"Entertainment","MGM":"Entertainment","WYNN":"Entertainment",
+    # Financial
+    "BRK-B":"Financials","JPM":"Financials","BAC":"Financials","WFC":"Financials",
+    "C":"Financials","GS":"Financials","MS":"Financials","USB":"Financials",
+    "PNC":"Financials","TFC":"Financials","COF":"Financials","AXP":"Financials",
+    "V":"Payments","MA":"Payments","PYPL":"Fintech","SQ":"Fintech",
+    "BLK":"Asset Mgmt","SCHW":"Financials","CME":"Exchange","ICE":"Exchange",
+    "CBOE":"Exchange","NDAQ":"Exchange","SPGI":"Ratings","MCO":"Ratings",
+    "MMC":"Insurance","AON":"Insurance","CB":"Insurance","AIG":"Insurance",
+    "PRU":"Insurance","MET":"Insurance","AFL":"Insurance","ALL":"Insurance",
+    "TRV":"Insurance","PGR":"Insurance","HIG":"Insurance",
+    # Misc missing
+    "URI":"Industrials","JBHT":"Transportation","STLD":"Materials","NUE":"Materials",
+    "STX":"Technology","BLDR":"Industrials","GNRC":"Industrials","TDG":"Industrials",
+    "HWM":"Industrials","ITW":"Industrials","EMR":"Industrials","ROK":"Industrials",
+    "PH":"Industrials","DOV":"Industrials","CARR":"Industrials","OTIS":"Industrials",
+    "GD":"Industrials","LMT":"Industrials","RTX":"Industrials","NOC":"Industrials",
+    "BA":"Industrials","HII":"Industrials","LHX":"Industrials","LDOS":"Industrials",
 }
 
 def get_sector(sym): return SECTOR_MAP.get(sym,"Other")

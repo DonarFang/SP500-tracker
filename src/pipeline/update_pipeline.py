@@ -78,11 +78,18 @@ def load_constituents() -> list[str]:
 
 
 def load_members_map(symbols) -> dict:
+    from ..data_ingestion.fetch_yahoo import get_sector
     members = read_json(MEMBERS_FILE) or []
     m = {x["symbol"]: x for x in members if isinstance(x, dict) and "symbol" in x}
+    # 对每个成分股，确保 sector 正确（优先用 members.json，否则用 SECTOR_MAP）
     for s in symbols:
         if s not in m:
-            m[s] = {"symbol": s, "name": s, "sector": "Other"}
+            m[s] = {"symbol": s, "name": s, "sector": get_sector(s)}
+        elif m[s].get("sector") in ("Other", "", None):
+            # members.json 里有但 sector 为 Other，用 SECTOR_MAP 覆盖
+            mapped = get_sector(s)
+            if mapped != "Other":
+                m[s]["sector"] = mapped
     return m
 
 
