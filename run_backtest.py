@@ -21,19 +21,21 @@ if __name__ == "__main__":
     symbols = read_json(CONSTITUENTS_FILE) or []
     logger.info(f"成分股：{len(symbols)} 只")
 
-    # 加载价格
-    prices_map = {}
+    # 加载价格 + 日期
+    prices_map: dict = {}
+    dates_map:  dict = {}
     for sym in symbols:
         d, p = get_price_series(sym)
         if len(p) >= 120:
             prices_map[sym] = p
+            dates_map[sym]  = d
     logger.info(f"有效价格序列：{len(prices_map)} 只")
 
     # SPX
     from src.pipeline.update_pipeline import get_prices_safe
-    _, spx_prices = get_prices_safe("^GSPC")
+    spx_dates, spx_prices = get_prices_safe("^GSPC")
     if not spx_prices:
-        _, spx_prices = get_price_series("SPY")
+        spx_dates, spx_prices = get_price_series("SPY")
     logger.info(f"SPX: {len(spx_prices)} bars")
 
     # 运行回测
@@ -42,7 +44,10 @@ if __name__ == "__main__":
         list(prices_map.keys()),
         prices_map,
         spx_prices,
-        run_layer_b=run_layer_b,
+        dates_map  = dates_map,
+        spx_dates  = spx_dates,
+        run_layer_b= run_layer_b,
+        run_layer_d= True,
     )
 
     # 输出到 exports/backtest.json
@@ -107,3 +112,35 @@ if __name__ == "__main__":
                     print(f"  {days:2d}日: BUY={buy_avg:+.2f}%(WR={buy_wr}%) vs SPX={spx_avg:+.2f}% {better}")
                 else:
                     print(f"  {days}日: 无数据")
+
+        elif layer_key == "layer_c2":
+            print(f"  验证每种 Action 的前向收益：")
+            for days in [5, 10, 20, 30]:
+                k = f"fwd{days}d"
+                row = {}
+                for a in ["BUY","ADD","HOLD","REDUCE","EXIT"]:
+                    v = layer_data["action_summary"].get(a,{}).get(k,{}).get("avg_ret",None)
+                    row[a] = f"{v:+.2f}%" if v is not None else "—"
+                spx_v = layer_data["spx_benchmark"].get(k,{}).get("avg_ret",None)
+                spx_s = f"{spx_v:+.2f}%" if spx_v is not None else "—"
+                print(f"  {days:2d}日: BUY={row['BUY']} ADD={row['ADD']} HOLD={row['HOLD']} REDUCE={row['REDUCE']} EXIT={row['EXIT']} SPX={spx_s}")
+            interp = layer_data.get("interpretation",{})
+            for k,v in interp.items():
+                print(f"  → {k}: {v}")
+
+        elif layer_key == "layer_d":
+            d = layer_data
+            print(f"  Total Return:   {d.get('total_return_pct',0):+.2f}%  vs SPX {d.get('spx_total_return_pct',0):+.2f}%  Alpha: {d.get('alpha_pct',0):+.2f}%")
+            print(f"  CAGR:           {d.get('cagr_pct',0):+.2f}%  vs SPX CAGR {d.get('spx_cagr_pct',0):+.2f}%")
+            print(f"  Max Drawdown:   {d.get('max_drawdown_pct',0):.1f}%")
+            print(f"  Win Rate:       {d.get('win_rate_pct',0):.1f}%")
+            print(f"  Profit Factor:  {d.get('profit_factor',0):.2f}")
+            print(f"  Sharpe Ratio:   {d.get('sharpe_ratio',0):.2f}")
+            print(f"  Trades:         {d.get('number_of_trades',0)}  (Avg Hold: {d.get('avg_holding_days',0):.1f}天)")
+            print(f"  Avg Winner:     {d.get('avg_winner_pct',0):+.2f}%  Avg Loser: {d.get('avg_loser_pct',0):+.2f}%")
+            print(f"  Exposure:       {d.get('exposure_pct',0):.1f}%  (Max Pos: {d.get('avg_position_size',0):.1f}% each)")
+            print(f"\n  交易记录（最近10笔）:")
+            print(f"  {'Symbol':<8} {'Entry':>12} {'Exit':>12} {'Entry Sig':>10} {'Exit Sig':>10} {'Days':>5} {'Return':>8}")
+            print(f"  {'-'*70}")
+            for t in d.get("trades",[])[-10:]:
+                print(f"  {t['symbol']:<8} {t['entry_date']:>12} {t['exit_date']:>12} {t['entry_signal']:>10} {t['exit_signal']:>10} {t['holding_days']:>5} {t['return_pct']:>+7.2f}%")

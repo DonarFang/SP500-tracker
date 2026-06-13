@@ -505,34 +505,486 @@ def run_promotion_engine_validation(
 
 
 # ══════════════════════════════════════════════════════════════════
+# Layer C2: Action Forward Return Validation
+# ══════════════════════════════════════════════════════════════════
+
+def run_action_forward_validation(
+    symbols:       list[str],
+    prices_map:    dict[str, list[float]],
+    spx_prices:    list[float],
+    forward_days:  list[int] = [5, 10, 20, 30],
+    step:          int = 5,
+    min_history:   int = 120,
+    market_score_default: float = 60.0,
+) -> dict:
+    """
+    Layer C2: Action Forward Return Validation
+
+    验证每种 Action 之后的前向收益：
+    - BUY  → 买入后是否有正向期望？
+    - ADD  → 加仓后是否继续超额？
+    - HOLD → 继续持有是否比卖出更好？
+    - REDUCE → 减仓后股票是否真的走弱？
+    - EXIT → 退出后是否避免了进一步下跌？
+    """
+    logger.info("[Backtest Layer C2] Action Forward Return Validation...")
+
+    action_returns = {
+        a: {d: [] for d in forward_days}
+        for a in ["BUY","ADD","HOLD","REDUCE","EXIT"]
+    }
+    spx_returns = {d: [] for d in forward_days}
+
+    min_len = min(len(p) for p in prices_map.values()) if prices_map else 0
+    n_days  = min(min_len, len(spx_prices))
+
+    # 去重：同一股票同一信号至少间隔 5 天
+    last_action_day: dict[str, int] = {}
+    dedup_gap = 5
+
+    for t in range(min_history, n_days - max(forward_days), step):
+        for d in forward_days:
+            r = forward_return(spx_prices, t, d)
+            if r is not None:
+                spx_returns[d].append(r * 100)
+
+        all_ret60 = [
+            (period_return(prices_map[s][:t+1], 60) or 0.0)
+            for s in symbols if s in prices_map and len(prices_map[s]) > t+1
+        ]
+
+        for sym in symbols:
+            if sym not in prices_map:
+                continue
+            p = prices_map[sym][:t+1]
+            if len(p) < 60:
+                continue
+
+            ret60 = period_return(p, 60) or 0.0
+            rs    = rs_percentile(ret60, all_ret60)
+            mom_d = calc_momentum(p)
+            mom   = mom_d["momentum_score"]
+            th_d  = calc_trend_health(p)
+            th    = th_d["trend_health"]
+            ls    = calc_leader_score(rs, mom, th)
+
+            from ..features.trend_health import trend_lifecycle
+            state    = trend_lifecycle(th, mom, rs)
+            ma50s    = moving_average(p, 50)
+            ma50_v   = ma50s[-1] if ma50s else p[-1]
+            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0
+
+            action = trade_action(
+                state, mom, rs, p[-1], ma50_v,
+                ma50_sl, ls, th, market_score_default
+            )
+
+            if action not in action_returns:
+                continue
+
+            key = f"{sym}_{action}"
+            if key in last_action_day and t - last_action_day[key] < dedup_gap:
+                continue
+            last_action_day[key] = t
+
+            p_full = prices_map[sym]
+            for d in forward_days:
+                r = forward_return(p_full, t, d)
+                if r is not None:
+                    action_returns[action][d].append(r * 100)
+
+    # 统计
+    def stats(rets):
+        if not rets: return {"n": 0}
+        avg = sum(rets)/len(rets)
+        med = sorted(rets)[len(rets)//2]
+        std = math.sqrt(sum((r-avg)**2 for r in rets)/len(rets)) if len(rets)>1 else 0
+        wins = [r for r in rets if r > 0]
+        return {
+            "n":         len(rets),
+            "avg_ret":   round(avg, 3),
+            "med_ret":   round(med, 3),
+            "win_rate":  round(len(wins)/len(rets)*100, 1),
+            "vol":       round(std, 3),
+        }
+
+    summary   = {a: {f"fwd{d}d": stats(action_returns[a][d]) for d in forward_days} for a in action_returns}
+    spx_summ  = {f"fwd{d}d": stats(spx_returns[d]) for d in forward_days}
+
+    # 关键验证
+    # 1. HOLD 后收益是否为正（持有有效）
+    hold_positive = sum(
+        1 for d in forward_days
+        if summary["HOLD"].get(f"fwd{d}d",{}).get("avg_ret",0) > 0
+    )
+    # 2. REDUCE/EXIT 后收益是否低于 HOLD（减仓/退出有保护作用）
+    reduce_lower = sum(
+        1 for d in forward_days
+        if summary["REDUCE"].get(f"fwd{d}d",{}).get("avg_ret",999) <
+           summary["HOLD"].get(f"fwd{d}d",{}).get("avg_ret",0)
+    )
+    exit_lower = sum(
+        1 for d in forward_days
+        if summary["EXIT"].get(f"fwd{d}d",{}).get("avg_ret",999) <
+           summary["HOLD"].get(f"fwd{d}d",{}).get("avg_ret",0)
+    )
+
+    status = "PASS" if hold_positive >= 3 and (reduce_lower + exit_lower) >= 4 else              "PARTIAL" if hold_positive >= 2 else "FAIL"
+
+    # 日志输出
+    for d in forward_days:
+        k = f"fwd{d}d"
+        row = {a: summary[a].get(k,{}).get("avg_ret","—") for a in ["BUY","ADD","HOLD","REDUCE","EXIT"]}
+        spx = spx_summ.get(k,{}).get("avg_ret","—")
+        logger.info(
+            f"  C2 {d:2d}日: "
+            f"BUY={row['BUY']:+.2f}% "
+            f"ADD={row['ADD']:+.2f}% "
+            f"HOLD={row['HOLD']:+.2f}% "
+            f"REDUCE={row['REDUCE']:+.2f}% "
+            f"EXIT={row['EXIT']:+.2f}% "
+            f"SPX={spx:+.2f}%"
+            if isinstance(row["BUY"], float) else f"  C2 {d}日: 无数据"
+        )
+    logger.info(f"  Layer C2: {status} (HOLD正收益 {hold_positive}/4, REDUCE低于HOLD {reduce_lower}/4, EXIT低于HOLD {exit_lower}/4)")
+
+    return {
+        "layer":   "C2",
+        "name":    "Action Forward Return Validation",
+        "status":  status,
+        "hold_positive_count":  hold_positive,
+        "reduce_lower_count":   reduce_lower,
+        "exit_lower_count":     exit_lower,
+        "action_summary":       summary,
+        "spx_benchmark":        spx_summ,
+        "interpretation": {
+            "HOLD":   "持有有效" if hold_positive >= 3 else "持有期望偏低，需检查",
+            "REDUCE": f"减仓有保护 ({reduce_lower}/4)" if reduce_lower >= 3 else "减仓保护不足",
+            "EXIT":   f"退出有保护 ({exit_lower}/4)" if exit_lower >= 3 else "退出可能过早",
+        },
+    }
+
+
+# ══════════════════════════════════════════════════════════════════
+# Layer D: Stateful Strategy Simulation
+# ══════════════════════════════════════════════════════════════════
+
+def run_stateful_simulation(
+    symbols:        list[str],
+    prices_map:     dict[str, list[float]],
+    dates_map:      dict[str, list[str]],
+    spx_prices:     list[float],
+    spx_dates:      list[str],
+    max_positions:  int   = 10,
+    step:           int   = 1,
+    min_history:    int   = 120,
+    market_score_default: float = 60.0,
+) -> dict:
+    """
+    Layer D: Stateful Portfolio Backtest
+
+    每天维护持仓状态，模拟完整交易链条：
+      BUY    → 建仓
+      ADD    → 加仓（增加 0.5 单位，上限 1.5）
+      HOLD   → 继续持有，更新最高价
+      REDUCE → 减仓（卖出一半）
+      EXIT   → 全部平仓
+
+    持仓状态：
+      position_size: 0 = 空仓, 0.5 = 半仓, 1.0 = 满仓, 1.5 = 加仓
+      entry_price, highest_close, holding_days, current_return
+
+    组合：等权重，最多 max_positions 只。
+    """
+    logger.info("[Backtest Layer D] Stateful Portfolio Backtest...")
+
+    min_len = min(len(p) for p in prices_map.values()) if prices_map else 0
+    n_days  = min(min_len, len(spx_prices))
+
+    # 持仓状态字典
+    # {sym: {size, entry_price, entry_date, entry_idx, entry_signal,
+    #        highest_close, holding_days, leader_score_entry}}
+    positions: dict[str, dict] = {}
+    closed_trades: list[dict]  = []
+    equity_curve:  list[float] = []
+    spx_curve:     list[float] = []
+    daily_log:     list[dict]  = []
+
+    spx_entry = spx_prices[min_history] if len(spx_prices) > min_history else 1.0
+
+    for t in range(min_history, n_days - 1):
+        date_str = spx_dates[t] if t < len(spx_dates) else str(t)
+
+        # ── 计算所有股票信号 ─────────────────────────
+        all_ret60 = [
+            (period_return(prices_map[s][:t+1], 60) or 0.0)
+            for s in symbols if s in prices_map and len(prices_map[s]) > t+1
+        ]
+
+        day_signals: dict[str, tuple] = {}  # {sym: (action, leader_score, price)}
+        for sym in symbols:
+            if sym not in prices_map:
+                continue
+            p = prices_map[sym][:t+1]
+            if len(p) < 60:
+                continue
+            curr_price = p[-1]
+            ret60 = period_return(p, 60) or 0.0
+            rs    = rs_percentile(ret60, all_ret60)
+            mom_d = calc_momentum(p)
+            mom   = mom_d["momentum_score"]
+            th_d  = calc_trend_health(p)
+            th    = th_d["trend_health"]
+            ls    = calc_leader_score(rs, mom, th)
+            from ..features.trend_health import trend_lifecycle
+            state   = trend_lifecycle(th, mom, rs)
+            ma50s   = moving_average(p, 50)
+            ma50_v  = ma50s[-1] if ma50s else curr_price
+            ma50_sl = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0
+            action = trade_action(
+                state, mom, rs, curr_price, ma50_v,
+                ma50_sl, ls, th, market_score_default
+            )
+            day_signals[sym] = (action, ls, curr_price)
+
+        # ── 更新现有持仓 ──────────────────────────────
+        to_close  = []
+        to_reduce = []
+        to_add    = []
+
+        for sym, pos in positions.items():
+            if sym not in day_signals:
+                continue
+            action, ls, curr_price = day_signals[sym]
+            pos["holding_days"] += step
+            pos["highest_close"] = max(pos["highest_close"], curr_price)
+            pos["current_return"] = (curr_price - pos["entry_price"]) / pos["entry_price"]
+
+            if action == "EXIT":
+                to_close.append((sym, "EXIT", curr_price))
+            elif action == "REDUCE" and pos["size"] > 0.5:
+                to_reduce.append((sym, curr_price))
+            elif action == "ADD" and pos["size"] < 1.5:
+                to_add.append((sym, curr_price, ls))
+
+        # 执行平仓
+        for sym, exit_sig, exit_price in to_close:
+            pos = positions[sym]
+            ret = (exit_price - pos["entry_price"]) / pos["entry_price"]
+            sym_dates  = dates_map.get(sym, [])
+            entry_date = sym_dates[pos["entry_idx"]] if pos["entry_idx"] < len(sym_dates) else str(pos["entry_idx"])
+            closed_trades.append({
+                "symbol":             sym,
+                "entry_date":         entry_date,
+                "exit_date":          date_str,
+                "entry_signal":       pos["entry_signal"],
+                "exit_signal":        exit_sig,
+                "entry_price":        round(pos["entry_price"], 2),
+                "exit_price":         round(exit_price, 2),
+                "holding_days":       pos["holding_days"],
+                "return_pct":         round(ret * 100, 2),
+                "max_favorable_pct":  round((pos["highest_close"]-pos["entry_price"])/pos["entry_price"]*100, 2),
+                "size_at_exit":       pos["size"],
+                "leader_score_entry": round(pos.get("leader_score_entry", 0), 1),
+            })
+            del positions[sym]
+
+        # 执行减仓（只记录，不完全平仓）
+        for sym, curr_price in to_reduce:
+            if sym in positions:
+                positions[sym]["size"] = max(0.5, positions[sym]["size"] - 0.5)
+
+        # 执行加仓
+        for sym, curr_price, ls in to_add:
+            if sym in positions and len(positions) < max_positions + 2:
+                positions[sym]["size"] = min(1.5, positions[sym]["size"] + 0.5)
+
+        # ── 建仓：BUY 信号 ────────────────────────────
+        if len(positions) < max_positions:
+            buy_cands = [
+                (sym, ls, price)
+                for sym, (action, ls, price) in day_signals.items()
+                if action == "BUY" and sym not in positions
+            ]
+            buy_cands.sort(key=lambda x: x[1], reverse=True)
+            for sym, ls, entry_price in buy_cands:
+                if len(positions) >= max_positions:
+                    break
+                sym_dates  = dates_map.get(sym, [])
+                entry_date = sym_dates[t] if t < len(sym_dates) else date_str
+                positions[sym] = {
+                    "size":            1.0,
+                    "entry_price":     entry_price,
+                    "entry_date":      entry_date,
+                    "entry_idx":       t,
+                    "entry_signal":    "BUY",
+                    "highest_close":   entry_price,
+                    "holding_days":    0,
+                    "current_return":  0.0,
+                    "leader_score_entry": ls,
+                }
+
+        # ── 每日净值 ──────────────────────────────────
+        if positions:
+            pos_vals = []
+            for sym, pos in positions.items():
+                curr = prices_map[sym][t] if t < len(prices_map[sym]) else pos["entry_price"]
+                pos_vals.append(curr / pos["entry_price"] * pos["size"])
+            # 加权平均（按 size 归一化）
+            total_size = sum(pos["size"] for pos in positions.values())
+            weighted = sum(
+                (prices_map[sym][t] if t < len(prices_map[sym]) else positions[sym]["entry_price"])
+                / positions[sym]["entry_price"] * positions[sym]["size"]
+                for sym in positions
+            ) / max(total_size, 1)
+            daily_equity = (equity_curve[-1] if equity_curve else 1.0) * (1 + (weighted - 1) * (len(positions) / max_positions))
+        else:
+            daily_equity = equity_curve[-1] if equity_curve else 1.0
+
+        equity_curve.append(daily_equity)
+        spx_curve.append(spx_prices[t] / spx_entry if spx_entry > 0 else 1.0)
+
+        # 每30天记录一次状态
+        if t % 30 == 0:
+            daily_log.append({
+                "date":      date_str,
+                "positions": len(positions),
+                "equity":    round(daily_equity, 4),
+                "spx":       round(spx_curve[-1], 4),
+            })
+
+    # ── 强制平仓剩余持仓 ─────────────────────────────
+    t_last = n_days - 1
+    for sym, pos in list(positions.items()):
+        curr  = prices_map[sym][t_last] if t_last < len(prices_map[sym]) else pos["entry_price"]
+        ret   = (curr - pos["entry_price"]) / pos["entry_price"]
+        sym_d = dates_map.get(sym, [])
+        ed    = sym_d[pos["entry_idx"]] if pos["entry_idx"] < len(sym_d) else str(pos["entry_idx"])
+        xd    = spx_dates[t_last] if t_last < len(spx_dates) else str(t_last)
+        closed_trades.append({
+            "symbol":            sym,
+            "entry_date":        ed,
+            "exit_date":         xd,
+            "entry_signal":      pos["entry_signal"],
+            "exit_signal":       "SIM_END",
+            "entry_price":       round(pos["entry_price"], 2),
+            "exit_price":        round(curr, 2),
+            "holding_days":      pos["holding_days"],
+            "return_pct":        round(ret * 100, 2),
+            "max_favorable_pct": round((pos["highest_close"]-pos["entry_price"])/pos["entry_price"]*100, 2),
+            "size_at_exit":      pos["size"],
+            "leader_score_entry": round(pos.get("leader_score_entry", 0), 1),
+        })
+
+    if not closed_trades:
+        return {"layer":"D","name":"Stateful Portfolio Backtest","status":"NO_TRADES","trades":[]}
+
+    # ── 统计 ──────────────────────────────────────────
+    rets   = [t["return_pct"] for t in closed_trades]
+    wins   = [r for r in rets if r > 0]
+    losses = [r for r in rets if r <= 0]
+    holds  = [t["holding_days"] for t in closed_trades]
+
+    total_days  = n_days - min_history
+    exposure_pct = round(
+        sum(h for h in holds) / (max_positions * max(total_days, 1)) * 100, 1
+    )
+
+    final_equity = equity_curve[-1] if equity_curve else 1.0
+    years = total_days / 252
+    cagr  = round((final_equity**(1/years)-1)*100, 2) if years > 0 else 0
+
+    peak = 1.0; max_dd = 0.0
+    for e in equity_curve:
+        peak  = max(peak, e)
+        max_dd = max(max_dd, (peak-e)/peak)
+
+    spx_total = round((spx_curve[-1]-1)*100, 2) if spx_curve else 0
+    spx_cagr  = round((spx_curve[-1]**(1/years)-1)*100, 2) if years > 0 and spx_curve else 0
+    pf   = round(abs(sum(wins))/abs(sum(losses)), 2) if losses and sum(losses)!=0 else 0
+    avg_h = sum(holds)/len(holds) if holds else 1
+    avg_r = sum(rets)/len(rets)
+    std_r = math.sqrt(sum((r-avg_r)**2 for r in rets)/len(rets)) if len(rets)>1 else 0
+    sharpe = round(avg_r/std_r*math.sqrt(252/max(avg_h,1)), 2) if std_r>0 else 0
+    total_ret = round((final_equity-1)*100, 2)
+
+    status = "PASS"    if total_ret > spx_total and pf > 1.2 and len(closed_trades)>=10 else              "PARTIAL" if total_ret > 0 else "FAIL"
+
+    logger.info(f"  Layer D: {status}")
+    logger.info(f"  Return: {total_ret:+.1f}% vs SPX {spx_total:+.1f}%  Alpha: {total_ret-spx_total:+.1f}%")
+    logger.info(f"  CAGR: {cagr:+.1f}%  MaxDD: {max_dd*100:.1f}%  WinRate: {round(len(wins)/len(rets)*100,1) if rets else 0}%  Trades: {len(closed_trades)}")
+
+    return {
+        "layer":             "D",
+        "name":              "Stateful Portfolio Backtest",
+        "status":            status,
+        "total_return_pct":  total_ret,
+        "cagr_pct":          cagr,
+        "max_drawdown_pct":  round(max_dd*100, 2),
+        "win_rate_pct":      round(len(wins)/len(rets)*100, 1) if rets else 0,
+        "profit_factor":     pf,
+        "sharpe_ratio":      sharpe,
+        "number_of_trades":  len(closed_trades),
+        "avg_holding_days":  round(sum(holds)/len(holds), 1) if holds else 0,
+        "avg_winner_pct":    round(sum(wins)/len(wins), 2)   if wins   else 0,
+        "avg_loser_pct":     round(sum(losses)/len(losses),2) if losses else 0,
+        "exposure_pct":      exposure_pct,
+        "avg_position_size": round(1/max_positions*100, 1),
+        "spx_total_return_pct": spx_total,
+        "spx_cagr_pct":         spx_cagr,
+        "alpha_pct":         round(total_ret - spx_total, 2),
+        "equity_curve":      [round(e,4) for e in equity_curve[::5]],
+        "spx_curve":         [round(e,4) for e in spx_curve[::5]],
+        "daily_log":         daily_log,
+        "trades":            closed_trades[-100:],
+        "total_trades_all":  len(closed_trades),
+    }
+
+
+# ══════════════════════════════════════════════════════════════════
 # 主函数：运行完整回测
 # ══════════════════════════════════════════════════════════════════
 
 def run_full_backtest(
-    symbols: list[str],
-    prices_map: dict[str, list[float]],
-    spx_prices: list[float],
-    run_layer_b: bool = False,  # Layer B 较慢，默认跳过
+    symbols:      list[str],
+    prices_map:   dict[str, list[float]],
+    spx_prices:   list[float],
+    dates_map:    dict[str, list[str]] = None,
+    spx_dates:    list[str] = None,
+    run_layer_b:  bool = False,
+    run_layer_d:  bool = True,
 ) -> dict:
     """
-    运行完整3层回测验证。
+    运行完整4层回测验证（A → C → D → B）。
     返回汇总结果，供 export_json 写入 backtest.json。
     """
     logger.info("=== 开始回测验证（Backtest Methodology v1.0）===")
+    dates_map  = dates_map  or {}
+    spx_dates  = spx_dates  or []
+    results    = {}
 
-    results = {}
-
-    # Layer A: Leader Engine
+    # Layer A: Leader Engine（最基础）
     results["layer_a"] = run_leader_engine_validation(
         symbols, prices_map, spx_prices
     )
 
-    # Layer C: Trade Rules
+    # Layer C: Trade Rule Signal Validation
     results["layer_c"] = run_trade_rule_validation(
         symbols, prices_map, spx_prices
     )
 
-    # Layer B: Promotion（可选，较慢）
+    # Layer C2: Action Forward Return Validation
+    results["layer_c2"] = run_action_forward_validation(
+        symbols, prices_map, spx_prices
+    )
+
+    # Layer D: Stateful Portfolio Backtest（完整状态机）
+    if run_layer_d:
+        results["layer_d"] = run_stateful_simulation(
+            symbols, prices_map, dates_map, spx_prices, spx_dates
+        )
+
+    # Layer B: Promotion Engine（需要历史快照，可选）
     if run_layer_b:
         results["layer_b"] = run_promotion_engine_validation(
             symbols, prices_map, spx_prices
@@ -540,12 +992,13 @@ def run_full_backtest(
 
     # 整体评分
     statuses = [v["status"] for v in results.values()]
-    overall = "PASS" if all(s == "PASS" for s in statuses) else \
-              "PARTIAL" if any(s in ("PASS","PARTIAL") for s in statuses) else "FAIL"
+    overall = "PASS"     if all(s == "PASS" for s in statuses) else \
+              "PROMISING" if sum(s == "PASS" for s in statuses) >= 2 else \
+              "PARTIAL"  if any(s in ("PASS","PARTIAL") for s in statuses) else "FAIL"
 
     logger.info(f"=== 回测完成: {overall} ===")
-    logger.info(f"  Layer A: {results['layer_a']['status']}")
-    logger.info(f"  Layer C: {results['layer_c']['status']}")
+    for k, v in results.items():
+        logger.info(f"  {k.upper()}: {v['status']}")
 
     return {
         "overall_status": overall,
