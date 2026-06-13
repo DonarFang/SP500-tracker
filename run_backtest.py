@@ -176,6 +176,7 @@ if __name__ == "__main__":
             print(f"  Profit Factor:  {d.get('profit_factor',0):.2f}")
             print(f"  Sharpe Ratio:   {d.get('sharpe_ratio',0):.2f}")
             print(f"  Trades:         {d.get('number_of_trades',0)}  (Avg Hold: {d.get('avg_holding_days',0):.1f}天)")
+            print(f"  Orders:         Executed={d.get('pending_orders_executed',0)}  Skipped={d.get('pending_orders_skipped',0)}  Invalid={d.get('invalid_trades_count',0)}")
             print(f"  Avg Winner:     {d.get('avg_winner_pct',0):+.2f}%  Avg Loser: {d.get('avg_loser_pct',0):+.2f}%")
             print(f"  Exposure:       {d.get('exposure_pct',0):.1f}%  (Max Pos: {d.get('avg_position_size',0):.1f}% each)")
             print(f"\n  交易记录（最近10笔）:")

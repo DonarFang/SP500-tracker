@@ -769,6 +769,8 @@ def run_stateful_simulation(
     closed_trades:  list[dict] = []
     invalid_trades: list[str]  = []
     skipped_trades: list[str]  = []
+    orders_executed: int = 0   # 成功执行的订单数
+    orders_skipped:  int = 0   # 跳过的订单数（现金不足/持仓已满/价格无效）
 
     equity_curve:   list[float] = []
     spx_curve:      list[float] = []
@@ -805,6 +807,7 @@ def run_stateful_simulation(
                 raw_price = get_exec_price(sym, exec_idx, "high", close_ref)
                 if raw_price <= 0:
                     skipped_trades.append(f"{sym} BUY/ADD: no valid high at idx {exec_idx}")
+                    orders_skipped += 1
                     continue
                 exec_price = raw_price * (1 + one_way)
 
@@ -818,6 +821,7 @@ def run_stateful_simulation(
                     # Guard: max_positions
                     if len(holdings) >= max_pos:
                         skipped_trades.append(f"{sym} BUY: max positions reached")
+                        orders_skipped += 1
                         continue
 
                     target_val = port_val * buy_pct
@@ -831,11 +835,13 @@ def run_stateful_simulation(
                         target_val = cash * 0.99
                     if target_val < 10:
                         skipped_trades.append(f"{sym} BUY: insufficient cash")
+                        orders_skipped += 1
                         continue
 
                     shares = target_val / exec_price
                     cash  -= shares * exec_price
 
+                    orders_executed += 1
                     holdings[sym] = {
                         "shares":                shares,
                         "avg_cost":              exec_price,
@@ -856,6 +862,7 @@ def run_stateful_simulation(
                     # Guard: size_units < 1.5
                     if h["size_units"] >= 1.5:
                         skipped_trades.append(f"{sym} ADD: already at max size 1.5")
+                        orders_skipped += 1
                         continue
 
                     # Guard: position_size <= max_pct after ADD
@@ -870,6 +877,7 @@ def run_stateful_simulation(
                         target_add = cash * 0.99
                     if target_add < 10:
                         skipped_trades.append(f"{sym} ADD: insufficient cash")
+                        orders_skipped += 1
                         continue
 
                     add_shares = target_add / exec_price
@@ -881,12 +889,14 @@ def run_stateful_simulation(
                     h["size_units"]  = min(1.5, h["size_units"] + 0.5)
                     h["action_history"].append("ADD")
                     cash -= target_add
+                    orders_executed += 1
 
             elif action in ("REDUCE", "EXIT") and sym in holdings:
                 h = holdings[sym]
                 raw_price = get_exec_price(sym, exec_idx, "low", close_ref)
                 if raw_price <= 0:
                     skipped_trades.append(f"{sym} {action}: no valid low at idx {exec_idx}")
+                    orders_skipped += 1
                     continue
                 exec_price = raw_price * (1 - one_way)
 
@@ -911,6 +921,7 @@ def run_stateful_simulation(
                     exit_gap  = (h.get("current_close", exec_price) - exec_price) / h.get("current_close", exec_price) if h.get("current_close", exec_price) > 0 else 0
                     max_dd_t  = (h["highest_close"] - h.get("min_close_since_entry", h["avg_cost"])) / h["highest_close"] if h["highest_close"] > 0 else 0
 
+                    orders_executed += 1
                     closed_trades.append({
                         "symbol":               sym,
                         "entry_date":           entry_date,
@@ -940,6 +951,7 @@ def run_stateful_simulation(
                     # size_units > 0.5 才减仓
                     if h["size_units"] <= 0.5:
                         skipped_trades.append(f"{sym} REDUCE: size_units={h['size_units']} already minimum")
+                        orders_skipped += 1
                         continue
                     sell_shares       = h["shares"] / 2
                     proceeds          = sell_shares * exec_price
@@ -947,6 +959,7 @@ def run_stateful_simulation(
                     h["shares"]      -= sell_shares
                     h["size_units"]   = max(0.5, h["size_units"] - 0.5)
                     h["action_history"].append("REDUCE")
+                    orders_executed += 1
 
         # ════════════════════════════════════════════════
         # STEP 2: 用 T 日 close 盯市（mark-to-market）
@@ -1157,7 +1170,7 @@ def run_stateful_simulation(
     logger.info(f"  Layer D v3: {status}")
     logger.info(f"  ${init_cap:,.0f} → ${final_equity:,.2f}  ({total_return:+.2f}%)  SPX: {spx_total:+.2f}%  Alpha: {total_return-spx_total:+.2f}%")
     logger.info(f"  CAGR: {cagr:+.2f}%  MaxDD: {max_dd*100:.2f}%  WinRate: {round(len(wins)/len(rets)*100,1) if rets else 0}%  Trades: {len(closed_trades)}")
-    logger.info(f"  Skipped: {len(skipped_trades)}  Invalid: {len(invalid_trades)}")
+    logger.info(f"  Orders: executed={orders_executed} skipped={orders_skipped} invalid={len(invalid_trades)}")
 
     return {
         "layer":             "D",
@@ -1190,8 +1203,10 @@ def run_stateful_simulation(
         ) if closed_trades else 0,
         # 校验结果
         "p0_passed":         len(invalid_trades) == 0 and reasonable,
-        "invalid_trades_count": len(invalid_trades),
-        "skipped_trades_count": len(skipped_trades),
+        "invalid_trades_count":   len(invalid_trades),
+        "skipped_trades_count":   len(skipped_trades),
+        "pending_orders_executed": orders_executed,
+        "pending_orders_skipped":  orders_skipped,
         # 净值曲线（每5天采样）
         "equity_curve":      [round(e, 2) for e in equity_curve[::5]],
         "spx_curve":         [round(e * init_cap, 2) for e in spx_curve[::5]],
