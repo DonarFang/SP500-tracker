@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-13T06:28:13.198024-04:00",
-  "generated_at_display": "2026年6月13日 06:28 ET",
+  "generated_at": "2026-06-13T06:44:21.478338-04:00",
+  "generated_at_display": "2026年6月13日 06:44 ET",
   "backtest": {
     "overall_status": "PARTIAL",
     "methodology": "Backtest Methodology v1.0",
@@ -9,7 +9,11 @@
       "layer_a": {
         "layer": "A",
         "name": "Leader Engine Validation",
-        "status": "FAIL",
+        "status": "PARTIAL",
+        "a1_top_bucket_edge": "PASS",
+        "a2_full_monotonic": "FAIL",
+        "a_is_best_count": 4,
+        "strict_monotonic_count": 0,
         "monotonic": {
           "fwd5d": false,
           "fwd10d": false,
@@ -168,13 +172,46 @@
             }
           }
         },
+        "bucket_sample_counts": {
+          "A": {
+            "fwd5d": 42,
+            "fwd10d": 42,
+            "fwd20d": 42,
+            "fwd30d": 42
+          },
+          "B": {
+            "fwd5d": 166,
+            "fwd10d": 166,
+            "fwd20d": 166,
+            "fwd30d": 166
+          },
+          "C": {
+            "fwd5d": 353,
+            "fwd10d": 353,
+            "fwd20d": 353,
+            "fwd30d": 353
+          },
+          "D": {
+            "fwd5d": 486,
+            "fwd10d": 486,
+            "fwd20d": 486,
+            "fwd30d": 486
+          },
+          "E": {
+            "fwd5d": 1893,
+            "fwd10d": 1893,
+            "fwd20d": 1893,
+            "fwd30d": 1893
+          }
+        },
         "buckets_defined": {
           "A": "90-100",
           "B": "80-90",
           "C": "70-80",
           "D": "60-70",
           "E": "0-60"
-        }
+        },
+        "interpretation": "A1 PASS: Bucket A 持续领先，Top Leader 识别有效；A2 中低分组区分力待改善"
       },
       "layer_c": {
         "layer": "C",
@@ -186,6 +223,14 @@
           true,
           true
         ],
+        "buy_signal_count": 36,
+        "signal_counts_raw": {
+          "BUY": 36,
+          "ADD": 28,
+          "HOLD": 255,
+          "REDUCE": 0,
+          "EXIT": 2006
+        },
         "signal_summary": {
           "BUY": {
             "fwd5d": {
@@ -377,7 +422,8 @@
             "profit_factor": 3.25,
             "sharpe": 1.5
           }
-        }
+        },
+        "dedup_gap_days": 5
       }
     }
   }
