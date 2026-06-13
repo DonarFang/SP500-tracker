@@ -704,373 +704,415 @@ def run_stateful_simulation(
     dates_map:      dict[str, list[str]],
     spx_prices:     list[float],
     spx_dates:      list[str],
-    assumptions:    dict  = None,   # LAYER_D_ASSUMPTIONS v1.0
+    ohlc_map:       dict[str, dict[str, list[float]]] = None,  # {sym: {high:[], low:[]}}
+    assumptions:    dict  = None,
     step:           int   = 1,
     min_history:    int   = 120,
     market_score_default: float = 60.0,
 ) -> dict:
     """
-    Layer D: Stateful Portfolio Backtest
+    Layer D: Stateful Portfolio Backtest (v2 - corrected)
 
-    每天维护持仓状态，模拟完整交易链条：
-      BUY    → 建仓
-      ADD    → 加仓（增加 0.5 单位，上限 1.5）
-      HOLD   → 继续持有，更新最高价
-      REDUCE → 减仓（卖出一半）
-      EXIT   → 全部平仓
-
-    持仓状态：
-      position_size: 0 = 空仓, 0.5 = 半仓, 1.0 = 满仓, 1.5 = 加仓
-      entry_price, highest_close, holding_days, current_return
-
-    组合：等权重，最多 max_positions 只。
+    正确实现：
+    1. 每日盯市（mark-to-market）维护组合净值
+    2. 现金账户追踪，无隐含杠杆
+    3. 入场/出场使用 T+1 adverse execution
+    4. P0 校验：日期合法性、无杠杆、净值每日更新
     """
-    logger.info("[Backtest Layer D] Stateful Portfolio Backtest...")
+    logger.info("[Backtest Layer D] Stateful Portfolio Backtest (v2)...")
 
-    # ── 加载 high/low 序列（用于 Adverse Execution）────────
-    from ..data_ingestion.fetch_yahoo import get_price_series as _gps
-    highs_map: dict[str, list[float]] = {}
-    lows_map:  dict[str, list[float]] = {}
-    for sym in symbols:
-        _, h = _gps(sym, field="high")
-        _, l = _gps(sym, field="low")
-        if h: highs_map[sym] = h
-        if l: lows_map[sym]  = l
-    spx_highs = highs_map.get("^GSPC") or highs_map.get("_GSPC", spx_prices)
-    spx_lows  = lows_map.get("^GSPC")  or lows_map.get("_GSPC",  spx_prices)
+    # ── 冻结参数 ─────────────────────────────────────────
+    a             = assumptions or LAYER_D_ASSUMPTIONS
+    max_positions = a["max_positions"]           # 10
+    buy_pct       = a["buy_size"] / max_positions  # 10% of portfolio
+    add_pct       = a["add_size"] / max_positions  # 5% of portfolio
+    max_pct       = a["max_single_size"] / max_positions  # 15% of portfolio
+    one_way_cost  = a["total_one_way"]           # 0.001 (cost+slippage)
 
-    # ── 使用冻结参数（v1.0）──────────────────────────────
-    a = assumptions or LAYER_D_ASSUMPTIONS
-    max_positions  = a["max_positions"]
-    buy_size       = a["buy_size"]         # 1.0
-    add_size       = a["add_size"]         # 0.5
-    max_size       = a["max_single_size"]  # 1.5
-    txn_cost       = a["total_round_trip"] # 0.002 (round trip)
-    logger.info(f"  Assumptions v{a.get('version','?')}: MaxPos={max_positions} BuySize={buy_size} TxnCost={txn_cost*100:.2f}%")
+    logger.info(f"  Assumptions v{a.get('version','?')}: "
+                f"MaxPos={max_positions} BuyPct={buy_pct*100:.0f}% "
+                f"AdverseCost={one_way_cost*100:.2f}% one-way")
+
+    # ── 数据准备 ─────────────────────────────────────────
+    # 加载 high/low（Adverse Execution 用）
+    highs: dict[str, list[float]] = {}
+    lows:  dict[str, list[float]] = {}
+    if ohlc_map:
+        highs = {s: ohlc_map[s]["high"] for s in ohlc_map if "high" in ohlc_map[s]}
+        lows  = {s: ohlc_map[s]["low"]  for s in ohlc_map if "low"  in ohlc_map[s]}
+    else:
+        from ..data_ingestion.fetch_yahoo import get_price_series as _gps
+        for sym in symbols:
+            _, h = _gps(sym, field="high")
+            _, l = _gps(sym, field="low")
+            if h: highs[sym] = h
+            if l: lows[sym]  = l
 
     min_len = min(len(p) for p in prices_map.values()) if prices_map else 0
     n_days  = min(min_len, len(spx_prices))
 
-    # 持仓状态字典
-    # {sym: {size, entry_price, entry_date, entry_idx, entry_signal,
-    #        highest_close, holding_days, leader_score_entry}}
-    positions: dict[str, dict] = {}
-    closed_trades: list[dict]  = []
+    # ── 组合状态 ─────────────────────────────────────────
+    initial_capital = float(a.get("initial_capital", 100_000))
+    cash     = initial_capital   # 现金
+    holdings: dict[str, dict] = {}
+    # holdings[sym] = {
+    #   shares, avg_cost, entry_date, entry_idx, entry_signal,
+    #   highest_close, min_close_since_entry, action_history
+    # }
+    closed_trades: list[dict] = []
+    invalid_trades: list[str] = []
+
+    # 每日净值记录
+    daily_records: list[dict] = []
     equity_curve:  list[float] = []
     spx_curve:     list[float] = []
-    daily_log:     list[dict]  = []
-
     spx_entry = spx_prices[min_history] if len(spx_prices) > min_history else 1.0
 
-    for t in range(min_history, n_days - 1):
-        date_str = spx_dates[t] if t < len(spx_dates) else str(t)
+    # ── 日循环 ────────────────────────────────────────────
+    for t in range(min_history, n_days - 2):  # -2 保证 T+1 有数据
+        date_t   = spx_dates[t]   if t   < len(spx_dates) else str(t)
+        date_t1  = spx_dates[t+1] if t+1 < len(spx_dates) else str(t+1)
 
-        # ── 计算所有股票信号 ─────────────────────────
+        # ── 1. 计算所有股票的信号（基于 t 日收盘数据）──────
         all_ret60 = [
             (period_return(prices_map[s][:t+1], 60) or 0.0)
             for s in symbols if s in prices_map and len(prices_map[s]) > t+1
         ]
 
-        day_signals: dict[str, tuple] = {}  # {sym: (action, leader_score, price)}
+        day_signals: dict[str, tuple] = {}   # {sym: (action, leader_score, close_t)}
         for sym in symbols:
-            if sym not in prices_map:
+            if sym not in prices_map or len(prices_map[sym]) <= t:
                 continue
             p = prices_map[sym][:t+1]
             if len(p) < 60:
                 continue
-            curr_price = p[-1]
-            ret60 = period_return(p, 60) or 0.0
-            rs    = rs_percentile(ret60, all_ret60)
-            mom_d = calc_momentum(p)
-            mom   = mom_d["momentum_score"]
-            th_d  = calc_trend_health(p)
-            th    = th_d["trend_health"]
-            ls    = calc_leader_score(rs, mom, th)
+            close_t = p[-1]
+            ret60   = period_return(p, 60) or 0.0
+            rs      = rs_percentile(ret60, all_ret60)
+            mom_d   = calc_momentum(p)
+            mom     = mom_d["momentum_score"]
+            th_d    = calc_trend_health(p)
+            th      = th_d["trend_health"]
+            ls      = calc_leader_score(rs, mom, th)
             from ..features.trend_health import trend_lifecycle
             state   = trend_lifecycle(th, mom, rs)
             ma50s   = moving_average(p, 50)
-            ma50_v  = ma50s[-1] if ma50s else curr_price
+            ma50_v  = ma50s[-1] if ma50s else close_t
             ma50_sl = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0
-            action = trade_action(
-                state, mom, rs, curr_price, ma50_v,
-                ma50_sl, ls, th, market_score_default
-            )
-            day_signals[sym] = (action, ls, curr_price)
+            action  = trade_action(state, mom, rs, close_t, ma50_v, ma50_sl, ls, th, market_score_default)
+            day_signals[sym] = (action, ls, close_t)
 
-        # ── 更新现有持仓 ──────────────────────────────
-        to_close  = []
-        to_reduce = []
-        to_add    = []
+        # ── 2. 更新持仓状态（mark-to-market at close_t）───
+        for sym in list(holdings.keys()):
+            h = holdings[sym]
+            if t < len(prices_map.get(sym, [])):
+                close_t = prices_map[sym][t]
+                h["highest_close"] = max(h["highest_close"], close_t)
+                h["min_close_since_entry"] = min(h.get("min_close_since_entry", close_t), close_t)
+                h["current_close"] = close_t
+            if sym in day_signals:
+                h["action_history"].append(day_signals[sym][0])
 
-        for sym, pos in positions.items():
+        # ── 3. 处理 EXIT / REDUCE（T+1 日最低价执行）──────
+        for sym in list(holdings.keys()):
             if sym not in day_signals:
                 continue
-            action, ls, curr_price = day_signals[sym]
-
-            # size > 0 才是有效持仓，才需要更新状态
-            if pos["size"] <= 0:
-                continue
-
-            pos["holding_days"] += step
-            pos["highest_close"] = max(pos["highest_close"], curr_price)
-            unrealized = (curr_price - pos["avg_cost"]) / pos["avg_cost"] if pos["avg_cost"] > 0 else 0
-            pos["current_return"] = unrealized
-
-            # 记录交易期间每个 Action（交易生命周期追踪）
-            pos["action_history"].append(action)
-
-            # 状态保护：只有 size > 0 才响应信号
-            if action == "EXIT":
-                # size > 0 → 全部平仓
-                to_close.append((sym, "EXIT", curr_price))
-            elif action == "REDUCE":
-                # size > 0 → 减仓（不能低于 0.5，不能凭空开仓）
-                if pos["size"] > 0.5:
-                    to_reduce.append((sym, curr_price))
-                # size == 0.5 时 REDUCE 忽略，维持最小仓位
-            elif action == "ADD":
-                # size > 0 才能加仓（不能在空仓时 ADD）
-                if pos["size"] < 1.5:
-                    to_add.append((sym, curr_price, ls))
-            elif action == "HOLD":
-                # size > 0 → 维持，无需额外操作
-                pass
-            # BUY 时已有持仓 → 忽略（不重复开仓）
-
-        # 执行平仓
-        for sym, exit_sig, exit_price in to_close:
-            pos = positions[sym]
-            # Adverse Execution: 使用 T+1 日最低价卖出
+            action, ls, close_t = day_signals[sym]
+            h = holdings[sym]
             t1 = t + 1
-            if sym in lows_map and t1 < len(lows_map[sym]) and lows_map[sym][t1] > 0:
-                raw_exit = lows_map[sym][t1]  # T+1 最低价
+
+            # 取 T+1 最低价（Adverse: 最差卖出价）
+            if sym in lows and t1 < len(lows[sym]) and lows[sym][t1] > 0:
+                exec_low = lows[sym][t1]
             else:
-                raw_exit = exit_price  # 数据缺失时 fallback 到收盘价
-            effective_exit = raw_exit * (1 - a["total_one_way"])
-            # adverse gap vs 信号日收盘价
-            adverse_exit_gap = (exit_price - effective_exit) / exit_price if exit_price > 0 else 0
-            ret = (effective_exit - pos["avg_cost"]) / pos["avg_cost"] if pos["avg_cost"] > 0 else 0
-            # 持仓期间最大回撤
-            max_dd_trade = (pos["highest_close"] - pos.get("min_close", pos["entry_price"])) / pos["highest_close"] if pos["highest_close"] > 0 else 0
-            sym_dates  = dates_map.get(sym, [])
-            entry_date = sym_dates[pos["entry_idx"]] if pos["entry_idx"] < len(sym_dates) else str(pos["entry_idx"])
-            closed_trades.append({
-                # 基本信息
-                "symbol":               sym,
-                "entry_date":           entry_date,
-                "exit_date":            date_str,
-                "entry_signal":         pos["entry_signal"],
-                "exit_signal":          exit_sig,
-                # 价格（信号日收盘）
-                "entry_price":          round(pos["entry_price"], 2),
-                "exit_price":           round(exit_price, 2),
-                # Adverse Execution 实际成交价
-                "avg_cost":             round(pos["avg_cost"], 2),        # 实际买入均价（含成本）
-                "effective_exit":       round(effective_exit, 2),          # 实际卖出价（含成本）
-                # 收益
-                "return_pct":           round(ret * 100, 2),
-                "max_gain_pct":         round((pos["highest_close"]-pos["avg_cost"])/pos["avg_cost"]*100, 2) if pos["avg_cost"] > 0 else 0,
-                "max_drawdown_in_trade": round(max_dd_trade * 100, 2),
-                # Adverse Gap 分析
-                "execution_model":          "adverse_intraday_v1.0",
-                "entry_adverse_gap_pct":    round(pos.get("adverse_buy_gap", 0) * 100, 3),
-                "exit_adverse_gap_pct":     round(adverse_exit_gap * 100, 3),
-                "total_execution_drag_pct": round((pos.get("adverse_buy_gap", 0) + adverse_exit_gap) * 100, 3),
-                # 时间
-                "holding_days":         pos["holding_days"],
-                # 仓位
-                "size_at_exit":         pos["size"],
-                # 评分
-                "leader_score_entry":   round(pos.get("leader_score_entry", 0), 1),
-                # 完整 Action 链条
-                "actions_during_trade": pos.get("action_history", []),
-                "action_count":         len(pos.get("action_history", [])),
-            })
-            del positions[sym]
+                exec_low = prices_map[sym][t1] if t1 < len(prices_map[sym]) else close_t
+            sell_price = exec_low * (1 - one_way_cost)
 
-        # 执行减仓（只记录，不完全平仓）
-        for sym, curr_price in to_reduce:
-            if sym in positions:
-                positions[sym]["size"] = max(0.5, positions[sym]["size"] - 0.5)
+            if action == "EXIT":
+                # P0 校验：exit_date > entry_date
+                entry_date = h["entry_date"]
+                if date_t1 <= entry_date:
+                    invalid_trades.append(f"{sym}: exit {date_t1} <= entry {entry_date}")
+                    continue
 
-        # 执行加仓（更新均价）
-        for sym, curr_price, ls in to_add:
-            if sym in positions and positions[sym]["size"] > 0:
-                pos = positions[sym]
-                old_size = pos["size"]
-                new_size = min(1.5, old_size + 0.5)
-                # 加权平均更新均价
-                pos["avg_cost"] = (pos["avg_cost"] * old_size + curr_price * 0.5) / new_size
-                pos["size"] = new_size
+                # 计算收益
+                proceeds     = h["shares"] * sell_price
+                cost_basis   = h["shares"] * h["avg_cost"]
+                ret          = (sell_price - h["avg_cost"]) / h["avg_cost"] if h["avg_cost"] > 0 else 0
+                holding_days = (t1 - h["entry_idx"])
 
-        # ── 建仓：BUY 信号（只有 size==0 才新开仓）────────
-        if len(positions) < max_positions:
-            buy_cands = [
-                (sym, ls, price)
-                for sym, (action, ls, price) in day_signals.items()
-                if action == "BUY"
-                and (sym not in positions or positions[sym]["size"] == 0)
-            ]
-            buy_cands.sort(key=lambda x: x[1], reverse=True)
-            for sym, ls, entry_price in buy_cands:
-                if len(positions) >= max_positions:
+                # P0 校验：holding_days > 0
+                if holding_days <= 0:
+                    invalid_trades.append(f"{sym}: holding_days={holding_days}")
+                    continue
+
+                # 归还现金
+                cash += proceeds
+
+                # adverse gap 分析
+                close_ref = h.get("entry_close_ref", h["avg_cost"])
+                entry_gap = (h["avg_cost"] - close_ref) / close_ref if close_ref > 0 else 0
+                exit_gap  = (close_t - sell_price) / close_t if close_t > 0 else 0
+
+                closed_trades.append({
+                    "symbol":               sym,
+                    "entry_date":           entry_date,
+                    "exit_date":            date_t1,
+                    "entry_signal":         h["entry_signal"],
+                    "exit_signal":          "EXIT",
+                    "entry_price":          round(h.get("entry_close_ref", h["avg_cost"]), 2),
+                    "avg_cost":             round(h["avg_cost"], 2),
+                    "exit_price":           round(close_t, 2),
+                    "effective_exit":       round(sell_price, 2),
+                    "return_pct":           round(ret * 100, 2),
+                    "max_gain_pct":         round((h["highest_close"]-h["avg_cost"])/h["avg_cost"]*100, 2) if h["avg_cost"] > 0 else 0,
+                    "max_drawdown_in_trade": round((h["highest_close"]-h.get("min_close_since_entry",h["avg_cost"]))/h["highest_close"]*100, 2) if h["highest_close"] > 0 else 0,
+                    "holding_days":         holding_days,
+                    "size_at_exit":         round(h["shares"] * h["avg_cost"] / initial_capital, 3),
+                    "leader_score_entry":   round(h.get("leader_score_entry", 0), 1),
+                    "actions_during_trade": h["action_history"],
+                    "action_count":         len(h["action_history"]),
+                    "execution_model":      "adverse_intraday_v1.0",
+                    "entry_adverse_gap_pct": round(entry_gap * 100, 3),
+                    "exit_adverse_gap_pct":  round(exit_gap * 100, 3),
+                    "total_execution_drag_pct": round((entry_gap + exit_gap) * 100, 3),
+                })
+                del holdings[sym]
+
+            elif action == "REDUCE":
+                # 减仓一半（只有持仓大于最小值才减）
+                portfolio_val = cash + sum(h2["shares"] * h2.get("current_close", h2["avg_cost"]) for h2 in holdings.values())
+                current_pct   = h["shares"] * sell_price / portfolio_val if portfolio_val > 0 else 0
+                if current_pct > max_pct / 2:
+                    sell_shares = h["shares"] / 2
+                    proceeds    = sell_shares * sell_price
+                    cash       += proceeds
+                    h["shares"] -= sell_shares
+
+        # ── 4. 处理 BUY（T+1 日最高价执行）──────────────
+        n_holdings = len(holdings)
+        if n_holdings < max_positions:
+            buy_cands = sorted(
+                [(sym, ls, close_t) for sym, (action, ls, close_t) in day_signals.items()
+                 if action == "BUY" and sym not in holdings],
+                key=lambda x: x[1], reverse=True
+            )
+            for sym, ls, close_t in buy_cands:
+                if len(holdings) >= max_positions:
                     break
-                sym_dates  = dates_map.get(sym, [])
-                entry_date = sym_dates[t] if t < len(sym_dates) else date_str
-                # Adverse Execution: 使用 T+1 日最高价买入
-                # T+1 = t+1（当前循环 t 是信号日，t+1 是执行日）
-                t1 = t + 1
-                if sym in highs_map and t1 < len(highs_map[sym]) and highs_map[sym][t1] > 0:
-                    raw_buy = highs_map[sym][t1]  # T+1 最高价
-                else:
-                    raw_buy = entry_price  # 数据缺失时 fallback 到收盘价
-                effective_entry = raw_buy * (1 + a["total_one_way"])
-                # 记录 adverse gap（相比信号日收盘价的额外成本）
-                adverse_buy_gap = (effective_entry - entry_price) / entry_price if entry_price > 0 else 0
 
-                positions[sym] = {
-                    "size":            buy_size,
-                    "avg_cost":        effective_entry,
-                    "entry_price":     entry_price,    # 信号日收盘价（用于参考）
-                    "entry_exec_price": effective_entry,  # 实际成交价
-                    "entry_date":      entry_date,
-                    "entry_idx":       t,
-                    "entry_signal":    "BUY",
-                    "highest_close":   entry_price,
-                    "min_close":       entry_price,  # 持仓期间最低价（用于计算最大回撤）
-                    "holding_days":    0,
-                    "current_return":  0.0,
+                # P0 校验：现金是否充足（无隐含杠杆）
+                portfolio_val = cash + sum(
+                    h2["shares"] * h2.get("current_close", h2["avg_cost"])
+                    for h2 in holdings.values()
+                )
+                target_value = portfolio_val * buy_pct
+                if cash < target_value:
+                    # 现金不足，用现有现金的一部分
+                    target_value = cash * 0.9
+                if target_value < 100:
+                    continue  # 资金太少，跳过
+
+                # Adverse: T+1 最高价
+                t1 = t + 1
+                if sym in highs and t1 < len(highs[sym]) and highs[sym][t1] > 0:
+                    exec_high = highs[sym][t1]
+                else:
+                    exec_high = prices_map[sym][t1] if t1 < len(prices_map[sym]) else close_t
+                buy_price = exec_high * (1 + one_way_cost)
+
+                shares = target_value / buy_price if buy_price > 0 else 0
+                if shares <= 0:
+                    continue
+
+                cash -= shares * buy_price
+                sym_dates = dates_map.get(sym, [])
+                entry_date = date_t1  # 入场日期 = T+1（执行日）
+
+                holdings[sym] = {
+                    "shares":            shares,
+                    "avg_cost":          buy_price,
+                    "entry_close_ref":   close_t,  # 信号日收盘（用于 adverse gap 计算）
+                    "entry_date":        entry_date,
+                    "entry_idx":         t + 1,    # 执行日 index
+                    "entry_signal":      "BUY",
+                    "highest_close":     close_t,
+                    "min_close_since_entry": close_t,
+                    "current_close":     close_t,
                     "leader_score_entry": ls,
-                    "action_history":  ["BUY"],      # 完整 Action 链条记录
+                    "action_history":    ["BUY"],
                 }
 
-        # ── 每日净值 ──────────────────────────────────
-        if positions:
-            pos_vals = []
-            for sym, pos in positions.items():
-                curr = prices_map[sym][t] if t < len(prices_map[sym]) else pos["entry_price"]
-                pos_vals.append(curr / pos["entry_price"] * pos["size"])
-            # 加权平均（按 size 归一化）
-            total_size = sum(pos["size"] for pos in positions.values())
-            weighted = sum(
-                (prices_map[sym][t] if t < len(prices_map[sym]) else positions[sym]["entry_price"])
-                / positions[sym]["entry_price"] * positions[sym]["size"]
-                for sym in positions
-            ) / max(total_size, 1)
-            daily_equity = (equity_curve[-1] if equity_curve else 1.0) * (1 + (weighted - 1) * (len(positions) / max_positions))
-        else:
-            daily_equity = equity_curve[-1] if equity_curve else 1.0
+        # ── 5. 每日盯市：计算组合总价值 ──────────────────
+        position_value = sum(
+            h["shares"] * (prices_map[sym][t] if t < len(prices_map.get(sym, [])) else h["avg_cost"])
+            for sym, h in holdings.items()
+        )
+        total_equity = cash + position_value
 
-        equity_curve.append(daily_equity)
+        # P0 校验：无杠杆
+        if position_value > total_equity * 1.01:  # 1% 容差
+            logger.warn(f"  Day {t}: leverage detected! pos={position_value:.0f} equity={total_equity:.0f}")
+
+        equity_curve.append(total_equity)
         spx_curve.append(spx_prices[t] / spx_entry if spx_entry > 0 else 1.0)
 
-        # 每30天记录一次状态
+        # 每30天记录一次
         if t % 30 == 0:
-            daily_log.append({
-                "date":      date_str,
-                "positions": len(positions),
-                "equity":    round(daily_equity, 4),
-                "spx":       round(spx_curve[-1], 4),
+            daily_records.append({
+                "date":           date_t,
+                "cash":           round(cash, 2),
+                "position_value": round(position_value, 2),
+                "total_equity":   round(total_equity, 2),
+                "n_holdings":     len(holdings),
+                "spx_ref":        round(spx_curve[-1], 4),
             })
 
-    # ── 强制平仓剩余持仓 ─────────────────────────────
-    t_last = n_days - 1
-    for sym, pos in list(positions.items()):
-        if pos["size"] <= 0:
+    # ── 强制平仓剩余持仓（模拟结束）─────────────────────
+    t_last = n_days - 2  # -2 保证有 T+1
+    date_end = spx_dates[t_last] if t_last < len(spx_dates) else str(t_last)
+    for sym, h in list(holdings.items()):
+        t1 = t_last + 1
+        if sym in lows and t1 < len(lows[sym]) and lows[sym][t1] > 0:
+            sell_price = lows[sym][t1] * (1 - one_way_cost)
+        else:
+            sell_price = prices_map[sym][t_last] if t_last < len(prices_map[sym]) else h["avg_cost"]
+            sell_price *= (1 - one_way_cost)
+
+        # P0 校验：日期合法性
+        if date_end <= h["entry_date"]:
+            invalid_trades.append(f"{sym}: SIM_END {date_end} <= entry {h['entry_date']}")
+            del holdings[sym]
             continue
-        curr  = prices_map[sym][t_last] if t_last < len(prices_map[sym]) else pos["avg_cost"]
-        ret   = (curr - pos["avg_cost"]) / pos["avg_cost"] if pos["avg_cost"] > 0 else 0
-        sym_d = dates_map.get(sym, [])
-        ed    = sym_d[pos["entry_idx"]] if pos["entry_idx"] < len(sym_d) else str(pos["entry_idx"])
-        xd    = spx_dates[t_last] if t_last < len(spx_dates) else str(t_last)
-        max_dd_trade = (pos["highest_close"] - pos.get("min_close", pos["entry_price"])) / pos["highest_close"] if pos["highest_close"] > 0 else 0
+
+        ret = (sell_price - h["avg_cost"]) / h["avg_cost"] if h["avg_cost"] > 0 else 0
+        proceeds = h["shares"] * sell_price
+        cash += proceeds
+
         closed_trades.append({
-            "symbol":                sym,
-            "entry_date":            ed,
-            "exit_date":             xd,
-            "entry_signal":          pos["entry_signal"],
-            "exit_signal":           "SIM_END",
-            "entry_price":           round(pos["entry_price"], 2),
-            "avg_cost":              round(pos["avg_cost"], 2),
-            "exit_price":            round(curr, 2),
-            "return_pct":            round(ret * 100, 2),
-            "max_gain_pct":          round((pos["highest_close"]-pos["avg_cost"])/pos["avg_cost"]*100, 2) if pos["avg_cost"] > 0 else 0,
-            "max_drawdown_in_trade": round(max_dd_trade * 100, 2),
-            "holding_days":          pos["holding_days"],
-            "size_at_exit":          pos["size"],
-            "leader_score_entry":    round(pos.get("leader_score_entry", 0), 1),
-            "actions_during_trade":  pos.get("action_history", []),
-            "action_count":          len(pos.get("action_history", [])),
+            "symbol":              sym,
+            "entry_date":          h["entry_date"],
+            "exit_date":           date_end,
+            "entry_signal":        h["entry_signal"],
+            "exit_signal":         "SIM_END",
+            "entry_price":         round(h.get("entry_close_ref", h["avg_cost"]), 2),
+            "avg_cost":            round(h["avg_cost"], 2),
+            "exit_price":          round(prices_map[sym][t_last] if t_last < len(prices_map[sym]) else h["avg_cost"], 2),
+            "effective_exit":      round(sell_price, 2),
+            "return_pct":          round(ret * 100, 2),
+            "max_gain_pct":        round((h["highest_close"]-h["avg_cost"])/h["avg_cost"]*100, 2) if h["avg_cost"] > 0 else 0,
+            "max_drawdown_in_trade": round((h["highest_close"]-h.get("min_close_since_entry",h["avg_cost"]))/h["highest_close"]*100, 2) if h["highest_close"] > 0 else 0,
+            "holding_days":        t1 - h["entry_idx"],
+            "size_at_exit":        round(h["shares"] * h["avg_cost"] / initial_capital, 3),
+            "leader_score_entry":  round(h.get("leader_score_entry", 0), 1),
+            "actions_during_trade": h["action_history"],
+            "action_count":        len(h["action_history"]),
+            "execution_model":     "adverse_intraday_v1.0",
         })
+        del holdings[sym]
+
+    # ── P0 校验汇总 ────────────────────────────────────
+    if invalid_trades:
+        logger.warn(f"  ⚠️  P0 校验发现 {len(invalid_trades)} 条无效交易记录：")
+        for msg in invalid_trades[:5]:
+            logger.warn(f"    {msg}")
+        if len(invalid_trades) > len(closed_trades) * 0.1:
+            logger.error("  ❌ 无效交易超过10%，Layer D 结果不可信")
+            return {
+                "layer": "D", "name": "Stateful Portfolio Backtest",
+                "status": "INVALID",
+                "reason": f"P0 validation failed: {len(invalid_trades)} invalid trades",
+                "invalid_trades": invalid_trades[:10],
+                "trades": [],
+            }
 
     if not closed_trades:
         return {"layer":"D","name":"Stateful Portfolio Backtest","status":"NO_TRADES","trades":[]}
 
     # ── 统计 ──────────────────────────────────────────
+    final_equity = equity_curve[-1] if equity_curve else initial_capital
+    total_return = (final_equity - initial_capital) / initial_capital * 100
+    years = (n_days - min_history) / 252
+    cagr  = ((final_equity / initial_capital) ** (1/years) - 1) * 100 if years > 0 else 0
+
+    # Max Drawdown（基于每日盯市净值）
+    peak = equity_curve[0] if equity_curve else initial_capital
+    max_dd = 0.0
+    for e in equity_curve:
+        peak  = max(peak, e)
+        dd    = (peak - e) / peak if peak > 0 else 0
+        max_dd = max(max_dd, dd)
+
     rets   = [t["return_pct"] for t in closed_trades]
     wins   = [r for r in rets if r > 0]
     losses = [r for r in rets if r <= 0]
     holds  = [t["holding_days"] for t in closed_trades]
-
-    total_days  = n_days - min_history
-    exposure_pct = round(
-        sum(h for h in holds) / (max_positions * max(total_days, 1)) * 100, 1
-    )
-
-    final_equity = equity_curve[-1] if equity_curve else 1.0
-    years = total_days / 252
-    cagr  = round((final_equity**(1/years)-1)*100, 2) if years > 0 else 0
-
-    peak = 1.0; max_dd = 0.0
-    for e in equity_curve:
-        peak  = max(peak, e)
-        max_dd = max(max_dd, (peak-e)/peak)
+    pf     = round(abs(sum(wins)) / abs(sum(losses)), 2) if losses and sum(losses) != 0 else 0
+    avg_h  = sum(holds) / len(holds) if holds else 1
+    avg_r  = sum(rets) / len(rets)
+    std_r  = math.sqrt(sum((r-avg_r)**2 for r in rets)/len(rets)) if len(rets)>1 else 0
+    sharpe = round(avg_r / std_r * math.sqrt(252/max(avg_h,1)), 2) if std_r > 0 else 0
 
     spx_total = round((spx_curve[-1]-1)*100, 2) if spx_curve else 0
     spx_cagr  = round((spx_curve[-1]**(1/years)-1)*100, 2) if years > 0 and spx_curve else 0
-    pf   = round(abs(sum(wins))/abs(sum(losses)), 2) if losses and sum(losses)!=0 else 0
-    avg_h = sum(holds)/len(holds) if holds else 1
-    avg_r = sum(rets)/len(rets)
-    std_r = math.sqrt(sum((r-avg_r)**2 for r in rets)/len(rets)) if len(rets)>1 else 0
-    sharpe = round(avg_r/std_r*math.sqrt(252/max(avg_h,1)), 2) if std_r>0 else 0
-    total_ret = round((final_equity-1)*100, 2)
 
-    status = "PASS"    if total_ret > spx_total and pf > 1.2 and len(closed_trades)>=10 else              "PARTIAL" if total_ret > 0 else "FAIL"
+    total_days = n_days - min_history
+    exposure   = round(sum(holds) / (max_positions * max(total_days, 1)) * 100, 1)
 
-    logger.info(f"  Layer D: {status}")
-    logger.info(f"  Return: {total_ret:+.1f}% vs SPX {spx_total:+.1f}%  Alpha: {total_ret-spx_total:+.1f}%")
-    logger.info(f"  CAGR: {cagr:+.1f}%  MaxDD: {max_dd*100:.1f}%  WinRate: {round(len(wins)/len(rets)*100,1) if rets else 0}%  Trades: {len(closed_trades)}")
+    # P0 校验：收益是否在合理范围
+    reasonable = abs(total_return) < 50000  # 超过50000%就有问题
+    status = "INVALID" if not reasonable or len(invalid_trades) > 0 else \
+             "PASS"    if total_return > spx_total and pf > 1.2 and len(closed_trades) >= 5 else \
+             "PARTIAL" if total_return > 0 else "FAIL"
+
+    logger.info(f"  Layer D v2: {status}")
+    logger.info(f"  Capital: ${initial_capital:,.0f} → ${final_equity:,.0f}")
+    logger.info(f"  Total Return: {total_return:+.2f}%  SPX: {spx_total:+.2f}%  Alpha: {total_return-spx_total:+.2f}%")
+    logger.info(f"  CAGR: {cagr:+.2f}%  MaxDD: {max_dd*100:.2f}%  WinRate: {round(len(wins)/len(rets)*100,1) if rets else 0}%")
+    logger.info(f"  Trades: {len(closed_trades)}  AvgHold: {avg_h:.1f}d  Invalid: {len(invalid_trades)}")
 
     return {
         "layer":             "D",
         "name":              "Stateful Portfolio Backtest",
         "status":            status,
         "execution_model":   a.get("execution_model", "adverse_intraday"),
-        "execution_version": a.get("version", "1.0"),
-        "total_return_pct":  total_ret,
-        "cagr_pct":          cagr,
-        "max_drawdown_pct":  round(max_dd*100, 2),
+        "version":           a.get("version", "1.0"),
+        # 核心指标
+        "initial_capital":   initial_capital,
+        "final_equity":      round(final_equity, 2),
+        "total_return_pct":  round(total_return, 2),
+        "cagr_pct":          round(cagr, 2),
+        "max_drawdown_pct":  round(max_dd * 100, 2),
         "win_rate_pct":      round(len(wins)/len(rets)*100, 1) if rets else 0,
         "profit_factor":     pf,
         "sharpe_ratio":      sharpe,
         "number_of_trades":  len(closed_trades),
-        "avg_holding_days":  round(sum(holds)/len(holds), 1) if holds else 0,
+        "avg_holding_days":  round(avg_h, 1),
         "avg_winner_pct":    round(sum(wins)/len(wins), 2)   if wins   else 0,
         "avg_loser_pct":     round(sum(losses)/len(losses),2) if losses else 0,
-        "exposure_pct":      exposure_pct,
-        "avg_position_size": round(1/max_positions*100, 1),
+        "exposure_pct":      exposure,
+        # SPX 基准
         "spx_total_return_pct": spx_total,
         "spx_cagr_pct":         spx_cagr,
-        "alpha_pct":         round(total_ret - spx_total, 2),
+        "alpha_pct":         round(total_return - spx_total, 2),
+        # 执行损耗
         "avg_execution_drag_pct": round(
             sum(t.get("total_execution_drag_pct", 0) for t in closed_trades) / len(closed_trades), 3
         ) if closed_trades else 0,
-        "equity_curve":      [round(e,4) for e in equity_curve[::5]],
-        "spx_curve":         [round(e,4) for e in spx_curve[::5]],
-        "daily_log":         daily_log,
-        "trades":            closed_trades[-100:],
+        # P0 校验
+        "invalid_trades_count": len(invalid_trades),
+        "p0_passed":         len(invalid_trades) == 0 and reasonable,
+        # 净值曲线
+        "equity_curve":      [round(e, 2) for e in equity_curve[::5]],
+        "spx_curve":         [round(e*initial_capital, 2) for e in spx_curve[::5]],
+        "daily_records":     daily_records,
+        # 交易记录
+        "trades":            closed_trades,
         "total_trades_all":  len(closed_trades),
+        "invalid_trades":    invalid_trades[:20],
     }
+
+
 
 
 # ══════════════════════════════════════════════════════════════════
