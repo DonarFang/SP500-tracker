@@ -1,0 +1,39 @@
+name: 运行回测验证
+
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: '包含 Layer B（较慢，约30分钟）'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: 运行回测
+        run: |
+          if [ "${{ github.event.inputs.full }}" = "true" ]; then
+            python run_backtest.py --full
+          else
+            python run_backtest.py
+          fi
+      - name: 提交回测结果
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f exports/backtest.json
+          git diff --cached --quiet && echo "无变化" || (
+            git commit -m "📊 回测结果：$(TZ='America/New_York' date '+%Y-%m-%d %H:%M ET')"
+            git push
+          )
