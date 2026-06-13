@@ -169,6 +169,9 @@ if __name__ == "__main__":
 
         elif layer_key == "layer_d":
             d = layer_data
+            sv = d.get("sample_validity", {})
+            print(f"  Sample Validity: {'✅ VALID' if sv.get('is_valid') else '⚠️  INSUFFICIENT'}")
+            print(f"    sim_days={sv.get('simulation_days','?')}  trades={sv.get('total_trades','?')}  sim_end={sv.get('sim_end_trades','?')}({sv.get('sim_end_ratio_pct','?')}%)")
             print(f"  Total Return:   {d.get('total_return_pct',0):+.2f}%  vs SPX {d.get('spx_total_return_pct',0):+.2f}%  Alpha: {d.get('alpha_pct',0):+.2f}%")
             print(f"  CAGR:           {d.get('cagr_pct',0):+.2f}%  vs SPX CAGR {d.get('spx_cagr_pct',0):+.2f}%")
             print(f"  Max Drawdown:   {d.get('max_drawdown_pct',0):.1f}%")
@@ -177,10 +180,15 @@ if __name__ == "__main__":
             print(f"  Sharpe Ratio:   {d.get('sharpe_ratio',0):.2f}")
             print(f"  Trades:         {d.get('number_of_trades',0)}  (Avg Hold: {d.get('avg_holding_days',0):.1f}天)")
             print(f"  Orders:         Executed={d.get('pending_orders_executed',0)}  Skipped={d.get('pending_orders_skipped',0)}  Invalid={d.get('invalid_trades_count',0)}")
+            skip = d.get("skipped_orders_by_reason", {})
+            if skip:
+                print(f"  Skip reasons:   ", end="")
+                print("  ".join(f"{k}={v}" for k,v in skip.items() if v > 0))
             print(f"  Avg Winner:     {d.get('avg_winner_pct',0):+.2f}%  Avg Loser: {d.get('avg_loser_pct',0):+.2f}%")
-            print(f"  Exposure:       {d.get('exposure_pct',0):.1f}%  (Max Pos: {d.get('avg_position_size',0):.1f}% each)")
+            print(f"  Exposure:       {d.get('exposure_pct',0):.1f}%")
             print(f"\n  交易记录（最近10笔）:")
-            print(f"  {'Symbol':<8} {'Entry':>12} {'Exit':>12} {'Entry Sig':>10} {'Exit Sig':>10} {'Days':>5} {'Return':>8}")
-            print(f"  {'-'*70}")
+            print(f"  {'Symbol':<8} {'Entry':>12} {'Exit':>12} {'EntryS':>8} {'ExitS':>10} {'Days':>5} {'Return':>8} {'SIM?':>5}")
+            print(f"  {'-'*75}")
             for t in d.get("trades",[])[-10:]:
-                print(f"  {t['symbol']:<8} {t['entry_date']:>12} {t['exit_date']:>12} {t['entry_signal']:>10} {t['exit_signal']:>10} {t['holding_days']:>5} {t['return_pct']:>+7.2f}%")
+                sim_tag = "SIM" if t.get("is_sim_end") else ""
+                print(f"  {t['symbol']:<8} {t['entry_date']:>12} {t['exit_date']:>12} {t['entry_signal']:>8} {t['exit_signal']:>10} {t['holding_days']:>5} {t['return_pct']:>+7.2f}% {sim_tag:>5}")

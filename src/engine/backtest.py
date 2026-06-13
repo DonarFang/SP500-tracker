@@ -141,8 +141,8 @@ def run_leader_engine_validation(
     results = {b: {d: [] for d in forward_days} for b in buckets}
 
     # 获取最短价格序列长度
-    min_len = min(len(p) for p in prices_map.values()) if prices_map else 0
-    n_days = min(min_len, len(spx_prices))
+    # 用 SPX 长度作为时间轴，避免被个股短数据截断
+    n_days = len(spx_prices)
 
     processed = 0
     for t in range(min_history, n_days - max(forward_days), step):
@@ -285,8 +285,8 @@ def run_trade_rule_validation(
     signal_counts = {"BUY": 0, "ADD": 0, "HOLD": 0, "REDUCE": 0, "EXIT": 0}
     dedup_gap = 5  # 同一股票同一信号至少间隔5天才重新计入
 
-    min_len = min(len(p) for p in prices_map.values()) if prices_map else 0
-    n_days = min(min_len, len(spx_prices))
+    # 用 SPX 长度作为时间轴，避免被个股短数据截断
+    n_days = len(spx_prices)
     processed = 0
 
     for t in range(min_history, n_days - max(forward_days), step):
@@ -433,8 +433,8 @@ def run_promotion_engine_validation(
     threshold_results = {t: {"promoted": 0, "total": 0} for t in promotion_thresholds}
     all_ret60 = []
 
-    min_len = min(len(p) for p in prices_map.values()) if prices_map else 0
-    n_days = min(min_len, len(spx_prices))
+    # 用 SPX 长度作为时间轴，避免被个股短数据截断
+    n_days = len(spx_prices)
     processed = 0
 
     for t in range(min_history, n_days - max(track_days), step):
@@ -564,8 +564,12 @@ def run_action_forward_validation(
     }
     spx_returns = {d: [] for d in forward_days}
 
-    min_len = min(len(p) for p in prices_map.values()) if prices_map else 0
-    n_days  = min(min_len, len(spx_prices))
+    # 用 SPX 长度作为时间轴基准（不被个股短数据截断）
+    # 个股在信号计算时独立检查是否有足够历史
+    n_days = len(spx_prices)
+    logger.info(f"  回测时间轴：{n_days} bars（基于 SPX）")
+    if spx_dates:
+        logger.info(f"  回测期间：{spx_dates[min_history] if len(spx_dates)>min_history else '?'} → {spx_dates[-1]}")
 
     # 去重：同一股票同一信号至少间隔 5 天
     last_action_day: dict[str, int] = {}
@@ -711,144 +715,176 @@ def run_stateful_simulation(
     market_score_default: float = 60.0,
 ) -> dict:
     """
-    Layer D v3: Stateful Portfolio Backtest
+    Layer D v4: Stateful Portfolio Backtest
 
-    修正项（相比 v2）：
-    1. pending_orders 机制：信号在 T 日收盘后生成，T+1 日执行
-    2. ADD 逻辑完整实现（size_units 状态机）
-    3. 强制平仓后用 cash 更新 final_equity
-    4. size_units 显式追踪（1.0/1.5/0.5）
-
-    Adverse Execution（冻结）：
-      BUY/ADD  → T+1 high × (1 + cost)
-      REDUCE/EXIT → T+1 low × (1 - cost)
-      HOLD → mark-to-market at T close，无交易
+    修正项（相比 v3）：
+    1. SPX master calendar — 时间轴以 SPX dates 为准
+    2. Date-based alignment — 所有股票按日期查找，不用 index 直接对齐
+    3. skipped_orders_by_reason — 跳过原因分类统计
+    4. sample_validity 检查 — 样本不足时返回 INSUFFICIENT_SAMPLE
     """
-    logger.info("[Backtest Layer D v3] Stateful Portfolio Backtest...")
+    logger.info("[Backtest Layer D v4] Stateful Portfolio Backtest...")
 
     # ── 冻结参数 ─────────────────────────────────────────
-    a             = assumptions or LAYER_D_ASSUMPTIONS
-    max_pos       = a["max_positions"]            # 10
-    buy_pct       = a["buy_size"]  / max_pos      # 10% of portfolio per slot
-    add_pct       = a["add_size"]  / max_pos      # 5% of portfolio per slot
-    max_pct       = a["max_single_size"] / max_pos # 15% of portfolio
-    one_way       = a["total_one_way"]             # 0.001
-    init_cap      = float(a.get("initial_capital", 100_000))
+    a        = assumptions or LAYER_D_ASSUMPTIONS
+    max_pos  = a["max_positions"]
+    buy_pct  = a["buy_size"]  / max_pos      # 10% per slot
+    add_pct  = a["add_size"]  / max_pos      # 5% per slot
+    max_pct  = a["max_single_size"] / max_pos # 15% per slot
+    one_way  = a["total_one_way"]             # 0.001
+    init_cap = float(a.get("initial_capital", 100_000))
 
     logger.info(f"  v{a.get('version','?')} | MaxPos={max_pos} "
-                f"BuySlot={buy_pct*100:.0f}% AddSlot={add_pct*100:.0f}% "
-                f"MaxSlot={max_pct*100:.0f}% Cost={one_way*100:.2f}%/way")
+                f"BuySlot={buy_pct*100:.0f}% OneWay={one_way*100:.2f}%")
 
-    # ── high/low 加载 ─────────────────────────────────────
+    # ── 修正1: SPX master calendar ────────────────────────
+    # 时间轴以 SPX dates 为准，不受个股短数据影响
+    master_dates = spx_dates
+    n_days       = len(spx_prices)
+    logger.info(f"  时间轴: {master_dates[0] if master_dates else '?'} → {master_dates[-1] if master_dates else '?'} ({n_days} bars)")
+
+    # ── 修正2: Date-based lookup 索引 ─────────────────────
+    # 为每只股票建立 date→index 映射，按日期对齐而非 array index
+    date_idx: dict[str, dict[str, int]] = {}  # {sym: {date: idx}}
+    for sym in symbols:
+        sym_dates = dates_map.get(sym, [])
+        date_idx[sym] = {d: i for i, d in enumerate(sym_dates)}
+
+    # high/low 加载
     highs: dict[str, list[float]] = {}
     lows:  dict[str, list[float]] = {}
+    highs_dates: dict[str, dict[str, int]] = {}
+    lows_dates:  dict[str, dict[str, int]] = {}
+
     if ohlc_map:
         highs = {s: ohlc_map[s].get("high", []) for s in ohlc_map}
         lows  = {s: ohlc_map[s].get("low",  []) for s in ohlc_map}
     else:
         from ..data_ingestion.fetch_yahoo import get_price_series as _gps
         for sym in symbols:
-            _, h = _gps(sym, field="high")
-            _, l = _gps(sym, field="low")
-            if h: highs[sym] = h
-            if l: lows[sym]  = l
+            hd, h = _gps(sym, field="high")
+            ld, l = _gps(sym, field="low")
+            if h:
+                highs[sym]       = h
+                highs_dates[sym] = {d: i for i, d in enumerate(hd)}
+            if l:
+                lows[sym]        = l
+                lows_dates[sym]  = {d: i for i, d in enumerate(ld)}
 
-    min_len = min(len(p) for p in prices_map.values()) if prices_map else 0
-    n_days  = min(min_len, len(spx_prices))
+    def get_price_by_date(sym: str, date: str, field: str = "close") -> float:
+        """按日期安全获取价格，不存在返回0。"""
+        if field == "high":
+            idx_map = highs_dates.get(sym, {})
+            data    = highs.get(sym, [])
+        elif field == "low":
+            idx_map = lows_dates.get(sym, {})
+            data    = lows.get(sym, [])
+        else:
+            idx_map = date_idx.get(sym, {})
+            data    = prices_map.get(sym, [])
+        i = idx_map.get(date, -1)
+        if i < 0 or i >= len(data):
+            return 0.0
+        return data[i]
+
+    def get_close_series_by_date(sym: str, up_to_date: str) -> list[float]:
+        """获取某只股票截止 up_to_date 的历史收盘价序列（无前视）。"""
+        idx_map  = date_idx.get(sym, {})
+        data     = prices_map.get(sym, [])
+        end_idx  = idx_map.get(up_to_date, -1)
+        if end_idx < 0:
+            # 找最近的日期
+            dates_sorted = sorted(d for d in idx_map if d <= up_to_date)
+            if not dates_sorted:
+                return []
+            end_idx = idx_map[dates_sorted[-1]]
+        return data[:end_idx+1]
 
     # ── 组合状态 ─────────────────────────────────────────
-    cash           = init_cap
-    # holdings[sym] = {
-    #   shares, avg_cost, size_units,       ← 显式 1.0/1.5/0.5
-    #   entry_date, entry_idx, entry_signal,
-    #   entry_close_ref, highest_close, min_close_since_entry,
-    #   current_close, leader_score_entry, action_history
-    # }
+    cash            = init_cap
     holdings: dict[str, dict] = {}
-    pending_orders: list[dict] = []   # [{sym, action, signal_date_idx, ls, close_t}]
+    pending_orders: list[dict] = []
     closed_trades:  list[dict] = []
     invalid_trades: list[str]  = []
-    skipped_trades: list[str]  = []
-    orders_executed: int = 0   # 成功执行的订单数
-    orders_skipped:  int = 0   # 跳过的订单数（现金不足/持仓已满/价格无效）
 
-    equity_curve:   list[float] = []
-    spx_curve:      list[float] = []
-    daily_records:  list[dict]  = []
+    # 修正3: skipped_orders_by_reason
+    skip_reasons = {
+        "max_positions_reached":    0,
+        "cash_insufficient":        0,
+        "already_holding":          0,
+        "max_single_size_reached":  0,
+        "no_t1_price":              0,
+        "invalid_execution_price":  0,
+        "size_at_minimum":          0,
+        "not_holding":              0,
+    }
+    orders_executed = 0
+
+    equity_curve:  list[float] = []
+    spx_curve:     list[float] = []
+    daily_records: list[dict]  = []
     spx_entry = spx_prices[min_history] if len(spx_prices) > min_history else 1.0
 
-    # ── 日循环 ────────────────────────────────────────────
+    # ── 日循环（以 SPX master calendar 为准）────────────
     for t in range(min_history, n_days - 2):
-        date_t  = spx_dates[t]   if t   < len(spx_dates) else str(t)
-        date_t1 = spx_dates[t+1] if t+1 < len(spx_dates) else str(t+1)
+        date_t  = master_dates[t]   if t   < len(master_dates) else None
+        date_t1 = master_dates[t+1] if t+1 < len(master_dates) else None
+        if not date_t or not date_t1:
+            continue
 
         # ════════════════════════════════════════════════
-        # STEP 1: 执行昨日 pending orders（T-1 信号 → T 日执行）
-        # 注意：第一次迭代时 pending_orders 为空
+        # STEP 1: 执行前一日 pending orders（T-1信号 → T日执行）
         # ════════════════════════════════════════════════
         for order in pending_orders:
-            sym      = order["sym"]
-            action   = order["action"]
-            sig_idx  = order["signal_date_idx"]   # 信号日 index
-            ls       = order["ls"]
-            close_ref= order["close_t"]            # 信号日收盘（参考价）
-            exec_idx = sig_idx + 1                 # 执行日 = 信号日 + 1 = t
-
-            # Guard: execution_price > 0
-            def get_exec_price(sym, idx, field, fallback):
-                src = highs if field == "high" else lows
-                if sym in src and idx < len(src[sym]) and src[sym][idx] > 0:
-                    return src[sym][idx]
-                if sym in prices_map and idx < len(prices_map[sym]):
-                    return prices_map[sym][idx]
-                return fallback
+            sym       = order["sym"]
+            action    = order["action"]
+            sig_date  = order["signal_date"]   # 信号日期
+            exec_date = date_t                 # 执行日期 = 今天
+            ls        = order["ls"]
+            close_ref = order["close_t"]       # 信号日收盘（参考价）
 
             if action in ("BUY", "ADD"):
-                raw_price = get_exec_price(sym, exec_idx, "high", close_ref)
-                if raw_price <= 0:
-                    skipped_trades.append(f"{sym} BUY/ADD: no valid high at idx {exec_idx}")
-                    orders_skipped += 1
+                # Adverse: 执行日最高价买入
+                raw = get_price_by_date(sym, exec_date, "high")
+                if raw <= 0:
+                    raw = get_price_by_date(sym, exec_date, "close")
+                if raw <= 0:
+                    skip_reasons["no_t1_price"] += 1
                     continue
-                exec_price = raw_price * (1 + one_way)
+                exec_price = raw * (1 + one_way)
 
-                # 计算当前组合价值（用于仓位控制）
                 port_val = cash + sum(
                     h["shares"] * h.get("current_close", h["avg_cost"])
                     for h in holdings.values()
                 )
 
-                if action == "BUY" and sym not in holdings:
-                    # Guard: max_positions
+                if action == "BUY":
+                    if sym in holdings:
+                        skip_reasons["already_holding"] += 1
+                        continue
                     if len(holdings) >= max_pos:
-                        skipped_trades.append(f"{sym} BUY: max positions reached")
-                        orders_skipped += 1
+                        skip_reasons["max_positions_reached"] += 1
                         continue
+                    target = port_val * buy_pct
+                    if port_val > 0 and target / port_val > max_pct:
+                        target = port_val * max_pct
+                        skip_reasons["max_single_size_reached"] += 1
+                    if target > cash:
+                        if cash * 0.99 < 10:
+                            skip_reasons["cash_insufficient"] += 1
+                            continue
+                        target = cash * 0.99
 
-                    target_val = port_val * buy_pct
-
-                    # Guard: position_size <= max_pct
-                    if port_val > 0 and target_val / port_val > max_pct:
-                        target_val = port_val * max_pct
-
-                    # Guard: cash >= 0
-                    if target_val > cash:
-                        target_val = cash * 0.99
-                    if target_val < 10:
-                        skipped_trades.append(f"{sym} BUY: insufficient cash")
-                        orders_skipped += 1
-                        continue
-
-                    shares = target_val / exec_price
+                    shares = target / exec_price
                     cash  -= shares * exec_price
-
                     orders_executed += 1
                     holdings[sym] = {
                         "shares":                shares,
                         "avg_cost":              exec_price,
-                        "size_units":            1.0,      # BUY = full slot
+                        "size_units":            1.0,
                         "entry_close_ref":       close_ref,
-                        "entry_date":            date_t,   # 执行日
-                        "entry_idx":             exec_idx,
+                        "entry_date":            exec_date,
+                        "entry_sig_date":        sig_date,
                         "entry_signal":          "BUY",
                         "highest_close":         close_ref,
                         "min_close_since_entry": close_ref,
@@ -857,75 +893,72 @@ def run_stateful_simulation(
                         "action_history":        ["BUY"],
                     }
 
-                elif action == "ADD" and sym in holdings:
-                    h = holdings[sym]
-                    # Guard: size_units < 1.5
-                    if h["size_units"] >= 1.5:
-                        skipped_trades.append(f"{sym} ADD: already at max size 1.5")
-                        orders_skipped += 1
+                elif action == "ADD":
+                    if sym not in holdings:
+                        skip_reasons["not_holding"] += 1
                         continue
-
-                    # Guard: position_size <= max_pct after ADD
+                    h = holdings[sym]
+                    if h["size_units"] >= 1.5:
+                        skip_reasons["max_single_size_reached"] += 1
+                        continue
                     current_val = h["shares"] * exec_price
                     target_add  = port_val * add_pct
                     new_total   = current_val + target_add
                     if port_val > 0 and new_total / port_val > max_pct:
                         target_add = max(0, port_val * max_pct - current_val)
-
-                    # Guard: cash >= 0
                     if target_add > cash:
+                        if cash * 0.99 < 10:
+                            skip_reasons["cash_insufficient"] += 1
+                            continue
                         target_add = cash * 0.99
-                    if target_add < 10:
-                        skipped_trades.append(f"{sym} ADD: insufficient cash")
-                        orders_skipped += 1
-                        continue
-
-                    add_shares = target_add / exec_price
-                    old_cost   = h["avg_cost"]
-                    old_shares = h["shares"]
-                    # 更新加权均价
-                    h["avg_cost"]    = (old_shares * old_cost + add_shares * exec_price) / (old_shares + add_shares)
-                    h["shares"]     += add_shares
-                    h["size_units"]  = min(1.5, h["size_units"] + 0.5)
+                    add_shares   = target_add / exec_price
+                    old_c, old_s = h["avg_cost"], h["shares"]
+                    h["avg_cost"]   = (old_s * old_c + add_shares * exec_price) / (old_s + add_shares)
+                    h["shares"]    += add_shares
+                    h["size_units"] = min(1.5, h["size_units"] + 0.5)
                     h["action_history"].append("ADD")
                     cash -= target_add
                     orders_executed += 1
 
-            elif action in ("REDUCE", "EXIT") and sym in holdings:
+            elif action in ("REDUCE", "EXIT"):
+                if sym not in holdings:
+                    skip_reasons["not_holding"] += 1
+                    continue
                 h = holdings[sym]
-                raw_price = get_exec_price(sym, exec_idx, "low", close_ref)
-                if raw_price <= 0:
-                    skipped_trades.append(f"{sym} {action}: no valid low at idx {exec_idx}")
-                    orders_skipped += 1
+                raw = get_price_by_date(sym, exec_date, "low")
+                if raw <= 0:
+                    raw = get_price_by_date(sym, exec_date, "close")
+                if raw <= 0:
+                    skip_reasons["no_t1_price"] += 1
                     continue
-                exec_price = raw_price * (1 - one_way)
+                exec_price = raw * (1 - one_way)
+                if exec_price <= 0:
+                    skip_reasons["invalid_execution_price"] += 1
+                    continue
 
-                entry_date = h["entry_date"]
+                entry_date   = h["entry_date"]
+                holding_days = sum(
+                    1 for d in master_dates
+                    if entry_date <= d <= exec_date
+                )
+
                 # P0: exit_date > entry_date
-                if date_t <= entry_date:
-                    invalid_trades.append(f"{sym}: exec {date_t} <= entry {entry_date}")
-                    continue
-                # P0: holding_days > 0
-                holding_days = exec_idx - h["entry_idx"]
-                if holding_days <= 0:
-                    invalid_trades.append(f"{sym}: holding_days={holding_days}")
+                if exec_date <= entry_date or holding_days <= 0:
+                    invalid_trades.append(f"{sym}: exec {exec_date} <= entry {entry_date}")
                     continue
 
                 if action == "EXIT":
                     proceeds = h["shares"] * exec_price
                     ret      = (exec_price - h["avg_cost"]) / h["avg_cost"] if h["avg_cost"] > 0 else 0
                     cash    += proceeds
-
-                    # adverse gap
                     entry_gap = (h["avg_cost"] - h["entry_close_ref"]) / h["entry_close_ref"] if h["entry_close_ref"] > 0 else 0
-                    exit_gap  = (h.get("current_close", exec_price) - exec_price) / h.get("current_close", exec_price) if h.get("current_close", exec_price) > 0 else 0
+                    exit_gap  = (h.get("current_close", exec_price) - exec_price) / max(h.get("current_close", exec_price), 0.01)
                     max_dd_t  = (h["highest_close"] - h.get("min_close_since_entry", h["avg_cost"])) / h["highest_close"] if h["highest_close"] > 0 else 0
-
                     orders_executed += 1
                     closed_trades.append({
                         "symbol":               sym,
                         "entry_date":           entry_date,
-                        "exit_date":            date_t,
+                        "exit_date":            exec_date,
                         "entry_signal":         h["entry_signal"],
                         "exit_signal":          "EXIT",
                         "entry_price":          round(h["entry_close_ref"], 2),
@@ -944,30 +977,28 @@ def run_stateful_simulation(
                         "entry_adverse_gap_pct": round(entry_gap * 100, 3),
                         "exit_adverse_gap_pct":  round(exit_gap * 100, 3),
                         "total_execution_drag_pct": round((entry_gap + exit_gap) * 100, 3),
+                        "is_sim_end":           False,
                     })
                     del holdings[sym]
 
                 elif action == "REDUCE":
-                    # size_units > 0.5 才减仓
                     if h["size_units"] <= 0.5:
-                        skipped_trades.append(f"{sym} REDUCE: size_units={h['size_units']} already minimum")
-                        orders_skipped += 1
+                        skip_reasons["size_at_minimum"] += 1
                         continue
-                    sell_shares       = h["shares"] / 2
-                    proceeds          = sell_shares * exec_price
-                    cash             += proceeds
-                    h["shares"]      -= sell_shares
-                    h["size_units"]   = max(0.5, h["size_units"] - 0.5)
+                    sell_shares      = h["shares"] / 2
+                    cash            += sell_shares * exec_price
+                    h["shares"]     -= sell_shares
+                    h["size_units"]  = max(0.5, h["size_units"] - 0.5)
                     h["action_history"].append("REDUCE")
                     orders_executed += 1
 
         # ════════════════════════════════════════════════
-        # STEP 2: 用 T 日 close 盯市（mark-to-market）
+        # STEP 2: T 日盯市（mark-to-market at T close）
         # ════════════════════════════════════════════════
         position_value = 0.0
         for sym, h in holdings.items():
-            if t < len(prices_map.get(sym, [])):
-                close_t = prices_map[sym][t]
+            close_t = get_price_by_date(sym, date_t, "close")
+            if close_t > 0:
                 h["current_close"]         = close_t
                 h["highest_close"]         = max(h["highest_close"], close_t)
                 h["min_close_since_entry"] = min(h.get("min_close_since_entry", close_t), close_t)
@@ -977,31 +1008,30 @@ def run_stateful_simulation(
 
         total_equity = cash + position_value
 
-        # P0: cash >= 0
+        # P0 guards
         if cash < -1.0:
-            logger.warn(f"  Day {t} ({date_t}): negative cash={cash:.2f}, forcing to 0")
+            logger.warn(f"  {date_t}: negative cash={cash:.2f}")
             cash = 0.0
-
-        # P0: no leverage
         if position_value > total_equity * 1.02:
-            logger.warn(f"  Day {t}: leverage! pos={position_value:.0f} equity={total_equity:.0f}")
+            logger.warn(f"  {date_t}: leverage detected")
 
         equity_curve.append(total_equity)
         spx_curve.append(spx_prices[t] / spx_entry if spx_entry > 0 else 1.0)
 
         # ════════════════════════════════════════════════
-        # STEP 3: 用 T 日 close 生成信号 → pending_orders for T+1
+        # STEP 3: 生成 T 日信号 → pending_orders for T+1
         # ════════════════════════════════════════════════
-        all_ret60 = [
-            (period_return(prices_map[s][:t+1], 60) or 0.0)
-            for s in symbols if s in prices_map and len(prices_map[s]) > t+1
-        ]
+        all_ret60 = []
+        for s in symbols:
+            p_s = get_close_series_by_date(s, date_t)
+            if len(p_s) > 60:
+                r = period_return(p_s, 60)
+                if r is not None:
+                    all_ret60.append(r)
 
-        pending_orders = []  # 清空，重新生成
+        pending_orders = []
         for sym in symbols:
-            if sym not in prices_map or len(prices_map[sym]) <= t:
-                continue
-            p = prices_map[sym][:t+1]
+            p = get_close_series_by_date(sym, date_t)
             if len(p) < 60:
                 continue
             close_t = p[-1]
@@ -1019,27 +1049,22 @@ def run_stateful_simulation(
             ma50_sl = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0
             action  = trade_action(state, mom, rs, close_t, ma50_v, ma50_sl, ls, th, market_score_default)
 
-            # 更新持仓的 action_history（在 T 日即时记录）
             if sym in holdings:
                 holdings[sym]["action_history"].append(action)
 
-            # 只对有意义的 action 生成订单
             if action in ("BUY", "ADD", "REDUCE", "EXIT"):
-                # BUY: 只有无持仓才开
                 if action == "BUY" and sym in holdings:
                     continue
-                # ADD/REDUCE/EXIT: 只有有持仓才执行
-                if action in ("ADD", "REDUCE", "EXIT") and sym not in holdings:
+                if action in ("ADD","REDUCE","EXIT") and sym not in holdings:
                     continue
                 pending_orders.append({
-                    "sym":             sym,
-                    "action":          action,
-                    "signal_date_idx": t,
-                    "ls":              ls,
-                    "close_t":         close_t,
+                    "sym":         sym,
+                    "action":      action,
+                    "signal_date": date_t,
+                    "ls":          ls,
+                    "close_t":     close_t,
                 })
 
-        # 每30天记录状态
         if t % 30 == 0:
             daily_records.append({
                 "date":           date_t,
@@ -1048,99 +1073,100 @@ def run_stateful_simulation(
                 "total_equity":   round(total_equity, 2),
                 "n_holdings":     len(holdings),
                 "pending_orders": len(pending_orders),
-                "spx_ref":        round(spx_curve[-1], 4),
             })
 
     # ════════════════════════════════════════════════════
-    # 强制平仓剩余持仓（模拟结束）
+    # 强制平仓剩余持仓
     # ════════════════════════════════════════════════════
-    t_last   = n_days - 2
-    date_end = spx_dates[t_last+1] if t_last+1 < len(spx_dates) else str(t_last+1)
-
+    last_date = master_dates[-2] if len(master_dates) >= 2 else master_dates[-1]
+    sim_end_count = 0
     for sym, h in list(holdings.items()):
-        exec_idx = t_last + 1
-        if sym in lows and exec_idx < len(lows[sym]) and lows[sym][exec_idx] > 0:
-            sell_price = lows[sym][exec_idx] * (1 - one_way)
-        elif sym in prices_map and t_last < len(prices_map[sym]):
-            sell_price = prices_map[sym][t_last] * (1 - one_way)
-        else:
-            sell_price = h["avg_cost"]
+        exec_price_raw = get_price_by_date(sym, last_date, "low")
+        if exec_price_raw <= 0:
+            exec_price_raw = get_price_by_date(sym, last_date, "close")
+        if exec_price_raw <= 0:
+            exec_price_raw = h["avg_cost"]
+        exec_price = exec_price_raw * (1 - one_way)
 
-        if sell_price <= 0 or date_end <= h["entry_date"]:
-            invalid_trades.append(f"{sym}: SIM_END invalid date or price")
+        entry_date   = h["entry_date"]
+        holding_days = sum(1 for d in master_dates if entry_date <= d <= last_date)
+
+        if last_date <= entry_date or holding_days <= 0:
+            invalid_trades.append(f"{sym}: SIM_END {last_date} <= entry {entry_date}")
             del holdings[sym]
             continue
 
-        holding_days = exec_idx - h["entry_idx"]
-        if holding_days <= 0:
-            invalid_trades.append(f"{sym}: SIM_END holding_days={holding_days}")
-            del holdings[sym]
-            continue
-
-        ret      = (sell_price - h["avg_cost"]) / h["avg_cost"] if h["avg_cost"] > 0 else 0
-        proceeds = h["shares"] * sell_price
-        cash    += proceeds
-
+        ret      = (exec_price - h["avg_cost"]) / h["avg_cost"] if h["avg_cost"] > 0 else 0
+        cash    += h["shares"] * exec_price
+        sim_end_count += 1
         closed_trades.append({
             "symbol":               sym,
-            "entry_date":           h["entry_date"],
-            "exit_date":            date_end,
+            "entry_date":           entry_date,
+            "exit_date":            last_date,
             "entry_signal":         h["entry_signal"],
             "exit_signal":          "SIM_END",
             "entry_price":          round(h["entry_close_ref"], 2),
             "avg_cost":             round(h["avg_cost"], 2),
-            "exit_price":           round(h.get("current_close", sell_price), 2),
-            "effective_exit":       round(sell_price, 2),
+            "exit_price":           round(h.get("current_close", exec_price), 2),
+            "effective_exit":       round(exec_price, 2),
             "return_pct":           round(ret * 100, 2),
             "max_gain_pct":         round((h["highest_close"]-h["avg_cost"])/h["avg_cost"]*100, 2) if h["avg_cost"] > 0 else 0,
-            "max_drawdown_in_trade": round((h["highest_close"]-h.get("min_close_since_entry",h["avg_cost"]))/h["highest_close"]*100, 2) if h["highest_close"] > 0 else 0,
+            "max_drawdown_in_trade": 0,
             "holding_days":         holding_days,
             "size_units_at_exit":   h["size_units"],
             "leader_score_entry":   round(h.get("leader_score_entry", 0), 1),
             "actions_during_trade": h["action_history"],
             "action_count":         len(h["action_history"]),
             "execution_model":      "adverse_intraday_v1.0",
+            "is_sim_end":           True,
         })
         del holdings[sym]
 
-    # P3: 强制平仓后用 cash 更新 final_equity
+    # 修正3: 强制平仓后更新 final_equity
     final_equity = cash
     equity_curve.append(final_equity)
-    spx_curve.append(spx_prices[t_last] / spx_entry if spx_entry > 0 else 1.0)
 
     # ════════════════════════════════════════════════════
-    # P0 校验
+    # 修正4: sample_validity 检查
     # ════════════════════════════════════════════════════
-    if invalid_trades:
-        logger.warn(f"  ⚠️  {len(invalid_trades)} invalid trades detected")
-        for msg in invalid_trades[:3]:
-            logger.warn(f"    {msg}")
-        if len(invalid_trades) > max(len(closed_trades) * 0.1, 5):
-            return {
-                "layer": "D", "name": "Stateful Portfolio Backtest",
-                "status": "INVALID",
-                "reason": f"P0 failed: {len(invalid_trades)} invalid trades",
-                "invalid_trades": invalid_trades[:20],
-                "skipped_trades": skipped_trades[:20],
-                "trades": closed_trades,
-            }
+    simulation_days      = n_days - min_history
+    completed_trades     = len([t for t in closed_trades if not t.get("is_sim_end")])
+    total_trades         = len(closed_trades)
+    sim_end_ratio        = sim_end_count / max(total_trades, 1)
+    skip_total           = sum(skip_reasons.values())
+
+    sample_valid = (
+        simulation_days    >= 252 and
+        total_trades       >= 20  and
+        sim_end_ratio      <= 0.50 and
+        len(invalid_trades) == 0
+    )
+
+    logger.info(f"  sim_days={simulation_days} trades={total_trades} "
+                f"sim_end={sim_end_count}({sim_end_ratio*100:.0f}%) "
+                f"exec={orders_executed} skip={skip_total}")
+
+    if not sample_valid:
+        reasons = []
+        if simulation_days < 252:    reasons.append(f"sim_days={simulation_days}<252")
+        if total_trades < 20:        reasons.append(f"trades={total_trades}<20")
+        if sim_end_ratio > 0.50:     reasons.append(f"sim_end={sim_end_ratio*100:.0f}%>50%")
+        if invalid_trades:           reasons.append(f"invalid={len(invalid_trades)}")
+        logger.warn(f"  ⚠️  INSUFFICIENT_SAMPLE: {', '.join(reasons)}")
 
     if not closed_trades:
         return {
             "layer": "D", "name": "Stateful Portfolio Backtest",
-            "status": "NO_TRADES",
-            "skipped_trades": skipped_trades[:10],
-            "trades": [],
+            "status": "NO_TRADES", "skipped_orders_by_reason": skip_reasons,
         }
 
     # ════════════════════════════════════════════════════
-    # 统计汇总
+    # 统计
     # ════════════════════════════════════════════════════
     total_return = (final_equity - init_cap) / init_cap * 100
-    years        = (n_days - min_history) / 252
-    cagr         = ((final_equity / init_cap) ** (1/years) - 1) * 100 if years > 0 and final_equity > 0 else 0
+    years        = simulation_days / 252
+    cagr = ((final_equity / init_cap) ** (1/years) - 1) * 100 if years > 0 and final_equity > 0 else 0
 
-    # Max Drawdown（每日盯市净值曲线）
     peak = equity_curve[0]; max_dd = 0.0
     for e in equity_curve:
         peak   = max(peak, e)
@@ -1157,27 +1183,49 @@ def run_stateful_simulation(
     sharpe = round(avg_r / std_r * math.sqrt(252/max(avg_h,1)), 2) if std_r > 0 else 0
 
     spx_total = round((spx_curve[-1]-1)*100, 2) if spx_curve else 0
-    spx_cagr  = round((spx_curve[-1]**(1/years)-1)*100, 2) if years > 0 and spx_curve else 0
-    total_days= n_days - min_history
-    exposure  = round(sum(holds) / (max_pos * max(total_days, 1)) * 100, 1)
+    spx_cagr  = round((spx_curve[-1]**(1/years)-1)*100, 2) if years>0 and spx_curve else 0
+    exposure  = round(sum(holds) / (max_pos * max(simulation_days, 1)) * 100, 1)
 
-    # P0: 收益范围检查
     reasonable = -99 < total_return < 10_000
-    status = "INVALID" if not reasonable else \
-             "PASS"    if total_return > spx_total and pf > 1.2 and len(closed_trades) >= 5 else \
-             "PARTIAL" if total_return > 0 else "FAIL"
 
-    logger.info(f"  Layer D v3: {status}")
-    logger.info(f"  ${init_cap:,.0f} → ${final_equity:,.2f}  ({total_return:+.2f}%)  SPX: {spx_total:+.2f}%  Alpha: {total_return-spx_total:+.2f}%")
-    logger.info(f"  CAGR: {cagr:+.2f}%  MaxDD: {max_dd*100:.2f}%  WinRate: {round(len(wins)/len(rets)*100,1) if rets else 0}%  Trades: {len(closed_trades)}")
-    logger.info(f"  Orders: executed={orders_executed} skipped={orders_skipped} invalid={len(invalid_trades)}")
+    if not sample_valid:
+        status = "INSUFFICIENT_SAMPLE"
+    elif not reasonable:
+        status = "INVALID"
+    elif total_return > spx_total and pf > 1.2 and completed_trades >= 10:
+        status = "PASS"
+    elif total_return > 0:
+        status = "PARTIAL"
+    else:
+        status = "FAIL"
+
+    logger.info(f"  Layer D v4: {status}")
+    logger.info(f"  ${init_cap:,.0f}→${final_equity:,.2f} ({total_return:+.2f}%) "
+                f"SPX:{spx_total:+.2f}% Alpha:{total_return-spx_total:+.2f}%")
+    logger.info(f"  CAGR:{cagr:+.2f}% MaxDD:{max_dd*100:.2f}% "
+                f"WR:{round(len(wins)/len(rets)*100,1) if rets else 0}% "
+                f"Trades:{total_trades}(SIM_END:{sim_end_count})")
 
     return {
-        "layer":             "D",
-        "name":              "Stateful Portfolio Backtest",
-        "status":            status,
-        "version":           "v3",
-        "execution_model":   a.get("execution_model", "adverse_intraday"),
+        "layer":   "D",
+        "name":    "Stateful Portfolio Backtest",
+        "status":  status,
+        "version": "v4",
+        "execution_model": a.get("execution_model", "adverse_intraday"),
+        # 样本有效性
+        "sample_validity": {
+            "is_valid":          sample_valid,
+            "simulation_days":   simulation_days,
+            "total_trades":      total_trades,
+            "completed_trades":  completed_trades,
+            "sim_end_trades":    sim_end_count,
+            "sim_end_ratio_pct": round(sim_end_ratio * 100, 1),
+            "invalid_trades":    len(invalid_trades),
+            "minimum_required":  {
+                "sim_days": 252, "trades": 20,
+                "sim_end_ratio_pct": 50, "invalid": 0,
+            },
+        },
         # 核心指标
         "initial_capital":   init_cap,
         "final_equity":      round(final_equity, 2),
@@ -1187,35 +1235,34 @@ def run_stateful_simulation(
         "win_rate_pct":      round(len(wins)/len(rets)*100, 1) if rets else 0,
         "profit_factor":     pf,
         "sharpe_ratio":      sharpe,
-        "number_of_trades":  len(closed_trades),
+        "number_of_trades":  total_trades,
         "avg_holding_days":  round(avg_h, 1),
         "avg_winner_pct":    round(sum(wins)/len(wins), 2)   if wins   else 0,
         "avg_loser_pct":     round(sum(losses)/len(losses),2) if losses else 0,
         "exposure_pct":      exposure,
-        "avg_position_size": round(1/max_pos*100, 1),
         # SPX 基准
         "spx_total_return_pct": spx_total,
         "spx_cagr_pct":         spx_cagr,
         "alpha_pct":         round(total_return - spx_total, 2),
+        # 订单统计
+        "pending_orders_executed":  orders_executed,
+        "pending_orders_skipped":   sum(skip_reasons.values()),
+        "skipped_orders_by_reason": skip_reasons,
         # 执行损耗
         "avg_execution_drag_pct": round(
             sum(t.get("total_execution_drag_pct", 0) for t in closed_trades) / len(closed_trades), 3
         ) if closed_trades else 0,
-        # 校验结果
+        # P0
         "p0_passed":         len(invalid_trades) == 0 and reasonable,
-        "invalid_trades_count":   len(invalid_trades),
-        "skipped_trades_count":   len(skipped_trades),
-        "pending_orders_executed": orders_executed,
-        "pending_orders_skipped":  orders_skipped,
-        # 净值曲线（每5天采样）
+        "invalid_trades_count": len(invalid_trades),
+        "invalid_trades":    invalid_trades[:10],
+        # 净值曲线
         "equity_curve":      [round(e, 2) for e in equity_curve[::5]],
         "spx_curve":         [round(e * init_cap, 2) for e in spx_curve[::5]],
         "daily_records":     daily_records,
         # 交易记录
         "trades":            closed_trades,
-        "total_trades_all":  len(closed_trades),
-        "invalid_trades":    invalid_trades[:20],
-        "skipped_trades":    skipped_trades[:20],
+        "total_trades_all":  total_trades,
     }
 
 
