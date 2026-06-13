@@ -105,7 +105,7 @@ function render(tab) {
         <div class="mc-label">市场状态</div>
         <div style="font-size:36px;margin:.3rem 0">${m.state_icon||'🟡'}</div>
         <div style="font-size:18px;font-weight:700;color:${m.state_color||scC}">${m.state_zh||'中性观望'}</div>
-        <div style="font-size:10px;color:var(--text2);margin-top:.4rem">${sc>=80?'80-100 = Risk-On':sc>=60?'60-79 = Neutral':'0-59 = Risk-Off'}</div>
+        <div style="font-size:10px;color:var(--text2);margin-top:.4rem">${sc>=80?'80-100 Strong Risk-On':sc>=60?'60-80 Risk-On':sc>=40?'40-60 Neutral':sc>=20?'20-40 Risk-Off':'0-20 Defensive'}</div>
       </div>
       <div class="mc" style="text-align:center">
         <div class="mc-label">领涨确认</div>
@@ -188,8 +188,8 @@ function render(tab) {
     h+=aiBox(
       `Market Score ${sc}，SPX ${parseFloat(m.spx_close||0).toLocaleString()}，VIX ${vix.available?p2(vix.price,1)+'（'+vix.vix_state+'）':'N/A'}，涨跌比 ${m.advance_count}:${m.decline_count}。`,
       `${m.leadership_confirmed?'三指数均位于MA50上方，Leadership Confirmed。':'Leadership Unconfirmed，等待指数收复MA50。'}${idx.tech_premium!==undefined?' NDX相对SPX 20日：'+(idx.tech_premium>=0?'+':'')+p2(idx.tech_premium,2)+'%。':''}`,
-      `${m.state_icon||'🟡'} ${m.state_zh||'中性观望'}，${sc>=80?'适合持有趋势强势股。':sc>=60?'谨慎操作，控制仓位。':'防御为主，等待信号改善。'}`,
-      sc>=80?'持有 Leader Board 前5名，止损设于MA20下方':sc>=60?'减少新仓，保留核心持仓':'减仓或空仓，等待 Market Score ≥ 60'
+      `${m.state_icon||'🟡'} ${m.state_zh||'中性观望'}，${sc>=80?'强势偏好，全力持仓领导股。':sc>=60?'风险偏好，适合趋势跟随。':sc>=40?'中性观望，控制仓位。':sc>=20?'风险规避，大幅减仓。':'防御模式，空仓等待。'}`,
+      sc>=80?'满仓持有 BUY 信号强势股':sc>=60?'保留核心持仓，新仓只买 BUY 信号':sc>=40?'减少新仓，保留 HOLD 信号':sc>=20?'只保留最强持仓，清理 REDUCE 信号':'全面防御，清仓等待 Market Score ≥ 40'
     );
     h+='<p class="note">数据来自 Yahoo Finance，每交易日 18:00 ET 自动更新。不构成投资建议。</p>';
     $('s-market').innerHTML=h;

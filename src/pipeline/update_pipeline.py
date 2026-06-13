@@ -220,6 +220,11 @@ def run_daily_update(force_full: bool = False) -> None:
         except Exception as e:
             logger.warn(f"  {sym}: {e}")
 
+    # 把 market_score 注入每只股票，供 trade_decision 使用
+    msc_value = ms.get("market_score", 60) if isinstance(ms, dict) else 60
+    for s in stock_signals:
+        s["market_score"] = msc_value
+
     stock_signals = rank_stocks(stock_signals)
     leaders   = stock_signals[:10]
 

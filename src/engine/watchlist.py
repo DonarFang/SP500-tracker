@@ -20,20 +20,23 @@ from ..utils import logger
 
 
 def promotion_score(
-    mom_score:    float,   # 0-100
-    trend_health: float,   # 0-100
-    rank_vel:     float,   # 0-100
-    mom_accel:    float,   # 0-100
+    rank_vel:     float,   # 0-100  ← 40%
+    mom_accel:    float,   # 0-100  ← 30%
+    trend_health: float,   # 0-100  ← 20%
+    pullback_score: float, # 0-100  ← 10%
 ) -> float:
     """
-    Promotion Score = 0.40×Mom + 0.30×TH + 0.20×RankVel + 0.10×MomAccel
-    输出：0~100
+    Promotion Score v1.0 (Frozen):
+    = 0.40 × Rank Velocity
+    + 0.30 × Momentum Acceleration
+    + 0.20 × Trend Health
+    + 0.10 × Pullback Score
     """
     return round(
-        0.40 * max(0, min(100, mom_score))    +
-        0.30 * max(0, min(100, trend_health)) +
-        0.20 * max(0, min(100, rank_vel))     +
-        0.10 * max(0, min(100, mom_accel)),
+        0.40 * max(0, min(100, rank_vel))      +
+        0.30 * max(0, min(100, mom_accel))     +
+        0.20 * max(0, min(100, trend_health))  +
+        0.10 * max(0, min(100, pullback_score)),
         2
     )
 
@@ -70,7 +73,12 @@ def build_watchlist(ranked_stocks: list[dict]) -> list[dict]:
         rank_delta_5d  = get_rank_delta(sym, rank, days_ago=5)
         rank_delta_20d = get_rank_delta(sym, rank, days_ago=20)
 
-        ps = promotion_score(mom, th, rv, ma_score)
+        # Pullback Score: 基于回撤深度（0-100，回撤越小越高）
+        dd = s.get("drawdown_pct", 0)
+        pb = 100 if dd < 5 else 80 if dd < 8 else 50 if dd < 12 else 25 if dd < 15 else 0
+
+        # v1.0 Frozen: 0.40×RankVel + 0.30×MomAccel + 0.20×TH + 0.10×Pullback
+        ps = promotion_score(rv, ma_score, th, pb)
 
         candidates.append({
             "symbol":           sym,

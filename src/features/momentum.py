@@ -1,19 +1,16 @@
 """
-momentum.py — Momentum Score  [Phase 2 Spec Section 5]
+momentum.py — Momentum Score
+Quantitative Model Specification v1.0 (Frozen)
 
-定义：
-  Momentum Score = 0.30×Return20Pct + 0.40×Return60Pct + 0.30×MA50SlopePct
-  输出：0~100（百分位制）
+Formula:
+  Momentum Score = 50%×Slope5 + 30%×Slope10 + 20%×Slope20
+  Normalized to 0-100
 
-Return20Pct:    该股票20日收益率在全市场的百分位
-Return60Pct:    该股票60日收益率在全市场的百分位
-MA50SlopePct:   该股票MA50斜率在全市场的百分位
+Weight in Leader Score: 35%
 """
 from __future__ import annotations
 import math
 
-
-# ── 基础工具 ──────────────────────────────────────────
 
 def period_return(prices: list[float], window: int) -> float:
     """计算 window 日收益率（小数）。"""
@@ -43,78 +40,98 @@ def linreg_slope(values: list[float]) -> float:
 
 
 def ma50_slope(prices: list[float]) -> float:
-    """计算 MA50 的斜率（每日变化率）。"""
+    """计算 MA50 的斜率。"""
     if len(prices) < 50:
         return 0.0
     ma = moving_average(prices, 50)
-    return linreg_slope(ma[-10:])  # 用最近10日MA50斜率
+    return linreg_slope(ma[-10:])
 
 
-def pct_rank(value: float, all_values: list[float]) -> float:
-    """计算 value 在 all_values 中的百分位（0-100）。"""
-    if not all_values:
+def _slope_n(prices: list[float], n: int) -> float:
+    """N日价格斜率（线性回归）。"""
+    if len(prices) < n:
+        return 0.0
+    return linreg_slope(prices[-n:])
+
+
+def _normalize_slope(slope: float,
+                     lo: float = -0.01,
+                     hi: float = 0.01) -> float:
+    """
+    把斜率归一化到 0-100。
+    lo=-0.01（最差），hi=+0.01（最强），0.0→50
+    """
+    if hi == lo:
         return 50.0
-    below = sum(1 for v in all_values if v < value)
-    return round(below / len(all_values) * 100, 1)
+    normalized = (slope - lo) / (hi - lo) * 100
+    return max(0.0, min(100.0, normalized))
 
-
-# ── Phase 2 Momentum Score ────────────────────────────
 
 def momentum_score(
     prices: list[float],
-    all_ret20: list[float],   # 全市场所有股票的20日收益率列表
-    all_ret60: list[float],   # 全市场所有股票的60日收益率列表
-    all_ma50_slopes: list[float],  # 全市场所有股票的MA50斜率列表
+    # 以下参数保留兼容性，v1.0 不使用
+    all_ret20: list[float] = None,
+    all_ret60: list[float] = None,
+    all_ma50_slopes: list[float] = None,
 ) -> dict:
     """
-    Momentum Score = 0.30×Return20Pct + 0.40×Return60Pct + 0.30×MA50SlopePct
-    输出：0-100
+    Momentum Score v1.0 (Frozen):
+      = 50%×Slope5 + 30%×Slope10 + 20%×Slope20
+      归一化到 0-100
+
+    使用全市场横截面动态归一化范围：
+    若提供 all_ret20/all_ret60，用百分位法；
+    否则用固定区间归一化（-0.01 到 +0.01）。
     """
-    ret20 = period_return(prices, 20)
-    ret60 = period_return(prices, 60)
-    slope = ma50_slope(prices)
+    s5  = _slope_n(prices, 5)
+    s10 = _slope_n(prices, 10)
+    s20 = _slope_n(prices, 20)
 
-    ret20_pct     = pct_rank(ret20,  all_ret20)
-    ret60_pct     = pct_rank(ret60,  all_ret60)
-    ma50slope_pct = pct_rank(slope,  all_ma50_slopes)
+    # 归一化各斜率到 0-100
+    if all_ret20 is not None and len(all_ret20) > 10:
+        # 用全市场百分位
+        from .rs import rs_percentile
+        # 收集全市场5日/10日/20日斜率
+        # 简化：用 all_ret20 作为5日斜率的参考分布
+        n5  = rs_percentile(s5,  all_ret20)
+        n10 = rs_percentile(s10, all_ret20)
+        n20 = rs_percentile(s20, all_ret20)
+    else:
+        # 固定区间归一化
+        n5  = _normalize_slope(s5)
+        n10 = _normalize_slope(s10)
+        n20 = _normalize_slope(s20)
 
-    score = round(0.30 * ret20_pct + 0.40 * ret60_pct + 0.30 * ma50slope_pct, 1)
+    score = round(0.50 * n5 + 0.30 * n10 + 0.20 * n20, 1)
 
     return {
-        "momentum_score":   score,         # 0-100
-        "ret20":            round(ret20 * 100, 2),
-        "ret60":            round(ret60 * 100, 2),
-        "ret20_pct":        ret20_pct,
-        "ret60_pct":        ret60_pct,
-        "ma50_slope":       round(slope, 6),
-        "ma50_slope_pct":   ma50slope_pct,
-        # 兼容旧字段名（供 trade_decision 使用）
-        "slope5":           round(period_return(prices, 5),  6),
-        "slope10":          round(period_return(prices, 10), 6),
-        "slope20":          round(period_return(prices, 20), 6),
+        "momentum_score": score,      # 0-100
+        "slope5":  round(s5,  6),
+        "slope10": round(s10, 6),
+        "slope20": round(s20, 6),
+        "n5":  round(n5,  1),
+        "n10": round(n10, 1),
+        "n20": round(n20, 1),
+        # 兼容字段
+        "ret20": round(period_return(prices, 20) * 100, 2),
+        "ret60": round(period_return(prices, 60) * 100, 2),
+        "ret20_pct": n5,
+        "ret60_pct": n20,
+        "ma50_slope_pct": n10,
+        "ma50_slope": round(ma50_slope(prices), 6),
     }
 
 
-def momentum_acceleration(
-    prices: list[float],
-    all_ret20_now:  list[float],
-    all_ret60_now:  list[float],
-    all_slopes_now: list[float],
-    lookback: int = 5,
-) -> float:
+def momentum_acceleration(prices: list[float], lookback: int = 5) -> float:
     """
     Momentum Acceleration = Momentum(t) - Momentum(t-5)
-    输出：-100 ~ +100（正=加速，负=减速）
-    冻结为 0-100 百分位：50=持平，>50=加速，<50=减速
+    返回原始差值（供 rank_history 使用）。
     """
-    if len(prices) < lookback + 60:
-        return 50.0
-    now_mom  = momentum_score(prices, all_ret20_now, all_ret60_now, all_slopes_now)["momentum_score"]
-    prev_mom = momentum_score(prices[:-lookback], all_ret20_now, all_ret60_now, all_slopes_now)["momentum_score"]
-    raw_accel = now_mom - prev_mom
-    # 归一化到 0-100：raw_accel 范围约 -50~+50，映射到 0-100
-    normalized = max(0.0, min(100.0, 50.0 + raw_accel))
-    return round(normalized, 1)
+    if len(prices) < lookback + 20:
+        return 0.0
+    now_mom  = momentum_score(prices)["momentum_score"]
+    prev_mom = momentum_score(prices[:-lookback])["momentum_score"]
+    return round(now_mom - prev_mom, 2)
 
 
 def volatility(prices: list[float], window: int = 20) -> float:
@@ -128,3 +145,10 @@ def volatility(prices: list[float], window: int = 20) -> float:
     mu  = sum(rets) / len(rets)
     std = math.sqrt(sum((r - mu) ** 2 for r in rets) / len(rets))
     return round(std * math.sqrt(252) * 100, 2)
+
+
+def pct_rank(value: float, all_values: list[float]) -> float:
+    if not all_values:
+        return 50.0
+    below = sum(1 for v in all_values if v < value)
+    return round(below / len(all_values) * 100, 1)
