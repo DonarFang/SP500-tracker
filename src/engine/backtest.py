@@ -756,36 +756,70 @@ def run_stateful_simulation(
             if sym not in day_signals:
                 continue
             action, ls, curr_price = day_signals[sym]
+
+            # size > 0 才是有效持仓，才需要更新状态
+            if pos["size"] <= 0:
+                continue
+
             pos["holding_days"] += step
             pos["highest_close"] = max(pos["highest_close"], curr_price)
-            pos["current_return"] = (curr_price - pos["entry_price"]) / pos["entry_price"]
+            unrealized = (curr_price - pos["avg_cost"]) / pos["avg_cost"] if pos["avg_cost"] > 0 else 0
+            pos["current_return"] = unrealized
 
+            # 记录交易期间每个 Action（交易生命周期追踪）
+            pos["action_history"].append(action)
+
+            # 状态保护：只有 size > 0 才响应信号
             if action == "EXIT":
+                # size > 0 → 全部平仓
                 to_close.append((sym, "EXIT", curr_price))
-            elif action == "REDUCE" and pos["size"] > 0.5:
-                to_reduce.append((sym, curr_price))
-            elif action == "ADD" and pos["size"] < 1.5:
-                to_add.append((sym, curr_price, ls))
+            elif action == "REDUCE":
+                # size > 0 → 减仓（不能低于 0.5，不能凭空开仓）
+                if pos["size"] > 0.5:
+                    to_reduce.append((sym, curr_price))
+                # size == 0.5 时 REDUCE 忽略，维持最小仓位
+            elif action == "ADD":
+                # size > 0 才能加仓（不能在空仓时 ADD）
+                if pos["size"] < 1.5:
+                    to_add.append((sym, curr_price, ls))
+            elif action == "HOLD":
+                # size > 0 → 维持，无需额外操作
+                pass
+            # BUY 时已有持仓 → 忽略（不重复开仓）
 
         # 执行平仓
         for sym, exit_sig, exit_price in to_close:
             pos = positions[sym]
-            ret = (exit_price - pos["entry_price"]) / pos["entry_price"]
+            # 基于均价计算最终收益（考虑了 ADD 的成本）
+            ret = (exit_price - pos["avg_cost"]) / pos["avg_cost"] if pos["avg_cost"] > 0 else 0
+            # 持仓期间最大回撤
+            max_dd_trade = (pos["highest_close"] - pos.get("min_close", pos["entry_price"])) / pos["highest_close"] if pos["highest_close"] > 0 else 0
             sym_dates  = dates_map.get(sym, [])
             entry_date = sym_dates[pos["entry_idx"]] if pos["entry_idx"] < len(sym_dates) else str(pos["entry_idx"])
             closed_trades.append({
-                "symbol":             sym,
-                "entry_date":         entry_date,
-                "exit_date":          date_str,
-                "entry_signal":       pos["entry_signal"],
-                "exit_signal":        exit_sig,
-                "entry_price":        round(pos["entry_price"], 2),
-                "exit_price":         round(exit_price, 2),
-                "holding_days":       pos["holding_days"],
-                "return_pct":         round(ret * 100, 2),
-                "max_favorable_pct":  round((pos["highest_close"]-pos["entry_price"])/pos["entry_price"]*100, 2),
-                "size_at_exit":       pos["size"],
-                "leader_score_entry": round(pos.get("leader_score_entry", 0), 1),
+                # 基本信息
+                "symbol":               sym,
+                "entry_date":           entry_date,
+                "exit_date":            date_str,
+                "entry_signal":         pos["entry_signal"],
+                "exit_signal":          exit_sig,
+                # 价格
+                "entry_price":          round(pos["entry_price"], 2),
+                "avg_cost":             round(pos["avg_cost"], 2),
+                "exit_price":           round(exit_price, 2),
+                # 收益
+                "return_pct":           round(ret * 100, 2),
+                "max_gain_pct":         round((pos["highest_close"]-pos["avg_cost"])/pos["avg_cost"]*100, 2) if pos["avg_cost"] > 0 else 0,
+                "max_drawdown_in_trade": round(max_dd_trade * 100, 2),
+                # 时间
+                "holding_days":         pos["holding_days"],
+                # 仓位
+                "size_at_exit":         pos["size"],
+                # 评分
+                "leader_score_entry":   round(pos.get("leader_score_entry", 0), 1),
+                # 完整 Action 链条
+                "actions_during_trade": pos.get("action_history", []),
+                "action_count":         len(pos.get("action_history", [])),
             })
             del positions[sym]
 
@@ -794,17 +828,23 @@ def run_stateful_simulation(
             if sym in positions:
                 positions[sym]["size"] = max(0.5, positions[sym]["size"] - 0.5)
 
-        # 执行加仓
+        # 执行加仓（更新均价）
         for sym, curr_price, ls in to_add:
-            if sym in positions and len(positions) < max_positions + 2:
-                positions[sym]["size"] = min(1.5, positions[sym]["size"] + 0.5)
+            if sym in positions and positions[sym]["size"] > 0:
+                pos = positions[sym]
+                old_size = pos["size"]
+                new_size = min(1.5, old_size + 0.5)
+                # 加权平均更新均价
+                pos["avg_cost"] = (pos["avg_cost"] * old_size + curr_price * 0.5) / new_size
+                pos["size"] = new_size
 
-        # ── 建仓：BUY 信号 ────────────────────────────
+        # ── 建仓：BUY 信号（只有 size==0 才新开仓）────────
         if len(positions) < max_positions:
             buy_cands = [
                 (sym, ls, price)
                 for sym, (action, ls, price) in day_signals.items()
-                if action == "BUY" and sym not in positions
+                if action == "BUY"
+                and (sym not in positions or positions[sym]["size"] == 0)
             ]
             buy_cands.sort(key=lambda x: x[1], reverse=True)
             for sym, ls, entry_price in buy_cands:
@@ -813,15 +853,18 @@ def run_stateful_simulation(
                 sym_dates  = dates_map.get(sym, [])
                 entry_date = sym_dates[t] if t < len(sym_dates) else date_str
                 positions[sym] = {
-                    "size":            1.0,
+                    "size":            1.0,       # 新开仓 = 满仓
+                    "avg_cost":        entry_price,
                     "entry_price":     entry_price,
                     "entry_date":      entry_date,
                     "entry_idx":       t,
                     "entry_signal":    "BUY",
                     "highest_close":   entry_price,
+                    "min_close":       entry_price,  # 持仓期间最低价（用于计算最大回撤）
                     "holding_days":    0,
                     "current_return":  0.0,
                     "leader_score_entry": ls,
+                    "action_history":  ["BUY"],      # 完整 Action 链条记录
                 }
 
         # ── 每日净值 ──────────────────────────────────
@@ -856,24 +899,31 @@ def run_stateful_simulation(
     # ── 强制平仓剩余持仓 ─────────────────────────────
     t_last = n_days - 1
     for sym, pos in list(positions.items()):
-        curr  = prices_map[sym][t_last] if t_last < len(prices_map[sym]) else pos["entry_price"]
-        ret   = (curr - pos["entry_price"]) / pos["entry_price"]
+        if pos["size"] <= 0:
+            continue
+        curr  = prices_map[sym][t_last] if t_last < len(prices_map[sym]) else pos["avg_cost"]
+        ret   = (curr - pos["avg_cost"]) / pos["avg_cost"] if pos["avg_cost"] > 0 else 0
         sym_d = dates_map.get(sym, [])
         ed    = sym_d[pos["entry_idx"]] if pos["entry_idx"] < len(sym_d) else str(pos["entry_idx"])
         xd    = spx_dates[t_last] if t_last < len(spx_dates) else str(t_last)
+        max_dd_trade = (pos["highest_close"] - pos.get("min_close", pos["entry_price"])) / pos["highest_close"] if pos["highest_close"] > 0 else 0
         closed_trades.append({
-            "symbol":            sym,
-            "entry_date":        ed,
-            "exit_date":         xd,
-            "entry_signal":      pos["entry_signal"],
-            "exit_signal":       "SIM_END",
-            "entry_price":       round(pos["entry_price"], 2),
-            "exit_price":        round(curr, 2),
-            "holding_days":      pos["holding_days"],
-            "return_pct":        round(ret * 100, 2),
-            "max_favorable_pct": round((pos["highest_close"]-pos["entry_price"])/pos["entry_price"]*100, 2),
-            "size_at_exit":      pos["size"],
-            "leader_score_entry": round(pos.get("leader_score_entry", 0), 1),
+            "symbol":                sym,
+            "entry_date":            ed,
+            "exit_date":             xd,
+            "entry_signal":          pos["entry_signal"],
+            "exit_signal":           "SIM_END",
+            "entry_price":           round(pos["entry_price"], 2),
+            "avg_cost":              round(pos["avg_cost"], 2),
+            "exit_price":            round(curr, 2),
+            "return_pct":            round(ret * 100, 2),
+            "max_gain_pct":          round((pos["highest_close"]-pos["avg_cost"])/pos["avg_cost"]*100, 2) if pos["avg_cost"] > 0 else 0,
+            "max_drawdown_in_trade": round(max_dd_trade * 100, 2),
+            "holding_days":          pos["holding_days"],
+            "size_at_exit":          pos["size"],
+            "leader_score_entry":    round(pos.get("leader_score_entry", 0), 1),
+            "actions_during_trade":  pos.get("action_history", []),
+            "action_count":          len(pos.get("action_history", [])),
         })
 
     if not closed_trades:

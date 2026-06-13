@@ -32,7 +32,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f exports/backtest.json
+          git add -f exports/backtest.json exports/action_forward_returns.json exports/portfolio_backtest.json exports/trade_log.json exports/equity_curve.json
           git diff --cached --quiet && echo "无变化" || (
             git commit -m "📊 回测结果：$(TZ='America/New_York' date '+%Y-%m-%d %H:%M ET')"
             git push

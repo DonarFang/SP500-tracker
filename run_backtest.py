@@ -61,14 +61,53 @@ if __name__ == "__main__":
         from datetime import timezone, timedelta
         ET = timezone(timedelta(hours=-4))
 
-    output = {
-        "generated_at":         datetime.now(ET).isoformat(),
-        "generated_at_display": datetime.now(ET).strftime("%Y年%-m月%-d日 %H:%M ET"),
-        "backtest": results,
-    }
+    now_str = datetime.now(ET).isoformat()
+    now_disp = datetime.now(ET).strftime("%Y年%-m月%-d日 %H:%M ET")
+    meta = {"generated_at": now_str, "generated_at_display": now_disp}
+
     EXPORTS_DIR.mkdir(parents=True, exist_ok=True)
-    write_json(EXPORTS_DIR / "backtest.json", output)
-    logger.ok("✅ 回测完成！结果已写入 exports/backtest.json")
+
+    # backtest.json — 完整摘要
+    write_json(EXPORTS_DIR / "backtest.json", {**meta, "backtest": results})
+
+    # 独立文件
+    layer_results = results.get("results", {})
+
+    # action_forward_returns.json — Layer C2
+    if "layer_c2" in layer_results:
+        write_json(EXPORTS_DIR / "action_forward_returns.json", {
+            **meta, **layer_results["layer_c2"]
+        })
+
+    # portfolio_backtest.json — Layer D 核心指标（不含交易记录）
+    if "layer_d" in layer_results:
+        ld = layer_results["layer_d"]
+        write_json(EXPORTS_DIR / "portfolio_backtest.json", {
+            **meta,
+            **{k: v for k, v in ld.items() if k not in ("trades","equity_curve","spx_curve","daily_log")},
+        })
+
+        # trade_log.json — Layer D 完整交易记录（最重要）
+        write_json(EXPORTS_DIR / "trade_log.json", {
+            **meta,
+            "total_trades": ld.get("total_trades_all", 0),
+            "trades": ld.get("trades", []),
+        })
+
+        # equity_curve.json — 净值曲线
+        write_json(EXPORTS_DIR / "equity_curve.json", {
+            **meta,
+            "equity_curve":  ld.get("equity_curve", []),
+            "spx_curve":     ld.get("spx_curve", []),
+            "daily_log":     ld.get("daily_log", []),
+        })
+
+    logger.ok("✅ 回测完成！")
+    logger.ok(f"  exports/backtest.json")
+    logger.ok(f"  exports/action_forward_returns.json")
+    logger.ok(f"  exports/portfolio_backtest.json")
+    logger.ok(f"  exports/trade_log.json")
+    logger.ok(f"  exports/equity_curve.json")
 
     # 打印摘要
     print("\n" + "="*60)
