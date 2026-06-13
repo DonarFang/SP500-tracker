@@ -33,6 +33,7 @@ from ..engine.trend_state import compute_stock_state
 from ..engine.leader_ranking import rank_stocks
 from ..engine.trade_decision import enrich_action
 from ..engine.watchlist import build_watchlist
+from ..engine.rank_history import save_daily_snapshot
 from ..engine.validation import run_validation
 from ..export.export_json import export_all
 from ..utils.config import (
@@ -221,6 +222,10 @@ def run_daily_update(force_full: bool = False) -> None:
 
     stock_signals = rank_stocks(stock_signals)
     leaders   = stock_signals[:10]
+
+    # 保存每日排名快照（供 Rank Velocity 和 Momentum Acceleration 使用）
+    save_daily_snapshot(today, stock_signals[:100])
+
     watchlist = build_watchlist(stock_signals)
     logger.info(f"  → {len(stock_signals)} 只完成 | Top3: {', '.join(s['symbol'] for s in leaders[:3])}")
 

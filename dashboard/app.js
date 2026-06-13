@@ -226,13 +226,13 @@ function render(tab) {
     let h=`<div class="card"><div class="card-head">Top 10 Leader Board <span class="sub">LeaderScore = 0.5×RS + 0.3×Momentum + 0.2×TrendHealth</span></div><div class="card-body"><div class="tbl-wrap"><table>
       <thead><tr><th>#</th><th>代码</th><th>板块</th><th>RS%</th><th>动量</th><th>健康度</th><th>Leader分</th><th>趋势状态</th><th>操作</th></tr></thead><tbody>`;
     leaders.forEach(s=>{
-      const rc=s.rs_percentile>=70?'var(--green)':s.rs_percentile>=40?'var(--amber)':'var(--red)';
+      const rc=(s.rs_score||0)>=70?'var(--green)':(s.rs_score||0)>=40?'var(--amber)':'var(--red)';
       h+=`<tr>
         <td style="color:var(--text3);font-weight:500">${s.rank}</td>
         <td><div class="stock-symbol">${s.symbol}</div><div class="stock-name">${s.name||''}</div></td>
         <td><span class="pill">${s.sector||'—'}</span></td>
-        <td style="color:${rc};font-weight:600">${p2(s.rs_percentile,1)}</td>
-        <td style="color:${(s.momentum_score||0)>=0?'var(--green)':'var(--red)'};font-weight:500">${sgn(s.momentum_score)}${p2((s.momentum_score||0)*100,2)}%</td>
+        <td style="color:${rc};font-weight:600">${p2(s.rs_score||0,1)}</td>
+        <td style="color:${(s.momentum_score||0)>=50?'var(--green)':'var(--red)'};font-weight:500">${p2(s.momentum_score||0,1)}</td>
         <td><span style="font-weight:600;color:${scCol(s.trend_health||0)}">${p2(s.trend_health,0)}</span>${scBar(s.trend_health||0,'55px')}</td>
         <td style="font-weight:700;font-size:14px;color:${scCol(s.leader_score||0)}">${p2(s.leader_score,1)}</td>
         <td>${tsBadge(s.trend_state||'')}</td>
@@ -245,7 +245,7 @@ function render(tab) {
       <div class="card" style="margin-bottom:0"><div class="card-head">健康度对比</div><div class="card-body"><div class="cwrap" style="height:240px"><canvas id="cw-health"></canvas></div></div></div>
     </div>`;
     h+=aiBox(
-      `Top10 平均 RS ${p2(avg(leaders,'rs_percentile'),1)}%，平均健康度 ${p2(avg(leaders,'trend_health'),1)}，平均 LeaderScore ${p2(avg(leaders,'leader_score'),1)}。`,
+      `Top10 平均 RS ${p2(avg(leaders,'rs_score'),1)}，平均动量 ${p2(avg(leaders,'momentum_score'),1)}，平均健康度 ${p2(avg(leaders,'trend_health'),1)}，平均 LeaderScore ${p2(avg(leaders,'leader_score'),1)}。`,
       `${leaders.filter(s=>s.trade_action==='BUY'||s.trade_action==='ADD').map(s=>s.symbol).join('、')||'暂无'} 处于买入/加仓信号区间。`,
       `领导股整体${avg(leaders,'trend_health')>=65?'趋势健康，适合持有':'趋势减弱，注意控制风险'}。`,
       `重点跟踪 ${leaders.slice(0,3).map(s=>s.symbol).join('、')} 的走势与成交量变化。`
@@ -254,10 +254,10 @@ function render(tab) {
     setTimeout(()=>{
       const e1=$('cw-rs-mom');
       if(e1){if(charts.rsMom)charts.rsMom.destroy();
-        charts.rsMom=new Chart(e1,{type:'scatter',data:{datasets:[{label:'Top10',data:leaders.map(s=>({x:s.rs_percentile||0,y:(s.momentum_score||0)*100})),backgroundColor:PALETTE,pointRadius:8,pointHoverRadius:11}]},
+        charts.rsMom=new Chart(e1,{type:'scatter',data:{datasets:[{label:'Top10',data:leaders.map(s=>({x:s.rs_score||0,y:s.momentum_score||0})),backgroundColor:PALETTE,pointRadius:8,pointHoverRadius:11}]},
           options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${leaders[ctx.dataIndex]?.symbol}  RS:${p2(ctx.parsed.x,1)}  MOM:${p2(ctx.parsed.y,2)}%`}}},
-            scales:{x:{title:{display:true,text:'RS 百分位',font:{size:10}},min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},
-                    y:{title:{display:true,text:'动量 (%)',font:{size:10}},ticks:{font:{size:10},callback:v=>v+'%'},grid:{color:'rgba(128,128,128,0.1)'}}}
+            scales:{x:{title:{display:true,text:'RS Score (0-100)',font:{size:10}},min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},
+                    y:{title:{display:true,text:'Momentum Score (0-100)',font:{size:10}},min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}}}
           }});}
       const e2=$('cw-health');
       if(e2){if(charts.health)charts.health.destroy();
@@ -283,14 +283,14 @@ function render(tab) {
       <div class="grid-3" style="margin-bottom:1rem">
         <div class="mc"><div class="mc-label">现价</div><div class="mc-val">$${p2(s.price)}</div></div>
         <div class="mc"><div class="mc-label">健康度</div><div class="mc-val" style="color:${scCol(s.trend_health||0)}">${p2(s.trend_health,0)}</div>${scBar(s.trend_health||0)}</div>
-        <div class="mc"><div class="mc-label">RS 百分位</div><div class="mc-val">${p2(s.rs_percentile,1)}</div></div>
+        <div class="mc"><div class="mc-label">RS Score</div><div class="mc-val">${p2(s.rs_score||0,1)}</div></div>
       </div>
       <div class="cwrap" style="height:280px"><canvas id="cw-price"></canvas></div>
     </div></div>`;
     h+=`<div class="card"><div class="card-head">动量斜率 <span class="sub">S5=${sgn(s.slope5)}${p2((s.slope5||0)*100,2)}% · S10=${sgn(s.slope10)}${p2((s.slope10||0)*100,2)}% · S20=${sgn(s.slope20)}${p2((s.slope20||0)*100,2)}%</span></div><div class="card-body">
       <div class="tbl-wrap"><table><thead><tr><th>5日斜率</th><th>10日斜率</th><th>20日斜率</th><th>动量综合</th><th>动量加速</th></tr></thead><tbody><tr>
         ${['slope5','slope10','slope20'].map(k=>`<td style="color:${(s[k]||0)>=0?'var(--green)':'var(--red)'};font-weight:500">${sgn(s[k])}${p2((s[k]||0)*100,3)}%</td>`).join('')}
-        <td style="font-weight:600;color:${(s.momentum_score||0)>=0?'var(--green)':'var(--red)'}">${sgn(s.momentum_score)}${p2((s.momentum_score||0)*100,3)}%</td>
+        <td style="font-weight:600;color:${(s.momentum_score||0)>=50?'var(--green)':'var(--red)'}">${p2(s.momentum_score||0,1)}</td>
         <td style="color:${(s.momentum_accel||0)>=0?'var(--green)':'var(--red)'}">${sgn(s.momentum_accel)}${p2((s.momentum_accel||0)*100,3)}%</td>
       </tr></tbody></table></div>
     </div></div>`;
@@ -307,7 +307,7 @@ function render(tab) {
     </div></div>`;
     h+=aiBox(
       `${s.symbol} 现价 $${p2(s.price)}，${s.above_ma20?'位于MA20上方':'跌破MA20'}，${s.above_ma50?'MA50支撑有效':'MA50失守'}。回撤 ${p2(s.drawdown_pct)}%，波动率 ${p2(s.volatility)}%。`,
-      `动量${(s.momentum_score||0)>=0?'向上':'向下'}，趋势状态 <strong>${TS_ZH[s.trend_state]||s.trend_state}</strong>，健康度 ${p2(s.trend_health,0)}/100。`,
+      `动量得分 ${p2(s.momentum_score||0,1)}/100（${(s.momentum_score||0)>=50?'偏强':'偏弱'}），趋势状态 <strong>${TS_ZH[s.trend_state]||s.trend_state}</strong>，健康度 ${p2(s.trend_health,0)}/100。`,
       `信号：<strong>${s.trade_action} ${s.action_label}</strong> — ${s.action_description||''}`,
       s.action_description||'按信号执行，严守止损纪律。'
     );
@@ -357,8 +357,8 @@ function render(tab) {
         <td><span class="pill">${s.sector||'—'}</span></td>
         <td><span class="badge badge-${s.regime}">${REG_META[s.regime]?.zh||s.regime}</span></td>
         <td>${p2(s.trend_health,0)} ${scBar(s.trend_health||0,'45px')}</td>
-        <td style="color:${(s.rs_percentile||0)>=70?'var(--green)':'var(--text2)'}">${p2(s.rs_percentile,1)}</td>
-        <td style="color:${(s.momentum_score||0)>=0?'var(--green)':'var(--red)'}">${sgn(s.momentum_score)}${p2((s.momentum_score||0)*100,2)}%</td>
+        <td style="color:${(s.rs_score||0)>=70?'var(--green)':'var(--text2)'}">${p2(s.rs_score||0,1)}</td>
+        <td style="color:${(s.momentum_score||0)>=50?'var(--green)':'var(--red)'}">${p2(s.momentum_score||0,1)}</td>
         <td>${badge(s.trade_action||'HOLD')}</td>
       </tr>`).join('')}
       </tbody></table></div></div></div>`;
@@ -400,41 +400,99 @@ function render(tab) {
   if (tab==='watchlist') {
     const wl=DATA.watchlist||[];
     if(!wl.length){$('s-watchlist').innerHTML='<div class="loading">暂无数据</div>';return;}
-    let h=`<div class="card"><div class="card-head">Watchlist — Rank 11–30 潜在领导股 <span class="sub">PromotionScore = 0.4×RankVelocity + 0.3×TH + 0.2×MomAccel + 0.1×Pullback</span></div><div class="card-body"><div class="tbl-wrap"><table>
-      <thead><tr><th>#</th><th>代码</th><th>板块</th><th>晋升分</th><th>健康度</th><th>RS%</th><th>趋势状态</th><th>排名速度</th><th>操作</th></tr></thead><tbody>`;
+
+    const leaderSyms=new Set((DATA.leaderboard||[]).map(s=>s.symbol));
+    const overlap=wl.filter(s=>leaderSyms.has(s.symbol)).length;
+    const overlapPct=wl.length?Math.round(overlap/wl.length*100):0;
+    const overlapColor=overlapPct<30?'var(--green)':'var(--red)';
+
+    let h=`<div style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;font-size:12px">
+      <span style="padding:4px 12px;border-radius:20px;background:var(--bg2)">候选池：Rank 11–100</span>
+      <span style="padding:4px 12px;border-radius:20px;background:var(--bg2)">与LeaderBoard重叠：<strong style="color:${overlapColor}">${overlapPct}%</strong>（目标&lt;30%）</span>
+    </div>`;
+
+    h+=`<div class="card"><div class="card-head">Watchlist Top20 — 潜在领导股
+      <span class="sub">0.40×Mom + 0.30×TH + 0.20×RankVel + 0.10×MomAccel</span>
+    </div><div class="card-body"><div class="tbl-wrap"><table>
+      <thead><tr>
+        <th>当前#</th><th>代码 / 板块</th>
+        <th>晋升分</th>
+        <th>排名变化<br><span style="font-weight:400;font-size:10px">5日 / 20日</span></th>
+        <th>排名速度</th><th>动量加速</th>
+        <th>健康度</th><th>操作</th>
+      </tr></thead><tbody>`;
+
     wl.forEach(s=>{
-      const rvc=(s.rank_velocity||0)>0?'var(--green)':(s.rank_velocity||0)<0?'var(--red)':'var(--text3)';
-      const rvi=(s.rank_velocity||0)>0?'↑':(s.rank_velocity||0)<0?'↓':'—';
-      h+=`<tr>
-        <td style="color:var(--text3)">${s.rank}</td>
-        <td><strong>${s.symbol}</strong><br><span style="font-size:10px;color:var(--text2)">${s.name||''}</span></td>
-        <td><span class="pill">${s.sector||'—'}</span></td>
-        <td><span style="font-weight:700;color:${scCol(s.promotion_score||0)}">${p2(s.promotion_score,1)}</span>${scBar(s.promotion_score||0,'50px')}</td>
+      const rv  = s.rank_velocity||50;
+      const rvc = rv>55?'var(--green)':rv<45?'var(--red)':'var(--text3)';
+      const rvi = rv>55?'↑':rv<45?'↓':'→';
+
+      const ma  = s.mom_acceleration||50;
+      const mac = ma>55?'var(--green)':ma<45?'var(--red)':'var(--text3)';
+      const mai = ma>55?'⚡':ma<45?'📉':'→';
+
+      const d5   = s.rank_delta_5d||0;
+      const d20  = s.rank_delta_20d||0;
+      const d5c  = d5>0?'var(--green)':d5<0?'var(--red)':'var(--text3)';
+      const d20c = d20>0?'var(--green)':d20<0?'var(--red)':'var(--text3)';
+      const isLeader = leaderSyms.has(s.symbol);
+
+      h+=`<tr${isLeader?' style="opacity:0.55"':''}>
+        <td style="color:var(--text3);font-weight:600">${s.rank}</td>
+        <td>
+          <strong>${s.symbol}</strong>${isLeader?' <span style="font-size:9px;color:var(--amber)">★Leader</span>':''}
+          <br><span style="font-size:10px;color:var(--text2)">${s.name||''}</span>
+          <br><span class="pill" style="font-size:9px">${s.sector||'—'}</span>
+        </td>
+        <td>
+          <span style="font-weight:700;color:${scCol(s.promotion_score||0)};font-size:14px">${p2(s.promotion_score,1)}</span>
+          ${scBar(s.promotion_score||0,'55px')}
+        </td>
+        <td>
+          <span style="color:${d5c}">${d5>0?'+'+d5:d5===0?'—':d5}</span>
+          <span style="color:var(--text3)"> / </span>
+          <span style="color:${d20c}">${d20>0?'+'+d20:d20===0?'—':d20}</span>
+        </td>
+        <td style="color:${rvc}">
+          ${rvi} <span style="font-size:11px">${p2(rv,0)}</span>
+        </td>
+        <td style="color:${mac}">
+          ${mai} <span style="font-size:11px">${p2(ma,0)}</span>
+        </td>
         <td>${p2(s.trend_health,0)} ${scBar(s.trend_health||0,'45px')}</td>
-        <td style="color:${(s.rs_percentile||0)>=70?'var(--green)':'var(--text2)'}">${p2(s.rs_percentile,1)}</td>
-        <td>${tsBadge(s.trend_state||'')}</td>
-        <td style="color:${rvc};font-weight:500">${rvi} ${p2(Math.abs(s.rank_velocity||0)*100,1)}%</td>
         <td>${badge(s.trade_action||'HOLD')}</td>
       </tr>`;
     });
     h+=`</tbody></table></div></div></div>`;
-    h+=`<div class="card"><div class="card-head">晋升概率排行</div><div class="card-body"><div class="cwrap" style="height:240px"><canvas id="cw-promo"></canvas></div></div></div>`;
-    const tp2=wl.filter(s=>(s.promotion_score||0)>=60);
+
+    h+=`<div class="card"><div class="card-head">晋升分排行</div><div class="card-body">
+      <div class="cwrap" style="height:220px"><canvas id="cw-promo"></canvas></div>
+    </div></div>`;
+
+    const tp2   = wl.filter(s=>(s.promotion_score||0)>=60);
+    const rising = wl.filter(s=>(s.rank_velocity||50)>60).map(s=>s.symbol);
     h+=aiBox(
-      `Watchlist ${wl.length} 只（Rank 11-30），晋升分≥60 共 ${tp2.length} 只：${tp2.map(s=>s.symbol).join('、')||'暂无'}。`,
-      '晋升分高的股票具备上升排名速度和健康趋势结构，是下一轮强势股的潜在来源。',
-      `${tp2.length>0?`重点关注 ${tp2.slice(0,3).map(s=>s.symbol).join('、')}，有望晋升 Top10。`:'暂无高晋升概率股票，耐心等待。'}`,
-      tp2.length>0?`密切跟踪 ${tp2.slice(0,3).map(s=>s.symbol).join('、')}，突破前高可考虑建仓`:'继续观察，等待晋升信号出现'
+      `Watchlist ${wl.length} 只（Rank 11-100），晋升分≥60 共 ${tp2.length} 只，排名上升：${rising.slice(0,5).join('、')||'暂无'}。`,
+      `与Leader Board重叠率 ${overlapPct}%（${overlapPct<30?'✅达标':'⚠️偏高'}）。排名速度高+动量加速 = 真正的潜在领导股。注：Rank Velocity 需要历史快照积累，首日为默认值。`,
+      `${tp2.length>0?`重点关注 ${tp2.slice(0,3).map(s=>s.symbol).join('、')}，排名快速上升，有望晋升 Top10。`:'历史快照积累中，1-2周后 Rank Velocity 将显示真实数据。'}`,
+      tp2.length>0?`跟踪 ${tp2.slice(0,3).map(s=>s.symbol).join('、')} 排名变化，突破前高可考虑建仓`:'继续观察，等待历史数据积累'
     );
+
     $('s-watchlist').innerHTML=h;
     setTimeout(()=>{
       const el=$('cw-promo'); if(!el)return;
       if(charts.promo)charts.promo.destroy();
       const top15=[...wl].sort((a,b)=>(b.promotion_score||0)-(a.promotion_score||0)).slice(0,15);
-      charts.promo=new Chart(el,{type:'bar',data:{labels:top15.map(s=>s.symbol),datasets:[{label:'晋升分',data:top15.map(s=>s.promotion_score||0),backgroundColor:top15.map(s=>scCol(s.promotion_score||0)),borderRadius:4}]},
-        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}});
+      charts.promo=new Chart(el,{type:'bar',data:{
+        labels:top15.map(s=>s.symbol),
+        datasets:[{label:'晋升分',data:top15.map(s=>s.promotion_score||0),
+          backgroundColor:top15.map(s=>scCol(s.promotion_score||0)),borderRadius:4}]
+      },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+        scales:{y:{min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},
+                x:{ticks:{font:{size:11}},grid:{display:false}}}}});
     },80);
   }
+
 } // end render()
 
 loadAll();

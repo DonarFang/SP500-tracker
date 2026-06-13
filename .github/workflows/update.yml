@@ -2,8 +2,8 @@ name: 每日更新 S&P 500 数据
 
 on:
   schedule:
-    - cron: '0 22 * * 1-5'   # 18:00 ET 夏令时
-    - cron: '0 23 * * 1-5'   # 18:00 ET 冬令时
+    - cron: '0 22 * * 1-5'
+    - cron: '0 23 * * 1-5'
   workflow_dispatch:
 
 permissions:
@@ -25,7 +25,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f data/ exports/
+          git add -f data/ exports/ data/rank_history/
           git diff --cached --quiet && echo "数据无变化" || (
             git commit -m "📊 自动更新：$(TZ='America/New_York' date '+%Y-%m-%d %H:%M ET')"
             git push
