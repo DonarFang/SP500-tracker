@@ -91,6 +91,44 @@ EXIT:   size > 0   → size = 0.0   (close full position)
 
 ---
 
+## Execution Model
+
+### Primary: Adverse Intraday Execution v1.0
+
+```
+信号日 T → 次日 T+1 执行
+
+BUY / ADD:
+  execution_price = high[T+1] × (1 + transaction_cost + slippage)
+  最差买入：次日最高价 + 成本
+
+REDUCE / EXIT:
+  execution_price = low[T+1] × (1 - transaction_cost - slippage)
+  最差卖出：次日最低价 - 成本
+
+HOLD:
+  no transaction
+  mark-to-market = close[T]
+```
+
+### Reference Models (non-primary)
+
+| Model | Buy Price | Sell Price |
+|-------|-----------|------------|
+| **Adverse (Primary)** | next-day high + cost | next-day low - cost |
+| Next Day Close | next-day close + cost | next-day close - cost |
+| Next Day Open | next-day open + cost | next-day open - cost |
+
+### Interpretation
+
+```
+Adverse Model 跑赢 SPX → 系统高鲁棒性，强信号
+Next Day Close 跑赢，Adverse 不跑赢 → 对执行价格敏感
+两者都不跑赢 → Layer D FAIL，需检查系统
+```
+
+---
+
 ## Frozen Parameters Summary
 
 ```python

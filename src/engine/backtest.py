@@ -31,13 +31,21 @@ from ..utils import logger
 LAYER_D_ASSUMPTIONS = {
     "initial_capital":   100_000,
     "max_positions":     10,
-    "buy_size":          1.0,    # 10% of portfolio
+    "buy_size":          1.0,    # 10% of portfolio (full position)
     "add_size":          0.5,    # +5% of portfolio
     "max_single_size":   1.5,    # 15% max
     "transaction_cost":  0.0005, # 0.05% one-way
     "slippage":          0.0005, # 0.05% one-way
+    "total_one_way":     0.0010, # cost + slippage per direction
     "total_round_trip":  0.0020, # buy + sell total
-    "execution":         "next_day_close",
+    # Primary Execution Model: Adverse Intraday Execution v1.0
+    # Signal Day T → Execute Day T+1
+    # BUY/ADD:     next_day_high  × (1 + cost + slippage)  ← worst buy
+    # REDUCE/EXIT: next_day_low   × (1 - cost - slippage)  ← worst sell
+    # HOLD:        mark-to-market at close, no transaction
+    "execution_model":   "adverse_intraday",
+    "buy_price_field":   "high",   # T+1 high
+    "sell_price_field":  "low",    # T+1 low
     "cash_yield":        0.0,
     "leverage":          False,
     "short_selling":     False,
@@ -719,7 +727,19 @@ def run_stateful_simulation(
     """
     logger.info("[Backtest Layer D] Stateful Portfolio Backtest...")
 
-    # 使用冻结参数（v1.0）
+    # ── 加载 high/low 序列（用于 Adverse Execution）────────
+    from ..data_ingestion.fetch_yahoo import get_price_series as _gps
+    highs_map: dict[str, list[float]] = {}
+    lows_map:  dict[str, list[float]] = {}
+    for sym in symbols:
+        _, h = _gps(sym, field="high")
+        _, l = _gps(sym, field="low")
+        if h: highs_map[sym] = h
+        if l: lows_map[sym]  = l
+    spx_highs = highs_map.get("^GSPC") or highs_map.get("_GSPC", spx_prices)
+    spx_lows  = lows_map.get("^GSPC")  or lows_map.get("_GSPC",  spx_prices)
+
+    # ── 使用冻结参数（v1.0）──────────────────────────────
     a = assumptions or LAYER_D_ASSUMPTIONS
     max_positions  = a["max_positions"]
     buy_size       = a["buy_size"]         # 1.0
@@ -820,9 +840,15 @@ def run_stateful_simulation(
         # 执行平仓
         for sym, exit_sig, exit_price in to_close:
             pos = positions[sym]
-            # 基于均价计算最终收益（考虑了 ADD 的成本）
-            # 扣除卖出手续费+滑点
-            effective_exit = exit_price * (1 - txn_cost / 2)
+            # Adverse Execution: 使用 T+1 日最低价卖出
+            t1 = t + 1
+            if sym in lows_map and t1 < len(lows_map[sym]) and lows_map[sym][t1] > 0:
+                raw_exit = lows_map[sym][t1]  # T+1 最低价
+            else:
+                raw_exit = exit_price  # 数据缺失时 fallback 到收盘价
+            effective_exit = raw_exit * (1 - a["total_one_way"])
+            # adverse gap vs 信号日收盘价
+            adverse_exit_gap = (exit_price - effective_exit) / exit_price if exit_price > 0 else 0
             ret = (effective_exit - pos["avg_cost"]) / pos["avg_cost"] if pos["avg_cost"] > 0 else 0
             # 持仓期间最大回撤
             max_dd_trade = (pos["highest_close"] - pos.get("min_close", pos["entry_price"])) / pos["highest_close"] if pos["highest_close"] > 0 else 0
@@ -835,14 +861,21 @@ def run_stateful_simulation(
                 "exit_date":            date_str,
                 "entry_signal":         pos["entry_signal"],
                 "exit_signal":          exit_sig,
-                # 价格
+                # 价格（信号日收盘）
                 "entry_price":          round(pos["entry_price"], 2),
-                "avg_cost":             round(pos["avg_cost"], 2),
                 "exit_price":           round(exit_price, 2),
+                # Adverse Execution 实际成交价
+                "avg_cost":             round(pos["avg_cost"], 2),        # 实际买入均价（含成本）
+                "effective_exit":       round(effective_exit, 2),          # 实际卖出价（含成本）
                 # 收益
                 "return_pct":           round(ret * 100, 2),
                 "max_gain_pct":         round((pos["highest_close"]-pos["avg_cost"])/pos["avg_cost"]*100, 2) if pos["avg_cost"] > 0 else 0,
                 "max_drawdown_in_trade": round(max_dd_trade * 100, 2),
+                # Adverse Gap 分析
+                "execution_model":          "adverse_intraday_v1.0",
+                "entry_adverse_gap_pct":    round(pos.get("adverse_buy_gap", 0) * 100, 3),
+                "exit_adverse_gap_pct":     round(adverse_exit_gap * 100, 3),
+                "total_execution_drag_pct": round((pos.get("adverse_buy_gap", 0) + adverse_exit_gap) * 100, 3),
                 # 时间
                 "holding_days":         pos["holding_days"],
                 # 仓位
@@ -884,12 +917,22 @@ def run_stateful_simulation(
                     break
                 sym_dates  = dates_map.get(sym, [])
                 entry_date = sym_dates[t] if t < len(sym_dates) else date_str
-                # 扣除交易成本（买入手续费+滑点）
-                effective_entry = entry_price * (1 + txn_cost / 2)
+                # Adverse Execution: 使用 T+1 日最高价买入
+                # T+1 = t+1（当前循环 t 是信号日，t+1 是执行日）
+                t1 = t + 1
+                if sym in highs_map and t1 < len(highs_map[sym]) and highs_map[sym][t1] > 0:
+                    raw_buy = highs_map[sym][t1]  # T+1 最高价
+                else:
+                    raw_buy = entry_price  # 数据缺失时 fallback 到收盘价
+                effective_entry = raw_buy * (1 + a["total_one_way"])
+                # 记录 adverse gap（相比信号日收盘价的额外成本）
+                adverse_buy_gap = (effective_entry - entry_price) / entry_price if entry_price > 0 else 0
+
                 positions[sym] = {
-                    "size":            buy_size,  # 新开仓 = 满仓（1.0）
+                    "size":            buy_size,
                     "avg_cost":        effective_entry,
-                    "entry_price":     entry_price,
+                    "entry_price":     entry_price,    # 信号日收盘价（用于参考）
+                    "entry_exec_price": effective_entry,  # 实际成交价
                     "entry_date":      entry_date,
                     "entry_idx":       t,
                     "entry_signal":    "BUY",
@@ -1002,6 +1045,8 @@ def run_stateful_simulation(
         "layer":             "D",
         "name":              "Stateful Portfolio Backtest",
         "status":            status,
+        "execution_model":   a.get("execution_model", "adverse_intraday"),
+        "execution_version": a.get("version", "1.0"),
         "total_return_pct":  total_ret,
         "cagr_pct":          cagr,
         "max_drawdown_pct":  round(max_dd*100, 2),
@@ -1017,6 +1062,9 @@ def run_stateful_simulation(
         "spx_total_return_pct": spx_total,
         "spx_cagr_pct":         spx_cagr,
         "alpha_pct":         round(total_ret - spx_total, 2),
+        "avg_execution_drag_pct": round(
+            sum(t.get("total_execution_drag_pct", 0) for t in closed_trades) / len(closed_trades), 3
+        ) if closed_trades else 0,
         "equity_curve":      [round(e,4) for e in equity_curve[::5]],
         "spx_curve":         [round(e,4) for e in spx_curve[::5]],
         "daily_log":         daily_log,
