@@ -30,10 +30,10 @@ from ..utils import logger
 # ══════════════════════════════════════════════════════════════════
 LAYER_D_ASSUMPTIONS = {
     "initial_capital":   100_000,
-    "max_positions":     10,
-    "buy_size":          1.0,    # 10% of portfolio (full position)
-    "add_size":          0.5,    # +5% of portfolio
-    "max_single_size":   1.5,    # 15% max
+    "max_positions":      3,
+    "buy_size":          1.0,    # Top3: 1/3 portfolio full position
+    "add_size":          0.5,    # Top3: +1/6 portfolio, used only after REDUCE if allowed
+    "max_single_size":   1.0,    # Top3 strategy: 1/3 max per position
     "transaction_cost":  0.0005, # 0.05% one-way
     "slippage":          0.0005, # 0.05% one-way
     "total_one_way":     0.0010, # cost + slippage per direction
@@ -49,7 +49,10 @@ LAYER_D_ASSUMPTIONS = {
     "cash_yield":        0.0,
     "leverage":          False,
     "short_selling":     False,
-    "version":           "1.0",
+    "strategy_variant":  "top3_entry_trend_hold",
+    "entry_top_n":       3,
+    "rank_based_exit":   False,
+    "version":           "1.1-top3",
 }
 
 
@@ -718,7 +721,7 @@ def run_stateful_simulation(
     market_score_default: float = 60.0,
 ) -> dict:
     """
-    Layer D v4: Stateful Portfolio Backtest
+    Layer D v1.1: Top3 Entry + Trend-Following Hold Backtest
 
     修正项（相比 v3）：
     1. SPX master calendar — 时间轴以 SPX dates 为准
@@ -726,19 +729,24 @@ def run_stateful_simulation(
     3. skipped_orders_by_reason — 跳过原因分类统计
     4. sample_validity 检查 — 样本不足时返回 INSUFFICIENT_SAMPLE
     """
-    logger.info("[Backtest Layer D v4] Stateful Portfolio Backtest...")
+    logger.info("[Backtest Layer D v1.1] Top3 Entry + Trend-Following Hold Backtest...")
 
     # ── 冻结参数 ─────────────────────────────────────────
     a        = assumptions or LAYER_D_ASSUMPTIONS
     max_pos  = a["max_positions"]
-    buy_pct  = a["buy_size"]  / max_pos      # 10% per slot
-    add_pct  = a["add_size"]  / max_pos      # 5% per slot
-    max_pct  = a["max_single_size"] / max_pos # 15% per slot
+    buy_pct  = a["buy_size"]  / max_pos       # Top3: 1/3 per full slot
+    add_pct  = a["add_size"]  / max_pos       # Top3: +1/6, only useful after REDUCE
+    max_pct  = a["max_single_size"] / max_pos # Top3: max 1/3 per position
     one_way  = a["total_one_way"]             # 0.001
     init_cap = float(a.get("initial_capital", 100_000))
+    strategy_variant = a.get("strategy_variant", "top3_entry_trend_hold")
+    entry_top_n = int(a.get("entry_top_n", 3))
+    rank_based_exit = bool(a.get("rank_based_exit", False))
 
-    logger.info(f"  v{a.get('version','?')} | MaxPos={max_pos} "
-                f"BuySlot={buy_pct*100:.0f}% OneWay={one_way*100:.2f}%")
+    logger.info(f"  v{a.get('version','?')} | Strategy={strategy_variant} "
+                f"| EntryTopN={entry_top_n} | MaxPos={max_pos} "
+                f"BuySlot={buy_pct*100:.1f}% MaxSingle={max_pct*100:.1f}% "
+                f"OneWay={one_way*100:.2f}%")
 
     # ── 修正1: SPX master calendar ────────────────────────
     # 时间轴以 SPX dates 为准，不受个股短数据影响
@@ -823,6 +831,7 @@ def run_stateful_simulation(
         "invalid_execution_price":  0,
         "size_at_minimum":          0,
         "not_holding":              0,
+        "not_in_entry_top_n":       0,
     }
     orders_executed = 0
 
@@ -1026,6 +1035,10 @@ def run_stateful_simulation(
 
         # ════════════════════════════════════════════════
         # STEP 3: 生成 T 日信号 → pending_orders for T+1
+        # Strategy v1.1:
+        #   Top 3 只限制“新 BUY 候选池”
+        #   已持仓股票不因跌出 Top 3 而卖出/减仓
+        #   REDUCE / EXIT 只由 Trade Action 触发
         # ════════════════════════════════════════════════
         all_ret60 = []
         for s in symbols:
@@ -1035,11 +1048,13 @@ def run_stateful_simulation(
                 if r is not None:
                     all_ret60.append(r)
 
-        pending_orders = []
+        # 先重建全市场当日信号与 Leader Score，用于确定 Top 3 Entry Universe
+        day_signals: dict[str, dict] = {}
         for sym in symbols:
             p = get_close_series_by_date(sym, date_t)
             if len(p) < 60:
                 continue
+
             close_t = p[-1]
             ret60   = period_return(p, 60) or 0.0
             rs      = rs_percentile(ret60, all_ret60)
@@ -1048,20 +1063,69 @@ def run_stateful_simulation(
             th_d    = calc_trend_health(p)
             th      = th_d["trend_health"]
             ls      = calc_leader_score(rs, mom, th)
+
             from ..features.trend_health import trend_lifecycle
             state   = trend_lifecycle(th, mom, rs)
             ma50s   = moving_average(p, 50)
             ma50_v  = ma50s[-1] if ma50s else close_t
             ma50_sl = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0
-            action  = trade_action(state, mom, rs, close_t, ma50_v, ma50_sl, ls, th, market_score_default)
 
+            action  = trade_action(
+                state, mom, rs, close_t, ma50_v, ma50_sl,
+                ls, th, market_score_default
+            )
+
+            day_signals[sym] = {
+                "action": action,
+                "leader_score": ls,
+                "close_t": close_t,
+                "rs_score": rs,
+                "momentum_score": mom,
+                "trend_health": th,
+            }
+
+        # Top 3 Entry Universe:
+        # 只限制新开仓 BUY；不限制已有持仓的 HOLD/ADD/REDUCE/EXIT
+        top_ranked = sorted(
+            ((s, v["leader_score"]) for s, v in day_signals.items()),
+            key=lambda x: x[1],
+            reverse=True
+        )
+        top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])
+        top_entry_rank = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}
+
+        pending_orders = []
+        for sym, sig in day_signals.items():
+            action  = sig["action"]
+            ls      = sig["leader_score"]
+            close_t = sig["close_t"]
+
+            # 已持仓股票：记录每天动作；是否卖出/减仓只看 Trade Action，不看是否仍在 Top 3
             if sym in holdings:
                 holdings[sym]["action_history"].append(action)
 
-            if action in ("BUY", "ADD", "REDUCE", "EXIT"):
-                if action == "BUY" and sym in holdings:
+            # 新 BUY：只有当日 Top 3 才允许进入
+            if action == "BUY":
+                if sym in holdings:
+                    # 已持仓时 BUY 不重复开仓，不算错误
                     continue
-                if action in ("ADD","REDUCE","EXIT") and sym not in holdings:
+                if sym not in top_entry_symbols:
+                    skip_reasons["not_in_entry_top_n"] += 1
+                    continue
+                pending_orders.append({
+                    "sym":         sym,
+                    "action":      "BUY",
+                    "signal_date": date_t,
+                    "ls":          ls,
+                    "close_t":     close_t,
+                    "entry_rank":  top_entry_rank.get(sym),
+                    "strategy":    strategy_variant,
+                })
+                continue
+
+            # 已持仓股票的管理：ADD / REDUCE / EXIT 与 rank 无关
+            if action in ("ADD", "REDUCE", "EXIT"):
+                if sym not in holdings:
                     continue
                 pending_orders.append({
                     "sym":         sym,
@@ -1069,6 +1133,8 @@ def run_stateful_simulation(
                     "signal_date": date_t,
                     "ls":          ls,
                     "close_t":     close_t,
+                    "entry_rank":  top_entry_rank.get(sym),
+                    "strategy":    strategy_variant,
                 })
 
         if t % 30 == 0:
@@ -1205,7 +1271,7 @@ def run_stateful_simulation(
     else:
         status = "FAIL"
 
-    logger.info(f"  Layer D v4: {status}")
+    logger.info(f"  Layer D v1.1-top3: {status}")
     logger.info(f"  ${init_cap:,.0f}→${final_equity:,.2f} ({total_return:+.2f}%) "
                 f"SPX:{spx_total:+.2f}% Alpha:{total_return-spx_total:+.2f}%")
     logger.info(f"  CAGR:{cagr:+.2f}% MaxDD:{max_dd*100:.2f}% "
@@ -1216,8 +1282,11 @@ def run_stateful_simulation(
         "layer":   "D",
         "name":    "Stateful Portfolio Backtest",
         "status":  status,
-        "version": "v4",
+        "version": "v1.1-top3",
         "execution_model": a.get("execution_model", "adverse_intraday"),
+        "strategy_variant": strategy_variant,
+        "entry_top_n": entry_top_n,
+        "rank_based_exit": rank_based_exit,
         # 样本有效性（完整字段）
         "sample_validity": {
             "is_valid":            sample_valid,
