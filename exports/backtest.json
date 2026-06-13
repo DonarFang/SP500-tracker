@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-13T06:44:21.478338-04:00",
-  "generated_at_display": "2026年6月13日 06:44 ET",
+  "generated_at": "2026-06-13T10:12:12.587884-04:00",
+  "generated_at_display": "2026年6月13日 10:12 ET",
   "backtest": {
-    "overall_status": "PARTIAL",
+    "overall_status": "PROMISING",
     "methodology": "Backtest Methodology v1.0",
     "model_version": "Quantitative Model Spec v1.0 (Frozen)",
     "results": {
@@ -424,6 +424,602 @@
           }
         },
         "dedup_gap_days": 5
+      },
+      "layer_c2": {
+        "layer": "C2",
+        "name": "Action Forward Return Validation",
+        "status": "PARTIAL",
+        "hold_positive_count": 2,
+        "reduce_lower_count": 3,
+        "exit_lower_count": 1,
+        "action_summary": {
+          "BUY": {
+            "fwd5d": {
+              "n": 36,
+              "avg_ret": 2.774,
+              "med_ret": 0.252,
+              "win_rate": 50.0,
+              "vol": 11.04
+            },
+            "fwd10d": {
+              "n": 36,
+              "avg_ret": 4.527,
+              "med_ret": 1.075,
+              "win_rate": 52.8,
+              "vol": 16.697
+            },
+            "fwd20d": {
+              "n": 36,
+              "avg_ret": 6.058,
+              "med_ret": 4.189,
+              "win_rate": 63.9,
+              "vol": 23.975
+            },
+            "fwd30d": {
+              "n": 36,
+              "avg_ret": 10.432,
+              "med_ret": 3.47,
+              "win_rate": 58.3,
+              "vol": 36.346
+            }
+          },
+          "ADD": {
+            "fwd5d": {
+              "n": 28,
+              "avg_ret": 0.668,
+              "med_ret": -0.078,
+              "win_rate": 46.4,
+              "vol": 4.236
+            },
+            "fwd10d": {
+              "n": 28,
+              "avg_ret": 0.247,
+              "med_ret": -0.481,
+              "win_rate": 39.3,
+              "vol": 9.194
+            },
+            "fwd20d": {
+              "n": 28,
+              "avg_ret": 2.246,
+              "med_ret": -1.718,
+              "win_rate": 35.7,
+              "vol": 16.809
+            },
+            "fwd30d": {
+              "n": 28,
+              "avg_ret": 5.996,
+              "med_ret": 4.867,
+              "win_rate": 57.1,
+              "vol": 21.982
+            }
+          },
+          "HOLD": {
+            "fwd5d": {
+              "n": 255,
+              "avg_ret": -0.592,
+              "med_ret": -1.29,
+              "win_rate": 34.9,
+              "vol": 4.259
+            },
+            "fwd10d": {
+              "n": 255,
+              "avg_ret": -0.636,
+              "med_ret": -1.977,
+              "win_rate": 33.7,
+              "vol": 7.079
+            },
+            "fwd20d": {
+              "n": 255,
+              "avg_ret": 0.216,
+              "med_ret": -1.429,
+              "win_rate": 40.8,
+              "vol": 16.819
+            },
+            "fwd30d": {
+              "n": 255,
+              "avg_ret": 3.539,
+              "med_ret": 1.176,
+              "win_rate": 56.9,
+              "vol": 20.99
+            }
+          },
+          "REDUCE": {
+            "fwd5d": {
+              "n": 615,
+              "avg_ret": -0.453,
+              "med_ret": -0.99,
+              "win_rate": 34.3,
+              "vol": 4.001
+            },
+            "fwd10d": {
+              "n": 615,
+              "avg_ret": -0.966,
+              "med_ret": -1.786,
+              "win_rate": 35.0,
+              "vol": 7.215
+            },
+            "fwd20d": {
+              "n": 615,
+              "avg_ret": -0.224,
+              "med_ret": -1.385,
+              "win_rate": 44.4,
+              "vol": 9.947
+            },
+            "fwd30d": {
+              "n": 615,
+              "avg_ret": 1.518,
+              "med_ret": 0.631,
+              "win_rate": 53.2,
+              "vol": 9.755
+            }
+          },
+          "EXIT": {
+            "fwd5d": {
+              "n": 2006,
+              "avg_ret": -0.402,
+              "med_ret": -1.035,
+              "win_rate": 38.0,
+              "vol": 4.127
+            },
+            "fwd10d": {
+              "n": 2006,
+              "avg_ret": -0.116,
+              "med_ret": -1.014,
+              "win_rate": 42.7,
+              "vol": 6.378
+            },
+            "fwd20d": {
+              "n": 2006,
+              "avg_ret": 0.46,
+              "med_ret": 0.13,
+              "win_rate": 51.1,
+              "vol": 8.738
+            },
+            "fwd30d": {
+              "n": 2006,
+              "avg_ret": 1.708,
+              "med_ret": 0.936,
+              "win_rate": 54.5,
+              "vol": 12.622
+            }
+          }
+        },
+        "spx_benchmark": {
+          "fwd5d": {
+            "n": 6,
+            "avg_ret": -0.133,
+            "med_ret": -0.175,
+            "win_rate": 33.3,
+            "vol": 1.688
+          },
+          "fwd10d": {
+            "n": 6,
+            "avg_ret": -0.179,
+            "med_ret": 0.085,
+            "win_rate": 66.7,
+            "vol": 2.455
+          },
+          "fwd20d": {
+            "n": 6,
+            "avg_ret": -0.256,
+            "med_ret": -0.46,
+            "win_rate": 33.3,
+            "vol": 2.676
+          },
+          "fwd30d": {
+            "n": 6,
+            "avg_ret": 0.817,
+            "med_ret": 0.437,
+            "win_rate": 50.0,
+            "vol": 1.94
+          }
+        },
+        "interpretation": {
+          "HOLD": "持有期望偏低，需检查",
+          "REDUCE": "减仓有保护 (3/4)",
+          "EXIT": "退出可能过早"
+        }
+      },
+      "layer_d": {
+        "layer": "D",
+        "name": "Stateful Portfolio Backtest",
+        "status": "PASS",
+        "total_return_pct": 175779.38,
+        "cagr_pct": 1.2586336782143564e+16,
+        "max_drawdown_pct": 0.0,
+        "win_rate_pct": 45.8,
+        "profit_factor": 4.37,
+        "sharpe_ratio": 0.88,
+        "number_of_trades": 24,
+        "avg_holding_days": 23.3,
+        "avg_winner_pct": 39.14,
+        "avg_loser_pct": -7.58,
+        "exposure_pct": 96.6,
+        "avg_position_size": 10.0,
+        "spx_total_return_pct": -1.55,
+        "spx_cagr_pct": -6.57,
+        "alpha_pct": 175780.93,
+        "equity_curve": [
+          1.0,
+          1.0781,
+          1.3936,
+          1.6385,
+          2.1749,
+          3.7727,
+          7.4276,
+          17.5836,
+          45.9878,
+          147.9096,
+          497.5478,
+          1477.8857
+        ],
+        "spx_curve": [
+          1.0,
+          0.9975,
+          1.0001,
+          0.9984,
+          0.97,
+          0.9632,
+          0.9912,
+          0.9938,
+          0.9909,
+          1.0027,
+          1.0132,
+          0.9844
+        ],
+        "daily_log": [
+          {
+            "date": "2024-12-03",
+            "positions": 10,
+            "equity": 1.0,
+            "spx": 1.0
+          },
+          {
+            "date": "2025-01-17",
+            "positions": 10,
+            "equity": 7.4276,
+            "spx": 0.9912
+          }
+        ],
+        "trades": [
+          {
+            "symbol": "LVS",
+            "entry_date": "2024-12-03",
+            "exit_date": "2024-12-18",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 52.19,
+            "exit_price": 49.4,
+            "holding_days": 11,
+            "return_pct": -5.35,
+            "max_favorable_pct": 2.36,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 93.2
+          },
+          {
+            "symbol": "WBD",
+            "entry_date": "2024-12-03",
+            "exit_date": "2024-12-23",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 10.55,
+            "exit_price": 10.44,
+            "holding_days": 14,
+            "return_pct": -1.04,
+            "max_favorable_pct": 18.39,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 94.3
+          },
+          {
+            "symbol": "AXON",
+            "entry_date": "2024-12-03",
+            "exit_date": "2024-12-30",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 669.87,
+            "exit_price": 604.32,
+            "holding_days": 18,
+            "return_pct": -9.79,
+            "max_favorable_pct": 2.97,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 93.2
+          },
+          {
+            "symbol": "HOOD",
+            "entry_date": "2024-12-03",
+            "exit_date": "2024-12-31",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 38.64,
+            "exit_price": 37.26,
+            "holding_days": 19,
+            "return_pct": -3.57,
+            "max_favorable_pct": 11.8,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 94.0
+          },
+          {
+            "symbol": "PLTR",
+            "entry_date": "2024-12-03",
+            "exit_date": "2025-01-07",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 70.96,
+            "exit_price": 69.99,
+            "holding_days": 23,
+            "return_pct": -1.37,
+            "max_favorable_pct": 16.09,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 95.9
+          },
+          {
+            "symbol": "ALAB",
+            "entry_date": "2024-12-03",
+            "exit_date": "2025-01-13",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 116.51,
+            "exit_price": 127.19,
+            "holding_days": 26,
+            "return_pct": 9.17,
+            "max_favorable_pct": 25.15,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 94.4
+          },
+          {
+            "symbol": "DECK",
+            "entry_date": "2024-12-03",
+            "exit_date": "2025-01-31",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 202.87,
+            "exit_price": 177.36,
+            "holding_days": 39,
+            "return_pct": -12.57,
+            "max_favorable_pct": 9.98,
+            "size_at_exit": 1.5,
+            "leader_score_entry": 95.7
+          },
+          {
+            "symbol": "RBLX",
+            "entry_date": "2025-01-31",
+            "exit_date": "2025-02-11",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 71.07,
+            "exit_price": 66.05,
+            "holding_days": 7,
+            "return_pct": -7.06,
+            "max_favorable_pct": 6.19,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 98.3
+          },
+          {
+            "symbol": "UAL",
+            "entry_date": "2025-01-13",
+            "exit_date": "2025-02-13",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 104.71,
+            "exit_price": 100.89,
+            "holding_days": 22,
+            "return_pct": -3.65,
+            "max_favorable_pct": 5.55,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 96.4
+          },
+          {
+            "symbol": "LULU",
+            "entry_date": "2024-12-03",
+            "exit_date": "2025-02-14",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 340.66,
+            "exit_price": 366.68,
+            "holding_days": 49,
+            "return_pct": 7.64,
+            "max_favorable_pct": 23.63,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 91.9
+          },
+          {
+            "symbol": "WOLF",
+            "entry_date": "2026-04-20",
+            "exit_date": "2025-02-21",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 26.33,
+            "exit_price": 55.42,
+            "holding_days": 34,
+            "return_pct": 110.48,
+            "max_favorable_pct": 179.15,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 93.6
+          },
+          {
+            "symbol": "CRWD",
+            "entry_date": "2025-02-13",
+            "exit_date": "2025-02-24",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 453.77,
+            "exit_price": 391.72,
+            "holding_days": 6,
+            "return_pct": -13.67,
+            "max_favorable_pct": 0.35,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 96.2
+          },
+          {
+            "symbol": "HOOD",
+            "entry_date": "2025-02-14",
+            "exit_date": "2025-02-24",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 65.28,
+            "exit_price": 49.93,
+            "holding_days": 5,
+            "return_pct": -23.51,
+            "max_favorable_pct": 0.0,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 95.9
+          },
+          {
+            "symbol": "EQT",
+            "entry_date": "2025-01-07",
+            "exit_date": "2025-02-25",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 47.31,
+            "exit_price": 48.13,
+            "holding_days": 32,
+            "return_pct": 1.73,
+            "max_favorable_pct": 12.98,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 93.3
+          },
+          {
+            "symbol": "TPR",
+            "entry_date": "2024-12-03",
+            "exit_date": "2025-02-27",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 62.6,
+            "exit_price": 82.51,
+            "holding_days": 56,
+            "return_pct": 31.81,
+            "max_favorable_pct": 39.47,
+            "size_at_exit": 1.0,
+            "leader_score_entry": 95.0
+          },
+          {
+            "symbol": "RL",
+            "entry_date": "2024-12-03",
+            "exit_date": "2025-02-27",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 227.49,
+            "exit_price": 266.62,
+            "holding_days": 56,
+            "return_pct": 17.2,
+            "max_favorable_pct": 24.13,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 92.1
+          },
+          {
+            "symbol": "FOX",
+            "entry_date": "2024-12-18",
+            "exit_date": "2025-02-27",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 45.81,
+            "exit_price": 52.08,
+            "holding_days": 45,
+            "return_pct": 13.69,
+            "max_favorable_pct": 16.55,
+            "size_at_exit": 1.5,
+            "leader_score_entry": 90.1
+          },
+          {
+            "symbol": "ALK",
+            "entry_date": "2024-12-23",
+            "exit_date": "2025-02-27",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 67.47,
+            "exit_price": 71.07,
+            "holding_days": 42,
+            "return_pct": 5.34,
+            "max_favorable_pct": 13.53,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 94.1
+          },
+          {
+            "symbol": "SNDK",
+            "entry_date": "2025-09-03",
+            "exit_date": "2025-02-27",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 53.01,
+            "exit_price": 175.53,
+            "holding_days": 38,
+            "return_pct": 231.13,
+            "max_favorable_pct": 251.18,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 93.9
+          },
+          {
+            "symbol": "TKO",
+            "entry_date": "2025-02-11",
+            "exit_date": "2025-02-27",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 173.63,
+            "exit_price": 147.76,
+            "holding_days": 10,
+            "return_pct": -14.9,
+            "max_favorable_pct": 0.06,
+            "size_at_exit": 0.5,
+            "leader_score_entry": 98.0
+          },
+          {
+            "symbol": "GILD",
+            "entry_date": "2025-02-21",
+            "exit_date": "2025-02-27",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 106.36,
+            "exit_price": 108.33,
+            "holding_days": 3,
+            "return_pct": 1.85,
+            "max_favorable_pct": 1.43,
+            "size_at_exit": 1.0,
+            "leader_score_entry": 96.7
+          },
+          {
+            "symbol": "PM",
+            "entry_date": "2025-02-24",
+            "exit_date": "2025-02-27",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 149.61,
+            "exit_price": 147.45,
+            "holding_days": 2,
+            "return_pct": -1.44,
+            "max_favorable_pct": 0.73,
+            "size_at_exit": 1.5,
+            "leader_score_entry": 93.8
+          },
+          {
+            "symbol": "ABBV",
+            "entry_date": "2025-02-24",
+            "exit_date": "2025-02-27",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 195.83,
+            "exit_price": 196.73,
+            "holding_days": 2,
+            "return_pct": 0.46,
+            "max_favorable_pct": 0.03,
+            "size_at_exit": 1.0,
+            "leader_score_entry": 93.3
+          },
+          {
+            "symbol": "EXC",
+            "entry_date": "2025-02-25",
+            "exit_date": "2025-02-27",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 42.13,
+            "exit_price": 41.89,
+            "holding_days": 1,
+            "return_pct": -0.57,
+            "max_favorable_pct": 0.05,
+            "size_at_exit": 1.5,
+            "leader_score_entry": 92.1
+          }
+        ],
+        "total_trades_all": 24
       }
     }
   }
