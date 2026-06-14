@@ -824,14 +824,15 @@ def run_stateful_simulation(
     # 时间轴以 SPX dates 为准，不受个股短数据影响
     master_dates = spx_dates
     n_days       = len(spx_prices)
-    sim_start_date = master_dates[min_history] if len(master_dates) > min_history else (master_dates[0] if master_dates else "?")
-    sim_end_date   = master_dates[-2] if len(master_dates) >= 2 else (master_dates[-1] if master_dates else "?")
+
     logger.info(f"  时间轴: {master_dates[0] if master_dates else '?'} → {master_dates[-1] if master_dates else '?'} ({n_days} bars)")
     # 交易执行区间（不影响 warm-up 和指标计算，只控制交易时段）
     _trade_start = sim_start_date  # None = 从 min_history 后第一天
     _trade_end   = sim_end_date    # None = 到末尾
+    _default_start = master_dates[min_history] if len(master_dates) > min_history else (master_dates[0] if master_dates else "?")
+    _default_end   = master_dates[-2] if len(master_dates) >= 2 else (master_dates[-1] if master_dates else "?")
     logger.info(f"  时间轴: {master_dates[0] if master_dates else '?'} → {master_dates[-1] if master_dates else '?'} ({n_days} bars)")
-    logger.info(f"  回测区间: {_trade_start or (master_dates[min_history] if len(master_dates)>min_history else '?')} → {_trade_end or (master_dates[-2] if len(master_dates)>=2 else '?')}")
+    logger.info(f"  回测区间: {_trade_start or _default_start} → {_trade_end or _default_end}")
 
     # ── 修正2: Date-based lookup 索引 ─────────────────────
     # 为每只股票建立 date→index 映射，按日期对齐而非 array index
