@@ -25,15 +25,15 @@ from ..utils import logger
 
 
 # ══════════════════════════════════════════════════════════════════
-# Layer D Frozen Assumptions (v1.0)
+# Layer D Frozen Assumptions (v1.5 comparison)
 # docs/layer_d_assumptions.md
 # ══════════════════════════════════════════════════════════════════
 LAYER_D_ASSUMPTIONS = {
     "initial_capital":   100_000,
     "max_positions":      3,
-    "buy_size":          1.0,    # Max3: 1/3 portfolio full position
-    "add_size":          0.5,    # Max3: +1/6 portfolio, used only after REDUCE if allowed
-    "max_single_size":   1.0,    # Max3 strategy: 1/3 max per position
+    "buy_size":          1.0,    # Top3: 1/3 portfolio full position
+    "add_size":          0.5,    # Top3: +1/6 portfolio, used only after REDUCE if allowed
+    "max_single_size":   1.0,    # Top3 strategy: 1/3 max per position
     "transaction_cost":  0.0005, # 0.05% one-way
     "slippage":          0.0005, # 0.05% one-way
     "total_one_way":     0.0010, # cost + slippage per direction
@@ -49,18 +49,27 @@ LAYER_D_ASSUMPTIONS = {
     "cash_yield":        0.0,
     "leverage":          False,
     "short_selling":     False,
-    "strategy_variant":  "top10_secondary_selection_trend_hold",
-    "entry_top_n":       10,
-    "min_leader_score":  90.0,
-    "min_trend_health":  80.0,
-    "min_momentum_score": 85.0,
-    "candidate_weights": {
-        "leader_score": 0.50,
-        "trend_health": 0.30,
-        "momentum_score": 0.20,
-    },
+    "strategy_variant":  "top3_entry_market_gate_tp7p_trend_hold",
+    "entry_top_n":       3,
     "rank_based_exit":   False,
-    "version":           "1.2-secondary",
+    # Market Entry Gate:
+    # Market conditions only control new BUY/ADD orders.
+    # Existing positions still follow stock-level HOLD/REDUCE/EXIT actions.
+    # D1: market_gate_enabled=False
+    # D2: market_gate_enabled=True, market_shock_gate_enabled=False
+    # D3: market_gate_enabled=True, market_shock_gate_enabled=True (default)
+    "market_gate_enabled": True,
+    "risk_off_below_spx_ma50": True,
+    "market_shock_gate_enabled": True,
+    "market_shock_daily_return": -0.02,
+    # TP7-P: at +7% close-to-average-cost gain, sell half on T+1.
+    # Trigger once per position; remaining shares continue trend-following.
+    # ADD is disabled after TP7-P to avoid immediately refilling the reduction.
+    "partial_take_profit_enabled": True,
+    "partial_take_profit_threshold": 0.07,
+    "partial_take_profit_fraction": 0.50,
+    "block_add_after_take_profit": True,
+    "version":           "1.5-top3-market-gate-comparison-tp7p",
 }
 
 
@@ -729,7 +738,7 @@ def run_stateful_simulation(
     market_score_default: float = 60.0,
 ) -> dict:
     """
-    Layer D v1.2: Top10 Candidate + Secondary Selection + Trend-Following Hold
+    Layer D v1.4: Strict Top3 + Market Entry Gate + TP7-P
 
     修正项（相比 v3）：
     1. SPX master calendar — 时间轴以 SPX dates 为准
@@ -737,35 +746,45 @@ def run_stateful_simulation(
     3. skipped_orders_by_reason — 跳过原因分类统计
     4. sample_validity 检查 — 样本不足时返回 INSUFFICIENT_SAMPLE
     """
-    logger.info("[Backtest Layer D v1.2] Top10 Candidate + Secondary Selection Backtest...")
+    logger.info("[Backtest Layer D v1.4] Strict Top3 + Market Gate + TP7-P Backtest...")
 
     # ── 冻结参数 ─────────────────────────────────────────
     a        = assumptions or LAYER_D_ASSUMPTIONS
     max_pos  = a["max_positions"]
-    buy_pct  = a["buy_size"]  / max_pos       # Max3: 1/3 per full slot
-    add_pct  = a["add_size"]  / max_pos       # Max3: +1/6, only useful after REDUCE
-    max_pct  = a["max_single_size"] / max_pos # Max3: max 1/3 per position
+    buy_pct  = a["buy_size"]  / max_pos       # Top3: 1/3 per full slot
+    add_pct  = a["add_size"]  / max_pos       # Top3: +1/6, only useful after REDUCE
+    max_pct  = a["max_single_size"] / max_pos # Top3: max 1/3 per position
     one_way  = a["total_one_way"]             # 0.001
     init_cap = float(a.get("initial_capital", 100_000))
-    strategy_variant = a.get("strategy_variant", "top10_secondary_selection_trend_hold")
-    entry_top_n = int(a.get("entry_top_n", 10))
-    min_leader_score = float(a.get("min_leader_score", 90.0))
-    min_trend_health = float(a.get("min_trend_health", 80.0))
-    min_momentum_score = float(a.get("min_momentum_score", 85.0))
-    candidate_weights = a.get("candidate_weights", {
-        "leader_score": 0.50,
-        "trend_health": 0.30,
-        "momentum_score": 0.20,
-    })
+    strategy_variant = a.get("strategy_variant", "top3_entry_market_gate_tp7p_trend_hold")
+    entry_top_n = int(a.get("entry_top_n", 3))
     rank_based_exit = bool(a.get("rank_based_exit", False))
+    market_gate_enabled = bool(a.get("market_gate_enabled", True))
+    risk_off_below_spx_ma50 = bool(a.get("risk_off_below_spx_ma50", True))
+    market_shock_gate_enabled = bool(a.get("market_shock_gate_enabled", True))
+    market_shock_daily_return = float(a.get("market_shock_daily_return", -0.02))
+    take_profit_enabled = bool(a.get("partial_take_profit_enabled", True))
+    take_profit_threshold = float(a.get("partial_take_profit_threshold", 0.07))
+    take_profit_fraction = float(a.get("partial_take_profit_fraction", 0.50))
+    block_add_after_take_profit = bool(a.get("block_add_after_take_profit", True))
+    market_gate_variant = (
+        "D1_NO_MARKET_GATE" if not market_gate_enabled else
+        "D2_RISK_OFF_GATE" if not market_shock_gate_enabled else
+        "D3_RISK_OFF_PLUS_SHOCK_GATE"
+    )
 
     logger.info(f"  v{a.get('version','?')} | Strategy={strategy_variant} "
                 f"| EntryTopN={entry_top_n} | MaxPos={max_pos} "
                 f"BuySlot={buy_pct*100:.1f}% MaxSingle={max_pct*100:.1f}% "
                 f"OneWay={one_way*100:.2f}%")
-    logger.info(f"  Secondary filters: BUY + Leader>={min_leader_score:.0f} "
-                f"+ TrendHealth>={min_trend_health:.0f} "
-                f"+ Momentum>={min_momentum_score:.0f}")
+    logger.info(f"  Market Gate Variant: {market_gate_variant}")
+    logger.info(f"  Market Gate: enabled={market_gate_enabled} "
+                f"| RiskOff=SPX<MA50:{risk_off_below_spx_ma50} "
+                f"| Shock<={market_shock_daily_return*100:.1f}%:{market_shock_gate_enabled}")
+    logger.info(f"  TP7-P: enabled={take_profit_enabled} "
+                f"| Trigger={take_profit_threshold*100:.1f}% "
+                f"| Sell={take_profit_fraction*100:.0f}% "
+                f"| BlockADD={block_add_after_take_profit}")
 
     # ── 修正1: SPX master calendar ────────────────────────
     # 时间轴以 SPX dates 为准，不受个股短数据影响
@@ -851,11 +870,21 @@ def run_stateful_simulation(
         "size_at_minimum":          0,
         "not_holding":              0,
         "not_in_entry_top_n":       0,
-        "below_leader_threshold":   0,
-        "below_trend_threshold":    0,
-        "below_momentum_threshold": 0,
+        "market_risk_off_block":    0,
+        "market_shock_block":       0,
+        "add_blocked_after_tp":     0,
     }
     orders_executed = 0
+    take_profit_stats = {
+        "signals": 0,
+        "executed": 0,
+    }
+    market_gate_days = {
+        "entry_allowed": 0,
+        "risk_off": 0,
+        "market_shock": 0,
+        "blocked_total": 0,
+    }
 
     equity_curve:  list[float] = []
     spx_curve:     list[float] = []
@@ -927,10 +956,11 @@ def run_stateful_simulation(
                         "min_close_since_entry": close_ref,
                         "current_close":         close_ref,
                         "leader_score_entry":    ls,
-                        "entry_rank":            order.get("entry_rank"),
-                        "candidate_score_entry": order.get("candidate_score"),
-                        "trend_health_entry":    order.get("trend_health"),
-                        "momentum_score_entry":  order.get("momentum_score"),
+                        "take_profit_triggered": False,
+                        "take_profit_signal_date": None,
+                        "take_profit_exec_date": None,
+                        "realized_pnl":          0.0,
+                        "realized_cost_basis":   0.0,
                         "action_history":        ["BUY"],
                     }
 
@@ -939,6 +969,9 @@ def run_stateful_simulation(
                         skip_reasons["not_holding"] += 1
                         continue
                     h = holdings[sym]
+                    if block_add_after_take_profit and h.get("take_profit_triggered"):
+                        skip_reasons["add_blocked_after_tp"] += 1
+                        continue
                     if h["size_units"] >= 1.5:
                         skip_reasons["max_single_size_reached"] += 1
                         continue
@@ -961,7 +994,7 @@ def run_stateful_simulation(
                     cash -= target_add
                     orders_executed += 1
 
-            elif action in ("REDUCE", "EXIT"):
+            elif action in ("REDUCE", "TP_REDUCE", "EXIT"):
                 if sym not in holdings:
                     skip_reasons["not_holding"] += 1
                     continue
@@ -990,7 +1023,10 @@ def run_stateful_simulation(
 
                 if action == "EXIT":
                     proceeds = h["shares"] * exec_price
-                    ret      = (exec_price - h["avg_cost"]) / h["avg_cost"] if h["avg_cost"] > 0 else 0
+                    remaining_pnl = h["shares"] * (exec_price - h["avg_cost"])
+                    total_pnl = h.get("realized_pnl", 0.0) + remaining_pnl
+                    total_cost = h.get("realized_cost_basis", 0.0) + h["shares"] * h["avg_cost"]
+                    ret = total_pnl / total_cost if total_cost > 0 else 0
                     cash    += proceeds
                     entry_gap = (h["avg_cost"] - h["entry_close_ref"]) / h["entry_close_ref"] if h["entry_close_ref"] > 0 else 0
                     exit_gap  = (h.get("current_close", exec_price) - exec_price) / max(h.get("current_close", exec_price), 0.01)
@@ -1012,10 +1048,9 @@ def run_stateful_simulation(
                         "holding_days":         holding_days,
                         "size_units_at_exit":   h["size_units"],
                         "leader_score_entry":   round(h.get("leader_score_entry", 0), 1),
-                        "entry_rank":           h.get("entry_rank"),
-                        "candidate_score_entry": h.get("candidate_score_entry"),
-                        "trend_health_entry":   h.get("trend_health_entry"),
-                        "momentum_score_entry": h.get("momentum_score_entry"),
+                        "take_profit_triggered": h.get("take_profit_triggered", False),
+                        "take_profit_exec_date": h.get("take_profit_exec_date"),
+                        "realized_pnl_before_exit": round(h.get("realized_pnl", 0.0), 2),
                         "actions_during_trade": h["action_history"],
                         "action_count":         len(h["action_history"]),
                         "execution_model":      "adverse_intraday_v1.0",
@@ -1026,15 +1061,21 @@ def run_stateful_simulation(
                     })
                     del holdings[sym]
 
-                elif action == "REDUCE":
+                elif action in ("REDUCE", "TP_REDUCE"):
                     if h["size_units"] <= 0.5:
                         skip_reasons["size_at_minimum"] += 1
                         continue
-                    sell_shares      = h["shares"] / 2
+                    sell_fraction = take_profit_fraction if action == "TP_REDUCE" else 0.50
+                    sell_shares      = h["shares"] * sell_fraction
                     cash            += sell_shares * exec_price
                     h["shares"]     -= sell_shares
                     h["size_units"]  = max(0.5, h["size_units"] - 0.5)
-                    h["action_history"].append("REDUCE")
+                    h["realized_pnl"] = h.get("realized_pnl", 0.0) + sell_shares * (exec_price - h["avg_cost"])
+                    h["realized_cost_basis"] = h.get("realized_cost_basis", 0.0) + sell_shares * h["avg_cost"]
+                    h["action_history"].append(action)
+                    if action == "TP_REDUCE":
+                        h["take_profit_exec_date"] = exec_date
+                        take_profit_stats["executed"] += 1
                     orders_executed += 1
 
         # ════════════════════════════════════════════════
@@ -1065,11 +1106,40 @@ def run_stateful_simulation(
 
         # ════════════════════════════════════════════════
         # STEP 3: 生成 T 日信号 → pending_orders for T+1
-        # Strategy v1.2:
-        #   Leader Top 10 定义候选池，二级标准选择可执行 BUY
-        #   已持仓股票不因跌出候选池而卖出/减仓
+        # Strategy v1.4:
+        #   Top 3 只限制“新 BUY 候选池”
+        #   已持仓股票不因跌出 Top 3 而卖出/减仓
         #   REDUCE / EXIT 只由 Trade Action 触发
+        #   SPX Risk-Off / Market Shock 只阻止新的 BUY/ADD
+        #   TP7-P 达到 +7% 后次日减仓一半，仅触发一次
         # ════════════════════════════════════════════════
+        spx_close_t = spx_prices[t]
+        spx_ma50_t = sum(spx_prices[t-49:t+1]) / 50 if t >= 49 else spx_close_t
+        spx_day_return = (
+            (spx_prices[t] - spx_prices[t-1]) / spx_prices[t-1]
+            if t > 0 and spx_prices[t-1] > 0 else 0.0
+        )
+        market_risk_off = (
+            market_gate_enabled
+            and risk_off_below_spx_ma50
+            and spx_close_t < spx_ma50_t
+        )
+        market_shock = (
+            market_gate_enabled
+            and market_shock_gate_enabled
+            and spx_day_return <= market_shock_daily_return
+        )
+        market_entry_allowed = not (market_risk_off or market_shock)
+
+        if market_risk_off:
+            market_gate_days["risk_off"] += 1
+        if market_shock:
+            market_gate_days["market_shock"] += 1
+        if market_entry_allowed:
+            market_gate_days["entry_allowed"] += 1
+        else:
+            market_gate_days["blocked_total"] += 1
+
         all_ret60 = []
         for s in symbols:
             p_s = get_close_series_by_date(s, date_t)
@@ -1078,7 +1148,7 @@ def run_stateful_simulation(
                 if r is not None:
                     all_ret60.append(r)
 
-        # 先重建全市场当日信号与指标，用于定义 Top 10 候选池和二级筛选
+        # 先重建全市场当日信号与 Leader Score，用于确定 Top 3 Entry Universe
         day_signals: dict[str, dict] = {}
         for sym in symbols:
             p = get_close_series_by_date(sym, date_t)
@@ -1114,7 +1184,7 @@ def run_stateful_simulation(
                 "trend_health": th,
             }
 
-        # Top 10 Candidate Universe:
+        # Top 3 Entry Universe:
         # 只限制新开仓 BUY；不限制已有持仓的 HOLD/ADD/REDUCE/EXIT
         top_ranked = sorted(
             ((s, v["leader_score"]) for s, v in day_signals.items()),
@@ -1124,20 +1194,18 @@ def run_stateful_simulation(
         top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])
         top_entry_rank = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}
 
-        # 持仓管理与排名无关。优先执行 EXIT/REDUCE，再执行 ADD，最后执行 BUY，
-        # 以便释放的仓位可以由当日最高 candidate_score 的候选补上。
         management_orders = []
-        buy_candidates = []
+        buy_orders = []
         for sym, sig in day_signals.items():
             action  = sig["action"]
             ls      = sig["leader_score"]
             close_t = sig["close_t"]
 
-            # 已持仓股票：记录每天动作；是否卖出/减仓只看 Trade Action，不看排名
+            # 已持仓股票：记录每天动作；是否卖出/减仓只看 Trade Action，不看是否仍在 Top 3
             if sym in holdings:
                 holdings[sym]["action_history"].append(action)
 
-            # 新 BUY：必须位于 Top 10 候选池并通过二级选股阈值
+            # 新 BUY：只有当日 Top 3 才允许进入
             if action == "BUY":
                 if sym in holdings:
                     # 已持仓时 BUY 不重复开仓，不算错误
@@ -1145,30 +1213,17 @@ def run_stateful_simulation(
                 if sym not in top_entry_symbols:
                     skip_reasons["not_in_entry_top_n"] += 1
                     continue
-                if ls < min_leader_score:
-                    skip_reasons["below_leader_threshold"] += 1
+                if not market_entry_allowed:
+                    reason = "market_shock_block" if market_shock else "market_risk_off_block"
+                    skip_reasons[reason] += 1
                     continue
-                if sig["trend_health"] < min_trend_health:
-                    skip_reasons["below_trend_threshold"] += 1
-                    continue
-                if sig["momentum_score"] < min_momentum_score:
-                    skip_reasons["below_momentum_threshold"] += 1
-                    continue
-                candidate_score = (
-                    candidate_weights["leader_score"] * ls
-                    + candidate_weights["trend_health"] * sig["trend_health"]
-                    + candidate_weights["momentum_score"] * sig["momentum_score"]
-                )
-                buy_candidates.append({
+                buy_orders.append({
                     "sym":         sym,
                     "action":      "BUY",
                     "signal_date": date_t,
                     "ls":          ls,
                     "close_t":     close_t,
                     "entry_rank":  top_entry_rank.get(sym),
-                    "candidate_score": round(candidate_score, 4),
-                    "trend_health": sig["trend_health"],
-                    "momentum_score": sig["momentum_score"],
                     "strategy":    strategy_variant,
                 })
                 continue
@@ -1176,6 +1231,13 @@ def run_stateful_simulation(
             # 已持仓股票的管理：ADD / REDUCE / EXIT 与 rank 无关
             if action in ("ADD", "REDUCE", "EXIT"):
                 if sym not in holdings:
+                    continue
+                if action == "ADD" and block_add_after_take_profit and holdings[sym].get("take_profit_triggered"):
+                    skip_reasons["add_blocked_after_tp"] += 1
+                    continue
+                if action == "ADD" and not market_entry_allowed:
+                    reason = "market_shock_block" if market_shock else "market_risk_off_block"
+                    skip_reasons[reason] += 1
                     continue
                 management_orders.append({
                     "sym":         sym,
@@ -1187,17 +1249,51 @@ def run_stateful_simulation(
                     "strategy":    strategy_variant,
                 })
 
-        action_priority = {"EXIT": 0, "REDUCE": 1, "ADD": 2}
+        # TP7-P only applies when the stock-level rule did not already request
+        # EXIT or REDUCE. It is independent of rank and market entry gates.
+        if take_profit_enabled:
+            scheduled_management = {o["sym"]: o["action"] for o in management_orders}
+            for sym, h in holdings.items():
+                if h.get("take_profit_triggered"):
+                    continue
+                if h.get("size_units", 0.0) <= 0.5:
+                    continue
+                if scheduled_management.get(sym) in ("EXIT", "REDUCE"):
+                    continue
+                close_t = h.get("current_close", 0.0)
+                gain = (close_t - h["avg_cost"]) / h["avg_cost"] if h["avg_cost"] > 0 else 0.0
+                if gain >= take_profit_threshold:
+                    h["take_profit_triggered"] = True
+                    h["take_profit_signal_date"] = date_t
+                    take_profit_stats["signals"] += 1
+                    management_orders = [
+                        o for o in management_orders
+                        if not (o["sym"] == sym and o["action"] == "ADD")
+                    ]
+                    management_orders.append({
+                        "sym": sym,
+                        "action": "TP_REDUCE",
+                        "signal_date": date_t,
+                        "ls": day_signals.get(sym, {}).get("leader_score", h.get("leader_score_entry", 0)),
+                        "close_t": close_t,
+                        "entry_rank": top_entry_rank.get(sym),
+                        "strategy": strategy_variant,
+                    })
+
+        action_priority = {"EXIT": 0, "REDUCE": 1, "TP_REDUCE": 2, "ADD": 3}
         management_orders.sort(key=lambda o: action_priority.get(o["action"], 9))
-        buy_candidates.sort(key=lambda o: o["candidate_score"], reverse=True)
-        pending_orders = management_orders + buy_candidates
+        buy_orders.sort(key=lambda o: o.get("entry_rank") or 999)
+        pending_orders = management_orders + buy_orders
 
         if (t - min_history) % 20 == 0:
+            gate_state = "ALLOW" if market_entry_allowed else (
+                "SHOCK" if market_shock else "RISK_OFF"
+            )
             logger.info(
-                f"  Layer D secondary: {t}/{n_days} {date_t} "
-                f"cash={cash:.0f} holdings={len(holdings)} "
-                f"eligible={len(buy_candidates)} pending={len(pending_orders)} "
-                f"trades={len(closed_trades)}"
+                f"  Layer D market-gate: {t}/{n_days} {date_t} "
+                f"gate={gate_state} SPXvsMA50={(spx_close_t/spx_ma50_t-1)*100:+.1f}% "
+                f"day={spx_day_return*100:+.1f}% cash={cash:.0f} "
+                f"holdings={len(holdings)} trades={len(closed_trades)}"
             )
 
         if t % 30 == 0:
@@ -1208,6 +1304,13 @@ def run_stateful_simulation(
                 "total_equity":   round(total_equity, 2),
                 "n_holdings":     len(holdings),
                 "pending_orders": len(pending_orders),
+                "market_gate_state": (
+                    "ALLOW" if market_entry_allowed else
+                    "SHOCK" if market_shock else "RISK_OFF"
+                ),
+                "spx_close":      round(spx_close_t, 2),
+                "spx_ma50":       round(spx_ma50_t, 2),
+                "spx_day_return_pct": round(spx_day_return * 100, 2),
             })
 
     # ════════════════════════════════════════════════════
@@ -1231,7 +1334,10 @@ def run_stateful_simulation(
             del holdings[sym]
             continue
 
-        ret      = (exec_price - h["avg_cost"]) / h["avg_cost"] if h["avg_cost"] > 0 else 0
+        remaining_pnl = h["shares"] * (exec_price - h["avg_cost"])
+        total_pnl = h.get("realized_pnl", 0.0) + remaining_pnl
+        total_cost = h.get("realized_cost_basis", 0.0) + h["shares"] * h["avg_cost"]
+        ret = total_pnl / total_cost if total_cost > 0 else 0
         cash    += h["shares"] * exec_price
         sim_end_count += 1
         closed_trades.append({
@@ -1250,10 +1356,9 @@ def run_stateful_simulation(
             "holding_days":         holding_days,
             "size_units_at_exit":   h["size_units"],
             "leader_score_entry":   round(h.get("leader_score_entry", 0), 1),
-            "entry_rank":           h.get("entry_rank"),
-            "candidate_score_entry": h.get("candidate_score_entry"),
-            "trend_health_entry":   h.get("trend_health_entry"),
-            "momentum_score_entry": h.get("momentum_score_entry"),
+            "take_profit_triggered": h.get("take_profit_triggered", False),
+            "take_profit_exec_date": h.get("take_profit_exec_date"),
+            "realized_pnl_before_exit": round(h.get("realized_pnl", 0.0), 2),
             "actions_during_trade": h["action_history"],
             "action_count":         len(h["action_history"]),
             "execution_model":      "adverse_intraday_v1.0",
@@ -1338,7 +1443,13 @@ def run_stateful_simulation(
     else:
         status = "FAIL"
 
-    logger.info(f"  Layer D v1.2-secondary: {status}")
+    logger.info(f"  Market gate days: allowed={market_gate_days['entry_allowed']} "
+                f"blocked={market_gate_days['blocked_total']} "
+                f"risk_off={market_gate_days['risk_off']} "
+                f"shock={market_gate_days['market_shock']}")
+    logger.info(f"  TP7-P: signals={take_profit_stats['signals']} "
+                f"executed={take_profit_stats['executed']}")
+    logger.info(f"  Layer D v1.4-top3-market-gate-tp7p: {status}")
     logger.info(f"  ${init_cap:,.0f}→${final_equity:,.2f} ({total_return:+.2f}%) "
                 f"SPX:{spx_total:+.2f}% Alpha:{total_return-spx_total:+.2f}%")
     logger.info(f"  CAGR:{cagr:+.2f}% MaxDD:{max_dd*100:.2f}% "
@@ -1349,20 +1460,35 @@ def run_stateful_simulation(
         "layer":   "D",
         "name":    "Stateful Portfolio Backtest",
         "status":  status,
-        "version": "v1.2-secondary",
+        "version": "v1.4-top3-market-gate-tp7p",
         "execution_model": a.get("execution_model", "adverse_intraday"),
         "strategy_variant": strategy_variant,
         "entry_top_n": entry_top_n,
-        "secondary_selection": {
-            "required_action": "BUY",
-            "min_leader_score": min_leader_score,
-            "min_trend_health": min_trend_health,
-            "min_momentum_score": min_momentum_score,
-            "candidate_weights": candidate_weights,
-            "buy_order": "candidate_score_desc",
-            "execution_priority": ["EXIT", "REDUCE", "ADD", "BUY"],
-        },
         "rank_based_exit": rank_based_exit,
+        "partial_take_profit": {
+            "name": "TP7-P",
+            "enabled": take_profit_enabled,
+            "trigger_gain_pct": round(take_profit_threshold * 100, 2),
+            "sell_fraction_pct": round(take_profit_fraction * 100, 1),
+            "trigger_price": "signal-day close vs actual average cost",
+            "execution": "T+1 adverse low minus one-way costs",
+            "once_per_position": True,
+            "block_add_after_trigger": block_add_after_take_profit,
+            "stats": take_profit_stats,
+            "note": "Partial reduction releases cash but does not free a Max3 symbol slot.",
+        },
+        "market_entry_gate": {
+            "variant": market_gate_variant,
+            "enabled": market_gate_enabled,
+            "risk_off_rule": "SPX close < SPX MA50" if risk_off_below_spx_ma50 else "disabled",
+            "market_shock_rule": (
+                f"SPX daily return <= {market_shock_daily_return*100:.1f}%"
+                if market_shock_gate_enabled else "disabled"
+            ),
+            "blocked_actions": ["BUY", "ADD"],
+            "unaffected_actions": ["HOLD", "REDUCE", "EXIT"],
+            "days": market_gate_days,
+        },
         # 样本有效性（完整字段）
         "sample_validity": {
             "is_valid":            sample_valid,
@@ -1423,6 +1549,131 @@ def run_stateful_simulation(
     }
 
 
+def run_market_gate_comparison(
+    symbols: list[str],
+    prices_map: dict[str, list[float]],
+    dates_map: dict[str, list[str]],
+    spx_prices: list[float],
+    spx_dates: list[str],
+) -> dict:
+    """
+    Run D1/D2/D3 with identical Strict Top3 + TP7-P rules.
+
+    D1: No market gate.
+    D2: Block BUY/ADD while SPX is below MA50.
+    D3: D2 plus block BUY/ADD after an SPX daily loss of 2% or more.
+
+    Selection policy:
+    1. Prefer PASS over PARTIAL over FAIL.
+    2. Within the same status, prefer higher total return.
+    3. Break ties with higher Sharpe, then lower max drawdown.
+    """
+    logger.info("[Backtest Layer D v1.5] D1/D2/D3 Market Gate Comparison...")
+
+    variants = {
+        "D1": {
+            **LAYER_D_ASSUMPTIONS,
+            "strategy_variant": "D1_top3_tp7p_no_market_gate",
+            "market_gate_enabled": False,
+            "market_shock_gate_enabled": False,
+            "version": "D1-top3-tp7p-no-market-gate",
+        },
+        "D2": {
+            **LAYER_D_ASSUMPTIONS,
+            "strategy_variant": "D2_top3_tp7p_spx_ma50_gate",
+            "market_gate_enabled": True,
+            "risk_off_below_spx_ma50": True,
+            "market_shock_gate_enabled": False,
+            "version": "D2-top3-tp7p-spx-ma50-gate",
+        },
+        "D3": {
+            **LAYER_D_ASSUMPTIONS,
+            "strategy_variant": "D3_top3_tp7p_spx_ma50_plus_shock_gate",
+            "market_gate_enabled": True,
+            "risk_off_below_spx_ma50": True,
+            "market_shock_gate_enabled": True,
+            "version": "D3-top3-tp7p-spx-ma50-plus-shock-gate",
+        },
+    }
+
+    variant_results = {}
+    for variant_id, assumptions in variants.items():
+        logger.info(f"  === Running {variant_id} ===")
+        variant_results[variant_id] = run_stateful_simulation(
+            symbols=symbols,
+            prices_map=prices_map,
+            dates_map=dates_map,
+            spx_prices=spx_prices,
+            spx_dates=spx_dates,
+            assumptions=assumptions,
+        )
+
+    status_rank = {
+        "PASS": 4,
+        "PARTIAL": 3,
+        "FAIL": 2,
+        "INSUFFICIENT_SAMPLE": 1,
+        "INVALID": 0,
+        "NO_TRADES": 0,
+    }
+
+    def selection_key(item):
+        _, result = item
+        return (
+            status_rank.get(result.get("status"), 0),
+            result.get("total_return_pct", -10_000),
+            result.get("sharpe_ratio", -10_000),
+            -result.get("max_drawdown_pct", 10_000),
+        )
+
+    selected_id, selected_result = max(variant_results.items(), key=selection_key)
+    comparison_rows = []
+    for variant_id, result in variant_results.items():
+        comparison_rows.append({
+            "variant": variant_id,
+            "selected": variant_id == selected_id,
+            "status": result.get("status"),
+            "total_return_pct": result.get("total_return_pct"),
+            "alpha_pct": result.get("alpha_pct"),
+            "cagr_pct": result.get("cagr_pct"),
+            "max_drawdown_pct": result.get("max_drawdown_pct"),
+            "win_rate_pct": result.get("win_rate_pct"),
+            "profit_factor": result.get("profit_factor"),
+            "sharpe_ratio": result.get("sharpe_ratio"),
+            "number_of_trades": result.get("number_of_trades"),
+            "exposure_pct": result.get("exposure_pct"),
+            "market_gate_days": result.get("market_entry_gate", {}).get("days", {}),
+            "tp7p_stats": result.get("partial_take_profit", {}).get("stats", {}),
+        })
+
+    logger.info("  === D1/D2/D3 Comparison ===")
+    for row in comparison_rows:
+        marker = "SELECTED" if row["selected"] else ""
+        logger.info(
+            f"  {row['variant']}: {row['status']} "
+            f"Return={row['total_return_pct']:+.2f}% "
+            f"Alpha={row['alpha_pct']:+.2f}% "
+            f"MaxDD={row['max_drawdown_pct']:.2f}% "
+            f"Sharpe={row['sharpe_ratio']} {marker}"
+        )
+    logger.info(f"  Selected market gate variant: {selected_id}")
+
+    # Preserve the selected result at Layer D's existing top-level shape so
+    # current exporters and dashboard code continue to work.
+    return {
+        **selected_result,
+        "name": "D1/D2/D3 Market Gate Comparison",
+        "version": "v1.5-market-gate-comparison-tp7p",
+        "selected_variant": selected_id,
+        "selection_policy": (
+            "status(PASS>PARTIAL>FAIL), then total return, "
+            "then Sharpe, then lower max drawdown"
+        ),
+        "comparison": comparison_rows,
+        "variant_results": variant_results,
+    }
+
+
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -1466,9 +1717,9 @@ def run_full_backtest(
         spx_dates=spx_dates,
     )
 
-    # Layer D: Stateful Portfolio Backtest（完整状态机）
+    # Layer D: D1/D2/D3 comparison; selected result remains top-level compatible
     if run_layer_d:
-        results["layer_d"] = run_stateful_simulation(
+        results["layer_d"] = run_market_gate_comparison(
             symbols, prices_map, dates_map, spx_prices, spx_dates
         )
 
