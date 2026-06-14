@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-14T05:39:06.752224-04:00",
-  "generated_at_display": "2026年6月14日 05:39 ET",
+  "generated_at": "2026-06-14T06:07:51.136845-04:00",
+  "generated_at_display": "2026年6月14日 06:07 ET",
   "layer": "D",
   "name": "3-Variant LS60 Mode Comparison",
   "status": "PROMISING_INSUFFICIENT_SAMPLE",
@@ -122,7 +122,7 @@
     "TP_REDUCE": 0
   },
   "executed_exit_reason_distribution": {
-    "leader_score_below_60": 6,
+    "reason_mismatch_ls60_reduce_exit": 6,
     "price_below_ma50_and_ma50_slope_down": 4,
     "leader_score_below_75": 1,
     "broken_trend": 4
@@ -3631,7 +3631,7 @@
         "TP_REDUCE": 0
       },
       "executed_exit_reason_distribution": {
-        "leader_score_below_60": 6,
+        "reason_mismatch_ls60_reduce_exit": 6,
         "price_below_ma50_and_ma50_slope_down": 4,
         "leader_score_below_75": 1,
         "broken_trend": 4
@@ -4045,7 +4045,7 @@
           "exit_adverse_gap_pct": 1.043,
           "total_execution_drag_pct": 6.155,
           "is_sim_end": false,
-          "exit_reason": "leader_score_below_60",
+          "exit_reason": "reason_mismatch_ls60_reduce_exit",
           "exit_reasons": [
             "leader_score_below_60"
           ]
@@ -4215,7 +4215,7 @@
           "exit_adverse_gap_pct": 4.123,
           "total_execution_drag_pct": 8.727,
           "is_sim_end": false,
-          "exit_reason": "leader_score_below_60",
+          "exit_reason": "reason_mismatch_ls60_reduce_exit",
           "exit_reasons": [
             "leader_score_below_60"
           ]
@@ -4520,7 +4520,7 @@
           "exit_adverse_gap_pct": 1.374,
           "total_execution_drag_pct": 1.833,
           "is_sim_end": false,
-          "exit_reason": "leader_score_below_60",
+          "exit_reason": "reason_mismatch_ls60_reduce_exit",
           "exit_reasons": [
             "leader_score_below_60"
           ]
@@ -5068,7 +5068,7 @@
           "exit_adverse_gap_pct": 2.088,
           "total_execution_drag_pct": 6.853,
           "is_sim_end": false,
-          "exit_reason": "leader_score_below_60",
+          "exit_reason": "reason_mismatch_ls60_reduce_exit",
           "exit_reasons": [
             "leader_score_below_60"
           ]
@@ -5118,7 +5118,7 @@
           "exit_adverse_gap_pct": 8.069,
           "total_execution_drag_pct": 8.236,
           "is_sim_end": false,
-          "exit_reason": "leader_score_below_60",
+          "exit_reason": "reason_mismatch_ls60_reduce_exit",
           "exit_reasons": [
             "leader_score_below_60"
           ]
@@ -5236,7 +5236,7 @@
           "exit_adverse_gap_pct": -0.066,
           "total_execution_drag_pct": 6.014,
           "is_sim_end": false,
-          "exit_reason": "leader_score_below_60",
+          "exit_reason": "reason_mismatch_ls60_reduce_exit",
           "exit_reasons": [
             "leader_score_below_60"
           ]
@@ -5926,7 +5926,7 @@
       },
       "executed_exit_reason_distribution": {
         "price_below_ma50_and_ma50_slope_down": 4,
-        "leader_score_below_60": 3,
+        "reason_mismatch_ls60_reduce_exit": 3,
         "broken_trend": 3
       },
       "executed_reduce_reason_distribution": {
@@ -6474,7 +6474,7 @@
           "exit_adverse_gap_pct": -2.646,
           "total_execution_drag_pct": 26.548,
           "is_sim_end": false,
-          "exit_reason": "leader_score_below_60",
+          "exit_reason": "reason_mismatch_ls60_reduce_exit",
           "exit_reasons": [
             "leader_score_below_60"
           ]
@@ -6688,7 +6688,7 @@
           "exit_adverse_gap_pct": 1.374,
           "total_execution_drag_pct": 1.833,
           "is_sim_end": false,
-          "exit_reason": "leader_score_below_60",
+          "exit_reason": "reason_mismatch_ls60_reduce_exit",
           "exit_reasons": [
             "leader_score_below_60"
           ]
@@ -7050,7 +7050,7 @@
           "exit_adverse_gap_pct": -0.066,
           "total_execution_drag_pct": 6.106,
           "is_sim_end": false,
-          "exit_reason": "leader_score_below_60",
+          "exit_reason": "reason_mismatch_ls60_reduce_exit",
           "exit_reasons": [
             "leader_score_below_60"
           ]
