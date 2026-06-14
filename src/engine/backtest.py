@@ -1090,14 +1090,7 @@ def run_stateful_simulation(
                     # 记录真实成交退出的原因（from pending order reason，T日冻结）
                     exec_primary_reason = order.get("primary_reason", "")
                     exec_reasons        = order.get("reasons", [])
-                    # 防御检查：mode=reduce 时 ls60 不能是 EXIT primary reason
-                    if (exec_primary_reason == "leader_score_below_60"
-                            and ls60_exit_mode == "reduce"):
-                        logger.warn(
-                            f"  ⚠️  reason_mismatch: {sym} EXIT primary=leader_score_below_60 "
-                            f"but ls60_exit_mode=reduce. Reclassifying as secondary."
-                        )
-                        exec_primary_reason = "reason_mismatch_ls60_reduce_exit"
+                    # 此处不再需要 warn+reclassify 防御，因为上游已有 raise 检查
                     executed_exit_reason_dist[exec_primary_reason] =                         executed_exit_reason_dist.get(exec_primary_reason, 0) + 1
                     closed_trades.append({
                         "symbol":               sym,
@@ -1257,13 +1250,17 @@ def run_stateful_simulation(
             )
 
             day_signals[sym] = {
-                "action": action,
-                "leader_score": ls,
-                "close_t": close_t,
-                "rs_score": rs,
+                "symbol":         sym,
+                "action":         action,
+                # 完整保存所有 trade_action_reason 所需字段，避免第二轮作用域污染
+                "trend_state":    state,
                 "momentum_score": mom,
-                "trend_health": th,
-                "trend_state": state,
+                "rs_score":       rs,
+                "leader_score":   ls,
+                "trend_health":   th,
+                "close_t":        close_t,
+                "ma50":           ma50_v,
+                "ma50_slope":     ma50_sl,
             }
 
         # Top 3 Entry Universe:
@@ -1279,9 +1276,16 @@ def run_stateful_simulation(
         management_orders = []
         buy_orders = []
         for sym, sig in day_signals.items():
+            # 从 sig 完整读取所有字段，严格避免跨 sym 的变量作用域污染
             action  = sig["action"]
+            state   = sig["trend_state"]
+            mom     = sig["momentum_score"]
+            rs      = sig["rs_score"]
             ls      = sig["leader_score"]
+            th      = sig["trend_health"]
             close_t = sig["close_t"]
+            ma50_v  = sig["ma50"]
+            ma50_sl = sig["ma50_slope"]
 
             # 已持仓股票：记录每天动作；是否卖出/减仓只看 Trade Action，不看是否仍在 Top 3
             if sym in holdings:
@@ -1345,6 +1349,15 @@ def run_stateful_simulation(
                     ls, th, market_score_default,
                     ls60_exit_mode=ls60_exit_mode,
                 )
+                # 严格一致性检查：action 与 reason_info["action"] 必须一致
+                reason_action = reason_info.get("action", "")
+                if action != reason_action:
+                    raise RuntimeError(
+                        f"action_reason_mismatch: {sym} "
+                        f"sig_action={action} reason_action={reason_action} "
+                        f"ls60_exit_mode={ls60_exit_mode} "
+                        f"ls={ls:.1f} state={state} price={close_t:.2f} ma50={ma50_v:.2f}"
+                    )
                 if action in ("EXIT", "REDUCE"):
                     pr = reason_info.get("primary_reason", "")
                     pending_signal_reason_dist[pr] = pending_signal_reason_dist.get(pr, 0) + 1
