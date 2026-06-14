@@ -752,6 +752,8 @@ def run_stateful_simulation(
     step:           int  = 1,
     min_history:    int  = 120,
     market_score_default: float = 60.0,
+    sim_start_date: str  = None,  # 交易执行起始日（None=从 min_history 后开始）
+    sim_end_date:   str  = None,  # 交易执行截止日（None=到末尾）
 ) -> dict:
     """
     Layer D v1.6: Strict Top3 + RS threshold + MinHold + Relative SPX Stop
@@ -825,7 +827,11 @@ def run_stateful_simulation(
     sim_start_date = master_dates[min_history] if len(master_dates) > min_history else (master_dates[0] if master_dates else "?")
     sim_end_date   = master_dates[-2] if len(master_dates) >= 2 else (master_dates[-1] if master_dates else "?")
     logger.info(f"  时间轴: {master_dates[0] if master_dates else '?'} → {master_dates[-1] if master_dates else '?'} ({n_days} bars)")
-    logger.info(f"  回测区间: {sim_start_date} → {sim_end_date}")
+    # 交易执行区间（不影响 warm-up 和指标计算，只控制交易时段）
+    _trade_start = sim_start_date  # None = 从 min_history 后第一天
+    _trade_end   = sim_end_date    # None = 到末尾
+    logger.info(f"  时间轴: {master_dates[0] if master_dates else '?'} → {master_dates[-1] if master_dates else '?'} ({n_days} bars)")
+    logger.info(f"  回测区间: {_trade_start or (master_dates[min_history] if len(master_dates)>min_history else '?')} → {_trade_end or (master_dates[-2] if len(master_dates)>=2 else '?')}")
 
     # ── 修正2: Date-based lookup 索引 ─────────────────────
     # 为每只股票建立 date→index 映射，按日期对齐而非 array index
@@ -946,6 +952,15 @@ def run_stateful_simulation(
         date_t1 = master_dates[t+1] if t+1 < len(master_dates) else None
         if not date_t or not date_t1:
             continue
+
+        # ── 交易执行区间过滤 ────────────────────────────
+        # master_dates 保持完整（指标计算不受影响）；
+        # 只有在 [_trade_start, _trade_end] 区间内才执行交易和统计
+        if _trade_start and date_t < _trade_start:
+            pending_orders = []   # 不生成订单
+            continue
+        if _trade_end and date_t > _trade_end:
+            break
 
         # ════════════════════════════════════════════════
         # STEP 1: 执行前一日 pending orders（T-1信号 → T日执行）
@@ -1536,7 +1551,11 @@ def run_stateful_simulation(
     # ════════════════════════════════════════════════════
     # 修正4: sample_validity 检查
     # ════════════════════════════════════════════════════
-    simulation_days      = n_days - min_history
+    # 统计回测区间（仅计算实际执行交易的天数）
+    trade_dates = [d for d in master_dates
+                   if (not _trade_start or d >= _trade_start)
+                   and (not _trade_end or d <= _trade_end)]
+    simulation_days = len(trade_dates)
     completed_trades     = len([t for t in closed_trades if not t.get("is_sim_end")])
     total_trades         = len(closed_trades)
     sim_end_ratio        = sim_end_count / max(total_trades, 1)
@@ -1799,17 +1818,47 @@ def run_strategy_variant_comparison(
         },
     }
 
-    variant_results = {}
-    for variant_id, assumptions in variants.items():
-        logger.info(f"  === Running {variant_id} ===")
-        variant_results[variant_id] = run_stateful_simulation(
-            symbols=symbols,
-            prices_map=prices_map,
-            dates_map=dates_map,
-            spx_prices=spx_prices,
-            spx_dates=spx_dates,
-            assumptions=assumptions,
-        )
+    # ── 分期定义 ─────────────────────────────────────────────────
+    # 时间轴保持完整（确保 warm-up / MA50 / RS 计算不失真）；
+    # 只用 sim_start_date / sim_end_date 控制交易执行和统计区间。
+    periods = {
+        "A_2023_11_TO_2024_12": {
+            "label":          "Period A: 2023-11 → 2024-12",
+            "sim_start_date": "2023-11-06",
+            "sim_end_date":   "2024-12-31",
+        },
+        "B_2024_12_TO_2026_06": {
+            "label":          "Period B: 2024-12 → 2026-06",
+            "sim_start_date": "2024-12-03",
+            "sim_end_date":   "2026-06-11",
+        },
+        "C_FULL_2023_11_TO_2026_06": {
+            "label":          "Period C (Full): 2023-11 → 2026-06",
+            "sim_start_date": "2023-11-06",
+            "sim_end_date":   "2026-06-11",
+        },
+    }
+
+    # ── 逐 period × variant 跑回测 ──────────────────────────────
+    period_results = {}
+    for period_key, period_cfg in periods.items():
+        logger.info(f"  ══ {period_cfg['label']} ══")
+        period_results[period_key] = {"label": period_cfg["label"], "variants": {}}
+        for variant_id, assumptions in variants.items():
+            logger.info(f"    === {period_key}/{variant_id} ===")
+            period_results[period_key]["variants"][variant_id] = run_stateful_simulation(
+                symbols=symbols,
+                prices_map=prices_map,
+                dates_map=dates_map,
+                spx_prices=spx_prices,
+                spx_dates=spx_dates,
+                assumptions=assumptions,
+                sim_start_date=period_cfg["sim_start_date"],
+                sim_end_date=period_cfg["sim_end_date"],
+            )
+
+    # ── 为兼容现有输出格式，把 Period C（全区间）当作主结果 ────
+    variant_results = period_results["C_FULL_2023_11_TO_2026_06"]["variants"]
 
     status_rank = {
         "PASS":                          5,
@@ -1874,6 +1923,22 @@ def run_strategy_variant_comparison(
         )
     logger.info(f"  Selected strategy variant: {selected_id}")
 
+    # ── 分期对比摘要 ──────────────────────────────────────────────
+    logger.info("  ══ Period Comparison Summary ══")
+    for period_key, pcfg in period_results.items():
+        logger.info(f"  [{pcfg['label']}]")
+        for vid, res in pcfg["variants"].items():
+            r = res.get("total_return_pct", 0)
+            a = res.get("alpha_pct", 0)
+            dd = res.get("max_drawdown_pct", 0)
+            pf = res.get("profit_factor", 0)
+            n  = res.get("number_of_trades", 0)
+            sd = res.get("sample_validity", {}).get("simulation_days", 0)
+            logger.info(
+                f"    {vid:<30} Return={r:+.1f}% Alpha={a:+.1f}% "
+                f"MaxDD={dd:.1f}% PF={pf:.2f} Trades={n} Days={sd}"
+            )
+
     # Preserve selected Layer D's top-level shape for current exporters/dashboard.
     return {
         **selected_result,
@@ -1886,6 +1951,30 @@ def run_strategy_variant_comparison(
         ),
         "comparison": comparison_rows,
         "variant_results": variant_results,
+        "period_comparison": {
+            pk: {
+                "label":    pv["label"],
+                "variants": {
+                    vid: {
+                        "status":           r.get("status"),
+                        "total_return_pct": r.get("total_return_pct"),
+                        "alpha_pct":        r.get("alpha_pct"),
+                        "cagr_pct":         r.get("cagr_pct"),
+                        "max_drawdown_pct": r.get("max_drawdown_pct"),
+                        "profit_factor":    r.get("profit_factor"),
+                        "sharpe_ratio":     r.get("sharpe_ratio"),
+                        "number_of_trades": r.get("number_of_trades"),
+                        "win_rate_pct":     r.get("win_rate_pct"),
+                        "avg_holding_days": r.get("avg_holding_days"),
+                        "simulation_days":  r.get("sample_validity", {}).get("simulation_days"),
+                        "sim_start_date":   r.get("sample_validity", {}).get("simulation_start_date"),
+                        "sim_end_date":     r.get("sample_validity", {}).get("simulation_end_date"),
+                    }
+                    for vid, r in pv["variants"].items()
+                },
+            }
+            for pk, pv in period_results.items()
+        },
     }
 
 
