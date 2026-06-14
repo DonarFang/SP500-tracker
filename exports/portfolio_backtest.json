@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-14T06:36:50.160187-04:00",
-  "generated_at_display": "2026年6月14日 06:36 ET",
+  "generated_at": "2026-06-14T07:06:12.816128-04:00",
+  "generated_at_display": "2026年6月14日 07:06 ET",
   "layer": "D",
   "name": "3-Variant LS60 Mode Comparison",
   "status": "FAIL",
@@ -85,7 +85,7 @@
     "max_single_size_reached": 29,
     "no_t1_price": 0,
     "invalid_execution_price": 0,
-    "size_at_minimum": 892,
+    "size_at_minimum": 858,
     "not_holding": 0,
     "not_in_entry_top_n": 2591,
     "market_risk_off_block": 0,
@@ -93,24 +93,24 @@
     "add_blocked_after_tp": 0,
     "entry_rs_below_threshold": 2566,
     "min_hold_block": 0,
-    "ls60_reduce_already_triggered": 12
+    "ls60_reduce_already_triggered": 46
   },
   "initial_capital": 100000.0,
-  "final_equity": 99271.02,
-  "total_return_pct": -0.73,
-  "cagr_pct": -0.28,
+  "final_equity": 99500.46,
+  "total_return_pct": -0.5,
+  "cagr_pct": -0.19,
   "max_drawdown_pct": 42.39,
   "win_rate_pct": 35.0,
   "profit_factor": 0.6,
   "sharpe_ratio": -0.27,
   "number_of_trades": 20,
   "avg_holding_days": 98.1,
-  "avg_winner_pct": 8.18,
+  "avg_winner_pct": 8.21,
   "avg_loser_pct": -7.39,
   "exposure_pct": 100.3,
   "spx_total_return_pct": 66.45,
   "spx_cagr_pct": 21.77,
-  "alpha_pct": -67.18,
+  "alpha_pct": -66.95,
   "pending_orders_executed": 200,
   "pending_orders_skipped": 7486,
   "portfolio_action_distribution": {
@@ -122,26 +122,21 @@
     "TP_REDUCE": 0
   },
   "executed_exit_reason_distribution": {
-    "broken_trend": 5,
-    "reason_mismatch_ls60_reduce_exit": 7,
-    "price_below_ma50_and_ma50_slope_down": 5
+    "price_below_ma50_and_ma50_slope_down": 15,
+    "broken_trend": 2
   },
   "executed_reduce_reason_distribution": {
-    "price_below_ma50_and_ma50_slope_down": 36,
-    "leader_score_below_75": 33,
-    "broken_trend": 18,
-    "trend_healthy": 2,
-    "leader_score_below_60": 2
+    "leader_score_below_75": 86,
+    "leader_score_below_60": 5
   },
   "pending_signal_reason_distribution": {
-    "price_below_ma50_and_ma50_slope_down": 273,
-    "leader_score_below_60": 216,
-    "leader_score_below_75": 260,
-    "broken_trend": 252,
-    "trend_healthy": 10,
-    "trend_health_below_60": 3
+    "leader_score_below_75": 544,
+    "leader_score_below_60": 440,
+    "price_below_ma50_and_ma50_slope_down": 15,
+    "trend_health_below_60": 13,
+    "broken_trend": 2
   },
-  "avg_execution_drag_pct": 19.753,
+  "avg_execution_drag_pct": 19.754,
   "p0_passed": true,
   "invalid_trades_count": 0,
   "invalid_trades": [],
@@ -160,9 +155,9 @@
     },
     {
       "date": "2023-12-19",
-      "cash": 40158.56,
+      "cash": 40419.73,
       "position_value": 69084.41,
-      "total_equity": 109242.97,
+      "total_equity": 109504.14,
       "n_holdings": 3,
       "pending_orders": 3,
       "market_gate_state": "ALLOW",
@@ -172,9 +167,9 @@
     },
     {
       "date": "2024-02-02",
-      "cash": 47800.85,
-      "position_value": 62342.15,
-      "total_equity": 110143.01,
+      "cash": 47996.19,
+      "position_value": 62407.91,
+      "total_equity": 110404.1,
       "n_holdings": 3,
       "pending_orders": 3,
       "market_gate_state": "ALLOW",
@@ -184,9 +179,9 @@
     },
     {
       "date": "2024-03-18",
-      "cash": 74519.42,
-      "position_value": 42733.36,
-      "total_equity": 117252.79,
+      "cash": 74732.83,
+      "position_value": 42790.34,
+      "total_equity": 117523.17,
       "n_holdings": 3,
       "pending_orders": 6,
       "market_gate_state": "ALLOW",
@@ -196,9 +191,9 @@
     },
     {
       "date": "2024-04-30",
-      "cash": 29196.31,
-      "position_value": 86136.66,
-      "total_equity": 115332.97,
+      "cash": 29304.79,
+      "position_value": 86295.04,
+      "total_equity": 115599.83,
       "n_holdings": 3,
       "pending_orders": 4,
       "market_gate_state": "ALLOW",
@@ -208,11 +203,11 @@
     },
     {
       "date": "2024-06-12",
-      "cash": 85068.28,
-      "position_value": 28479.02,
-      "total_equity": 113547.3,
+      "cash": 85264.94,
+      "position_value": 28544.78,
+      "total_equity": 113809.73,
       "n_holdings": 3,
-      "pending_orders": 5,
+      "pending_orders": 4,
       "market_gate_state": "ALLOW",
       "spx_close": 5421.03,
       "spx_ma50": 5199.72,
@@ -220,9 +215,9 @@
     },
     {
       "date": "2024-07-26",
-      "cash": 17018.63,
-      "position_value": 85561.71,
-      "total_equity": 102580.34,
+      "cash": 17057.97,
+      "position_value": 85759.46,
+      "total_equity": 102817.43,
       "n_holdings": 3,
       "pending_orders": 2,
       "market_gate_state": "ALLOW",
@@ -232,9 +227,9 @@
     },
     {
       "date": "2024-09-09",
-      "cash": 55359.71,
-      "position_value": 40057.36,
-      "total_equity": 95417.07,
+      "cash": 55487.67,
+      "position_value": 40149.94,
+      "total_equity": 95637.61,
       "n_holdings": 3,
       "pending_orders": 5,
       "market_gate_state": "ALLOW",
@@ -244,9 +239,9 @@
     },
     {
       "date": "2024-10-21",
-      "cash": 55359.71,
-      "position_value": 43201.84,
-      "total_equity": 98561.55,
+      "cash": 55487.67,
+      "position_value": 43301.68,
+      "total_equity": 98789.35,
       "n_holdings": 3,
       "pending_orders": 5,
       "market_gate_state": "ALLOW",
@@ -256,9 +251,9 @@
     },
     {
       "date": "2024-12-03",
-      "cash": 75498.69,
-      "position_value": 25766.71,
-      "total_equity": 101265.4,
+      "cash": 75673.19,
+      "position_value": 25826.26,
+      "total_equity": 101499.45,
       "n_holdings": 3,
       "pending_orders": 4,
       "market_gate_state": "ALLOW",
@@ -268,9 +263,9 @@
     },
     {
       "date": "2025-01-17",
-      "cash": 51585.72,
-      "position_value": 49973.6,
-      "total_equity": 101559.33,
+      "cash": 51704.95,
+      "position_value": 50089.11,
+      "total_equity": 101794.06,
       "n_holdings": 3,
       "pending_orders": 5,
       "market_gate_state": "ALLOW",
@@ -280,9 +275,9 @@
     },
     {
       "date": "2025-03-04",
-      "cash": 18003.77,
-      "position_value": 68298.91,
-      "total_equity": 86302.68,
+      "cash": 18045.38,
+      "position_value": 68456.77,
+      "total_equity": 86502.15,
       "n_holdings": 3,
       "pending_orders": 2,
       "market_gate_state": "ALLOW",
@@ -292,9 +287,9 @@
     },
     {
       "date": "2025-04-15",
-      "cash": 57629.37,
-      "position_value": 23638.1,
-      "total_equity": 81267.47,
+      "cash": 57762.57,
+      "position_value": 23692.74,
+      "total_equity": 81455.3,
       "n_holdings": 3,
       "pending_orders": 3,
       "market_gate_state": "ALLOW",
@@ -304,9 +299,9 @@
     },
     {
       "date": "2025-05-29",
-      "cash": 38188.57,
-      "position_value": 38873.31,
-      "total_equity": 77061.88,
+      "cash": 38276.83,
+      "position_value": 38963.16,
+      "total_equity": 77239.99,
       "n_holdings": 3,
       "pending_orders": 4,
       "market_gate_state": "ALLOW",
@@ -316,9 +311,9 @@
     },
     {
       "date": "2025-07-14",
-      "cash": 33873.55,
-      "position_value": 48810.23,
-      "total_equity": 82683.78,
+      "cash": 33951.85,
+      "position_value": 48923.04,
+      "total_equity": 82874.89,
       "n_holdings": 3,
       "pending_orders": 6,
       "market_gate_state": "ALLOW",
@@ -328,9 +323,9 @@
     },
     {
       "date": "2025-08-25",
-      "cash": 6670.06,
-      "position_value": 74783.36,
-      "total_equity": 81453.42,
+      "cash": 6685.48,
+      "position_value": 74956.21,
+      "total_equity": 81641.68,
       "n_holdings": 3,
       "pending_orders": 3,
       "market_gate_state": "ALLOW",
@@ -340,9 +335,9 @@
     },
     {
       "date": "2025-10-07",
-      "cash": 20663.58,
-      "position_value": 75444.91,
-      "total_equity": 96108.49,
+      "cash": 20711.34,
+      "position_value": 75619.28,
+      "total_equity": 96330.62,
       "n_holdings": 3,
       "pending_orders": 4,
       "market_gate_state": "ALLOW",
@@ -352,9 +347,9 @@
     },
     {
       "date": "2025-11-18",
-      "cash": 58744.69,
-      "position_value": 32112.1,
-      "total_equity": 90856.8,
+      "cash": 58880.47,
+      "position_value": 32186.32,
+      "total_equity": 91066.79,
       "n_holdings": 3,
       "pending_orders": 5,
       "market_gate_state": "ALLOW",
@@ -364,9 +359,9 @@
     },
     {
       "date": "2026-01-02",
-      "cash": 56524.93,
-      "position_value": 36588.39,
-      "total_equity": 93113.32,
+      "cash": 56655.57,
+      "position_value": 36672.96,
+      "total_equity": 93328.53,
       "n_holdings": 3,
       "pending_orders": 4,
       "market_gate_state": "ALLOW",
@@ -376,9 +371,9 @@
     },
     {
       "date": "2026-02-17",
-      "cash": 32986.68,
-      "position_value": 66773.8,
-      "total_equity": 99760.48,
+      "cash": 33062.92,
+      "position_value": 66928.13,
+      "total_equity": 99991.05,
       "n_holdings": 3,
       "pending_orders": 4,
       "market_gate_state": "ALLOW",
@@ -388,9 +383,9 @@
     },
     {
       "date": "2026-03-31",
-      "cash": 38161.19,
-      "position_value": 52968.25,
-      "total_equity": 91129.44,
+      "cash": 38249.39,
+      "position_value": 53090.67,
+      "total_equity": 91340.07,
       "n_holdings": 3,
       "pending_orders": 5,
       "market_gate_state": "ALLOW",
@@ -400,9 +395,9 @@
     },
     {
       "date": "2026-05-13",
-      "cash": 44711.95,
-      "position_value": 56715.34,
-      "total_equity": 101427.29,
+      "cash": 44815.29,
+      "position_value": 56846.43,
+      "total_equity": 101661.72,
       "n_holdings": 3,
       "pending_orders": 3,
       "market_gate_state": "ALLOW",
@@ -466,15 +461,15 @@
       "min_holding_days": 0,
       "relative_stop_enabled": false,
       "relative_stop_underperform_pct": -8.0,
-      "total_return_pct": -46.11,
-      "alpha_pct": -112.56,
-      "cagr_pct": -21.26,
+      "total_return_pct": -45.98,
+      "alpha_pct": -112.43,
+      "cagr_pct": -21.18,
       "max_drawdown_pct": 58.8,
       "win_rate_pct": 29.2,
       "profit_factor": 0.16,
       "sharpe_ratio": -1.14,
       "number_of_trades": 24,
-      "avg_winner_pct": 3.58,
+      "avg_winner_pct": 3.61,
       "avg_loser_pct": -9.45,
       "exposure_pct": 100.8,
       "skip_reasons": {
@@ -484,7 +479,7 @@
         "max_single_size_reached": 37,
         "no_t1_price": 0,
         "invalid_execution_price": 0,
-        "size_at_minimum": 902,
+        "size_at_minimum": 858,
         "not_holding": 0,
         "not_in_entry_top_n": 4981,
         "market_risk_off_block": 0,
@@ -492,7 +487,7 @@
         "add_blocked_after_tp": 0,
         "entry_rs_below_threshold": 0,
         "min_hold_block": 0,
-        "ls60_reduce_already_triggered": 12
+        "ls60_reduce_already_triggered": 56
       },
       "relative_stop_stats": {
         "signals": 0,
@@ -508,15 +503,15 @@
       "min_holding_days": 0,
       "relative_stop_enabled": false,
       "relative_stop_underperform_pct": -8.0,
-      "total_return_pct": -0.73,
-      "alpha_pct": -67.18,
-      "cagr_pct": -0.28,
+      "total_return_pct": -0.5,
+      "alpha_pct": -66.95,
+      "cagr_pct": -0.19,
       "max_drawdown_pct": 42.39,
       "win_rate_pct": 35.0,
       "profit_factor": 0.6,
       "sharpe_ratio": -0.27,
       "number_of_trades": 20,
-      "avg_winner_pct": 8.18,
+      "avg_winner_pct": 8.21,
       "avg_loser_pct": -7.39,
       "exposure_pct": 100.3,
       "skip_reasons": {
@@ -526,7 +521,7 @@
         "max_single_size_reached": 29,
         "no_t1_price": 0,
         "invalid_execution_price": 0,
-        "size_at_minimum": 892,
+        "size_at_minimum": 858,
         "not_holding": 0,
         "not_in_entry_top_n": 2591,
         "market_risk_off_block": 0,
@@ -534,7 +529,7 @@
         "add_blocked_after_tp": 0,
         "entry_rs_below_threshold": 2566,
         "min_hold_block": 0,
-        "ls60_reduce_already_triggered": 12
+        "ls60_reduce_already_triggered": 46
       },
       "relative_stop_stats": {
         "signals": 0,
@@ -665,21 +660,14 @@
         "TP_REDUCE": 0
       },
       "executed_exit_reason_distribution": {
-        "price_below_ma50_and_ma50_slope_down": 16,
-        "leader_score_below_60": 25,
-        "broken_trend": 12
+        "leader_score_below_60": 53
       },
       "executed_reduce_reason_distribution": {
-        "price_below_ma50_and_ma50_slope_down": 33,
-        "leader_score_below_75": 65,
-        "broken_trend": 33
+        "leader_score_below_75": 131
       },
       "pending_signal_reason_distribution": {
-        "price_below_ma50_and_ma50_slope_down": 117,
-        "leader_score_below_75": 189,
-        "leader_score_below_60": 25,
-        "broken_trend": 120,
-        "trend_health_below_60": 1
+        "leader_score_below_75": 399,
+        "leader_score_below_60": 53
       },
       "avg_execution_drag_pct": 7.623,
       "p0_passed": true,
@@ -1266,9 +1254,8 @@
           "exit_adverse_gap_pct": 4.628,
           "total_execution_drag_pct": 5.207,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -1592,9 +1579,9 @@
           "exit_adverse_gap_pct": 3.211,
           "total_execution_drag_pct": 13.971,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "broken_trend"
+            "leader_score_below_60"
           ]
         },
         {
@@ -1667,9 +1654,9 @@
           "exit_adverse_gap_pct": 2.134,
           "total_execution_drag_pct": 5.917,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "broken_trend"
+            "leader_score_below_60"
           ]
         },
         {
@@ -1728,9 +1715,8 @@
           "exit_adverse_gap_pct": 6.179,
           "total_execution_drag_pct": 7.576,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -1792,9 +1778,8 @@
           "exit_adverse_gap_pct": 1.893,
           "total_execution_drag_pct": 3.079,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -2721,9 +2706,8 @@
           "exit_adverse_gap_pct": 0.117,
           "total_execution_drag_pct": -0.841,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -2817,9 +2801,8 @@
           "exit_adverse_gap_pct": -0.359,
           "total_execution_drag_pct": 0.318,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -2878,9 +2861,9 @@
           "exit_adverse_gap_pct": 1.702,
           "total_execution_drag_pct": 4.575,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "broken_trend"
+            "leader_score_below_60"
           ]
         },
         {
@@ -2942,9 +2925,8 @@
           "exit_adverse_gap_pct": 0.407,
           "total_execution_drag_pct": 5.06,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -2988,9 +2970,8 @@
           "exit_adverse_gap_pct": 1.77,
           "total_execution_drag_pct": 3.427,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -3079,9 +3060,8 @@
           "exit_adverse_gap_pct": 0.773,
           "total_execution_drag_pct": 11.014,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -3176,9 +3156,8 @@
           "exit_adverse_gap_pct": 2.14,
           "total_execution_drag_pct": 5.195,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -3357,9 +3336,8 @@
           "exit_adverse_gap_pct": 3.381,
           "total_execution_drag_pct": 4.578,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -3436,9 +3414,8 @@
           "exit_adverse_gap_pct": 7.051,
           "total_execution_drag_pct": 9.329,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -3514,9 +3491,8 @@
           "exit_adverse_gap_pct": 3.418,
           "total_execution_drag_pct": 3.877,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -3702,9 +3678,9 @@
           "exit_adverse_gap_pct": 1.264,
           "total_execution_drag_pct": 7.806,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "broken_trend"
+            "leader_score_below_60"
           ]
         },
         {
@@ -3860,9 +3836,8 @@
           "exit_adverse_gap_pct": -0.227,
           "total_execution_drag_pct": 0.68,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -3938,9 +3913,8 @@
           "exit_adverse_gap_pct": 7.921,
           "total_execution_drag_pct": 19.795,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -3999,9 +3973,9 @@
           "exit_adverse_gap_pct": 9.439,
           "total_execution_drag_pct": 19.716,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "broken_trend"
+            "leader_score_below_60"
           ]
         },
         {
@@ -4054,9 +4028,9 @@
           "exit_adverse_gap_pct": 4.454,
           "total_execution_drag_pct": 7.276,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "broken_trend"
+            "leader_score_below_60"
           ]
         },
         {
@@ -4101,9 +4075,9 @@
           "exit_adverse_gap_pct": 1.719,
           "total_execution_drag_pct": 5.498,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "broken_trend"
+            "leader_score_below_60"
           ]
         },
         {
@@ -4294,9 +4268,9 @@
           "exit_adverse_gap_pct": -0.032,
           "total_execution_drag_pct": 57.969,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "broken_trend"
+            "leader_score_below_60"
           ]
         },
         {
@@ -4822,9 +4796,8 @@
           "exit_adverse_gap_pct": 1.411,
           "total_execution_drag_pct": 6.711,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -4878,9 +4851,8 @@
           "exit_adverse_gap_pct": 1.07,
           "total_execution_drag_pct": 1.361,
           "is_sim_end": false,
-          "exit_reason": "price_below_ma50_and_ma50_slope_down",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -5015,9 +4987,9 @@
           "exit_adverse_gap_pct": 2.873,
           "total_execution_drag_pct": 6.221,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "broken_trend"
+            "leader_score_below_60"
           ]
         },
         {
@@ -5081,9 +5053,9 @@
           "exit_adverse_gap_pct": 3.117,
           "total_execution_drag_pct": 5.412,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "broken_trend"
+            "leader_score_below_60"
           ]
         },
         {
@@ -5132,9 +5104,9 @@
           "exit_adverse_gap_pct": 1.491,
           "total_execution_drag_pct": 3.045,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "broken_trend"
+            "leader_score_below_60"
           ]
         },
         {
@@ -5205,9 +5177,9 @@
           "exit_adverse_gap_pct": 2.656,
           "total_execution_drag_pct": 3.157,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "leader_score_below_60",
           "exit_reasons": [
-            "broken_trend"
+            "leader_score_below_60"
           ]
         },
         {
@@ -5397,7 +5369,7 @@
         "max_single_size_reached": 37,
         "no_t1_price": 0,
         "invalid_execution_price": 0,
-        "size_at_minimum": 902,
+        "size_at_minimum": 858,
         "not_holding": 0,
         "not_in_entry_top_n": 4981,
         "market_risk_off_block": 0,
@@ -5405,24 +5377,24 @@
         "add_blocked_after_tp": 0,
         "entry_rs_below_threshold": 0,
         "min_hold_block": 0,
-        "ls60_reduce_already_triggered": 12
+        "ls60_reduce_already_triggered": 56
       },
       "initial_capital": 100000.0,
-      "final_equity": 53885.64,
-      "total_return_pct": -46.11,
-      "cagr_pct": -21.26,
+      "final_equity": 54017.36,
+      "total_return_pct": -45.98,
+      "cagr_pct": -21.18,
       "max_drawdown_pct": 58.8,
       "win_rate_pct": 29.2,
       "profit_factor": 0.16,
       "sharpe_ratio": -1.14,
       "number_of_trades": 24,
       "avg_holding_days": 82.1,
-      "avg_winner_pct": 3.58,
+      "avg_winner_pct": 3.61,
       "avg_loser_pct": -9.45,
       "exposure_pct": 100.8,
       "spx_total_return_pct": 66.45,
       "spx_cagr_pct": 21.77,
-      "alpha_pct": -112.56,
+      "alpha_pct": -112.43,
       "pending_orders_executed": 222,
       "pending_orders_skipped": 7607,
       "portfolio_action_distribution": {
@@ -5434,24 +5406,20 @@
         "TP_REDUCE": 0
       },
       "executed_exit_reason_distribution": {
-        "reason_mismatch_ls60_reduce_exit": 9,
-        "price_below_ma50_and_ma50_slope_down": 6,
-        "broken_trend": 5,
-        "leader_score_below_75": 1
+        "price_below_ma50_and_ma50_slope_down": 18,
+        "broken_trend": 3
       },
       "executed_reduce_reason_distribution": {
-        "price_below_ma50_and_ma50_slope_down": 34,
-        "leader_score_below_75": 42,
-        "broken_trend": 20,
-        "trend_healthy": 2,
-        "leader_score_below_60": 2
+        "leader_score_below_75": 91,
+        "leader_score_below_60": 8,
+        "trend_health_below_60": 1
       },
       "pending_signal_reason_distribution": {
-        "price_below_ma50_and_ma50_slope_down": 283,
-        "leader_score_below_60": 225,
-        "leader_score_below_75": 277,
-        "broken_trend": 240,
-        "trend_healthy": 11
+        "leader_score_below_75": 575,
+        "leader_score_below_60": 429,
+        "price_below_ma50_and_ma50_slope_down": 18,
+        "trend_health_below_60": 11,
+        "broken_trend": 3
       },
       "avg_execution_drag_pct": 17.633,
       "p0_passed": true,
@@ -5462,133 +5430,133 @@
         101877.5,
         102004.41,
         102411.58,
-        101833.17,
-        103159.29,
-        102323.32,
-        102493.57,
-        102134.53,
-        102540.87,
-        103296.32,
-        103528.64,
-        103971.3,
-        104995.95,
-        104181.39,
-        106166.12,
-        117026.03,
-        114541.73,
-        112005.1,
-        113594.69,
-        114099.61,
-        114097.52,
-        113257.24,
-        113343.55,
-        114465.42,
-        114320.18,
-        115539.23,
-        120161.59,
-        128544.6,
-        112174.48,
-        112274.44,
-        112390.1,
-        110027.35,
-        110464.27,
-        109885.01,
-        104076.55,
-        99551.98,
-        92833.82,
-        91443.61,
-        92711.68,
-        94879.59,
-        95439.31,
-        92599.53,
-        94204.34,
-        94433.87,
-        95104.87,
-        94628.62,
-        96028.7,
-        95652.89,
-        95993.23,
-        97873.59,
-        101668.0,
-        98313.2,
-        98598.51,
-        98277.55,
-        98116.64,
-        97362.44,
-        97303.45,
-        96984.4,
-        97106.4,
-        98562.8,
-        87601.5,
-        88265.15,
-        89391.83,
-        88511.51,
-        83899.76,
-        83756.3,
-        82271.55,
-        81416.85,
-        81045.34,
-        82217.73,
-        77814.88,
-        78279.21,
-        76101.79,
-        75887.86,
-        74804.43,
-        72750.25,
-        74449.73,
-        74517.91,
-        75093.78,
-        73971.31,
-        74169.47,
-        75080.16,
-        75860.37,
-        76790.02,
-        77050.91,
-        81307.74,
-        82165.85,
-        82123.63,
-        79066.63,
-        79573.14,
-        81259.02,
-        81642.66,
-        81921.23,
-        83976.38,
-        83675.14,
-        84989.44,
-        81643.04,
-        81028.75,
-        81439.18,
-        83701.16,
-        83309.07,
-        80894.77,
-        82815.45,
-        80127.12,
-        79056.46,
-        79731.76,
-        81190.43,
-        79906.62,
-        79746.83,
-        80241.18,
-        83131.05,
-        78809.0,
-        75429.92,
-        73378.82,
-        72789.14,
-        69338.65,
-        68425.19,
-        70427.23,
-        66916.8,
-        65127.51,
-        61123.0,
-        59401.72,
-        59745.31,
-        61094.42,
-        58650.56,
-        56885.18,
-        56656.99,
-        54864.46,
-        56719.89,
-        53885.64
+        101861.51,
+        103267.98,
+        102584.49,
+        102754.74,
+        102395.7,
+        102802.04,
+        103557.49,
+        103789.34,
+        104232.22,
+        105255.97,
+        104440.26,
+        106427.33,
+        117313.62,
+        114823.42,
+        112280.01,
+        113872.1,
+        114377.02,
+        114376.72,
+        113536.21,
+        113621.62,
+        114746.12,
+        114599.42,
+        115822.19,
+        120455.86,
+        128859.58,
+        112449.28,
+        112549.42,
+        112664.84,
+        110296.32,
+        110734.3,
+        110153.63,
+        104330.97,
+        99795.33,
+        93060.76,
+        91667.14,
+        92938.31,
+        95111.52,
+        95672.61,
+        92825.89,
+        94434.63,
+        94664.71,
+        95337.35,
+        94859.94,
+        96263.45,
+        95886.71,
+        96227.88,
+        98112.84,
+        101916.52,
+        98553.53,
+        98839.54,
+        98517.79,
+        98356.49,
+        97600.45,
+        97541.31,
+        97221.48,
+        97343.77,
+        98803.73,
+        87815.65,
+        88480.91,
+        89610.35,
+        88727.88,
+        84104.85,
+        83961.04,
+        82472.66,
+        81615.87,
+        81243.45,
+        82418.71,
+        78005.1,
+        78470.56,
+        76287.82,
+        76073.37,
+        74987.29,
+        72928.09,
+        74631.73,
+        74700.07,
+        75277.35,
+        74152.14,
+        74350.78,
+        75263.7,
+        76045.81,
+        76977.73,
+        77239.27,
+        81506.5,
+        82366.71,
+        82324.39,
+        79259.91,
+        79767.65,
+        81457.65,
+        81842.23,
+        82121.49,
+        84181.66,
+        83879.68,
+        85197.19,
+        81842.62,
+        81226.83,
+        81638.26,
+        83905.77,
+        83512.72,
+        81092.52,
+        83017.89,
+        80323.0,
+        79249.71,
+        79926.67,
+        81388.9,
+        80101.96,
+        79941.77,
+        80437.33,
+        83334.26,
+        79001.65,
+        75614.31,
+        73558.2,
+        72967.08,
+        69508.15,
+        68592.46,
+        70599.39,
+        67080.38,
+        65286.72,
+        61272.41,
+        59546.93,
+        59891.36,
+        61243.76,
+        58793.93,
+        57024.24,
+        56795.49,
+        54998.58,
+        56858.54,
+        54017.36
       ],
       "spx_curve": [
         100000.0,
@@ -5737,9 +5705,9 @@
         },
         {
           "date": "2023-12-19",
-          "cash": 58476.96,
+          "cash": 58738.13,
           "position_value": 43846.37,
-          "total_equity": 102323.32,
+          "total_equity": 102584.49,
           "n_holdings": 3,
           "pending_orders": 5,
           "market_gate_state": "ALLOW",
@@ -5749,9 +5717,9 @@
         },
         {
           "date": "2024-02-02",
-          "cash": 63523.61,
-          "position_value": 40447.69,
-          "total_equity": 103971.3,
+          "cash": 63762.45,
+          "position_value": 40469.77,
+          "total_equity": 104232.22,
           "n_holdings": 3,
           "pending_orders": 4,
           "market_gate_state": "ALLOW",
@@ -5761,9 +5729,9 @@
         },
         {
           "date": "2024-03-18",
-          "cash": 69551.33,
-          "position_value": 42453.77,
-          "total_equity": 112005.1,
+          "cash": 69779.45,
+          "position_value": 42500.56,
+          "total_equity": 112280.01,
           "n_holdings": 3,
           "pending_orders": 5,
           "market_gate_state": "ALLOW",
@@ -5773,9 +5741,9 @@
         },
         {
           "date": "2024-04-30",
-          "cash": 48250.08,
-          "position_value": 66215.34,
-          "total_equity": 114465.42,
+          "cash": 48419.01,
+          "position_value": 66327.11,
+          "total_equity": 114746.12,
           "n_holdings": 3,
           "pending_orders": 3,
           "market_gate_state": "ALLOW",
@@ -5785,11 +5753,11 @@
         },
         {
           "date": "2024-06-12",
-          "cash": 74736.94,
-          "position_value": 37537.5,
-          "total_equity": 112274.44,
+          "cash": 74927.78,
+          "position_value": 37621.64,
+          "total_equity": 112549.42,
           "n_holdings": 3,
-          "pending_orders": 5,
+          "pending_orders": 4,
           "market_gate_state": "ALLOW",
           "spx_close": 5421.03,
           "spx_ma50": 5199.72,
@@ -5797,9 +5765,9 @@
         },
         {
           "date": "2024-07-26",
-          "cash": 16501.98,
-          "position_value": 83050.0,
-          "total_equity": 99551.98,
+          "cash": 16542.32,
+          "position_value": 83253.02,
+          "total_equity": 99795.33,
           "n_holdings": 3,
           "pending_orders": 2,
           "market_gate_state": "ALLOW",
@@ -5809,9 +5777,9 @@
         },
         {
           "date": "2024-09-09",
-          "cash": 53713.25,
-          "position_value": 38886.28,
-          "total_equity": 92599.53,
+          "cash": 53844.55,
+          "position_value": 38981.34,
+          "total_equity": 92825.89,
           "n_holdings": 3,
           "pending_orders": 5,
           "market_gate_state": "ALLOW",
@@ -5821,9 +5789,9 @@
         },
         {
           "date": "2024-10-21",
-          "cash": 53713.25,
-          "position_value": 41939.64,
-          "total_equity": 95652.89,
+          "cash": 53844.55,
+          "position_value": 42042.16,
+          "total_equity": 95886.71,
           "n_holdings": 3,
           "pending_orders": 6,
           "market_gate_state": "ALLOW",
@@ -5833,9 +5801,9 @@
         },
         {
           "date": "2024-12-03",
-          "cash": 73271.32,
-          "position_value": 25006.23,
-          "total_equity": 98277.55,
+          "cash": 73450.43,
+          "position_value": 25067.36,
+          "total_equity": 98517.79,
           "n_holdings": 3,
           "pending_orders": 5,
           "market_gate_state": "ALLOW",
@@ -5845,9 +5813,9 @@
         },
         {
           "date": "2025-01-17",
-          "cash": 50063.67,
-          "position_value": 48499.13,
-          "total_equity": 98562.8,
+          "cash": 50186.05,
+          "position_value": 48617.68,
+          "total_equity": 98803.73,
           "n_holdings": 3,
           "pending_orders": 5,
           "market_gate_state": "ALLOW",
@@ -5857,9 +5825,9 @@
         },
         {
           "date": "2025-03-04",
-          "cash": 17472.56,
-          "position_value": 66283.73,
-          "total_equity": 83756.3,
+          "cash": 17515.28,
+          "position_value": 66445.76,
+          "total_equity": 83961.04,
           "n_holdings": 3,
           "pending_orders": 2,
           "market_gate_state": "ALLOW",
@@ -5869,9 +5837,9 @@
         },
         {
           "date": "2025-04-15",
-          "cash": 55555.94,
-          "position_value": 22723.27,
-          "total_equity": 78279.21,
+          "cash": 55691.74,
+          "position_value": 22778.82,
+          "total_equity": 78470.56,
           "n_holdings": 3,
           "pending_orders": 3,
           "market_gate_state": "ALLOW",
@@ -5881,9 +5849,9 @@
         },
         {
           "date": "2025-05-29",
-          "cash": 18727.9,
-          "position_value": 55790.0,
-          "total_equity": 74517.91,
+          "cash": 18773.68,
+          "position_value": 55926.38,
+          "total_equity": 74700.07,
           "n_holdings": 3,
           "pending_orders": 2,
           "market_gate_state": "ALLOW",
@@ -5893,9 +5861,9 @@
         },
         {
           "date": "2025-07-14",
-          "cash": 33908.07,
-          "position_value": 42881.95,
-          "total_equity": 76790.02,
+          "cash": 33990.96,
+          "position_value": 42986.77,
+          "total_equity": 76977.73,
           "n_holdings": 3,
           "pending_orders": 4,
           "market_gate_state": "ALLOW",
@@ -5905,9 +5873,9 @@
         },
         {
           "date": "2025-08-25",
-          "cash": 18223.39,
-          "position_value": 61349.75,
-          "total_equity": 79573.14,
+          "cash": 18267.94,
+          "position_value": 61499.71,
+          "total_equity": 79767.65,
           "n_holdings": 3,
           "pending_orders": 4,
           "market_gate_state": "ALLOW",
@@ -5917,9 +5885,9 @@
         },
         {
           "date": "2025-10-07",
-          "cash": 30659.94,
-          "position_value": 54329.5,
-          "total_equity": 84989.44,
+          "cash": 30734.89,
+          "position_value": 54462.3,
+          "total_equity": 85197.19,
           "n_holdings": 3,
           "pending_orders": 4,
           "market_gate_state": "ALLOW",
@@ -5929,9 +5897,9 @@
         },
         {
           "date": "2025-11-18",
-          "cash": 32488.11,
-          "position_value": 48406.66,
-          "total_equity": 80894.77,
+          "cash": 32567.52,
+          "position_value": 48524.99,
+          "total_equity": 81092.52,
           "n_holdings": 3,
           "pending_orders": 6,
           "market_gate_state": "ALLOW",
@@ -5941,9 +5909,9 @@
         },
         {
           "date": "2026-01-02",
-          "cash": 35781.82,
-          "position_value": 44124.8,
-          "total_equity": 79906.62,
+          "cash": 35869.29,
+          "position_value": 44232.66,
+          "total_equity": 80101.96,
           "n_holdings": 3,
           "pending_orders": 4,
           "market_gate_state": "ALLOW",
@@ -5953,9 +5921,9 @@
         },
         {
           "date": "2026-02-17",
-          "cash": 38955.37,
-          "position_value": 34423.46,
-          "total_equity": 73378.82,
+          "cash": 39050.59,
+          "position_value": 34507.6,
+          "total_equity": 73558.2,
           "n_holdings": 3,
           "pending_orders": 5,
           "market_gate_state": "ALLOW",
@@ -5965,9 +5933,9 @@
         },
         {
           "date": "2026-03-31",
-          "cash": 13123.78,
-          "position_value": 52003.73,
-          "total_equity": 65127.51,
+          "cash": 13155.86,
+          "position_value": 52130.85,
+          "total_equity": 65286.72,
           "n_holdings": 3,
           "pending_orders": 4,
           "market_gate_state": "ALLOW",
@@ -5977,9 +5945,9 @@
         },
         {
           "date": "2026-05-13",
-          "cash": 37363.64,
-          "position_value": 19521.54,
-          "total_equity": 56885.18,
+          "cash": 37454.98,
+          "position_value": 19569.26,
+          "total_equity": 57024.24,
           "n_holdings": 3,
           "pending_orders": 4,
           "market_gate_state": "ALLOW",
@@ -6150,8 +6118,9 @@
           "exit_adverse_gap_pct": 0.451,
           "total_execution_drag_pct": 3.058,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
+            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -6162,11 +6131,11 @@
           "entry_signal": "BUY",
           "exit_signal": "EXIT",
           "entry_price": 41.38,
-          "avg_cost": 60.99,
+          "avg_cost": 61.0,
           "exit_price": 57.67,
           "effective_exit": 56.42,
-          "return_pct": 5.03,
-          "max_gain_pct": 12.39,
+          "return_pct": 5.02,
+          "max_gain_pct": 12.38,
           "max_drawdown_in_trade": 39.75,
           "holding_days": 171,
           "size_units_at_exit": 0.5,
@@ -6175,7 +6144,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": 5033.16,
+          "realized_pnl_before_exit": 5032.4,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -6362,12 +6331,13 @@
           ],
           "action_count": 182,
           "execution_model": "adverse_intraday_v1.0",
-          "entry_adverse_gap_pct": 47.391,
+          "entry_adverse_gap_pct": 47.405,
           "exit_adverse_gap_pct": 2.161,
-          "total_execution_drag_pct": 49.552,
+          "total_execution_drag_pct": 49.566,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
+            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -6391,7 +6361,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -4141.65,
+          "realized_pnl_before_exit": -4151.79,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -6458,8 +6428,9 @@
           "exit_adverse_gap_pct": 5.355,
           "total_execution_drag_pct": 7.848,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
+            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -6473,7 +6444,7 @@
           "avg_cost": 118.7,
           "exit_price": 108.24,
           "effective_exit": 108.25,
-          "return_pct": 5.49,
+          "return_pct": 5.72,
           "max_gain_pct": 46.15,
           "max_drawdown_in_trade": 62.58,
           "holding_days": 180,
@@ -6483,7 +6454,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": 6898.98,
+          "realized_pnl_before_exit": 7175.61,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -6683,12 +6654,13 @@
           ],
           "action_count": 195,
           "execution_model": "adverse_intraday_v1.0",
-          "entry_adverse_gap_pct": 71.803,
+          "entry_adverse_gap_pct": 71.804,
           "exit_adverse_gap_pct": -0.011,
-          "total_execution_drag_pct": 71.792,
+          "total_execution_drag_pct": 71.794,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
+            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -6712,7 +6684,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -824.58,
+          "realized_pnl_before_exit": -826.6,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -6875,7 +6847,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -3142.6,
+          "realized_pnl_before_exit": -3150.29,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -7067,7 +7039,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -4792.28,
+          "realized_pnl_before_exit": -4804.0,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -7099,9 +7071,9 @@
           "exit_adverse_gap_pct": 7.547,
           "total_execution_drag_pct": 12.428,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "broken_trend",
           "exit_reasons": [
-            "leader_score_below_60"
+            "broken_trend"
           ]
         },
         {
@@ -7124,7 +7096,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -2920.18,
+          "realized_pnl_before_exit": -2927.32,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -7336,7 +7308,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -2730.86,
+          "realized_pnl_before_exit": -2737.54,
           "actions_during_trade": [
             "BUY",
             "ADD",
@@ -7388,9 +7360,10 @@
           "exit_adverse_gap_pct": 4.633,
           "total_execution_drag_pct": 4.007,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
-            "broken_trend"
+            "price_below_ma50_and_ma50_slope_down",
+            "leader_score_below_60"
           ]
         },
         {
@@ -7413,7 +7386,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -193.6,
+          "realized_pnl_before_exit": -194.07,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -7477,9 +7450,10 @@
           "exit_adverse_gap_pct": 0.655,
           "total_execution_drag_pct": 2.609,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
-            "broken_trend"
+            "price_below_ma50_and_ma50_slope_down",
+            "leader_score_below_60"
           ]
         },
         {
@@ -7502,7 +7476,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -1175.89,
+          "realized_pnl_before_exit": -1178.76,
           "actions_during_trade": [
             "BUY",
             "HOLD",
@@ -7593,7 +7567,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -116.56,
+          "realized_pnl_before_exit": -116.84,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -7704,7 +7678,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": 4362.62,
+          "realized_pnl_before_exit": 4373.29,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -7820,10 +7794,9 @@
           "exit_adverse_gap_pct": -1.317,
           "total_execution_drag_pct": 29.65,
           "is_sim_end": false,
-          "exit_reason": "leader_score_below_75",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
-            "leader_score_below_75",
-            "trend_health_below_60"
+            "price_below_ma50_and_ma50_slope_down"
           ]
         },
         {
@@ -7846,7 +7819,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -3805.58,
+          "realized_pnl_before_exit": -3814.88,
           "actions_during_trade": [
             "BUY",
             "HOLD",
@@ -7884,9 +7857,10 @@
           "exit_adverse_gap_pct": 4.64,
           "total_execution_drag_pct": 9.909,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
-            "broken_trend"
+            "price_below_ma50_and_ma50_slope_down",
+            "leader_score_below_60"
           ]
         },
         {
@@ -7909,7 +7883,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": 1819.34,
+          "realized_pnl_before_exit": 1823.79,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -8043,8 +8017,9 @@
           "exit_adverse_gap_pct": 1.058,
           "total_execution_drag_pct": 22.689,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
+            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -8068,7 +8043,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -986.18,
+          "realized_pnl_before_exit": -988.59,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -8142,8 +8117,9 @@
           "exit_adverse_gap_pct": 2.088,
           "total_execution_drag_pct": 6.852,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
+            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -8167,7 +8143,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -1239.01,
+          "realized_pnl_before_exit": -1242.04,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -8193,9 +8169,9 @@
           "exit_adverse_gap_pct": 3.192,
           "total_execution_drag_pct": 3.359,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "broken_trend",
           "exit_reasons": [
-            "leader_score_below_60"
+            "broken_trend"
           ]
         },
         {
@@ -8218,7 +8194,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": 3458.43,
+          "realized_pnl_before_exit": 3466.88,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -8529,7 +8505,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -3718.34,
+          "realized_pnl_before_exit": -3727.43,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -8586,9 +8562,9 @@
           "exit_adverse_gap_pct": 7.609,
           "total_execution_drag_pct": 10.755,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "broken_trend",
           "exit_reasons": [
-            "leader_score_below_60"
+            "broken_trend"
           ]
         },
         {
@@ -8611,7 +8587,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -3079.61,
+          "realized_pnl_before_exit": -3087.14,
           "actions_during_trade": [
             "BUY",
             "HOLD",
@@ -8667,9 +8643,10 @@
           "exit_adverse_gap_pct": 1.338,
           "total_execution_drag_pct": 4.459,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
-            "broken_trend"
+            "price_below_ma50_and_ma50_slope_down",
+            "leader_score_below_60"
           ]
         },
         {
@@ -8692,7 +8669,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -3912.83,
+          "realized_pnl_before_exit": -3922.4,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -8757,9 +8734,10 @@
           "exit_adverse_gap_pct": -1.02,
           "total_execution_drag_pct": 0.533,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
-            "broken_trend"
+            "price_below_ma50_and_ma50_slope_down",
+            "leader_score_below_60"
           ]
         },
         {
@@ -8780,7 +8758,7 @@
           "leader_score_entry": 95.3,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -2114.28,
+          "realized_pnl_before_exit": -2119.45,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -8886,7 +8864,7 @@
           "leader_score_entry": 96.0,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -329.93,
+          "realized_pnl_before_exit": -330.73,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -9019,7 +8997,7 @@
         "max_single_size_reached": 29,
         "no_t1_price": 0,
         "invalid_execution_price": 0,
-        "size_at_minimum": 892,
+        "size_at_minimum": 858,
         "not_holding": 0,
         "not_in_entry_top_n": 2591,
         "market_risk_off_block": 0,
@@ -9027,24 +9005,24 @@
         "add_blocked_after_tp": 0,
         "entry_rs_below_threshold": 2566,
         "min_hold_block": 0,
-        "ls60_reduce_already_triggered": 12
+        "ls60_reduce_already_triggered": 46
       },
       "initial_capital": 100000.0,
-      "final_equity": 99271.02,
-      "total_return_pct": -0.73,
-      "cagr_pct": -0.28,
+      "final_equity": 99500.46,
+      "total_return_pct": -0.5,
+      "cagr_pct": -0.19,
       "max_drawdown_pct": 42.39,
       "win_rate_pct": 35.0,
       "profit_factor": 0.6,
       "sharpe_ratio": -0.27,
       "number_of_trades": 20,
       "avg_holding_days": 98.1,
-      "avg_winner_pct": 8.18,
+      "avg_winner_pct": 8.21,
       "avg_loser_pct": -7.39,
       "exposure_pct": 100.3,
       "spx_total_return_pct": 66.45,
       "spx_cagr_pct": 21.77,
-      "alpha_pct": -67.18,
+      "alpha_pct": -66.95,
       "pending_orders_executed": 200,
       "pending_orders_skipped": 7486,
       "portfolio_action_distribution": {
@@ -9056,26 +9034,21 @@
         "TP_REDUCE": 0
       },
       "executed_exit_reason_distribution": {
-        "broken_trend": 5,
-        "reason_mismatch_ls60_reduce_exit": 7,
-        "price_below_ma50_and_ma50_slope_down": 5
+        "price_below_ma50_and_ma50_slope_down": 15,
+        "broken_trend": 2
       },
       "executed_reduce_reason_distribution": {
-        "price_below_ma50_and_ma50_slope_down": 36,
-        "leader_score_below_75": 33,
-        "broken_trend": 18,
-        "trend_healthy": 2,
-        "leader_score_below_60": 2
+        "leader_score_below_75": 86,
+        "leader_score_below_60": 5
       },
       "pending_signal_reason_distribution": {
-        "price_below_ma50_and_ma50_slope_down": 273,
-        "leader_score_below_60": 216,
-        "leader_score_below_75": 260,
-        "broken_trend": 252,
-        "trend_healthy": 10,
-        "trend_health_below_60": 3
+        "leader_score_below_75": 544,
+        "leader_score_below_60": 440,
+        "price_below_ma50_and_ma50_slope_down": 15,
+        "trend_health_below_60": 13,
+        "broken_trend": 2
       },
-      "avg_execution_drag_pct": 19.753,
+      "avg_execution_drag_pct": 19.754,
       "p0_passed": true,
       "invalid_trades_count": 0,
       "invalid_trades": [],
@@ -9084,133 +9057,133 @@
         101715.2,
         102411.77,
         103274.68,
-        106895.17,
-        108336.32,
-        109242.97,
-        109397.58,
-        106833.81,
-        108659.93,
-        109438.92,
-        108960.67,
-        110143.01,
-        113540.08,
-        113034.29,
-        112342.05,
-        123305.19,
-        121095.41,
-        117252.79,
-        118359.18,
-        119187.01,
-        118531.33,
-        116979.07,
-        116631.83,
-        115332.97,
-        115566.34,
-        118156.44,
-        122351.83,
-        130822.38,
-        113796.05,
-        113547.3,
-        114587.19,
-        112527.72,
-        113269.11,
-        112899.9,
-        107207.94,
-        102580.34,
-        95659.16,
-        94226.82,
-        95532.94,
-        97766.3,
-        98342.99,
-        95417.07,
-        97070.14,
-        97306.14,
-        97997.4,
-        97506.97,
-        98948.86,
-        98561.55,
-        98912.3,
-        100849.13,
-        104758.92,
-        101302.14,
-        101596.13,
-        101265.4,
-        101099.6,
-        100322.46,
-        100261.67,
-        99932.92,
-        100058.63,
-        101559.33,
-        90264.79,
-        90948.61,
-        92109.54,
-        91202.46,
-        86450.5,
-        86302.68,
-        84772.79,
-        83756.09,
-        83340.09,
-        84941.71,
-        80423.39,
-        81267.47,
-        79041.31,
-        78841.92,
-        77559.55,
-        75370.28,
-        77053.07,
-        77061.88,
-        78603.33,
-        77570.24,
-        78833.1,
-        81045.41,
-        82826.45,
-        82683.78,
-        82506.4,
-        82970.78,
-        82969.37,
-        82238.66,
-        81954.17,
-        81453.42,
-        84364.85,
-        87993.51,
-        91731.26,
-        95591.79,
-        97405.75,
-        96108.49,
-        95563.37,
-        93961.71,
-        96166.78,
-        95104.77,
-        98169.8,
-        90856.8,
-        93135.07,
-        90517.66,
-        92316.04,
-        92832.9,
-        93552.37,
-        93113.32,
-        96744.28,
-        99076.0,
-        102176.83,
-        101199.09,
-        99916.41,
-        99760.48,
-        99509.31,
-        94930.94,
-        93393.53,
-        94575.29,
-        93034.93,
-        91129.44,
-        92787.39,
-        92096.95,
-        95571.66,
-        98834.6,
-        102179.12,
-        101427.29,
-        96950.08,
-        99453.54,
-        103881.63,
-        99271.02
+        106923.52,
+        108445.01,
+        109504.14,
+        109658.75,
+        107094.98,
+        108921.1,
+        109700.09,
+        109219.65,
+        110404.1,
+        113804.85,
+        113297.43,
+        112601.21,
+        123589.59,
+        121374.65,
+        117523.17,
+        118631.39,
+        119459.93,
+        118804.56,
+        117250.51,
+        116901.25,
+        115599.83,
+        115832.76,
+        118429.51,
+        122634.58,
+        131124.65,
+        114059.05,
+        113809.73,
+        114852.01,
+        112787.79,
+        113530.89,
+        113160.83,
+        107455.72,
+        102817.43,
+        95880.26,
+        94444.61,
+        95753.75,
+        97992.27,
+        98570.29,
+        95637.61,
+        97294.49,
+        97531.04,
+        98223.9,
+        97732.33,
+        99177.55,
+        98789.35,
+        99140.91,
+        101082.22,
+        105001.05,
+        101536.27,
+        101830.95,
+        101499.45,
+        101333.27,
+        100554.33,
+        100493.41,
+        100163.89,
+        100289.89,
+        101794.06,
+        90473.41,
+        91158.81,
+        92322.43,
+        91413.25,
+        86650.31,
+        86502.15,
+        84968.72,
+        83949.67,
+        83532.71,
+        85138.03,
+        80609.27,
+        81455.3,
+        79224.0,
+        79024.15,
+        77738.81,
+        75544.48,
+        77231.16,
+        77239.99,
+        78785.0,
+        77749.53,
+        79015.31,
+        81232.73,
+        83017.88,
+        82874.89,
+        82697.09,
+        83162.55,
+        83161.13,
+        82428.73,
+        82143.59,
+        81641.68,
+        84559.84,
+        88196.88,
+        91943.27,
+        95812.72,
+        97630.88,
+        96330.62,
+        95784.25,
+        94178.88,
+        96389.05,
+        95324.59,
+        98396.7,
+        91066.79,
+        93350.33,
+        90726.87,
+        92529.41,
+        93047.46,
+        93768.59,
+        93328.53,
+        96967.89,
+        99304.99,
+        102412.99,
+        101432.99,
+        100147.35,
+        99991.05,
+        99739.3,
+        95150.35,
+        93609.38,
+        94793.88,
+        93249.96,
+        91340.07,
+        93001.85,
+        92309.81,
+        95792.55,
+        99063.03,
+        102415.28,
+        101661.72,
+        97174.15,
+        99683.4,
+        104121.73,
+        99500.46
       ],
       "spx_curve": [
         100000.0,
@@ -9359,9 +9332,9 @@
         },
         {
           "date": "2023-12-19",
-          "cash": 40158.56,
+          "cash": 40419.73,
           "position_value": 69084.41,
-          "total_equity": 109242.97,
+          "total_equity": 109504.14,
           "n_holdings": 3,
           "pending_orders": 3,
           "market_gate_state": "ALLOW",
@@ -9371,9 +9344,9 @@
         },
         {
           "date": "2024-02-02",
-          "cash": 47800.85,
-          "position_value": 62342.15,
-          "total_equity": 110143.01,
+          "cash": 47996.19,
+          "position_value": 62407.91,
+          "total_equity": 110404.1,
           "n_holdings": 3,
           "pending_orders": 3,
           "market_gate_state": "ALLOW",
@@ -9383,9 +9356,9 @@
         },
         {
           "date": "2024-03-18",
-          "cash": 74519.42,
-          "position_value": 42733.36,
-          "total_equity": 117252.79,
+          "cash": 74732.83,
+          "position_value": 42790.34,
+          "total_equity": 117523.17,
           "n_holdings": 3,
           "pending_orders": 6,
           "market_gate_state": "ALLOW",
@@ -9395,9 +9368,9 @@
         },
         {
           "date": "2024-04-30",
-          "cash": 29196.31,
-          "position_value": 86136.66,
-          "total_equity": 115332.97,
+          "cash": 29304.79,
+          "position_value": 86295.04,
+          "total_equity": 115599.83,
           "n_holdings": 3,
           "pending_orders": 4,
           "market_gate_state": "ALLOW",
@@ -9407,11 +9380,11 @@
         },
         {
           "date": "2024-06-12",
-          "cash": 85068.28,
-          "position_value": 28479.02,
-          "total_equity": 113547.3,
+          "cash": 85264.94,
+          "position_value": 28544.78,
+          "total_equity": 113809.73,
           "n_holdings": 3,
-          "pending_orders": 5,
+          "pending_orders": 4,
           "market_gate_state": "ALLOW",
           "spx_close": 5421.03,
           "spx_ma50": 5199.72,
@@ -9419,9 +9392,9 @@
         },
         {
           "date": "2024-07-26",
-          "cash": 17018.63,
-          "position_value": 85561.71,
-          "total_equity": 102580.34,
+          "cash": 17057.97,
+          "position_value": 85759.46,
+          "total_equity": 102817.43,
           "n_holdings": 3,
           "pending_orders": 2,
           "market_gate_state": "ALLOW",
@@ -9431,9 +9404,9 @@
         },
         {
           "date": "2024-09-09",
-          "cash": 55359.71,
-          "position_value": 40057.36,
-          "total_equity": 95417.07,
+          "cash": 55487.67,
+          "position_value": 40149.94,
+          "total_equity": 95637.61,
           "n_holdings": 3,
           "pending_orders": 5,
           "market_gate_state": "ALLOW",
@@ -9443,9 +9416,9 @@
         },
         {
           "date": "2024-10-21",
-          "cash": 55359.71,
-          "position_value": 43201.84,
-          "total_equity": 98561.55,
+          "cash": 55487.67,
+          "position_value": 43301.68,
+          "total_equity": 98789.35,
           "n_holdings": 3,
           "pending_orders": 5,
           "market_gate_state": "ALLOW",
@@ -9455,9 +9428,9 @@
         },
         {
           "date": "2024-12-03",
-          "cash": 75498.69,
-          "position_value": 25766.71,
-          "total_equity": 101265.4,
+          "cash": 75673.19,
+          "position_value": 25826.26,
+          "total_equity": 101499.45,
           "n_holdings": 3,
           "pending_orders": 4,
           "market_gate_state": "ALLOW",
@@ -9467,9 +9440,9 @@
         },
         {
           "date": "2025-01-17",
-          "cash": 51585.72,
-          "position_value": 49973.6,
-          "total_equity": 101559.33,
+          "cash": 51704.95,
+          "position_value": 50089.11,
+          "total_equity": 101794.06,
           "n_holdings": 3,
           "pending_orders": 5,
           "market_gate_state": "ALLOW",
@@ -9479,9 +9452,9 @@
         },
         {
           "date": "2025-03-04",
-          "cash": 18003.77,
-          "position_value": 68298.91,
-          "total_equity": 86302.68,
+          "cash": 18045.38,
+          "position_value": 68456.77,
+          "total_equity": 86502.15,
           "n_holdings": 3,
           "pending_orders": 2,
           "market_gate_state": "ALLOW",
@@ -9491,9 +9464,9 @@
         },
         {
           "date": "2025-04-15",
-          "cash": 57629.37,
-          "position_value": 23638.1,
-          "total_equity": 81267.47,
+          "cash": 57762.57,
+          "position_value": 23692.74,
+          "total_equity": 81455.3,
           "n_holdings": 3,
           "pending_orders": 3,
           "market_gate_state": "ALLOW",
@@ -9503,9 +9476,9 @@
         },
         {
           "date": "2025-05-29",
-          "cash": 38188.57,
-          "position_value": 38873.31,
-          "total_equity": 77061.88,
+          "cash": 38276.83,
+          "position_value": 38963.16,
+          "total_equity": 77239.99,
           "n_holdings": 3,
           "pending_orders": 4,
           "market_gate_state": "ALLOW",
@@ -9515,9 +9488,9 @@
         },
         {
           "date": "2025-07-14",
-          "cash": 33873.55,
-          "position_value": 48810.23,
-          "total_equity": 82683.78,
+          "cash": 33951.85,
+          "position_value": 48923.04,
+          "total_equity": 82874.89,
           "n_holdings": 3,
           "pending_orders": 6,
           "market_gate_state": "ALLOW",
@@ -9527,9 +9500,9 @@
         },
         {
           "date": "2025-08-25",
-          "cash": 6670.06,
-          "position_value": 74783.36,
-          "total_equity": 81453.42,
+          "cash": 6685.48,
+          "position_value": 74956.21,
+          "total_equity": 81641.68,
           "n_holdings": 3,
           "pending_orders": 3,
           "market_gate_state": "ALLOW",
@@ -9539,9 +9512,9 @@
         },
         {
           "date": "2025-10-07",
-          "cash": 20663.58,
-          "position_value": 75444.91,
-          "total_equity": 96108.49,
+          "cash": 20711.34,
+          "position_value": 75619.28,
+          "total_equity": 96330.62,
           "n_holdings": 3,
           "pending_orders": 4,
           "market_gate_state": "ALLOW",
@@ -9551,9 +9524,9 @@
         },
         {
           "date": "2025-11-18",
-          "cash": 58744.69,
-          "position_value": 32112.1,
-          "total_equity": 90856.8,
+          "cash": 58880.47,
+          "position_value": 32186.32,
+          "total_equity": 91066.79,
           "n_holdings": 3,
           "pending_orders": 5,
           "market_gate_state": "ALLOW",
@@ -9563,9 +9536,9 @@
         },
         {
           "date": "2026-01-02",
-          "cash": 56524.93,
-          "position_value": 36588.39,
-          "total_equity": 93113.32,
+          "cash": 56655.57,
+          "position_value": 36672.96,
+          "total_equity": 93328.53,
           "n_holdings": 3,
           "pending_orders": 4,
           "market_gate_state": "ALLOW",
@@ -9575,9 +9548,9 @@
         },
         {
           "date": "2026-02-17",
-          "cash": 32986.68,
-          "position_value": 66773.8,
-          "total_equity": 99760.48,
+          "cash": 33062.92,
+          "position_value": 66928.13,
+          "total_equity": 99991.05,
           "n_holdings": 3,
           "pending_orders": 4,
           "market_gate_state": "ALLOW",
@@ -9587,9 +9560,9 @@
         },
         {
           "date": "2026-03-31",
-          "cash": 38161.19,
-          "position_value": 52968.25,
-          "total_equity": 91129.44,
+          "cash": 38249.39,
+          "position_value": 53090.67,
+          "total_equity": 91340.07,
           "n_holdings": 3,
           "pending_orders": 5,
           "market_gate_state": "ALLOW",
@@ -9599,9 +9572,9 @@
         },
         {
           "date": "2026-05-13",
-          "cash": 44711.95,
-          "position_value": 56715.34,
-          "total_equity": 101427.29,
+          "cash": 44815.29,
+          "position_value": 56846.43,
+          "total_equity": 101661.72,
           "n_holdings": 3,
           "pending_orders": 3,
           "market_gate_state": "ALLOW",
@@ -9618,11 +9591,11 @@
           "entry_signal": "BUY",
           "exit_signal": "EXIT",
           "entry_price": 192.36,
-          "avg_cost": 307.71,
+          "avg_cost": 307.75,
           "exit_price": 289.15,
           "effective_exit": 291.88,
-          "return_pct": 11.31,
-          "max_gain_pct": 8.72,
+          "return_pct": 11.28,
+          "max_gain_pct": 8.71,
           "max_drawdown_in_trade": 42.98,
           "holding_days": 114,
           "size_units_at_exit": 0.5,
@@ -9631,7 +9604,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": 9080.6,
+          "realized_pnl_before_exit": 9076.11,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -9759,13 +9732,14 @@
           ],
           "action_count": 123,
           "execution_model": "adverse_intraday_v1.0",
-          "entry_adverse_gap_pct": 59.966,
+          "entry_adverse_gap_pct": 59.987,
           "exit_adverse_gap_pct": -0.943,
-          "total_execution_drag_pct": 59.023,
+          "total_execution_drag_pct": 59.043,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
-            "broken_trend"
+            "price_below_ma50_and_ma50_slope_down",
+            "leader_score_below_60"
           ]
         },
         {
@@ -9929,8 +9903,9 @@
           "exit_adverse_gap_pct": 0.451,
           "total_execution_drag_pct": 3.073,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
+            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -9954,7 +9929,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -398.45,
+          "realized_pnl_before_exit": -399.37,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -10023,8 +9998,9 @@
           "exit_adverse_gap_pct": -0.788,
           "total_execution_drag_pct": 0.399,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
+            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -10048,7 +10024,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -4220.29,
+          "realized_pnl_before_exit": -4230.05,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -10115,8 +10091,9 @@
           "exit_adverse_gap_pct": 5.355,
           "total_execution_drag_pct": 7.852,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
+            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -10130,7 +10107,7 @@
           "avg_cost": 118.4,
           "exit_price": 108.24,
           "effective_exit": 108.25,
-          "return_pct": 5.73,
+          "return_pct": 5.96,
           "max_gain_pct": 46.52,
           "max_drawdown_in_trade": 62.58,
           "holding_days": 180,
@@ -10140,7 +10117,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": 7308.53,
+          "realized_pnl_before_exit": 7585.13,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -10340,12 +10317,13 @@
           ],
           "action_count": 195,
           "execution_model": "adverse_intraday_v1.0",
-          "entry_adverse_gap_pct": 71.371,
+          "entry_adverse_gap_pct": 71.373,
           "exit_adverse_gap_pct": -0.011,
-          "total_execution_drag_pct": 71.36,
+          "total_execution_drag_pct": 71.362,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
+            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -10369,7 +10347,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -849.66,
+          "realized_pnl_before_exit": -851.62,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -10532,7 +10510,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -3237.96,
+          "realized_pnl_before_exit": -3245.44,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -10724,7 +10702,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -4937.98,
+          "realized_pnl_before_exit": -4949.39,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -10756,9 +10734,9 @@
           "exit_adverse_gap_pct": 7.547,
           "total_execution_drag_pct": 12.428,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "broken_trend",
           "exit_reasons": [
-            "leader_score_below_60"
+            "broken_trend"
           ]
         },
         {
@@ -10781,7 +10759,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -3009.23,
+          "realized_pnl_before_exit": -3016.19,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -10993,7 +10971,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -2815.04,
+          "realized_pnl_before_exit": -2821.54,
           "actions_during_trade": [
             "BUY",
             "ADD",
@@ -11045,9 +11023,10 @@
           "exit_adverse_gap_pct": 4.633,
           "total_execution_drag_pct": 4.005,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
-            "broken_trend"
+            "price_below_ma50_and_ma50_slope_down",
+            "leader_score_below_60"
           ]
         },
         {
@@ -11070,7 +11049,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -199.48,
+          "realized_pnl_before_exit": -199.94,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -11134,9 +11113,10 @@
           "exit_adverse_gap_pct": 0.655,
           "total_execution_drag_pct": 2.609,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
-            "broken_trend"
+            "price_below_ma50_and_ma50_slope_down",
+            "leader_score_below_60"
           ]
         },
         {
@@ -11159,7 +11139,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -758.89,
+          "realized_pnl_before_exit": -760.65,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -11224,8 +11204,9 @@
           "exit_adverse_gap_pct": 1.374,
           "total_execution_drag_pct": 1.833,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
+            "price_below_ma50_and_ma50_slope_down",
             "leader_score_below_60"
           ]
         },
@@ -11249,7 +11230,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -121.5,
+          "realized_pnl_before_exit": -121.78,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -11360,7 +11341,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -3073.68,
+          "realized_pnl_before_exit": -3080.78,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -11501,9 +11482,9 @@
           "exit_adverse_gap_pct": 6.947,
           "total_execution_drag_pct": 44.47,
           "is_sim_end": false,
-          "exit_reason": "reason_mismatch_ls60_reduce_exit",
+          "exit_reason": "broken_trend",
           "exit_reasons": [
-            "leader_score_below_60"
+            "broken_trend"
           ]
         },
         {
@@ -11526,7 +11507,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": 2365.51,
+          "realized_pnl_before_exit": 2370.98,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -11837,7 +11818,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -1265.35,
+          "realized_pnl_before_exit": -1268.28,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -11923,9 +11904,10 @@
           "exit_adverse_gap_pct": 2.427,
           "total_execution_drag_pct": 4.809,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
-            "broken_trend"
+            "price_below_ma50_and_ma50_slope_down",
+            "leader_score_below_60"
           ]
         },
         {
@@ -11948,7 +11930,7 @@
           "relative_stop_exec_date": null,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": -5834.43,
+          "realized_pnl_before_exit": -5847.92,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -12013,9 +11995,10 @@
           "exit_adverse_gap_pct": -1.02,
           "total_execution_drag_pct": 0.392,
           "is_sim_end": false,
-          "exit_reason": "broken_trend",
+          "exit_reason": "price_below_ma50_and_ma50_slope_down",
           "exit_reasons": [
-            "broken_trend"
+            "price_below_ma50_and_ma50_slope_down",
+            "leader_score_below_60"
           ]
         },
         {
@@ -12036,7 +12019,7 @@
           "leader_score_entry": 97.0,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": 22275.52,
+          "realized_pnl_before_exit": 22327.01,
           "actions_during_trade": [
             "BUY",
             "BUY",
@@ -12337,7 +12320,7 @@
           "leader_score_entry": 96.7,
           "take_profit_triggered": false,
           "take_profit_exec_date": null,
-          "realized_pnl_before_exit": 1074.61,
+          "realized_pnl_before_exit": 1077.09,
           "actions_during_trade": [
             "BUY",
             "BUY",

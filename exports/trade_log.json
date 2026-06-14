@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-14T06:36:50.160187-04:00",
-  "generated_at_display": "2026年6月14日 06:36 ET",
+  "generated_at": "2026-06-14T07:06:12.816128-04:00",
+  "generated_at_display": "2026年6月14日 07:06 ET",
   "total_trades": 20,
   "trades": [
     {
@@ -10,11 +10,11 @@
       "entry_signal": "BUY",
       "exit_signal": "EXIT",
       "entry_price": 192.36,
-      "avg_cost": 307.71,
+      "avg_cost": 307.75,
       "exit_price": 289.15,
       "effective_exit": 291.88,
-      "return_pct": 11.31,
-      "max_gain_pct": 8.72,
+      "return_pct": 11.28,
+      "max_gain_pct": 8.71,
       "max_drawdown_in_trade": 42.98,
       "holding_days": 114,
       "size_units_at_exit": 0.5,
@@ -23,7 +23,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": 9080.6,
+      "realized_pnl_before_exit": 9076.11,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -151,13 +151,14 @@
       ],
       "action_count": 123,
       "execution_model": "adverse_intraday_v1.0",
-      "entry_adverse_gap_pct": 59.966,
+      "entry_adverse_gap_pct": 59.987,
       "exit_adverse_gap_pct": -0.943,
-      "total_execution_drag_pct": 59.023,
+      "total_execution_drag_pct": 59.043,
       "is_sim_end": false,
-      "exit_reason": "broken_trend",
+      "exit_reason": "price_below_ma50_and_ma50_slope_down",
       "exit_reasons": [
-        "broken_trend"
+        "price_below_ma50_and_ma50_slope_down",
+        "leader_score_below_60"
       ]
     },
     {
@@ -321,8 +322,9 @@
       "exit_adverse_gap_pct": 0.451,
       "total_execution_drag_pct": 3.073,
       "is_sim_end": false,
-      "exit_reason": "reason_mismatch_ls60_reduce_exit",
+      "exit_reason": "price_below_ma50_and_ma50_slope_down",
       "exit_reasons": [
+        "price_below_ma50_and_ma50_slope_down",
         "leader_score_below_60"
       ]
     },
@@ -346,7 +348,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": -398.45,
+      "realized_pnl_before_exit": -399.37,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -415,8 +417,9 @@
       "exit_adverse_gap_pct": -0.788,
       "total_execution_drag_pct": 0.399,
       "is_sim_end": false,
-      "exit_reason": "reason_mismatch_ls60_reduce_exit",
+      "exit_reason": "price_below_ma50_and_ma50_slope_down",
       "exit_reasons": [
+        "price_below_ma50_and_ma50_slope_down",
         "leader_score_below_60"
       ]
     },
@@ -440,7 +443,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": -4220.29,
+      "realized_pnl_before_exit": -4230.05,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -507,8 +510,9 @@
       "exit_adverse_gap_pct": 5.355,
       "total_execution_drag_pct": 7.852,
       "is_sim_end": false,
-      "exit_reason": "reason_mismatch_ls60_reduce_exit",
+      "exit_reason": "price_below_ma50_and_ma50_slope_down",
       "exit_reasons": [
+        "price_below_ma50_and_ma50_slope_down",
         "leader_score_below_60"
       ]
     },
@@ -522,7 +526,7 @@
       "avg_cost": 118.4,
       "exit_price": 108.24,
       "effective_exit": 108.25,
-      "return_pct": 5.73,
+      "return_pct": 5.96,
       "max_gain_pct": 46.52,
       "max_drawdown_in_trade": 62.58,
       "holding_days": 180,
@@ -532,7 +536,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": 7308.53,
+      "realized_pnl_before_exit": 7585.13,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -732,12 +736,13 @@
       ],
       "action_count": 195,
       "execution_model": "adverse_intraday_v1.0",
-      "entry_adverse_gap_pct": 71.371,
+      "entry_adverse_gap_pct": 71.373,
       "exit_adverse_gap_pct": -0.011,
-      "total_execution_drag_pct": 71.36,
+      "total_execution_drag_pct": 71.362,
       "is_sim_end": false,
-      "exit_reason": "reason_mismatch_ls60_reduce_exit",
+      "exit_reason": "price_below_ma50_and_ma50_slope_down",
       "exit_reasons": [
+        "price_below_ma50_and_ma50_slope_down",
         "leader_score_below_60"
       ]
     },
@@ -761,7 +766,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": -849.66,
+      "realized_pnl_before_exit": -851.62,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -924,7 +929,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": -3237.96,
+      "realized_pnl_before_exit": -3245.44,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -1116,7 +1121,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": -4937.98,
+      "realized_pnl_before_exit": -4949.39,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -1148,9 +1153,9 @@
       "exit_adverse_gap_pct": 7.547,
       "total_execution_drag_pct": 12.428,
       "is_sim_end": false,
-      "exit_reason": "reason_mismatch_ls60_reduce_exit",
+      "exit_reason": "broken_trend",
       "exit_reasons": [
-        "leader_score_below_60"
+        "broken_trend"
       ]
     },
     {
@@ -1173,7 +1178,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": -3009.23,
+      "realized_pnl_before_exit": -3016.19,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -1385,7 +1390,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": -2815.04,
+      "realized_pnl_before_exit": -2821.54,
       "actions_during_trade": [
         "BUY",
         "ADD",
@@ -1437,9 +1442,10 @@
       "exit_adverse_gap_pct": 4.633,
       "total_execution_drag_pct": 4.005,
       "is_sim_end": false,
-      "exit_reason": "broken_trend",
+      "exit_reason": "price_below_ma50_and_ma50_slope_down",
       "exit_reasons": [
-        "broken_trend"
+        "price_below_ma50_and_ma50_slope_down",
+        "leader_score_below_60"
       ]
     },
     {
@@ -1462,7 +1468,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": -199.48,
+      "realized_pnl_before_exit": -199.94,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -1526,9 +1532,10 @@
       "exit_adverse_gap_pct": 0.655,
       "total_execution_drag_pct": 2.609,
       "is_sim_end": false,
-      "exit_reason": "broken_trend",
+      "exit_reason": "price_below_ma50_and_ma50_slope_down",
       "exit_reasons": [
-        "broken_trend"
+        "price_below_ma50_and_ma50_slope_down",
+        "leader_score_below_60"
       ]
     },
     {
@@ -1551,7 +1558,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": -758.89,
+      "realized_pnl_before_exit": -760.65,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -1616,8 +1623,9 @@
       "exit_adverse_gap_pct": 1.374,
       "total_execution_drag_pct": 1.833,
       "is_sim_end": false,
-      "exit_reason": "reason_mismatch_ls60_reduce_exit",
+      "exit_reason": "price_below_ma50_and_ma50_slope_down",
       "exit_reasons": [
+        "price_below_ma50_and_ma50_slope_down",
         "leader_score_below_60"
       ]
     },
@@ -1641,7 +1649,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": -121.5,
+      "realized_pnl_before_exit": -121.78,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -1752,7 +1760,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": -3073.68,
+      "realized_pnl_before_exit": -3080.78,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -1893,9 +1901,9 @@
       "exit_adverse_gap_pct": 6.947,
       "total_execution_drag_pct": 44.47,
       "is_sim_end": false,
-      "exit_reason": "reason_mismatch_ls60_reduce_exit",
+      "exit_reason": "broken_trend",
       "exit_reasons": [
-        "leader_score_below_60"
+        "broken_trend"
       ]
     },
     {
@@ -1918,7 +1926,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": 2365.51,
+      "realized_pnl_before_exit": 2370.98,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -2229,7 +2237,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": -1265.35,
+      "realized_pnl_before_exit": -1268.28,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -2315,9 +2323,10 @@
       "exit_adverse_gap_pct": 2.427,
       "total_execution_drag_pct": 4.809,
       "is_sim_end": false,
-      "exit_reason": "broken_trend",
+      "exit_reason": "price_below_ma50_and_ma50_slope_down",
       "exit_reasons": [
-        "broken_trend"
+        "price_below_ma50_and_ma50_slope_down",
+        "leader_score_below_60"
       ]
     },
     {
@@ -2340,7 +2349,7 @@
       "relative_stop_exec_date": null,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": -5834.43,
+      "realized_pnl_before_exit": -5847.92,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -2405,9 +2414,10 @@
       "exit_adverse_gap_pct": -1.02,
       "total_execution_drag_pct": 0.392,
       "is_sim_end": false,
-      "exit_reason": "broken_trend",
+      "exit_reason": "price_below_ma50_and_ma50_slope_down",
       "exit_reasons": [
-        "broken_trend"
+        "price_below_ma50_and_ma50_slope_down",
+        "leader_score_below_60"
       ]
     },
     {
@@ -2428,7 +2438,7 @@
       "leader_score_entry": 97.0,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": 22275.52,
+      "realized_pnl_before_exit": 22327.01,
       "actions_during_trade": [
         "BUY",
         "BUY",
@@ -2729,7 +2739,7 @@
       "leader_score_entry": 96.7,
       "take_profit_triggered": false,
       "take_profit_exec_date": null,
-      "realized_pnl_before_exit": 1074.61,
+      "realized_pnl_before_exit": 1077.09,
       "actions_during_trade": [
         "BUY",
         "BUY",
