@@ -10,6 +10,8 @@ update_pipeline.py — 每日更新管道 Phase 2
 from __future__ import annotations
 from datetime import datetime, timedelta
 
+DATA_FULL_HISTORY_DAYS = 1125  # 3 年 + 30 天 warm-up buffer（可改为 1825 = 5年）
+
 try:
     import pytz
     ET = pytz.timezone("America/New_York")
@@ -121,8 +123,8 @@ def run_daily_update(force_full: bool = False) -> None:
     # ── P0-2: 增量下载 ────────────────────────────────
     logger.info("[1/6] 增量更新价格...")
     if force_full:
-        start = (now - timedelta(days=730)).strftime("%Y-%m-%d")
-        logger.info(f"  全量模式：{start}")
+        start = (now - timedelta(days=DATA_FULL_HISTORY_DAYS)).strftime("%Y-%m-%d")
+        logger.info(f"  全量模式（{DATA_FULL_HISTORY_DAYS}天）：{start}")
     else:
         start = (now - timedelta(days=INCREMENTAL_DAYS)).strftime("%Y-%m-%d")
     end = (now + timedelta(days=1)).strftime("%Y-%m-%d")
@@ -133,12 +135,12 @@ def run_daily_update(force_full: bool = False) -> None:
 
     # 四大指数：用 download_with_fallback 下载
     # 无论用哪个代码下载成功，统一存储到原始代码路径（如 ^GSPC）
-    idx_full_start = (now - timedelta(days=730)).strftime("%Y-%m-%d")
+    idx_full_start = (now - timedelta(days=DATA_FULL_HISTORY_DAYS)).strftime("%Y-%m-%d")
     for idx_sym in WATCH_INDICES:
         _, p_exist = get_prices_safe(idx_sym)
         idx_start_date = idx_full_start if len(p_exist) < 60 else start
         if len(p_exist) < 60:
-            logger.info(f"  {idx_sym}: 首次下载2年历史...")
+            logger.info(f"  {idx_sym}: 首次下载 {DATA_FULL_HISTORY_DAYS} 天历史...")
         used_sym, df = download_with_fallback(
             idx_sym,
             INDEX_FALLBACKS.get(idx_sym, []),
