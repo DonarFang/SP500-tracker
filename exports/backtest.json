@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-14T01:43:19.406827-04:00",
-  "generated_at_display": "2026年6月14日 01:43 ET",
+  "generated_at": "2026-06-14T02:07:31.942010-04:00",
+  "generated_at_display": "2026年6月14日 02:07 ET",
   "backtest": {
     "overall_status": "PROMISING",
     "methodology": "Backtest Methodology v1.0",
@@ -622,15 +622,16 @@
       },
       "layer_d": {
         "layer": "D",
-        "name": "4-Variant Strategy Comparison",
+        "name": "3-Variant LS60 Mode Comparison",
         "status": "FAIL",
-        "version": "v1.6-rs95-minhold-relstop-comparison",
+        "version": "v1.6-ls60-mode-comparison",
         "execution_model": "adverse_intraday",
         "strategy_variant": "V0_old_ls60_exit_rs90",
         "entry_top_n": 3,
         "rank_based_exit": false,
         "strategy_controls": {
           "entry_rs_min": 90.0,
+          "ls60_exit_mode": "exit",
           "min_holding_days": 0,
           "min_hold_allow_broken_exit": true,
           "relative_stop_enabled": false,
@@ -3699,7 +3700,7 @@
             "selected": true,
             "status": "FAIL",
             "entry_rs_min": 90.0,
-            "ls60_exit_mode": "reduce",
+            "ls60_exit_mode": "exit",
             "min_holding_days": 0,
             "relative_stop_enabled": false,
             "relative_stop_underperform_pct": -8.0,
@@ -3833,6 +3834,7 @@
             "rank_based_exit": false,
             "strategy_controls": {
               "entry_rs_min": 90.0,
+              "ls60_exit_mode": "exit",
               "min_holding_days": 0,
               "min_hold_allow_broken_exit": true,
               "relative_stop_enabled": false,
@@ -6905,6 +6907,7 @@
             "rank_based_exit": false,
             "strategy_controls": {
               "entry_rs_min": 90.0,
+              "ls60_exit_mode": "reduce",
               "min_holding_days": 0,
               "min_hold_allow_broken_exit": true,
               "relative_stop_enabled": false,
@@ -9198,6 +9201,7 @@
             "rank_based_exit": false,
             "strategy_controls": {
               "entry_rs_min": 95.0,
+              "ls60_exit_mode": "reduce",
               "min_holding_days": 0,
               "min_hold_allow_broken_exit": true,
               "relative_stop_enabled": false,
