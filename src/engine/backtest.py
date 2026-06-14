@@ -812,6 +812,9 @@ def run_stateful_simulation(
                 f"({relative_stop_underperform*100:.1f}% vs SPX)")
     logger.info(f"  LS60 mode: {ls60_exit_mode} "
                 f"({'LS<60 → EXIT' if ls60_exit_mode == 'exit' else 'LS<60 → REDUCE'})")
+    logger.info(f"  ── Param check: ls60={ls60_exit_mode} rs={entry_rs_min} "
+                f"top_n={entry_top_n} minhold={min_holding_days} "
+                f"relstop={relative_stop_enabled} gate={market_gate_enabled} ──")
     logger.info(f"  Fixed TP: enabled={take_profit_enabled} "
                 f"(v1.6 default OFF; TP7-P rejected for this matrix)")
 
@@ -1571,10 +1574,14 @@ def run_stateful_simulation(
 
     reasonable = -99 < total_return < 10_000
 
-    if not sample_valid:
-        status = "INSUFFICIENT_SAMPLE"
-    elif not reasonable:
+    if not reasonable:
         status = "INVALID"
+    elif not sample_valid:
+        # 区分：不足样本但数字好 vs 不足样本且数字差
+        if total_return > spx_total and pf >= 1.0 and max_dd * 100 <= 35:
+            status = "PROMISING_INSUFFICIENT_SAMPLE"
+        else:
+            status = "INSUFFICIENT_SAMPLE"
     elif total_return > spx_total and pf > 1.2 and completed_trades >= 10:
         status = "PASS"
     elif total_return > 0:
@@ -1784,20 +1791,22 @@ def run_strategy_variant_comparison(
         )
 
     status_rank = {
-        "PASS": 4,
-        "PARTIAL": 3,
-        "FAIL": 2,
-        "INSUFFICIENT_SAMPLE": 1,
-        "INVALID": 0,
-        "NO_TRADES": 0,
+        "PASS":                          5,
+        "PARTIAL":                       4,
+        "PROMISING_INSUFFICIENT_SAMPLE": 3,  # 数字好但样本不足 > 明确失败
+        "FAIL":                          2,
+        "INSUFFICIENT_SAMPLE":           1,
+        "INVALID":                       0,
+        "NO_TRADES":                     0,
     }
 
     def selection_key(item):
         _, result = item
         return (
             status_rank.get(result.get("status"), 0),
-            result.get("total_return_pct", -10_000),
+            result.get("alpha_pct", -10_000),          # 优先看 Alpha
             result.get("profit_factor", -10_000),
+            result.get("total_return_pct", -10_000),
             result.get("sharpe_ratio", -10_000),
             -result.get("max_drawdown_pct", 10_000),
         )
@@ -1917,7 +1926,8 @@ def run_full_backtest(
     # 整体评分
     statuses = [v["status"] for v in results.values()]
     overall = "PASS"     if all(s == "PASS" for s in statuses) else \
-              "PROMISING" if sum(s == "PASS" for s in statuses) >= 2 else \
+              "PROMISING" if (sum(s == "PASS" for s in statuses) >= 2 or
+                               sum(s == "PROMISING_INSUFFICIENT_SAMPLE" for s in statuses) >= 1) else \
               "PARTIAL"  if any(s in ("PASS","PARTIAL") for s in statuses) else "FAIL"
 
     logger.info(f"=== 回测完成: {overall} ===")
