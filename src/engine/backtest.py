@@ -74,6 +74,7 @@ LAYER_D_ASSUMPTIONS = {
     "partial_take_profit_fraction": 0.50,
     "block_add_after_take_profit": False,
     "version":           "1.6-top3-rs95-minhold-relstop-comparison",
+    "ls60_exit_mode":    "reduce",   # "exit"=旧规则 "reduce"=新规则（默认）
 }
 
 
@@ -776,6 +777,7 @@ def run_stateful_simulation(
     rank_based_exit = bool(a.get("rank_based_exit", False))
     market_gate_enabled = bool(a.get("market_gate_enabled", True))
     risk_off_below_spx_ma50 = bool(a.get("risk_off_below_spx_ma50", True))
+    ls60_exit_mode = a.get("ls60_exit_mode", "reduce")  # "exit"=旧规则 "reduce"=新规则
     market_shock_gate_enabled = bool(a.get("market_shock_gate_enabled", True))
     market_shock_daily_return = float(a.get("market_shock_daily_return", -0.02))
     take_profit_enabled = bool(a.get("partial_take_profit_enabled", False))
@@ -1235,7 +1237,8 @@ def run_stateful_simulation(
 
             action  = trade_action(
                 state, mom, rs, close_t, ma50_v, ma50_sl,
-                ls, th, market_score_default
+                ls, th, market_score_default,
+                ls60_exit_mode=ls60_exit_mode,
             )
 
             day_signals[sym] = {
@@ -1324,7 +1327,8 @@ def run_stateful_simulation(
                 # 记录 reason（在 T 日信号生成时调用，不在 T+1 执行时重算）
                 reason_info = trade_action_reason(
                     state, mom, rs, close_t, ma50_v, ma50_sl,
-                    ls, th, market_score_default
+                    ls, th, market_score_default,
+                    ls60_exit_mode=ls60_exit_mode,
                 )
                 if action in ("EXIT", "REDUCE"):
                     pr = reason_info.get("primary_reason", "")
@@ -1730,49 +1734,35 @@ def run_strategy_variant_comparison(
         "block_add_after_take_profit": False,
     }
     variants = {
-        "V0_BASE": {
+        # V0: 旧规则基准 — LS<60 → EXIT
+        "V0_OLD_LS60_EXIT": {
             **base,
-            "strategy_variant": "V0_base_strict_top3_rs90_no_tp",
-            "entry_rs_min": 90.0,
-            "min_holding_days": 0,
+            "strategy_variant": "V0_old_ls60_exit_rs90",
+            "entry_rs_min":      90.0,
+            "min_holding_days":  0,
             "relative_stop_enabled": False,
-            "version": "V0-base-strict-top3-rs90-no-tp",
+            "ls60_exit_mode":    "exit",    # ← 旧规则
+            "version":           "V0-old-ls60-exit-rs90",
         },
-        "V1_RS95": {
+        # V1: 新规则 — LS<60 → REDUCE
+        "V1_NEW_LS60_REDUCE": {
             **base,
-            "strategy_variant": "V1_strict_top3_rs95_no_tp",
-            "entry_rs_min": 95.0,
-            "min_holding_days": 0,
+            "strategy_variant": "V1_new_ls60_reduce_rs90",
+            "entry_rs_min":      90.0,
+            "min_holding_days":  0,
             "relative_stop_enabled": False,
-            "version": "V1-strict-top3-rs95-no-tp",
+            "ls60_exit_mode":    "reduce",  # ← 新规则
+            "version":           "V1-new-ls60-reduce-rs90",
         },
-        "V2_RS95_MINHOLD5": {
+        # V2: 新规则 + RS95
+        "V2_NEW_LS60_REDUCE_RS95": {
             **base,
-            "strategy_variant": "V2_strict_top3_rs95_minhold5_no_tp",
-            "entry_rs_min": 95.0,
-            "min_holding_days": 5,
+            "strategy_variant": "V2_new_ls60_reduce_rs95",
+            "entry_rs_min":      95.0,
+            "min_holding_days":  0,
             "relative_stop_enabled": False,
-            "version": "V2-strict-top3-rs95-minhold5-no-tp",
-        },
-        "V3_RS95_MINHOLD5_RELSTOP8": {
-            **base,
-            "strategy_variant": "V3_strict_top3_rs95_minhold5_relstop8_no_tp",
-            "entry_rs_min": 95.0,
-            "min_holding_days": 5,
-            "relative_stop_enabled": True,
-            "relative_stop_underperform_pct": -0.08,
-            "relative_stop_action": "REL_REDUCE",
-            "relative_stop_once_per_position": True,
-            "version": "V3-strict-top3-rs95-minhold5-relstop8-no-tp",
-        },
-        "V4_LS60_REDUCE": {
-            **base,
-            "strategy_variant": "V4_strict_top3_rs90_ls60_reduce_no_tp",
-            "entry_rs_min": 90.0,
-            "min_holding_days": 0,
-            "relative_stop_enabled": False,
-            "version": "V4-strict-top3-rs90-ls60-reduce-no-tp",
-            # LS<60 已在 trade_decision.py 改为 REDUCE，此处无需额外参数
+            "ls60_exit_mode":    "reduce",  # ← 新规则
+            "version":           "V2-new-ls60-reduce-rs95",
         },
     }
 
@@ -1816,6 +1806,7 @@ def run_strategy_variant_comparison(
             "selected": variant_id == selected_id,
             "status": result.get("status"),
             "entry_rs_min": controls.get("entry_rs_min"),
+            "ls60_exit_mode": controls.get("ls60_exit_mode", "reduce"),
             "min_holding_days": controls.get("min_holding_days"),
             "relative_stop_enabled": controls.get("relative_stop_enabled"),
             "relative_stop_underperform_pct": controls.get("relative_stop_underperform_pct"),
@@ -1839,8 +1830,8 @@ def run_strategy_variant_comparison(
         marker = "SELECTED" if row["selected"] else ""
         logger.info(
             f"  {row['variant']}: {row['status']} "
+            f"LS60={row.get('ls60_exit_mode','?')} "
             f"RS>={row['entry_rs_min']} MinHold={row['min_holding_days']} "
-            f"RelStop={row['relative_stop_enabled']} "
             f"Return={row['total_return_pct']:+.2f}% "
             f"Alpha={row['alpha_pct']:+.2f}% "
             f"MaxDD={row['max_drawdown_pct']:.2f}% "

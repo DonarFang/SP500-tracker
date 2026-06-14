@@ -27,25 +27,31 @@ def trade_action(
     rs_score:      float,   # 0-100
     price:         float,
     ma50:          float,
-    ma50_slope:    float,   # 新增：MA50斜率（用于EXIT条件）
+    ma50_slope:    float,
     leader_score:  float,   # 0-100
     trend_health:  float,   # 0-100
-    market_score:  float = 60.0,  # 0-100，默认中性
+    market_score:  float = 60.0,
+    ls60_exit_mode: str  = "reduce",  # "exit" = 旧规则, "reduce" = 新规则（默认）
 ) -> str:
     """
-    Quantitative Model Specification v1.0 Trade Rules (Frozen)
+    Quantitative Model Specification v1.0 Trade Rules
 
-    BUY:    LeaderScore≥90 AND RS≥90 AND Mom≥85 AND TH≥80 AND MarketScore≥50
-    ADD:    LeaderScore≥85 AND Expansion
+    EXIT:   Broken Trend  OR  (Price<MA50 AND MA50Slope<0)
+            OR  (ls60_exit_mode="exit" AND LeaderScore<60)
+    REDUCE: LeaderScore<60 (当 ls60_exit_mode="reduce") OR LS<75 OR TH<60
     HOLD:   LeaderScore≥75 AND TH≥70
-    REDUCE: LeaderScore<75 OR TH<60
-    EXIT:   LeaderScore<60 OR (Price<MA50 AND MA50Slope<0) OR Broken
+    ADD:    LeaderScore≥85 AND Expansion
+    BUY:    LeaderScore≥90 AND RS≥90 AND Mom≥85 AND TH≥80 AND MarketScore≥50
+
+    ls60_exit_mode:
+        "exit"   → 旧规则：LS<60 直接 EXIT
+        "reduce" → 新规则：LS<60 降级为 REDUCE（默认）
     """
-    # EXIT — 最优先检查
+    # EXIT — 最优先
     if is_broken_trend(trend_state):
         return "EXIT"
-    # NOTE: leader_score < 60 已降级为 REDUCE（见 trade_action_reason）
-    # 横截面弱化不等于趋势结束，不直接 EXIT
+    if leader_score < 60 and ls60_exit_mode == "exit":
+        return "EXIT"
     if ma50 > 0 and price < ma50 and ma50_slope < 0:
         return "EXIT"
 
@@ -58,7 +64,9 @@ def trade_action(
     if leader_score >= 85 and trend_state == "Expansion":
         return "ADD"
 
-    # REDUCE
+    # REDUCE: LS<60（新规则降级）或 LS<75 或 TH<60
+    if leader_score < 60 and ls60_exit_mode == "reduce":
+        return "REDUCE"
     if leader_score < 75 or trend_health < 60:
         return "REDUCE"
 
@@ -113,6 +121,7 @@ def trade_action_reason(
     leader_score:  float,
     trend_health:  float,
     market_score:  float = 60.0,
+    ls60_exit_mode: str  = "reduce",
 ) -> dict:
     """
     同 trade_action() 相同的决策逻辑，但返回带原因的结构。
@@ -152,9 +161,10 @@ def trade_action_reason(
         return {"action": "EXIT", "primary_reason": EXIT_REASON_PRICE_BELOW_MA50,
                 "reasons": ([EXIT_REASON_PRICE_BELOW_MA50] + ([EXIT_REASON_LEADER_SCORE_BELOW_60] if ls_below_60 else []))}
 
-    # leader_score < 60 → REDUCE（横截面弱化，降级为减仓警告）
+    # leader_score < 60 → EXIT 或 REDUCE，取决于 ls60_exit_mode
     if ls_below_60:
-        return {"action": "REDUCE", "primary_reason": EXIT_REASON_LEADER_SCORE_BELOW_60,
+        action_60 = "EXIT" if ls60_exit_mode == "exit" else "REDUCE"
+        return {"action": action_60, "primary_reason": EXIT_REASON_LEADER_SCORE_BELOW_60,
                 "reasons": [EXIT_REASON_LEADER_SCORE_BELOW_60]}
 
     # BUY
