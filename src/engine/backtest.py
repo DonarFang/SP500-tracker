@@ -81,17 +81,6 @@ LAYER_D_ASSUMPTIONS = {
 # 工具函数
 # ══════════════════════════════════════════════════════════════════
 
-def is_broken_trend(trend_state: str) -> bool:
-    """
-    判断趋势状态是否为 Broken。
-    防御性实现：兼容 trend_lifecycle() 返回值的细微变化。
-    """
-    return str(trend_state).strip().lower() in {
-        "broken",
-        "broken trend",
-        "breakdown",
-    }
-
 def forward_return(prices: list[float], t: int, days: int) -> float | None:
     """计算 t 日后 days 天的收益率。"""
     if t + days >= len(prices) or t < 0:
@@ -893,6 +882,8 @@ def run_stateful_simulation(
         "size_at_minimum":          0,
         "not_holding":              0,
         "not_in_entry_top_n":       0,
+        "entry_rs_below_threshold": 0,
+        "min_hold_block":           0,
         "market_risk_off_block":    0,
         "market_shock_block":       0,
         "add_blocked_after_tp":     0,
@@ -1280,7 +1271,7 @@ def run_stateful_simulation(
                         1 for d in master_dates
                         if h.get("entry_date", date_t) <= d <= date_t
                     )
-                    is_broken = is_broken_trend(sig.get("trend_state", ""))
+                    is_broken = str(sig.get("trend_state", "")).strip().lower() in {"broken", "broken trend", "breakdown"}
                     if holding_days_so_far < min_holding_days and not (min_hold_allow_broken_exit and is_broken):
                         skip_reasons["min_hold_block"] += 1
                         continue
