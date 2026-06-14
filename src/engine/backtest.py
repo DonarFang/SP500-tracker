@@ -1090,6 +1090,14 @@ def run_stateful_simulation(
                     # 记录真实成交退出的原因（from pending order reason，T日冻结）
                     exec_primary_reason = order.get("primary_reason", "")
                     exec_reasons        = order.get("reasons", [])
+                    # 防御检查：mode=reduce 时 ls60 不能是 EXIT primary reason
+                    if (exec_primary_reason == "leader_score_below_60"
+                            and ls60_exit_mode == "reduce"):
+                        logger.warn(
+                            f"  ⚠️  reason_mismatch: {sym} EXIT primary=leader_score_below_60 "
+                            f"but ls60_exit_mode=reduce. Reclassifying as secondary."
+                        )
+                        exec_primary_reason = "reason_mismatch_ls60_reduce_exit"
                     executed_exit_reason_dist[exec_primary_reason] =                         executed_exit_reason_dist.get(exec_primary_reason, 0) + 1
                     closed_trades.append({
                         "symbol":               sym,
