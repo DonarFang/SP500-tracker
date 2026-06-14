@@ -778,6 +778,8 @@ def run_stateful_simulation(
     market_gate_enabled = bool(a.get("market_gate_enabled", True))
     risk_off_below_spx_ma50 = bool(a.get("risk_off_below_spx_ma50", True))
     ls60_exit_mode = a.get("ls60_exit_mode", "reduce")  # "exit"=旧规则 "reduce"=新规则
+    if ls60_exit_mode not in {"exit", "reduce"}:
+        raise ValueError(f"Invalid ls60_exit_mode={ls60_exit_mode!r}; expected 'exit' or 'reduce'")
     market_shock_gate_enabled = bool(a.get("market_shock_gate_enabled", True))
     market_shock_daily_return = float(a.get("market_shock_daily_return", -0.02))
     take_profit_enabled = bool(a.get("partial_take_profit_enabled", False))
@@ -808,6 +810,8 @@ def run_stateful_simulation(
     logger.info(f"  Entry filter: RS >= {entry_rs_min:.1f}; MinHold={min_holding_days}d; "
                 f"RelStop={'ON' if relative_stop_enabled else 'OFF'} "
                 f"({relative_stop_underperform*100:.1f}% vs SPX)")
+    logger.info(f"  LS60 mode: {ls60_exit_mode} "
+                f"({'LS<60 → EXIT' if ls60_exit_mode == 'exit' else 'LS<60 → REDUCE'})")
     logger.info(f"  Fixed TP: enabled={take_profit_enabled} "
                 f"(v1.6 default OFF; TP7-P rejected for this matrix)")
 
@@ -1604,6 +1608,7 @@ def run_stateful_simulation(
         "rank_based_exit": rank_based_exit,
         "strategy_controls": {
             "entry_rs_min": entry_rs_min,
+            "ls60_exit_mode": ls60_exit_mode,
             "min_holding_days": min_holding_days,
             "min_hold_allow_broken_exit": min_hold_allow_broken_exit,
             "relative_stop_enabled": relative_stop_enabled,
@@ -1724,7 +1729,7 @@ def run_strategy_variant_comparison(
     2. Within the same status, prefer higher total return.
     3. Break ties with higher Profit Factor, higher Sharpe, then lower max drawdown.
     """
-    logger.info("[Backtest Layer D v1.6] 4-Variant Strategy Comparison...")
+    logger.info("[Backtest Layer D v1.6] 3-Variant LS60 Mode Comparison...")
 
     base = {
         **LAYER_D_ASSUMPTIONS,
@@ -1825,7 +1830,7 @@ def run_strategy_variant_comparison(
             "relative_stop_stats": controls.get("relative_stop_stats", {}),
         })
 
-    logger.info("  === 4-Variant Strategy Comparison ===")
+    logger.info("  === 3-Variant LS60 Mode Comparison ===")
     for row in comparison_rows:
         marker = "SELECTED" if row["selected"] else ""
         logger.info(
@@ -1842,8 +1847,8 @@ def run_strategy_variant_comparison(
     # Preserve selected Layer D's top-level shape for current exporters/dashboard.
     return {
         **selected_result,
-        "name": "4-Variant Strategy Comparison",
-        "version": "v1.6-rs95-minhold-relstop-comparison",
+        "name": "3-Variant LS60 Mode Comparison",
+        "version": "v1.6-ls60-mode-comparison",
         "selected_variant": selected_id,
         "selection_policy": (
             "status(PASS>PARTIAL>FAIL), then total return, "
