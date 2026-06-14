@@ -197,6 +197,23 @@ if __name__ == "__main__":
             if skip:
                 print(f"  Skip reasons:   ", end="")
                 print("  ".join(f"{k}={v}" for k,v in skip.items() if v > 0))
+            # 持仓内 Action 分布
+            pad = d.get("portfolio_action_distribution", {})
+            if pad:
+                print(f"  Portfolio Action (持仓内): ", end="")
+                print("  ".join(f"{k}={v}" for k,v in pad.items() if v > 0))
+            # 真实退出原因
+            erd = d.get("executed_exit_reason_distribution", {})
+            if erd:
+                print(f"  Executed EXIT reasons:")
+                for reason, cnt in sorted(erd.items(), key=lambda x: -x[1]):
+                    print(f"    {reason:<45} {cnt}")
+            # pending 信号原因（含未成交）
+            prd = d.get("pending_signal_reason_distribution", {})
+            if prd:
+                print(f"  Pending EXIT/REDUCE signal reasons (含未成交):")
+                for reason, cnt in sorted(prd.items(), key=lambda x: -x[1]):
+                    print(f"    {reason:<45} {cnt}")
             print(f"  Avg Winner:     {d.get('avg_winner_pct',0):+.2f}%  Avg Loser: {d.get('avg_loser_pct',0):+.2f}%")
             print(f"  Exposure:       {d.get('exposure_pct',0):.1f}%")
             print(f"\n  交易记录（最近10笔）:")

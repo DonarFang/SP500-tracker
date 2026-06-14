@@ -20,7 +20,7 @@ from ..features.momentum import (
 )
 from ..features.trend_health import trend_health_score as calc_trend_health
 from ..engine.leader_ranking import leader_score as calc_leader_score
-from ..engine.trade_decision import trade_action
+from ..engine.trade_decision import trade_action, trade_action_reason
 from ..utils import logger
 
 
@@ -80,6 +80,17 @@ LAYER_D_ASSUMPTIONS = {
 # ══════════════════════════════════════════════════════════════════
 # 工具函数
 # ══════════════════════════════════════════════════════════════════
+
+def is_broken_trend(trend_state: str) -> bool:
+    """
+    判断趋势状态是否为 Broken。
+    防御性实现：兼容 trend_lifecycle() 返回值的细微变化。
+    """
+    return str(trend_state).strip().lower() in {
+        "broken",
+        "broken trend",
+        "breakdown",
+    }
 
 def forward_return(prices: list[float], t: int, days: int) -> float | None:
     """计算 t 日后 days 天的收益率。"""
@@ -419,7 +430,7 @@ def run_trade_rule_validation(
     buy_n = summary.get("BUY",{}).get("fwd20d",{}).get("n", 0)
 
     logger.info(f"  Layer C: {status} (BUY跑赢SPX {pass_count}/4, BUY信号数={buy_n})")
-    logger.info(f"  信号总数(去重前): {signal_counts}")
+    logger.info(f"  全市场 Action 分布(market_wide, 去重前): {signal_counts}")
     return {
         "layer":          "C",
         "name":           "Trade Rule Validation",
@@ -882,13 +893,21 @@ def run_stateful_simulation(
         "size_at_minimum":          0,
         "not_holding":              0,
         "not_in_entry_top_n":       0,
-        "entry_rs_below_threshold": 0,
-        "min_hold_block":           0,
         "market_risk_off_block":    0,
         "market_shock_block":       0,
         "add_blocked_after_tp":     0,
+        "entry_rs_below_threshold": 0,
+        "min_hold_block":           0,
     }
     orders_executed = 0
+
+    # 持仓内 Action 分布（只统计实际持仓股的信号）
+    portfolio_action_dist = {"HOLD": 0, "ADD": 0, "REDUCE": 0, "REL_REDUCE": 0, "EXIT": 0, "TP_REDUCE": 0}
+    # 真实成交退出的原因分布
+    executed_exit_reason_dist: dict[str, int] = {}
+    # 生成过的 EXIT/REDUCE pending signal 原因（含未成交）
+    pending_signal_reason_dist: dict[str, int] = {}
+
     take_profit_stats = {
         "signals": 0,
         "executed": 0,
@@ -1054,6 +1073,10 @@ def run_stateful_simulation(
                     exit_gap  = (h.get("current_close", exec_price) - exec_price) / max(h.get("current_close", exec_price), 0.01)
                     max_dd_t  = (h["highest_close"] - h.get("min_close_since_entry", h["avg_cost"])) / h["highest_close"] if h["highest_close"] > 0 else 0
                     orders_executed += 1
+                    # 记录真实成交退出的原因（from pending order reason，T日冻结）
+                    exec_primary_reason = order.get("primary_reason", "")
+                    exec_reasons        = order.get("reasons", [])
+                    executed_exit_reason_dist[exec_primary_reason] =                         executed_exit_reason_dist.get(exec_primary_reason, 0) + 1
                     closed_trades.append({
                         "symbol":               sym,
                         "entry_date":           entry_date,
@@ -1082,6 +1105,8 @@ def run_stateful_simulation(
                         "exit_adverse_gap_pct":  round(exit_gap * 100, 3),
                         "total_execution_drag_pct": round((entry_gap + exit_gap) * 100, 3),
                         "is_sim_end":           False,
+                        "exit_reason":          exec_primary_reason,
+                        "exit_reasons":         exec_reasons,
                     })
                     del holdings[sym]
 
@@ -1232,6 +1257,9 @@ def run_stateful_simulation(
             # 已持仓股票：记录每天动作；是否卖出/减仓只看 Trade Action，不看是否仍在 Top 3
             if sym in holdings:
                 holdings[sym]["action_history"].append(action)
+                # 持仓内 Action 分布统计
+                if action in portfolio_action_dist:
+                    portfolio_action_dist[action] += 1
 
             # 新 BUY：只有当日 Top 3 才允许进入
             if action == "BUY":
@@ -1271,7 +1299,7 @@ def run_stateful_simulation(
                         1 for d in master_dates
                         if h.get("entry_date", date_t) <= d <= date_t
                     )
-                    is_broken = str(sig.get("trend_state", "")).strip().lower() in {"broken", "broken trend", "breakdown"}
+                    is_broken = is_broken_trend(sig.get("trend_state", ""))
                     if holding_days_so_far < min_holding_days and not (min_hold_allow_broken_exit and is_broken):
                         skip_reasons["min_hold_block"] += 1
                         continue
@@ -1282,14 +1310,24 @@ def run_stateful_simulation(
                     reason = "market_shock_block" if market_shock else "market_risk_off_block"
                     skip_reasons[reason] += 1
                     continue
+                # 记录 reason（在 T 日信号生成时调用，不在 T+1 执行时重算）
+                reason_info = trade_action_reason(
+                    state, mom, rs, close_t, ma50_v, ma50_sl,
+                    ls, th, market_score_default
+                )
+                if action in ("EXIT", "REDUCE"):
+                    pr = reason_info.get("primary_reason", "")
+                    pending_signal_reason_dist[pr] = pending_signal_reason_dist.get(pr, 0) + 1
                 management_orders.append({
-                    "sym":         sym,
-                    "action":      action,
-                    "signal_date": date_t,
-                    "ls":          ls,
-                    "close_t":     close_t,
-                    "entry_rank":  top_entry_rank.get(sym),
-                    "strategy":    strategy_variant,
+                    "sym":           sym,
+                    "action":        action,
+                    "signal_date":   date_t,
+                    "ls":            ls,
+                    "close_t":       close_t,
+                    "entry_rank":    top_entry_rank.get(sym),
+                    "strategy":      strategy_variant,
+                    "primary_reason": reason_info.get("primary_reason", ""),
+                    "reasons":       reason_info.get("reasons", []),
                 })
 
         # Relative SPX stop: if the holding underperforms SPX since entry
@@ -1617,6 +1655,12 @@ def run_stateful_simulation(
         # 订单统计
         "pending_orders_executed":  orders_executed,
         "pending_orders_skipped":   sum(skip_reasons.values()),
+        # 持仓内 Action 分布（真实持仓股在持仓期间收到的信号）
+        "portfolio_action_distribution":      portfolio_action_dist,
+        # 真实成交退出的原因分布
+        "executed_exit_reason_distribution":  executed_exit_reason_dist,
+        # 所有生成过的 EXIT/REDUCE pending 信号原因（含未成交）
+        "pending_signal_reason_distribution": pending_signal_reason_dist,
         # 执行损耗
         "avg_execution_drag_pct": round(
             sum(t.get("total_execution_drag_pct", 0) for t in closed_trades) / len(closed_trades), 3
