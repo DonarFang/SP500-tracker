@@ -208,6 +208,11 @@ if __name__ == "__main__":
                 print(f"  Executed EXIT reasons:")
                 for reason, cnt in sorted(erd.items(), key=lambda x: -x[1]):
                     print(f"    {reason:<45} {cnt}")
+            rrd = d.get("executed_reduce_reason_distribution", {})
+            if rrd:
+                print(f"  Executed REDUCE reasons:")
+                for reason, cnt in sorted(rrd.items(), key=lambda x: -x[1]):
+                    print(f"    {reason:<45} {cnt}")
             # pending 信号原因（含未成交）
             prd = d.get("pending_signal_reason_distribution", {})
             if prd:

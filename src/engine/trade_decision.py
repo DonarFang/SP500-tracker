@@ -42,10 +42,10 @@ def trade_action(
     EXIT:   LeaderScore<60 OR (Price<MA50 AND MA50Slope<0) OR Broken
     """
     # EXIT — 最优先检查
-    if trend_state == "Broken Trend":
+    if is_broken_trend(trend_state):
         return "EXIT"
-    if leader_score < 60:
-        return "EXIT"
+    # NOTE: leader_score < 60 已降级为 REDUCE（见 trade_action_reason）
+    # 横截面弱化不等于趋势结束，不直接 EXIT
     if ma50 > 0 and price < ma50 and ma50_slope < 0:
         return "EXIT"
 
@@ -143,13 +143,19 @@ def trade_action_reason(
     if price_broken:
         reasons.append(EXIT_REASON_PRICE_BELOW_MA50)
 
-    if broken or ls_below_60 or price_broken:
-        primary = (
-            EXIT_REASON_BROKEN_TREND if broken else
-            EXIT_REASON_LEADER_SCORE_BELOW_60 if ls_below_60 else
-            EXIT_REASON_PRICE_BELOW_MA50
-        )
-        return {"action": "EXIT", "primary_reason": primary, "reasons": reasons}
+    # broken_trend → EXIT（趋势真正破坏）
+    if broken:
+        return {"action": "EXIT", "primary_reason": EXIT_REASON_BROKEN_TREND, "reasons": [EXIT_REASON_BROKEN_TREND]}
+
+    # price_below_ma50 → EXIT（价格结构破坏）
+    if price_broken:
+        return {"action": "EXIT", "primary_reason": EXIT_REASON_PRICE_BELOW_MA50,
+                "reasons": ([EXIT_REASON_PRICE_BELOW_MA50] + ([EXIT_REASON_LEADER_SCORE_BELOW_60] if ls_below_60 else []))}
+
+    # leader_score < 60 → REDUCE（横截面弱化，降级为减仓警告）
+    if ls_below_60:
+        return {"action": "REDUCE", "primary_reason": EXIT_REASON_LEADER_SCORE_BELOW_60,
+                "reasons": [EXIT_REASON_LEADER_SCORE_BELOW_60]}
 
     # BUY
     if (leader_score >= 90 and rs_score >= 90 and

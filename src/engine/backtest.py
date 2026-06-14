@@ -896,8 +896,9 @@ def run_stateful_simulation(
         "market_risk_off_block":    0,
         "market_shock_block":       0,
         "add_blocked_after_tp":     0,
-        "entry_rs_below_threshold": 0,
-        "min_hold_block":           0,
+        "entry_rs_below_threshold":        0,
+        "min_hold_block":                  0,
+        "ls60_reduce_already_triggered":   0,
     }
     orders_executed = 0
 
@@ -905,6 +906,8 @@ def run_stateful_simulation(
     portfolio_action_dist = {"HOLD": 0, "ADD": 0, "REDUCE": 0, "REL_REDUCE": 0, "EXIT": 0, "TP_REDUCE": 0}
     # 真实成交退出的原因分布
     executed_exit_reason_dist: dict[str, int] = {}
+    # 真实成交减仓的原因分布
+    executed_reduce_reason_dist: dict[str, int] = {}
     # 生成过的 EXIT/REDUCE pending signal 原因（含未成交）
     pending_signal_reason_dist: dict[str, int] = {}
 
@@ -1003,6 +1006,7 @@ def run_stateful_simulation(
                         "realized_pnl":          0.0,
                         "realized_cost_basis":   0.0,
                         "action_history":        ["BUY"],
+                        "ls60_reduce_triggered": False,  # 方案A：LS<60 REDUCE 一次性保护
                     }
 
                 elif action == "ADD":
@@ -1032,6 +1036,7 @@ def run_stateful_simulation(
                     h["shares"]    += add_shares
                     h["size_units"] = min(1.5, h["size_units"] + 0.5)
                     h["action_history"].append("ADD")
+                    h["ls60_reduce_triggered"] = False  # ADD 后清零 ls60 保护
                     cash -= target_add
                     orders_executed += 1
 
@@ -1128,6 +1133,12 @@ def run_stateful_simulation(
                     if action == "REL_REDUCE":
                         h["relative_stop_exec_date"] = exec_date
                         relative_stop_stats["executed"] += 1
+                    # 记录 REDUCE 原因，并设置 ls60 一次性保护
+                    reduce_primary = order.get("primary_reason", "")
+                    if reduce_primary:
+                        executed_reduce_reason_dist[reduce_primary] =                             executed_reduce_reason_dist.get(reduce_primary, 0) + 1
+                    if reduce_primary == "leader_score_below_60":
+                        h["ls60_reduce_triggered"] = True
                     orders_executed += 1
 
         # ════════════════════════════════════════════════
@@ -1318,6 +1329,15 @@ def run_stateful_simulation(
                 if action in ("EXIT", "REDUCE"):
                     pr = reason_info.get("primary_reason", "")
                     pending_signal_reason_dist[pr] = pending_signal_reason_dist.get(pr, 0) + 1
+
+                # 方案A：LS<60 REDUCE 一次性保护（STEP 3 过滤，避免每天重复减仓）
+                if (action == "REDUCE"
+                        and reason_info.get("primary_reason") == "leader_score_below_60"
+                        and sym in holdings
+                        and holdings[sym].get("ls60_reduce_triggered")):
+                    skip_reasons["ls60_reduce_already_triggered"] += 1
+                    continue
+
                 management_orders.append({
                     "sym":           sym,
                     "action":        action,
@@ -1658,7 +1678,8 @@ def run_stateful_simulation(
         # 持仓内 Action 分布（真实持仓股在持仓期间收到的信号）
         "portfolio_action_distribution":      portfolio_action_dist,
         # 真实成交退出的原因分布
-        "executed_exit_reason_distribution":  executed_exit_reason_dist,
+        "executed_exit_reason_distribution":   executed_exit_reason_dist,
+        "executed_reduce_reason_distribution": executed_reduce_reason_dist,
         # 所有生成过的 EXIT/REDUCE pending 信号原因（含未成交）
         "pending_signal_reason_distribution": pending_signal_reason_dist,
         # 执行损耗
@@ -1743,6 +1764,15 @@ def run_strategy_variant_comparison(
             "relative_stop_action": "REL_REDUCE",
             "relative_stop_once_per_position": True,
             "version": "V3-strict-top3-rs95-minhold5-relstop8-no-tp",
+        },
+        "V4_LS60_REDUCE": {
+            **base,
+            "strategy_variant": "V4_strict_top3_rs90_ls60_reduce_no_tp",
+            "entry_rs_min": 90.0,
+            "min_holding_days": 0,
+            "relative_stop_enabled": False,
+            "version": "V4-strict-top3-rs90-ls60-reduce-no-tp",
+            # LS<60 已在 trade_decision.py 改为 REDUCE，此处无需额外参数
         },
     }
 
