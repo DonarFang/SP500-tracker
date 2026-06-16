@@ -31,12 +31,17 @@ if __name__ == "__main__":
             dates_map[sym]  = d
     logger.info(f"有效价格序列：{len(prices_map)} 只")
 
-    # SPX
+    # SPX + 辅助指数（用于 Gate v2 市场状态判断）
     from src.pipeline.update_pipeline import get_prices_safe
     spx_dates, spx_prices = get_prices_safe("^GSPC")
     if not spx_prices:
         spx_dates, spx_prices = get_price_series("SPY")
     logger.info(f"SPX: {len(spx_prices)} bars")
+
+    ndx_dates, ndx_prices = get_prices_safe("^NDX")
+    sox_dates, sox_prices = get_prices_safe("^SOX")
+    vix_dates, vix_prices = get_prices_safe("^VIX")
+    logger.info(f"辅助指数: NDX={len(ndx_prices)} SOX={len(sox_prices)} VIX={len(vix_prices)} bars")
 
     # 运行回测
     from src.engine.backtest import run_full_backtest
@@ -48,6 +53,12 @@ if __name__ == "__main__":
         spx_dates  = spx_dates,
         run_layer_b= run_layer_b,
         run_layer_d= True,
+        ndx_prices = ndx_prices,
+        ndx_dates  = ndx_dates,
+        sox_prices = sox_prices,
+        sox_dates  = sox_dates,
+        vix_prices = vix_prices,
+        vix_dates  = vix_dates,
     )
 
     # 输出到 exports/backtest.json

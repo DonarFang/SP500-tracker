@@ -75,6 +75,21 @@ LAYER_D_ASSUMPTIONS = {
     "block_add_after_take_profit": False,
     "version":           "1.6-top3-rs95-minhold-relstop-comparison",
     "ls60_exit_mode":    "reduce",   # "exit"=旧规则 "reduce"=新规则（默认）
+
+    # Qualified Candidate Pool（v1.7+）
+    # candidate_top_n：Qualified Pool 内最多取 N 个候选（None = 用旧 entry_top_n 逻辑）
+    # max_positions：组合最大持仓数
+    # qualified_entry_enabled：是否启用资格过滤
+    # qualified_states：允许的 trend_state
+    "candidate_top_n":          None,    # None = 沿用旧 entry_top_n=3 逻辑
+    "qualified_entry_enabled":  False,
+    "qualified_rs_min":         90.0,
+    "qualified_momentum_min":   85.0,
+    "qualified_th_min":         75.0,
+    "qualified_states":         ["Expansion"],
+    "qualified_price_above_ma50": True,
+    "qualified_ma50_slope_min":   0.0,
+    "fill_only_enabled":          False,  # True = Qualified Pool 只补空仓，不替换持仓
 }
 
 
@@ -754,6 +769,12 @@ def run_stateful_simulation(
     market_score_default: float = 60.0,
     sim_start_date: str  = None,  # 交易执行起始日（None=从 min_history 后开始）
     sim_end_date:   str  = None,  # 交易执行截止日（None=到末尾）
+    ndx_prices:     list = None,  # NDX 收盘价（Gate v2 Leadership 判断）
+    ndx_dates:      list = None,
+    sox_prices:     list = None,  # SOX 收盘价
+    sox_dates:      list = None,
+    vix_prices:     list = None,  # VIX 收盘价
+    vix_dates:      list = None,
 ) -> dict:
     """
     Layer D v1.6: Strict Top3 + RS threshold + MinHold + Relative SPX Stop
@@ -780,6 +801,48 @@ def run_stateful_simulation(
     market_gate_enabled = bool(a.get("market_gate_enabled", True))
     risk_off_below_spx_ma50 = bool(a.get("risk_off_below_spx_ma50", True))
     ls60_exit_mode = a.get("ls60_exit_mode", "reduce")  # "exit"=旧规则 "reduce"=新规则
+
+    # Qualified Candidate Pool 参数
+    candidate_top_n           = a.get("candidate_top_n", None)   # None = 沿用旧 entry_top_n
+    qualified_entry_enabled   = bool(a.get("qualified_entry_enabled", False))
+    qualified_rs_min          = float(a.get("qualified_rs_min", 90.0))
+    qualified_momentum_min    = float(a.get("qualified_momentum_min", 85.0))
+    qualified_th_min          = float(a.get("qualified_th_min", 75.0))
+    qualified_states          = set(a.get("qualified_states", ["Expansion"]))
+    qualified_price_above_ma50 = bool(a.get("qualified_price_above_ma50", True))
+    qualified_ma50_slope_min  = float(a.get("qualified_ma50_slope_min", 0.0))
+
+    fill_only_enabled = bool(a.get("fill_only_enabled", False))
+
+    # ── 辅助指数 Lookup（日期 → 价格）─────────────────────────
+    # 用于 Gate v2 市场状态判断；缺失日期使用最近一个有效值
+    def _build_lookup(dates_list, prices_list):
+        """建立 date_str → price 映射"""
+        m = {}
+        if dates_list and prices_list:
+            for d, p in zip(dates_list, prices_list):
+                m[d] = p
+        return m
+
+    ndx_lookup = _build_lookup(ndx_dates or [], ndx_prices or [])
+    sox_lookup = _build_lookup(sox_dates or [], sox_prices or [])
+    vix_lookup = _build_lookup(vix_dates or [], vix_prices or [])
+
+    def _get_price_on(lookup, date, fallback=None):
+        """获取 date 当天价格，缺失时返回 fallback"""
+        return lookup.get(date, fallback)
+
+    # SPX MA50 历史队列（用于 10日 slope 计算）
+    from collections import deque
+    spx_ma50_history = deque(maxlen=11)  # 存最近11个 MA50 值（今天+10天前）
+
+    if qualified_entry_enabled:
+        logger.info(f"  Qualified Pool: candidate_top_n={candidate_top_n} "
+                    f"RS>={qualified_rs_min} Mom>={qualified_momentum_min} "
+                    f"TH>={qualified_th_min} states={qualified_states} "
+                    f"price>MA50={qualified_price_above_ma50} slope>={qualified_ma50_slope_min}")
+    else:
+        logger.info(f"  Entry mode: Strict Top{entry_top_n} (legacy)")
     if ls60_exit_mode not in {"exit", "reduce"}:
         raise ValueError(f"Invalid ls60_exit_mode={ls60_exit_mode!r}; expected 'exit' or 'reduce'")
     market_shock_gate_enabled = bool(a.get("market_shock_gate_enabled", True))
@@ -801,10 +864,16 @@ def run_stateful_simulation(
         "D3_RISK_OFF_PLUS_SHOCK_GATE"
     )
 
-    logger.info(f"  v{a.get('version','?')} | Strategy={strategy_variant} "
-                f"| EntryTopN={entry_top_n} | MaxPos={max_pos} "
-                f"BuySlot={buy_pct*100:.1f}% MaxSingle={max_pct*100:.1f}% "
-                f"OneWay={one_way*100:.2f}%")
+    if qualified_entry_enabled:
+        logger.info(f"  v{a.get('version','?')} | Strategy={strategy_variant} "
+                    f"| CandidateTopN={candidate_top_n} MaxPos={max_pos} EntryMode=QualifiedPool "
+                    f"BuySlot={buy_pct*100:.1f}% MaxSingle={max_pct*100:.1f}% "
+                    f"OneWay={one_way*100:.2f}%")
+    else:
+        logger.info(f"  v{a.get('version','?')} | Strategy={strategy_variant} "
+                    f"| EntryTopN={entry_top_n} MaxPos={max_pos} EntryMode=StrictTop3 "
+                    f"BuySlot={buy_pct*100:.1f}% MaxSingle={max_pct*100:.1f}% "
+                    f"OneWay={one_way*100:.2f}%")
     logger.info(f"  Market Gate Variant: {market_gate_variant}")
     logger.info(f"  Market Gate: enabled={market_gate_enabled} "
                 f"| RiskOff=SPX<MA50:{risk_off_below_spx_ma50} "
@@ -908,13 +977,19 @@ def run_stateful_simulation(
         "invalid_execution_price":  0,
         "size_at_minimum":          0,
         "not_holding":              0,
-        "not_in_entry_top_n":       0,
+        "not_in_entry_top_n":               0,   # legacy: 旧 Strict Top3 模式
+        "not_in_qualified_candidate_pool":  0,   # qualified: 不在候选池
+        "not_qualified_entry":              0,   # qualified: 未通过资格过滤
+        "qualified_candidate_generated":    0,   # qualified: 候选池 BUY 已生成
+
         "market_risk_off_block":    0,
         "market_shock_block":       0,
         "add_blocked_after_tp":     0,
         "entry_rs_below_threshold":        0,
         "min_hold_block":                  0,
         "ls60_reduce_already_triggered":   0,
+        "action_reason_buy_add_mismatch":  0,   # BUY/ADD 不一致（记录，不中断）
+        "fill_only_no_empty_slot":         0,   # fill_only 模式：无空仓位，跳过 BUY
     }
     orders_executed = 0
 
@@ -946,6 +1021,15 @@ def run_stateful_simulation(
     spx_curve:     list[float] = []
     daily_records: list[dict]  = []
     spx_entry = spx_prices[min_history] if len(spx_prices) > min_history else 1.0
+
+    # ── Qualified Pool 诊断计数器 ───────────────────────────────
+    qp_diag = {
+        "pool_size_sum":        0,   # 每天候选池大小之和
+        "pool_days":            0,   # 有交易信号的天数
+        "days_pool_lt_3":       0,   # 候选池 < 3 的天数
+        "days_pool_ge_10":      0,   # 候选池 >= 10 的天数
+        "buy_orders_generated": 0,   # qualified_pool BUY 生成数
+    }
 
     # ── 日循环（以 SPX master calendar 为准）────────────
     for t in range(min_history, n_days - 2):
@@ -1208,26 +1292,100 @@ def run_stateful_simulation(
             (spx_prices[t] - spx_prices[t-1]) / spx_prices[t-1]
             if t > 0 and spx_prices[t-1] > 0 else 0.0
         )
-        market_risk_off = (
-            market_gate_enabled
-            and risk_off_below_spx_ma50
-            and spx_close_t < spx_ma50_t
-        )
-        market_shock = (
-            market_gate_enabled
-            and market_shock_gate_enabled
-            and spx_day_return <= market_shock_daily_return
-        )
-        market_entry_allowed = not (market_risk_off or market_shock)
 
-        if market_risk_off:
-            market_gate_days["risk_off"] += 1
-        if market_shock:
-            market_gate_days["market_shock"] += 1
-        if market_entry_allowed:
+        # ── Gate v2：三档市场状态 ────────────────────────────────
+        if not market_gate_enabled:
+            # Gate 关闭：完全跳过，不执行任何 Gate v2 计算
+            market_state     = "FULL_ON"
+            entry_capacity   = max_pos
+            market_risk_off  = False
+            market_shock     = False
+            market_entry_allowed = True
             market_gate_days["entry_allowed"] += 1
         else:
-            market_gate_days["blocked_total"] += 1
+            # ── MA50 slope（10日变化率）
+            spx_ma50_history.append(spx_ma50_t)
+            if len(spx_ma50_history) >= 11:
+                spx_ma50_slope = (spx_ma50_history[-1] / spx_ma50_history[0]) - 1.0
+            else:
+                spx_ma50_slope = 0.0
+
+            # ── NDX/SOX/VIX 当日价格
+            _ndx_last = None
+            _sox_last = None
+            _vix_last = None
+            _ndx_ma50 = None
+            _sox_ma50 = None
+
+            if ndx_lookup:
+                _ndx_last = _get_price_on(ndx_lookup, date_t)
+                if ndx_prices and len(ndx_prices) >= 50:
+                    _ndx_idx = next((i for i, d in enumerate(ndx_dates or []) if d == date_t), None)
+                    if _ndx_idx is not None and _ndx_idx >= 49:
+                        _ndx_ma50 = sum(ndx_prices[_ndx_idx-49:_ndx_idx+1]) / 50
+
+            if sox_lookup:
+                _sox_last = _get_price_on(sox_lookup, date_t)
+                if sox_prices and len(sox_prices) >= 50:
+                    _sox_idx = next((i for i, d in enumerate(sox_dates or []) if d == date_t), None)
+                    if _sox_idx is not None and _sox_idx >= 49:
+                        _sox_ma50 = sum(sox_prices[_sox_idx-49:_sox_idx+1]) / 50
+
+            if vix_lookup:
+                _vix_last = _get_price_on(vix_lookup, date_t)
+
+            # ── Leadership 计算
+            _spx_above = spx_close_t > spx_ma50_t
+            _ndx_above = (_ndx_last is not None and _ndx_ma50 is not None
+                          and _ndx_last > _ndx_ma50) if ndx_lookup else None
+            _sox_above = (_sox_last is not None and _sox_ma50 is not None
+                          and _sox_last > _sox_ma50) if sox_lookup else None
+
+            _n_indices = 1 + (1 if ndx_lookup else 0) + (1 if sox_lookup else 0)
+            _leadership_count = sum([
+                1 if _spx_above else 0,
+                1 if (_ndx_above is True) else 0,
+                1 if (_sox_above is True) else 0,
+            ])
+            _leadership_ratio = _leadership_count / _n_indices if _n_indices > 0 else 1.0
+            _vix_val   = _vix_last if _vix_last else 20.0
+            _shock_day = spx_day_return <= market_shock_daily_return
+
+            # ── 三档状态判定（比例阈值，兼容不同指数数量）
+            _cash_mode = (
+                (_vix_val >= 30 if vix_lookup else False)
+                or _shock_day
+                or _leadership_ratio < 2/3
+                or spx_ma50_slope < 0
+            )
+            if _cash_mode:
+                market_state   = "CASH_MODE"
+                entry_capacity = 0
+            elif (
+                _spx_above
+                and spx_ma50_slope >= 0
+                and _leadership_ratio >= 1.0
+                and (_vix_val < 25 if vix_lookup else True)
+                and not _shock_day
+            ):
+                market_state   = "FULL_ON"
+                entry_capacity = max_pos
+            else:
+                market_state   = "CAUTIOUS_ON"
+                entry_capacity = min(max_pos, 2)
+
+            market_risk_off  = (market_state == "CASH_MODE") and not _shock_day
+            market_shock     = _shock_day
+            market_entry_allowed = entry_capacity > 0
+
+            if market_risk_off:
+                market_gate_days["risk_off"] += 1
+            if market_shock:
+                market_gate_days["market_shock"] += 1
+            if market_entry_allowed:
+                market_gate_days["entry_allowed"] += 1
+            else:
+                market_gate_days["blocked_total"] += 1
 
         all_ret60 = []
         for s in symbols:
@@ -1279,15 +1437,40 @@ def run_stateful_simulation(
                 "ma50_slope":     ma50_sl,
             }
 
-        # Top 3 Entry Universe:
+        # ── Entry Universe ────────────────────────────────────────────
         # 只限制新开仓 BUY；不限制已有持仓的 HOLD/ADD/REDUCE/EXIT
         top_ranked = sorted(
             ((s, v["leader_score"]) for s, v in day_signals.items()),
             key=lambda x: x[1],
             reverse=True
         )
-        top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])
-        top_entry_rank = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}
+
+        if qualified_entry_enabled and candidate_top_n is not None:
+            # Qualified Candidate Pool 逻辑：
+            # Step 1: 过滤资格条件
+            qualified = []
+            for s, v in day_signals.items():
+                if v["rs_score"]       < qualified_rs_min:          continue
+                if v["momentum_score"] < qualified_momentum_min:    continue
+                if v["trend_health"]   < qualified_th_min:          continue
+                if v["trend_state"]    not in qualified_states:     continue
+                if qualified_price_above_ma50 and v["close_t"] <= v["ma50"]: continue
+                if v["ma50_slope"]     < qualified_ma50_slope_min:  continue
+                qualified.append((s, v["leader_score"]))
+            # Step 2: Qualified Pool 内按 LS 排名，取前 candidate_top_n
+            qualified.sort(key=lambda x: x[1], reverse=True)
+            top_entry_symbols = set(s for s, _ in qualified[:candidate_top_n])
+            top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(qualified[:candidate_top_n])}
+            # 诊断：记录每日候选池大小
+            pool_size = len(top_entry_symbols)
+            qp_diag["pool_size_sum"]  += pool_size
+            qp_diag["pool_days"]      += 1
+            if pool_size < 3:  qp_diag["days_pool_lt_3"]  += 1
+            if pool_size >= 10: qp_diag["days_pool_ge_10"] += 1
+        else:
+            # 旧逻辑：全市场 LS 排名取前 entry_top_n（Strict Top3）
+            top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])
+            top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}
 
         management_orders = []
         buy_orders = []
@@ -1310,31 +1493,93 @@ def run_stateful_simulation(
                 if action in portfolio_action_dist:
                     portfolio_action_dist[action] += 1
 
-            # 新 BUY：只有当日 Top 3 才允许进入
-            if action == "BUY":
+            # ── 新开仓逻辑 ────────────────────────────────────────
+            # 职责拆分：
+            #   Entry Engine  → 由 Qualified Pool 或旧 trade_action BUY 决定
+            #   Position Mgmt → 由 trade_action 决定（HOLD/ADD/REDUCE/EXIT）
+            if qualified_entry_enabled:
+                # Qualified Pool 模式：接管新开仓权限
+                # 不使用 trade_action()=="BUY"，由候选池资格决定是否可开仓
                 if sym in holdings:
-                    # 已持仓时 BUY 不重复开仓，不算错误
+                    # 已持仓：BUY 信号在 Qualified 模式下转为 ADD，由下方 position mgmt 处理
+                    if action == "BUY":
+                        action = "ADD"
+                elif sym in top_entry_symbols:
+                    # sym 在 Qualified Pool 候选里
+                    # Fill-Only 检查：如果开启，只在有空仓位时才允许买入
+                    if fill_only_enabled and len(holdings) >= entry_capacity:
+                        skip_reasons["fill_only_no_empty_slot"] += 1
+                        continue
+                    # → 允许开仓（Gate 启用时才在 STEP 3 检查容量）
+                    if market_gate_enabled and len(holdings) >= entry_capacity:
+                        skip_reasons["gate_capacity_block"] = skip_reasons.get("gate_capacity_block", 0) + 1
+                        continue
+                    if not market_entry_allowed:
+                        reason = "market_shock_block" if market_shock else "market_risk_off_block"
+                        skip_reasons[reason] += 1
+                        continue
+                    qual_reasons = [
+                        "qualified_pool_entry",
+                        f"rs_above_{qualified_rs_min}",
+                        f"mom_above_{qualified_momentum_min}",
+                        f"th_above_{qualified_th_min}",
+                        "trend_state_expansion",
+                        "price_above_ma50",
+                        "ma50_slope_non_negative",
+                    ]
+                    buy_orders.append({
+                        "sym":            sym,
+                        "action":         "BUY",    # 强制 BUY，不依赖 trade_action()
+                        "signal_date":    date_t,
+                        "ls":             ls,
+                        "close_t":        close_t,
+                        "entry_rank":     top_entry_rank.get(sym),
+                        "strategy":       strategy_variant,
+                        "entry_mode":     "qualified_pool",
+                        "primary_reason": "qualified_pool_entry",
+                        "reasons":        qual_reasons,
+                        "candidate_top_n": candidate_top_n,
+                    })
+                    qp_diag["buy_orders_generated"] += 1
+                    skip_reasons["qualified_candidate_generated"] += 1
                     continue
-                if sig.get("rs_score", 0.0) < entry_rs_min:
-                    skip_reasons["entry_rs_below_threshold"] += 1
+                # 如果 sym 不在 Qualified Pool 里，不生成 BUY 订单（跳过）
+                elif action == "BUY":
+                    skip_reasons["not_in_qualified_candidate_pool"] += 1
+
+            else:
+                # 旧模式：trade_action()=="BUY" + Strict TopN
+                if action == "BUY":
+                    if sym in holdings:
+                        continue
+                    if sig.get("rs_score", 0.0) < entry_rs_min:
+                        skip_reasons["entry_rs_below_threshold"] += 1
+                        continue
+                    if sym not in top_entry_symbols:
+                        skip_reasons["not_in_entry_top_n"] += 1
+                        continue
+                    # STEP 3 容量检查：只在 Gate 启用时才在信号生成层拦截
+                    # Gate OFF 时依赖 STEP 1 执行层的 max_positions_reached 检查
+                    if market_gate_enabled and len(holdings) >= entry_capacity:
+                        skip_reasons["gate_capacity_block"] = skip_reasons.get("gate_capacity_block", 0) + 1
+                        continue
+                    if not market_entry_allowed:
+                        reason = "market_shock_block" if market_shock else "market_risk_off_block"
+                        skip_reasons[reason] += 1
+                        continue
+                    buy_orders.append({
+                        "sym":            sym,
+                        "action":         "BUY",
+                        "signal_date":    date_t,
+                        "ls":             ls,
+                        "close_t":        close_t,
+                        "entry_rank":     top_entry_rank.get(sym),
+                        "strategy":       strategy_variant,
+                        "entry_mode":     "legacy_trade_action",
+                        "primary_reason": "all_entry_conditions_met",
+                        "reasons":        ["all_entry_conditions_met"],
+                    })
                     continue
-                if sym not in top_entry_symbols:
-                    skip_reasons["not_in_entry_top_n"] += 1
-                    continue
-                if not market_entry_allowed:
-                    reason = "market_shock_block" if market_shock else "market_risk_off_block"
-                    skip_reasons[reason] += 1
-                    continue
-                buy_orders.append({
-                    "sym":         sym,
-                    "action":      "BUY",
-                    "signal_date": date_t,
-                    "ls":          ls,
-                    "close_t":     close_t,
-                    "entry_rank":  top_entry_rank.get(sym),
-                    "strategy":    strategy_variant,
-                })
-                continue
 
             # 已持仓股票的管理：ADD / REDUCE / EXIT 与 rank 无关
             if action in ("ADD", "REDUCE", "EXIT"):
@@ -1365,15 +1610,26 @@ def run_stateful_simulation(
                     ls, th, market_score_default,
                     ls60_exit_mode=ls60_exit_mode,
                 )
-                # 严格一致性检查：action 与 reason_info["action"] 必须一致
+                # 一致性检查：
+                # REDUCE / EXIT mismatch → raise（风险动作必须准确）
+                # BUY / ADD mismatch     → 仅计数，不中断（进攻类语义相近）
                 reason_action = reason_info.get("action", "")
                 if action != reason_action:
-                    raise RuntimeError(
-                        f"action_reason_mismatch: {sym} "
-                        f"sig_action={action} reason_action={reason_action} "
-                        f"ls60_exit_mode={ls60_exit_mode} "
-                        f"ls={ls:.1f} state={state} price={close_t:.2f} ma50={ma50_v:.2f}"
-                    )
+                    risk_actions = {"REDUCE", "EXIT"}
+                    if {action, reason_action} & risk_actions:
+                        raise RuntimeError(
+                            f"action_reason_mismatch: {sym} "
+                            f"sig_action={action} reason_action={reason_action} "
+                            f"ls60_exit_mode={ls60_exit_mode} "
+                            f"ls={ls:.1f} state={state} price={close_t:.2f} ma50={ma50_v:.2f}"
+                        )
+                    else:
+                        skip_reasons["action_reason_buy_add_mismatch"] += 1
+                # CAUTIOUS_ON/CASH_MODE 禁止 ADD（生成层拦截）
+                if action == "ADD" and market_gate_enabled and market_state in ("CAUTIOUS_ON", "CASH_MODE"):
+                    skip_reasons["gate_add_blocked"] = skip_reasons.get("gate_add_blocked", 0) + 1
+                    continue
+
                 if action in ("EXIT", "REDUCE"):
                     pr = reason_info.get("primary_reason", "")
                     pending_signal_reason_dist[pr] = pending_signal_reason_dist.get(pr, 0) + 1
@@ -1656,7 +1912,21 @@ def run_stateful_simulation(
         "rank_based_exit": rank_based_exit,
         "strategy_controls": {
             "entry_rs_min": entry_rs_min,
-            "ls60_exit_mode": ls60_exit_mode,
+            "ls60_exit_mode":             ls60_exit_mode,
+            "candidate_top_n":            candidate_top_n,
+            "qualified_entry_enabled":    qualified_entry_enabled,
+            "qualified_rs_min":           qualified_rs_min,
+            "qualified_momentum_min":     qualified_momentum_min,
+            "qualified_th_min":           qualified_th_min,
+            "qualified_states":           list(qualified_states),
+            "qualified_price_above_ma50": qualified_price_above_ma50,
+            "qualified_ma50_slope_min":   qualified_ma50_slope_min,
+            # Qualified Pool 诊断
+            "qp_avg_pool_size":          round(qp_diag["pool_size_sum"] / max(qp_diag["pool_days"], 1), 1),
+            "qp_pool_days":              qp_diag["pool_days"],
+            "qp_days_pool_lt_3":         qp_diag["days_pool_lt_3"],
+            "qp_days_pool_ge_10":        qp_diag["days_pool_ge_10"],
+            "qp_buy_orders_generated":   qp_diag["buy_orders_generated"],
             "min_holding_days": min_holding_days,
             "min_hold_allow_broken_exit": min_hold_allow_broken_exit,
             "relative_stop_enabled": relative_stop_enabled,
@@ -1763,6 +2033,12 @@ def run_strategy_variant_comparison(
     dates_map: dict[str, list[str]],
     spx_prices: list[float],
     spx_dates: list[str],
+    ndx_prices: list[float] = None,
+    ndx_dates:  list[str]   = None,
+    sox_prices: list[float] = None,
+    sox_dates:  list[str]   = None,
+    vix_prices: list[float] = None,
+    vix_dates:  list[str]   = None,
 ) -> dict:
     """
     Run four diagnostic portfolio variants using Strict Top3, no fixed TP.
@@ -1786,36 +2062,73 @@ def run_strategy_variant_comparison(
         "partial_take_profit_enabled": False,
         "block_add_after_take_profit": False,
     }
+    # ── Gate v2 No VIX（冻结市场层基准）─────────────────────────
+    _gate_v2_no_vix = {
+        "market_gate_enabled":       True,
+        "risk_off_below_spx_ma50":   True,
+        "market_shock_gate_enabled": True,
+        "market_shock_daily_return": -0.02,
+        "candidate_top_n":           None,
+        "qualified_entry_enabled":   False,
+        "fill_only_enabled":         False,
+    }
+
     variants = {
-        # V0: 旧规则基准 — LS<60 → EXIT
-        "V0_OLD_LS60_EXIT": {
+        # U0: 纯基准 — Strict Top3 完全无 Gate，用于 baseline parity 验证
+        "U0_BASELINE_NO_GATE": {
             **base,
-            "strategy_variant": "V0_old_ls60_exit_rs90",
-            "entry_rs_min":      90.0,
-            "min_holding_days":  0,
+            "strategy_variant":      "U0_baseline_no_gate",
+            "entry_top_n":           3, "entry_rs_min": 90.0,
+            "ls60_exit_mode":        "exit",
+            "min_holding_days":      0,
             "relative_stop_enabled": False,
-            "ls60_exit_mode":    "exit",    # ← 旧规则
-            "version":           "V0-old-ls60-exit-rs90",
+            "candidate_top_n":       None,
+            "qualified_entry_enabled": False,
+            "fill_only_enabled":     False,
+            "market_gate_enabled":   False,
+            "version":               "U0-baseline-no-gate",
         },
-        # V1: 新规则 — LS<60 → REDUCE
-        "V1_NEW_LS60_REDUCE": {
-            **base,
-            "strategy_variant": "V1_new_ls60_reduce_rs90",
-            "entry_rs_min":      90.0,
-            "min_holding_days":  0,
+        # E0: Gate v2 No VIX 基准（当前退出规则）
+        "E0_GATE_V2_BASE": {
+            **base, **_gate_v2_no_vix,
+            "strategy_variant":    "E0_gate_v2_base",
+            "entry_top_n":         3, "entry_rs_min": 90.0,
+            "ls60_exit_mode":      "exit",
+            "min_holding_days":    0,
             "relative_stop_enabled": False,
-            "ls60_exit_mode":    "reduce",  # ← 新规则
-            "version":           "V1-new-ls60-reduce-rs90",
+            "version":             "E0-gate-v2-base",
         },
-        # V2: 新规则 + RS95
-        "V2_NEW_LS60_REDUCE_RS95": {
-            **base,
-            "strategy_variant": "V2_new_ls60_reduce_rs95",
-            "entry_rs_min":      95.0,
-            "min_holding_days":  0,
+        # E1: Gate v2 + MinHold 10天（前10天禁止 LS 触发的 REDUCE/EXIT）
+        "E1_GATE_V2_MINHOLD10": {
+            **base, **_gate_v2_no_vix,
+            "strategy_variant":    "E1_gate_v2_minhold10",
+            "entry_top_n":         3, "entry_rs_min": 90.0,
+            "ls60_exit_mode":      "exit",
+            "min_holding_days":    10,
             "relative_stop_enabled": False,
-            "ls60_exit_mode":    "reduce",  # ← 新规则
-            "version":           "V2-new-ls60-reduce-rs95",
+            "version":             "E1-gate-v2-minhold10",
+        },
+        # E2: Gate v2 + Relative Stop（个股相对 SPX 跑输 -8% 时退出）
+        "E2_GATE_V2_RELSTOP": {
+            **base, **_gate_v2_no_vix,
+            "strategy_variant":    "E2_gate_v2_relstop",
+            "entry_top_n":         3, "entry_rs_min": 90.0,
+            "ls60_exit_mode":      "exit",
+            "min_holding_days":    0,
+            "relative_stop_enabled": True,
+            "relative_stop_threshold": -0.08,
+            "version":             "E2-gate-v2-relstop",
+        },
+        # E3: Gate v2 + MinHold 10天 + Relative Stop
+        "E3_GATE_V2_MINHOLD10_RELSTOP": {
+            **base, **_gate_v2_no_vix,
+            "strategy_variant":    "E3_gate_v2_minhold10_relstop",
+            "entry_top_n":         3, "entry_rs_min": 90.0,
+            "ls60_exit_mode":      "exit",
+            "min_holding_days":    10,
+            "relative_stop_enabled": True,
+            "relative_stop_threshold": -0.08,
+            "version":             "E3-gate-v2-minhold10-relstop",
         },
     }
 
@@ -1847,6 +2160,10 @@ def run_strategy_variant_comparison(
         period_results[period_key] = {"label": period_cfg["label"], "variants": {}}
         for variant_id, assumptions in variants.items():
             logger.info(f"    === {period_key}/{variant_id} ===")
+            # E0-E3 全部用 Gate v2 No VIX（传空 VIX，传 NDX/SOX）
+            _use_ndx = ndx_prices or []
+            _use_sox = sox_prices or []
+            _use_vix = []  # E 系列不用 VIX
             period_results[period_key]["variants"][variant_id] = run_stateful_simulation(
                 symbols=symbols,
                 prices_map=prices_map,
@@ -1856,6 +2173,12 @@ def run_strategy_variant_comparison(
                 assumptions=assumptions,
                 sim_start_date=period_cfg["sim_start_date"],
                 sim_end_date=period_cfg["sim_end_date"],
+                ndx_prices=_use_ndx,
+                ndx_dates=ndx_dates or [],
+                sox_prices=_use_sox,
+                sox_dates=sox_dates or [],
+                vix_prices=_use_vix,
+                vix_dates=vix_dates or [],
             )
 
     # ── 为兼容现有输出格式，把 Period C（全区间）当作主结果 ────
@@ -1907,22 +2230,42 @@ def run_strategy_variant_comparison(
             "avg_loser_pct": result.get("avg_loser_pct"),
             "exposure_pct": result.get("exposure_pct"),
             "skip_reasons": result.get("skipped_orders_by_reason", {}),
+            "qualified_entry_enabled": controls.get("qualified_entry_enabled", False),
+            "candidate_top_n": controls.get("candidate_top_n"),
+            "qualified_states": controls.get("qualified_states", []),
             "relative_stop_stats": controls.get("relative_stop_stats", {}),
         })
 
-    logger.info("  === 3-Variant LS60 Mode Comparison ===")
+    logger.info("  === 4-Variant Qualified Pool Comparison ===")
     for row in comparison_rows:
         marker = "SELECTED" if row["selected"] else ""
+        qual = "QUAL" if row.get("qualified_entry_enabled") else "STRICT"
+        cand = f"top{row.get('candidate_top_n','?')}" if row.get("qualified_entry_enabled") else f"top{row.get('entry_top_n','?')}"
         logger.info(
             f"  {row['variant']}: {row['status']} "
-            f"LS60={row.get('ls60_exit_mode','?')} "
-            f"RS>={row['entry_rs_min']} MinHold={row['min_holding_days']} "
+            f"{qual}({cand}) LS60={row.get('ls60_exit_mode','?')} "
+            f"RS>={row.get('entry_rs_min','?')} "
             f"Return={row['total_return_pct']:+.2f}% "
             f"Alpha={row['alpha_pct']:+.2f}% "
             f"MaxDD={row['max_drawdown_pct']:.2f}% "
-            f"PF={row['profit_factor']} Sharpe={row['sharpe_ratio']} {marker}"
+            f"PF={row.get('profit_factor','?')} Sharpe={row.get('sharpe_ratio','?')} {marker}"
         )
     logger.info(f"  Selected strategy variant: {selected_id}")
+
+    # ── Qualified Pool 诊断摘要 ───────────────────────────────
+    for vid, res in variant_results.items():
+        ctrl = res.get("strategy_controls", {})
+        if not ctrl.get("qualified_entry_enabled"):
+            continue
+        avg_pool  = ctrl.get("qp_avg_pool_size", 0)
+        days_lt3  = ctrl.get("qp_days_pool_lt_3", 0)
+        days_ge10 = ctrl.get("qp_days_pool_ge_10", 0)
+        gen       = ctrl.get("qp_buy_orders_generated", 0)
+        logger.info(
+            f"  [QP Diag] {vid}: AvgPoolSize={avg_pool} "
+            f"DaysLT3={days_lt3} DaysGE10={days_ge10} "
+            f"BuyOrdersGenerated={gen}"
+        )
 
     # ── 分期对比摘要 ──────────────────────────────────────────────
     logger.info("  ══ Period Comparison Summary ══")
@@ -1993,6 +2336,12 @@ def run_full_backtest(
     spx_dates:    list[str] = None,
     run_layer_b:  bool = False,
     run_layer_d:  bool = True,
+    ndx_prices:   list[float] = None,
+    ndx_dates:    list[str]   = None,
+    sox_prices:   list[float] = None,
+    sox_dates:    list[str]   = None,
+    vix_prices:   list[float] = None,
+    vix_dates:    list[str]   = None,
 ) -> dict:
     """
     运行完整4层回测验证（A → C → D → B）。
@@ -2025,7 +2374,10 @@ def run_full_backtest(
     # Layer D: 4-variant strategy comparison; selected result remains top-level compatible
     if run_layer_d:
         results["layer_d"] = run_strategy_variant_comparison(
-            symbols, prices_map, dates_map, spx_prices, spx_dates
+            symbols, prices_map, dates_map, spx_prices, spx_dates,
+            ndx_prices=ndx_prices or [], ndx_dates=ndx_dates or [],
+            sox_prices=sox_prices or [], sox_dates=sox_dates or [],
+            vix_prices=vix_prices or [], vix_dates=vix_dates or [],
         )
 
     # Layer B: Promotion Engine（需要历史快照，可选）
