@@ -1,0 +1,49 @@
+{
+  "cash": 100000.0,
+  "holdings": {},
+  "holdings_value": 0,
+  "equity": 100000.0,
+  "n_positions": 0,
+  "pending_orders": [
+    {
+      "event_id": "2026-06-18_ORDER_BUY_WDC",
+      "event_type": "ORDER_GENERATED",
+      "date": "2026-06-18",
+      "symbol": "WDC",
+      "action": "BUY",
+      "rank": 1,
+      "leader_score": 81.54,
+      "rs_score": 98.2,
+      "execute_date": "T+1",
+      "source": "BACKFILLED_PRELIVE",
+      "_written_at": "2026-06-20T13:09:52.817423+00:00"
+    },
+    {
+      "event_id": "2026-06-18_ORDER_BUY_STX",
+      "event_type": "ORDER_GENERATED",
+      "date": "2026-06-18",
+      "symbol": "STX",
+      "action": "BUY",
+      "rank": 2,
+      "leader_score": 79.86,
+      "rs_score": 98.4,
+      "execute_date": "T+1",
+      "source": "BACKFILLED_PRELIVE",
+      "_written_at": "2026-06-20T13:09:52.817573+00:00"
+    },
+    {
+      "event_id": "2026-06-18_ORDER_BUY_BE",
+      "event_type": "ORDER_GENERATED",
+      "date": "2026-06-18",
+      "symbol": "BE",
+      "action": "BUY",
+      "rank": 3,
+      "leader_score": 78.72,
+      "rs_score": 97.8,
+      "execute_date": "T+1",
+      "source": "BACKFILLED_PRELIVE",
+      "_written_at": "2026-06-20T13:09:52.817695+00:00"
+    }
+  ],
+  "closed_trades": []
+}

@@ -23,7 +23,15 @@ jobs:
       - name: 增量更新 + 信号计算
         run: python fetch_data.py
 
+      - name: OOS 数据日期预检
+        id: oos_check
+        run: |
+          python run_oos.py --check
+          echo "check_passed=true" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
       - name: OOS Tracking Engine
+        if: steps.oos_check.outputs.check_passed == 'true'
         run: python run_oos.py
         continue-on-error: true  # OOS 失败不阻塞数据发布
 
