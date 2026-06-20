@@ -12,7 +12,7 @@
 .badge-sim {display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500;background:#EEEDFE;color:#26215C}
 .frozen-banner{background:rgba(29,158,117,0.08);border-left:3px solid #1D9E75;padding:8px 14px;border-radius:0 6px 6px 0;font-size:12px;margin-bottom:12px;line-height:1.6}
 .oos-banner{background:rgba(239,159,39,0.08);border-left:3px solid #EF9F27;padding:8px 14px;border-radius:0 6px 6px 0;font-size:12px;margin-bottom:12px;line-height:1.6}
-.arch-banner{background:var(--bg2,#f5f5f5);border-left:3px solid #888;padding:8px 14px;border-radius:0 6px 6px 0;font-size:12px;margin-bottom:12px;line-height:1.6}
+.arch-banner{background:rgba(136,135,128,0.08);border-left:3px solid #888;padding:8px 14px;border-radius:0 6px 6px 0;font-size:12px;margin-bottom:12px;line-height:1.6}
 </style>
 </head>
 <body>
@@ -26,18 +26,14 @@
     <button class="btn-refresh" onclick="loadAll()">↻ 刷新</button>
   </div>
   <div class="tabs">
-    <button class="tab on"  onclick="go('market',   this)">🌐 Market Regime</button>
+    <button class="tab on"  onclick="go('market',   this)">🌐 Market Overview</button>
     <button class="tab"     onclick="go('leader',   this)">🏆 Leader Board</button>
-    <button class="tab"     onclick="go('trades',   this)">📋 Trade Dashboard</button>
-    <button class="tab"     onclick="go('lifecycle',this)">🔄 Trend Lifecycle</button>
     <button class="tab"     onclick="go('watchlist',this)">👁 Watchlist</button>
     <button class="tab"     onclick="go('positions',this)">📊 Positions &amp; Exit</button>
     <button class="tab"     onclick="go('research', this)">🔬 Research &amp; Backtest</button>
   </div>
   <div id="s-market"    class="section on"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
   <div id="s-leader"    class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
-  <div id="s-trades"    class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
-  <div id="s-lifecycle" class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
   <div id="s-watchlist" class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
   <div id="s-positions" class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
   <div id="s-research"  class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
