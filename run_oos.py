@@ -85,16 +85,100 @@ def cmd_status():
               f"(since {h['entry_date']}) sig={sp} exec={ep}")
 
 
+
+
+def cmd_replay_invalidated(date_str: str) -> None:
+    """
+    Replay an invalidated date.
+    Safety checks:
+    1. LIVE_FORWARD events must be 0 (only allowed during BACKFILLED_PRELIVE phase)
+    2. events.jsonl must exist and be valid
+    3. After clearing the date's events, re-run backfill for that date only
+
+    Does NOT delete Git history. Appends corrective events with source=BACKFILLED_PRELIVE.
+    The invalidated events file must already exist as audit record.
+    """
+    import os
+    from pathlib import Path
+    from src.oos.event_store import load_all_events, EVENTS_FILE, OOS_DIR
+    from src.oos.portfolio_state import PortfolioState
+
+    logger.info(f"=== REPLAY INVALIDATED: {date_str} ===")
+
+    # 1. Load all current events
+    events = load_all_events()
+    live_count = sum(1 for e in events if e.get("source") == "LIVE_FORWARD")
+
+    if live_count > 0:
+        logger.error(
+            f"REPLAY BLOCKED: {live_count} LIVE_FORWARD events exist. "
+            f"Replay is only permitted when LIVE_FORWARD events = 0."
+        )
+        sys.exit(1)
+
+    # 2. Check invalidated audit file exists
+    invalidated_files = list(OOS_DIR.glob("events_INVALIDATED_*.jsonl"))
+    if not invalidated_files:
+        logger.error("No INVALIDATED audit file found. Run cp first.")
+        sys.exit(1)
+    logger.info(f"Audit file exists: {[f.name for f in invalidated_files]}")
+
+    # 3. Remove events for the target date only
+    remaining = [e for e in events if e.get("date") != date_str]
+    removed   = [e for e in events if e.get("date") == date_str]
+    logger.info(f"Removing {len(removed)} events for {date_str}, keeping {len(remaining)}")
+
+    # Rewrite events.jsonl without the invalidated date
+    import json
+    tmp = EVENTS_FILE.with_suffix(".tmp")
+    with open(tmp, "w", encoding="utf-8") as f:
+        for ev in remaining:
+            f.write(json.dumps(ev, ensure_ascii=False) + "\n")
+    tmp.replace(EVENTS_FILE)
+    logger.info(f"events.jsonl rewritten: {len(remaining)} events remain")
+
+    # 4. Re-run for the target date as BACKFILLED_PRELIVE
+    logger.info(f"Re-running {date_str} as BACKFILLED_PRELIVE ...")
+    leaders, prices, mkt_state, data_date = load_market_data()
+    from src.oos.tracking_engine import run_oos_day
+    result = run_oos_day(
+        signal_date=date_str,
+        leaders=leaders,
+        prices=prices,
+        market_state=mkt_state,
+        source="BACKFILLED_PRELIVE",
+        data_date=data_date,
+    )
+
+    # 5. Verify no negative cash
+    events_after = load_all_events()
+    state = PortfolioState.rebuild_from_events(events_after)
+    if state.cash < -0.01:
+        logger.error(f"REPLAY FAILED: cash={state.cash:.4f} < 0 after replay!")
+        sys.exit(1)
+
+    logger.info(
+        f"✅ Replay complete: {date_str} | "
+        f"equity={result['equity']} positions={result['n_positions']} cash={state.cash:.2f}"
+    )
+    print(json.dumps(result, indent=2))
+
 def main():
     parser = argparse.ArgumentParser(description="OOS Tracking Engine v1.1")
     parser.add_argument("--date",     help="Signal date YYYY-MM-DD (must be a trading day)")
     parser.add_argument("--backfill", help="Backfill from YYYY-MM-DD (BACKFILLED_PRELIVE)")
     parser.add_argument("--status",   action="store_true")
     parser.add_argument("--check",    action="store_true", help="Pre-check data freshness")
+    parser.add_argument("--replay-invalidated", metavar="DATE",
+                        help="Replay invalidated date. Only when LIVE_FORWARD=0.")
     args = parser.parse_args()
 
     if args.status:
         cmd_status()
+        return
+
+    if args.replay_invalidated:
+        cmd_replay_invalidated(args.replay_invalidated)
         return
 
     from src.oos.calendar import (
