@@ -45,22 +45,32 @@ async function loadAll() {
   });
   $('uptime').textContent='加载中...';
   try {
-    const [mkt,lb,wl,lc,dh,bt,tlog] = await Promise.all([
-      fetchJ('market_state'), fetchJ('leaderboard'),
-      fetchJ('watchlist'), fetchJ('lifecycle'),
+    // 核心数据：market_state / leaderboard 失败则整页报错
+    // 辅助数据：其余均 graceful fallback，不阻塞渲染
+    const [mkt,lb] = await Promise.all([
+      fetchJ('market_state'),
+      fetchJ('leaderboard'),
+    ]);
+    DATA.market=mkt.market; DATA.leaderboard=lb.leaders||[];
+    $('uptime').textContent='数据时间：'+(mkt.generated_at_display||mkt.generated_at||'未知');
+
+    // 辅助数据并行加载，各自 fallback
+    const [wl,lc,dh,bt,tlog] = await Promise.all([
+      fetchJ('watchlist').catch(()=>({watchlist:[]})),
+      fetchJ('lifecycle').catch(()=>({regimes:{}})),
       fetchJ('data_health').catch(()=>null),
       fetchJ('backtest').catch(()=>null),
       fetchJ('trade_log').catch(()=>null),
     ]);
-    DATA.market=mkt.market; DATA.leaderboard=lb.leaders||[];
     DATA.watchlist=wl.watchlist||[]; DATA.lifecycle=lc.regimes||{};
     DATA.health=dh; DATA.backtest=bt; DATA.tradelog=tlog;
-    $('uptime').textContent='数据时间：'+(mkt.generated_at_display||mkt.generated_at||'未知');
+
     ['market','leader','watchlist','positions','research'].forEach(t=>render(t));
   } catch(e) {
+    // 只有核心数据失败才整页报错
     ['market','leader','watchlist','positions','research'].forEach(t=>{
       const el=$('s-'+t);
-      if(el) el.innerHTML=`<div class="error"><strong>数据加载失败</strong><br>${e.message}<br><br>请先运行 GitHub Actions → 初始化历史数据。</div>`;
+      if(el) el.innerHTML=`<div class="error"><strong>核心数据加载失败</strong><br>${e.message}<br><br>请先运行 GitHub Actions → 初始化历史数据。</div>`;
     });
   }
 }
@@ -369,14 +379,18 @@ function render(tab) {
     const e1=vr?.E1_AUDITED_G4_MINHOLD10;
     if(!e1){$('s-positions').innerHTML='<div class="error">E1 variant 数据缺失。</div>';return;}
 
+    // ── 日期元数据 ─────────────────────────────────────────
+    const sv=e1.sample_validity||{};
+    const simEndDate=sv.simulation_end_date||'—';          // 回测结束日
+    const btAsOf=bt.generated_at_display||bt.generated_at||'—'; // backtest.json 生成时间
+    const lbAsOf=DATA.market?.data_date||'—';              // leaderboard 数据日期
+    // 日期错配：sim_end_date 与 leaderboard 日期超过 1 天
+    const dateMismatch = (simEndDate!=='—' && lbAsOf!=='—' && simEndDate!==lbAsOf);
+
     const allTrades=e1.trades||[];
     const simEnd=allTrades.filter(t=>t.is_sim_end);
     const recentClosed=allTrades.filter(t=>!t.is_sim_end).slice(-5).reverse();
-
-    // Current holdings from leaderboard (stocks with HOLD/ADD action)
     const leaders=DATA.leaderboard||[];
-    const holdingSyms=new Set(simEnd.map(t=>t.symbol));
-    const holdingLeaders=leaders.filter(s=>holdingSyms.has(s.symbol));
 
     let h=`<div class="frozen-banner">
       <strong>E1_AUDITED_G4_MINHOLD10 (frozen)</strong> &nbsp;·&nbsp;
@@ -385,17 +399,37 @@ function render(tab) {
       T-day signal, T+1 adverse execution
     </div>`;
 
-    // Positions table
-    h+=`<div class="card"><div class="card-head">Current positions</div><div class="card-body">`;
+    // ── 日期标注与错配警告 ─────────────────────────────────
+    h+=`<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;font-size:12px">
+      <span style="padding:4px 12px;border-radius:20px;background:var(--bg2)">
+        Backtest as-of: <strong>${simEndDate}</strong>
+      </span>
+      <span style="padding:4px 12px;border-radius:20px;background:var(--bg2)">
+        Leader Score as-of: <strong>${lbAsOf}</strong>
+      </span>
+      ${dateMismatch?`<span style="padding:4px 12px;border-radius:20px;background:rgba(226,75,74,0.12);color:var(--red);font-weight:600">
+        ⚠️ DATE MISMATCH — LS from leaderboard may not match model positions
+      </span>`:''}
+    </div>`;
+
+    // ── SIM_END 说明 ───────────────────────────────────────
+    h+=`<div style="background:rgba(55,138,221,0.07);border:.5px solid rgba(55,138,221,0.25);border-radius:var(--radius);padding:8px 14px;font-size:12px;margin-bottom:12px;color:var(--text2)">
+      ℹ️ <strong>E1 Model Positions</strong> — 以下为 E1 回测在模拟结束日（${simEndDate}）仍未平仓的模型仓位（SIM_END）。
+      这不是用户实际持仓。OOS 阶段将由每日 E1 forward portfolio 文件替代。
+    </div>`;
+
+    // ── 持仓表 ─────────────────────────────────────────────
+    h+=`<div class="card"><div class="card-head">E1 Model Positions <span class="sub">As of: ${simEndDate}</span></div><div class="card-body">`;
     if(simEnd.length>0){
       const posRows=simEnd.map(t=>{
         const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';
         const days=t.holding_days||0, minhold=Math.max(0,10-days);
-        const ls=t.leader_score_entry||0;
-        // Find current LS from leaderboard
         const lbEntry=leaders.find(s=>s.symbol===t.symbol);
-        const curLS=lbEntry?.leader_score||ls;
-        const exitStatus=curLS<60?'<span class="badge-exit">EXIT</span>':'<span class="badge-hold">HOLD</span>';
+        const curLS=lbEntry?.leader_score||t.leader_score_entry||0;
+        const lsStale=dateMismatch?` <span style="font-size:10px;color:var(--red)">STALE</span>`:'';
+        const exitStatus=curLS<60
+          ?`<span class="badge-exit">EXIT</span>`
+          :`<span class="badge-hold">HOLD</span>`;
         return `<tr>
           <td><strong>${t.symbol}</strong></td>
           <td>${t.entry_date}</td>
@@ -404,20 +438,24 @@ function render(tab) {
           <td style="${rc}">${ret>=0?'+':''}${p2(ret)}%</td>
           <td>${days}</td>
           <td>${minhold>0?minhold+'d left':'✓ OK'}</td>
-          <td style="color:${scCol(curLS)}">${p2(curLS,1)}</td>
+          <td style="color:${scCol(curLS)}">${p2(curLS,1)}${lsStale}</td>
           <td>${exitStatus}</td>
         </tr>`;
       }).join('');
       h+=`<div class="tbl-wrap"><table>
-        <thead><tr><th>Symbol</th><th>Entry date</th><th>Entry $</th><th>Last $</th><th>Return</th><th>Days</th><th>MinHold</th><th>LS (current)</th><th>Exit status</th></tr></thead>
+        <thead><tr><th>Symbol</th><th>Entry date</th><th>Entry $</th><th>Model exit $</th>
+        <th>Return</th><th>Days held</th><th>MinHold</th>
+        <th>LS ${dateMismatch?'(STALE)':'(current)'}</th><th>Signal</th></tr></thead>
         <tbody>${posRows}</tbody>
       </table></div>`;
     } else {
-      h+=`<div style="padding:20px;color:var(--text2);text-align:center">样本期结束无持仓快照。OOS期间持仓将在此显示。</div>`;
+      h+=`<div style="padding:20px;color:var(--text2);text-align:center">
+        模拟期内无未平仓仓位。OOS 阶段持仓将在此显示。
+      </div>`;
     }
     h+=`</div></div>`;
 
-    // Recent closed trades
+    // ── 最近平仓 ───────────────────────────────────────────
     if(recentClosed.length>0){
       const recentRows=recentClosed.map(t=>{
         const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';
@@ -437,7 +475,10 @@ function render(tab) {
       </div></div>`;
     }
 
-    h+=`<p class="note" style="margin-top:8px">Days held 仅供参考，不决定退出时机。Exit status 来自 E1 规则：LS &lt; 60 → EXIT 信号，T日确认，T+1执行。MinHold 10天保护期内不提前退出。</p>`;
+    h+=`<p class="note" style="margin-top:8px">
+      Days held 仅供参考。Exit signal: LS &lt; 60 → EXIT，T日确认 T+1执行。MinHold 10天保护期内不提前退出。
+      LS 数值来自 leaderboard.json（${lbAsOf}），回测快照来自 backtest.json（${simEndDate}）。
+    </p>`;
     $('s-positions').innerHTML=h;
   }
 
