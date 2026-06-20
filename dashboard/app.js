@@ -1,5 +1,5 @@
 /**
- * SP500 Trend Decision Support Cockpit — app.js v1.3 Rev.2
+ * SP500 Trend Decision Support Cockpit — app.js v1.4
  */
 
 const EXPORTS_BASE = 'https://donarfang.github.io/SP500-tracker/exports';
@@ -14,7 +14,7 @@ const REG_META = {
 };
 const IDX_ICONS = {SPX:'📊',NDX:'💻',VIX:'😨',SOX:'🔬'};
 
-let DATA = {market:null,leaderboard:null,watchlist:null,trades:null,lifecycle:null,health:null};
+let DATA = {market:null,leaderboard:null,watchlist:null,trades:null,lifecycle:null,health:null,backtest:null,tradelog:null};
 let charts = {};
 let selectedStock = null;
 
@@ -39,22 +39,24 @@ async function fetchJ(name) {
 }
 
 async function loadAll() {
-  ['market','leader','trades','lifecycle','watchlist'].forEach(t=>{
+  ['market','leader','trades','lifecycle','watchlist','positions','research'].forEach(t=>{
     const el=$('s-'+t); if(el) el.innerHTML='<div class="loading"><span class="spin"></span>加载中...</div>';
   });
   $('uptime').textContent='加载中...';
   try {
-    const [mkt,lb,tr,wl,lc,dh] = await Promise.all([
+    const [mkt,lb,tr,wl,lc,dh,bt,tlog] = await Promise.all([
       fetchJ('market_state'), fetchJ('leaderboard'), fetchJ('trade_actions'),
       fetchJ('watchlist'), fetchJ('lifecycle'), fetchJ('data_health').catch(()=>null),
+      fetchJ('backtest').catch(()=>null), fetchJ('trade_log').catch(()=>null),
     ]);
     DATA.market=mkt.market; DATA.leaderboard=lb.leaders||[];
     DATA.trades=tr.stocks||[]; DATA.watchlist=wl.watchlist||[];
     DATA.lifecycle=lc.regimes||{}; DATA.health=dh;
+    DATA.backtest=bt; DATA.tradelog=tlog;
     $('uptime').textContent='数据时间：'+(mkt.generated_at_display||mkt.generated_at||'未知');
-    ['market','leader','trades','lifecycle','watchlist'].forEach(t=>render(t));
+    ['market','leader','trades','lifecycle','watchlist','positions','research'].forEach(t=>render(t));
   } catch(e) {
-    ['market','leader','trades','lifecycle','watchlist'].forEach(t=>{
+    ['market','leader','trades','lifecycle','watchlist','positions','research'].forEach(t=>{
       const el=$('s-'+t);
       if(el) el.innerHTML=`<div class="error"><strong>数据加载失败</strong><br>${e.message}<br><br>请先运行 GitHub Actions → 初始化历史数据。</div>`;
     });
@@ -80,7 +82,6 @@ function render(tab) {
     const scC=sc>=80?'#1D9E75':sc>=60?'#BA7517':'#D85A30';
     const dh=DATA.health;
 
-    // Data health banner
     let hb='';
     if(dh){
       const st=dh.data_status, col=st==='PASS'?'var(--green)':st==='WARN'?'var(--amber)':'var(--red)';
@@ -93,7 +94,6 @@ function render(tab) {
 
     let h=hb;
 
-    // Market Score + State + Leadership
     h+=`<div class="grid-3">
       <div class="mc" style="text-align:center">
         <div class="mc-label">Market Score</div>
@@ -115,7 +115,6 @@ function render(tab) {
       </div>
     </div>`;
 
-    // Score breakdown
     h+=`<div class="card"><div class="card-head">Market Score 评分明细</div><div class="card-body"><div class="grid-4">`;
     ['SPX','NDX','SOX','VIX'].forEach(code=>{
       const b=bd[code]||{}, sc2=b.score||0, col2=scCol(sc2);
@@ -130,7 +129,6 @@ function render(tab) {
     });
     h+=`</div></div></div>`;
 
-    // Four indices cards
     h+=`<div class="card"><div class="card-head">四大指数实时概览</div><div class="card-body"><div class="grid-4">`;
     ['SPX','NDX','VIX','SOX'].forEach(code=>{
       const ix=idx[code]||{}, av=ix.available!==false, cp=av?ix.change_pct||0:0, cc=cp>=0?'var(--green)':'var(--red)';
@@ -140,7 +138,7 @@ function render(tab) {
           <div style="font-size:22px;font-weight:700;color:${ix.vix_color||'var(--text)'}">${av?p2(ix.price,2):'N/A'}</div>
           <div style="font-size:11px;margin-top:4px;display:flex;justify-content:space-between">
             <span style="color:${cc}">${sgn(cp)}${p2(cp,2)}%</span>
-            <span style="color:${ix.vix_color||'var(--text2)'}">${ix.vix_state||''}</span>
+            <span style="color:${ix.vix_color||'var(--text2)'};">${ix.vix_state||''}</span>
           </div>
           <div style="font-size:10px;color:var(--text3);margin-top:4px">趋势：${ix.vix_trend||'—'}</div>
         </div>`;
@@ -158,7 +156,6 @@ function render(tab) {
     });
     h+=`</div></div></div>`;
 
-    // Relative strength tags
     const tp=idx.tech_premium, sp=idx.sox_premium;
     if(tp!==undefined||sp!==undefined){
       h+=`<div style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap">`;
@@ -167,7 +164,6 @@ function render(tab) {
       h+=`</div>`;
     }
 
-    // SPX chart + sector doughnut
     h+=`<div class="grid-2">
       <div class="card" style="margin-bottom:0"><div class="card-head">标普500 趋势 <span class="sub">距MA50 ${sgn(m.pct_above_ma50)}${p2(m.pct_above_ma50)}%</span></div><div class="card-body">
         <div class="cwrap" style="height:200px"><canvas id="cw-spx"></canvas></div>
@@ -178,7 +174,6 @@ function render(tab) {
       </div></div>
     </div><br>`;
 
-    // A/D + AI
     h+=`<div class="mc" style="margin-bottom:1rem"><div class="mc-label">涨跌家数</div>
       <div class="mc-val"><span style="color:var(--green)">${m.advance_count||'-'}</span><span style="color:var(--text3);font-size:14px"> / </span><span style="color:var(--red)">${m.decline_count||'-'}</span></div>
       <div class="mc-sub">A/D Ratio: ${p2(m.advance_decline,2)}</div>
@@ -389,7 +384,7 @@ function render(tab) {
         const pts=(lc[reg]||[]).map(s=>({x:s.rs_percentile||0,y:s.momentum_accel||0,label:s.symbol}));
         return{label:REG_META[reg]?.zh||reg,data:pts,backgroundColor:rCol[reg],pointRadius:7,pointHoverRadius:10,_pts:pts};
       })},options:{responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{labels:{font:{size:11},boxWidth:10,padding:8}},tooltip:{callbacks:{label:ctx=>{const p=ctx.dataset._pts[ctx.dataIndex];return `${p.label}  RS:${p2(p.x,1)}  加速:${sgn(p.y)}${p2(p.y*100,2)}%`;}}}},
+        plugins:{legend:{labels:{font:{size:11},boxWidth:10,padding:8}},tooltip:{callbacks:{label:ctx=>{const p=ctx.dataset._pts[ctx.dataIndex];return `${p.label}  RS:${p2(p.x,1)}  加速:${sgn(p.y)}${p2(p.y*100,2)}%`;  }}}},
         scales:{x:{title:{display:true,text:'RS 百分位',font:{size:11}},min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},
                 y:{title:{display:true,text:'动量加速度',font:{size:11}},ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}}}
       }});
@@ -426,17 +421,14 @@ function render(tab) {
       const rv  = s.rank_velocity||50;
       const rvc = rv>55?'var(--green)':rv<45?'var(--red)':'var(--text3)';
       const rvi = rv>55?'↑':rv<45?'↓':'→';
-
       const ma  = s.mom_acceleration||50;
       const mac = ma>55?'var(--green)':ma<45?'var(--red)':'var(--text3)';
       const mai = ma>55?'⚡':ma<45?'📉':'→';
-
       const d5   = s.rank_delta_5d||0;
       const d20  = s.rank_delta_20d||0;
       const d5c  = d5>0?'var(--green)':d5<0?'var(--red)':'var(--text3)';
       const d20c = d20>0?'var(--green)':d20<0?'var(--red)':'var(--text3)';
       const isLeader = leaderSyms.has(s.symbol);
-
       h+=`<tr${isLeader?' style="opacity:0.55"':''}>
         <td style="color:var(--text3);font-weight:600">${s.rank}</td>
         <td>
@@ -453,22 +445,16 @@ function render(tab) {
           <span style="color:var(--text3)"> / </span>
           <span style="color:${d20c}">${d20>0?'+'+d20:d20===0?'—':d20}</span>
         </td>
-        <td style="color:${rvc}">
-          ${rvi} <span style="font-size:11px">${p2(rv,0)}</span>
-        </td>
-        <td style="color:${mac}">
-          ${mai} <span style="font-size:11px">${p2(ma,0)}</span>
-        </td>
+        <td style="color:${rvc}">${rvi} <span style="font-size:11px">${p2(rv,0)}</span></td>
+        <td style="color:${mac}">${mai} <span style="font-size:11px">${p2(ma,0)}</span></td>
         <td>${p2(s.trend_health,0)} ${scBar(s.trend_health||0,'45px')}</td>
         <td>${badge(s.trade_action||'HOLD')}</td>
       </tr>`;
     });
     h+=`</tbody></table></div></div></div>`;
-
     h+=`<div class="card"><div class="card-head">晋升分排行</div><div class="card-body">
       <div class="cwrap" style="height:220px"><canvas id="cw-promo"></canvas></div>
     </div></div>`;
-
     const tp2   = wl.filter(s=>(s.promotion_score||0)>=60);
     const rising = wl.filter(s=>(s.rank_velocity||50)>60).map(s=>s.symbol);
     h+=aiBox(
@@ -477,7 +463,6 @@ function render(tab) {
       `${tp2.length>0?`重点关注 ${tp2.slice(0,3).map(s=>s.symbol).join('、')}，排名快速上升，有望晋升 Top10。`:'历史快照积累中，1-2周后 Rank Velocity 将显示真实数据。'}`,
       tp2.length>0?`跟踪 ${tp2.slice(0,3).map(s=>s.symbol).join('、')} 排名变化，突破前高可考虑建仓`:'继续观察，等待历史数据积累'
     );
-
     $('s-watchlist').innerHTML=h;
     setTimeout(()=>{
       const el=$('cw-promo'); if(!el)return;
@@ -491,6 +476,257 @@ function render(tab) {
         scales:{y:{min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},
                 x:{ticks:{font:{size:11}},grid:{display:false}}}}});
     },80);
+  }
+
+  // ── Tab 6: Positions & Exit ───────────────────────────
+  if (tab==='positions') {
+    const bt = DATA.backtest;
+    if (!bt) {
+      $('s-positions').innerHTML='<div class="error">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>'; return;
+    }
+    const vr = bt?.backtest?.results?.layer_d?.variant_results;
+    const e1 = vr?.E1_AUDITED_G4_MINHOLD10;
+    if (!e1) {
+      $('s-positions').innerHTML='<div class="error">E1 variant 数据缺失。</div>'; return;
+    }
+
+    const allTrades = e1.trades || [];
+    const simEnd = allTrades.filter(t => t.is_sim_end);
+    const recentClosed = allTrades.filter(t => !t.is_sim_end).slice(-5).reverse();
+
+    const posRows = simEnd.map(t => {
+      const ret = t.return_pct || 0;
+      const rc = ret >= 0 ? 'color:var(--green)' : 'color:var(--red)';
+      const days = t.holding_days || 0;
+      const minhold = Math.max(0, 10 - days);
+      const ls = t.leader_score_entry || 0;
+      const statusBadge = ls < 60
+        ? `<span class="badge-exit">EXIT</span>`
+        : `<span class="badge-hold">HOLD</span>`;
+      return `<tr>
+        <td><strong>${t.symbol}</strong></td>
+        <td>${t.entry_date}</td>
+        <td>${p2(t.entry_price || 0)}</td>
+        <td>${p2(t.exit_price || 0)}</td>
+        <td style="${rc}">${ret >= 0 ? '+' : ''}${p2(ret)}%</td>
+        <td>${days}</td>
+        <td>${minhold > 0 ? minhold + 'd left' : '✓ OK'}</td>
+        <td>${p2(ls, 1)}</td>
+        <td>${statusBadge} <span style="font-size:10px;color:var(--text2)">${t.exit_reason || ''}</span></td>
+      </tr>`;
+    }).join('');
+
+    const recentRows = recentClosed.map(t => {
+      const ret = t.return_pct || 0;
+      const rc = ret >= 0 ? 'color:var(--green)' : 'color:var(--red)';
+      return `<tr>
+        <td><strong>${t.symbol}</strong></td>
+        <td>${t.entry_date}</td>
+        <td>${t.exit_date || '—'}</td>
+        <td style="${rc}">${ret >= 0 ? '+' : ''}${p2(ret)}%</td>
+        <td>${t.holding_days || 0}</td>
+        <td style="font-size:11px;color:var(--text2)">${t.exit_reason || ''}</td>
+      </tr>`;
+    }).join('');
+
+    let h = `<div class="frozen-banner">
+      <strong>E1_AUDITED_G4_MINHOLD10 (frozen)</strong> &nbsp;·&nbsp;
+      Gate v2.1: slope + leadership &nbsp;·&nbsp;
+      Exit rule: LS &lt; 60 → EXIT，subject to MinHold 10 days &nbsp;·&nbsp;
+      T-day signal, T+1 adverse execution
+    </div>`;
+
+    h += `<div class="card"><div class="card-head">Current positions (SIM_END snapshot)</div><div class="card-body">`;
+    if (simEnd.length > 0) {
+      h += `<div class="tbl-wrap"><table>
+        <thead><tr>
+          <th>Symbol</th><th>Entry date</th><th>Entry $</th><th>Exit $</th>
+          <th>Return</th><th>Days held</th><th>MinHold</th><th>LS entry</th><th>Exit status</th>
+        </tr></thead>
+        <tbody>${posRows}</tbody>
+      </table></div>`;
+    } else {
+      h += `<div style="padding:20px;color:var(--text2);text-align:center">样本期结束，无持仓快照。OOS期间持仓将在此显示。</div>`;
+    }
+    h += `</div></div>`;
+
+    if (recentClosed.length > 0) {
+      h += `<div class="card"><div class="card-head">Recent closed trades (last 5)</div><div class="card-body">
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Symbol</th><th>Entry</th><th>Exit</th><th>Return</th><th>Days</th><th>Exit reason</th></tr></thead>
+          <tbody>${recentRows}</tbody>
+        </table></div>
+      </div></div>`;
+    }
+
+    h += `<p class="note" style="margin-top:8px">Days held 仅供参考，不决定退出时机。MinHold 10天保护期内，非趋势破坏信号不执行退出。</p>`;
+    $('s-positions').innerHTML = h;
+  }
+
+  // ── Tab 7: Research & Backtest ────────────────────────
+  if (tab==='research') {
+    const bt = DATA.backtest;
+    const tlog = DATA.tradelog;
+    if (!bt) {
+      $('s-research').innerHTML='<div class="error">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>'; return;
+    }
+    const vr = bt?.backtest?.results?.layer_d?.variant_results;
+    const e1 = vr?.E1_AUDITED_G4_MINHOLD10;
+    if (!e1) {
+      $('s-research').innerHTML='<div class="error">E1 数据缺失。</div>'; return;
+    }
+
+    const pc = bt?.backtest?.results?.layer_d?.period_comparison || {};
+    const pA = pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10 || {};
+    const pB = pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10 || {};
+
+    const fmt = v => {
+      if (v == null) return '—';
+      const n = parseFloat(v);
+      return isNaN(n) ? v : (n >= 0 ? '+' : '') + n.toFixed(2) + '%';
+    };
+
+    // Trade log: prefer trade_log.json trades, fallback to backtest trades
+    const trades = (tlog?.trades || e1.trades || []).slice(-20).reverse();
+    const tradeRows = trades.map(t => {
+      const ret = t.return_pct || 0;
+      const rc = ret >= 0 ? 'color:var(--green)' : 'color:var(--red)';
+      return `<tr>
+        <td><strong>${t.symbol}</strong></td>
+        <td>${t.entry_date}</td>
+        <td>${t.exit_date || '—'}</td>
+        <td>${p2(t.entry_price || 0)}</td>
+        <td>${p2(t.exit_price || 0)}</td>
+        <td style="${rc}">${ret >= 0 ? '+' : ''}${p2(ret)}%</td>
+        <td>${t.holding_days || 0}</td>
+        <td style="font-size:11px;color:var(--text2)">${t.exit_reason || ''}</td>
+        <td>${t.is_sim_end ? '<span class="badge-sim">SIM</span>' : ''}</td>
+      </tr>`;
+    }).join('');
+
+    // Equity curve data
+    const eqCurve = e1.equity_curve || [];
+    const spxCurve = e1.spx_curve || [];
+
+    let h = `<div class="frozen-banner">
+      <strong>E1_AUDITED_G4_MINHOLD10 — 正式冻结 2026-06-16</strong> &nbsp;·&nbsp;
+      Gate v2.1: slope + leadership &nbsp;·&nbsp;
+      Shock 已排除（SNDK 路径依赖，2025-10-10）&nbsp;·&nbsp;
+      样本内不再修改
+    </div>`;
+
+    // Key metrics grid
+    h += `<div class="grid-4" style="margin-bottom:1rem">
+      <div class="mc"><div class="mc-label">Full return</div><div class="mc-val" style="color:var(--green)">${fmt(e1.total_return_pct)}</div></div>
+      <div class="mc"><div class="mc-label">Max drawdown</div><div class="mc-val" style="color:var(--red)">${p2(e1.max_drawdown_pct)}%</div></div>
+      <div class="mc"><div class="mc-label">Profit factor</div><div class="mc-val">${p2(e1.profit_factor)}</div></div>
+      <div class="mc"><div class="mc-label">Sharpe</div><div class="mc-val">${p2(e1.sharpe_ratio)}</div></div>
+      <div class="mc"><div class="mc-label">Win rate</div><div class="mc-val">${p2(e1.win_rate_pct)}%</div></div>
+      <div class="mc"><div class="mc-label">Trades</div><div class="mc-val">${e1.number_of_trades || 0}</div></div>
+      <div class="mc"><div class="mc-label">Avg hold</div><div class="mc-val">${p2(e1.avg_holding_days, 1)}d</div></div>
+      <div class="mc"><div class="mc-label">Exposure</div><div class="mc-val">${p2(e1.exposure_pct)}%</div></div>
+    </div>`;
+
+    // Equity curve chart
+    if (eqCurve.length > 1) {
+      h += `<div class="card" style="margin-bottom:1rem"><div class="card-head">Equity curve — E1 vs SPX (indexed to 100)</div><div class="card-body">
+        <div class="cwrap" style="height:220px"><canvas id="cw-equity"></canvas></div>
+      </div></div>`;
+    }
+
+    // Period comparison
+    h += `<div class="card" style="margin-bottom:1rem"><div class="card-head">Period comparison</div><div class="card-body">
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Period</th><th>E1 return</th><th>SPX</th><th>Alpha</th><th>MaxDD</th><th>PF</th><th>Sharpe</th><th>Trades</th></tr></thead>
+        <tbody>
+          <tr><td>A (Nov '23 – Dec '24)</td>
+            <td style="color:var(--green)">${fmt(pA.total_return_pct)}</td>
+            <td>${fmt(pA.spx_total_return_pct)}</td>
+            <td style="color:${parseFloat(pA.alpha_pct||0)>=0?'var(--green)':'var(--red)'}">${fmt(pA.alpha_pct)}</td>
+            <td>${p2(pA.max_drawdown_pct)}%</td>
+            <td>${p2(pA.profit_factor)}</td>
+            <td>${p2(pA.sharpe_ratio)}</td>
+            <td>${pA.number_of_trades||0}</td></tr>
+          <tr><td>B (Dec '24 – Jun '26)</td>
+            <td style="color:var(--green)">${fmt(pB.total_return_pct)}</td>
+            <td>${fmt(pB.spx_total_return_pct)}</td>
+            <td style="color:${parseFloat(pB.alpha_pct||0)>=0?'var(--green)':'var(--red)'}">${fmt(pB.alpha_pct)}</td>
+            <td>${p2(pB.max_drawdown_pct)}%</td>
+            <td>${p2(pB.profit_factor)}</td>
+            <td>${p2(pB.sharpe_ratio)}</td>
+            <td>${pB.number_of_trades||0}</td></tr>
+          <tr style="font-weight:600"><td>Full (Nov '23 – Jun '26)</td>
+            <td style="color:var(--green)">${fmt(e1.total_return_pct)}</td>
+            <td>${fmt(e1.spx_total_return_pct)}</td>
+            <td style="color:${parseFloat(e1.alpha_pct||0)>=0?'var(--green)':'var(--red)'}">${fmt(e1.alpha_pct)}</td>
+            <td>${p2(e1.max_drawdown_pct)}%</td>
+            <td>${p2(e1.profit_factor)}</td>
+            <td>${p2(e1.sharpe_ratio)}</td>
+            <td>${e1.number_of_trades||0}</td></tr>
+        </tbody>
+      </table></div>
+    </div></div>`;
+
+    // Trade log
+    h += `<div class="card" style="margin-bottom:1rem"><div class="card-head">Trade log — recent 20 trades</div><div class="card-body">
+      <div class="tbl-wrap"><table>
+        <thead><tr>
+          <th>Symbol</th><th>Entry</th><th>Exit</th><th>Entry $</th><th>Exit $</th>
+          <th>Return</th><th>Days</th><th>Exit reason</th><th>SIM?</th>
+        </tr></thead>
+        <tbody>${tradeRows}</tbody>
+      </table></div>
+    </div></div>`;
+
+    // OOS + Archive banners
+    h += `<div class="oos-banner">
+      <strong>OOS log — 从 2026-06-16 起</strong> &nbsp;·&nbsp;
+      只追加不回写 &nbsp;·&nbsp;
+      至少积累 6个月或 20 笔完整交易后才做第一次验收 &nbsp;·&nbsp;
+      OOS 期间 E1 参数冻结
+    </div>`;
+    h += `<div class="arch-banner">
+      <strong>E2 Dynamic Exit — 已归档</strong> &nbsp;·&nbsp;
+      V2 全面失败（Full −21.9%，MaxDD 51.1%，PF 0.83）&nbsp;·&nbsp;
+      不开发 E3 &nbsp;·&nbsp;
+      修改须建立新候选版本，不覆盖 E1 基准
+    </div>`;
+    h += `<p class="note">执行模型：T日收盘信号 → T+1逆向成交（BUY at high, EXIT at low）· 单边成本 0.10% · 最大持仓 3</p>`;
+
+    $('s-research').innerHTML = h;
+
+    // Equity curve chart
+    if (eqCurve.length > 1) {
+      setTimeout(() => {
+        const el = $('cw-equity'); if (!el) return;
+        if (charts.equity) charts.equity.destroy();
+        const labels = eqCurve.map((_, i) => i);
+        // Index both curves to 100
+        const e1Start = eqCurve[0] || 1;
+        const spxStart = spxCurve[0] || 1;
+        const e1Indexed = eqCurve.map(v => parseFloat(((v / e1Start) * 100).toFixed(2)));
+        const spxIndexed = spxCurve.map(v => parseFloat(((v / spxStart) * 100).toFixed(2)));
+        charts.equity = new Chart(el, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [
+              {label:'E1 strategy', data:e1Indexed, borderColor:'#1D9E75', backgroundColor:'rgba(29,158,117,0.06)', borderWidth:2, pointRadius:0, tension:0.2, fill:true},
+              {label:'SPX buy & hold', data:spxIndexed, borderColor:'#888', backgroundColor:'transparent', borderWidth:1.5, borderDash:[4,3], pointRadius:0, tension:0.2},
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: {mode:'index', intersect:false},
+            plugins: {legend:{labels:{font:{size:10},boxWidth:10,padding:8}}},
+            scales: {
+              x: {display:false},
+              y: {ticks:{font:{size:10},callback:v=>v.toFixed(0)}, grid:{color:'rgba(128,128,128,0.1)'}}
+            }
+          }
+        });
+      }, 80);
+    }
   }
 
 } // end render()
