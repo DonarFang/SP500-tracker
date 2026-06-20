@@ -57,7 +57,8 @@ class PortfolioState:
                     state.holdings[sym] = {
                         "units":                0,
                         "cost_basis":           0,
-                        "entry_date":           ev["date"],
+                        "entry_date":           ev["date"],        # execution date
+                        "signal_date":          ev.get("signal_date", ev["date"]),  # T-day
                         "entry_price":          ev["fill_price"],
                         "signal_provenance":    sig_prov,
                         "execution_provenance": exec_prov,

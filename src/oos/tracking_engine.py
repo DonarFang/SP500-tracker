@@ -129,7 +129,8 @@ def run_oos_day(
             appended = append_event({
                 "event_id":          exec_event_id,
                 "event_type":        "BUY_EXECUTED",
-                "date":              signal_date,
+                "date":              signal_date,        # execution date (T+1)
+                "signal_date":       order.get("date"),  # original signal date (T)
                 "symbol":            sym,
                 "action":            order["action"],
                 "fill_price":        alloc["fill_price"],
