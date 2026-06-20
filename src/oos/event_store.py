@@ -50,7 +50,7 @@ def append_event(event: dict) -> bool:
         return False
 
     event["_written_at"] = _now_iso()
-    line = json.dumps(event, ensure_ascii=False) + "\\n"
+    line = json.dumps(event, ensure_ascii=False) + "\n"
 
     with open(EVENTS_FILE, "a", encoding="utf-8") as f:
         fcntl.flock(f, fcntl.LOCK_EX)
@@ -83,7 +83,7 @@ def append_run_record(record: dict) -> None:
     """Log each run attempt to run_history.jsonl."""
     record["_written_at"] = _now_iso()
     with open(RUN_HIST, "a", encoding="utf-8") as f:
-        f.write(json.dumps(record, ensure_ascii=False) + "\\n")
+        f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 def get_last_processed_date() -> Optional[str]:
     """Return the latest signal_date from events, or None."""

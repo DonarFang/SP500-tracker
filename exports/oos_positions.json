@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-06-20T12:59:42.438589+00:00",
+  "generated_at_display": "2026年6月20日 08:59 ET",
+  "strategy_id": "E1_AUDITED_G4_MINHOLD10",
+  "positions": [],
+  "pending_orders": [
+    {
+      "event_id": "2026-06-20_ORDER_BUY_WDC",
+      "event_type": "ORDER_GENERATED",
+      "date": "2026-06-20",
+      "symbol": "WDC",
+      "action": "BUY",
+      "rank": 1,
+      "leader_score": 81.54,
+      "rs_score": 98.2,
+      "execute_date": "T+1",
+      "source": "LIVE_FORWARD",
+      "_written_at": "2026-06-20T12:59:42.437958+00:00"
+    },
+    {
+      "event_id": "2026-06-20_ORDER_BUY_STX",
+      "event_type": "ORDER_GENERATED",
+      "date": "2026-06-20",
+      "symbol": "STX",
+      "action": "BUY",
+      "rank": 2,
+      "leader_score": 79.86,
+      "rs_score": 98.4,
+      "execute_date": "T+1",
+      "source": "LIVE_FORWARD",
+      "_written_at": "2026-06-20T12:59:42.438080+00:00"
+    },
+    {
+      "event_id": "2026-06-20_ORDER_BUY_BE",
+      "event_type": "ORDER_GENERATED",
+      "date": "2026-06-20",
+      "symbol": "BE",
+      "action": "BUY",
+      "rank": 3,
+      "leader_score": 78.72,
+      "rs_score": 97.8,
+      "execute_date": "T+1",
+      "source": "LIVE_FORWARD",
+      "_written_at": "2026-06-20T12:59:42.438180+00:00"
+    }
+  ],
+  "cash": 100000.0
+}
