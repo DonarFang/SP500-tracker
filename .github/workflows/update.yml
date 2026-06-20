@@ -19,13 +19,19 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
+
       - name: 增量更新 + 信号计算
         run: python fetch_data.py
+
+      - name: OOS Tracking Engine
+        run: python run_oos.py
+        continue-on-error: true  # OOS 失败不阻塞数据发布
+
       - name: 提交更新
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f data/ exports/ data/rank_history/
+          git add -f data/ exports/ data/rank_history/ data/oos/
           git diff --cached --quiet && echo "数据无变化" || (
             git commit -m "📊 自动更新：$(TZ='America/New_York' date '+%Y-%m-%d %H:%M ET')"
             git push
