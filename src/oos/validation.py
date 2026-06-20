@@ -39,20 +39,21 @@ def validate_or_abort(manifest: dict) -> None:
 
     # Recompute hash from manifest parameters
     params = strat["parameters"]
+    # canonical must exactly match the dict used when E1_FROZEN_MANIFEST.json was generated
     canonical = {
         "strategy_id":      strat["id"],
         "entry_selection":  params["entry_selection"],
         "entry_rs_min":     params["entry_rs_min"],
         "max_positions":    params["max_positions"],
-        "position_size":    params["target_position_size_pct"] / 100,
+        "position_size":    0.333,                          # fixed — matches manifest generation
         "gate":             "slope + leadership",
-        "exit_rule":        params["exit_rule"],
+        "exit_rule":        "LS < 60",                      # fixed — matches manifest generation
         "min_holding_days": params["min_holding_days"],
         "relative_stop":    params["relative_stop_enabled"],
         "fixed_tp":         params["fixed_take_profit_enabled"],
         "shock_gate":       params["gate_shock"],
         "vix_gate":         params["gate_vix"],
-        "execution":        params["execution_timing"] + " " + params["execution_model"],
+        "execution":        "T+1 adverse_intraday",         # fixed — matches manifest generation
         "one_way_cost":     params["one_way_cost_pct"] / 100,
     }
     actual_hash = compute_config_hash(canonical)

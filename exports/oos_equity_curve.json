@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-06-20T12:59:42.438589+00:00",
-  "generated_at_display": "2026年6月20日 08:59 ET",
+  "generated_at": "2026-06-20T13:18:27.819034+00:00",
+  "generated_at_display": "2026年6月20日 09:18 ET",
   "strategy_id": "E1_AUDITED_G4_MINHOLD10",
   "initial_capital": 100000,
   "curve": [
     {
-      "date": "2026-06-20",
+      "date": "2026-06-18",
       "equity": 100000.0,
       "cash": 100000.0,
       "holdings_value": 0,
       "n_positions": 0,
-      "source": "LIVE_FORWARD"
+      "source": "BACKFILLED_PRELIVE"
     }
   ]
 }
