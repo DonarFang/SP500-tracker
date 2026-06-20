@@ -1,0 +1,141 @@
+{
+  "manifest_version": "1.0",
+  "generated_at": "2026-06-20T00:00:00-04:00",
+  "generated_at_display": "2026年6月20日",
+  "strategy": {
+    "id": "E1_AUDITED_G4_MINHOLD10",
+    "status": "FROZEN_CHAMPION",
+    "frozen_date": "2026-06-20",
+    "frozen_by": "DonarFang",
+    "description": "Gate v2.1 (slope + leadership) + Strict Top3 + MinHold10 + LS<60 exit",
+    "parameters": {
+      "entry_universe": "SP500 daily constituents",
+      "entry_selection": "Strict Top 3",
+      "entry_rs_min": 90.0,
+      "max_positions": 3,
+      "target_position_size_pct": 33.3,
+      "max_single_size_pct": 33.3,
+      "gate_slope": true,
+      "gate_leadership": true,
+      "gate_shock": false,
+      "gate_vix": false,
+      "exit_rule": "Leader Score < 60 → EXIT",
+      "min_holding_days": 10,
+      "relative_stop_enabled": false,
+      "fixed_take_profit_enabled": false,
+      "signal_timing": "T-day close",
+      "execution_timing": "T+1",
+      "execution_model": "adverse_intraday_v1.0",
+      "buy_fill": "T+1 high (adverse)",
+      "exit_fill": "T+1 low (adverse)",
+      "one_way_cost_pct": 0.1
+    },
+    "strategy_config_hash": "2245edec1e468e1f"
+  },
+  "git": {
+    "commit_sha": "0443b87",
+    "commit_message": "Publish frozen E1 backtest results",
+    "branch": "main",
+    "remote": "https://github.com/DonarFang/SP500-tracker"
+  },
+  "audit_baseline": {
+    "description": "E1 in-sample audit results. Frozen. Must not be modified.",
+    "backtest_period": {
+      "period_a": {
+        "label": "A",
+        "start": "2023-11-06",
+        "end": "2024-12-31"
+      },
+      "period_b": {
+        "label": "B",
+        "start": "2024-12-03",
+        "end": "2026-06-11"
+      },
+      "full": {
+        "label": "Full",
+        "start": "2023-11-06",
+        "end": "2026-06-11"
+      }
+    },
+    "results": {
+      "period_a": {
+        "total_return_pct": 14.18,
+        "max_drawdown_pct": 17.2,
+        "profit_factor": 1.89,
+        "sharpe_ratio": 0.47,
+        "trades": 19
+      },
+      "period_b": {
+        "total_return_pct": 21.8,
+        "max_drawdown_pct": 20.03,
+        "profit_factor": 1.66,
+        "sharpe_ratio": 0.43,
+        "trades": 29
+      },
+      "full": {
+        "total_return_pct": 7.52,
+        "max_drawdown_pct": 38.1,
+        "profit_factor": 1.25,
+        "sharpe_ratio": 0.18,
+        "win_rate_pct": 36.2,
+        "avg_holding_days": 33.3,
+        "exposure_pct": 80.1,
+        "trades": 47,
+        "sim_end_trades": 3,
+        "invalid_trades": 0,
+        "spx_total_return_pct": 69.36,
+        "alpha_pct": -61.84
+      }
+    },
+    "data": {
+      "spx_bars": 773,
+      "ndx_bars": 773,
+      "sox_bars": 773,
+      "vix_bars": 774,
+      "universe_size": 506,
+      "valid_symbols": 490,
+      "date_range": "2023-05-16 to 2026-06-15"
+    }
+  },
+  "validation_spec": {
+    "five_year_spec": "E1_5Y_REGIME_VALIDATION_SPEC_v1.0.md",
+    "spec_status": "FROZEN_FOR_EXECUTION",
+    "spec_frozen_date": "2026-06-20",
+    "five_year_period": {
+      "warmup_start": "2020-04-01",
+      "validation_start": "2021-06-11",
+      "validation_end": "2026-06-11",
+      "holdout": "2021-06-11 to 2023-11-03"
+    },
+    "status": "NOT_YET_RUN",
+    "pass_criteria": {
+      "full_5y_return": "> 0%",
+      "full_5y_profit_factor": ">= 1.20",
+      "full_5y_sharpe": "> 0",
+      "full_5y_max_drawdown": "<= 38.10%",
+      "full_5y_trades": ">= 60",
+      "holdout_return": "> 0%",
+      "holdout_profit_factor": ">= 1.00",
+      "holdout_max_drawdown": "<= 38.10%"
+    }
+  },
+  "oos_tracking": {
+    "status": "ACTIVE",
+    "start_date": "2026-06-16",
+    "initial_capital": 100000,
+    "log_policy": "append_only_no_backfill",
+    "first_review_criteria": "6 months elapsed OR 20 complete trades, whichever is later",
+    "engine_version": "OOS_TRACKING_ENGINE_v1.0",
+    "engine_status": "PENDING_IMPLEMENTATION"
+  },
+  "frozen_rules": {
+    "prohibited": [
+      "Modify any E1 parameter, threshold, formula or execution order",
+      "Re-enable Dynamic Exit, Shock Gate, VIX Gate, RelStop or Fixed TP",
+      "Adjust Gate conditions based on OOS or 5Y results",
+      "Delete or filter trades based on results",
+      "Use E1 signals or returns to define market regimes"
+    ],
+    "new_research_policy": "Any modification requires a new Challenger ID. E1 must not be overwritten."
+  }
+}
