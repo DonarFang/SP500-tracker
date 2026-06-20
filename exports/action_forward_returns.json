@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-14T10:00:18.127142-04:00",
-  "generated_at_display": "2026年6月14日 10:00 ET",
+  "generated_at": "2026-06-20T05:24:30.570179-04:00",
+  "generated_at_display": "2026年6月20日 05:24 ET",
   "layer": "C2",
   "name": "Action Forward Return Validation",
   "status": "PARTIAL",
@@ -10,150 +10,150 @@
   "action_summary": {
     "BUY": {
       "fwd5d": {
-        "n": 1273,
-        "avg_ret": 0.652,
-        "med_ret": 0.297,
+        "n": 1294,
+        "avg_ret": 0.72,
+        "med_ret": 0.298,
         "win_rate": 53.6,
-        "vol": 6.747
+        "vol": 6.874
       },
       "fwd10d": {
-        "n": 1258,
-        "avg_ret": 1.647,
-        "med_ret": 0.871,
-        "win_rate": 55.3,
-        "vol": 9.785
+        "n": 1290,
+        "avg_ret": 1.663,
+        "med_ret": 0.858,
+        "win_rate": 55.1,
+        "vol": 9.884
       },
       "fwd20d": {
-        "n": 1236,
-        "avg_ret": 3.407,
-        "med_ret": 1.623,
+        "n": 1262,
+        "avg_ret": 3.671,
+        "med_ret": 1.605,
         "win_rate": 57.0,
-        "vol": 14.634
+        "vol": 15.189
       },
       "fwd30d": {
-        "n": 1209,
-        "avg_ret": 4.717,
-        "med_ret": 2.201,
-        "win_rate": 57.7,
-        "vol": 18.84
+        "n": 1241,
+        "avg_ret": 5.171,
+        "med_ret": 2.422,
+        "win_rate": 58.0,
+        "vol": 19.439
       }
     },
     "ADD": {
       "fwd5d": {
-        "n": 1345,
-        "avg_ret": 0.343,
-        "med_ret": 0.227,
-        "win_rate": 52.0,
-        "vol": 4.816
+        "n": 1368,
+        "avg_ret": 0.346,
+        "med_ret": 0.221,
+        "win_rate": 51.9,
+        "vol": 4.836
       },
       "fwd10d": {
-        "n": 1342,
-        "avg_ret": 0.938,
-        "med_ret": 0.579,
-        "win_rate": 53.9,
-        "vol": 6.855
+        "n": 1358,
+        "avg_ret": 0.929,
+        "med_ret": 0.5,
+        "win_rate": 53.7,
+        "vol": 6.928
       },
       "fwd20d": {
-        "n": 1336,
-        "avg_ret": 1.711,
+        "n": 1351,
+        "avg_ret": 1.739,
         "med_ret": 0.942,
         "win_rate": 55.6,
-        "vol": 9.901
+        "vol": 9.996
       },
       "fwd30d": {
-        "n": 1329,
-        "avg_ret": 1.949,
-        "med_ret": 1.167,
-        "win_rate": 55.1,
-        "vol": 12.62
+        "n": 1348,
+        "avg_ret": 2.03,
+        "med_ret": 1.206,
+        "win_rate": 55.3,
+        "vol": 12.706
       }
     },
     "HOLD": {
       "fwd5d": {
-        "n": 8292,
-        "avg_ret": 0.295,
-        "med_ret": 0.31,
+        "n": 8341,
+        "avg_ret": 0.298,
+        "med_ret": 0.309,
         "win_rate": 54.1,
-        "vol": 4.489
+        "vol": 4.506
       },
       "fwd10d": {
-        "n": 8263,
-        "avg_ret": 0.688,
-        "med_ret": 0.514,
+        "n": 8319,
+        "avg_ret": 0.679,
+        "med_ret": 0.509,
         "win_rate": 54.6,
-        "vol": 6.439
+        "vol": 6.468
       },
       "fwd20d": {
-        "n": 8231,
-        "avg_ret": 1.267,
-        "med_ret": 0.864,
+        "n": 8276,
+        "avg_ret": 1.292,
+        "med_ret": 0.87,
         "win_rate": 55.4,
-        "vol": 9.431
+        "vol": 9.478
       },
       "fwd30d": {
-        "n": 8194,
-        "avg_ret": 2.0,
-        "med_ret": 1.335,
+        "n": 8234,
+        "avg_ret": 2.019,
+        "med_ret": 1.346,
         "win_rate": 56.4,
-        "vol": 11.802
+        "vol": 11.838
       }
     },
     "REDUCE": {
       "fwd5d": {
-        "n": 25453,
-        "avg_ret": 0.322,
-        "med_ret": 0.275,
-        "win_rate": 53.4,
-        "vol": 4.549
+        "n": 25674,
+        "avg_ret": 0.317,
+        "med_ret": 0.267,
+        "win_rate": 53.3,
+        "vol": 4.567
       },
       "fwd10d": {
-        "n": 25401,
-        "avg_ret": 0.567,
-        "med_ret": 0.523,
-        "win_rate": 54.5,
-        "vol": 6.465
+        "n": 25605,
+        "avg_ret": 0.559,
+        "med_ret": 0.516,
+        "win_rate": 54.4,
+        "vol": 6.463
       },
       "fwd20d": {
-        "n": 25271,
-        "avg_ret": 1.237,
-        "med_ret": 1.036,
+        "n": 25482,
+        "avg_ret": 1.245,
+        "med_ret": 1.03,
         "win_rate": 55.9,
-        "vol": 9.186
+        "vol": 9.198
       },
       "fwd30d": {
-        "n": 25157,
-        "avg_ret": 1.851,
-        "med_ret": 1.496,
+        "n": 25380,
+        "avg_ret": 1.841,
+        "med_ret": 1.482,
         "win_rate": 56.7,
-        "vol": 11.651
+        "vol": 11.628
       }
     },
     "EXIT": {
       "fwd5d": {
-        "n": 17263,
-        "avg_ret": 0.42,
-        "med_ret": 0.422,
-        "win_rate": 54.5,
-        "vol": 5.217
+        "n": 17438,
+        "avg_ret": 0.393,
+        "med_ret": 0.399,
+        "win_rate": 54.2,
+        "vol": 5.23
       },
       "fwd10d": {
-        "n": 17207,
-        "avg_ret": 0.854,
-        "med_ret": 0.798,
+        "n": 17388,
+        "avg_ret": 0.845,
+        "med_ret": 0.789,
         "win_rate": 55.6,
-        "vol": 7.355
+        "vol": 7.356
       },
       "fwd20d": {
-        "n": 17087,
+        "n": 17279,
         "avg_ret": 1.52,
-        "med_ret": 1.119,
+        "med_ret": 1.109,
         "win_rate": 55.6,
-        "vol": 10.442
+        "vol": 10.467
       },
       "fwd30d": {
-        "n": 16962,
-        "avg_ret": 2.309,
-        "med_ret": 1.556,
+        "n": 17137,
+        "avg_ret": 2.286,
+        "med_ret": 1.541,
         "win_rate": 56.3,
         "vol": 13.103
       }
@@ -161,32 +161,32 @@
   },
   "spx_benchmark": {
     "fwd5d": {
-      "n": 125,
-      "avg_ret": 0.443,
-      "med_ret": 0.591,
-      "win_rate": 62.4,
-      "vol": 2.149
+      "n": 126,
+      "avg_ret": 0.448,
+      "med_ret": 0.615,
+      "win_rate": 62.7,
+      "vol": 2.141
     },
     "fwd10d": {
-      "n": 125,
-      "avg_ret": 0.88,
+      "n": 126,
+      "avg_ret": 0.881,
       "med_ret": 1.034,
-      "win_rate": 68.0,
-      "vol": 2.805
+      "win_rate": 68.3,
+      "vol": 2.794
     },
     "fwd20d": {
-      "n": 125,
-      "avg_ret": 1.715,
-      "med_ret": 2.183,
-      "win_rate": 75.2,
-      "vol": 3.635
+      "n": 126,
+      "avg_ret": 1.725,
+      "med_ret": 2.217,
+      "win_rate": 75.4,
+      "vol": 3.622
     },
     "fwd30d": {
-      "n": 125,
-      "avg_ret": 2.543,
+      "n": 126,
+      "avg_ret": 2.538,
       "med_ret": 3.346,
-      "win_rate": 72.8,
-      "vol": 4.494
+      "win_rate": 73.0,
+      "vol": 4.477
     }
   },
   "interpretation": {
