@@ -15,7 +15,7 @@ from src.oos.event_store     import (
 from src.oos.portfolio_state import PortfolioState, INITIAL_CAPITAL
 from src.oos.execution_adapter import (
     fill_price_buy, fill_price_exit,
-    compute_position_size, check_min_hold, should_exit_e1
+    allocate_buys, check_min_hold, should_exit_e1
 )
 from src.oos.exporter import export_all
 
@@ -59,69 +59,94 @@ def run_oos_day(
 
     # ── 3. Execute T+1 orders from previous day ───────────
     executed = []
-    for order in list(state.pending_orders):
+
+    # ── Split pending orders into exits and buys ─────────
+    pending_exits = [o for o in state.pending_orders if o["action"] == "EXIT"]
+    pending_buys  = [o for o in state.pending_orders if o["action"] in ("BUY", "ADD")]
+
+    # ── Execute exits first ───────────────────────────────
+    for order in pending_exits:
         sym      = order["symbol"]
-        action   = order["action"]
         t1_px    = prices.get(sym, {})
-        sig_prov = order.get("source", "UNKNOWN")  # provenance of the signal
-
+        sig_prov = order.get("source", "UNKNOWN")
         if not t1_px:
-            logger.warning(f"No T+1 price for {sym} — skipping {action}")
+            logger.warning(f"No T+1 price for {sym} — skipping EXIT")
             continue
-
-        exec_event_id = make_event_id(signal_date, f"{action}_EXECUTED", sym)
-
-        if action in ("BUY", "ADD"):
-            fp    = fill_price_buy(t1_px["high"])
-            units = compute_position_size(
-                equity=state.total_equity({
-                    s: prices.get(s, {}).get("close", h["entry_price"])
-                    for s, h in state.holdings.items()
-                }),
-                fill_price=fp,
-            )
-            appended = append_event({
-                "event_id":             exec_event_id,
-                "event_type":           "BUY_EXECUTED",
-                "date":                 signal_date,
-                "symbol":               sym,
-                "action":               action,
-                "fill_price":           fp,
-                "units":                units,
-                "cost_rate":            0.001,
-                "source":               source,           # execution provenance
-                "signal_provenance":    sig_prov,         # where signal came from
-                "order_ref":            order.get("event_id"),
-            })
-            if appended:
-                executed.append({
-                    "symbol":               sym,
-                    "action":               action,
-                    "fill_price":           fp,
-                    "signal_provenance":    sig_prov,
-                    "execution_provenance": source,
-                })
-
-        elif action == "EXIT":
-            fp = fill_price_exit(t1_px["low"])
-            appended = append_event({
-                "event_id":             exec_event_id,
-                "event_type":           "EXIT_EXECUTED",
-                "date":                 signal_date,
+        exec_event_id = make_event_id(signal_date, "EXIT_EXECUTED", sym)
+        fp = fill_price_exit(t1_px["low"])
+        appended = append_event({
+            "event_id":          exec_event_id,
+            "event_type":        "EXIT_EXECUTED",
+            "date":              signal_date,
+            "symbol":            sym,
+            "action":            "EXIT",
+            "fill_price":        fp,
+            "units":             state.holdings.get(sym, {}).get("units", 0),
+            "cost_rate":         0.001,
+            "source":            source,
+            "signal_provenance": sig_prov,
+            "order_ref":         order.get("event_id"),
+        })
+        if appended:
+            executed.append({
                 "symbol":               sym,
                 "action":               "EXIT",
                 "fill_price":           fp,
-                "units":                state.holdings.get(sym, {}).get("units", 0),
-                "cost_rate":            0.001,
-                "source":               source,
                 "signal_provenance":    sig_prov,
-                "order_ref":            order.get("event_id"),
+                "execution_provenance": source,
+            })
+
+    # Rebuild state after exits (cash may have increased)
+    if pending_exits:
+        events = load_all_events()
+        state  = PortfolioState.rebuild_from_events(events)
+
+    # ── Execute buys with proper batch allocation ─────────
+    if pending_buys:
+        # Compute fill prices first
+        buy_order_list = []
+        for order in pending_buys:
+            sym   = order["symbol"]
+            t1_px = prices.get(sym, {})
+            if not t1_px:
+                logger.warning(f"No T+1 price for {sym} — skipping BUY")
+                continue
+            fp = fill_price_buy(t1_px["high"])
+            buy_order_list.append({**order, "fill_price": fp})
+
+        # Allocate cash across all buys in one pass — guarantees no negative cash
+        allocations = allocate_buys(
+            buy_orders=buy_order_list,
+            available_cash=state.cash,
+            n_existing_positions=len(state.holdings),
+        )
+
+        for alloc in allocations:
+            sym      = alloc["symbol"]
+            order    = next(o for o in buy_order_list if o["symbol"] == sym)
+            sig_prov = order.get("source", "UNKNOWN")
+            exec_event_id = make_event_id(signal_date, "BUY_EXECUTED", sym)
+            appended = append_event({
+                "event_id":          exec_event_id,
+                "event_type":        "BUY_EXECUTED",
+                "date":              signal_date,
+                "symbol":            sym,
+                "action":            order["action"],
+                "fill_price":        alloc["fill_price"],
+                "units":             alloc["units"],
+                "total_cost":        alloc["total_cost"],
+                "cost_rate":         alloc["cost_rate"],
+                "source":            source,
+                "signal_provenance": sig_prov,
+                "order_ref":         order.get("event_id"),
             })
             if appended:
                 executed.append({
                     "symbol":               sym,
-                    "action":               "EXIT",
-                    "fill_price":           fp,
+                    "action":               order["action"],
+                    "fill_price":           alloc["fill_price"],
+                    "units":                alloc["units"],
+                    "total_cost":           alloc["total_cost"],
                     "signal_provenance":    sig_prov,
                     "execution_provenance": source,
                 })

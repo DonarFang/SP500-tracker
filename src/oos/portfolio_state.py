@@ -41,7 +41,11 @@ class PortfolioState:
             elif t == "BUY_EXECUTED":
                 sym    = ev["symbol"]
                 units  = ev["units"]
-                cost   = ev["fill_price"] * units * (1 + ev.get("cost_rate", 0.001))
+                # Use pre-computed total_cost if available (from allocate_buys)
+                # else fall back to fill_price * units * (1 + cost_rate)
+                cost = ev.get("total_cost") or round(
+                    ev["fill_price"] * units * (1 + ev.get("cost_rate", 0.001)), 4
+                )
                 state.cash -= cost
 
                 # Provenance: signal came from the ORDER_GENERATED event
