@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-20T13:38:22.615524+00:00",
-  "generated_at_display": "2026年6月20日 09:38 ET",
+  "generated_at": "2026-06-22T23:16:17.181235+00:00",
+  "generated_at_display": "2026年6月22日 19:16 ET",
   "strategy_id": "E1_AUDITED_G4_MINHOLD10",
   "orders": [
     {
@@ -41,6 +41,54 @@
       "execute_date": "T+1",
       "source": "BACKFILLED_PRELIVE",
       "_written_at": "2026-06-20T13:38:22.614931+00:00"
+    },
+    {
+      "event_id": "2026-06-22_BUY_EXECUTED_WDC",
+      "event_type": "BUY_EXECUTED",
+      "date": "2026-06-22",
+      "signal_date": "2026-06-18",
+      "symbol": "WDC",
+      "action": "BUY",
+      "fill_price": 733.3526,
+      "units": 45.4534,
+      "total_cost": 33366.7024,
+      "cost_rate": 0.001,
+      "source": "LIVE_FORWARD",
+      "signal_provenance": "BACKFILLED_PRELIVE",
+      "order_ref": "2026-06-18_ORDER_BUY_WDC",
+      "_written_at": "2026-06-22T23:16:17.177552+00:00"
+    },
+    {
+      "event_id": "2026-06-22_BUY_EXECUTED_STX",
+      "event_type": "BUY_EXECUTED",
+      "date": "2026-06-22",
+      "signal_date": "2026-06-18",
+      "symbol": "STX",
+      "action": "BUY",
+      "fill_price": 1095.134,
+      "units": 30.4224,
+      "total_cost": 33349.9212,
+      "cost_rate": 0.001,
+      "source": "LIVE_FORWARD",
+      "signal_provenance": "BACKFILLED_PRELIVE",
+      "order_ref": "2026-06-18_ORDER_BUY_STX",
+      "_written_at": "2026-06-22T23:16:17.178629+00:00"
+    },
+    {
+      "event_id": "2026-06-22_BUY_EXECUTED_BE",
+      "event_type": "BUY_EXECUTED",
+      "date": "2026-06-22",
+      "signal_date": "2026-06-18",
+      "symbol": "BE",
+      "action": "BUY",
+      "fill_price": 346.1959,
+      "units": 96.0442,
+      "total_cost": 33283.358367,
+      "cost_rate": 0.001,
+      "source": "LIVE_FORWARD",
+      "signal_provenance": "BACKFILLED_PRELIVE",
+      "order_ref": "2026-06-18_ORDER_BUY_BE",
+      "_written_at": "2026-06-22T23:16:17.179238+00:00"
     }
   ]
 }

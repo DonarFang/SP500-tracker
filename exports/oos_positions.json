@@ -1,52 +1,43 @@
 {
-  "generated_at": "2026-06-20T13:38:22.615524+00:00",
-  "generated_at_display": "2026年6月20日 09:38 ET",
+  "generated_at": "2026-06-22T23:16:17.181235+00:00",
+  "generated_at_display": "2026年6月22日 19:16 ET",
   "strategy_id": "E1_AUDITED_G4_MINHOLD10",
-  "as_of": "2026-06-18",
-  "positions": [],
-  "pending_orders": [
+  "as_of": "2026-06-22",
+  "positions": [
     {
-      "event_id": "2026-06-18_ORDER_BUY_WDC",
-      "event_type": "ORDER_GENERATED",
-      "date": "2026-06-18",
       "symbol": "WDC",
-      "action": "BUY",
-      "rank": 1,
-      "leader_score": 81.54,
-      "rs_score": 98.2,
-      "execute_date": "T+1",
-      "source": "BACKFILLED_PRELIVE",
-      "_written_at": "2026-06-20T13:38:22.614690+00:00",
-      "signal_provenance": "BACKFILLED_PRELIVE"
+      "entry_date": "2026-06-22",
+      "signal_date": "2026-06-18",
+      "entry_price": 733.3526,
+      "units": 45.4534,
+      "cost_basis": 33366.7,
+      "signal_provenance": "BACKFILLED_PRELIVE",
+      "execution_provenance": "LIVE_FORWARD",
+      "mixed_provenance": true
     },
     {
-      "event_id": "2026-06-18_ORDER_BUY_STX",
-      "event_type": "ORDER_GENERATED",
-      "date": "2026-06-18",
       "symbol": "STX",
-      "action": "BUY",
-      "rank": 2,
-      "leader_score": 79.86,
-      "rs_score": 98.4,
-      "execute_date": "T+1",
-      "source": "BACKFILLED_PRELIVE",
-      "_written_at": "2026-06-20T13:38:22.614817+00:00",
-      "signal_provenance": "BACKFILLED_PRELIVE"
+      "entry_date": "2026-06-22",
+      "signal_date": "2026-06-18",
+      "entry_price": 1095.134,
+      "units": 30.4224,
+      "cost_basis": 33349.92,
+      "signal_provenance": "BACKFILLED_PRELIVE",
+      "execution_provenance": "LIVE_FORWARD",
+      "mixed_provenance": true
     },
     {
-      "event_id": "2026-06-18_ORDER_BUY_BE",
-      "event_type": "ORDER_GENERATED",
-      "date": "2026-06-18",
       "symbol": "BE",
-      "action": "BUY",
-      "rank": 3,
-      "leader_score": 78.72,
-      "rs_score": 97.8,
-      "execute_date": "T+1",
-      "source": "BACKFILLED_PRELIVE",
-      "_written_at": "2026-06-20T13:38:22.614931+00:00",
-      "signal_provenance": "BACKFILLED_PRELIVE"
+      "entry_date": "2026-06-22",
+      "signal_date": "2026-06-18",
+      "entry_price": 346.1959,
+      "units": 96.0442,
+      "cost_basis": 33283.36,
+      "signal_provenance": "BACKFILLED_PRELIVE",
+      "execution_provenance": "LIVE_FORWARD",
+      "mixed_provenance": true
     }
   ],
-  "cash": 100000.0
+  "pending_orders": [],
+  "cash": 0.02
 }

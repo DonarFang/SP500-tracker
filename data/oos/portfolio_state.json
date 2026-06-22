@@ -1,49 +1,37 @@
 {
-  "cash": 100000.0,
-  "holdings": {},
-  "holdings_value": 0,
-  "equity": 100000.0,
-  "n_positions": 0,
-  "pending_orders": [
-    {
-      "event_id": "2026-06-18_ORDER_BUY_WDC",
-      "event_type": "ORDER_GENERATED",
-      "date": "2026-06-18",
-      "symbol": "WDC",
-      "action": "BUY",
-      "rank": 1,
-      "leader_score": 81.54,
-      "rs_score": 98.2,
-      "execute_date": "T+1",
-      "source": "BACKFILLED_PRELIVE",
-      "_written_at": "2026-06-20T13:38:22.614690+00:00"
+  "cash": 0.02,
+  "holdings": {
+    "WDC": {
+      "units": 45.4534,
+      "cost_basis": 33366.7024,
+      "entry_date": "2026-06-22",
+      "signal_date": "2026-06-18",
+      "entry_price": 733.3526,
+      "signal_provenance": "BACKFILLED_PRELIVE",
+      "execution_provenance": "LIVE_FORWARD"
     },
-    {
-      "event_id": "2026-06-18_ORDER_BUY_STX",
-      "event_type": "ORDER_GENERATED",
-      "date": "2026-06-18",
-      "symbol": "STX",
-      "action": "BUY",
-      "rank": 2,
-      "leader_score": 79.86,
-      "rs_score": 98.4,
-      "execute_date": "T+1",
-      "source": "BACKFILLED_PRELIVE",
-      "_written_at": "2026-06-20T13:38:22.614817+00:00"
+    "STX": {
+      "units": 30.4224,
+      "cost_basis": 33349.9212,
+      "entry_date": "2026-06-22",
+      "signal_date": "2026-06-18",
+      "entry_price": 1095.134,
+      "signal_provenance": "BACKFILLED_PRELIVE",
+      "execution_provenance": "LIVE_FORWARD"
     },
-    {
-      "event_id": "2026-06-18_ORDER_BUY_BE",
-      "event_type": "ORDER_GENERATED",
-      "date": "2026-06-18",
-      "symbol": "BE",
-      "action": "BUY",
-      "rank": 3,
-      "leader_score": 78.72,
-      "rs_score": 97.8,
-      "execute_date": "T+1",
-      "source": "BACKFILLED_PRELIVE",
-      "_written_at": "2026-06-20T13:38:22.614931+00:00"
+    "BE": {
+      "units": 96.0442,
+      "cost_basis": 33283.358367,
+      "entry_date": "2026-06-22",
+      "signal_date": "2026-06-18",
+      "entry_price": 346.1959,
+      "signal_provenance": "BACKFILLED_PRELIVE",
+      "execution_provenance": "LIVE_FORWARD"
     }
-  ],
+  },
+  "holdings_value": 99800.28,
+  "equity": 99800.3,
+  "n_positions": 3,
+  "pending_orders": [],
   "closed_trades": []
 }
