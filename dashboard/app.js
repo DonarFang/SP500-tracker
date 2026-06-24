@@ -494,6 +494,19 @@ function render(tab) {
     const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};
     const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};
 
+    function impliedSpxReturn(row){
+      const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);
+      const src=row?.spx_total_return_pct;
+      if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};
+      if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};
+      return {value:null,implied:false};
+    }
+    function fmtSpx(row){
+      const r=impliedSpxReturn(row);
+      if(r.value===null||r.value===undefined||r.value==='') return '—';
+      return `${fmt(r.value)}${r.implied?' *':''}`;
+    }
+
     const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();
     const tradeRows=trades.map(t=>{
       const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';
@@ -535,6 +548,7 @@ function render(tab) {
     if(eqCurve.length>1){
       h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">Equity curve — E1 vs SPX (indexed to 100)</div><div class="card-body">
         <div class="cwrap" style="height:220px"><canvas id="cw-equity"></canvas></div>
+        <div class="muted" style="font-size:12px;margin-top:.5rem">Equity includes SIM_END open positions marked to market.</div>
       </div></div>`;
     }
 
@@ -543,19 +557,20 @@ function render(tab) {
         <thead><tr><th>Period</th><th>E1 return</th><th>SPX</th><th>Alpha</th><th>MaxDD</th><th>PF</th><th>Sharpe</th><th>Trades</th></tr></thead>
         <tbody>
           <tr><td>A (Nov '23 – Dec '24)</td>
-            <td style="color:var(--green)">${fmt(pA.total_return_pct)}</td><td>${fmt(pA.spx_total_return_pct)}</td>
+            <td style="color:var(--green)">${fmt(pA.total_return_pct)}</td><td>${fmtSpx(pA)}</td>
             <td style="color:${parseFloat(pA.alpha_pct||0)>=0?'var(--green)':'var(--red)'}">${fmt(pA.alpha_pct)}</td>
             <td>${p2(pA.max_drawdown_pct)}%</td><td>${p2(pA.profit_factor)}</td><td>${p2(pA.sharpe_ratio)}</td><td>${pA.number_of_trades||0}</td></tr>
           <tr><td>B (Dec '24 – Jun '26)</td>
-            <td style="color:var(--green)">${fmt(pB.total_return_pct)}</td><td>${fmt(pB.spx_total_return_pct)}</td>
+            <td style="color:var(--green)">${fmt(pB.total_return_pct)}</td><td>${fmtSpx(pB)}</td>
             <td style="color:${parseFloat(pB.alpha_pct||0)>=0?'var(--green)':'var(--red)'}">${fmt(pB.alpha_pct)}</td>
             <td>${p2(pB.max_drawdown_pct)}%</td><td>${p2(pB.profit_factor)}</td><td>${p2(pB.sharpe_ratio)}</td><td>${pB.number_of_trades||0}</td></tr>
           <tr style="font-weight:600"><td>Full (Nov '23 – Jun '26)</td>
-            <td style="color:var(--green)">${fmt(e1.total_return_pct)}</td><td>${fmt(e1.spx_total_return_pct)}</td>
+            <td style="color:var(--green)">${fmt(e1.total_return_pct)}</td><td>${fmtSpx(e1)}</td>
             <td style="color:${parseFloat(e1.alpha_pct||0)>=0?'var(--green)':'var(--red)'}">${fmt(e1.alpha_pct)}</td>
             <td>${p2(e1.max_drawdown_pct)}%</td><td>${p2(e1.profit_factor)}</td><td>${p2(e1.sharpe_ratio)}</td><td>${e1.number_of_trades||0}</td></tr>
         </tbody>
       </table></div>
+      <div class="muted" style="font-size:12px;margin-top:.5rem">* SPX return implied from Alpha where source JSON does not expose period SPX return.</div>
     </div></div>`;
 
     // Lifecycle stats migrated here
@@ -592,7 +607,7 @@ function render(tab) {
     h+=`<div class="arch-banner">
       <strong>E2 Dynamic Exit — 已归档</strong> &nbsp;·&nbsp;
       V2 全面失败（Full −21.9%，MaxDD 51.1%，PF 0.83）&nbsp;·&nbsp;
-      不开发 E3 &nbsp;·&nbsp; 修改须建立新候选版本，不覆盖 E1 基准
+      不开发 E3 &nbsp;·&nbsp; No E2_V3. Dynamic Exit route terminated after failing acceptance criteria &nbsp;·&nbsp; 修改须建立新候选版本，不覆盖 E1 基准
     </div>`;
     h+=`<p class="note">执行模型：T日收盘信号 → T+1逆向成交（BUY at high, EXIT at low）· 单边成本 0.10% · 最大持仓 3</p>`;
     $('s-research').innerHTML=h;
