@@ -299,5 +299,6 @@ def run_daily_update(force_full: bool = False) -> None:
     if spx_prices:
         logger.info(f"  SPX: {spx_prices[-1]:.2f}  NDX: {bool(ndx_prices)}  VIX: {bool(vix_prices)}  SOX: {bool(sox_prices)}")
 
-    export_all(market, leaders, watchlist, stock_signals[:50])
+    export_all(market, leaders, watchlist, stock_signals[:50],
+               chart_source=stock_signals)
     logger.ok(f"=== Phase 2 更新完成 @ {datetime.now(ET).strftime('%H:%M')} ===")

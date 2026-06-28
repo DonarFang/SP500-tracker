@@ -71,11 +71,11 @@ def compute_stock_state(
     # ── Trend Lifecycle State ────────────────────────────
     state = trend_lifecycle(th_sc, mom_sc, rs_sc)
 
-    # ── 近60日图表数据 ────────────────────────────────────
-    chart_dates  = dates[-60:]
-    chart_prices = [round(p, 2) for p in prices[-60:]]
-    chart_ma20   = [round(v, 2) for v in ma20s[-60:]]
-    chart_ma50   = [round(v, 2) for v in ma50s[-60:]] if ma50s else []
+    # ── 近126日图表数据 ────────────────────────────────────
+    chart_dates  = dates[-126:]
+    chart_prices = [round(p, 2) for p in prices[-126:]]
+    chart_ma20   = [round(v, 2) for v in ma20s[-126:]]
+    chart_ma50   = [round(v, 2) for v in ma50s[-126:]] if ma50s else []
 
     info = members_map.get(symbol, {})
 

@@ -15,7 +15,7 @@ const REG_META = {
 };
 const IDX_ICONS = {SPX:'📊',NDX:'💻',VIX:'😨',SOX:'🔬'};
 
-let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null};
+let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null};
 let charts = {};
 
 const $   = id => document.getElementById(id);
@@ -32,6 +32,90 @@ const aiBox = (obs,rsn,con,act) => `<div class="ai-box">
   <div class="ai-row"><strong>✅ Conclusion</strong>：${con}</div>
   <div class="ai-row"><strong>⚡ Action</strong>：${act}</div></div>`;
 const fmt = v => { if(v==null)return'—'; const n=parseFloat(v); return isNaN(n)?v:(n>=0?'+':'')+n.toFixed(2)+'%'; };
+
+// ── Reusable Stock Preview Chart ────────────────────────
+function getStockChartPayload(symbol){
+  const sc = DATA.stockCharts || {};
+  return sc[symbol] || null;
+}
+
+function renderStockPreviewChart(containerId, symbol){
+  const wrap = $(containerId);
+  if(!wrap) return;
+  const p = getStockChartPayload(symbol);
+  if(!p || !p.dates || !p.dates.length){
+    wrap.innerHTML = `<div style="padding:24px;text-align:center;color:var(--text2);font-size:13px">No chart data available for ${symbol}</div>`;
+    if(charts.preview){ charts.preview.destroy(); charts.preview=null; }
+    return;
+  }
+  // 副标题指标
+  const metaBits = [];
+  if(p.leader_score!=null)   metaBits.push(`LeaderScore <strong>${p2(p.leader_score,1)}</strong>`);
+  if(p.rs_score!=null)       metaBits.push(`RS <strong>${p2(p.rs_score,1)}</strong>`);
+  if(p.momentum_score!=null) metaBits.push(`Mom <strong>${p2(p.momentum_score,1)}</strong>`);
+  if(p.trend_health!=null)   metaBits.push(`TH <strong>${p2(p.trend_health,1)}</strong>`);
+  if(p.trend_state)          metaBits.push(tsBadge(p.trend_state));
+  if(p.trade_action)         metaBits.push(badge(p.trade_action));
+  // 1D return（用最后两个 close）
+  const cl = p.close||[];
+  if(cl.length>=2 && cl[cl.length-2]){
+    const r1d = (cl[cl.length-1]/cl[cl.length-2]-1)*100;
+    const rc  = r1d>=0?'var(--green)':'var(--red)';
+    metaBits.push(`<span style="color:${rc}">1D ${r1d>=0?'+':''}${p2(r1d,2)}%</span>`);
+  }
+
+  wrap.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:6px">
+      <div><strong style="font-size:15px">${symbol}</strong>
+        <span style="color:var(--text2);font-size:12px">${p.name||''} · ${p.sector||''}</span></div>
+      <div style="font-size:11px;color:var(--text2);display:flex;gap:10px;flex-wrap:wrap;align-items:center">${metaBits.join('<span style="opacity:.4">·</span>')}</div>
+    </div>
+    <div class="cwrap" style="height:200px"><canvas id="cw-stock-preview"></canvas></div>`;
+
+  const el = $('cw-stock-preview');
+  if(!el) return;
+  if(charts.preview){ charts.preview.destroy(); charts.preview=null; }
+  const labels = p.dates.map(d=>String(d).slice(5));
+  const ds = [{label:'Close',data:p.close,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,0.08)',borderWidth:2,pointRadius:0,fill:true,tension:0.15}];
+  if(p.ma20 && p.ma20.length) ds.push({label:'MA20',data:p.ma20,borderColor:'#1D9E75',borderWidth:1.5,pointRadius:0,borderDash:[],tension:0.15});
+  if(p.ma50 && p.ma50.length) ds.push({label:'MA50',data:p.ma50,borderColor:'#BA7517',borderWidth:1.5,pointRadius:0,borderDash:[4,3],tension:0.15});
+  charts.preview = new Chart(el,{type:'line',data:{labels,datasets:ds},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:true,labels:{font:{size:10},boxWidth:18,usePointStyle:true}},
+        tooltip:{callbacks:{title:items=>p.dates[items[0].dataIndex]}}},
+      scales:{x:{ticks:{font:{size:9},maxTicksLimit:8},grid:{display:false}},
+              y:{ticks:{font:{size:9}},grid:{color:'rgba(128,128,128,0.1)'}}}}});
+}
+
+function bindStockPreviewRows(rootSelector, rowSelector, symbolGetter, previewContainerId){
+  const root = document.querySelector(rootSelector);
+  if(!root) return;
+  const rows = Array.from(root.querySelectorAll(rowSelector));
+  if(!rows.length) return;
+  let pinned = null; // click/tap 锁定的 symbol
+
+  const showFor = sym => { if(sym) renderStockPreviewChart(previewContainerId, sym); };
+
+  rows.forEach(row=>{
+    const sym = symbolGetter(row);
+    if(!sym) return;
+    row.style.cursor = 'pointer';
+    // desktop hover
+    row.addEventListener('mouseenter',()=>{ if(!pinned) showFor(sym); });
+    // click/tap 锁定切换
+    row.addEventListener('click',()=>{
+      pinned = (pinned===sym) ? null : sym;
+      showFor(sym);
+      rows.forEach(r=>r.classList.remove('row-pinned'));
+      if(pinned) row.classList.add('row-pinned');
+    });
+  });
+  // mouseleave 不清空（保留当前图）— 不绑定 mouseleave 清空逻辑
+  // 默认显示第一只
+  const firstSym = symbolGetter(rows[0]);
+  if(firstSym) showFor(firstSym);
+}
+
 
 async function fetchJ(name) {
   const r = await fetch(`${EXPORTS_BASE}/${name}.json?t=${Date.now()}`);
@@ -55,15 +139,17 @@ async function loadAll() {
     $('uptime').textContent='数据时间：'+(mkt.generated_at_display||mkt.generated_at||'未知');
 
     // 辅助数据并行加载，各自 fallback
-    const [wl,lc,dh,bt,tlog] = await Promise.all([
+    const [wl,lc,dh,bt,tlog,sc] = await Promise.all([
       fetchJ('watchlist').catch(()=>({watchlist:[]})),
       fetchJ('lifecycle').catch(()=>({regimes:{}})),
       fetchJ('data_health').catch(()=>null),
       fetchJ('backtest').catch(()=>null),
       fetchJ('trade_log').catch(()=>null),
+      fetchJ('stock_charts').catch(()=>({symbols:{}})),
     ]);
     DATA.watchlist=wl.watchlist||[]; DATA.lifecycle=lc.regimes||{};
     DATA.health=dh; DATA.backtest=bt; DATA.tradelog=tlog;
+    DATA.stockCharts=(sc&&sc.symbols)||{};
 
     ['market','leader','watchlist','positions','research'].forEach(t=>render(t));
   } catch(e) {
@@ -241,7 +327,7 @@ function render(tab) {
       <thead><tr><th>#</th><th>代码</th><th>板块</th><th>RS%</th><th>动量</th><th>健康度</th><th>Leader分</th><th>趋势状态</th><th>操作</th></tr></thead><tbody>`;
     leaders.forEach(s=>{
       const rc=(s.rs_score||0)>=70?'var(--green)':(s.rs_score||0)>=40?'var(--amber)':'var(--red)';
-      h+=`<tr>
+      h+=`<tr data-symbol="${s.symbol}">
         <td style="color:var(--text3);font-weight:500">${s.rank}</td>
         <td><div class="stock-symbol">${s.symbol}</div><div class="stock-name">${s.name||''}</div></td>
         <td><span class="pill">${s.sector||'—'}</span></td>
@@ -254,6 +340,8 @@ function render(tab) {
       </tr>`;
     });
     h+=`</tbody></table></div></div></div>`;
+
+    h+=`<div class="card" id="lb-preview-card"><div class="card-head">个股预览 <span class="sub">hover / tap 行切换</span></div><div class="card-body"><div id="lb-stock-preview"></div></div></div>`;
 
     h+=`<div class="grid-2">
       <div class="card" style="margin-bottom:0"><div class="card-head">RS% vs 动量散点</div><div class="card-body"><div class="cwrap" style="height:240px"><canvas id="cw-rs-mom"></canvas></div></div></div>
@@ -287,6 +375,7 @@ function render(tab) {
     );
     $('s-leader').innerHTML=h;
     setTimeout(()=>{
+      bindStockPreviewRows('#s-leader','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'lb-stock-preview');
       const e1=$('cw-rs-mom');
       if(e1){if(charts.rsMom)charts.rsMom.destroy();
         charts.rsMom=new Chart(e1,{type:'scatter',data:{datasets:[{label:'Top10',data:leaders.map(s=>({x:s.rs_score||0,y:s.momentum_score||0})),backgroundColor:PALETTE,pointRadius:8,pointHoverRadius:11}]},
@@ -332,7 +421,7 @@ function render(tab) {
       const d5c=d5>0?'var(--green)':d5<0?'var(--red)':'var(--text3)';
       const d20c=d20>0?'var(--green)':d20<0?'var(--red)':'var(--text3)';
       const isLeader=leaderSyms.has(s.symbol);
-      h+=`<tr${isLeader?' style="opacity:0.55"':''}>
+      h+=`<tr data-symbol="${s.symbol}"${isLeader?' style="opacity:0.55"':''}>
         <td style="color:var(--text3);font-weight:600">${s.rank}</td>
         <td><strong>${s.symbol}</strong>${isLeader?' <span style="font-size:9px;color:var(--amber)">★Leader</span>':''}
           <br><span style="font-size:10px;color:var(--text2)">${s.name||''}</span>
@@ -346,6 +435,7 @@ function render(tab) {
       </tr>`;
     });
     h+=`</tbody></table></div></div></div>`;
+    h+=`<div class="card"><div class="card-head">个股预览 <span class="sub">hover / tap 行切换</span></div><div class="card-body"><div id="wl-stock-preview"></div></div></div>`;
     h+=`<div class="card"><div class="card-head">晋升分排行</div><div class="card-body">
       <div class="cwrap" style="height:220px"><canvas id="cw-promo"></canvas></div>
     </div></div>`;
@@ -360,6 +450,7 @@ function render(tab) {
     );
     $('s-watchlist').innerHTML=h;
     setTimeout(()=>{
+      bindStockPreviewRows('#s-watchlist','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'wl-stock-preview');
       const el=$('cw-promo'); if(!el)return;
       if(charts.promo)charts.promo.destroy();
       const top15=[...wl].sort((a,b)=>(b.promotion_score||0)-(a.promotion_score||0)).slice(0,15);
@@ -430,7 +521,7 @@ function render(tab) {
         const exitStatus=curLS<60
           ?`<span class="badge-exit">EXIT</span>`
           :`<span class="badge-hold">HOLD</span>`;
-        return `<tr>
+        return `<tr data-symbol="${t.symbol}">
           <td><strong>${t.symbol}</strong></td>
           <td>${t.entry_date}</td>
           <td>${p2(t.entry_price||0)}</td>
@@ -459,7 +550,7 @@ function render(tab) {
     if(recentClosed.length>0){
       const recentRows=recentClosed.map(t=>{
         const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';
-        return `<tr>
+        return `<tr data-symbol="${t.symbol}">
           <td><strong>${t.symbol}</strong></td>
           <td>${t.entry_date}</td><td>${t.exit_date||'—'}</td>
           <td style="${rc}">${ret>=0?'+':''}${p2(ret)}%</td>
@@ -479,7 +570,16 @@ function render(tab) {
       Days held 仅供参考。Exit signal: LS &lt; 60 → EXIT，T日确认 T+1执行。MinHold 10天保护期内不提前退出。
       LS 数值来自 leaderboard.json（${lbAsOf}），回测快照来自 backtest.json（${simEndDate}）。
     </p>`;
+    h+=`<div class="card"><div class="card-head">个股预览 <span class="sub">hover / tap 持仓或平仓行切换</span></div><div class="card-body"><div id="pos-stock-preview"></div></div></div>`;
     $('s-positions').innerHTML=h;
+    setTimeout(()=>{
+      // 优先绑定持仓行；若无持仓，绑定最近平仓行
+      const root=$('s-positions');
+      const posRows=root?root.querySelectorAll('tr[data-symbol]'):[];
+      if(posRows.length){
+        bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');
+      }
+    },80);
   }
 
   // ── Tab 5: Research & Backtest ────────────────────────

@@ -19,6 +19,7 @@ from ..utils.helpers import read_json, write_json
 from ..utils import logger
 
 EXPORT_BACKTEST = EXPORTS_DIR / "backtest.json"
+EXPORT_STOCK_CHARTS = EXPORTS_DIR / "stock_charts.json"
 
 
 def _meta():
@@ -31,7 +32,46 @@ def _meta():
     }
 
 
-def export_all(market, leaders, watchlist, all_signals, backtest=None):
+def export_stock_charts(chart_source):
+    """通用单股图表数据，供 UI hover preview 使用。
+    独立 chart_source，不污染 leaderboard/watchlist/lifecycle 业务范围。
+    字段名匹配 trend_state.py 实际输出。"""
+    symbols = {}
+    for s in chart_source or []:
+        sym = s.get("symbol")
+        if not sym:
+            continue
+        dates  = s.get("chart_dates") or []
+        prices = s.get("chart_prices") or []
+        ma20   = s.get("chart_ma20") or []
+        ma50   = s.get("chart_ma50") or []
+        if not dates or not prices:
+            continue
+        symbols[sym] = {
+            "dates":          dates,
+            "close":          prices,
+            "ma20":           ma20,
+            "ma50":           ma50,
+            "leader_score":   s.get("leader_score"),
+            "rs_score":       s.get("rs_score"),
+            "momentum_score": s.get("momentum_score"),
+            "trend_health":   s.get("trend_health"),
+            "trend_state":    s.get("trend_state"),
+            "trade_action":   s.get("trade_action"),
+            "action_label":   s.get("action_label"),
+            "price":          s.get("price"),
+            "name":           s.get("name", sym),
+            "sector":         s.get("sector", "Other"),
+        }
+    write_json(EXPORT_STOCK_CHARTS, {
+        **_meta(),
+        "lookback_days": 126,
+        "symbols":       symbols,
+    })
+    logger.ok(f"stock_charts.json ({len(symbols)} 只)")
+
+
+def export_all(market, leaders, watchlist, all_signals, backtest=None, chart_source=None):
     EXPORTS_DIR.mkdir(parents=True, exist_ok=True)
     meta = _meta()
     now  = datetime.now(ET).strftime("%Y-%m-%d")
@@ -50,6 +90,9 @@ def export_all(market, leaders, watchlist, all_signals, backtest=None):
     # trade_actions.json（含图表数据）
     write_json(EXPORT_TRADES, {**meta, "stocks": leaders})
     logger.ok("trade_actions.json")
+
+    # stock_charts.json — UI hover preview（独立 chart_source，不污染业务范围）
+    export_stock_charts(chart_source or all_signals)
 
     # watchlist.json
     write_json(EXPORT_WATCHLIST, {**meta, "watchlist": watchlist})
