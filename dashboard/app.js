@@ -39,13 +39,20 @@ function getStockChartPayload(symbol){
   return sc[symbol] || null;
 }
 
+function chartKeyForPreview(previewContainerId){
+  return `preview_${previewContainerId}`;
+}
+
 function renderStockPreviewChart(containerId, symbol){
   const wrap = $(containerId);
   if(!wrap) return;
+  const chartKey = chartKeyForPreview(containerId);
+  // 先销毁该容器自己的旧实例
+  if(charts[chartKey]){ charts[chartKey].destroy(); charts[chartKey]=null; }
+
   const p = getStockChartPayload(symbol);
   if(!p || !p.dates || !p.dates.length){
     wrap.innerHTML = `<div style="padding:24px;text-align:center;color:var(--text2);font-size:13px">No chart data available for ${symbol}</div>`;
-    if(charts.preview){ charts.preview.destroy(); charts.preview=null; }
     return;
   }
   // 副标题指标
@@ -64,22 +71,22 @@ function renderStockPreviewChart(containerId, symbol){
     metaBits.push(`<span style="color:${rc}">1D ${r1d>=0?'+':''}${p2(r1d,2)}%</span>`);
   }
 
+  // 每次重建容器内 canvas（不用全局 id，避免多容器 id 冲突）
   wrap.innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:6px">
       <div><strong style="font-size:15px">${symbol}</strong>
         <span style="color:var(--text2);font-size:12px">${p.name||''} · ${p.sector||''}</span></div>
       <div style="font-size:11px;color:var(--text2);display:flex;gap:10px;flex-wrap:wrap;align-items:center">${metaBits.join('<span style="opacity:.4">·</span>')}</div>
     </div>
-    <div class="cwrap" style="height:200px"><canvas id="cw-stock-preview"></canvas></div>`;
+    <div class="cwrap" style="height:200px"><canvas></canvas></div>`;
 
-  const el = $('cw-stock-preview');
+  const el = wrap.querySelector('canvas');
   if(!el) return;
-  if(charts.preview){ charts.preview.destroy(); charts.preview=null; }
   const labels = p.dates.map(d=>String(d).slice(5));
   const ds = [{label:'Close',data:p.close,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,0.08)',borderWidth:2,pointRadius:0,fill:true,tension:0.15}];
   if(p.ma20 && p.ma20.length) ds.push({label:'MA20',data:p.ma20,borderColor:'#1D9E75',borderWidth:1.5,pointRadius:0,borderDash:[],tension:0.15});
   if(p.ma50 && p.ma50.length) ds.push({label:'MA50',data:p.ma50,borderColor:'#BA7517',borderWidth:1.5,pointRadius:0,borderDash:[4,3],tension:0.15});
-  charts.preview = new Chart(el,{type:'line',data:{labels,datasets:ds},
+  charts[chartKey] = new Chart(el,{type:'line',data:{labels,datasets:ds},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:true,labels:{font:{size:10},boxWidth:18,usePointStyle:true}},
         tooltip:{callbacks:{title:items=>p.dates[items[0].dataIndex]}}},
