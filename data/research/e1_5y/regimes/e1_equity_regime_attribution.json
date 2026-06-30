@@ -1,0 +1,45 @@
+{
+  "strategy_id": "E1_AUDITED_G4_MINHOLD10",
+  "status": "PRELIMINARY_CURRENT_CONSTITUENTS_NOT_PIT",
+  "input": {
+    "backtest": "exports/backtest.json",
+    "regime_daily": "data/research/e1_5y/regimes/spx_regime_daily.json"
+  },
+  "record_count": 652,
+  "daily_equity_record_count": 651,
+  "sim_end_liquidation_included": true,
+  "total_pnl_usd": 7519.31,
+  "total_return_pct_of_initial": 7.52,
+  "by_regime": {
+    "SIDEWAYS": {
+      "regime": "SIDEWAYS",
+      "days": 86,
+      "sample_status": "SMALL_SAMPLE_OBSERVATIONAL",
+      "compound_return_pct": 0.04,
+      "pnl_contribution_usd": 33.69,
+      "pnl_contribution_pct_of_initial": 0.03,
+      "avg_daily_return_pct": 0.0023,
+      "annualized_vol_pct": 9.53,
+      "sharpe_like": 0.06,
+      "avg_exposure_pct": 24.34,
+      "avg_open_positions": 0.94,
+      "start_date": "2025-03-17",
+      "end_date": "2026-04-10"
+    },
+    "UPTREND": {
+      "regime": "UPTREND",
+      "days": 566,
+      "sample_status": "SAMPLE_OK",
+      "compound_return_pct": 7.48,
+      "pnl_contribution_usd": 7485.62,
+      "pnl_contribution_pct_of_initial": 7.49,
+      "avg_daily_return_pct": 0.0285,
+      "annualized_vol_pct": 28.15,
+      "sharpe_like": 0.26,
+      "avg_exposure_pct": 65.42,
+      "avg_open_positions": 2.54,
+      "start_date": "2023-11-06",
+      "end_date": "2026-06-11"
+    }
+  }
+}
