@@ -90,6 +90,8 @@ LAYER_D_ASSUMPTIONS = {
     "qualified_price_above_ma50": True,
     "qualified_ma50_slope_min":   0.0,
     "fill_only_enabled":          False,  # True = Qualified Pool 只补空仓，不替换持仓
+    "gate_use_slope":             True,   # Gate v2: 是否使用 SPX MA50 slope 条件
+    "gate_use_leadership":        True,   # Gate v2: 是否使用 NDX/SOX Leadership 条件
 }
 
 
@@ -812,7 +814,9 @@ def run_stateful_simulation(
     qualified_price_above_ma50 = bool(a.get("qualified_price_above_ma50", True))
     qualified_ma50_slope_min  = float(a.get("qualified_ma50_slope_min", 0.0))
 
-    fill_only_enabled = bool(a.get("fill_only_enabled", False))
+    fill_only_enabled    = bool(a.get("fill_only_enabled", False))
+    gate_use_slope       = bool(a.get("gate_use_slope", True))
+    gate_use_leadership  = bool(a.get("gate_use_leadership", True))
 
     # ── 辅助指数 Lookup（日期 → 价格）─────────────────────────
     # 用于 Gate v2 市场状态判断；缺失日期使用最近一个有效值
@@ -853,6 +857,8 @@ def run_stateful_simulation(
     block_add_after_take_profit = bool(a.get("block_add_after_take_profit", False))
     entry_rs_min = float(a.get("entry_rs_min", 90.0))
     min_holding_days = int(a.get("min_holding_days", 0))
+    # E2 Dynamic Exit parameters
+    dynamic_exit_enabled   = bool(a.get("dynamic_exit_enabled", False))
     min_hold_allow_broken_exit = bool(a.get("min_hold_allow_broken_exit", True))
     relative_stop_enabled = bool(a.get("relative_stop_enabled", False))
     relative_stop_underperform = float(a.get("relative_stop_underperform_pct", -0.08))
@@ -886,6 +892,8 @@ def run_stateful_simulation(
     logger.info(f"  ── Param check: ls60={ls60_exit_mode} rs={entry_rs_min} "
                 f"top_n={entry_top_n} minhold={min_holding_days} "
                 f"relstop={relative_stop_enabled} gate={market_gate_enabled} ──")
+    if dynamic_exit_enabled:
+        logger.info(f"  Dynamic Exit v2: ON | Hard=Close<MA50+slope<0 | FULL_ON=needs structure | CAUTIOUS/CASH=LS<60 exits")
     logger.info(f"  Fixed TP: enabled={take_profit_enabled} "
                 f"(v1.6 default OFF; TP7-P rejected for this matrix)")
 
@@ -987,6 +995,9 @@ def run_stateful_simulation(
         "add_blocked_after_tp":     0,
         "entry_rs_below_threshold":        0,
         "min_hold_block":                  0,
+        "dynamic_exit_warning":            0,  # E2: LS<60 但动态确认为 HOLD
+        "dynamic_hard_exit_triggered":     0,  # E2: 硬退出触发次数
+        "dynamic_soft_exit_confirmed":     0,  # E2: 软退出确认次数
         "ls60_reduce_already_triggered":   0,
         "action_reason_buy_add_mismatch":  0,   # BUY/ADD 不一致（记录，不中断）
         "fill_only_no_empty_slot":         0,   # fill_only 模式：无空仓位，跳过 BUY
@@ -1020,7 +1031,7 @@ def run_stateful_simulation(
     equity_curve:  list[float] = []
     spx_curve:     list[float] = []
     daily_records: list[dict]  = []
-    spx_entry = spx_prices[min_history] if len(spx_prices) > min_history else 1.0
+    spx_entry = 0.0  # 在日循环中遇到第一个 sim 日时设置，保证与 Period 区间一致
 
     # ── Qualified Pool 诊断计数器 ───────────────────────────────
     qp_diag = {
@@ -1222,6 +1233,9 @@ def run_stateful_simulation(
                         "is_sim_end":           False,
                         "exit_reason":          exec_primary_reason,
                         "exit_reasons":         exec_reasons,
+                        "exit_type":            h.get("exit_type", "NORMAL_EXIT"),
+                        "exit_warning_log":     h.get("exit_warning_log", []),
+                        "exit_warning_count":   len(h.get("exit_warning_log", [])),
                     })
                     del holdings[sym]
 
@@ -1275,6 +1289,9 @@ def run_stateful_simulation(
             logger.warn(f"  {date_t}: leverage detected")
 
         equity_curve.append(total_equity)
+        # 第一个 sim 日时锁定 SPX 起点（保证每个 Period 独立基准）
+        if spx_entry <= 0:
+            spx_entry = spx_prices[t] if spx_prices[t] > 0 else 1.0
         spx_curve.append(spx_prices[t] / spx_entry if spx_entry > 0 else 1.0)
 
         # ════════════════════════════════════════════════
@@ -1303,10 +1320,10 @@ def run_stateful_simulation(
             market_entry_allowed = True
             market_gate_days["entry_allowed"] += 1
         else:
-            # ── MA50 slope（10日变化率）
-            spx_ma50_history.append(spx_ma50_t)
-            if len(spx_ma50_history) >= 11:
-                spx_ma50_slope = (spx_ma50_history[-1] / spx_ma50_history[0]) - 1.0
+            # ── MA50 slope（10日变化率，使用完整历史索引，无 warm-up 问题）
+            if t >= 59:  # t>=49（MA50）+ 10（slope 回溯）
+                spx_ma50_t10 = sum(spx_prices[t-59:t-9]) / 50
+                spx_ma50_slope = (spx_ma50_t / spx_ma50_t10) - 1.0 if spx_ma50_t10 > 0 else 0.0
             else:
                 spx_ma50_slope = 0.0
 
@@ -1348,25 +1365,35 @@ def run_stateful_simulation(
                 1 if (_sox_above is True) else 0,
             ])
             _leadership_ratio = _leadership_count / _n_indices if _n_indices > 0 else 1.0
-            _vix_val   = _vix_last if _vix_last else 20.0
-            _shock_day = spx_day_return <= market_shock_daily_return
+            # shock/VIX 受开关控制，不泄漏到未启用的 variant
+            _shock_active = (
+                market_shock_gate_enabled
+                and spx_day_return <= market_shock_daily_return
+            )
+            _vix_active = (
+                vix_lookup is not None and len(vix_lookup) > 0
+                and (_vix_last or 0) >= 30
+                # VIX 当前冻结禁用（所有 Gate v2.1 variant 均不传 VIX 数据）
+            )
 
-            # ── 三档状态判定（比例阈值，兼容不同指数数量）
+            # ── 三档状态判定（条件受开关控制）
+            _slope_ok          = (spx_ma50_slope >= 0) if gate_use_slope else True
+            _leadership_strong = (_leadership_ratio >= 1.0) if gate_use_leadership else True
+
             _cash_mode = (
-                (_vix_val >= 30 if vix_lookup else False)
-                or _shock_day
-                or _leadership_ratio < 2/3
-                or spx_ma50_slope < 0
+                _vix_active
+                or _shock_active
+                or (gate_use_leadership and _leadership_ratio < 2/3)
+                or (gate_use_slope and spx_ma50_slope < 0)
             )
             if _cash_mode:
                 market_state   = "CASH_MODE"
                 entry_capacity = 0
             elif (
                 _spx_above
-                and spx_ma50_slope >= 0
-                and _leadership_ratio >= 1.0
-                and (_vix_val < 25 if vix_lookup else True)
-                and not _shock_day
+                and _slope_ok
+                and _leadership_strong
+                and not _shock_active
             ):
                 market_state   = "FULL_ON"
                 entry_capacity = max_pos
@@ -1374,8 +1401,8 @@ def run_stateful_simulation(
                 market_state   = "CAUTIOUS_ON"
                 entry_capacity = min(max_pos, 2)
 
-            market_risk_off  = (market_state == "CASH_MODE") and not _shock_day
-            market_shock     = _shock_day
+            market_risk_off  = (market_state == "CASH_MODE") and not _shock_active
+            market_shock     = _shock_active
             market_entry_allowed = entry_capacity > 0
 
             if market_risk_off:
@@ -1585,18 +1612,77 @@ def run_stateful_simulation(
             if action in ("ADD", "REDUCE", "EXIT"):
                 if sym not in holdings:
                     continue
-                # Minimum holding period only blocks ordinary REDUCE/EXIT.
-                # Broken trend can bypass if configured.
-                if action in ("REDUCE", "EXIT") and min_holding_days > 0:
+                # ── 退出层：MinHold（E1）或 Dynamic Exit（E2）──────────
+                if action in ("REDUCE", "EXIT"):
                     h = holdings[sym]
                     holding_days_so_far = sum(
                         1 for d in master_dates
                         if h.get("entry_date", date_t) <= d <= date_t
                     )
-                    is_broken = is_broken_trend(sig.get("trend_state", ""))
-                    if holding_days_so_far < min_holding_days and not (min_hold_allow_broken_exit and is_broken):
-                        skip_reasons["min_hold_block"] += 1
-                        continue
+                    stock_ma50  = sig.get("ma50",       close_t)
+                    stock_slope = sig.get("ma50_slope",  0.0)
+                    price_below_ma50   = close_t < stock_ma50
+                    slope_negative     = stock_slope < 0
+
+                    if dynamic_exit_enabled:
+                        # ── E2 Dynamic Exit Confirmation v2 ──────────────
+                        # 硬退出：Close<MA50 AND slope<0，不受市场状态影响
+                        hard_exit = price_below_ma50 and slope_negative
+                        if hard_exit:
+                            action = "EXIT"
+                            h["exit_type"] = "HARD_EXIT"
+                            skip_reasons["dynamic_hard_exit_triggered"] = (
+                                skip_reasons.get("dynamic_hard_exit_triggered", 0) + 1)
+                        else:
+                            ls_below_60 = ls < 60
+                            if market_state == "FULL_ON":
+                                # FULL_ON：LS<60 还需一项价格结构证据才退出
+                                if ls_below_60 and not (price_below_ma50 or slope_negative):
+                                    # EXIT_WARNING：记录预警，继续持有
+                                    skip_reasons["dynamic_exit_warning"] += 1
+                                    if "exit_warning_log" not in h:
+                                        h["exit_warning_log"] = []
+                                    last_warn = (h["exit_warning_log"][-1]["date"]
+                                                 if h["exit_warning_log"] else None)
+                                    prev_date = (master_dates[master_dates.index(date_t)-1]
+                                                 if date_t in master_dates and
+                                                 master_dates.index(date_t) > 0 else None)
+                                    is_consecutive = (last_warn and last_warn == prev_date)
+                                    if not is_consecutive:
+                                        h["exit_warning_log"].append({
+                                            "date": date_t,
+                                            "ls": round(ls, 2),
+                                            "price": round(close_t, 2),
+                                            "ma50": round(stock_ma50, 2),
+                                            "price_vs_ma50_pct": round(
+                                                (close_t/stock_ma50-1)*100, 2)
+                                                if stock_ma50 > 0 else 0,
+                                            "ma50_slope": round(stock_slope, 4),
+                                            "market_state": market_state,
+                                            "warning_day": True,
+                                        })
+                                    else:
+                                        h["exit_warning_log"][-1][
+                                            "last_consecutive_date"] = date_t
+                                    h["exit_warning"] = date_t
+                                    continue  # EXIT_WARNING → HOLD
+                                else:
+                                    h["exit_type"] = "SOFT_EXIT_CONFIRMED"
+                                    skip_reasons["dynamic_soft_exit_confirmed"] = (
+                                        skip_reasons.get("dynamic_soft_exit_confirmed", 0) + 1)
+                            else:
+                                # CAUTIOUS_ON / CASH_MODE：LS<60 本身足以退出
+                                if ls_below_60:
+                                    h["exit_type"] = "SOFT_EXIT_CONFIRMED"
+                                    skip_reasons["dynamic_soft_exit_confirmed"] = (
+                                        skip_reasons.get("dynamic_soft_exit_confirmed", 0) + 1)
+                                # LS>=60 时继续持有，不生成 warning
+                    else:
+                        # ── E1 MinHold（原逻辑）────────────────────────────
+                        is_broken = is_broken_trend(sig.get("trend_state", ""))
+                        if min_holding_days > 0 and holding_days_so_far < min_holding_days and not (min_hold_allow_broken_exit and is_broken):
+                            skip_reasons["min_hold_block"] += 1
+                            continue
                 if action == "ADD" and block_add_after_take_profit and holdings[sym].get("take_profit_triggered"):
                     skip_reasons["add_blocked_after_tp"] += 1
                     continue
@@ -1718,6 +1804,13 @@ def run_stateful_simulation(
         action_priority = {"EXIT": 0, "REDUCE": 1, "REL_REDUCE": 2, "TP_REDUCE": 3, "ADD": 4}
         management_orders.sort(key=lambda o: action_priority.get(o["action"], 9))
         buy_orders.sort(key=lambda o: o.get("entry_rank") or 999)
+        # P0 Fix: 最后一个 sim 日（T日）不生成新 BUY/ADD
+        # 因为 T+1 执行时会等于或超过 sim_end_date，导致 entry==exit invalid
+        _next_date = master_dates[t+1] if t+1 < len(master_dates) else None
+        # 最后一个或倒数第二个 sim 日不生成新 BUY（T+1 执行时会撞上 sim_end_date）
+        _is_last_sim_day = (_trade_end and _next_date and _next_date >= _trade_end)
+        if _is_last_sim_day:
+            buy_orders = []  # 不在最后一天生成新买入（防止 entry==exit invalid）
         pending_orders = management_orders + buy_orders
 
         if (t - min_history) % 20 == 0:
@@ -1751,7 +1844,14 @@ def run_stateful_simulation(
     # ════════════════════════════════════════════════════
     # 强制平仓剩余持仓
     # ════════════════════════════════════════════════════
-    last_date = master_dates[-2] if len(master_dates) >= 2 else master_dates[-1]
+    # 强制平仓日期：用 sim_end_date（若有），否则用数据末日
+    if sim_end_date and sim_end_date in master_dates:
+        last_date = sim_end_date
+    elif sim_end_date:
+        # sim_end_date 不在 master_dates，找最近的前一个交易日
+        last_date = max((d for d in master_dates if d <= sim_end_date), default=master_dates[-2])
+    else:
+        last_date = master_dates[-2] if len(master_dates) >= 2 else master_dates[-1]
     sim_end_count = 0
     for sym, h in list(holdings.items()):
         exec_price_raw = get_price_by_date(sym, last_date, "low")
@@ -1798,6 +1898,9 @@ def run_stateful_simulation(
             "action_count":         len(h["action_history"]),
             "execution_model":      "adverse_intraday_v1.0",
             "is_sim_end":           True,
+            "exit_type":            h.get("exit_type", "SIM_END"),
+            "exit_warning_log":     h.get("exit_warning_log", []),
+            "exit_warning_count":   len(h.get("exit_warning_log", [])),
         })
         del holdings[sym]
 
@@ -1894,6 +1997,16 @@ def run_stateful_simulation(
                 f"executed={relative_stop_stats['executed']}")
     logger.info(f"  Fixed TP: signals={take_profit_stats['signals']} "
                 f"executed={take_profit_stats['executed']}")
+    if dynamic_exit_enabled:
+        logger.info(
+            f"  Dynamic Exit stats: "
+            f"warning={skip_reasons.get('dynamic_exit_warning',0)} "
+            f"soft_confirmed={skip_reasons.get('dynamic_soft_exit_confirmed',0)} "
+            f"hard_exit={skip_reasons.get('dynamic_hard_exit_triggered',0)}"
+        )
+    if invalid_trades:
+        for inv in invalid_trades:
+            logger.warn(f"  ⚠️  INVALID TRADE: {inv}")
     logger.info(f"  Layer D v1.6-top3-rs-minhold-relstop: {status}")
     logger.info(f"  ${init_cap:,.0f}→${final_equity:,.2f} ({total_return:+.2f}%) "
                 f"SPX:{spx_total:+.2f}% Alpha:{total_return-spx_total:+.2f}%")
@@ -2073,62 +2186,40 @@ def run_strategy_variant_comparison(
         "fill_only_enabled":         False,
     }
 
+    # ── E2 实验配置（Gate 固定 G4，只改退出层）────────────────
+    _gate_g4 = {
+        "market_gate_enabled":       True,
+        "risk_off_below_spx_ma50":   False,
+        "market_shock_gate_enabled": False,
+        "market_shock_daily_return": -0.02,
+        "gate_use_slope":            True,
+        "gate_use_leadership":       True,
+        "candidate_top_n":           None,
+        "qualified_entry_enabled":   False,
+        "fill_only_enabled":         False,
+        "entry_top_n":               3,
+        "entry_rs_min":              90.0,
+        "ls60_exit_mode":            "exit",
+    }
+
     variants = {
-        # U0: 纯基准 — Strict Top3 完全无 Gate，用于 baseline parity 验证
-        "U0_BASELINE_NO_GATE": {
-            **base,
-            "strategy_variant":      "U0_baseline_no_gate",
-            "entry_top_n":           3, "entry_rs_min": 90.0,
-            "ls60_exit_mode":        "exit",
+        # E1: Gate G4 + MinHold10（审计对照基准，不可修改）
+        "E1_AUDITED_G4_MINHOLD10": {
+            **base, **_gate_g4,
+            "strategy_variant":      "E1_audited_g4_minhold10",
+            "min_holding_days":      10,
+            "dynamic_exit_enabled":  False,
+            "relative_stop_enabled": False,
+            "version":               "E1-audited-g4-minhold10",
+        },
+        # E2v2: Gate G4 + Dynamic Exit v2（CAUTIOUS/CASH_MODE 下 LS<60 直接退出）
+        "E2_DYNAMIC_EXIT_V2": {
+            **base, **_gate_g4,
+            "strategy_variant":      "E2_dynamic_exit_v2",
             "min_holding_days":      0,
+            "dynamic_exit_enabled":  True,
             "relative_stop_enabled": False,
-            "candidate_top_n":       None,
-            "qualified_entry_enabled": False,
-            "fill_only_enabled":     False,
-            "market_gate_enabled":   False,
-            "version":               "U0-baseline-no-gate",
-        },
-        # E0: Gate v2 No VIX 基准（当前退出规则）
-        "E0_GATE_V2_BASE": {
-            **base, **_gate_v2_no_vix,
-            "strategy_variant":    "E0_gate_v2_base",
-            "entry_top_n":         3, "entry_rs_min": 90.0,
-            "ls60_exit_mode":      "exit",
-            "min_holding_days":    0,
-            "relative_stop_enabled": False,
-            "version":             "E0-gate-v2-base",
-        },
-        # E1: Gate v2 + MinHold 10天（前10天禁止 LS 触发的 REDUCE/EXIT）
-        "E1_GATE_V2_MINHOLD10": {
-            **base, **_gate_v2_no_vix,
-            "strategy_variant":    "E1_gate_v2_minhold10",
-            "entry_top_n":         3, "entry_rs_min": 90.0,
-            "ls60_exit_mode":      "exit",
-            "min_holding_days":    10,
-            "relative_stop_enabled": False,
-            "version":             "E1-gate-v2-minhold10",
-        },
-        # E2: Gate v2 + Relative Stop（个股相对 SPX 跑输 -8% 时退出）
-        "E2_GATE_V2_RELSTOP": {
-            **base, **_gate_v2_no_vix,
-            "strategy_variant":    "E2_gate_v2_relstop",
-            "entry_top_n":         3, "entry_rs_min": 90.0,
-            "ls60_exit_mode":      "exit",
-            "min_holding_days":    0,
-            "relative_stop_enabled": True,
-            "relative_stop_threshold": -0.08,
-            "version":             "E2-gate-v2-relstop",
-        },
-        # E3: Gate v2 + MinHold 10天 + Relative Stop
-        "E3_GATE_V2_MINHOLD10_RELSTOP": {
-            **base, **_gate_v2_no_vix,
-            "strategy_variant":    "E3_gate_v2_minhold10_relstop",
-            "entry_top_n":         3, "entry_rs_min": 90.0,
-            "ls60_exit_mode":      "exit",
-            "min_holding_days":    10,
-            "relative_stop_enabled": True,
-            "relative_stop_threshold": -0.08,
-            "version":             "E3-gate-v2-minhold10-relstop",
+            "version":               "E2-dynamic-exit-v2",
         },
     }
 
@@ -2160,10 +2251,10 @@ def run_strategy_variant_comparison(
         period_results[period_key] = {"label": period_cfg["label"], "variants": {}}
         for variant_id, assumptions in variants.items():
             logger.info(f"    === {period_key}/{variant_id} ===")
-            # E0-E3 全部用 Gate v2 No VIX（传空 VIX，传 NDX/SOX）
+            # E1/E2：Gate G4 固定使用 NDX/SOX（leadership），不传 VIX
             _use_ndx = ndx_prices or []
             _use_sox = sox_prices or []
-            _use_vix = []  # E 系列不用 VIX
+            _use_vix = []  # Gate v2.1 不使用 VIX
             period_results[period_key]["variants"][variant_id] = run_stateful_simulation(
                 symbols=symbols,
                 prices_map=prices_map,
