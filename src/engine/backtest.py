@@ -802,6 +802,7 @@ def run_stateful_simulation(
     strategy_variant = a.get("strategy_variant", "top3_entry_rs_minhold_relstop")
     e1r_shell_mode = bool(a.get("e1r_shell_mode", False))
     e1r_regime_wiring_enabled = bool(a.get("e1r_regime_wiring_enabled", False))
+    e1r_uptrend_execution_enabled = bool(a.get("e1r_uptrend_execution_enabled", False))
     e1r_regime_daily = a.get("e1r_regime_daily", {}) or {}
 
     def _e1r_regime_on(date: str) -> str:
@@ -1044,6 +1045,10 @@ def run_stateful_simulation(
         "ls60_reduce_already_triggered":   0,
         "action_reason_buy_add_mismatch":  0,   # BUY/ADD 不一致（记录，不中断）
         "fill_only_no_empty_slot":         0,   # fill_only 模式：无空仓位，跳过 BUY
+        "e1r_legacy_buy_blocked":          0,   # E1-R execution: legacy BUY suppressed
+        "e1r_no_capacity":                 0,   # E1-R execution: no available slot
+        "e1r_candidate_buy_generated":     0,   # E1-R execution: candidate BUY generated
+        "e1r_emerging_to_confirmed_add":   0,   # E1-R execution: upgrade ADD generated
     }
     orders_executed = 0
 
@@ -1142,7 +1147,9 @@ def run_stateful_simulation(
                     if len(holdings) >= max_pos:
                         skip_reasons["max_positions_reached"] += 1
                         continue
-                    target = port_val * buy_pct
+                    _order_size_units = float(order.get("target_size_units", 1.0))
+                    _order_size_units = max(0.0, min(_order_size_units, 1.0))
+                    target = port_val * buy_pct * _order_size_units
                     if port_val > 0 and target / port_val > max_pct:
                         target = port_val * max_pct
                         skip_reasons["max_single_size_reached"] += 1
@@ -1158,11 +1165,12 @@ def run_stateful_simulation(
                     holdings[sym] = {
                         "shares":                shares,
                         "avg_cost":              exec_price,
-                        "size_units":            1.0,
+                        "size_units":            _order_size_units,
                         "entry_close_ref":       close_ref,
                         "entry_date":            exec_date,
                         "entry_sig_date":        sig_date,
                         "entry_signal":          "BUY",
+                        "e1r_entry_type":       order.get("e1r_entry_type"),
                         "highest_close":         close_ref,
                         "min_close_since_entry": close_ref,
                         "current_close":         close_ref,
@@ -1180,7 +1188,7 @@ def run_stateful_simulation(
                         "ls60_reduce_triggered": False,  # 方案A：LS<60 REDUCE 一次性保护
                         # E1-R Phase 2 regime wiring telemetry. Observer-only.
                         "entry_regime": _e1r_regime_on(exec_date),
-                        "entry_type": "E1R_PLACEHOLDER_LEGACY_ENTRY" if e1r_regime_wiring_enabled else None,
+                        "entry_type": order.get("e1r_entry_type") or ("E1R_PLACEHOLDER_LEGACY_ENTRY" if e1r_regime_wiring_enabled else None),
                         "regime_day_weights": {},
                     }
 
@@ -1196,7 +1204,9 @@ def run_stateful_simulation(
                         skip_reasons["max_single_size_reached"] += 1
                         continue
                     current_val = h["shares"] * exec_price
-                    target_add  = port_val * add_pct
+                    _add_size_units = float(order.get("add_size_units", 0.5))
+                    _add_size_units = max(0.0, min(_add_size_units, 0.5))
+                    target_add  = port_val * buy_pct * _add_size_units
                     new_total   = current_val + target_add
                     if port_val > 0 and new_total / port_val > max_pct:
                         target_add = max(0, port_val * max_pct - current_val)
@@ -1209,7 +1219,10 @@ def run_stateful_simulation(
                     old_c, old_s = h["avg_cost"], h["shares"]
                     h["avg_cost"]   = (old_s * old_c + add_shares * exec_price) / (old_s + add_shares)
                     h["shares"]    += add_shares
-                    h["size_units"] = min(1.5, h["size_units"] + 0.5)
+                    h["size_units"] = min(1.0 if e1r_uptrend_execution_enabled else 1.5, h["size_units"] + _add_size_units)
+                    if order.get("e1r_entry_type"):
+                        h["e1r_entry_type"] = order.get("e1r_entry_type")
+                        h["entry_type"] = order.get("e1r_entry_type")
                     h["action_history"].append("ADD")
                     h["ls60_reduce_triggered"] = False  # ADD 后清零 ls60 保护
                     cash -= target_add
@@ -1679,6 +1692,41 @@ def run_stateful_simulation(
                         "diagnostic_only": True,
                     })
 
+        # E1-R Phase 3B: UPTREND Execution v0.1 candidate selection.
+        # Only entry execution is changed; existing E1 reduce/exit logic remains intact.
+        e1r_selected_buy: dict | None = None
+        if e1r_uptrend_execution_enabled and _e1r_regime_on(date_t) == "UPTREND":
+            e1r_buy_candidates = []
+            for s, v in day_signals.items():
+                if s in holdings:
+                    continue
+                if not v.get("e1r_entry_type"):
+                    continue
+                _etype = v.get("e1r_entry_type")
+                _priority = 0 if _etype == "E1R_UPTREND_CONFIRMED" else 1
+                e1r_buy_candidates.append((
+                    _priority,
+                    leader_rank_all.get(s, 9999),
+                    -v.get("leader_score", 0),
+                    -v.get("momentum_acceleration", 0),
+                    -v.get("rs_20d_improvement", 0),
+                    s,
+                    v,
+                ))
+            e1r_buy_candidates.sort()
+            if e1r_buy_candidates and market_entry_allowed:
+                if len(holdings) < min(max_pos, entry_capacity):
+                    _, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]
+                    _etype = _sig.get("e1r_entry_type")
+                    e1r_selected_buy = {
+                        "sym": _sym,
+                        "sig": _sig,
+                        "entry_type": _etype,
+                        "target_size_units": 1.0 if _etype == "E1R_UPTREND_CONFIRMED" else 0.5,
+                    }
+                else:
+                    skip_reasons["e1r_no_capacity"] += len(e1r_buy_candidates)
+
         if qualified_entry_enabled and candidate_top_n is not None:
             # Qualified Candidate Pool 逻辑：
             # Step 1: 过滤资格条件
@@ -1731,6 +1779,30 @@ def run_stateful_simulation(
             # 职责拆分：
             #   Entry Engine  → 由 Qualified Pool 或旧 trade_action BUY 决定
             #   Position Mgmt → 由 trade_action 决定（HOLD/ADD/REDUCE/EXIT）
+            if (
+                e1r_uptrend_execution_enabled
+                and e1r_selected_buy
+                and sym == e1r_selected_buy["sym"]
+                and sym not in holdings
+            ):
+                _etype = e1r_selected_buy["entry_type"]
+                buy_orders.append({
+                    "sym":            sym,
+                    "action":         "BUY",
+                    "signal_date":    date_t,
+                    "ls":             ls,
+                    "close_t":        close_t,
+                    "entry_rank":     top_entry_rank.get(sym) or leader_rank_all.get(sym),
+                    "strategy":       "E1R_UPTREND_EXECUTION_V0_1",
+                    "entry_mode":     "e1r_uptrend_execution_v0_1",
+                    "primary_reason": _etype,
+                    "reasons":        sig.get("e1r_entry_reason", []),
+                    "e1r_entry_type": _etype,
+                    "target_size_units": e1r_selected_buy["target_size_units"],
+                })
+                skip_reasons["e1r_candidate_buy_generated"] += 1
+                continue
+
             if qualified_entry_enabled:
                 # Qualified Pool 模式：接管新开仓权限
                 # 不使用 trade_action()=="BUY"，由候选池资格决定是否可开仓
@@ -1784,6 +1856,9 @@ def run_stateful_simulation(
             else:
                 # 旧模式：trade_action()=="BUY" + Strict TopN
                 if action == "BUY":
+                    if e1r_uptrend_execution_enabled:
+                        skip_reasons["e1r_legacy_buy_blocked"] += 1
+                        continue
                     if sym in holdings:
                         continue
                     if sig.get("rs_score", 0.0) < entry_rs_min:
@@ -1946,6 +2021,44 @@ def run_stateful_simulation(
                     "primary_reason": reason_info.get("primary_reason", ""),
                     "reasons":       reason_info.get("reasons", []),
                 })
+
+        # E1-R Phase 3B: Emerging → Confirmed upgrade ADD.
+        # This is the only ADD behavior introduced in Phase 3B and it never overrides
+        # existing EXIT/REDUCE management orders generated above.
+        if e1r_uptrend_execution_enabled and _e1r_regime_on(date_t) == "UPTREND":
+            scheduled_management = {o["sym"]: o["action"] for o in management_orders}
+            for sym, h in holdings.items():
+                if scheduled_management.get(sym) in ("EXIT", "REDUCE", "REL_REDUCE", "TP_REDUCE", "ADD"):
+                    continue
+                sig = day_signals.get(sym)
+                if not sig or not sig.get("e1r_uptrend_confirmed_eligible"):
+                    continue
+                if h.get("e1r_entry_type") != "E1R_UPTREND_EMERGING":
+                    continue
+                if h.get("size_units", 0.0) >= 1.0:
+                    continue
+                close_t_h = h.get("current_close", 0.0)
+                pos_ret = (close_t_h / h["avg_cost"] - 1.0) if h.get("avg_cost", 0) > 0 and close_t_h > 0 else 0.0
+                if pos_ret <= 0.03:
+                    continue
+                if close_t_h <= sig.get("ma20", close_t_h):
+                    continue
+                if sig.get("momentum_acceleration", 0) < 0:
+                    continue
+                management_orders.append({
+                    "sym": sym,
+                    "action": "ADD",
+                    "signal_date": date_t,
+                    "ls": sig.get("leader_score", h.get("leader_score_entry", 0)),
+                    "close_t": close_t_h,
+                    "entry_rank": top_entry_rank.get(sym) or leader_rank_all.get(sym),
+                    "strategy": "E1R_UPTREND_EXECUTION_V0_1",
+                    "primary_reason": "emerging_upgraded_to_confirmed",
+                    "reasons": ["emerging_upgraded_to_confirmed", "position_return_above_3pct", "close_above_ma20", "momentum_acceleration_non_negative"],
+                    "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+                    "add_size_units": 0.5,
+                })
+                skip_reasons["e1r_emerging_to_confirmed_add"] += 1
 
         # Relative SPX stop: if the holding underperforms SPX since entry
         # by more than the configured threshold, reduce 50% once per position.
@@ -2366,6 +2479,7 @@ def run_stateful_simulation(
         "sim_end_liquidation_record": sim_end_liquidation_record,
         "e1r_candidates": e1r_candidate_records if e1r_shell_mode else [],
         "e1r_candidate_count": len(e1r_candidate_records) if e1r_shell_mode else 0,
+        "e1r_uptrend_execution_enabled": e1r_uptrend_execution_enabled,
         # 交易记录
         "trades":            closed_trades,
         "total_trades_all":  total_trades,
@@ -2468,8 +2582,9 @@ def run_strategy_variant_comparison(
             "min_holding_days":      10,
             "dynamic_exit_enabled":  False,
             "relative_stop_enabled": False,
-            "version":               "E1R-regime-aware-v0.1-shell",
+            "version":               "E1R-uptrend-execution-v0.1",
             "e1r_shell_mode":        True,
+            "e1r_uptrend_execution_enabled": True,
             "e1r_regime_wiring_enabled": True,
             "e1r_regime_daily":      _e1r_regime_daily,
             "e1r_regime_source":     "data/research/e1_5y/regimes/spx_regime_daily.json",
@@ -2545,10 +2660,19 @@ def run_strategy_variant_comparison(
                 _result["strategy_controls"]["e1r_regime_wiring_enabled"] = True
                 _result["strategy_controls"]["e1r_spec_ref"] = assumptions.get("e1r_spec_ref")
                 _result["strategy_controls"]["e1r_regime_source"] = assumptions.get("e1r_regime_source")
-                _result["strategy_controls"]["regime_aware_logic"] = "NOT_IMPLEMENTED_PHASE_3A_CANDIDATE_TAGGING_ONLY"
-                _result["research_status"] = "UPTREND_CANDIDATE_TAGGING_ONLY_NOT_EXECUTED"
-                _result["e1r_candidate_tagging_enabled"] = True
-                _result["strategy_controls"]["e1r_candidate_tagging_enabled"] = True
+                if assumptions.get("e1r_uptrend_execution_enabled"):
+                    _result["strategy_controls"]["regime_aware_logic"] = "UPTREND_EXECUTION_V0_1_ENTRY_ONLY"
+                    _result["research_status"] = "UPTREND_EXECUTION_V0_1"
+                    _result["e1r_candidate_tagging_enabled"] = True
+                    _result["e1r_uptrend_execution_enabled"] = True
+                    _result["strategy_controls"]["e1r_candidate_tagging_enabled"] = True
+                    _result["strategy_controls"]["e1r_uptrend_execution_enabled"] = True
+                    _result["strategy_controls"]["exit_reduce_logic"] = "LEGACY_E1_UNCHANGED"
+                else:
+                    _result["strategy_controls"]["regime_aware_logic"] = "NOT_IMPLEMENTED_PHASE_3A_CANDIDATE_TAGGING_ONLY"
+                    _result["research_status"] = "UPTREND_CANDIDATE_TAGGING_ONLY_NOT_EXECUTED"
+                    _result["e1r_candidate_tagging_enabled"] = True
+                    _result["strategy_controls"]["e1r_candidate_tagging_enabled"] = True
             period_results[period_key]["variants"][variant_id] = _result
 
     # ── 为兼容现有输出格式，把 Period C（全区间）当作主结果 ────

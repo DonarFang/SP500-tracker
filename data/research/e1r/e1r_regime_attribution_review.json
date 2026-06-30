@@ -1,0 +1,395 @@
+{
+  "status": "DIAGNOSTIC_ONLY_NO_TRADING_LOGIC_CHANGE",
+  "generated_at": "2026-06-30 19:42:46",
+  "regime_source": "data/research/e1_5y/regimes/spx_regime_daily.json",
+  "backtest_source": "exports/backtest.json",
+  "strategy_ids": [
+    "E1_AUDITED_G4_MINHOLD10",
+    "E1R_REGIME_AWARE_V0_1"
+  ],
+  "fairness_controls": {
+    "same_daily_dates": true,
+    "same_regime_map": true,
+    "period_slices_not_primary_evaluation": true,
+    "shared_date_count": 651,
+    "e1_daily_record_count": 651,
+    "e1r_daily_record_count": 651,
+    "excluded_e1_only_dates": [],
+    "excluded_e1r_only_dates": []
+  },
+  "shared_window_start": "2023-11-06",
+  "shared_window_end": "2026-06-11",
+  "shared_days": 651,
+  "shared_regime_day_counts": {
+    "UPTREND": 565,
+    "SIDEWAYS": 86,
+    "DOWNTREND": 0,
+    "UNCLASSIFIED": 0
+  },
+  "strategies": {
+    "E1_AUDITED_G4_MINHOLD10": {
+      "strategy_id": "E1_AUDITED_G4_MINHOLD10",
+      "research_status": null,
+      "reported_total_return_pct": 7.52,
+      "reported_max_drawdown_pct": 38.1,
+      "reported_profit_factor": 1.25,
+      "reported_sharpe_ratio": 0.18,
+      "reported_exposure_pct": 80.1,
+      "reported_number_of_trades": 47,
+      "shared_window_start": "2023-11-06",
+      "shared_window_end": "2026-06-11",
+      "shared_days": 651,
+      "initial_equity_observed": 100000.0,
+      "shared_window_start_equity": 100000.0,
+      "shared_window_end_equity": 110660.2,
+      "shared_window_return_pct": 10.6602,
+      "by_regime": {
+        "UPTREND": {
+          "days": 565,
+          "date_start": "2023-11-06",
+          "date_end": "2026-06-11",
+          "pnl_abs": 10626.51,
+          "pnl_pct_initial": 10.6265,
+          "compound_return_pct": 10.6154,
+          "spx_compound_return_pct": 47.9207,
+          "excess_compound_vs_spx_pct": -37.3053,
+          "avg_daily_return_pct": 0.0336,
+          "positive_day_rate_pct": 48.5,
+          "avg_exposure_pct": 65.53,
+          "avg_open_positions": 2.55,
+          "max_drawdown_within_regime_pct": 37.2578
+        },
+        "SIDEWAYS": {
+          "days": 86,
+          "date_start": "2025-03-17",
+          "date_end": "2026-04-10",
+          "pnl_abs": 33.69,
+          "pnl_pct_initial": 0.0337,
+          "compound_return_pct": 0.0415,
+          "spx_compound_return_pct": 14.6945,
+          "excess_compound_vs_spx_pct": -14.653,
+          "avg_daily_return_pct": 0.0023,
+          "positive_day_rate_pct": 16.28,
+          "avg_exposure_pct": 24.34,
+          "avg_open_positions": 0.94,
+          "max_drawdown_within_regime_pct": 5.1282
+        },
+        "DOWNTREND": {
+          "days": 0,
+          "date_start": null,
+          "date_end": null,
+          "pnl_abs": 0.0,
+          "pnl_pct_initial": 0.0,
+          "compound_return_pct": 0.0,
+          "spx_compound_return_pct": 0.0,
+          "excess_compound_vs_spx_pct": 0.0,
+          "avg_daily_return_pct": 0.0,
+          "positive_day_rate_pct": 0.0,
+          "avg_exposure_pct": 0.0,
+          "avg_open_positions": 0.0,
+          "max_drawdown_within_regime_pct": 0.0
+        },
+        "UNCLASSIFIED": {
+          "days": 0,
+          "date_start": null,
+          "date_end": null,
+          "pnl_abs": 0.0,
+          "pnl_pct_initial": 0.0,
+          "compound_return_pct": 0.0,
+          "spx_compound_return_pct": 0.0,
+          "excess_compound_vs_spx_pct": 0.0,
+          "avg_daily_return_pct": 0.0,
+          "positive_day_rate_pct": 0.0,
+          "avg_exposure_pct": 0.0,
+          "avg_open_positions": 0.0,
+          "max_drawdown_within_regime_pct": 0.0
+        }
+      },
+      "daily_sample": [
+        {
+          "date": "2023-11-06",
+          "regime": "UPTREND",
+          "equity": 100000.0,
+          "daily_return_pct": 0.0,
+          "spx_day_return_pct": 0.1753,
+          "exposure_pct": 0.0
+        },
+        {
+          "date": "2023-11-07",
+          "regime": "UPTREND",
+          "equity": 100000.0,
+          "daily_return_pct": 0.0,
+          "spx_day_return_pct": 0.284,
+          "exposure_pct": 0.0
+        },
+        {
+          "date": "2023-11-08",
+          "regime": "UPTREND",
+          "equity": 100000.0,
+          "daily_return_pct": 0.0,
+          "spx_day_return_pct": 0.1005,
+          "exposure_pct": 0.0
+        },
+        {
+          "ellipsis": true
+        },
+        {
+          "date": "2026-06-09",
+          "regime": "UPTREND",
+          "equity": 109109.54,
+          "daily_return_pct": -2.8623,
+          "spx_day_return_pct": -0.2576,
+          "exposure_pct": 17.92
+        },
+        {
+          "date": "2026-06-10",
+          "regime": "UPTREND",
+          "equity": 107158.75,
+          "daily_return_pct": -1.7879,
+          "spx_day_return_pct": -1.6199,
+          "exposure_pct": 77.51
+        },
+        {
+          "date": "2026-06-11",
+          "regime": "UPTREND",
+          "equity": 110660.2,
+          "daily_return_pct": 3.2675,
+          "spx_day_return_pct": 1.7519,
+          "exposure_pct": 78.22
+        }
+      ]
+    },
+    "E1R_REGIME_AWARE_V0_1": {
+      "strategy_id": "E1R_REGIME_AWARE_V0_1",
+      "research_status": "UPTREND_EXECUTION_V0_1",
+      "reported_total_return_pct": 65.71,
+      "reported_max_drawdown_pct": 32.35,
+      "reported_profit_factor": 1.97,
+      "reported_sharpe_ratio": 0.58,
+      "reported_exposure_pct": 74.9,
+      "reported_number_of_trades": 39,
+      "shared_window_start": "2023-11-06",
+      "shared_window_end": "2026-06-11",
+      "shared_days": 651,
+      "initial_equity_observed": 100000.0,
+      "shared_window_start_equity": 100000.0,
+      "shared_window_end_equity": 170918.25,
+      "shared_window_return_pct": 70.9183,
+      "by_regime": {
+        "UPTREND": {
+          "days": 565,
+          "date_start": "2023-11-06",
+          "date_end": "2026-06-11",
+          "pnl_abs": 70918.25,
+          "pnl_pct_initial": 70.9183,
+          "compound_return_pct": 70.9168,
+          "spx_compound_return_pct": 47.9207,
+          "excess_compound_vs_spx_pct": 22.9961,
+          "avg_daily_return_pct": 0.1128,
+          "positive_day_rate_pct": 50.09,
+          "avg_exposure_pct": 68.74,
+          "avg_open_positions": 2.52,
+          "max_drawdown_within_regime_pct": 32.3511
+        },
+        "SIDEWAYS": {
+          "days": 86,
+          "date_start": "2025-03-17",
+          "date_end": "2026-04-10",
+          "pnl_abs": 0.0,
+          "pnl_pct_initial": 0.0,
+          "compound_return_pct": 0.0,
+          "spx_compound_return_pct": 14.6945,
+          "excess_compound_vs_spx_pct": -14.6945,
+          "avg_daily_return_pct": 0.0,
+          "positive_day_rate_pct": 0.0,
+          "avg_exposure_pct": 0.0,
+          "avg_open_positions": 0.0,
+          "max_drawdown_within_regime_pct": 0.0
+        },
+        "DOWNTREND": {
+          "days": 0,
+          "date_start": null,
+          "date_end": null,
+          "pnl_abs": 0.0,
+          "pnl_pct_initial": 0.0,
+          "compound_return_pct": 0.0,
+          "spx_compound_return_pct": 0.0,
+          "excess_compound_vs_spx_pct": 0.0,
+          "avg_daily_return_pct": 0.0,
+          "positive_day_rate_pct": 0.0,
+          "avg_exposure_pct": 0.0,
+          "avg_open_positions": 0.0,
+          "max_drawdown_within_regime_pct": 0.0
+        },
+        "UNCLASSIFIED": {
+          "days": 0,
+          "date_start": null,
+          "date_end": null,
+          "pnl_abs": 0.0,
+          "pnl_pct_initial": 0.0,
+          "compound_return_pct": 0.0,
+          "spx_compound_return_pct": 0.0,
+          "excess_compound_vs_spx_pct": 0.0,
+          "avg_daily_return_pct": 0.0,
+          "positive_day_rate_pct": 0.0,
+          "avg_exposure_pct": 0.0,
+          "avg_open_positions": 0.0,
+          "max_drawdown_within_regime_pct": 0.0
+        }
+      },
+      "daily_sample": [
+        {
+          "date": "2023-11-06",
+          "regime": "UPTREND",
+          "equity": 100000.0,
+          "daily_return_pct": 0.0,
+          "spx_day_return_pct": 0.1753,
+          "exposure_pct": 0.0
+        },
+        {
+          "date": "2023-11-07",
+          "regime": "UPTREND",
+          "equity": 100000.0,
+          "daily_return_pct": 0.0,
+          "spx_day_return_pct": 0.284,
+          "exposure_pct": 0.0
+        },
+        {
+          "date": "2023-11-08",
+          "regime": "UPTREND",
+          "equity": 100000.0,
+          "daily_return_pct": 0.0,
+          "spx_day_return_pct": 0.1005,
+          "exposure_pct": 0.0
+        },
+        {
+          "ellipsis": true
+        },
+        {
+          "date": "2026-06-09",
+          "regime": "UPTREND",
+          "equity": 168794.52,
+          "daily_return_pct": -2.6714,
+          "spx_day_return_pct": -0.2576,
+          "exposure_pct": 53.55
+        },
+        {
+          "date": "2026-06-10",
+          "regime": "UPTREND",
+          "equity": 165317.25,
+          "daily_return_pct": -2.0601,
+          "spx_day_return_pct": -1.6199,
+          "exposure_pct": 40.63
+        },
+        {
+          "date": "2026-06-11",
+          "regime": "UPTREND",
+          "equity": 170918.25,
+          "daily_return_pct": 3.388,
+          "spx_day_return_pct": 1.7519,
+          "exposure_pct": 42.58
+        }
+      ]
+    }
+  },
+  "comparison": {
+    "UPTREND": {
+      "days": 565,
+      "e1r_minus_e1_pnl_pct_initial": 60.2918,
+      "e1r_minus_e1_compound_pct": 60.3014,
+      "e1r_minus_e1_excess_vs_spx_pct": 60.3014,
+      "e1r_minus_e1_avg_exposure_pct": 3.21,
+      "e1r_minus_e1_max_dd_within_regime_pct": -4.9067
+    },
+    "SIDEWAYS": {
+      "days": 86,
+      "e1r_minus_e1_pnl_pct_initial": -0.0337,
+      "e1r_minus_e1_compound_pct": -0.0415,
+      "e1r_minus_e1_excess_vs_spx_pct": -0.0415,
+      "e1r_minus_e1_avg_exposure_pct": -24.34,
+      "e1r_minus_e1_max_dd_within_regime_pct": -5.1282
+    },
+    "DOWNTREND": {
+      "days": 0,
+      "e1r_minus_e1_pnl_pct_initial": 0.0,
+      "e1r_minus_e1_compound_pct": 0.0,
+      "e1r_minus_e1_excess_vs_spx_pct": 0.0,
+      "e1r_minus_e1_avg_exposure_pct": 0.0,
+      "e1r_minus_e1_max_dd_within_regime_pct": 0.0
+    },
+    "UNCLASSIFIED": {
+      "days": 0,
+      "e1r_minus_e1_pnl_pct_initial": 0.0,
+      "e1r_minus_e1_compound_pct": 0.0,
+      "e1r_minus_e1_excess_vs_spx_pct": 0.0,
+      "e1r_minus_e1_avg_exposure_pct": 0.0,
+      "e1r_minus_e1_max_dd_within_regime_pct": 0.0
+    }
+  },
+  "trade_review": {
+    "E1_AUDITED_G4_MINHOLD10": {
+      "strategy_id": "E1_AUDITED_G4_MINHOLD10",
+      "entry_type_counts": {
+        "LEGACY_E1_ENTRY": 47
+      },
+      "by_dominant_regime": {
+        "UPTREND": {
+          "trades": 0,
+          "avg_return_pct": 0.0,
+          "win_rate_pct": 0.0,
+          "sim_end_trades": 0
+        },
+        "SIDEWAYS": {
+          "trades": 0,
+          "avg_return_pct": 0.0,
+          "win_rate_pct": 0.0,
+          "sim_end_trades": 0
+        },
+        "DOWNTREND": {
+          "trades": 0,
+          "avg_return_pct": 0.0,
+          "win_rate_pct": 0.0,
+          "sim_end_trades": 0
+        },
+        "UNCLASSIFIED": {
+          "trades": 47,
+          "avg_return_pct": 1.0302,
+          "win_rate_pct": 36.17,
+          "sim_end_trades": 3
+        }
+      }
+    },
+    "E1R_REGIME_AWARE_V0_1": {
+      "strategy_id": "E1R_REGIME_AWARE_V0_1",
+      "entry_type_counts": {
+        "E1R_UPTREND_CONFIRMED": 39
+      },
+      "by_dominant_regime": {
+        "UPTREND": {
+          "trades": 39,
+          "avg_return_pct": 4.0187,
+          "win_rate_pct": 38.46,
+          "sim_end_trades": 2
+        },
+        "SIDEWAYS": {
+          "trades": 0,
+          "avg_return_pct": 0.0,
+          "win_rate_pct": 0.0,
+          "sim_end_trades": 0
+        },
+        "DOWNTREND": {
+          "trades": 0,
+          "avg_return_pct": 0.0,
+          "win_rate_pct": 0.0,
+          "sim_end_trades": 0
+        },
+        "UNCLASSIFIED": {
+          "trades": 0,
+          "avg_return_pct": 0.0,
+          "win_rate_pct": 0.0,
+          "sim_end_trades": 0
+        }
+      }
+    }
+  }
+}
