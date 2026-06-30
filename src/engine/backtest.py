@@ -2266,6 +2266,19 @@ def run_strategy_variant_comparison(
             "relative_stop_enabled": False,
             "version":               "E1-audited-g4-minhold10",
         },
+        # E1-R v0.1 shell: research candidate placeholder.
+        # Shell intentionally mirrors E1 execution rules for Phase 1 so that
+        # exports/backtest.json exposes the strategy ID without changing E1.
+        "E1R_REGIME_AWARE_V0_1": {
+            **base, **_gate_g4,
+            "strategy_variant":      "E1R_regime_aware_v0_1_shell",
+            "min_holding_days":      10,
+            "dynamic_exit_enabled":  False,
+            "relative_stop_enabled": False,
+            "version":               "E1R-regime-aware-v0.1-shell",
+            "e1r_shell_mode":        True,
+            "e1r_spec_ref":          "docs/research/E1R_REGIME_AWARE_STRATEGY_SPEC_v0.1.md",
+        },
         # E2v2: Gate G4 + Dynamic Exit v2（CAUTIOUS/CASH_MODE 下 LS<60 直接退出）
         "E2_DYNAMIC_EXIT_V2": {
             **base, **_gate_g4,
@@ -2309,7 +2322,7 @@ def run_strategy_variant_comparison(
             _use_ndx = ndx_prices or []
             _use_sox = sox_prices or []
             _use_vix = []  # Gate v2.1 不使用 VIX
-            period_results[period_key]["variants"][variant_id] = run_stateful_simulation(
+            _result = run_stateful_simulation(
                 symbols=symbols,
                 prices_map=prices_map,
                 dates_map=dates_map,
@@ -2325,6 +2338,15 @@ def run_strategy_variant_comparison(
                 vix_prices=_use_vix,
                 vix_dates=vix_dates or [],
             )
+            if assumptions.get("e1r_shell_mode"):
+                _result["strategy_id"] = variant_id
+                _result["research_status"] = "SHELL_ONLY_NOT_IMPLEMENTED"
+                _result["e1r_shell_mode"] = True
+                _result["e1r_spec_ref"] = assumptions.get("e1r_spec_ref")
+                _result.setdefault("strategy_controls", {})["e1r_shell_mode"] = True
+                _result["strategy_controls"]["e1r_spec_ref"] = assumptions.get("e1r_spec_ref")
+                _result["strategy_controls"]["regime_aware_logic"] = "NOT_IMPLEMENTED_PHASE_1_SHELL"
+            period_results[period_key]["variants"][variant_id] = _result
 
     # ── 为兼容现有输出格式，把 Period C（全区间）当作主结果 ────
     variant_results = period_results["C_FULL_2023_11_TO_2026_06"]["variants"]
@@ -2379,6 +2401,8 @@ def run_strategy_variant_comparison(
             "candidate_top_n": controls.get("candidate_top_n"),
             "qualified_states": controls.get("qualified_states", []),
             "relative_stop_stats": controls.get("relative_stop_stats", {}),
+            "e1r_shell_mode": controls.get("e1r_shell_mode", False),
+            "research_status": result.get("research_status"),
         })
 
     logger.info("  === 4-Variant Qualified Pool Comparison ===")
