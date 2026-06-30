@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-29T22:52:13.409481+00:00",
-  "generated_at_display": "2026年6月29日 18:52 ET",
+  "generated_at": "2026-06-30T23:06:55.615427+00:00",
+  "generated_at_display": "2026年6月30日 19:06 ET",
   "strategy_id": "E1_AUDITED_G4_MINHOLD10",
   "initial_capital": 100000,
   "curve": [
@@ -54,6 +54,14 @@
     },
     {
       "date": "2026-06-29",
+      "equity": 99900.1,
+      "cash": 0.02,
+      "holdings_value": 99900.08,
+      "n_positions": 3,
+      "source": "LIVE_FORWARD"
+    },
+    {
+      "date": "2026-06-30",
       "equity": 99900.1,
       "cash": 0.02,
       "holdings_value": 99900.08,
