@@ -113,6 +113,19 @@ if __name__ == "__main__":
             "daily_log":     ld.get("daily_log", []),
         })
 
+        # e1r_candidates.json — E1-R Phase 3A diagnostic candidates
+        variants = ld.get("variant_results", {})
+        e1r = variants.get("E1R_REGIME_AWARE_V0_1", {})
+        if e1r.get("e1r_candidate_tagging_enabled"):
+            write_json(EXPORTS_DIR / "e1r_candidates.json", {
+                **meta,
+                "strategy_id": "E1R_REGIME_AWARE_V0_1",
+                "research_status": e1r.get("research_status"),
+                "diagnostic_only": True,
+                "candidate_count": e1r.get("e1r_candidate_count", 0),
+                "candidates": e1r.get("e1r_candidates", []),
+            })
+
     logger.ok("✅ 回测完成！")
     logger.ok(f"  exports/backtest.json")
     logger.ok(f"  exports/action_forward_returns.json")

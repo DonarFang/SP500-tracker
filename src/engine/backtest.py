@@ -18,7 +18,7 @@ import json
 from pathlib import Path
 from ..features.rs import period_return, rs_percentile
 from ..features.momentum import (
-    momentum_score as calc_momentum, moving_average, linreg_slope
+    momentum_score as calc_momentum, moving_average, linreg_slope, momentum_acceleration
 )
 from ..features.trend_health import trend_health_score as calc_trend_health
 from ..engine.leader_ranking import leader_score as calc_leader_score
@@ -1079,6 +1079,9 @@ def run_stateful_simulation(
     daily_equity_records: list[dict] = []
     daily_equity_peak = init_cap
     sim_end_liquidation_record = None
+    # E1-R Phase 3A candidate tagging only.
+    # These records are diagnostics; they must not affect orders or execution.
+    e1r_candidate_records: list[dict] = []
     spx_entry = 0.0  # 在日循环中遇到第一个 sim 日时设置，保证与 Period 区间一致
 
     # ── Qualified Pool 诊断计数器 ───────────────────────────────
@@ -1518,12 +1521,19 @@ def run_stateful_simulation(
         })
 
         all_ret60 = []
+        all_ret60_prev20 = []
         for s in symbols:
             p_s = get_close_series_by_date(s, date_t)
             if len(p_s) > 60:
                 r = period_return(p_s, 60)
                 if r is not None:
                     all_ret60.append(r)
+            # E1-R Phase 3A: previous RS reference for Emerging Leader acceleration.
+            # Uses data up to T-20 only; diagnostic-only, no execution impact.
+            if e1r_shell_mode and len(p_s) > 80:
+                r_prev = period_return(p_s[:-20], 60)
+                if r_prev is not None:
+                    all_ret60_prev20.append(r_prev)
 
         # 先重建全市场当日信号与 Leader Score，用于确定 Top 3 Entry Universe
         day_signals: dict[str, dict] = {}
@@ -1543,9 +1553,19 @@ def run_stateful_simulation(
 
             from ..features.trend_health import trend_lifecycle
             state   = trend_lifecycle(th, mom, rs)
+            ma20s   = moving_average(p, 20)
+            ma20_v  = ma20s[-1] if ma20s else close_t
+            ma20_sl = linreg_slope(ma20s[-10:]) if len(ma20s) >= 10 else 0
             ma50s   = moving_average(p, 50)
             ma50_v  = ma50s[-1] if ma50s else close_t
             ma50_sl = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0
+            rs_prev20 = 50.0
+            rs_20d_improvement = 0.0
+            if e1r_shell_mode and len(p) > 80 and all_ret60_prev20:
+                ret60_prev20 = period_return(p[:-20], 60)
+                rs_prev20 = rs_percentile(ret60_prev20, all_ret60_prev20)
+                rs_20d_improvement = round(rs - rs_prev20, 2)
+            mom_acc = momentum_acceleration(p) if e1r_shell_mode else 0.0
 
             action  = trade_action(
                 state, mom, rs, close_t, ma50_v, ma50_sl,
@@ -1563,8 +1583,18 @@ def run_stateful_simulation(
                 "leader_score":   ls,
                 "trend_health":   th,
                 "close_t":        close_t,
+                "ma20":           ma20_v,
+                "ma20_slope":     ma20_sl,
                 "ma50":           ma50_v,
                 "ma50_slope":     ma50_sl,
+                # E1-R Phase 3A diagnostic fields.
+                "rs_prev20":      rs_prev20,
+                "rs_20d_improvement": rs_20d_improvement,
+                "momentum_acceleration": mom_acc,
+                "e1r_entry_type": None,
+                "e1r_uptrend_emerging_eligible": False,
+                "e1r_uptrend_confirmed_eligible": False,
+                "e1r_entry_reason": [],
             }
 
         # ── Entry Universe ────────────────────────────────────────────
@@ -1574,6 +1604,80 @@ def run_stateful_simulation(
             key=lambda x: x[1],
             reverse=True
         )
+
+        # E1-R Phase 3A: UPTREND candidate tagging only.
+        # This does not change buy_orders, management_orders, holdings, or cash.
+        if e1r_shell_mode and e1r_regime_wiring_enabled and _e1r_regime_on(date_t) == "UPTREND":
+            leader_rank_all = {s: i + 1 for i, (s, _) in enumerate(top_ranked)}
+            for sym, sig in day_signals.items():
+                rank_all = leader_rank_all.get(sym, 9999)
+                emerging_reasons = []
+                if sig["rs_score"] >= 80: emerging_reasons.append("rs_above_80")
+                if sig.get("rs_20d_improvement", 0) >= 10: emerging_reasons.append("rs_20d_improvement_above_10")
+                if sig["momentum_score"] >= 70: emerging_reasons.append("momentum_above_70")
+                if sig.get("momentum_acceleration", 0) > 0: emerging_reasons.append("momentum_acceleration_positive")
+                if sig["trend_health"] >= 65: emerging_reasons.append("trend_health_above_65")
+                if sig["close_t"] > sig.get("ma20", sig["close_t"]): emerging_reasons.append("close_above_ma20")
+                if sig.get("ma20_slope", 0) > 0 or sig.get("ma20", 0) > sig.get("ma50", 0): emerging_reasons.append("ma20_structure_positive")
+                if rank_all <= 20: emerging_reasons.append("leader_rank_top20")
+
+                emerging = (
+                    sig["rs_score"] >= 80
+                    and sig.get("rs_20d_improvement", 0) >= 10
+                    and sig["momentum_score"] >= 70
+                    and sig.get("momentum_acceleration", 0) > 0
+                    and sig["trend_health"] >= 65
+                    and sig["close_t"] > sig.get("ma20", sig["close_t"])
+                    and (sig.get("ma20_slope", 0) > 0 or sig.get("ma20", 0) > sig.get("ma50", 0))
+                    and rank_all <= 20
+                )
+                confirmed_reasons = []
+                if sig["rs_score"] >= 90: confirmed_reasons.append("rs_above_90")
+                if rank_all <= 5: confirmed_reasons.append("leader_rank_top5")
+                if sig["leader_score"] >= 75: confirmed_reasons.append("leader_score_above_75")
+                if sig["momentum_score"] >= 75: confirmed_reasons.append("momentum_above_75")
+                if sig["trend_health"] >= 70: confirmed_reasons.append("trend_health_above_70")
+                if sig["close_t"] > sig.get("ma50", sig["close_t"]): confirmed_reasons.append("close_above_ma50")
+                if sig.get("ma50_slope", 0) >= 0: confirmed_reasons.append("ma50_slope_non_negative")
+                confirmed = (
+                    sig["rs_score"] >= 90
+                    and rank_all <= 5
+                    and sig["leader_score"] >= 75
+                    and sig["momentum_score"] >= 75
+                    and sig["trend_health"] >= 70
+                    and sig["close_t"] > sig.get("ma50", sig["close_t"])
+                    and sig.get("ma50_slope", 0) >= 0
+                )
+                if emerging or confirmed:
+                    entry_type = "E1R_UPTREND_CONFIRMED" if confirmed else "E1R_UPTREND_EMERGING"
+                    reasons = confirmed_reasons if confirmed else emerging_reasons
+                    sig["e1r_entry_type"] = entry_type
+                    sig["e1r_uptrend_emerging_eligible"] = emerging
+                    sig["e1r_uptrend_confirmed_eligible"] = confirmed
+                    sig["e1r_entry_reason"] = reasons
+                    e1r_candidate_records.append({
+                        "date": date_t,
+                        "symbol": sym,
+                        "spx_regime": "UPTREND",
+                        "e1r_entry_type": entry_type,
+                        "e1r_uptrend_emerging_eligible": emerging,
+                        "e1r_uptrend_confirmed_eligible": confirmed,
+                        "leader_rank": rank_all,
+                        "leader_score": round(sig["leader_score"], 2),
+                        "rs_score": round(sig["rs_score"], 2),
+                        "rs_prev20": round(sig.get("rs_prev20", 0), 2),
+                        "rs_20d_improvement": round(sig.get("rs_20d_improvement", 0), 2),
+                        "momentum_score": round(sig["momentum_score"], 2),
+                        "momentum_acceleration": round(sig.get("momentum_acceleration", 0), 2),
+                        "trend_health": round(sig["trend_health"], 2),
+                        "close": round(sig["close_t"], 2),
+                        "ma20": round(sig.get("ma20", 0), 2),
+                        "ma50": round(sig.get("ma50", 0), 2),
+                        "ma20_slope": round(sig.get("ma20_slope", 0), 6),
+                        "ma50_slope": round(sig.get("ma50_slope", 0), 6),
+                        "reasons": reasons,
+                        "diagnostic_only": True,
+                    })
 
         if qualified_entry_enabled and candidate_top_n is not None:
             # Qualified Candidate Pool 逻辑：
@@ -2260,6 +2364,8 @@ def run_stateful_simulation(
         "daily_equity_records": daily_equity_records,
         "daily_equity_record_count": len(daily_equity_records),
         "sim_end_liquidation_record": sim_end_liquidation_record,
+        "e1r_candidates": e1r_candidate_records if e1r_shell_mode else [],
+        "e1r_candidate_count": len(e1r_candidate_records) if e1r_shell_mode else 0,
         # 交易记录
         "trades":            closed_trades,
         "total_trades_all":  total_trades,
@@ -2439,7 +2545,10 @@ def run_strategy_variant_comparison(
                 _result["strategy_controls"]["e1r_regime_wiring_enabled"] = True
                 _result["strategy_controls"]["e1r_spec_ref"] = assumptions.get("e1r_spec_ref")
                 _result["strategy_controls"]["e1r_regime_source"] = assumptions.get("e1r_regime_source")
-                _result["strategy_controls"]["regime_aware_logic"] = "NOT_IMPLEMENTED_PHASE_2_REGIME_WIRING_ONLY"
+                _result["strategy_controls"]["regime_aware_logic"] = "NOT_IMPLEMENTED_PHASE_3A_CANDIDATE_TAGGING_ONLY"
+                _result["research_status"] = "UPTREND_CANDIDATE_TAGGING_ONLY_NOT_EXECUTED"
+                _result["e1r_candidate_tagging_enabled"] = True
+                _result["strategy_controls"]["e1r_candidate_tagging_enabled"] = True
             period_results[period_key]["variants"][variant_id] = _result
 
     # ── 为兼容现有输出格式，把 Period C（全区间）当作主结果 ────
