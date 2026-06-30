@@ -14,6 +14,8 @@ Backtest Methodology v1.0 (Frozen)
 """
 from __future__ import annotations
 import math
+import json
+from pathlib import Path
 from ..features.rs import period_return, rs_percentile
 from ..features.momentum import (
     momentum_score as calc_momentum, moving_average, linreg_slope
@@ -798,6 +800,47 @@ def run_stateful_simulation(
     one_way  = a["total_one_way"]             # 0.001
     init_cap = float(a.get("initial_capital", 100_000))
     strategy_variant = a.get("strategy_variant", "top3_entry_rs_minhold_relstop")
+    e1r_shell_mode = bool(a.get("e1r_shell_mode", False))
+    e1r_regime_wiring_enabled = bool(a.get("e1r_regime_wiring_enabled", False))
+    e1r_regime_daily = a.get("e1r_regime_daily", {}) or {}
+
+    def _e1r_regime_on(date: str) -> str:
+        if not e1r_regime_wiring_enabled or not date:
+            return "N/A"
+        rec = e1r_regime_daily.get(date, {})
+        if isinstance(rec, dict):
+            return rec.get("regime") or rec.get("spx_regime") or rec.get("weekly_regime") or "UNCLASSIFIED"
+        if isinstance(rec, str):
+            return rec
+        return "UNCLASSIFIED"
+
+    def _e1r_mode_for_regime(regime: str) -> str:
+        if regime == "UPTREND":
+            return "UPTREND_EMERGING_CONFIRMED_ENABLED"
+        if regime == "SIDEWAYS":
+            return "SIDEWAYS_QUALITY_BREAKOUT_ONLY"
+        if regime == "DOWNTREND":
+            return "DOWNTREND_EXCEPTION_ONLY"
+        if regime == "N/A":
+            return "N/A"
+        return "UNCLASSIFIED_NO_RISK_EXPANSION"
+
+    def _e1r_risk_budget_for_regime(regime: str) -> dict:
+        if regime == "UPTREND":
+            return {"mode": "UPTREND_RISK_ON", "max_positions": 3, "max_total_exposure_pct": 100.0}
+        if regime == "SIDEWAYS":
+            return {"mode": "SIDEWAYS_LIMITED", "max_positions": 2, "max_total_exposure_pct": 33.3}
+        if regime == "DOWNTREND":
+            return {"mode": "DOWNTREND_DEFENSIVE", "max_positions": 1, "max_total_exposure_pct": 10.0}
+        if regime == "N/A":
+            return {"mode": "N/A", "max_positions": None, "max_total_exposure_pct": None}
+        return {"mode": "UNCLASSIFIED_DEFENSIVE", "max_positions": 0, "max_total_exposure_pct": 0.0}
+
+    def _e1r_dominant_regime(weights: dict) -> str:
+        if not weights:
+            return "UNCLASSIFIED" if e1r_regime_wiring_enabled else "N/A"
+        return max(weights.items(), key=lambda kv: kv[1])[0]
+
     entry_top_n = int(a.get("entry_top_n", 3))
     rank_based_exit = bool(a.get("rank_based_exit", False))
     market_gate_enabled = bool(a.get("market_gate_enabled", True))
@@ -1132,6 +1175,10 @@ def run_stateful_simulation(
                         "realized_cost_basis":   0.0,
                         "action_history":        ["BUY"],
                         "ls60_reduce_triggered": False,  # 方案A：LS<60 REDUCE 一次性保护
+                        # E1-R Phase 2 regime wiring telemetry. Observer-only.
+                        "entry_regime": _e1r_regime_on(exec_date),
+                        "entry_type": "E1R_PLACEHOLDER_LEGACY_ENTRY" if e1r_regime_wiring_enabled else None,
+                        "regime_day_weights": {},
                     }
 
                 elif action == "ADD":
@@ -1236,6 +1283,11 @@ def run_stateful_simulation(
                         "exit_adverse_gap_pct":  round(exit_gap * 100, 3),
                         "total_execution_drag_pct": round((entry_gap + exit_gap) * 100, 3),
                         "is_sim_end":           False,
+                        "entry_regime":         h.get("entry_regime", _e1r_regime_on(entry_date)),
+                        "exit_regime":          _e1r_regime_on(exec_date),
+                        "dominant_regime":      _e1r_dominant_regime(h.get("regime_day_weights", {})),
+                        "entry_type":           h.get("entry_type"),
+                        "regime_day_weights":   h.get("regime_day_weights", {}),
                         "exit_reason":          exec_primary_reason,
                         "exit_reasons":         exec_reasons,
                         "exit_type":            h.get("exit_type", "NORMAL_EXIT"),
@@ -1283,6 +1335,12 @@ def run_stateful_simulation(
                 position_value            += h["shares"] * close_t
             else:
                 position_value += h["shares"] * h["avg_cost"]
+
+        if e1r_regime_wiring_enabled:
+            _today_regime_for_positions = _e1r_regime_on(date_t)
+            for _h in holdings.values():
+                _weights = _h.setdefault("regime_day_weights", {})
+                _weights[_today_regime_for_positions] = _weights.get(_today_regime_for_positions, 0) + 1
 
         total_equity = cash + position_value
 
@@ -1449,6 +1507,10 @@ def run_stateful_simulation(
             "open_positions_count": len(holdings),
             "pending_orders_count": len(pending_orders),
             "market_gate_state": _gate_state,
+            "spx_regime": _e1r_regime_on(date_t) if e1r_regime_wiring_enabled else None,
+            "e1r_active_mode": _e1r_mode_for_regime(_e1r_regime_on(date_t)) if e1r_regime_wiring_enabled else None,
+            "risk_budget_mode": _e1r_risk_budget_for_regime(_e1r_regime_on(date_t))["mode"] if e1r_regime_wiring_enabled else None,
+            "risk_budget": _e1r_risk_budget_for_regime(_e1r_regime_on(date_t)) if e1r_regime_wiring_enabled else None,
             "spx_close": round(spx_close_t, 2),
             "spx_ma50": round(spx_ma50_t, 2),
             "spx_day_return_pct": round(spx_day_return * 100, 4),
@@ -1939,6 +2001,11 @@ def run_stateful_simulation(
             "action_count":         len(h["action_history"]),
             "execution_model":      "adverse_intraday_v1.0",
             "is_sim_end":           True,
+            "entry_regime":         h.get("entry_regime", _e1r_regime_on(entry_date)),
+            "exit_regime":          _e1r_regime_on(last_date),
+            "dominant_regime":      _e1r_dominant_regime(h.get("regime_day_weights", {})),
+            "entry_type":           h.get("entry_type"),
+            "regime_day_weights":   h.get("regime_day_weights", {}),
             "exit_type":            h.get("exit_type", "SIM_END"),
             "exit_warning_log":     h.get("exit_warning_log", []),
             "exit_warning_count":   len(h.get("exit_warning_log", [])),
@@ -1956,6 +2023,9 @@ def run_stateful_simulation(
         "total_equity": round(final_equity, 2),
         "open_positions_count": 0,
         "sim_end_trades": sim_end_count,
+        "spx_regime": _e1r_regime_on(last_date) if e1r_regime_wiring_enabled else None,
+        "e1r_active_mode": _e1r_mode_for_regime(_e1r_regime_on(last_date)) if e1r_regime_wiring_enabled else None,
+        "risk_budget_mode": _e1r_risk_budget_for_regime(_e1r_regime_on(last_date))["mode"] if e1r_regime_wiring_enabled else None,
         "event": "SIM_END_LIQUIDATION",
     }
 
@@ -2093,6 +2163,8 @@ def run_stateful_simulation(
             "qp_buy_orders_generated":   qp_diag["buy_orders_generated"],
             "min_holding_days": min_holding_days,
             "min_hold_allow_broken_exit": min_hold_allow_broken_exit,
+            "e1r_regime_wiring_enabled": e1r_regime_wiring_enabled,
+            "e1r_regime_source": a.get("e1r_regime_source") if e1r_regime_wiring_enabled else None,
             "relative_stop_enabled": relative_stop_enabled,
             "relative_stop_underperform_pct": round(relative_stop_underperform * 100, 2),
             "relative_stop_action": relative_stop_action,
@@ -2256,6 +2328,21 @@ def run_strategy_variant_comparison(
         "ls60_exit_mode":            "exit",
     }
 
+    def _load_e1r_regime_daily() -> dict:
+        regime_path = Path("data/research/e1_5y/regimes/spx_regime_daily.json")
+        if not regime_path.exists():
+            logger.warn(f"  E1-R regime wiring: missing {regime_path}")
+            return {}
+        try:
+            obj = json.loads(regime_path.read_text())
+        except Exception as exc:
+            logger.warn(f"  E1-R regime wiring: failed to load {regime_path}: {exc}")
+            return {}
+        daily = obj.get("daily_regime", obj) if isinstance(obj, dict) else {}
+        return daily if isinstance(daily, dict) else {}
+
+    _e1r_regime_daily = _load_e1r_regime_daily()
+
     variants = {
         # E1: Gate G4 + MinHold10（审计对照基准，不可修改）
         "E1_AUDITED_G4_MINHOLD10": {
@@ -2277,6 +2364,9 @@ def run_strategy_variant_comparison(
             "relative_stop_enabled": False,
             "version":               "E1R-regime-aware-v0.1-shell",
             "e1r_shell_mode":        True,
+            "e1r_regime_wiring_enabled": True,
+            "e1r_regime_daily":      _e1r_regime_daily,
+            "e1r_regime_source":     "data/research/e1_5y/regimes/spx_regime_daily.json",
             "e1r_spec_ref":          "docs/research/E1R_REGIME_AWARE_STRATEGY_SPEC_v0.1.md",
         },
         # E2v2: Gate G4 + Dynamic Exit v2（CAUTIOUS/CASH_MODE 下 LS<60 直接退出）
@@ -2340,12 +2430,16 @@ def run_strategy_variant_comparison(
             )
             if assumptions.get("e1r_shell_mode"):
                 _result["strategy_id"] = variant_id
-                _result["research_status"] = "SHELL_ONLY_NOT_IMPLEMENTED"
+                _result["research_status"] = "REGIME_WIRING_ONLY_NOT_IMPLEMENTED"
                 _result["e1r_shell_mode"] = True
+                _result["e1r_regime_wiring_enabled"] = True
                 _result["e1r_spec_ref"] = assumptions.get("e1r_spec_ref")
+                _result["e1r_regime_source"] = assumptions.get("e1r_regime_source")
                 _result.setdefault("strategy_controls", {})["e1r_shell_mode"] = True
+                _result["strategy_controls"]["e1r_regime_wiring_enabled"] = True
                 _result["strategy_controls"]["e1r_spec_ref"] = assumptions.get("e1r_spec_ref")
-                _result["strategy_controls"]["regime_aware_logic"] = "NOT_IMPLEMENTED_PHASE_1_SHELL"
+                _result["strategy_controls"]["e1r_regime_source"] = assumptions.get("e1r_regime_source")
+                _result["strategy_controls"]["regime_aware_logic"] = "NOT_IMPLEMENTED_PHASE_2_REGIME_WIRING_ONLY"
             period_results[period_key]["variants"][variant_id] = _result
 
     # ── 为兼容现有输出格式，把 Period C（全区间）当作主结果 ────
@@ -2402,6 +2496,7 @@ def run_strategy_variant_comparison(
             "qualified_states": controls.get("qualified_states", []),
             "relative_stop_stats": controls.get("relative_stop_stats", {}),
             "e1r_shell_mode": controls.get("e1r_shell_mode", False),
+            "e1r_regime_wiring_enabled": controls.get("e1r_regime_wiring_enabled", False),
             "research_status": result.get("research_status"),
         })
 
