@@ -1031,6 +1031,11 @@ def run_stateful_simulation(
     equity_curve:  list[float] = []
     spx_curve:     list[float] = []
     daily_records: list[dict]  = []
+    # Continuous observer-only daily equity records.
+    # Read-only telemetry for regime/equity attribution.
+    daily_equity_records: list[dict] = []
+    daily_equity_peak = init_cap
+    sim_end_liquidation_record = None
     spx_entry = 0.0  # 在日循环中遇到第一个 sim 日时设置，保证与 Period 区间一致
 
     # ── Qualified Pool 诊断计数器 ───────────────────────────────
@@ -1413,6 +1418,42 @@ def run_stateful_simulation(
                 market_gate_days["entry_allowed"] += 1
             else:
                 market_gate_days["blocked_total"] += 1
+
+        # ── Continuous daily equity observer record ─────────────────────
+        _prev_equity = (
+            daily_equity_records[-1]["total_equity"]
+            if daily_equity_records else init_cap
+        )
+        _daily_return_pct = (
+            (total_equity / _prev_equity - 1) * 100
+            if _prev_equity and _prev_equity > 0 else 0.0
+        )
+        daily_equity_peak = max(daily_equity_peak, total_equity)
+        _drawdown_pct = (
+            (daily_equity_peak - total_equity) / daily_equity_peak * 100
+            if daily_equity_peak and daily_equity_peak > 0 else 0.0
+        )
+        _gate_state = (
+            "ALLOW" if market_entry_allowed else
+            "SHOCK" if market_shock else "RISK_OFF"
+        )
+
+        daily_equity_records.append({
+            "date": date_t,
+            "cash": round(cash, 2),
+            "positions_value": round(position_value, 2),
+            "total_equity": round(total_equity, 2),
+            "daily_return_pct": round(_daily_return_pct, 4),
+            "drawdown_pct": round(_drawdown_pct, 4),
+            "exposure_pct": round(position_value / total_equity * 100, 2) if total_equity > 0 else 0.0,
+            "open_positions_count": len(holdings),
+            "pending_orders_count": len(pending_orders),
+            "market_gate_state": _gate_state,
+            "spx_close": round(spx_close_t, 2),
+            "spx_ma50": round(spx_ma50_t, 2),
+            "spx_day_return_pct": round(spx_day_return * 100, 4),
+            "event": "EOD_MARK_TO_MARKET",
+        })
 
         all_ret60 = []
         for s in symbols:
@@ -1908,6 +1949,16 @@ def run_stateful_simulation(
     final_equity = cash
     equity_curve.append(final_equity)
 
+    sim_end_liquidation_record = {
+        "date": last_date,
+        "cash": round(cash, 2),
+        "positions_value": 0.0,
+        "total_equity": round(final_equity, 2),
+        "open_positions_count": 0,
+        "sim_end_trades": sim_end_count,
+        "event": "SIM_END_LIQUIDATION",
+    }
+
     # ════════════════════════════════════════════════════
     # 修正4: sample_validity 检查
     # ════════════════════════════════════════════════════
@@ -2134,6 +2185,9 @@ def run_stateful_simulation(
         "equity_curve":      [round(e, 2) for e in equity_curve[::5]],
         "spx_curve":         [round(e * init_cap, 2) for e in spx_curve[::5]],
         "daily_records":     daily_records,
+        "daily_equity_records": daily_equity_records,
+        "daily_equity_record_count": len(daily_equity_records),
+        "sim_end_liquidation_record": sim_end_liquidation_record,
         # 交易记录
         "trades":            closed_trades,
         "total_trades_all":  total_trades,
