@@ -1,0 +1,882 @@
+{
+  "generated_at": "2026-06-27T06:38:45.353874+00:00",
+  "method": "trade-level attribution v1",
+  "dataset_note": "E1 trades from audit window (2023-11 onward). Regime map covers 2021-06 onward; overlap is audit window. Equity-level regime return/MaxDD deferred — requires continuous daily equity series not present in current backtest.json.",
+  "trade_count": 47,
+  "cross_regime_count": 4,
+  "attribution_by_entry_regime": {
+    "UPTREND": {
+      "trades": 43,
+      "win_rate_pct": 34.9,
+      "avg_return_pct": 0.48,
+      "avg_winner_pct": 14.18,
+      "avg_loser_pct": -6.87,
+      "avg_holding_days": 32.6,
+      "profit_factor": 2.083,
+      "sum_realized_pnl": 28007.87,
+      "cross_regime_trades": 1,
+      "trade_count": 43,
+      "sample_status": "SAMPLE_OK",
+      "conclusion_scope": "FORMAL_EVALUATION_ALLOWED"
+    },
+    "SIDEWAYS": {
+      "trades": 4,
+      "win_rate_pct": 50.0,
+      "avg_return_pct": 6.99,
+      "avg_winner_pct": 16.22,
+      "avg_loser_pct": -2.25,
+      "avg_holding_days": 41.0,
+      "profit_factor": 4.38,
+      "sum_realized_pnl": 6822.16,
+      "cross_regime_trades": 3,
+      "trade_count": 4,
+      "sample_status": "INSUFFICIENT_TRADE_SAMPLE",
+      "conclusion_scope": "OBSERVATIONAL_ONLY"
+    },
+    "DOWNTREND": {
+      "trade_count": 0,
+      "sample_status": "NO_TRADES",
+      "conclusion_scope": "OBSERVATIONAL_ONLY"
+    }
+  },
+  "attribution_by_dominant_regime": {
+    "UPTREND": {
+      "trades": 45,
+      "win_rate_pct": 37.8,
+      "avg_return_pct": 1.18,
+      "avg_winner_pct": 14.42,
+      "avg_loser_pct": -6.87,
+      "avg_holding_days": 33.4,
+      "profit_factor": 2.425,
+      "sum_realized_pnl": 36848.33,
+      "cross_regime_trades": 3,
+      "trade_count": 45,
+      "sample_status": "SAMPLE_OK",
+      "conclusion_scope": "FORMAL_EVALUATION_ALLOWED"
+    },
+    "SIDEWAYS": {
+      "trades": 2,
+      "win_rate_pct": 0.0,
+      "avg_return_pct": -2.25,
+      "avg_winner_pct": null,
+      "avg_loser_pct": -2.25,
+      "avg_holding_days": 30.0,
+      "profit_factor": 0.0,
+      "sum_realized_pnl": -2018.3,
+      "cross_regime_trades": 1,
+      "trade_count": 2,
+      "sample_status": "INSUFFICIENT_TRADE_SAMPLE",
+      "conclusion_scope": "OBSERVATIONAL_ONLY"
+    },
+    "DOWNTREND": {
+      "trade_count": 0,
+      "sample_status": "NO_TRADES",
+      "conclusion_scope": "OBSERVATIONAL_ONLY"
+    }
+  },
+  "tagged_trades": [
+    {
+      "symbol": "COIN",
+      "entry_date": "2023-11-24",
+      "exit_date": "2024-01-05",
+      "return_pct": 25.97,
+      "holding_days": 29,
+      "realized_pnl": 3831.32,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 29
+      }
+    },
+    {
+      "symbol": "ZS",
+      "entry_date": "2023-11-24",
+      "exit_date": "2024-01-08",
+      "return_pct": 6.94,
+      "holding_days": 30,
+      "realized_pnl": 1572.0,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 30
+      }
+    },
+    {
+      "symbol": "FICO",
+      "entry_date": "2023-11-24",
+      "exit_date": "2024-02-22",
+      "return_pct": 1.67,
+      "holding_days": 61,
+      "realized_pnl": 1248.78,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 61
+      }
+    },
+    {
+      "symbol": "ALL",
+      "entry_date": "2024-01-08",
+      "exit_date": "2024-03-04",
+      "return_pct": 2.51,
+      "holding_days": 39,
+      "realized_pnl": 484.16,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 39
+      }
+    },
+    {
+      "symbol": "C",
+      "entry_date": "2024-01-08",
+      "exit_date": "2024-04-16",
+      "return_pct": -0.11,
+      "holding_days": 69,
+      "realized_pnl": 365.17,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 69
+      }
+    },
+    {
+      "symbol": "AMAT",
+      "entry_date": "2024-02-23",
+      "exit_date": "2024-04-19",
+      "return_pct": -2.65,
+      "holding_days": 40,
+      "realized_pnl": -813.19,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 40
+      }
+    },
+    {
+      "symbol": "GE",
+      "entry_date": "2024-03-05",
+      "exit_date": "2024-06-14",
+      "return_pct": 4.7,
+      "holding_days": 72,
+      "realized_pnl": 4531.7,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 72
+      }
+    },
+    {
+      "symbol": "DAL",
+      "entry_date": "2024-05-07",
+      "exit_date": "2024-06-17",
+      "return_pct": -4.51,
+      "holding_days": 29,
+      "realized_pnl": -1017.69,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 29
+      }
+    },
+    {
+      "symbol": "MPWR",
+      "entry_date": "2024-06-17",
+      "exit_date": "2024-07-25",
+      "return_pct": -3.95,
+      "holding_days": 27,
+      "realized_pnl": -681.28,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 27
+      }
+    },
+    {
+      "symbol": "GRMN",
+      "entry_date": "2024-05-07",
+      "exit_date": "2024-08-01",
+      "return_pct": -2.42,
+      "holding_days": 60,
+      "realized_pnl": -1200.33,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 60
+      }
+    },
+    {
+      "symbol": "AAPL",
+      "entry_date": "2024-06-17",
+      "exit_date": "2024-08-06",
+      "return_pct": -0.87,
+      "holding_days": 35,
+      "realized_pnl": 449.66,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 35
+      }
+    },
+    {
+      "symbol": "GDDY",
+      "entry_date": "2024-08-16",
+      "exit_date": "2024-09-05",
+      "return_pct": -6.24,
+      "holding_days": 14,
+      "realized_pnl": -966.72,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 14
+      }
+    },
+    {
+      "symbol": "ISRG",
+      "entry_date": "2024-08-16",
+      "exit_date": "2024-09-09",
+      "return_pct": -2.53,
+      "holding_days": 16,
+      "realized_pnl": -567.38,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 16
+      }
+    },
+    {
+      "symbol": "SOLV",
+      "entry_date": "2024-09-13",
+      "exit_date": "2024-11-14",
+      "return_pct": -3.23,
+      "holding_days": 45,
+      "realized_pnl": -1221.06,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 45
+      }
+    },
+    {
+      "symbol": "FICO",
+      "entry_date": "2024-09-13",
+      "exit_date": "2024-12-10",
+      "return_pct": 6.64,
+      "holding_days": 62,
+      "realized_pnl": 1086.05,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 62
+      }
+    },
+    {
+      "symbol": "GEV",
+      "entry_date": "2024-09-13",
+      "exit_date": "2024-12-19",
+      "return_pct": 44.8,
+      "holding_days": 69,
+      "realized_pnl": 12277.87,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 69
+      }
+    },
+    {
+      "symbol": "TSLA",
+      "entry_date": "2024-12-16",
+      "exit_date": "2025-01-02",
+      "return_pct": -16.45,
+      "holding_days": 12,
+      "realized_pnl": -2749.69,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 12
+      }
+    },
+    {
+      "symbol": "ALAB",
+      "entry_date": "2024-12-24",
+      "exit_date": "2025-01-14",
+      "return_pct": -13.74,
+      "holding_days": 13,
+      "realized_pnl": -2816.77,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 13
+      }
+    },
+    {
+      "symbol": "VST",
+      "entry_date": "2025-01-07",
+      "exit_date": "2025-01-28",
+      "return_pct": -18.5,
+      "holding_days": 14,
+      "realized_pnl": 0.0,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 14
+      }
+    },
+    {
+      "symbol": "DECK",
+      "entry_date": "2024-12-05",
+      "exit_date": "2025-02-03",
+      "return_pct": -12.3,
+      "holding_days": 39,
+      "realized_pnl": -213.4,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 39
+      }
+    },
+    {
+      "symbol": "RBLX",
+      "entry_date": "2025-02-05",
+      "exit_date": "2025-02-21",
+      "return_pct": -19.1,
+      "holding_days": 12,
+      "realized_pnl": -3125.55,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 12
+      }
+    },
+    {
+      "symbol": "TRGP",
+      "entry_date": "2025-01-21",
+      "exit_date": "2025-02-24",
+      "return_pct": -9.35,
+      "holding_days": 24,
+      "realized_pnl": -1670.94,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 24
+      }
+    },
+    {
+      "symbol": "ALK",
+      "entry_date": "2025-02-05",
+      "exit_date": "2025-03-05",
+      "return_pct": -9.6,
+      "holding_days": 20,
+      "realized_pnl": -1868.24,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 20
+      }
+    },
+    {
+      "symbol": "FOXA",
+      "entry_date": "2025-02-24",
+      "exit_date": "2025-03-13",
+      "return_pct": -10.07,
+      "holding_days": 14,
+      "realized_pnl": -1076.65,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 14
+      }
+    },
+    {
+      "symbol": "GILD",
+      "entry_date": "2025-02-24",
+      "exit_date": "2025-03-21",
+      "return_pct": -3.16,
+      "holding_days": 20,
+      "realized_pnl": -67.7,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "SIDEWAYS",
+      "dominant_regime": "UPTREND",
+      "cross_regime": true,
+      "regime_day_weights": {
+        "UPTREND": 15,
+        "SIDEWAYS": 5
+      }
+    },
+    {
+      "symbol": "GE",
+      "entry_date": "2025-05-21",
+      "exit_date": "2025-06-18",
+      "return_pct": -0.33,
+      "holding_days": 20,
+      "realized_pnl": 66.82,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "SIDEWAYS",
+      "exit_regime": "SIDEWAYS",
+      "dominant_regime": "SIDEWAYS",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "SIDEWAYS": 20
+      }
+    },
+    {
+      "symbol": "MOS",
+      "entry_date": "2025-05-21",
+      "exit_date": "2025-07-18",
+      "return_pct": -4.16,
+      "holding_days": 40,
+      "realized_pnl": -2085.12,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "SIDEWAYS",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "SIDEWAYS",
+      "cross_regime": true,
+      "regime_day_weights": {
+        "SIDEWAYS": 26,
+        "UPTREND": 14
+      }
+    },
+    {
+      "symbol": "RBLX",
+      "entry_date": "2025-06-20",
+      "exit_date": "2025-08-18",
+      "return_pct": 16.42,
+      "holding_days": 41,
+      "realized_pnl": 3887.87,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "SIDEWAYS",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": true,
+      "regime_day_weights": {
+        "SIDEWAYS": 6,
+        "UPTREND": 35
+      }
+    },
+    {
+      "symbol": "GEV",
+      "entry_date": "2025-05-21",
+      "exit_date": "2025-08-20",
+      "return_pct": 16.01,
+      "holding_days": 63,
+      "realized_pnl": 4952.59,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "SIDEWAYS",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": true,
+      "regime_day_weights": {
+        "SIDEWAYS": 26,
+        "UPTREND": 37
+      }
+    },
+    {
+      "symbol": "NVDA",
+      "entry_date": "2025-07-21",
+      "exit_date": "2025-09-04",
+      "return_pct": -2.06,
+      "holding_days": 33,
+      "realized_pnl": -371.54,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 33
+      }
+    },
+    {
+      "symbol": "BWA",
+      "entry_date": "2025-08-21",
+      "exit_date": "2025-10-10",
+      "return_pct": 1.37,
+      "holding_days": 36,
+      "realized_pnl": 558.94,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 36
+      }
+    },
+    {
+      "symbol": "W",
+      "entry_date": "2025-08-19",
+      "exit_date": "2025-10-10",
+      "return_pct": 0.54,
+      "holding_days": 38,
+      "realized_pnl": 950.07,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 38
+      }
+    },
+    {
+      "symbol": "WDC",
+      "entry_date": "2025-09-08",
+      "exit_date": "2025-10-15",
+      "return_pct": 21.96,
+      "holding_days": 28,
+      "realized_pnl": 3240.33,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 28
+      }
+    },
+    {
+      "symbol": "CEG",
+      "entry_date": "2025-10-13",
+      "exit_date": "2025-11-05",
+      "return_pct": -3.46,
+      "holding_days": 18,
+      "realized_pnl": -462.63,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 18
+      }
+    },
+    {
+      "symbol": "ANET",
+      "entry_date": "2025-10-13",
+      "exit_date": "2025-11-06",
+      "return_pct": -16.03,
+      "holding_days": 19,
+      "realized_pnl": -2191.29,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 19
+      }
+    },
+    {
+      "symbol": "BE",
+      "entry_date": "2025-10-16",
+      "exit_date": "2025-11-14",
+      "return_pct": -2.74,
+      "holding_days": 22,
+      "realized_pnl": 994.72,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 22
+      }
+    },
+    {
+      "symbol": "BIIB",
+      "entry_date": "2025-11-17",
+      "exit_date": "2026-01-15",
+      "return_pct": -4.73,
+      "holding_days": 41,
+      "realized_pnl": -1028.47,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 41
+      }
+    },
+    {
+      "symbol": "LLY",
+      "entry_date": "2025-11-06",
+      "exit_date": "2026-01-29",
+      "return_pct": 3.79,
+      "holding_days": 57,
+      "realized_pnl": 1740.77,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 57
+      }
+    },
+    {
+      "symbol": "WBD",
+      "entry_date": "2025-11-06",
+      "exit_date": "2026-02-04",
+      "return_pct": 21.41,
+      "holding_days": 61,
+      "realized_pnl": 5350.12,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 61
+      }
+    },
+    {
+      "symbol": "NEM",
+      "entry_date": "2026-01-30",
+      "exit_date": "2026-03-06",
+      "return_pct": -4.01,
+      "holding_days": 25,
+      "realized_pnl": -277.52,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 25
+      }
+    },
+    {
+      "symbol": "FCX",
+      "entry_date": "2026-01-16",
+      "exit_date": "2026-03-09",
+      "return_pct": 0.14,
+      "holding_days": 35,
+      "realized_pnl": 978.49,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 35
+      }
+    },
+    {
+      "symbol": "ATI",
+      "entry_date": "2026-02-26",
+      "exit_date": "2026-03-16",
+      "return_pct": -13.13,
+      "holding_days": 13,
+      "realized_pnl": -2408.75,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 13
+      }
+    },
+    {
+      "symbol": "IRM",
+      "entry_date": "2026-04-22",
+      "exit_date": "2026-06-09",
+      "return_pct": 2.8,
+      "holding_days": 34,
+      "realized_pnl": 681.6,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 34
+      }
+    },
+    {
+      "symbol": "EQIX",
+      "entry_date": "2026-04-22",
+      "exit_date": "2026-06-10",
+      "return_pct": -4.54,
+      "holding_days": 35,
+      "realized_pnl": -864.23,
+      "is_sim_end": false,
+      "exit_reason": "leader_score_below_60",
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 35
+      }
+    },
+    {
+      "symbol": "MRVL",
+      "entry_date": "2026-04-22",
+      "exit_date": "2026-06-11",
+      "return_pct": 67.47,
+      "holding_days": 36,
+      "realized_pnl": 15327.14,
+      "is_sim_end": true,
+      "exit_reason": null,
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 36
+      }
+    },
+    {
+      "symbol": "HUM",
+      "entry_date": "2026-06-10",
+      "exit_date": "2026-06-11",
+      "return_pct": -1.55,
+      "holding_days": 2,
+      "realized_pnl": 0.0,
+      "is_sim_end": true,
+      "exit_reason": null,
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 2
+      }
+    },
+    {
+      "symbol": "ODFL",
+      "entry_date": "2026-06-10",
+      "exit_date": "2026-06-11",
+      "return_pct": -1.2,
+      "holding_days": 2,
+      "realized_pnl": 0.0,
+      "is_sim_end": true,
+      "exit_reason": null,
+      "entry_regime": "UPTREND",
+      "exit_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "cross_regime": false,
+      "regime_day_weights": {
+        "UPTREND": 2
+      }
+    }
+  ]
+}

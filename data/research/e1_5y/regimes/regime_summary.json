@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-06-24T13:07:25.262373+00:00",
+  "spec_version": "E1_5Y_REGIME_VALIDATION_SPEC_v1.0",
+  "validation_window": {
+    "start": "2021-06-11",
+    "end": "2026-06-11"
+  },
+  "total_trading_days": 1256,
+  "regime_days": {
+    "UPTREND": 857,
+    "SIDEWAYS": 241,
+    "DOWNTREND": 158
+  },
+  "regime_pct": {
+    "UPTREND": 68.2,
+    "SIDEWAYS": 19.2,
+    "DOWNTREND": 12.6
+  },
+  "subclass_days": {
+    "MA_CONFLICT": 135,
+    "DETERIORATION_TRANSITION": 63,
+    "RECOVERY_TRANSITION": 43
+  },
+  "episode_count_by_regime": {
+    "UPTREND": 6,
+    "SIDEWAYS": 7,
+    "DOWNTREND": 2
+  },
+  "total_episodes": 15,
+  "unclassified_days": 0,
+  "pass_checks": {
+    "no_unclassified_in_validation": true,
+    "has_uptrend": true,
+    "has_sideways": true,
+    "has_downtrend": true
+  },
+  "note": "Regime classification uses SPX weekly closes only and applies one-week lag."
+}

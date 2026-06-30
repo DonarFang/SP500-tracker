@@ -1,0 +1,115 @@
+{
+  "generated_at": "2026-06-24T13:07:25.258744+00:00",
+  "validation_window": {
+    "start": "2021-06-11",
+    "end": "2026-06-11"
+  },
+  "total_episodes": 15,
+  "episodes": [
+    {
+      "regime": "UPTREND",
+      "start_date": "2021-06-11",
+      "end_date": "2022-01-21",
+      "trading_days": 156,
+      "spx_return_pct": 3.54
+    },
+    {
+      "regime": "SIDEWAYS",
+      "start_date": "2022-01-24",
+      "end_date": "2022-02-04",
+      "trading_days": 10,
+      "spx_return_pct": 2.05
+    },
+    {
+      "regime": "UPTREND",
+      "start_date": "2022-02-07",
+      "end_date": "2022-02-11",
+      "trading_days": 5,
+      "spx_return_pct": -1.45
+    },
+    {
+      "regime": "SIDEWAYS",
+      "start_date": "2022-02-14",
+      "end_date": "2022-05-20",
+      "trading_days": 68,
+      "spx_return_pct": -11.37
+    },
+    {
+      "regime": "DOWNTREND",
+      "start_date": "2022-05-23",
+      "end_date": "2022-12-02",
+      "trading_days": 135,
+      "spx_return_pct": 2.46
+    },
+    {
+      "regime": "SIDEWAYS",
+      "start_date": "2022-12-05",
+      "end_date": "2022-12-09",
+      "trading_days": 5,
+      "spx_return_pct": -1.61
+    },
+    {
+      "regime": "DOWNTREND",
+      "start_date": "2022-12-12",
+      "end_date": "2023-01-13",
+      "trading_days": 23,
+      "spx_return_pct": 0.21
+    },
+    {
+      "regime": "SIDEWAYS",
+      "start_date": "2023-01-17",
+      "end_date": "2023-04-14",
+      "trading_days": 62,
+      "spx_return_pct": 3.68
+    },
+    {
+      "regime": "UPTREND",
+      "start_date": "2023-04-17",
+      "end_date": "2023-10-20",
+      "trading_days": 131,
+      "spx_return_pct": 1.75
+    },
+    {
+      "regime": "SIDEWAYS",
+      "start_date": "2023-10-23",
+      "end_date": "2023-11-03",
+      "trading_days": 10,
+      "spx_return_pct": 3.35
+    },
+    {
+      "regime": "UPTREND",
+      "start_date": "2023-11-06",
+      "end_date": "2025-03-14",
+      "trading_days": 339,
+      "spx_return_pct": 29.16
+    },
+    {
+      "regime": "SIDEWAYS",
+      "start_date": "2025-03-17",
+      "end_date": "2025-06-27",
+      "trading_days": 72,
+      "spx_return_pct": 8.77
+    },
+    {
+      "regime": "UPTREND",
+      "start_date": "2025-06-30",
+      "end_date": "2026-03-20",
+      "trading_days": 183,
+      "spx_return_pct": 4.86
+    },
+    {
+      "regime": "SIDEWAYS",
+      "start_date": "2026-03-23",
+      "end_date": "2026-04-10",
+      "trading_days": 14,
+      "spx_return_pct": 3.58
+    },
+    {
+      "regime": "UPTREND",
+      "start_date": "2026-04-13",
+      "end_date": "2026-06-11",
+      "trading_days": 43,
+      "spx_return_pct": 7.38
+    }
+  ]
+}
