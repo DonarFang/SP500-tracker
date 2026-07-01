@@ -1,0 +1,451 @@
+{
+  "status": "DIAGNOSTIC_ONLY_NO_TRADING_LOGIC_CHANGE",
+  "generated_at": "2026-07-01 19:04:38",
+  "strategy_id": "E1R_REGIME_AWARE_V0_1",
+  "inputs": {
+    "backtest": "exports/backtest.json",
+    "candidate_export_fallback": "exports/e1r_candidates.json",
+    "phase3c": "data/research/e1r/e1r_phase3c_channel_diagnostic.json",
+    "candidate_forward_return_diagnostic": "data/research/e1r/e1r_candidate_forward_return_diagnostic.json",
+    "prices_dir": "data/prices"
+  },
+  "fairness_controls": {
+    "does_not_change_trading_logic": true,
+    "emerging_evaluated_independently_from_confirmed_top1_priority": true,
+    "same_price_data_and_spx_forward_benchmark": true,
+    "dedup_gap_trading_days": 5
+  },
+  "phase3c_baseline": {
+    "candidate_type_counts": {
+      "E1R_UPTREND_EMERGING": 2893,
+      "E1R_UPTREND_CONFIRMED": 2671
+    },
+    "top1_type_counts_under_phase3b_priority": {
+      "E1R_UPTREND_CONFIRMED": 561,
+      "E1R_UPTREND_EMERGING": 1
+    },
+    "executed_trade_type_counts": {
+      "E1R_UPTREND_CONFIRMED": 39
+    }
+  },
+  "emerging_funnel": {
+    "raw_emerging_candidates": 2893,
+    "emerging_candidate_days": 548,
+    "emerging_top1_days": 548,
+    "emerging_top1_dedup_count": 402,
+    "emerging_capacity_proxy_days": 155,
+    "emerging_capacity_proxy_dedup_count": 123,
+    "daily_block_reasons_proxy": {
+      "confirmed_exists_same_day": 547,
+      "phase3b_top1_is_confirmed": 547,
+      "no_capacity_proxy": 393,
+      "already_holding_symbol_proxy": 4
+    },
+    "missing_price_symbols_top1": [],
+    "missing_price_symbols_all": []
+  },
+  "forward_return_summary": {
+    "emerging_all_dedup": {
+      "count": 1409,
+      "summary": {
+        "5d": {
+          "n": 1409,
+          "avg_return_pct": 0.709,
+          "median_return_pct": 0.286,
+          "win_rate_pct": 53.8,
+          "best_pct": 46.656,
+          "worst_pct": -23.581,
+          "avg_excess_pct": 0.488,
+          "median_excess_pct": 0.083,
+          "excess_win_rate_pct": 51.0
+        },
+        "10d": {
+          "n": 1398,
+          "avg_return_pct": 1.088,
+          "median_return_pct": 0.583,
+          "win_rate_pct": 55.4,
+          "best_pct": 69.314,
+          "worst_pct": -34.757,
+          "avg_excess_pct": 0.573,
+          "median_excess_pct": 0.128,
+          "excess_win_rate_pct": 50.8
+        },
+        "20d": {
+          "n": 1375,
+          "avg_return_pct": 2.201,
+          "median_return_pct": 1.331,
+          "win_rate_pct": 55.6,
+          "best_pct": 163.602,
+          "worst_pct": -26.936,
+          "avg_excess_pct": 1.142,
+          "median_excess_pct": 0.052,
+          "excess_win_rate_pct": 50.3
+        },
+        "30d": {
+          "n": 1350,
+          "avg_return_pct": 2.566,
+          "median_return_pct": 1.812,
+          "win_rate_pct": 58.4,
+          "best_pct": 129.821,
+          "worst_pct": -38.774,
+          "avg_excess_pct": 0.901,
+          "median_excess_pct": -0.206,
+          "excess_win_rate_pct": 49.2
+        }
+      },
+      "concentration": {
+        "unique_symbols": 409,
+        "total_rows": 1409,
+        "top10_symbol_counts": [
+          [
+            "DDOG",
+            11
+          ],
+          [
+            "C",
+            11
+          ],
+          [
+            "AVGO",
+            10
+          ],
+          [
+            "DASH",
+            10
+          ],
+          [
+            "EXPE",
+            10
+          ],
+          [
+            "MPWR",
+            10
+          ],
+          [
+            "ISRG",
+            10
+          ],
+          [
+            "LLY",
+            10
+          ],
+          [
+            "KLAC",
+            10
+          ],
+          [
+            "DAL",
+            10
+          ]
+        ],
+        "top10_share_pct": 7.2
+      }
+    },
+    "emerging_only_daily_top1_dedup": {
+      "count": 402,
+      "summary": {
+        "5d": {
+          "n": 402,
+          "avg_return_pct": 0.85,
+          "median_return_pct": 0.385,
+          "win_rate_pct": 55.2,
+          "best_pct": 47.843,
+          "worst_pct": -22.189,
+          "avg_excess_pct": 0.554,
+          "median_excess_pct": 0.162,
+          "excess_win_rate_pct": 52.2
+        },
+        "10d": {
+          "n": 397,
+          "avg_return_pct": 1.328,
+          "median_return_pct": 0.245,
+          "win_rate_pct": 53.9,
+          "best_pct": 79.264,
+          "worst_pct": -29.857,
+          "avg_excess_pct": 0.784,
+          "median_excess_pct": -0.237,
+          "excess_win_rate_pct": 48.1
+        },
+        "20d": {
+          "n": 392,
+          "avg_return_pct": 2.05,
+          "median_return_pct": 0.915,
+          "win_rate_pct": 52.6,
+          "best_pct": 119.698,
+          "worst_pct": -32.079,
+          "avg_excess_pct": 1.038,
+          "median_excess_pct": -0.146,
+          "excess_win_rate_pct": 49.2
+        },
+        "30d": {
+          "n": 385,
+          "avg_return_pct": 1.897,
+          "median_return_pct": 1.382,
+          "win_rate_pct": 56.1,
+          "best_pct": 149.246,
+          "worst_pct": -38.774,
+          "avg_excess_pct": 0.356,
+          "median_excess_pct": -0.819,
+          "excess_win_rate_pct": 46.0
+        }
+      },
+      "concentration": {
+        "unique_symbols": 234,
+        "total_rows": 402,
+        "top10_symbol_counts": [
+          [
+            "DASH",
+            5
+          ],
+          [
+            "MPWR",
+            5
+          ],
+          [
+            "MRVL",
+            5
+          ],
+          [
+            "DDOG",
+            5
+          ],
+          [
+            "DECK",
+            4
+          ],
+          [
+            "CCI",
+            4
+          ],
+          [
+            "ETSY",
+            4
+          ],
+          [
+            "DHI",
+            4
+          ],
+          [
+            "BAX",
+            4
+          ],
+          [
+            "ISRG",
+            4
+          ]
+        ],
+        "top10_share_pct": 10.9
+      }
+    },
+    "emerging_capacity_proxy_dedup": {
+      "count": 123,
+      "summary": {
+        "5d": {
+          "n": 123,
+          "avg_return_pct": 0.84,
+          "median_return_pct": 0.519,
+          "win_rate_pct": 54.5,
+          "best_pct": 22.863,
+          "worst_pct": -11.317,
+          "avg_excess_pct": 0.411,
+          "median_excess_pct": 0.179,
+          "excess_win_rate_pct": 53.7
+        },
+        "10d": {
+          "n": 121,
+          "avg_return_pct": 1.311,
+          "median_return_pct": 0.935,
+          "win_rate_pct": 62.8,
+          "best_pct": 36.49,
+          "worst_pct": -14.161,
+          "avg_excess_pct": 0.459,
+          "median_excess_pct": -0.409,
+          "excess_win_rate_pct": 45.5
+        },
+        "20d": {
+          "n": 121,
+          "avg_return_pct": 1.225,
+          "median_return_pct": 0.447,
+          "win_rate_pct": 52.9,
+          "best_pct": 59.754,
+          "worst_pct": -25.581,
+          "avg_excess_pct": -0.246,
+          "median_excess_pct": -0.618,
+          "excess_win_rate_pct": 47.9
+        },
+        "30d": {
+          "n": 121,
+          "avg_return_pct": 2.222,
+          "median_return_pct": 2.237,
+          "win_rate_pct": 57.9,
+          "best_pct": 70.882,
+          "worst_pct": -22.576,
+          "avg_excess_pct": 0.362,
+          "median_excess_pct": 0.81,
+          "excess_win_rate_pct": 50.4
+        }
+      },
+      "concentration": {
+        "unique_symbols": 103,
+        "total_rows": 123,
+        "top10_symbol_counts": [
+          [
+            "CCI",
+            3
+          ],
+          [
+            "WELL",
+            3
+          ],
+          [
+            "BAX",
+            3
+          ],
+          [
+            "MELI",
+            2
+          ],
+          [
+            "CAH",
+            2
+          ],
+          [
+            "CEG",
+            2
+          ],
+          [
+            "DAL",
+            2
+          ],
+          [
+            "BSX",
+            2
+          ],
+          [
+            "MAA",
+            2
+          ],
+          [
+            "FOXA",
+            2
+          ]
+        ],
+        "top10_share_pct": 18.7
+      }
+    },
+    "prior_emerging_pool_diagnostic": {
+      "candidate_count": 1409,
+      "forward_returns": {
+        "5d": {
+          "n": 1409,
+          "avg_return_pct": 0.709,
+          "median_return_pct": 0.286,
+          "win_rate_pct": 53.8,
+          "best_pct": 46.656,
+          "worst_pct": -23.581,
+          "avg_excess_pct": 0.488,
+          "median_excess_pct": 0.083,
+          "excess_win_rate_pct": 51.0
+        },
+        "10d": {
+          "n": 1398,
+          "avg_return_pct": 1.088,
+          "median_return_pct": 0.583,
+          "win_rate_pct": 55.4,
+          "best_pct": 69.314,
+          "worst_pct": -34.757,
+          "avg_excess_pct": 0.573,
+          "median_excess_pct": 0.128,
+          "excess_win_rate_pct": 50.8
+        },
+        "20d": {
+          "n": 1375,
+          "avg_return_pct": 2.201,
+          "median_return_pct": 1.331,
+          "win_rate_pct": 55.6,
+          "best_pct": 163.602,
+          "worst_pct": -26.935,
+          "avg_excess_pct": 1.142,
+          "median_excess_pct": 0.052,
+          "excess_win_rate_pct": 50.3
+        },
+        "30d": {
+          "n": 1350,
+          "avg_return_pct": 2.566,
+          "median_return_pct": 1.812,
+          "win_rate_pct": 58.4,
+          "best_pct": 129.821,
+          "worst_pct": -38.774,
+          "avg_excess_pct": 0.901,
+          "median_excess_pct": -0.206,
+          "excess_win_rate_pct": 49.2
+        }
+      },
+      "lead_time_vs_first_e1_entry": {
+        "n": 213,
+        "avg_trading_days": 15.37,
+        "median_trading_days": 17,
+        "pct_before_or_same_e1_entry": 62.0
+      }
+    }
+  },
+  "upgrade_path": {
+    "emerging_all_dedup": {
+      "within_5d": {
+        "n": 1409,
+        "upgraded": 374,
+        "upgrade_rate_pct": 26.5
+      },
+      "within_10d": {
+        "n": 1409,
+        "upgraded": 445,
+        "upgrade_rate_pct": 31.6
+      },
+      "within_20d": {
+        "n": 1409,
+        "upgraded": 522,
+        "upgrade_rate_pct": 37.0
+      },
+      "within_30d": {
+        "n": 1409,
+        "upgraded": 586,
+        "upgrade_rate_pct": 41.6
+      },
+      "avg_upgrade_gap_days": 4.61,
+      "median_upgrade_gap_days": 3
+    },
+    "emerging_only_daily_top1_dedup": {
+      "within_5d": {
+        "n": 402,
+        "upgraded": 172,
+        "upgrade_rate_pct": 42.8
+      },
+      "within_10d": {
+        "n": 402,
+        "upgraded": 189,
+        "upgrade_rate_pct": 47.0
+      },
+      "within_20d": {
+        "n": 402,
+        "upgraded": 213,
+        "upgrade_rate_pct": 53.0
+      },
+      "within_30d": {
+        "n": 402,
+        "upgraded": 228,
+        "upgrade_rate_pct": 56.7
+      },
+      "avg_upgrade_gap_days": 3.42,
+      "median_upgrade_gap_days": 1.0
+    }
+  },
+  "interpretation": {
+    "phase3d_question": "If Emerging does not compete with Confirmed Top-1, does it justify a future 0.5-slot channel?",
+    "preliminary_rule": "Diagnostic only. A future execution test requires positive excess return, controlled concentration, and acceptable capacity/upgrade path.",
+    "notes": [
+      "Emerging Top-1 evaluates the best Emerging candidate each day regardless of Confirmed priority.",
+      "Capacity proxy is approximate because it does not replay order execution; it only uses Phase 3B E1-R trade intervals.",
+      "Upgrade path measures whether an Emerging candidate later becomes Confirmed for the same symbol."
+    ]
+  }
+}
