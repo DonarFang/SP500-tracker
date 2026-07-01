@@ -1,0 +1,1154 @@
+{
+  "status": "DIAGNOSTIC_ONLY_NO_TRADING_LOGIC_CHANGE",
+  "generated_at": "2026-07-01T11:44:35.727939+00:00",
+  "inputs": {
+    "backtest_source": "exports/backtest.json",
+    "regime_review_source": "data/research/e1r/e1r_regime_attribution_review.json",
+    "phase3c_source": "data/research/e1r/e1r_phase3c_channel_diagnostic.json",
+    "constituents_source": "data/sp500_constituents.json"
+  },
+  "fairness_controls": {
+    "same_backtest_export": true,
+    "e1_benchmark_unchanged": true,
+    "diagnostic_only_no_trading_logic_change": true,
+    "portfolio_adjusted_return_not_recomputed": true,
+    "stress_tests_are_trade_return_based": true
+  },
+  "portfolio_summary": {
+    "E1_AUDITED_G4_MINHOLD10": {
+      "total_return_pct": 7.52,
+      "max_drawdown_pct": 38.1,
+      "profit_factor": 1.25,
+      "sharpe_ratio": 0.18,
+      "win_rate_pct": 36.2,
+      "exposure_pct": 80.1,
+      "number_of_trades": 47,
+      "total_trades_all": 47
+    },
+    "E1R_REGIME_AWARE_V0_1": {
+      "total_return_pct": 65.71,
+      "max_drawdown_pct": 32.35,
+      "profit_factor": 1.97,
+      "sharpe_ratio": 0.58,
+      "win_rate_pct": 38.5,
+      "exposure_pct": 74.9,
+      "number_of_trades": 39,
+      "total_trades_all": 39,
+      "research_status": "UPTREND_EXECUTION_V0_1"
+    }
+  },
+  "confirmed_trade_count": 39,
+  "entry_type_counts": {
+    "E1R_UPTREND_CONFIRMED": 39
+  },
+  "top_winners": [
+    {
+      "symbol": "MRVL",
+      "entry_date": "2026-04-23",
+      "exit_date": "2026-06-11",
+      "return_pct": 60.46,
+      "holding_days": 35,
+      "is_sim_end": true,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 88.32,
+      "max_drawdown_in_trade": 0.0,
+      "leader_score_entry": 96.1,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "WDC",
+      "entry_date": "2025-08-05",
+      "exit_date": "2025-10-15",
+      "return_pct": 45.59,
+      "holding_days": 51,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 67.47,
+      "max_drawdown_in_trade": 43.88,
+      "leader_score_entry": 96.4,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "SNDK",
+      "entry_date": "2025-10-16",
+      "exit_date": "2025-11-21",
+      "return_pct": 39.92,
+      "holding_days": 27,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 89.7,
+      "max_drawdown_in_trade": 50.49,
+      "leader_score_entry": 94.8,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "DELL",
+      "entry_date": "2026-04-24",
+      "exit_date": "2026-06-11",
+      "return_pct": 37.57,
+      "holding_days": 34,
+      "is_sim_end": true,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 112.55,
+      "max_drawdown_in_trade": 0.0,
+      "leader_score_entry": 96.0,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "GEV",
+      "entry_date": "2024-09-20",
+      "exit_date": "2024-12-19",
+      "return_pct": 30.9,
+      "holding_days": 64,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 39.17,
+      "max_drawdown_in_trade": 30.04,
+      "leader_score_entry": 96.9,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "COIN",
+      "entry_date": "2023-11-24",
+      "exit_date": "2024-01-05",
+      "return_pct": 25.97,
+      "holding_days": 29,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 59.2,
+      "max_drawdown_in_trade": 41.38,
+      "leader_score_entry": 95.7,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "STX",
+      "entry_date": "2025-07-01",
+      "exit_date": "2025-10-13",
+      "return_pct": 20.41,
+      "holding_days": 73,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 67.63,
+      "max_drawdown_in_trade": 44.88,
+      "leader_score_entry": 97.7,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "W",
+      "entry_date": "2025-07-03",
+      "exit_date": "2025-10-10",
+      "return_pct": 18.27,
+      "holding_days": 70,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 28.97,
+      "max_drawdown_in_trade": 40.81,
+      "leader_score_entry": 96.8,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "TPR",
+      "entry_date": "2025-01-07",
+      "exit_date": "2025-03-07",
+      "return_pct": 13.53,
+      "holding_days": 41,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 28.99,
+      "max_drawdown_in_trade": 25.17,
+      "leader_score_entry": 91.1,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "FICO",
+      "entry_date": "2024-09-13",
+      "exit_date": "2024-12-10",
+      "return_pct": 9.08,
+      "holding_days": 62,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 26.18,
+      "max_drawdown_in_trade": 21.84,
+      "leader_score_entry": 95.1,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    }
+  ],
+  "worst_losers": [
+    {
+      "symbol": "TSLA",
+      "entry_date": "2024-12-16",
+      "exit_date": "2025-01-02",
+      "return_pct": -16.45,
+      "holding_days": 12,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 3.5,
+      "max_drawdown_in_trade": 15.84,
+      "leader_score_entry": 97.0,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "ANET",
+      "entry_date": "2025-10-13",
+      "exit_date": "2025-11-06",
+      "return_pct": -16.03,
+      "holding_days": 19,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": -0.09,
+      "max_drawdown_in_trade": 14.34,
+      "leader_score_entry": 94.0,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "ALAB",
+      "entry_date": "2024-12-24",
+      "exit_date": "2025-01-14",
+      "return_pct": -13.74,
+      "holding_days": 13,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 1.06,
+      "max_drawdown_in_trade": 12.77,
+      "leader_score_entry": 96.1,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "ATI",
+      "entry_date": "2026-02-26",
+      "exit_date": "2026-03-16",
+      "return_pct": -13.13,
+      "holding_days": 13,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 1.63,
+      "max_drawdown_in_trade": 14.69,
+      "leader_score_entry": 97.9,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "AVGO",
+      "entry_date": "2024-06-18",
+      "exit_date": "2024-07-18",
+      "return_pct": -12.52,
+      "holding_days": 21,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": -1.19,
+      "max_drawdown_in_trade": 14.45,
+      "leader_score_entry": 95.6,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "AMAT",
+      "entry_date": "2026-01-22",
+      "exit_date": "2026-02-05",
+      "return_pct": -12.4,
+      "holding_days": 11,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 2.39,
+      "max_drawdown_in_trade": 12.81,
+      "leader_score_entry": 96.4,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "TRGP",
+      "entry_date": "2025-01-21",
+      "exit_date": "2025-02-24",
+      "return_pct": -9.35,
+      "holding_days": 24,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": -0.16,
+      "max_drawdown_in_trade": 9.07,
+      "leader_score_entry": 98.7,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "EQT",
+      "entry_date": "2025-01-16",
+      "exit_date": "2025-02-26",
+      "return_pct": -8.45,
+      "holding_days": 28,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 0.49,
+      "max_drawdown_in_trade": 10.91,
+      "leader_score_entry": 97.6,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "REGN",
+      "entry_date": "2025-11-28",
+      "exit_date": "2026-01-20",
+      "return_pct": -8.15,
+      "holding_days": 35,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 2.14,
+      "max_drawdown_in_trade": 14.73,
+      "leader_score_entry": 97.3,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    },
+    {
+      "symbol": "GDDY",
+      "entry_date": "2024-08-16",
+      "exit_date": "2024-09-05",
+      "return_pct": -6.24,
+      "holding_days": 14,
+      "is_sim_end": false,
+      "entry_regime": "UPTREND",
+      "dominant_regime": "UPTREND",
+      "max_gain_pct": 1.82,
+      "max_drawdown_in_trade": 6.05,
+      "leader_score_entry": 92.8,
+      "entry_type": "E1R_UPTREND_CONFIRMED"
+    }
+  ],
+  "confirmed_trade_stats": {
+    "all_trades": {
+      "trades": 39,
+      "closed_ex_sim_end": 37,
+      "sim_end_trades": 2,
+      "sum_return_pct_points": 156.73,
+      "avg_return_pct": 4.02,
+      "median_return_pct": -2.31,
+      "win_rate_pct": 38.46,
+      "profit_factor_by_trade_return": 1.97,
+      "gross_profit_pct_points": 318.02,
+      "gross_loss_pct_points": 161.29,
+      "best_trade_pct": 60.46,
+      "worst_trade_pct": -16.45,
+      "avg_holding_days": 37.51,
+      "median_holding_days": 35.0
+    },
+    "closed_only_ex_sim_end": {
+      "trades": 37,
+      "closed_ex_sim_end": 37,
+      "sim_end_trades": 0,
+      "sum_return_pct_points": 58.7,
+      "avg_return_pct": 1.59,
+      "median_return_pct": -2.47,
+      "win_rate_pct": 35.14,
+      "profit_factor_by_trade_return": 1.36,
+      "gross_profit_pct_points": 219.99,
+      "gross_loss_pct_points": 161.29,
+      "best_trade_pct": 45.59,
+      "worst_trade_pct": -16.45,
+      "avg_holding_days": 37.68,
+      "median_holding_days": 35.0
+    },
+    "sim_end_only": {
+      "trades": 2,
+      "closed_ex_sim_end": 0,
+      "sim_end_trades": 2,
+      "sum_return_pct_points": 98.03,
+      "avg_return_pct": 49.02,
+      "median_return_pct": 49.02,
+      "win_rate_pct": 100.0,
+      "profit_factor_by_trade_return": Infinity,
+      "gross_profit_pct_points": 98.03,
+      "gross_loss_pct_points": 0.0,
+      "best_trade_pct": 60.46,
+      "worst_trade_pct": 37.57,
+      "avg_holding_days": 34.5,
+      "median_holding_days": 34.5
+    },
+    "exclude_top1_all": {
+      "trades": 38,
+      "closed_ex_sim_end": 37,
+      "sim_end_trades": 1,
+      "sum_return_pct_points": 96.27,
+      "avg_return_pct": 2.53,
+      "median_return_pct": -2.39,
+      "win_rate_pct": 36.84,
+      "profit_factor_by_trade_return": 1.6,
+      "gross_profit_pct_points": 257.56,
+      "gross_loss_pct_points": 161.29,
+      "best_trade_pct": 45.59,
+      "worst_trade_pct": -16.45,
+      "avg_holding_days": 37.58,
+      "median_holding_days": 35.0
+    },
+    "exclude_top2_all": {
+      "trades": 37,
+      "closed_ex_sim_end": 36,
+      "sim_end_trades": 1,
+      "sum_return_pct_points": 50.68,
+      "avg_return_pct": 1.37,
+      "median_return_pct": -2.47,
+      "win_rate_pct": 35.14,
+      "profit_factor_by_trade_return": 1.31,
+      "gross_profit_pct_points": 211.97,
+      "gross_loss_pct_points": 161.29,
+      "best_trade_pct": 39.92,
+      "worst_trade_pct": -16.45,
+      "avg_holding_days": 37.22,
+      "median_holding_days": 35.0
+    },
+    "exclude_top3_all": {
+      "trades": 36,
+      "closed_ex_sim_end": 35,
+      "sim_end_trades": 1,
+      "sum_return_pct_points": 10.76,
+      "avg_return_pct": 0.3,
+      "median_return_pct": -2.74,
+      "win_rate_pct": 33.33,
+      "profit_factor_by_trade_return": 1.07,
+      "gross_profit_pct_points": 172.05,
+      "gross_loss_pct_points": 161.29,
+      "best_trade_pct": 37.57,
+      "worst_trade_pct": -16.45,
+      "avg_holding_days": 37.5,
+      "median_holding_days": 35.0
+    },
+    "exclude_top1_closed_only": {
+      "trades": 36,
+      "closed_ex_sim_end": 36,
+      "sim_end_trades": 0,
+      "sum_return_pct_points": 13.11,
+      "avg_return_pct": 0.36,
+      "median_return_pct": -2.74,
+      "win_rate_pct": 33.33,
+      "profit_factor_by_trade_return": 1.08,
+      "gross_profit_pct_points": 174.4,
+      "gross_loss_pct_points": 161.29,
+      "best_trade_pct": 39.92,
+      "worst_trade_pct": -16.45,
+      "avg_holding_days": 37.31,
+      "median_holding_days": 35.0
+    },
+    "exclude_top2_closed_only": {
+      "trades": 35,
+      "closed_ex_sim_end": 35,
+      "sim_end_trades": 0,
+      "sum_return_pct_points": -26.81,
+      "avg_return_pct": -0.77,
+      "median_return_pct": -3.01,
+      "win_rate_pct": 31.43,
+      "profit_factor_by_trade_return": 0.83,
+      "gross_profit_pct_points": 134.48,
+      "gross_loss_pct_points": 161.29,
+      "best_trade_pct": 30.9,
+      "worst_trade_pct": -16.45,
+      "avg_holding_days": 37.6,
+      "median_holding_days": 35.0
+    },
+    "exclude_top3_closed_only": {
+      "trades": 34,
+      "closed_ex_sim_end": 34,
+      "sim_end_trades": 0,
+      "sum_return_pct_points": -57.71,
+      "avg_return_pct": -1.7,
+      "median_return_pct": -3.17,
+      "win_rate_pct": 29.41,
+      "profit_factor_by_trade_return": 0.64,
+      "gross_profit_pct_points": 103.58,
+      "gross_loss_pct_points": 161.29,
+      "best_trade_pct": 25.97,
+      "worst_trade_pct": -16.45,
+      "avg_holding_days": 36.82,
+      "median_holding_days": 35.0
+    }
+  },
+  "e1_trade_stats_reference": {
+    "all_trades": {
+      "trades": 47,
+      "closed_ex_sim_end": 44,
+      "sim_end_trades": 3,
+      "sum_return_pct_points": 48.42,
+      "avg_return_pct": 1.03,
+      "median_return_pct": -2.42,
+      "win_rate_pct": 36.17,
+      "profit_factor_by_trade_return": 1.25,
+      "gross_profit_pct_points": 245.14,
+      "gross_loss_pct_points": 196.72,
+      "best_trade_pct": 67.47,
+      "worst_trade_pct": -19.1,
+      "avg_holding_days": 33.28,
+      "median_holding_days": 33.0
+    },
+    "closed_only_ex_sim_end": {
+      "trades": 44,
+      "closed_ex_sim_end": 44,
+      "sim_end_trades": 0,
+      "sum_return_pct_points": -16.3,
+      "avg_return_pct": -0.37,
+      "median_return_pct": -2.59,
+      "win_rate_pct": 36.36,
+      "profit_factor_by_trade_return": 0.92,
+      "gross_profit_pct_points": 177.67,
+      "gross_loss_pct_points": 193.97,
+      "best_trade_pct": 44.8,
+      "worst_trade_pct": -19.1,
+      "avg_holding_days": 34.64,
+      "median_holding_days": 33.5
+    },
+    "sim_end_only": {
+      "trades": 3,
+      "closed_ex_sim_end": 0,
+      "sim_end_trades": 3,
+      "sum_return_pct_points": 64.72,
+      "avg_return_pct": 21.57,
+      "median_return_pct": -1.2,
+      "win_rate_pct": 33.33,
+      "profit_factor_by_trade_return": 24.53,
+      "gross_profit_pct_points": 67.47,
+      "gross_loss_pct_points": 2.75,
+      "best_trade_pct": 67.47,
+      "worst_trade_pct": -1.55,
+      "avg_holding_days": 13.33,
+      "median_holding_days": 2.0
+    },
+    "exclude_top1_all": {
+      "trades": 46,
+      "closed_ex_sim_end": 44,
+      "sim_end_trades": 2,
+      "sum_return_pct_points": -19.05,
+      "avg_return_pct": -0.41,
+      "median_return_pct": -2.47,
+      "win_rate_pct": 34.78,
+      "profit_factor_by_trade_return": 0.9,
+      "gross_profit_pct_points": 177.67,
+      "gross_loss_pct_points": 196.72,
+      "best_trade_pct": 44.8,
+      "worst_trade_pct": -19.1,
+      "avg_holding_days": 33.22,
+      "median_holding_days": 31.5
+    },
+    "exclude_top2_all": {
+      "trades": 45,
+      "closed_ex_sim_end": 43,
+      "sim_end_trades": 2,
+      "sum_return_pct_points": -63.85,
+      "avg_return_pct": -1.42,
+      "median_return_pct": -2.53,
+      "win_rate_pct": 33.33,
+      "profit_factor_by_trade_return": 0.68,
+      "gross_profit_pct_points": 132.87,
+      "gross_loss_pct_points": 196.72,
+      "best_trade_pct": 25.97,
+      "worst_trade_pct": -19.1,
+      "avg_holding_days": 32.42,
+      "median_holding_days": 30.0
+    },
+    "exclude_top3_all": {
+      "trades": 44,
+      "closed_ex_sim_end": 42,
+      "sim_end_trades": 2,
+      "sum_return_pct_points": -89.82,
+      "avg_return_pct": -2.04,
+      "median_return_pct": -2.59,
+      "win_rate_pct": 31.82,
+      "profit_factor_by_trade_return": 0.54,
+      "gross_profit_pct_points": 106.9,
+      "gross_loss_pct_points": 196.72,
+      "best_trade_pct": 21.96,
+      "worst_trade_pct": -19.1,
+      "avg_holding_days": 32.5,
+      "median_holding_days": 31.5
+    },
+    "exclude_top1_closed_only": {
+      "trades": 43,
+      "closed_ex_sim_end": 43,
+      "sim_end_trades": 0,
+      "sum_return_pct_points": -61.1,
+      "avg_return_pct": -1.42,
+      "median_return_pct": -2.65,
+      "win_rate_pct": 34.88,
+      "profit_factor_by_trade_return": 0.69,
+      "gross_profit_pct_points": 132.87,
+      "gross_loss_pct_points": 193.97,
+      "best_trade_pct": 25.97,
+      "worst_trade_pct": -19.1,
+      "avg_holding_days": 33.84,
+      "median_holding_days": 33.0
+    },
+    "exclude_top2_closed_only": {
+      "trades": 42,
+      "closed_ex_sim_end": 42,
+      "sim_end_trades": 0,
+      "sum_return_pct_points": -87.07,
+      "avg_return_pct": -2.07,
+      "median_return_pct": -2.7,
+      "win_rate_pct": 33.33,
+      "profit_factor_by_trade_return": 0.55,
+      "gross_profit_pct_points": 106.9,
+      "gross_loss_pct_points": 193.97,
+      "best_trade_pct": 21.96,
+      "worst_trade_pct": -19.1,
+      "avg_holding_days": 33.95,
+      "median_holding_days": 33.5
+    },
+    "exclude_top3_closed_only": {
+      "trades": 41,
+      "closed_ex_sim_end": 41,
+      "sim_end_trades": 0,
+      "sum_return_pct_points": -109.03,
+      "avg_return_pct": -2.66,
+      "median_return_pct": -2.74,
+      "win_rate_pct": 31.71,
+      "profit_factor_by_trade_return": 0.44,
+      "gross_profit_pct_points": 84.94,
+      "gross_loss_pct_points": 193.97,
+      "best_trade_pct": 21.41,
+      "worst_trade_pct": -19.1,
+      "avg_holding_days": 34.1,
+      "median_holding_days": 34.0
+    }
+  },
+  "top_winner_concentration": {
+    "positive_trade_count": 15,
+    "negative_trade_count": 24,
+    "top1_share_of_gross_profit_pct": 19.01,
+    "top2_share_of_gross_profit_pct": 33.35,
+    "top3_share_of_gross_profit_pct": 45.9,
+    "top1_share_of_net_sum_pct": 38.58,
+    "top2_share_of_net_sum_pct": 67.66,
+    "top3_share_of_net_sum_pct": 93.13
+  },
+  "symbol_concentration": {
+    "GDDY": 2,
+    "AMAT": 2,
+    "MELI": 1,
+    "COIN": 1,
+    "ALL": 1,
+    "C": 1,
+    "GE": 1,
+    "DAL": 1,
+    "AVGO": 1,
+    "GRMN": 1,
+    "AAPL": 1,
+    "EXR": 1,
+    "AXON": 1,
+    "FICO": 1,
+    "GEV": 1,
+    "TSLA": 1,
+    "BKNG": 1,
+    "ALAB": 1,
+    "TRGP": 1,
+    "EQT": 1,
+    "TPR": 1,
+    "RCL": 1,
+    "W": 1,
+    "STX": 1,
+    "WDC": 1,
+    "ANET": 1,
+    "BE": 1,
+    "SNDK": 1,
+    "BIIB": 1,
+    "REGN": 1,
+    "LLY": 1,
+    "NEM": 1,
+    "FCX": 1,
+    "ATI": 1,
+    "EQIX": 1,
+    "MRVL": 1,
+    "DELL": 1
+  },
+  "sector_concentration": {
+    "UNKNOWN": 39
+  },
+  "entry_month_concentration": {
+    "2023-11": 3,
+    "2025-01": 3,
+    "2025-07": 3,
+    "2025-10": 3,
+    "2025-11": 3,
+    "2026-01": 3,
+    "2026-04": 3,
+    "2024-01": 2,
+    "2024-05": 2,
+    "2024-06": 2,
+    "2024-09": 2,
+    "2024-12": 2,
+    "2024-02": 1,
+    "2024-03": 1,
+    "2024-08": 1,
+    "2024-07": 1,
+    "2024-10": 1,
+    "2024-11": 1,
+    "2025-08": 1,
+    "2026-02": 1
+  },
+  "sim_end_sensitivity": {
+    "sim_end_trades": [
+      {
+        "symbol": "MRVL",
+        "entry_date": "2026-04-23",
+        "exit_date": "2026-06-11",
+        "return_pct": 60.46,
+        "holding_days": 35,
+        "is_sim_end": true,
+        "entry_regime": "UPTREND",
+        "dominant_regime": "UPTREND",
+        "max_gain_pct": 88.32,
+        "max_drawdown_in_trade": 0.0,
+        "leader_score_entry": 96.1,
+        "entry_type": "E1R_UPTREND_CONFIRMED"
+      },
+      {
+        "symbol": "DELL",
+        "entry_date": "2026-04-24",
+        "exit_date": "2026-06-11",
+        "return_pct": 37.57,
+        "holding_days": 34,
+        "is_sim_end": true,
+        "entry_regime": "UPTREND",
+        "dominant_regime": "UPTREND",
+        "max_gain_pct": 112.55,
+        "max_drawdown_in_trade": 0.0,
+        "leader_score_entry": 96.0,
+        "entry_type": "E1R_UPTREND_CONFIRMED"
+      }
+    ],
+    "closed_only_stats": {
+      "trades": 37,
+      "closed_ex_sim_end": 37,
+      "sim_end_trades": 0,
+      "sum_return_pct_points": 58.7,
+      "avg_return_pct": 1.59,
+      "median_return_pct": -2.47,
+      "win_rate_pct": 35.14,
+      "profit_factor_by_trade_return": 1.36,
+      "gross_profit_pct_points": 219.99,
+      "gross_loss_pct_points": 161.29,
+      "best_trade_pct": 45.59,
+      "worst_trade_pct": -16.45,
+      "avg_holding_days": 37.68,
+      "median_holding_days": 35.0
+    },
+    "all_trade_stats": {
+      "trades": 39,
+      "closed_ex_sim_end": 37,
+      "sim_end_trades": 2,
+      "sum_return_pct_points": 156.73,
+      "avg_return_pct": 4.02,
+      "median_return_pct": -2.31,
+      "win_rate_pct": 38.46,
+      "profit_factor_by_trade_return": 1.97,
+      "gross_profit_pct_points": 318.02,
+      "gross_loss_pct_points": 161.29,
+      "best_trade_pct": 60.46,
+      "worst_trade_pct": -16.45,
+      "avg_holding_days": 37.51,
+      "median_holding_days": 35.0
+    }
+  },
+  "regime_gap_from_review": {
+    "UPTREND": {
+      "days": 565,
+      "e1r_minus_e1_pnl_pct_initial": 60.2918,
+      "e1r_minus_e1_compound_pct": 60.3014,
+      "e1r_minus_e1_excess_vs_spx_pct": 60.3014,
+      "e1r_minus_e1_avg_exposure_pct": 3.21,
+      "e1r_minus_e1_max_dd_within_regime_pct": -4.9067
+    },
+    "SIDEWAYS": {
+      "days": 86,
+      "e1r_minus_e1_pnl_pct_initial": -0.0337,
+      "e1r_minus_e1_compound_pct": -0.0415,
+      "e1r_minus_e1_excess_vs_spx_pct": -0.0415,
+      "e1r_minus_e1_avg_exposure_pct": -24.34,
+      "e1r_minus_e1_max_dd_within_regime_pct": -5.1282
+    },
+    "DOWNTREND": {
+      "days": 0,
+      "e1r_minus_e1_pnl_pct_initial": 0.0,
+      "e1r_minus_e1_compound_pct": 0.0,
+      "e1r_minus_e1_excess_vs_spx_pct": 0.0,
+      "e1r_minus_e1_avg_exposure_pct": 0.0,
+      "e1r_minus_e1_max_dd_within_regime_pct": 0.0
+    },
+    "UNCLASSIFIED": {
+      "days": 0,
+      "e1r_minus_e1_pnl_pct_initial": 0.0,
+      "e1r_minus_e1_compound_pct": 0.0,
+      "e1r_minus_e1_excess_vs_spx_pct": 0.0,
+      "e1r_minus_e1_avg_exposure_pct": 0.0,
+      "e1r_minus_e1_max_dd_within_regime_pct": 0.0
+    }
+  },
+  "phase3c_reference": {
+    "candidate_funnel": {
+      "raw_candidate_count": 5564,
+      "candidate_type_counts": {
+        "E1R_UPTREND_EMERGING": 2893,
+        "E1R_UPTREND_CONFIRMED": 2671
+      },
+      "candidate_days": 562,
+      "days_with_confirmed": 561,
+      "days_with_emerging": 548,
+      "days_with_both": 547,
+      "daily_mix_counts": {
+        "both": 547,
+        "confirmed_only": 14,
+        "emerging_only": 1
+      },
+      "top1_type_counts_under_phase3b_priority": {
+        "E1R_UPTREND_CONFIRMED": 561,
+        "E1R_UPTREND_EMERGING": 1
+      },
+      "executed_trade_type_counts": {
+        "E1R_UPTREND_CONFIRMED": 39
+      },
+      "executed_candidate_match_type_counts": {
+        "E1R_UPTREND_CONFIRMED": 39
+      },
+      "emerging_non_execution_diagnosis": "EMERGING_TOP1_EXISTED_BUT_NOT_EXECUTED_CHECK_CAPACITY_GATE_OR_EXISTING_HOLDINGS",
+      "top_candidate_symbol_counts": [
+        [
+          "HOOD",
+          74
+        ],
+        [
+          "MU",
+          73
+        ],
+        [
+          "GEV",
+          73
+        ],
+        [
+          "CRWD",
+          62
+        ],
+        [
+          "ALAB",
+          54
+        ],
+        [
+          "GLW",
+          52
+        ],
+        [
+          "TPR",
+          50
+        ],
+        [
+          "STX",
+          50
+        ],
+        [
+          "BE",
+          47
+        ],
+        [
+          "WDC",
+          47
+        ],
+        [
+          "DELL",
+          45
+        ],
+        [
+          "COIN",
+          45
+        ],
+        [
+          "AMAT",
+          45
+        ],
+        [
+          "FICO",
+          44
+        ],
+        [
+          "MPWR",
+          44
+        ],
+        [
+          "DASH",
+          43
+        ],
+        [
+          "MRVL",
+          43
+        ],
+        [
+          "ALK",
+          43
+        ],
+        [
+          "AMD",
+          42
+        ],
+        [
+          "LRCX",
+          42
+        ]
+      ],
+      "sample_daily_top1": [
+        {
+          "date": "2023-11-06",
+          "symbol": "DELL",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 94.67,
+          "candidate_count": 14,
+          "confirmed_count": 5,
+          "emerging_count": 9
+        },
+        {
+          "date": "2023-11-07",
+          "symbol": "DELL",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 95.69,
+          "candidate_count": 14,
+          "confirmed_count": 5,
+          "emerging_count": 9
+        },
+        {
+          "date": "2023-11-08",
+          "symbol": "DELL",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 96.25,
+          "candidate_count": 14,
+          "confirmed_count": 5,
+          "emerging_count": 9
+        },
+        {
+          "date": "2023-11-09",
+          "symbol": "DELL",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 95.2,
+          "candidate_count": 12,
+          "confirmed_count": 5,
+          "emerging_count": 7
+        },
+        {
+          "date": "2023-11-10",
+          "symbol": "CRWD",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 95.23,
+          "candidate_count": 10,
+          "confirmed_count": 5,
+          "emerging_count": 5
+        },
+        {
+          "date": "2023-11-13",
+          "symbol": "CRWD",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 96.63,
+          "candidate_count": 13,
+          "confirmed_count": 5,
+          "emerging_count": 8
+        },
+        {
+          "date": "2023-11-14",
+          "symbol": "CRWD",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 97.34,
+          "candidate_count": 11,
+          "confirmed_count": 5,
+          "emerging_count": 6
+        },
+        {
+          "date": "2023-11-15",
+          "symbol": "CRWD",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 97.93,
+          "candidate_count": 17,
+          "confirmed_count": 5,
+          "emerging_count": 12
+        },
+        {
+          "date": "2023-11-16",
+          "symbol": "CRWD",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 97.93,
+          "candidate_count": 15,
+          "confirmed_count": 5,
+          "emerging_count": 10
+        },
+        {
+          "date": "2023-11-17",
+          "symbol": "ZS",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 96.61,
+          "candidate_count": 14,
+          "confirmed_count": 5,
+          "emerging_count": 9
+        },
+        {
+          "date": "2023-11-20",
+          "symbol": "INTC",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 96.22,
+          "candidate_count": 9,
+          "confirmed_count": 5,
+          "emerging_count": 4
+        },
+        {
+          "date": "2023-11-21",
+          "symbol": "ZS",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 98.39,
+          "candidate_count": 6,
+          "confirmed_count": 5,
+          "emerging_count": 1
+        },
+        {
+          "date": "2023-11-22",
+          "symbol": "COIN",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 95.65,
+          "candidate_count": 7,
+          "confirmed_count": 5,
+          "emerging_count": 2
+        },
+        {
+          "date": "2023-11-24",
+          "symbol": "COIN",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 97.26,
+          "candidate_count": 7,
+          "confirmed_count": 5,
+          "emerging_count": 2
+        },
+        {
+          "date": "2023-11-27",
+          "symbol": "COIN",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 97.38,
+          "candidate_count": 6,
+          "confirmed_count": 5,
+          "emerging_count": 1
+        },
+        {
+          "date": "2023-11-28",
+          "symbol": "COIN",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 97.38,
+          "candidate_count": 6,
+          "confirmed_count": 4,
+          "emerging_count": 2
+        },
+        {
+          "date": "2023-11-29",
+          "symbol": "COIN",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 97.38,
+          "candidate_count": 9,
+          "confirmed_count": 5,
+          "emerging_count": 4
+        },
+        {
+          "date": "2023-11-30",
+          "symbol": "COIN",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 97.38,
+          "candidate_count": 11,
+          "confirmed_count": 5,
+          "emerging_count": 6
+        },
+        {
+          "date": "2023-12-01",
+          "symbol": "GDDY",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 99.19,
+          "candidate_count": 15,
+          "confirmed_count": 5,
+          "emerging_count": 10
+        },
+        {
+          "date": "2023-12-04",
+          "symbol": "GDDY",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank": 1,
+          "leader_score": 99.36,
+          "candidate_count": 15,
+          "confirmed_count": 5,
+          "emerging_count": 10
+        }
+      ],
+      "unmatched_trade_count": 0,
+      "sample_unmatched_trades": []
+    },
+    "regime_gap_from_review": {
+      "UPTREND": {
+        "days": 565,
+        "e1_return_pct": null,
+        "e1r_return_pct": null,
+        "delta_e1r_minus_e1_pct": null,
+        "spx_return_pct": null,
+        "e1_exposure_pct": null,
+        "e1r_exposure_pct": null
+      },
+      "SIDEWAYS": {
+        "days": 86,
+        "e1_return_pct": null,
+        "e1r_return_pct": null,
+        "delta_e1r_minus_e1_pct": null,
+        "spx_return_pct": null,
+        "e1_exposure_pct": null,
+        "e1r_exposure_pct": null
+      },
+      "DOWNTREND": {
+        "days": 0,
+        "e1_return_pct": null,
+        "e1r_return_pct": null,
+        "delta_e1r_minus_e1_pct": null,
+        "spx_return_pct": null,
+        "e1_exposure_pct": null,
+        "e1r_exposure_pct": null
+      },
+      "UNCLASSIFIED": {
+        "days": 0,
+        "e1_return_pct": null,
+        "e1r_return_pct": null,
+        "delta_e1r_minus_e1_pct": null,
+        "spx_return_pct": null,
+        "e1_exposure_pct": null,
+        "e1r_exposure_pct": null
+      }
+    }
+  },
+  "quality_grade": {
+    "heuristic_grade": "A",
+    "interpretation": "Top-winner dependence appears healthy under trade-level stress tests.",
+    "threshold_notes": "Heuristic uses trade-return stress tests, not a recomputed portfolio equity curve.",
+    "e1_trade_return_pf_reference": 1.25,
+    "e1r_ex_top1_pf": 1.6,
+    "e1r_ex_top2_pf": 1.31,
+    "e1r_ex_sim_end_pf": 1.36
+  }
+}
