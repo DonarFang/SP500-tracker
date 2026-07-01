@@ -1,0 +1,454 @@
+{
+  "status": "DIAGNOSTIC_ONLY_NO_TRADING_LOGIC_CHANGE",
+  "generated_at": "2026-07-01 18:28:02",
+  "inputs": {
+    "backtest": "exports/backtest.json",
+    "candidate_forward_return_diagnostic": "data/research/e1r/e1r_candidate_forward_return_diagnostic.json",
+    "regime_attribution_review": "data/research/e1r/e1r_regime_attribution_review.json"
+  },
+  "fairness_controls": {
+    "e1_vs_e1r_comparison_basis": "same_daily_dates_and_same_spx_regime_map",
+    "period_a_b_not_primary_evaluation": true,
+    "this_script_changes_trading_logic": false
+  },
+  "portfolio_summary": {
+    "E1_AUDITED_G4_MINHOLD10": {
+      "total_return_pct": 7.52,
+      "max_drawdown_pct": 38.1,
+      "profit_factor": 1.25,
+      "sharpe_ratio": 0.18,
+      "exposure_pct": 80.1,
+      "number_of_trades": 47
+    },
+    "E1R_REGIME_AWARE_V0_1": {
+      "total_return_pct": 65.71,
+      "max_drawdown_pct": 32.35,
+      "profit_factor": 1.97,
+      "sharpe_ratio": 0.58,
+      "exposure_pct": 74.9,
+      "number_of_trades": 39,
+      "research_status": "UPTREND_EXECUTION_V0_1"
+    }
+  },
+  "candidate_funnel": {
+    "raw_candidate_count": 5564,
+    "candidate_type_counts": {
+      "E1R_UPTREND_EMERGING": 2893,
+      "E1R_UPTREND_CONFIRMED": 2671
+    },
+    "candidate_days": 562,
+    "days_with_confirmed": 561,
+    "days_with_emerging": 548,
+    "days_with_both": 547,
+    "daily_mix_counts": {
+      "both": 547,
+      "confirmed_only": 14,
+      "emerging_only": 1
+    },
+    "top1_type_counts_under_phase3b_priority": {
+      "E1R_UPTREND_CONFIRMED": 561,
+      "E1R_UPTREND_EMERGING": 1
+    },
+    "executed_trade_type_counts": {
+      "E1R_UPTREND_CONFIRMED": 39
+    },
+    "executed_candidate_match_type_counts": {
+      "E1R_UPTREND_CONFIRMED": 39
+    },
+    "emerging_non_execution_diagnosis": "EMERGING_TOP1_EXISTED_BUT_NOT_EXECUTED_CHECK_CAPACITY_GATE_OR_EXISTING_HOLDINGS",
+    "top_candidate_symbol_counts": [
+      [
+        "HOOD",
+        74
+      ],
+      [
+        "MU",
+        73
+      ],
+      [
+        "GEV",
+        73
+      ],
+      [
+        "CRWD",
+        62
+      ],
+      [
+        "ALAB",
+        54
+      ],
+      [
+        "GLW",
+        52
+      ],
+      [
+        "TPR",
+        50
+      ],
+      [
+        "STX",
+        50
+      ],
+      [
+        "BE",
+        47
+      ],
+      [
+        "WDC",
+        47
+      ],
+      [
+        "DELL",
+        45
+      ],
+      [
+        "COIN",
+        45
+      ],
+      [
+        "AMAT",
+        45
+      ],
+      [
+        "FICO",
+        44
+      ],
+      [
+        "MPWR",
+        44
+      ],
+      [
+        "DASH",
+        43
+      ],
+      [
+        "MRVL",
+        43
+      ],
+      [
+        "ALK",
+        43
+      ],
+      [
+        "AMD",
+        42
+      ],
+      [
+        "LRCX",
+        42
+      ]
+    ],
+    "sample_daily_top1": [
+      {
+        "date": "2023-11-06",
+        "symbol": "DELL",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 94.67,
+        "candidate_count": 14,
+        "confirmed_count": 5,
+        "emerging_count": 9
+      },
+      {
+        "date": "2023-11-07",
+        "symbol": "DELL",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 95.69,
+        "candidate_count": 14,
+        "confirmed_count": 5,
+        "emerging_count": 9
+      },
+      {
+        "date": "2023-11-08",
+        "symbol": "DELL",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 96.25,
+        "candidate_count": 14,
+        "confirmed_count": 5,
+        "emerging_count": 9
+      },
+      {
+        "date": "2023-11-09",
+        "symbol": "DELL",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 95.2,
+        "candidate_count": 12,
+        "confirmed_count": 5,
+        "emerging_count": 7
+      },
+      {
+        "date": "2023-11-10",
+        "symbol": "CRWD",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 95.23,
+        "candidate_count": 10,
+        "confirmed_count": 5,
+        "emerging_count": 5
+      },
+      {
+        "date": "2023-11-13",
+        "symbol": "CRWD",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 96.63,
+        "candidate_count": 13,
+        "confirmed_count": 5,
+        "emerging_count": 8
+      },
+      {
+        "date": "2023-11-14",
+        "symbol": "CRWD",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 97.34,
+        "candidate_count": 11,
+        "confirmed_count": 5,
+        "emerging_count": 6
+      },
+      {
+        "date": "2023-11-15",
+        "symbol": "CRWD",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 97.93,
+        "candidate_count": 17,
+        "confirmed_count": 5,
+        "emerging_count": 12
+      },
+      {
+        "date": "2023-11-16",
+        "symbol": "CRWD",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 97.93,
+        "candidate_count": 15,
+        "confirmed_count": 5,
+        "emerging_count": 10
+      },
+      {
+        "date": "2023-11-17",
+        "symbol": "ZS",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 96.61,
+        "candidate_count": 14,
+        "confirmed_count": 5,
+        "emerging_count": 9
+      },
+      {
+        "date": "2023-11-20",
+        "symbol": "INTC",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 96.22,
+        "candidate_count": 9,
+        "confirmed_count": 5,
+        "emerging_count": 4
+      },
+      {
+        "date": "2023-11-21",
+        "symbol": "ZS",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 98.39,
+        "candidate_count": 6,
+        "confirmed_count": 5,
+        "emerging_count": 1
+      },
+      {
+        "date": "2023-11-22",
+        "symbol": "COIN",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 95.65,
+        "candidate_count": 7,
+        "confirmed_count": 5,
+        "emerging_count": 2
+      },
+      {
+        "date": "2023-11-24",
+        "symbol": "COIN",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 97.26,
+        "candidate_count": 7,
+        "confirmed_count": 5,
+        "emerging_count": 2
+      },
+      {
+        "date": "2023-11-27",
+        "symbol": "COIN",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 97.38,
+        "candidate_count": 6,
+        "confirmed_count": 5,
+        "emerging_count": 1
+      },
+      {
+        "date": "2023-11-28",
+        "symbol": "COIN",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 97.38,
+        "candidate_count": 6,
+        "confirmed_count": 4,
+        "emerging_count": 2
+      },
+      {
+        "date": "2023-11-29",
+        "symbol": "COIN",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 97.38,
+        "candidate_count": 9,
+        "confirmed_count": 5,
+        "emerging_count": 4
+      },
+      {
+        "date": "2023-11-30",
+        "symbol": "COIN",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 97.38,
+        "candidate_count": 11,
+        "confirmed_count": 5,
+        "emerging_count": 6
+      },
+      {
+        "date": "2023-12-01",
+        "symbol": "GDDY",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 99.19,
+        "candidate_count": 15,
+        "confirmed_count": 5,
+        "emerging_count": 10
+      },
+      {
+        "date": "2023-12-04",
+        "symbol": "GDDY",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "leader_rank": 1,
+        "leader_score": 99.36,
+        "candidate_count": 15,
+        "confirmed_count": 5,
+        "emerging_count": 10
+      }
+    ],
+    "unmatched_trade_count": 0,
+    "sample_unmatched_trades": []
+  },
+  "channel_trade_stats": {
+    "E1R_UPTREND_CONFIRMED": {
+      "trades": 39,
+      "closed_trades_ex_sim_end": 37,
+      "sim_end_trades": 2,
+      "avg_return_pct": 4.02,
+      "median_return_pct": -2.31,
+      "win_rate_pct": 38.5,
+      "avg_winner_pct": 21.2,
+      "avg_loser_pct": -6.72,
+      "best_trade_pct": 60.46,
+      "worst_trade_pct": -16.45,
+      "sim_end_symbols": [
+        "MRVL",
+        "DELL"
+      ]
+    }
+  },
+  "channel_forward_alpha_from_diagnostic": {
+    "E1R_UPTREND_CONFIRMED": {
+      "candidate_count": 1060,
+      "20d_avg_return_pct": 3.413,
+      "20d_avg_excess_pct": 2.219,
+      "30d_avg_return_pct": 4.225,
+      "30d_avg_excess_pct": 2.508,
+      "30d_excess_win_rate_pct": 48.1,
+      "lead_time_vs_first_e1_entry": {
+        "n": 300,
+        "avg_trading_days": 21.86,
+        "median_trading_days": 3.0,
+        "pct_before_or_same_e1_entry": 59.0
+      }
+    },
+    "E1R_UPTREND_EMERGING": {
+      "candidate_count": 1409,
+      "20d_avg_return_pct": 2.201,
+      "20d_avg_excess_pct": 1.142,
+      "30d_avg_return_pct": 2.566,
+      "30d_avg_excess_pct": 0.901,
+      "30d_excess_win_rate_pct": 49.2,
+      "lead_time_vs_first_e1_entry": {
+        "n": 213,
+        "avg_trading_days": 15.37,
+        "median_trading_days": 17,
+        "pct_before_or_same_e1_entry": 62.0
+      }
+    },
+    "ALL": {
+      "candidate_count": 2469,
+      "20d_avg_return_pct": 2.719,
+      "20d_avg_excess_pct": 1.603,
+      "30d_avg_return_pct": 3.274,
+      "30d_avg_excess_pct": 1.588,
+      "30d_excess_win_rate_pct": 48.7,
+      "lead_time_vs_first_e1_entry": {
+        "n": 513,
+        "avg_trading_days": 19.17,
+        "median_trading_days": 5,
+        "pct_before_or_same_e1_entry": 60.2
+      }
+    }
+  },
+  "regime_gap_from_review": {
+    "UPTREND": {
+      "days": 565,
+      "e1_return_pct": null,
+      "e1r_return_pct": null,
+      "delta_e1r_minus_e1_pct": null,
+      "spx_return_pct": null,
+      "e1_exposure_pct": null,
+      "e1r_exposure_pct": null
+    },
+    "SIDEWAYS": {
+      "days": 86,
+      "e1_return_pct": null,
+      "e1r_return_pct": null,
+      "delta_e1r_minus_e1_pct": null,
+      "spx_return_pct": null,
+      "e1_exposure_pct": null,
+      "e1r_exposure_pct": null
+    },
+    "DOWNTREND": {
+      "days": 0,
+      "e1_return_pct": null,
+      "e1r_return_pct": null,
+      "delta_e1r_minus_e1_pct": null,
+      "spx_return_pct": null,
+      "e1_exposure_pct": null,
+      "e1r_exposure_pct": null
+    },
+    "UNCLASSIFIED": {
+      "days": 0,
+      "e1_return_pct": null,
+      "e1r_return_pct": null,
+      "delta_e1r_minus_e1_pct": null,
+      "spx_return_pct": null,
+      "e1_exposure_pct": null,
+      "e1r_exposure_pct": null
+    }
+  },
+  "interpretation": {
+    "phase3b_actual_tested_channel": "CONFIRMED_ONLY",
+    "confirmed_channel_status": "EXECUTED_AND_PORTFOLIO_VALIDATED_IN_UPTREND",
+    "emerging_channel_status": "HAS_FORWARD_RETURN_ALPHA_BUT_NOT_EXECUTED_IN_PHASE3B",
+    "sideways_status": "NOT_IMPLEMENTED_OR_NEAR_ZERO_EXPOSURE_IN_PHASE3B",
+    "downtrend_status": "NO_SAMPLE_IN_CURRENT_SHARED_WINDOW",
+    "recommended_next_research_step": "Design separate non-trading diagnostics for Emerging-only capacity and SIDEWAYS low-exposure rules before changing execution logic."
+  }
+}
