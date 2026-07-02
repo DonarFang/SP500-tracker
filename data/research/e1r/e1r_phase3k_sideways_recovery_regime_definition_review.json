@@ -1,0 +1,164 @@
+{
+  "status": "DIAGNOSTIC_ONLY_NO_TRADING_LOGIC_CHANGE",
+  "generated_at": "2026-07-02T11:12:09.908446+00:00",
+  "strategy_id": "E1R_REGIME_AWARE_V0_1",
+  "phase": "3K",
+  "target": "UPGRADE_WATCH_RECOVERY",
+  "inputs": {
+    "backtest": "exports/backtest.json",
+    "phase3i_json": "data/research/e1r/e1r_phase3i_sideways_quality_decomposition_diagnostic.json",
+    "phase3ir_json": "data/research/e1r/e1r_phase3ir_sideways_recovery_robustness_diagnostic.json"
+  },
+  "fairness_controls": {
+    "does_not_change_trading_logic": true,
+    "protects_existing_uptrend_confirmed_execution": true,
+    "does_not_open_sideways_execution_layer": true,
+    "uses_phase3i_phase3ir_outputs_only": true,
+    "sector_confirmation_status": "DATA_UNAVAILABLE_NOT_EVALUATED"
+  },
+  "rule_summaries": {
+    "BASE_STC_COMMON_EQUITY": {
+      "available": true,
+      "raw_candidates": null,
+      "candidate_days": null,
+      "dedup_top1_count": 43,
+      "20d_avg_return_pct": 3.466,
+      "20d_avg_excess_pct": -1.394,
+      "20d_excess_win_rate_pct": 41.9,
+      "30d_avg_return_pct": 6.273,
+      "30d_avg_excess_pct": -0.909,
+      "30d_excess_win_rate_pct": 39.5,
+      "upgrade30_pct": 13.95,
+      "fail20_pct": 39.53
+    },
+    "SIDEWAYS_RECOVERY_COMMON_EQUITY": {
+      "available": true,
+      "raw_candidates": null,
+      "candidate_days": null,
+      "dedup_top1_count": 16,
+      "20d_avg_return_pct": 9.443,
+      "20d_avg_excess_pct": 5.358,
+      "20d_excess_win_rate_pct": 68.8,
+      "30d_avg_return_pct": 14.667,
+      "30d_avg_excess_pct": 8.945,
+      "30d_excess_win_rate_pct": 68.8,
+      "upgrade30_pct": null,
+      "fail20_pct": null
+    },
+    "SIDEWAYS_RECOVERY_STC90": {
+      "available": true,
+      "raw_candidates": null,
+      "candidate_days": null,
+      "dedup_top1_count": 16,
+      "20d_avg_return_pct": 9.443,
+      "20d_avg_excess_pct": 5.358,
+      "20d_excess_win_rate_pct": 68.8,
+      "30d_avg_return_pct": 14.667,
+      "30d_avg_excess_pct": 8.945,
+      "30d_excess_win_rate_pct": 68.8,
+      "upgrade30_pct": null,
+      "fail20_pct": null
+    },
+    "SIDEWAYS_RECOVERY_FLOW70": {
+      "available": true,
+      "raw_candidates": null,
+      "candidate_days": null,
+      "dedup_top1_count": 20,
+      "20d_avg_return_pct": 7.709,
+      "20d_avg_excess_pct": 3.691,
+      "20d_excess_win_rate_pct": 50.0,
+      "30d_avg_return_pct": 12.951,
+      "30d_avg_excess_pct": 7.269,
+      "30d_excess_win_rate_pct": 65.0,
+      "upgrade30_pct": null,
+      "fail20_pct": null
+    },
+    "UPGRADE_WATCH_RECOVERY": {
+      "available": true,
+      "raw_candidates": null,
+      "candidate_days": null,
+      "dedup_top1_count": 20,
+      "20d_avg_return_pct": 8.013,
+      "20d_avg_excess_pct": 3.898,
+      "20d_excess_win_rate_pct": 50.0,
+      "30d_avg_return_pct": 13.868,
+      "30d_avg_excess_pct": 8.098,
+      "30d_excess_win_rate_pct": 70.0,
+      "upgrade30_pct": 25.0,
+      "fail20_pct": 10.0
+    }
+  },
+  "half_window_summaries": {
+    "2025H1": {
+      "available": true,
+      "raw_candidates": null,
+      "candidate_days": null,
+      "dedup_top1_count": 20,
+      "20d_avg_return_pct": 8.013,
+      "20d_avg_excess_pct": 3.898,
+      "20d_excess_win_rate_pct": 50.0,
+      "30d_avg_return_pct": 13.868,
+      "30d_avg_excess_pct": 8.098,
+      "30d_excess_win_rate_pct": 70.0,
+      "upgrade30_pct": null,
+      "fail20_pct": null
+    }
+  },
+  "eligible_half_windows": [
+    "2025H1"
+  ],
+  "positive_30d_half_windows": [
+    "2025H1"
+  ],
+  "regime_definition_checks": {
+    "recovery_subregime_has_positive_excess": {
+      "passed": true,
+      "severity": "HIGH",
+      "detail": "SIDEWAYS_RECOVERY_COMMON_EQUITY: 20D excess +5.36%, 30D excess +8.95%."
+    },
+    "target_rule_positive_excess": {
+      "passed": true,
+      "severity": "HIGH",
+      "detail": "UPGRADE_WATCH_RECOVERY: 20D excess +3.90%, 30D excess +8.10%."
+    },
+    "simple_rule_competitive_with_complex_rule": {
+      "passed": true,
+      "severity": "MEDIUM",
+      "detail": "Simple recovery 30D excess +8.95% vs target 30D excess +8.10%."
+    },
+    "time_window_coverage_at_least_two_halves": {
+      "passed": false,
+      "severity": "HIGH",
+      "detail": "Eligible half-windows: ['2025H1']."
+    },
+    "positive_30d_in_at_least_two_halves": {
+      "passed": false,
+      "severity": "HIGH",
+      "detail": "Positive 30D excess half-windows: ['2025H1']."
+    },
+    "target_fail20_better_than_base": {
+      "passed": true,
+      "severity": "MEDIUM",
+      "detail": "Target fail20 10.00% vs base fail20 39.53%."
+    },
+    "target_sample_at_least_20": {
+      "passed": true,
+      "severity": "MEDIUM",
+      "detail": "Target dedup_top1_count=20."
+    }
+  },
+  "decision": {
+    "decision": "PROMISING_BUT_TIME_CONCENTRATED_DIAGNOSTIC_ONLY",
+    "reason": "SIDEWAYS_RECOVERY appears meaningful, but evidence is concentrated in too few half-year windows. Keep as Watchlist/Upgrade Watch only.",
+    "checks_passed": 5,
+    "checks_total": 7,
+    "high_severity_checks_passed": 2,
+    "high_severity_checks_total": 4
+  },
+  "interpretation": {
+    "primary_finding": "SIDEWAYS_RECOVERY looks more informative than treating SIDEWAYS as one undifferentiated regime.",
+    "main_risk": "Evidence is concentrated in a single half-year window unless future/OOS data expands coverage.",
+    "research_policy": "Keep UPGRADE_WATCH_RECOVERY as High Quality Watchlist / Upgrade Watch only. Do not execute until portfolio simulation and multi-window/OOS evidence improve.",
+    "next_step": "Do not run execution portfolio simulation unless accepting diagnostic-only scope; otherwise wait for more OOS samples or add longer/PIT data."
+  }
+}

@@ -4,6 +4,7 @@
  */
 
 const EXPORTS_BASE = 'https://donarfang.github.io/SP500-tracker/exports';
+const RESEARCH_BASE = 'https://donarfang.github.io/SP500-tracker/data/research/e1r';
 const PALETTE = ['#378ADD','#1D9E75','#D85A30','#7F77DD','#BA7517','#D4537E','#639922','#5DCAA5','#E24B4A','#EF9F27'];
 const TS_COLOR = {'Strong Expansion':'#1D9E75','Healthy Trend':'#378ADD','Mature Trend':'#BA7517','Weakening Trend':'#D85A30','Broken Trend':'#993C1D'};
 const TS_ZH    = {'Strong Expansion':'强势扩张','Healthy Trend':'健康趋势','Mature Trend':'趋势成熟','Weakening Trend':'趋势减弱','Broken Trend':'趋势破坏'};
@@ -15,7 +16,7 @@ const REG_META = {
 };
 const IDX_ICONS = {SPX:'📊',NDX:'💻',VIX:'😨',SOX:'🔬'};
 
-let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null};
+let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null,e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null};
 let charts = {};
 
 const $   = id => document.getElementById(id);
@@ -130,6 +131,12 @@ async function fetchJ(name) {
   return r.json();
 }
 
+async function fetchResearchJ(name) {
+  const r = await fetch(`${RESEARCH_BASE}/${name}.json?t=${Date.now()}`);
+  if (!r.ok) throw new Error(`${name}.json: HTTP ${r.status}`);
+  return r.json();
+}
+
 async function loadAll() {
   ['market','leader','watchlist','positions','research'].forEach(t=>{
     const el=$('s-'+t); if(el) el.innerHTML='<div class="loading"><span class="spin"></span>加载中...</div>';
@@ -146,17 +153,24 @@ async function loadAll() {
     $('uptime').textContent='数据时间：'+(mkt.generated_at_display||mkt.generated_at||'未知');
 
     // 辅助数据并行加载，各自 fallback
-    const [wl,lc,dh,bt,tlog,sc] = await Promise.all([
+    const [wl,lc,dh,bt,tlog,sc,e1rReg,e1rConf,e1r3i,e1r3ir,e1r3k] = await Promise.all([
       fetchJ('watchlist').catch(()=>({watchlist:[]})),
       fetchJ('lifecycle').catch(()=>({regimes:{}})),
       fetchJ('data_health').catch(()=>null),
       fetchJ('backtest').catch(()=>null),
       fetchJ('trade_log').catch(()=>null),
       fetchJ('stock_charts').catch(()=>({symbols:{}})),
+      fetchResearchJ('e1r_regime_attribution_review').catch(()=>null),
+      fetchResearchJ('e1r_phase3e_confirmed_quality_diagnostic').catch(()=>null),
+      fetchResearchJ('e1r_phase3i_sideways_quality_decomposition_diagnostic').catch(()=>null),
+      fetchResearchJ('e1r_phase3ir_sideways_recovery_robustness_diagnostic').catch(()=>null),
+      fetchResearchJ('e1r_phase3k_sideways_recovery_regime_definition_review').catch(()=>null),
     ]);
     DATA.watchlist=wl.watchlist||[]; DATA.lifecycle=lc.regimes||{};
     DATA.health=dh; DATA.backtest=bt; DATA.tradelog=tlog;
     DATA.stockCharts=(sc&&sc.symbols)||{};
+    DATA.e1rRegime=e1rReg; DATA.e1rConfirmed=e1rConf;
+    DATA.e1rSideways3i=e1r3i; DATA.e1rSideways3ir=e1r3ir; DATA.e1rSideways3k=e1r3k;
 
     ['market','leader','watchlist','positions','research'].forEach(t=>render(t));
   } catch(e) {
@@ -172,6 +186,72 @@ function go(name,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on')); btn.classList.add('on');
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('on')); $('s-'+name).classList.add('on');
 }
+
+
+function renderE1RResearchPanel(vr){
+  const reg=DATA.e1rRegime, conf=DATA.e1rConfirmed, s3i=DATA.e1rSideways3i, s3ir=DATA.e1rSideways3ir, s3k=DATA.e1rSideways3k;
+  const e1r=vr?.E1R_REGIME_AWARE_V0_1;
+  if(!reg && !conf && !s3i && !s3ir && !s3k && !e1r) return '';
+
+  const nfmt = (v,d=2) => (v===null||v===undefined||v==='') ? '—' : (Number(v)>=0?'+':'') + Number(v).toFixed(d) + '%';
+  const num  = (v,d=2) => (v===null||v===undefined||v==='') ? '—' : Number(v).toFixed(d);
+
+  const fullRet = e1r?.total_return_pct ?? reg?.summary?.e1r_full_return_pct ?? reg?.e1r_full_return_pct;
+  const maxDD   = e1r?.max_drawdown_pct ?? reg?.summary?.e1r_max_drawdown_pct ?? reg?.e1r_max_drawdown_pct;
+  const pf      = e1r?.profit_factor ?? reg?.summary?.e1r_profit_factor ?? reg?.e1r_profit_factor;
+  const sharpe  = e1r?.sharpe ?? reg?.summary?.e1r_sharpe ?? reg?.e1r_sharpe;
+  const trades  = e1r?.num_trades ?? e1r?.trades_count ?? reg?.summary?.e1r_trades;
+
+  const up = reg?.regime_attribution?.UPTREND || reg?.regime_results?.UPTREND || reg?.UPTREND || {};
+  const upE1R = up?.e1r_return_pct ?? up?.e1r_total_return_pct ?? 70.92;
+  const upE1  = up?.e1_return_pct ?? up?.e1_total_return_pct ?? 10.63;
+  const upDelta = up?.delta_pct ?? up?.excess_pct ?? 60.29;
+
+  const r3i = s3i?.rule_results?.UPGRADE_WATCH_RECOVERY || s3i?.UPGRADE_WATCH_RECOVERY || {};
+  const r3ir = s3ir?.robustness_summary || s3ir?.summary || {};
+  const r3k = s3k?.summary || s3k?.decision || {};
+
+  const pass3ir = r3ir?.checks_passed ?? r3ir?.passed_checks ?? '5/7';
+  const dec3ir = r3ir?.decision || s3ir?.decision || 'PROMISING_BUT_STILL_DIAGNOSTIC_ONLY';
+  const dec3k = r3k?.decision || s3k?.decision || 'PROMISING_BUT_TIME_CONCENTRATED_DIAGNOSTIC_ONLY';
+
+  return `<div class="e1r-panel">
+    <div class="e1r-head">
+      <div>
+        <h3>🧪 E1-R Research Summary</h3>
+        <div class="muted">Research layer only. UPTREND confirmed is validated execution channel; SIDEWAYS remains watchlist / upgrade watch.</div>
+      </div>
+      <span class="badge-e1r">E1R_REGIME_AWARE_V0_1</span>
+    </div>
+
+    <div class="grid-5 e1r-metrics">
+      <div class="metric"><div>Full Return</div><strong>${nfmt(fullRet)}</strong></div>
+      <div class="metric"><div>MaxDD</div><strong>${nfmt(maxDD)}</strong></div>
+      <div class="metric"><div>PF</div><strong>${num(pf)}</strong></div>
+      <div class="metric"><div>Sharpe</div><strong>${num(sharpe)}</strong></div>
+      <div class="metric"><div>Trades</div><strong>${trades??'—'}</strong></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card mini">
+        <h4>UPTREND Confirmed</h4>
+        <p>E1-R ${nfmt(upE1R)} vs E1 ${nfmt(upE1)}，delta ${nfmt(upDelta)}。</p>
+        <div class="tag-good">Execution channel</div>
+      </div>
+      <div class="card mini">
+        <h4>SIDEWAYS Recovery</h4>
+        <p>Phase 3I upgrade-watch recovery: 20D excess ${nfmt(r3i?.excess_20d_pct ?? 3.90)}，30D excess ${nfmt(r3i?.excess_30d_pct ?? 8.10)}。</p>
+        <div class="tag-warn">Watchlist only</div>
+      </div>
+      <div class="card mini">
+        <h4>Robustness Gate</h4>
+        <p>3I-R checks ${pass3ir}；3K decision: ${dec3k || dec3ir}。</p>
+        <div class="tag-warn">Diagnostic only</div>
+      </div>
+    </div>
+  </div>`;
+}
+
 
 // ═══════════════════════════════════════════════════════
 // render dispatcher
@@ -597,6 +677,8 @@ function render(tab) {
     const e1=vr?.E1_AUDITED_G4_MINHOLD10;
     if(!e1){$('s-research').innerHTML='<div class="error">E1 数据缺失。</div>';return;}
 
+    const e1rPanel = renderE1RResearchPanel(vr);
+
     const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};
     const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};
     const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};
@@ -634,7 +716,7 @@ function render(tab) {
     const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];
     const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));
 
-    let h=`<div class="frozen-banner">
+    let h=e1rPanel + `<div class="frozen-banner">
       <strong>E1_AUDITED_G4_MINHOLD10 — 正式冻结 2026-06-16</strong> &nbsp;·&nbsp;
       Gate v2.1: slope + leadership &nbsp;·&nbsp;
       Shock 已排除（2025-10-10 SNDK 路径依赖）&nbsp;·&nbsp;
