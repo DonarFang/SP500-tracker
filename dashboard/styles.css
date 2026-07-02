@@ -75,3 +75,23 @@ tr:hover td{background:var(--bg2)}
 .ai-box strong{color:var(--text);font-weight:500}
 .stock-symbol{font-weight:600;font-size:13px}
 .stock-name{font-size:11px;color:var(--text2)}
+
+
+/* E1-R Research Dashboard Integration */
+.e1r-card{border-color:rgba(29,158,117,.28)}
+.research-status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
+.research-status{border:.5px solid var(--border);border-radius:var(--radius);padding:.8rem;background:var(--bg2)}
+.research-status.approved{border-color:rgba(29,158,117,.35);background:rgba(29,158,117,.08)}
+.research-status.watch{border-color:rgba(186,117,23,.35);background:rgba(186,117,23,.08)}
+.research-status.neutral{border-color:rgba(128,128,128,.30);background:rgba(128,128,128,.08)}
+.research-status-title{font-size:11px;color:var(--text2);margin-bottom:4px}
+.research-status-main{font-size:12px;font-weight:700;letter-spacing:.02em;margin-bottom:4px}
+.research-status-sub{font-size:11px;color:var(--text2);line-height:1.45}
+.research-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;white-space:nowrap}
+.research-badge-approved{background:var(--buy-bg);color:var(--buy-text)}
+.research-badge-watch{background:var(--hold-bg);color:var(--hold-text)}
+.research-badge-neutral{background:var(--bg3);color:var(--text2)}
+.research-callout{margin-top:.8rem;background:var(--bg2);border-left:3px solid var(--amber);border-radius:0 var(--radius) var(--radius) 0;padding:.7rem .9rem;font-size:12px;line-height:1.6;color:var(--text2)}
+.research-metrics .mc-sub{line-height:1.35}
+@media(max-width:800px){.research-status-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.research-status-grid{grid-template-columns:1fr}}

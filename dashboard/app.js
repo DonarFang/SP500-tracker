@@ -4,6 +4,7 @@
  */
 
 const EXPORTS_BASE = 'https://donarfang.github.io/SP500-tracker/exports';
+const RESEARCH_BASE = 'https://donarfang.github.io/SP500-tracker/data/research/e1r';
 const PALETTE = ['#378ADD','#1D9E75','#D85A30','#7F77DD','#BA7517','#D4537E','#639922','#5DCAA5','#E24B4A','#EF9F27'];
 const TS_COLOR = {'Strong Expansion':'#1D9E75','Healthy Trend':'#378ADD','Mature Trend':'#BA7517','Weakening Trend':'#D85A30','Broken Trend':'#993C1D'};
 const TS_ZH    = {'Strong Expansion':'强势扩张','Healthy Trend':'健康趋势','Mature Trend':'趋势成熟','Weakening Trend':'趋势减弱','Broken Trend':'趋势破坏'};
@@ -15,7 +16,8 @@ const REG_META = {
 };
 const IDX_ICONS = {SPX:'📊',NDX:'💻',VIX:'😨',SOX:'🔬'};
 
-let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null};
+let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,
+  e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null};
 let charts = {};
 
 const $   = id => document.getElementById(id);
@@ -39,6 +41,90 @@ async function fetchJ(name) {
   return r.json();
 }
 
+async function fetchResearchJ(name) {
+  const r = await fetch(`${RESEARCH_BASE}/${name}.json?t=${Date.now()}`);
+  if (!r.ok) throw new Error(`${name}.json: HTTP ${r.status}`);
+  return r.json();
+}
+
+const num = v => { const n=parseFloat(v); return Number.isFinite(n)?n:null; };
+const pctText = v => { const n=num(v); return n==null?'—':`${n>=0?'+':''}${n.toFixed(2)}%`; };
+const metricColor = v => { const n=num(v); return n==null?'var(--text2)':n>=0?'var(--green)':'var(--red)'; };
+const safeMetric = (obj, ...keys) => keys.reduce((o,k)=>o&&o[k]!==undefined?o[k]:undefined, obj);
+
+function researchBadge(label, tone='neutral') {
+  return `<span class="research-badge research-badge-${tone}">${label}</span>`;
+}
+
+function e1rPerfSource(vr) {
+  const q = DATA.e1rConfirmed?.portfolio_summary || {};
+  return {
+    e1: vr?.E1_AUDITED_G4_MINHOLD10 || q.E1_AUDITED_G4_MINHOLD10 || {},
+    e1r: vr?.E1R_REGIME_AWARE_V0_1 || q.E1R_REGIME_AWARE_V0_1 || {},
+  };
+}
+
+function renderE1RResearchPanel(vr) {
+  const hasAny = DATA.e1rRegime || DATA.e1rConfirmed || DATA.e1rSideways3k || DATA.e1rSideways3ir;
+  if(!hasAny) return `<div class="arch-banner"><strong>E1-R research files not loaded</strong> · Dashboard will show E1 only. Check data/research/e1r/*.json on GitHub Pages.</div>`;
+
+  const {e1,e1r} = e1rPerfSource(vr);
+  const rg = DATA.e1rRegime || {};
+  const cmp = rg.comparison || {};
+  const up = cmp.UPTREND || {}, sw = cmp.SIDEWAYS || {}, dn = cmp.DOWNTREND || {};
+  const shared = rg.shared_regime_day_counts || {};
+  const qg = DATA.e1rConfirmed?.quality_grade || {};
+  const entryCounts = DATA.e1rConfirmed?.entry_type_counts || {};
+  const k = DATA.e1rSideways3k || {};
+  const rules = k.rule_summaries || {};
+  const baseSw = rules.BASE_STC_COMMON_EQUITY || {};
+  const uwr = rules.UPGRADE_WATCH_RECOVERY || {};
+  const kDecision = k.decision || {};
+  const ir = DATA.e1rSideways3ir || {};
+  const irFull = ir.full_target_metrics || {};
+  const checks = kDecision.checks_passed!=null ? `${kDecision.checks_passed}/${kDecision.checks_total}` : (ir.decision?.passed_checks!=null ? `${ir.decision.passed_checks}/${ir.decision.total_checks}` : '—');
+
+  let h = `<div class="card e1r-card"><div class="card-head">E1-R Research Summary <span class="sub">Research display only · no trading logic change</span></div><div class="card-body">`;
+  h += `<div class="research-status-grid">
+    <div class="research-status approved"><div class="research-status-title">UPTREND Confirmed</div><div class="research-status-main">APPROVED RESEARCH CHANNEL</div><div class="research-status-sub">执行研究通道：Confirmed only；Emerging 保持观察。</div></div>
+    <div class="research-status watch"><div class="research-status-title">UPTREND Emerging</div><div class="research-status-main">WATCHLIST ONLY</div><div class="research-status-sub">升级观察，不直接执行。</div></div>
+    <div class="research-status watch"><div class="research-status-title">SIDEWAYS Recovery</div><div class="research-status-main">HIGH QUALITY WATCHLIST</div><div class="research-status-sub">Upgrade Watch only；样本集中在 2025H1。</div></div>
+    <div class="research-status neutral"><div class="research-status-title">DOWNTREND</div><div class="research-status-main">NOT EVALUATED</div><div class="research-status-sub">当前样本不足；Cash-first。</div></div>
+  </div>`;
+
+  h += `<div class="grid-4 research-metrics">
+    <div class="mc"><div class="mc-label">E1-R Full return</div><div class="mc-val" style="color:${metricColor(e1r.total_return_pct)}">${pctText(e1r.total_return_pct)}</div><div class="mc-sub">E1 ${pctText(e1.total_return_pct)}</div></div>
+    <div class="mc"><div class="mc-label">E1-R MaxDD</div><div class="mc-val" style="color:var(--red)">${p2(e1r.max_drawdown_pct)}%</div><div class="mc-sub">E1 ${p2(e1.max_drawdown_pct)}%</div></div>
+    <div class="mc"><div class="mc-label">Profit factor</div><div class="mc-val">${p2(e1r.profit_factor)}</div><div class="mc-sub">E1 ${p2(e1.profit_factor)}</div></div>
+    <div class="mc"><div class="mc-label">Sharpe</div><div class="mc-val">${p2(e1r.sharpe_ratio)}</div><div class="mc-sub">E1 ${p2(e1.sharpe_ratio)}</div></div>
+    <div class="mc"><div class="mc-label">E1-R trades</div><div class="mc-val">${e1r.number_of_trades||DATA.e1rConfirmed?.confirmed_trade_count||0}</div><div class="mc-sub">${Object.entries(entryCounts).map(([k,v])=>`${k.replace('E1R_','')}: ${v}`).join(' · ')||'Confirmed channel'}</div></div>
+    <div class="mc"><div class="mc-label">Confirmed quality</div><div class="mc-val">${qg.heuristic_grade||'—'}</div><div class="mc-sub">${qg.interpretation||'Top-winner stress test'}</div></div>
+    <div class="mc"><div class="mc-label">SIDEWAYS checks</div><div class="mc-val">${checks}</div><div class="mc-sub">3I-R / 3K overfit defense</div></div>
+    <div class="mc"><div class="mc-label">Research status</div><div class="mc-val" style="font-size:16px">Diagnostic</div><div class="mc-sub">Execution layer unchanged</div></div>
+  </div>`;
+
+  h += `</div></div>`;
+
+  h += `<div class="card"><div class="card-head">E1-R Regime Attribution <span class="sub">same window / same regime map</span></div><div class="card-body">
+    <div class="tbl-wrap"><table><thead><tr><th>Regime</th><th>Days</th><th>E1-R minus E1 PnL</th><th>Compound delta</th><th>Exposure delta</th><th>MaxDD delta</th><th>Decision</th></tr></thead><tbody>
+      <tr><td>${researchBadge('UPTREND','approved')}</td><td>${up.days??shared.UPTREND??0}</td><td style="color:${metricColor(up.e1r_minus_e1_pnl_pct_initial)}">${pctText(up.e1r_minus_e1_pnl_pct_initial)}</td><td>${pctText(up.e1r_minus_e1_compound_pct)}</td><td>${pctText(up.e1r_minus_e1_avg_exposure_pct)}</td><td>${pctText(up.e1r_minus_e1_max_dd_within_regime_pct)}</td><td>Confirmed execution research channel</td></tr>
+      <tr><td>${researchBadge('SIDEWAYS','watch')}</td><td>${sw.days??shared.SIDEWAYS??0}</td><td style="color:${metricColor(sw.e1r_minus_e1_pnl_pct_initial)}">${pctText(sw.e1r_minus_e1_pnl_pct_initial)}</td><td>${pctText(sw.e1r_minus_e1_compound_pct)}</td><td>${pctText(sw.e1r_minus_e1_avg_exposure_pct)}</td><td>${pctText(sw.e1r_minus_e1_max_dd_within_regime_pct)}</td><td>Watchlist / Upgrade Watch only</td></tr>
+      <tr><td>${researchBadge('DOWNTREND','neutral')}</td><td>${dn.days??shared.DOWNTREND??0}</td><td>${pctText(dn.e1r_minus_e1_pnl_pct_initial)}</td><td>${pctText(dn.e1r_minus_e1_compound_pct)}</td><td>${pctText(dn.e1r_minus_e1_avg_exposure_pct)}</td><td>${pctText(dn.e1r_minus_e1_max_dd_within_regime_pct)}</td><td>Not evaluated / Cash-first</td></tr>
+    </tbody></table></div>
+  </div></div>`;
+
+  h += `<div class="card"><div class="card-head">SIDEWAYS Recovery Research Guardrail <span class="sub">3I → 3I-R → 3K</span></div><div class="card-body">
+    <div class="tbl-wrap"><table><thead><tr><th>Rule</th><th>N</th><th>20D excess</th><th>30D excess</th><th>Upgrade30</th><th>Fail20</th><th>Status</th></tr></thead><tbody>
+      <tr><td>BASE_STC_COMMON_EQUITY</td><td>${baseSw.dedup_top1_count||'—'}</td><td style="color:${metricColor(baseSw['20d_avg_excess_pct'])}">${pctText(baseSw['20d_avg_excess_pct'])}</td><td style="color:${metricColor(baseSw['30d_avg_excess_pct'])}">${pctText(baseSw['30d_avg_excess_pct'])}</td><td>${pctText(baseSw.upgrade30_pct)}</td><td>${pctText(baseSw.fail20_pct)}</td><td>Baseline</td></tr>
+      <tr><td>UPGRADE_WATCH_RECOVERY</td><td>${uwr.dedup_top1_count||irFull.n||'—'}</td><td style="color:${metricColor(uwr['20d_avg_excess_pct']??irFull['20d_avg_excess_pct'])}">${pctText(uwr['20d_avg_excess_pct']??irFull['20d_avg_excess_pct'])}</td><td style="color:${metricColor(uwr['30d_avg_excess_pct']??irFull['30d_avg_excess_pct'])}">${pctText(uwr['30d_avg_excess_pct']??irFull['30d_avg_excess_pct'])}</td><td>${pctText(uwr.upgrade30_pct??irFull.upgrade30_rate_pct)}</td><td>${pctText(uwr.fail20_pct??irFull.fail20_rate_pct)}</td><td>Watchlist only</td></tr>
+    </tbody></table></div>
+    <div class="research-callout"><strong>3K decision:</strong> ${kDecision.decision||'PROMISING_BUT_TIME_CONCENTRATED_DIAGNOSTIC_ONLY'} · ${kDecision.reason||'Evidence is useful but not execution-approved.'}</div>
+  </div></div>`;
+
+  h += `<div class="arch-banner"><strong>E1-R policy lock</strong> · UPTREND Confirmed 不被 SIDEWAYS 观察信号替代 · Emerging / SIDEWAYS_RECOVERY 均不开放执行层 · DOWNTREND 暂不优化。</div>`;
+  return h;
+}
+
 async function loadAll() {
   ['market','leader','watchlist','positions','research'].forEach(t=>{
     const el=$('s-'+t); if(el) el.innerHTML='<div class="loading"><span class="spin"></span>加载中...</div>';
@@ -55,15 +141,21 @@ async function loadAll() {
     $('uptime').textContent='数据时间：'+(mkt.generated_at_display||mkt.generated_at||'未知');
 
     // 辅助数据并行加载，各自 fallback
-    const [wl,lc,dh,bt,tlog] = await Promise.all([
+    const [wl,lc,dh,bt,tlog,e1rReg,e1rConf,e1r3i,e1r3ir,e1r3k] = await Promise.all([
       fetchJ('watchlist').catch(()=>({watchlist:[]})),
       fetchJ('lifecycle').catch(()=>({regimes:{}})),
       fetchJ('data_health').catch(()=>null),
       fetchJ('backtest').catch(()=>null),
       fetchJ('trade_log').catch(()=>null),
+      fetchResearchJ('e1r_regime_attribution_review').catch(()=>null),
+      fetchResearchJ('e1r_phase3e_confirmed_quality_diagnostic').catch(()=>null),
+      fetchResearchJ('e1r_phase3i_sideways_quality_decomposition_diagnostic').catch(()=>null),
+      fetchResearchJ('e1r_phase3ir_sideways_recovery_robustness_diagnostic').catch(()=>null),
+      fetchResearchJ('e1r_phase3k_sideways_recovery_regime_definition_review').catch(()=>null),
     ]);
     DATA.watchlist=wl.watchlist||[]; DATA.lifecycle=lc.regimes||{};
     DATA.health=dh; DATA.backtest=bt; DATA.tradelog=tlog;
+    DATA.e1rRegime=e1rReg; DATA.e1rConfirmed=e1rConf; DATA.e1rSideways3i=e1r3i; DATA.e1rSideways3ir=e1r3ir; DATA.e1rSideways3k=e1r3k;
 
     ['market','leader','watchlist','positions','research'].forEach(t=>render(t));
   } catch(e) {
@@ -520,6 +612,8 @@ function render(tab) {
       Shock 已排除（2025-10-10 SNDK 路径依赖）&nbsp;·&nbsp;
       样本内不再修改
     </div>`;
+
+    h+=renderE1RResearchPanel(vr);
 
     h+=`<div class="grid-4" style="margin-bottom:1rem">
       <div class="mc"><div class="mc-label">Full return</div><div class="mc-val" style="color:var(--green)">${fmt(e1.total_return_pct)}</div></div>
