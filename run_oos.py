@@ -8,6 +8,8 @@ Usage:
   python3 run_oos.py --status               # show current OOS status
   python3 run_oos.py --check                # pre-check data freshness
 """
+from __future__ import annotations
+
 import argparse, json, logging, sys
 from pathlib import Path
 from datetime import date, datetime, timedelta
@@ -19,6 +21,63 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 sys.path.insert(0, str(Path(__file__).parent))
+
+
+def _load_price_from_history(symbol: str, as_of_date: str | None = None) -> dict | None:
+    """
+    Load latest available OHLC for a symbol from data/prices/{symbol}.json.
+    If as_of_date is provided, use the last row with date <= as_of_date.
+    This is required for OOS mark-to-market of existing holdings.
+    """
+    p = Path("data") / "prices" / f"{symbol}.json"
+    if not p.exists():
+        return None
+    try:
+        rows = json.loads(p.read_text())
+        if not isinstance(rows, list) or not rows:
+            return None
+
+        chosen = None
+        if as_of_date:
+            for r in rows:
+                d = r.get("date")
+                if d and d <= as_of_date:
+                    chosen = r
+                elif d and d > as_of_date:
+                    break
+        if chosen is None:
+            chosen = rows[-1]
+
+        close = chosen.get("close")
+        if close is None:
+            return None
+        return {
+            "open":  chosen.get("open", close),
+            "high":  chosen.get("high", close),
+            "low":   chosen.get("low", close),
+            "close": close,
+            "date":  chosen.get("date"),
+            "source": "data/prices",
+        }
+    except Exception as e:
+        logger.warning(f"Cannot load price history for {symbol}: {e}")
+        return None
+
+
+def _current_oos_holding_symbols() -> list[str]:
+    """
+    Read current OOS holdings so mark-to-market does not depend on leaderboard/trade_actions membership.
+    """
+    p = Path("data") / "oos" / "portfolio_state.json"
+    if not p.exists():
+        return []
+    try:
+        j = json.loads(p.read_text())
+        h = j.get("holdings", {}) or {}
+        return sorted(h.keys())
+    except Exception as e:
+        logger.warning(f"Cannot load OOS holdings from portfolio_state.json: {e}")
+        return []
 
 
 def load_market_data():
@@ -53,9 +112,17 @@ def load_market_data():
                 "high":  stock.get("high", stock.get("price")),
                 "low":   stock.get("low",  stock.get("price")),
                 "close": stock.get("price"),
+                "source": "trade_actions",
             }
     except Exception as e:
         logger.warning(f"Cannot load trade_actions.json: {e}")
+
+    # Critical OOS mark-to-market supplement:
+    # existing holdings must be priced even when they are no longer in trade_actions.
+    for sym in _current_oos_holding_symbols():
+        hist_px = _load_price_from_history(sym, data_date)
+        if hist_px and hist_px.get("close") is not None:
+            prices[sym] = hist_px
 
     return leaders, prices, mkt_state, data_date
 
