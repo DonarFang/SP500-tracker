@@ -91,3 +91,17 @@ tr:hover td{background:var(--bg2)}
 .tag-good,.tag-warn{display:inline-block;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px}
 .tag-good{background:rgba(29,158,117,.14);color:var(--green)}
 .tag-warn{background:rgba(186,117,23,.16);color:#BA7517}
+
+/* E1-R formal backtest metrics layout */
+.e1r-metrics-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
+  gap:10px;
+  margin-bottom:12px;
+}
+.e1r-panel .mini{
+  overflow-wrap:anywhere;
+}
+.e1r-panel .mini p{
+  overflow-wrap:anywhere;
+}

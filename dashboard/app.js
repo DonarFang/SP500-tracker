@@ -16,7 +16,7 @@ const REG_META = {
 };
 const IDX_ICONS = {SPX:'📊',NDX:'💻',VIX:'😨',SOX:'🔬'};
 
-let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null,e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null};
+let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null,e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null,e1rFormal:null};
 let charts = {};
 
 const $   = id => document.getElementById(id);
@@ -153,7 +153,7 @@ async function loadAll() {
     $('uptime').textContent='数据时间：'+(mkt.generated_at_display||mkt.generated_at||'未知');
 
     // 辅助数据并行加载，各自 fallback
-    const [wl,lc,dh,bt,tlog,sc,e1rReg,e1rConf,e1r3i,e1r3ir,e1r3k] = await Promise.all([
+    const [wl,lc,dh,bt,tlog,sc,e1rReg,e1rConf,e1r3i,e1r3ir,e1r3k,e1rFormal] = await Promise.all([
       fetchJ('watchlist').catch(()=>({watchlist:[]})),
       fetchJ('lifecycle').catch(()=>({regimes:{}})),
       fetchJ('data_health').catch(()=>null),
@@ -165,12 +165,13 @@ async function loadAll() {
       fetchResearchJ('e1r_phase3i_sideways_quality_decomposition_diagnostic').catch(()=>null),
       fetchResearchJ('e1r_phase3ir_sideways_recovery_robustness_diagnostic').catch(()=>null),
       fetchResearchJ('e1r_phase3k_sideways_recovery_regime_definition_review').catch(()=>null),
+      fetchResearchJ('e1r_formal_backtest_v0_1').catch(()=>null),
     ]);
     DATA.watchlist=wl.watchlist||[]; DATA.lifecycle=lc.regimes||{};
     DATA.health=dh; DATA.backtest=bt; DATA.tradelog=tlog;
     DATA.stockCharts=(sc&&sc.symbols)||{};
     DATA.e1rRegime=e1rReg; DATA.e1rConfirmed=e1rConf;
-    DATA.e1rSideways3i=e1r3i; DATA.e1rSideways3ir=e1r3ir; DATA.e1rSideways3k=e1r3k;
+    DATA.e1rSideways3i=e1r3i; DATA.e1rSideways3ir=e1r3ir; DATA.e1rSideways3k=e1r3k; DATA.e1rFormal=e1rFormal;
 
     ['market','leader','watchlist','positions','research'].forEach(t=>render(t));
   } catch(e) {
@@ -190,17 +191,20 @@ function go(name,btn){
 
 function renderE1RResearchPanel(vr){
   const reg=DATA.e1rRegime, conf=DATA.e1rConfirmed, s3i=DATA.e1rSideways3i, s3ir=DATA.e1rSideways3ir, s3k=DATA.e1rSideways3k;
+  const formal=DATA.e1rFormal||{}, fm=formal.metrics||{};
   const e1r=vr?.E1R_REGIME_AWARE_V0_1;
-  if(!reg && !conf && !s3i && !s3ir && !s3k && !e1r) return '';
+  if(!reg && !conf && !s3i && !s3ir && !s3k && !e1r && !formal.variant_id) return '';
 
   const nfmt = (v,d=2) => (v===null||v===undefined||v==='') ? '—' : (Number(v)>=0?'+':'') + Number(v).toFixed(d) + '%';
   const num  = (v,d=2) => (v===null||v===undefined||v==='') ? '—' : Number(v).toFixed(d);
 
-  const fullRet = e1r?.total_return_pct ?? reg?.summary?.e1r_full_return_pct ?? reg?.e1r_full_return_pct;
-  const maxDD   = e1r?.max_drawdown_pct ?? reg?.summary?.e1r_max_drawdown_pct ?? reg?.e1r_max_drawdown_pct;
-  const pf      = e1r?.profit_factor ?? reg?.summary?.e1r_profit_factor ?? reg?.e1r_profit_factor;
-  const sharpe  = e1r?.sharpe ?? reg?.summary?.e1r_sharpe ?? reg?.e1r_sharpe;
-  const trades  = e1r?.num_trades ?? e1r?.trades_count ?? reg?.summary?.e1r_trades;
+  const fullRet = fm.total_return_pct ?? e1r?.total_return_pct ?? reg?.summary?.e1r_full_return_pct ?? reg?.e1r_full_return_pct;
+  const maxDD   = fm.max_drawdown_pct ?? e1r?.max_drawdown_pct ?? reg?.summary?.e1r_max_drawdown_pct ?? reg?.e1r_max_drawdown_pct;
+  const pf      = fm.profit_factor ?? e1r?.profit_factor ?? reg?.summary?.e1r_profit_factor ?? reg?.e1r_profit_factor;
+  const sharpe  = fm.sharpe_ratio ?? e1r?.sharpe_ratio ?? e1r?.sharpe ?? reg?.summary?.e1r_sharpe ?? reg?.e1r_sharpe;
+  const trades  = fm.number_of_trades ?? e1r?.number_of_trades ?? e1r?.num_trades ?? e1r?.trades_count ?? reg?.summary?.e1r_trades;
+  const alpha   = fm.alpha_pct;
+  const exposure= fm.exposure_pct;
 
   const up = reg?.regime_attribution?.UPTREND || reg?.regime_results?.UPTREND || reg?.UPTREND || {};
   const upE1R = up?.e1r_return_pct ?? up?.e1r_total_return_pct ?? 70.92;
@@ -219,17 +223,19 @@ function renderE1RResearchPanel(vr){
     <div class="e1r-head">
       <div>
         <h3>🧪 E1-R Research Summary</h3>
-        <div class="muted">Research layer only. UPTREND confirmed is validated execution channel; SIDEWAYS remains watchlist / upgrade watch.</div>
+        <div class="muted">Formal backtest available from 5Y research export. Main engine migration / OOS tracking not yet completed.</div>
       </div>
       <span class="badge-e1r">E1R_REGIME_AWARE_V0_1</span>
     </div>
 
-    <div class="grid-5 e1r-metrics">
+    <div class="e1r-metrics-row">
       <div class="metric"><div>Full Return</div><strong>${nfmt(fullRet)}</strong></div>
       <div class="metric"><div>MaxDD</div><strong>${nfmt(maxDD)}</strong></div>
       <div class="metric"><div>PF</div><strong>${num(pf)}</strong></div>
       <div class="metric"><div>Sharpe</div><strong>${num(sharpe)}</strong></div>
       <div class="metric"><div>Trades</div><strong>${trades??'—'}</strong></div>
+      <div class="metric"><div>Alpha</div><strong>${nfmt(alpha)}</strong></div>
+      <div class="metric"><div>Exposure</div><strong>${nfmt(exposure)}</strong></div>
     </div>
 
     <div class="grid-3">
@@ -711,6 +717,7 @@ function render(tab) {
     }).join('');
 
     const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];
+    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];
 
     // Lifecycle 统计迁入
     const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];
@@ -735,7 +742,7 @@ function render(tab) {
     </div>`;
 
     if(eqCurve.length>1){
-      h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">Equity curve — E1 vs SPX (indexed to 100)</div><div class="card-body">
+      h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
         <div class="cwrap" style="height:220px"><canvas id="cw-equity"></canvas></div>
         <div class="muted" style="font-size:12px;margin-top:.5rem">Equity includes SIM_END open positions marked to market.</div>
       </div></div>`;
@@ -805,15 +812,20 @@ function render(tab) {
       setTimeout(()=>{
         const el=$('cw-equity'); if(!el)return;
         if(charts.equity)charts.equity.destroy();
-        const e1Start=eqCurve[0]||1, spxStart=spxCurve[0]||1;
+        const e1Start=eqCurve[0]||1, spxStart=spxCurve[0]||1, e1rStart=e1rCurve[0]||1;
         const e1I=eqCurve.map(v=>parseFloat(((v/e1Start)*100).toFixed(2)));
         const spxI=spxCurve.map(v=>parseFloat(((v/spxStart)*100).toFixed(2)));
+        const e1rI=e1rCurve.map(v=>parseFloat(((v/e1rStart)*100).toFixed(2)));
+        const ds=[
+          {label:'E1 strategy',data:e1I,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},
+          {label:'SPX buy & hold',data:spxI,borderColor:'#888',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.2},
+        ];
+        if(e1rI.length>1){
+          ds.splice(1,0,{label:'E1-R strategy',data:e1rI,borderColor:'#D4537E',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.2});
+        }
         charts.equity=new Chart(el,{type:'line',data:{
           labels:eqCurve.map((_,i)=>i),
-          datasets:[
-            {label:'E1 strategy',data:e1I,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},
-            {label:'SPX buy & hold',data:spxI,borderColor:'#888',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.2},
-          ]
+          datasets:ds
         },options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
           plugins:{legend:{labels:{font:{size:10},boxWidth:10,padding:8}}},
           scales:{x:{display:false},y:{ticks:{font:{size:10},callback:v=>v.toFixed(0)},grid:{color:'rgba(128,128,128,0.1)'}}}
