@@ -818,49 +818,32 @@ function render(tab) {
         const e1rI=e1rCurve.map(v=>parseFloat(((v/e1rStart)*100).toFixed(2)));
 
         // Build date labels for sampled equity curves.
-        // Backtest equity_curve is sampled; daily_records usually contains full dates.
-        const pickEquityLabels = (n) => {
-          const directDates =
-            e1.equity_dates ||
-            e1.curve_dates ||
-            e1.dates ||
-            e1.backtest_dates ||
-            [];
-          const e1rDates =
-            e1rFormal.equity_dates ||
-            e1rFormal.curve_dates ||
-            e1rFormal.dates ||
-            [];
-          const dailyDates = (e1.daily_records || [])
-            .map(r => r.date || r.signal_date || r.data_date)
-            .filter(Boolean);
+        // Use formal backtest sample window, not daily_records.
+        // daily_records is sparse and may stop before simulation_end_date.
+        const buildEquityDateLabels = (n) => {
+          const sv = e1.sample_validity || {};
+          const startDate = sv.simulation_start_date || e1.simulation_start_date || null;
+          const endDate = sv.simulation_end_date || e1.simulation_end_date || null;
 
-          let arr = [];
-          if(Array.isArray(directDates) && directDates.length){
-            arr = directDates;
-          } else if(dailyDates.length){
-            const sampled = dailyDates.filter((_, i) => i % 5 === 0);
-            arr = sampled.length >= n ? sampled.slice(0, n) : dailyDates;
-          } else if(Array.isArray(e1rDates) && e1rDates.length){
-            arr = e1rDates;
+          if(!startDate || !endDate || n <= 1){
+            return Array.from({length:n}, (_, i) => String(i));
           }
 
-          if(arr.length === n) return arr.map(String);
-          if(arr.length > 1 && n > 1){
-            return Array.from({length:n}, (_, i) => {
-              const idx = Math.round(i * (arr.length - 1) / (n - 1));
-              return String(arr[idx]);
-            });
+          const startMs = new Date(startDate + "T00:00:00Z").getTime();
+          const endMs = new Date(endDate + "T00:00:00Z").getTime();
+
+          if(!Number.isFinite(startMs) || !Number.isFinite(endMs) || endMs <= startMs){
+            return Array.from({length:n}, (_, i) => String(i));
           }
-          return Array.from({length:n}, (_, i) => String(i));
+
+          return Array.from({length:n}, (_, i) => {
+            const t = startMs + (endMs - startMs) * i / (n - 1);
+            return new Date(t).toISOString().slice(0, 10);
+          });
         };
 
-        const labels = pickEquityLabels(eqCurve.length);
-        const isDateLabel = v => /^\\d{4}-\\d{2}-\\d{2}/.test(String(v));
-        const shortDate = v => {
-          const s = String(v);
-          return isDateLabel(s) ? s.slice(2, 7) : s;
-        };
+        const labels = buildEquityDateLabels(eqCurve.length);
+        const shortDate = v => String(v).slice(2, 7);
 
         const ds=[
           {label:'E1 strategy',data:e1I,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},
