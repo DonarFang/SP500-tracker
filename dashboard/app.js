@@ -16,7 +16,7 @@ const REG_META = {
 };
 const IDX_ICONS = {SPX:'📊',NDX:'💻',VIX:'😨',SOX:'🔬'};
 
-let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null,e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null,e1rFormal:null};
+let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null,oosEquity:null,e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null,e1rFormal:null};
 let charts = {};
 
 const $   = id => document.getElementById(id);
@@ -153,13 +153,14 @@ async function loadAll() {
     $('uptime').textContent='数据时间：'+(mkt.generated_at_display||mkt.generated_at||'未知');
 
     // 辅助数据并行加载，各自 fallback
-    const [wl,lc,dh,bt,tlog,sc,e1rReg,e1rConf,e1r3i,e1r3ir,e1r3k,e1rFormal] = await Promise.all([
+    const [wl,lc,dh,bt,tlog,sc,oosEq,e1rReg,e1rConf,e1r3i,e1r3ir,e1r3k,e1rFormal] = await Promise.all([
       fetchJ('watchlist').catch(()=>({watchlist:[]})),
       fetchJ('lifecycle').catch(()=>({regimes:{}})),
       fetchJ('data_health').catch(()=>null),
       fetchJ('backtest').catch(()=>null),
       fetchJ('trade_log').catch(()=>null),
       fetchJ('stock_charts').catch(()=>({symbols:{}})),
+      fetchJ('oos_equity_curve').catch(()=>null),
       fetchResearchJ('e1r_regime_attribution_review').catch(()=>null),
       fetchResearchJ('e1r_phase3e_confirmed_quality_diagnostic').catch(()=>null),
       fetchResearchJ('e1r_phase3i_sideways_quality_decomposition_diagnostic').catch(()=>null),
@@ -170,6 +171,7 @@ async function loadAll() {
     DATA.watchlist=wl.watchlist||[]; DATA.lifecycle=lc.regimes||{};
     DATA.health=dh; DATA.backtest=bt; DATA.tradelog=tlog;
     DATA.stockCharts=(sc&&sc.symbols)||{};
+    DATA.oosEquity=oosEq;
     DATA.e1rRegime=e1rReg; DATA.e1rConfirmed=e1rConf;
     DATA.e1rSideways3i=e1r3i; DATA.e1rSideways3ir=e1r3ir; DATA.e1rSideways3k=e1r3k; DATA.e1rFormal=e1rFormal;
 
@@ -718,6 +720,8 @@ function render(tab) {
 
     const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];
     const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];
+    const oosRowsForNote=(DATA.oosEquity?.curve||[]);
+    const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';
 
     // Lifecycle 统计迁入
     const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];
@@ -744,7 +748,7 @@ function render(tab) {
     if(eqCurve.length>1){
       h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
         <div class="cwrap" style="height:220px"><canvas id="cw-equity"></canvas></div>
-        <div class="muted" style="font-size:12px;margin-top:.5rem">Equity includes SIM_END open positions marked to market.</div>
+        <div class="muted" style="font-size:12px;margin-top:.5rem">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</div>
       </div></div>`;
     }
 
@@ -812,14 +816,12 @@ function render(tab) {
       setTimeout(()=>{
         const el=$('cw-equity'); if(!el)return;
         if(charts.equity)charts.equity.destroy();
+
         const e1Start=eqCurve[0]||1, spxStart=spxCurve[0]||1, e1rStart=e1rCurve[0]||1;
         const e1I=eqCurve.map(v=>parseFloat(((v/e1Start)*100).toFixed(2)));
         const spxI=spxCurve.map(v=>parseFloat(((v/spxStart)*100).toFixed(2)));
         const e1rI=e1rCurve.map(v=>parseFloat(((v/e1rStart)*100).toFixed(2)));
 
-        // Build date labels for sampled equity curves.
-        // Use formal backtest sample window, not daily_records.
-        // daily_records is sparse and may stop before simulation_end_date.
         const buildEquityDateLabels = (n) => {
           const sv = e1.sample_validity || {};
           const startDate = sv.simulation_start_date || e1.simulation_start_date || null;
@@ -842,16 +844,77 @@ function render(tab) {
           });
         };
 
-        const labels = buildEquityDateLabels(eqCurve.length);
+        const btLabels = buildEquityDateLabels(eqCurve.length);
+
+        const oosRows = (DATA.oosEquity?.curve || [])
+          .filter(r => r && r.date && r.equity != null);
+
+        const oosDates = oosRows.map(r => String(r.date));
+        const extraOosDates = oosDates.filter(d => !btLabels.includes(d));
+        const labels = btLabels.concat(extraOosDates);
+
+        const padAfter = labels.length - btLabels.length;
+        const pad = n => Array.from({length:n}, () => null);
+
+        const e1BacktestData = e1I.concat(pad(padAfter));
+        const spxData = spxI.concat(pad(padAfter));
+        const e1rData = e1rI.concat(pad(Math.max(0, labels.length - e1rI.length)));
+
+        const e1Anchor = e1I[e1I.length-1] || 100;
+        const oosStartEquity = Number(oosRows[0]?.equity || 0) || 1;
+        const oosForwardData = Array.from({length:labels.length}, () => null);
+
+        if(oosRows.length){
+          oosForwardData[btLabels.length-1] = e1Anchor;
+          oosRows.forEach(r => {
+            const idx = labels.indexOf(String(r.date));
+            if(idx >= 0){
+              oosForwardData[idx] = parseFloat(((Number(r.equity || 0) / oosStartEquity) * e1Anchor).toFixed(2));
+            }
+          });
+        }
+
+        const oosStartDate = oosDates[0] || null;
+        const oosStartIndex = oosStartDate ? labels.indexOf(oosStartDate) : -1;
+
         const shortDate = v => String(v).slice(2, 7);
 
         const ds=[
-          {label:'E1 strategy',data:e1I,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},
-          {label:'SPX buy & hold',data:spxI,borderColor:'#888',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.2},
+          {label:'E1 backtest',data:e1BacktestData,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},
+          {label:'SPX buy & hold',data:spxData,borderColor:'#888',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.2},
         ];
-        if(e1rI.length>1){
-          ds.splice(1,0,{label:'E1-R strategy',data:e1rI,borderColor:'#D4537E',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.2});
+
+        if(oosRows.length){
+          ds.splice(1,0,{label:'E1 OOS forward',data:oosForwardData,borderColor:'#1D9E75',backgroundColor:'transparent',borderWidth:2,borderDash:[6,4],pointRadius:0,tension:0.2,spanGaps:false});
         }
+
+        if(e1rI.length>1){
+          ds.splice(oosRows.length?2:1,0,{label:'E1-R backtest',data:e1rData,borderColor:'#D4537E',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.2});
+        }
+
+        const oosLinePlugin = {
+          id:'oosStartLine',
+          afterDraw(chart){
+            if(oosStartIndex < 0) return;
+            const {ctx, chartArea, scales} = chart;
+            if(!chartArea || !scales?.x) return;
+            const x = scales.x.getPixelForValue(oosStartIndex);
+            ctx.save();
+            ctx.beginPath();
+            ctx.setLineDash([4,4]);
+            ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+            ctx.lineWidth = 1;
+            ctx.moveTo(x, chartArea.top);
+            ctx.lineTo(x, chartArea.bottom);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = 'rgba(255,255,255,0.65)';
+            ctx.font = '10px sans-serif';
+            ctx.fillText('OOS start', x + 6, chartArea.top + 12);
+            ctx.restore();
+          }
+        };
+
         charts.equity=new Chart(el,{type:'line',data:{
           labels,
           datasets:ds
@@ -874,7 +937,9 @@ function render(tab) {
             },
             y:{ticks:{font:{size:10},callback:v=>v.toFixed(0)},grid:{color:'rgba(128,128,128,0.1)'}}
           }
-        }});
+        },plugins:[oosLinePlugin]});
+      },80);
+    }
       },80);
     }
   }
