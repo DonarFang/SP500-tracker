@@ -860,6 +860,31 @@ function render(tab) {
         const spxData = spxI.concat(pad(padAfter));
         const e1rData = e1rI.concat(pad(Math.max(0, labels.length - e1rI.length)));
 
+        // Extend SPX benchmark through OOS using Market Overview SPX chart.
+        // This keeps SPX buy & hold comparable with E1 OOS forward.
+        const spxAnchor = spxI[spxI.length-1] || 100;
+        const spxIx = DATA.market?.indices?.SPX || {};
+        const spxChartDates = spxIx.chart_dates || [];
+        const spxChartPrices = spxIx.chart_prices || [];
+        const btEndDate = e1.sample_validity?.simulation_end_date || labels[btLabels.length-1];
+
+        if(spxChartDates.length && spxChartPrices.length && btEndDate){
+          let baseIdx = spxChartDates.findIndex(d => String(d) >= String(btEndDate));
+          if(baseIdx < 0) baseIdx = spxChartDates.length - 1;
+
+          const baseClose = Number(spxChartPrices[baseIdx] || 0);
+          if(baseClose > 0){
+            spxData[btLabels.length-1] = spxAnchor;
+            labels.forEach((d, idx) => {
+              if(idx < btLabels.length) return;
+              const j = spxChartDates.indexOf(String(d));
+              if(j >= 0){
+                spxData[idx] = parseFloat(((Number(spxChartPrices[j] || 0) / baseClose) * spxAnchor).toFixed(2));
+              }
+            });
+          }
+        }
+
         const e1Anchor = e1I[e1I.length-1] || 100;
         const oosStartEquity = Number(oosRows[0]?.equity || 0) || 1;
         const oosForwardData = Array.from({length:labels.length}, () => null);
