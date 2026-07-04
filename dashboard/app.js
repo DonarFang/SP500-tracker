@@ -940,8 +940,6 @@ function render(tab) {
         },plugins:[oosLinePlugin]});
       },80);
     }
-      },80);
-    }
   }
 
 } // end render()
