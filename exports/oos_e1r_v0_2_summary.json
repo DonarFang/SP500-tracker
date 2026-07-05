@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-07-05T15:45:42.730064+00:00",
+  "phase": "OOS_STATUS_SIGNAL_ONLY",
+  "strategy_id": "E1R_REGIME_AWARE_V0_2",
+  "version": "E1R-v0.2-formal-sidecar-sleeve",
+  "research_status": "FORMAL_SIDECAR_SLEEVE_ENGINE",
+  "status_date": "2026-06-18",
+  "market_state": "UPTREND",
+  "regime": "UPTREND",
+  "subclass": null,
+  "mutually_exclusive_state_model": true,
+  "core_active": true,
+  "sidecar_active": false,
+  "sidecar_selected_count": 0,
+  "gross_exposure": 0.25,
+  "top_n": 10,
+  "execution_status": "NO_REAL_EXECUTION",
+  "equity_status": "NOT_YET_CONNECTED",
+  "notes": [
+    "OOS-1 exports daily E1R v0.2 state and sidecar target signals only.",
+    "No real orders are executed by this script.",
+    "No E1R v0.2 OOS equity curve is updated by this script.",
+    "This is the bridge layer for Dashboard and future OOS equity integration."
+  ]
+}

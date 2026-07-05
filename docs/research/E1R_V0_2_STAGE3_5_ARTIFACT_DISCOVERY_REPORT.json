@@ -1,0 +1,430 @@
+{
+  "generated_at": "2026-07-05T15:45:29.057461+00:00",
+  "stage": "B_STAGE_3_5_ARTIFACT_DISCOVERY",
+  "status": "DISCOVERED_E1R_V0_2_FROZEN_ARTIFACTS",
+  "main": {
+    "branch": "main",
+    "head": "1638b6f"
+  },
+  "feature": {
+    "branch": "feature/e1-5y-data",
+    "head": "5f6063e"
+  },
+  "variant": "E1R_REGIME_AWARE_V0_2",
+  "inspected_file_count": 13,
+  "equity_candidate_count": 9,
+  "summary_candidate_count": 1677,
+  "selected_equity_source": {
+    "source_file": "exports/e1r_candidates.json",
+    "source_json_path": "$.candidates",
+    "row_count": 8819,
+    "score": 8979
+  },
+  "selected_summary_source": {
+    "source_file": "exports/e1r_v0_2_backtest_summary.json",
+    "source_json_path": "$.v0_2",
+    "score": 81,
+    "keys": [
+      "alpha_pct",
+      "composition_exists",
+      "max_drawdown_pct",
+      "profit_factor",
+      "regime_aware_logic",
+      "research_status",
+      "row_count",
+      "sharpe_ratio",
+      "sidecar_active_by_regime",
+      "sidecar_active_by_subclass",
+      "sidecar_active_days",
+      "spx_return_pct",
+      "strategy_id",
+      "total_return_pct"
+    ]
+  },
+  "top_equity_candidates": [
+    {
+      "source_file": "exports/e1r_candidates.json",
+      "path": "$.candidates",
+      "row_count": 8819,
+      "score": 8979
+    },
+    {
+      "source_file": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "path": "$.series.E1R_REGIME_AWARE_V0_2",
+      "row_count": 1258,
+      "score": 1548
+    },
+    {
+      "source_file": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "path": "$.series.E1R_REGIME_AWARE_V0_1",
+      "row_count": 1259,
+      "score": 1529
+    },
+    {
+      "source_file": "exports/backtest.json",
+      "path": "$.backtest.results.layer_d.daily_records",
+      "row_count": 22,
+      "score": 142
+    },
+    {
+      "source_file": "exports/backtest.json",
+      "path": "$.backtest.results.layer_d.variant_results.E1_AUDITED_G4_MINHOLD10.daily_records",
+      "row_count": 22,
+      "score": 142
+    },
+    {
+      "source_file": "exports/backtest.json",
+      "path": "$.backtest.results.layer_d.variant_results.E2_DYNAMIC_EXIT_V2.daily_records",
+      "row_count": 22,
+      "score": 142
+    },
+    {
+      "source_file": "exports/portfolio_backtest.json",
+      "path": "$.daily_records",
+      "row_count": 22,
+      "score": 142
+    },
+    {
+      "source_file": "exports/portfolio_backtest.json",
+      "path": "$.variant_results.E1_AUDITED_G4_MINHOLD10.daily_records",
+      "row_count": 22,
+      "score": 142
+    },
+    {
+      "source_file": "exports/portfolio_backtest.json",
+      "path": "$.variant_results.E2_DYNAMIC_EXIT_V2.daily_records",
+      "row_count": 22,
+      "score": 142
+    }
+  ],
+  "top_summary_candidates": [
+    {
+      "source_file": "exports/e1r_v0_2_backtest_summary.json",
+      "path": "$.v0_2",
+      "score": 81,
+      "keys": [
+        "alpha_pct",
+        "composition_exists",
+        "max_drawdown_pct",
+        "profit_factor",
+        "regime_aware_logic",
+        "research_status",
+        "row_count",
+        "sharpe_ratio",
+        "sidecar_active_by_regime",
+        "sidecar_active_by_subclass",
+        "sidecar_active_days",
+        "spx_return_pct",
+        "strategy_id",
+        "total_return_pct"
+      ]
+    },
+    {
+      "source_file": "exports/e1r_v0_2_backtest_summary.json",
+      "path": "$.v0_1",
+      "score": 66,
+      "keys": [
+        "alpha_pct",
+        "max_drawdown_pct",
+        "profit_factor",
+        "regime_aware_logic",
+        "research_status",
+        "row_count",
+        "sharpe_ratio",
+        "spx_return_pct",
+        "strategy_id",
+        "total_return_pct"
+      ]
+    },
+    {
+      "source_file": "exports/e1r_v0_2_backtest_summary.json",
+      "path": "$",
+      "score": 60,
+      "keys": [
+        "comparison_name",
+        "curve_type",
+        "end_date",
+        "generated_at",
+        "notes",
+        "research_status",
+        "row_count",
+        "source",
+        "start_date",
+        "strategy_id",
+        "v0_1",
+        "v0_2",
+        "version"
+      ]
+    },
+    {
+      "source_file": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "path": "$.summary.v0_2",
+      "score": 51,
+      "keys": [
+        "alpha_pct",
+        "composition_exists",
+        "max_drawdown_pct",
+        "profit_factor",
+        "regime_aware_logic",
+        "research_status",
+        "row_count",
+        "sharpe_ratio",
+        "sidecar_active_by_regime",
+        "sidecar_active_by_subclass",
+        "sidecar_active_days",
+        "spx_return_pct",
+        "strategy_id",
+        "total_return_pct"
+      ]
+    },
+    {
+      "source_file": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "path": "$.summary.v0_1",
+      "score": 36,
+      "keys": [
+        "alpha_pct",
+        "max_drawdown_pct",
+        "profit_factor",
+        "regime_aware_logic",
+        "research_status",
+        "row_count",
+        "sharpe_ratio",
+        "spx_return_pct",
+        "strategy_id",
+        "total_return_pct"
+      ]
+    },
+    {
+      "source_file": "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+      "path": "$.latest",
+      "score": 32,
+      "keys": [
+        "changes",
+        "current_count",
+        "date",
+        "decreased_symbols",
+        "entered_count",
+        "entered_symbols",
+        "execution_status",
+        "exited_count",
+        "exited_symbols",
+        "generated_at",
+        "gross_added_weight",
+        "gross_removed_weight",
+        "increased_symbols",
+        "lifecycle_status",
+        "market_state",
+        "one_way_turnover",
+        "phase",
+        "previous_count",
+        "previous_date",
+        "sidecar_active",
+        "sidecar_daily_return",
+        "sidecar_equity",
+        "sidecar_mtm_status",
+        "stayed_count",
+        "stayed_symbols",
+        "strategy_id",
+        "two_way_turnover",
+        "unchanged_symbols"
+      ]
+    },
+    {
+      "source_file": "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+      "path": "$.records[0]",
+      "score": 32,
+      "keys": [
+        "changes",
+        "current_count",
+        "date",
+        "decreased_symbols",
+        "entered_count",
+        "entered_symbols",
+        "execution_status",
+        "exited_count",
+        "exited_symbols",
+        "generated_at",
+        "gross_added_weight",
+        "gross_removed_weight",
+        "increased_symbols",
+        "lifecycle_status",
+        "market_state",
+        "one_way_turnover",
+        "phase",
+        "previous_count",
+        "previous_date",
+        "sidecar_active",
+        "sidecar_daily_return",
+        "sidecar_equity",
+        "sidecar_mtm_status",
+        "stayed_count",
+        "stayed_symbols",
+        "strategy_id",
+        "two_way_turnover",
+        "unchanged_symbols"
+      ]
+    },
+    {
+      "source_file": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "path": "$",
+      "score": 30,
+      "keys": [
+        "curve_type",
+        "end_date",
+        "generated_at",
+        "row_count",
+        "series",
+        "start_date",
+        "summary"
+      ]
+    },
+    {
+      "source_file": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "path": "$.series",
+      "score": 30,
+      "keys": [
+        "E1R_REGIME_AWARE_V0_1",
+        "E1R_REGIME_AWARE_V0_2"
+      ]
+    },
+    {
+      "source_file": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "path": "$.summary",
+      "score": 30,
+      "keys": [
+        "comparison_name",
+        "curve_type",
+        "end_date",
+        "generated_at",
+        "notes",
+        "research_status",
+        "row_count",
+        "source",
+        "start_date",
+        "strategy_id",
+        "v0_1",
+        "v0_2",
+        "version"
+      ]
+    }
+  ],
+  "inspected_files": [
+    {
+      "path": "exports/backtest.json",
+      "size_bytes": 414344,
+      "json_type": "dict",
+      "marker_hint": false,
+      "name_hint": true,
+      "equity_candidate_count": 3,
+      "summary_candidate_count": 232
+    },
+    {
+      "path": "exports/e1r_candidates.json",
+      "size_bytes": 7795305,
+      "json_type": "dict",
+      "marker_hint": false,
+      "name_hint": true,
+      "equity_candidate_count": 1,
+      "summary_candidate_count": 0
+    },
+    {
+      "path": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "size_bytes": 338259,
+      "json_type": "dict",
+      "marker_hint": true,
+      "name_hint": true,
+      "equity_candidate_count": 2,
+      "summary_candidate_count": 1263
+    },
+    {
+      "path": "exports/e1r_v0_2_backtest_summary.json",
+      "size_bytes": 1752,
+      "json_type": "dict",
+      "marker_hint": true,
+      "name_hint": true,
+      "equity_candidate_count": 0,
+      "summary_candidate_count": 3
+    },
+    {
+      "path": "exports/e1r_v0_2_status.json",
+      "size_bytes": 1581,
+      "json_type": "dict",
+      "marker_hint": true,
+      "name_hint": true,
+      "equity_candidate_count": 0,
+      "summary_candidate_count": 1
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_equity_curve.json",
+      "size_bytes": 2632,
+      "json_type": "dict",
+      "marker_hint": true,
+      "name_hint": true,
+      "equity_candidate_count": 0,
+      "summary_candidate_count": 3
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_orders.json",
+      "size_bytes": 255,
+      "json_type": "dict",
+      "marker_hint": true,
+      "name_hint": true,
+      "equity_candidate_count": 0,
+      "summary_candidate_count": 1
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_positions.json",
+      "size_bytes": 446,
+      "json_type": "dict",
+      "marker_hint": true,
+      "name_hint": true,
+      "equity_candidate_count": 0,
+      "summary_candidate_count": 1
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar.json",
+      "size_bytes": 507,
+      "json_type": "dict",
+      "marker_hint": true,
+      "name_hint": true,
+      "equity_candidate_count": 0,
+      "summary_candidate_count": 1
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+      "size_bytes": 2557,
+      "json_type": "dict",
+      "marker_hint": true,
+      "name_hint": true,
+      "equity_candidate_count": 0,
+      "summary_candidate_count": 3
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar_turnover.json",
+      "size_bytes": 1924,
+      "json_type": "dict",
+      "marker_hint": true,
+      "name_hint": true,
+      "equity_candidate_count": 0,
+      "summary_candidate_count": 3
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_summary.json",
+      "size_bytes": 873,
+      "json_type": "dict",
+      "marker_hint": true,
+      "name_hint": true,
+      "equity_candidate_count": 0,
+      "summary_candidate_count": 1
+    },
+    {
+      "path": "exports/portfolio_backtest.json",
+      "size_bytes": 239573,
+      "json_type": "dict",
+      "marker_hint": false,
+      "name_hint": true,
+      "equity_candidate_count": 3,
+      "summary_candidate_count": 165
+    }
+  ]
+}

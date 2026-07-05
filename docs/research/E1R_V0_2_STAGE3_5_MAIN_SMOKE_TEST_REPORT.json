@@ -1,0 +1,386 @@
+{
+  "generated_at": "2026-07-05T15:45:29.057461+00:00",
+  "stage": "B_STAGE_3_5_MAIN_SMOKE_TEST_AND_DASHBOARD_JSON_VALIDATION",
+  "status": "PASS_WITH_DISCOVERED_FROZEN_BACKTEST_ARTIFACTS",
+  "main": {
+    "branch": "main",
+    "head": "1638b6f"
+  },
+  "dependency_fix": {
+    "status": "DEPENDENCIES_READY_WITH_DISCOVERED_FROZEN_BACKTEST_ARTIFACTS",
+    "copied_research_file_count": 558,
+    "copied_frozen_backtest_artifacts": [
+      {
+        "relative_path": "exports/e1r_v0_2_backtest_summary.json",
+        "source_file": "exports/e1r_v0_2_backtest_summary.json",
+        "source_json_path": "$.v0_2",
+        "size_bytes": 941,
+        "json_type": "dict"
+      },
+      {
+        "relative_path": "exports/e1r_v0_2_backtest_equity_curve.json",
+        "source_file": "exports/e1r_candidates.json",
+        "source_json_path": "$.candidates",
+        "size_bytes": 16004713,
+        "json_type": "dict",
+        "row_count": 8819
+      }
+    ],
+    "selected_equity_source": {
+      "source_file": "exports/e1r_candidates.json",
+      "source_json_path": "$.candidates",
+      "row_count": 8819,
+      "score": 8979
+    },
+    "selected_summary_source": {
+      "source_file": "exports/e1r_v0_2_backtest_summary.json",
+      "source_json_path": "$.v0_2",
+      "score": 81,
+      "keys": [
+        "alpha_pct",
+        "composition_exists",
+        "max_drawdown_pct",
+        "profit_factor",
+        "regime_aware_logic",
+        "research_status",
+        "row_count",
+        "sharpe_ratio",
+        "sidecar_active_by_regime",
+        "sidecar_active_by_subclass",
+        "sidecar_active_days",
+        "spx_return_pct",
+        "strategy_id",
+        "total_return_pct"
+      ]
+    },
+    "source_code_patch": "NONE",
+    "backtest_json_mutation": "NONE"
+  },
+  "py_compile": [
+    {
+      "path": "src/engine/e1r_sidecar_sleeve.py",
+      "status": "PASS"
+    },
+    {
+      "path": "src/engine/e1r_composer.py",
+      "status": "PASS"
+    },
+    {
+      "path": "src/engine/backtest.py",
+      "status": "PASS"
+    },
+    {
+      "path": "scripts/export_e1r_v0_2_status.py",
+      "status": "PASS"
+    },
+    {
+      "path": "scripts/run_e1r_v0_2_oos.py",
+      "status": "PASS"
+    },
+    {
+      "path": "scripts/run_e1r_v0_2_oos_equity.py",
+      "status": "PASS"
+    },
+    {
+      "path": "scripts/run_e1r_v0_2_sidecar_lifecycle.py",
+      "status": "PASS"
+    },
+    {
+      "path": "scripts/export_e1r_v0_2_backtest_equity.py",
+      "status": "PASS"
+    }
+  ],
+  "export_commands": [
+    {
+      "cmd": "python3 scripts/export_e1r_v0_2_status.py",
+      "returncode": 0,
+      "stdout": "Wrote /Users/dongfang/Downloads/sp500-tracker-v13/exports/e1r_v0_2_status.json\nstatus_date: 2026-06-18\ne1r_market_state: UPTREND\nregime: UPTREND\nsubclass: None\ncore.active: True\nsidecar.active: False\nsidecar.selected_count: 0",
+      "stderr": ""
+    },
+    {
+      "cmd": "python3 scripts/run_e1r_v0_2_oos.py",
+      "returncode": 0,
+      "stdout": "Wrote /Users/dongfang/Downloads/sp500-tracker-v13/exports/e1r_v0_2_status.json\nstatus_date: 2026-06-18\ne1r_market_state: UPTREND\nregime: UPTREND\nsubclass: None\ncore.active: True\nsidecar.active: False\nsidecar.selected_count: 0\nE1R v0.2 OOS-1 export complete\nstatus_date: 2026-06-18\nmarket_state: UPTREND\ncore_active: True\nsidecar_active: False\nsidecar_selected_count: 0\nwrote:\n  exports/e1r_v0_2_status.json\n  exports/oos_e1r_v0_2_summary.json\n  exports/oos_e1r_v0_2_sidecar.json\n  exports/oos_e1r_v0_2_positions.json\n  exports/oos_e1r_v0_2_orders.json\nE1R v0.2 OOS-2B equity export complete\nstatus_date: 2026-06-18\nmarket_state: UPTREND\ncore_active: True\nsidecar_active: False\nsidecar_selected_count: 0\ncore_equity: 100000.0\nsidecar_equity: 100000.0\ncombined_equity: 100000.0\nrow_count: 1\nupdate_mode: APPENDED_NEW_DATE\nwrote: exports/oos_e1r_v0_2_equity_curve.json\n  exports/oos_e1r_v0_2_equity_curve.json\nE1R v0.2 OOS-2B.3 sidecar lifecycle/turnover export complete\ndate: 2026-06-18\nprevious_date: None\nmarket_state: UPTREND\nsidecar_active: False\nlifecycle_status: NO_PREVIOUS_RECORD\nprevious_count: 0\ncurrent_count: 0\nentered_count: 0\nexited_count: 0\none_way_turnover: 0.0\nwrote: exports/oos_e1r_v0_2_sidecar_lifecycle.json\nwrote: exports/oos_e1r_v0_2_sidecar_turnover.json\n  exports/oos_e1r_v0_2_sidecar_lifecycle.json\n  exports/oos_e1r_v0_2_sidecar_turnover.json",
+      "stderr": ""
+    },
+    {
+      "cmd": "python3 scripts/run_e1r_v0_2_oos_equity.py",
+      "returncode": 0,
+      "stdout": "E1R v0.2 OOS-2B equity export complete\nstatus_date: 2026-06-18\nmarket_state: UPTREND\ncore_active: True\nsidecar_active: False\nsidecar_selected_count: 0\ncore_equity: 100000.0\nsidecar_equity: 100000.0\ncombined_equity: 100000.0\nrow_count: 1\nupdate_mode: UPDATED_EXISTING_DATE\nwrote: exports/oos_e1r_v0_2_equity_curve.json",
+      "stderr": ""
+    },
+    {
+      "cmd": "python3 scripts/run_e1r_v0_2_sidecar_lifecycle.py",
+      "returncode": 0,
+      "stdout": "E1R v0.2 OOS-2B.3 sidecar lifecycle/turnover export complete\ndate: 2026-06-18\nprevious_date: None\nmarket_state: UPTREND\nsidecar_active: False\nlifecycle_status: NO_PREVIOUS_RECORD\nprevious_count: 0\ncurrent_count: 0\nentered_count: 0\nexited_count: 0\none_way_turnover: 0.0\nwrote: exports/oos_e1r_v0_2_sidecar_lifecycle.json\nwrote: exports/oos_e1r_v0_2_sidecar_turnover.json",
+      "stderr": ""
+    }
+  ],
+  "exports": [
+    {
+      "path": "exports/e1r_v0_2_status.json",
+      "exists": true,
+      "valid_json": true,
+      "size_bytes": 1580,
+      "type": "dict",
+      "top_level_keys": [
+        "core",
+        "e1r_market_state",
+        "generated_at",
+        "legacy_market_state",
+        "mutually_exclusive_state_model",
+        "notes",
+        "regime",
+        "research_status",
+        "sidecar",
+        "source_files",
+        "status_date",
+        "strategy_id",
+        "subclass",
+        "version"
+      ],
+      "array_length": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_summary.json",
+      "exists": true,
+      "valid_json": true,
+      "size_bytes": 873,
+      "type": "dict",
+      "top_level_keys": [
+        "core_active",
+        "equity_status",
+        "execution_status",
+        "generated_at",
+        "gross_exposure",
+        "market_state",
+        "mutually_exclusive_state_model",
+        "notes",
+        "phase",
+        "regime",
+        "research_status",
+        "sidecar_active",
+        "sidecar_selected_count",
+        "status_date",
+        "strategy_id",
+        "subclass",
+        "top_n",
+        "version"
+      ],
+      "array_length": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar.json",
+      "exists": true,
+      "valid_json": true,
+      "size_bytes": 507,
+      "type": "dict",
+      "top_level_keys": [
+        "active",
+        "active_condition",
+        "excluded_symbols",
+        "generated_at",
+        "gross_exposure",
+        "market_state",
+        "phase",
+        "regime",
+        "selected",
+        "selected_count",
+        "source_record_date",
+        "source_record_next_date",
+        "status_date",
+        "strategy_id",
+        "subclass",
+        "top_n"
+      ],
+      "array_length": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_positions.json",
+      "exists": true,
+      "valid_json": true,
+      "size_bytes": 446,
+      "type": "dict",
+      "top_level_keys": [
+        "core",
+        "generated_at",
+        "market_state",
+        "phase",
+        "sidecar",
+        "status_date",
+        "strategy_id"
+      ],
+      "array_length": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_orders.json",
+      "exists": true,
+      "valid_json": true,
+      "size_bytes": 255,
+      "type": "dict",
+      "top_level_keys": [
+        "execution_status",
+        "generated_at",
+        "market_state",
+        "orders",
+        "phase",
+        "status_date",
+        "strategy_id"
+      ],
+      "array_length": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_equity_curve.json",
+      "exists": true,
+      "valid_json": true,
+      "size_bytes": 2632,
+      "type": "dict",
+      "top_level_keys": [
+        "curve_type",
+        "end_date",
+        "equity_status",
+        "execution_status",
+        "generated_at",
+        "latest",
+        "notes",
+        "phase",
+        "records",
+        "row_count",
+        "start_date",
+        "strategy_id"
+      ],
+      "array_length": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+      "exists": true,
+      "valid_json": true,
+      "size_bytes": 2557,
+      "type": "dict",
+      "top_level_keys": [
+        "end_date",
+        "execution_status",
+        "generated_at",
+        "latest",
+        "notes",
+        "phase",
+        "records",
+        "row_count",
+        "source",
+        "start_date",
+        "strategy_id"
+      ],
+      "array_length": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar_turnover.json",
+      "exists": true,
+      "valid_json": true,
+      "size_bytes": 1924,
+      "type": "dict",
+      "top_level_keys": [
+        "average_one_way_turnover",
+        "end_date",
+        "execution_status",
+        "generated_at",
+        "latest",
+        "notes",
+        "phase",
+        "records",
+        "row_count",
+        "source",
+        "start_date",
+        "strategy_id"
+      ],
+      "array_length": null
+    },
+    {
+      "path": "exports/e1r_v0_2_backtest_summary.json",
+      "exists": true,
+      "valid_json": true,
+      "size_bytes": 941,
+      "type": "dict",
+      "top_level_keys": [
+        "alpha_pct",
+        "artifact_type",
+        "composition_exists",
+        "frozen_artifact",
+        "max_drawdown_pct",
+        "profit_factor",
+        "regeneration_note",
+        "regime_aware_logic",
+        "research_status",
+        "row_count",
+        "sharpe_ratio",
+        "sidecar_active_by_regime",
+        "sidecar_active_by_subclass",
+        "sidecar_active_days",
+        "source_file",
+        "source_json_path",
+        "spx_return_pct",
+        "strategy_id",
+        "total_return_pct",
+        "variant"
+      ],
+      "array_length": null
+    },
+    {
+      "path": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "exists": true,
+      "valid_json": true,
+      "size_bytes": 16004713,
+      "type": "dict",
+      "top_level_keys": [
+        "artifact_type",
+        "equity_curve",
+        "frozen_artifact",
+        "regeneration_note",
+        "row_count",
+        "rows",
+        "source_file",
+        "source_json_path",
+        "variant"
+      ],
+      "array_length": null
+    }
+  ],
+  "dashboard_checks": {
+    "app_marker_present": true,
+    "app_json_paths_missing": [],
+    "forbidden_module_hits": [],
+    "required_app_terms_missing": [],
+    "css_required_terms_missing": [],
+    "node_check": {
+      "node_available": false,
+      "status": "BASIC_MODULE_BRACE_CHECK_PASS",
+      "module_open_braces": 76,
+      "module_close_braces": 76
+    },
+    "app_lines": 1303,
+    "css_lines": 398
+  },
+  "workflow_checks": {
+    "exists": true,
+    "contains_e1r_oos_script": true,
+    "contains_continue_on_error": true,
+    "contains_fetch_data": true
+  },
+  "skipped_commands": [
+    {
+      "cmd": "python3 scripts/export_e1r_v0_2_backtest_equity.py",
+      "reason": "main exports/backtest.json does not contain E1R v0.1/v0.2 variants; discovered frozen artifacts are validated instead",
+      "validated_artifacts": [
+        "exports/e1r_v0_2_backtest_summary.json",
+        "exports/e1r_v0_2_backtest_equity_curve.json"
+      ]
+    }
+  ],
+  "summary": {
+    "py_compile_passed": 8,
+    "oos_export_commands_passed": 4,
+    "frozen_backtest_artifacts_validated": 2,
+    "exports_validated": 10,
+    "dashboard_json_references_validated": 10,
+    "ready_for_manual_dashboard_review": true
+  }
+}

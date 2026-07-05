@@ -1,0 +1,26 @@
+{
+  "strategy_id": "E1R_REGIME_AWARE_V0_2",
+  "total_return_pct": 116.7435999134756,
+  "spx_return_pct": 76.844174428316,
+  "alpha_pct": 39.89942548515961,
+  "max_drawdown_pct": 25.904809362815108,
+  "profit_factor": 1.1919630955509348,
+  "sharpe_ratio": 0.7957270568329264,
+  "research_status": "FORMAL_SIDECAR_SLEEVE_ENGINE",
+  "regime_aware_logic": "UPTREND_V0_1_CORE_PLUS_SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE",
+  "sidecar_active_days": 135,
+  "sidecar_active_by_regime": {
+    "SIDEWAYS": 135
+  },
+  "sidecar_active_by_subclass": {
+    "MA_CONFLICT": 135
+  },
+  "composition_exists": true,
+  "row_count": 1258,
+  "variant": "E1R_REGIME_AWARE_V0_2",
+  "artifact_type": "frozen_5y_backtest_summary",
+  "source_file": "exports/e1r_v0_2_backtest_summary.json",
+  "source_json_path": "$.v0_2",
+  "frozen_artifact": true,
+  "regeneration_note": "Copied from feature validation artifacts; not regenerated from main exports/backtest.json."
+}

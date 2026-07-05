@@ -1,0 +1,49 @@
+{
+  "generated_at": "2026-07-05T15:45:42.728081+00:00",
+  "strategy_id": "E1R_REGIME_AWARE_V0_2",
+  "version": "E1R-v0.2-formal-sidecar-sleeve",
+  "research_status": "FORMAL_SIDECAR_SLEEVE_ENGINE",
+  "status_date": "2026-06-18",
+  "e1r_market_state": "UPTREND",
+  "regime": "UPTREND",
+  "subclass": null,
+  "mutually_exclusive_state_model": true,
+  "core": {
+    "strategy_id": "E1R_REGIME_AWARE_V0_1",
+    "active": true,
+    "active_condition": "UPTREND"
+  },
+  "sidecar": {
+    "active": false,
+    "active_condition": "SIDEWAYS_MA_CONFLICT",
+    "gross_exposure": 0.25,
+    "top_n": 10,
+    "excluded_symbols": [
+      "VIXY"
+    ],
+    "selected_count": 0,
+    "selected": [],
+    "source_record_date": "2026-06-17",
+    "source_record_next_date": "2026-06-18"
+  },
+  "legacy_market_state": {
+    "date": "2026-07-03",
+    "state": "Risk-On",
+    "state_zh": "风险偏好",
+    "market_score": 73.3,
+    "leadership_confirmed": false,
+    "leadership_label": "Leadership Unconfirmed ⚠️"
+  },
+  "source_files": {
+    "regime": "data/research/e1_5y/regimes/spx_regime_daily.json",
+    "stocks": "data/research/e1_5y/raw/stocks",
+    "spx": "data/research/e1_5y/raw/indices/SPX.json",
+    "legacy_market_state": "exports/market_state.json"
+  },
+  "notes": [
+    "E1R v0.2 uses mutually exclusive daily market states.",
+    "Core is active only in UPTREND under the current v0.2 state model.",
+    "Sidecar is active only in SIDEWAYS_MA_CONFLICT when holdings are available.",
+    "This status export is a lightweight bridge for Dashboard and future OOS integration."
+  ]
+}

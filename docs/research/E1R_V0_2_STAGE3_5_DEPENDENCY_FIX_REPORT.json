@@ -1,0 +1,275 @@
+{
+  "generated_at": "2026-07-05T15:45:29.057461+00:00",
+  "stage": "B_STAGE_3_5_DEPENDENCY_FIX",
+  "status": "DEPENDENCIES_READY_WITH_DISCOVERED_FROZEN_BACKTEST_ARTIFACTS",
+  "main": {
+    "branch": "main",
+    "head": "1638b6f"
+  },
+  "feature": {
+    "branch": "feature/e1-5y-data",
+    "head": "5f6063e"
+  },
+  "reason": [
+    "main was missing data/research/e1_5y inputs required by E1R OOS export scripts",
+    "main cannot regenerate E1R v0.2 5Y backtest from exports/backtest.json because E1R variants are not present there",
+    "feature frozen artifacts were discovered recursively, normalized, validated, and copied"
+  ],
+  "copied_research_dependency_dir": "data/research/e1_5y",
+  "copied_research_file_count": 558,
+  "copied_research_files_sample": [
+    {
+      "relative_path": "data/research/e1_5y/constituents/current_constituents.json",
+      "size_bytes": 4013
+    },
+    {
+      "relative_path": "data/research/e1_5y/constituents/snapshot_2026-06-11.json",
+      "size_bytes": 6329
+    },
+    {
+      "relative_path": "data/research/e1_5y/data_audit.json",
+      "size_bytes": 2528
+    },
+    {
+      "relative_path": "data/research/e1_5y/download_manifest.json",
+      "size_bytes": 66584
+    },
+    {
+      "relative_path": "data/research/e1_5y/e1_baseline_parity_check.json",
+      "size_bytes": 1236
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/indices/NDX.json",
+      "size_bytes": 208124
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/indices/SOX.json",
+      "size_bytes": 187442
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/indices/SPX.json",
+      "size_bytes": 201484
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/A.json",
+      "size_bytes": 191126
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AAL.json",
+      "size_bytes": 165637
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AAPL.json",
+      "size_bytes": 193404
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ABBV.json",
+      "size_bytes": 190303
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ABNB.json",
+      "size_bytes": 167639
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ABT.json",
+      "size_bytes": 189871
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ACGL.json",
+      "size_bytes": 185015
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ACN.json",
+      "size_bytes": 191761
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ADBE.json",
+      "size_bytes": 188996
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ADI.json",
+      "size_bytes": 191721
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ADM.json",
+      "size_bytes": 185580
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ADP.json",
+      "size_bytes": 191822
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ADSK.json",
+      "size_bytes": 189707
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AEE.json",
+      "size_bytes": 185919
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AEP.json",
+      "size_bytes": 186706
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AES.json",
+      "size_bytes": 185201
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AFL.json",
+      "size_bytes": 187276
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AIG.json",
+      "size_bytes": 185703
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AIZ.json",
+      "size_bytes": 189992
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AJG.json",
+      "size_bytes": 190457
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AKAM.json",
+      "size_bytes": 185584
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ALAB.json",
+      "size_bytes": 66756
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ALB.json",
+      "size_bytes": 189661
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ALGN.json",
+      "size_bytes": 188394
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ALK.json",
+      "size_bytes": 178887
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ALL.json",
+      "size_bytes": 190677
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ALLE.json",
+      "size_bytes": 189407
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AMAT.json",
+      "size_bytes": 190810
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AMCR.json",
+      "size_bytes": 185298
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AMD.json",
+      "size_bytes": 188354
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AME.json",
+      "size_bytes": 190572
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AMGN.json",
+      "size_bytes": 191847
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AMP.json",
+      "size_bytes": 190381
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AMT.json",
+      "size_bytes": 191839
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AMZN.json",
+      "size_bytes": 191239
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/ANET.json",
+      "size_bytes": 182729
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AON.json",
+      "size_bytes": 191187
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/AOS.json",
+      "size_bytes": 184694
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/APA.json",
+      "size_bytes": 185453
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/APD.json",
+      "size_bytes": 191080
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/APH.json",
+      "size_bytes": 186599
+    },
+    {
+      "relative_path": "data/research/e1_5y/raw/stocks/APO.json",
+      "size_bytes": 187902
+    }
+  ],
+  "copied_frozen_backtest_artifacts": [
+    {
+      "relative_path": "exports/e1r_v0_2_backtest_summary.json",
+      "source_file": "exports/e1r_v0_2_backtest_summary.json",
+      "source_json_path": "$.v0_2",
+      "size_bytes": 941,
+      "json_type": "dict"
+    },
+    {
+      "relative_path": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "source_file": "exports/e1r_candidates.json",
+      "source_json_path": "$.candidates",
+      "size_bytes": 16004713,
+      "json_type": "dict",
+      "row_count": 8819
+    }
+  ],
+  "selected_equity_source": {
+    "source_file": "exports/e1r_candidates.json",
+    "source_json_path": "$.candidates",
+    "row_count": 8819,
+    "score": 8979
+  },
+  "selected_summary_source": {
+    "source_file": "exports/e1r_v0_2_backtest_summary.json",
+    "source_json_path": "$.v0_2",
+    "score": 81,
+    "keys": [
+      "alpha_pct",
+      "composition_exists",
+      "max_drawdown_pct",
+      "profit_factor",
+      "regime_aware_logic",
+      "research_status",
+      "row_count",
+      "sharpe_ratio",
+      "sidecar_active_by_regime",
+      "sidecar_active_by_subclass",
+      "sidecar_active_days",
+      "spx_return_pct",
+      "strategy_id",
+      "total_return_pct"
+    ]
+  },
+  "source_code_patch": "NONE",
+  "backtest_json_mutation": "NONE",
+  "boundary": [
+    "No dashboard source files modified",
+    "No workflow files modified",
+    "No export script patching",
+    "No mutation of exports/backtest.json",
+    "E1R 5Y backtest artifacts are explicitly treated as frozen research artifacts"
+  ]
+}

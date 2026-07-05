@@ -1,0 +1,58 @@
+{
+  "check_name": "E1_BASELINE_PARITY_CHECK_V1",
+  "status": "PASS",
+  "tolerance": 0.01,
+  "source_file": "exports/backtest.json",
+  "strategy_id": "E1_AUDITED_G4_MINHOLD10",
+  "checks": [
+    {
+      "scope": "Period A",
+      "metric": "total_return_pct",
+      "actual": 14.18,
+      "expected": 14.18,
+      "delta": 0.0,
+      "passed": true
+    },
+    {
+      "scope": "Period B",
+      "metric": "total_return_pct",
+      "actual": 21.8,
+      "expected": 21.8,
+      "delta": 0.0,
+      "passed": true
+    },
+    {
+      "scope": "Full",
+      "metric": "total_return_pct",
+      "actual": 7.52,
+      "expected": 7.52,
+      "delta": 0.0,
+      "passed": true
+    },
+    {
+      "scope": "Full",
+      "metric": "profit_factor",
+      "actual": 1.25,
+      "expected": 1.25,
+      "delta": 0.0,
+      "passed": true
+    },
+    {
+      "scope": "Full",
+      "metric": "sharpe_ratio",
+      "actual": 0.18,
+      "expected": 0.18,
+      "delta": 0.0,
+      "passed": true
+    },
+    {
+      "scope": "Full",
+      "metric": "max_drawdown_pct",
+      "actual": 38.1,
+      "expected": 38.1,
+      "delta": 0.0,
+      "passed": true
+    }
+  ],
+  "note": "Read-only parity check. Does not modify E1 strategy or rerun backtest."
+}
