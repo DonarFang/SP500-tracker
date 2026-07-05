@@ -16,7 +16,7 @@ const REG_META = {
 };
 const IDX_ICONS = {SPX:'📊',NDX:'💻',VIX:'😨',SOX:'🔬'};
 
-let DATA = {market:null,marketState:null,e1rV02Status:null,e1rV02OosSummary:null,e1rV02BacktestEquity:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,
+let DATA = {market:null,marketState:null,e1rV02Status:null,e1rV02OosSummary:null,e1rV02BacktestEquity:null,e1rV02OosEquity:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,
   e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null};
 let charts = {};
 
@@ -1185,5 +1185,212 @@ function injectE1RV02BacktestEquityUI(){
   setTimeout(injectE1RV02BacktestEquityUI, 1000);
   setTimeout(injectE1RV02BacktestEquityUI, 2200);
   setTimeout(injectE1RV02BacktestEquityUI, 4000);
+})();
+
+
+// === E1R v0.2 Forward/OOS Equity Dashboard UI ===
+// Displays exports/oos_e1r_v0_2_equity_curve.json.
+// This is separate from the 5Y backtest equity curve.
+function getE1RV02OOSEquity(){
+  return DATA.e1rV02OosEquity || {};
+}
+
+function fmtOosEquity(v){
+  if(v === undefined || v === null || Number.isNaN(Number(v))) return '—';
+  return Number(v).toLocaleString(undefined, {maximumFractionDigits: 0});
+}
+
+function fmtOosPct(v){
+  if(v === undefined || v === null || Number.isNaN(Number(v))) return '—';
+  return `${(Number(v) * 100).toFixed(2)}%`;
+}
+
+function renderE1RV02OOSEquityCard(){
+  const eq = getE1RV02OOSEquity();
+  const latest = eq.latest || {};
+
+  return `
+    <div id="e1r-v02-oos-equity-card" class="e1r-oos-equity-card">
+      <div class="e1r-oos-equity-main">
+        <div>
+          <div class="e1r-oos-equity-label">E1R v0.2 Forward / OOS Equity</div>
+          <div class="e1r-oos-equity-value">${eq.curve_type || 'FORWARD_OOS_EQUITY'}</div>
+        </div>
+        <div class="e1r-oos-equity-date">${eq.start_date || '—'} → ${eq.end_date || '—'}</div>
+      </div>
+
+      <div class="e1r-oos-equity-grid">
+        <div><span>Rows</span><b>${eq.row_count ?? '—'}</b></div>
+        <div><span>Core Equity</span><b>${fmtOosEquity(latest.core_equity)}</b></div>
+        <div><span>Sidecar Equity</span><b>${fmtOosEquity(latest.sidecar_equity)}</b></div>
+        <div><span>Combined Equity</span><b>${fmtOosEquity(latest.combined_equity)}</b></div>
+        <div><span>Combined Daily</span><b>${fmtOosPct(latest.combined_daily_return)}</b></div>
+        <div><span>Market State</span><b>${latest.market_state || '—'}</b></div>
+        <div><span>Equity Status</span><b>${eq.equity_status || latest.equity_status || '—'}</b></div>
+        <div><span>Execution</span><b>${eq.execution_status || latest.execution_status || '—'}</b></div>
+      </div>
+
+      <div class="e1r-oos-equity-note">
+        Forward/OOS equity is initialized as paper tracking. Sidecar MTM and real/simulated position lifecycle are not connected yet.
+      </div>
+
+      <div class="cwrap e1r-oos-equity-chart-wrap" style="height:220px">
+        <canvas id="cw-e1r-v02-oos-equity"></canvas>
+      </div>
+    </div>
+  `;
+}
+
+function normalizeOOSEquityRecords(records){
+  if(!Array.isArray(records)) return [];
+  return records
+    .filter(r => r && r.date)
+    .map(r => ({
+      date: r.date,
+      core_equity: Number(r.core_equity),
+      sidecar_equity: Number(r.sidecar_equity),
+      combined_equity: Number(r.combined_equity)
+    }))
+    .filter(r =>
+      Number.isFinite(r.core_equity) ||
+      Number.isFinite(r.sidecar_equity) ||
+      Number.isFinite(r.combined_equity)
+    )
+    .sort((a,b) => String(a.date).localeCompare(String(b.date)));
+}
+
+function renderE1RV02OOSEquityChart(){
+  const eq = getE1RV02OOSEquity();
+  const records = normalizeOOSEquityRecords(eq.records || []);
+  if(!records.length) return false;
+
+  const canvas = document.getElementById('cw-e1r-v02-oos-equity');
+  if(!canvas || typeof Chart === 'undefined') return false;
+
+  if(charts && charts.e1rV02OosEquity){
+    charts.e1rV02OosEquity.destroy();
+  }
+
+  const labels = records.map(r => r.date);
+
+  charts.e1rV02OosEquity = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Core equity',
+          data: records.map(r => Number.isFinite(r.core_equity) ? r.core_equity : null),
+          borderWidth: 2,
+          pointRadius: records.length <= 10 ? 3 : 0,
+          tension: 0.15
+        },
+        {
+          label: 'Sidecar equity',
+          data: records.map(r => Number.isFinite(r.sidecar_equity) ? r.sidecar_equity : null),
+          borderWidth: 2,
+          pointRadius: records.length <= 10 ? 3 : 0,
+          tension: 0.15
+        },
+        {
+          label: 'Combined equity',
+          data: records.map(r => Number.isFinite(r.combined_equity) ? r.combined_equity : null),
+          borderWidth: 2,
+          pointRadius: records.length <= 10 ? 3 : 0,
+          tension: 0.15
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      plugins: {
+        legend: {
+          display: true
+        },
+        tooltip: {
+          callbacks: {
+            label: function(ctx){
+              const val = ctx.parsed.y;
+              if(val === null || val === undefined) return `${ctx.dataset.label}: —`;
+              return `${ctx.dataset.label}: ${Number(val).toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            maxTicksLimit: 8
+          }
+        },
+        y: {
+          ticks: {
+            callback: function(value){
+              return Number(value).toLocaleString(undefined, {maximumFractionDigits: 0});
+            }
+          }
+        }
+      }
+    }
+  });
+
+  return true;
+}
+
+function injectE1RV02OOSEquityUI(){
+  if(!DATA.e1rV02OosEquity) return;
+
+  const target = document.getElementById('s-market');
+  if(!target) return;
+
+  const old = document.getElementById('e1r-v02-oos-equity-card');
+  if(old) old.remove();
+
+  const oosCard = document.getElementById('e1r-v02-oos-card');
+  if(oosCard){
+    oosCard.insertAdjacentHTML('afterend', renderE1RV02OOSEquityCard());
+  }else{
+    target.insertAdjacentHTML('afterbegin', renderE1RV02OOSEquityCard());
+  }
+
+  renderE1RV02OOSEquityChart();
+}
+
+(function installE1RV02OOSEquityPatch(){
+  function patchRenderForOOSEquity(){
+    if(typeof render !== 'function') return false;
+    if(render.__e1rV02OosEquityPatched) return true;
+
+    const originalRender = render;
+    render = function(tab){
+      const result = originalRender.apply(this, arguments);
+      if(tab === 'market'){
+        setTimeout(injectE1RV02OOSEquityUI, 0);
+      }
+      return result;
+    };
+    render.__e1rV02OosEquityPatched = true;
+    return true;
+  }
+
+  patchRenderForOOSEquity();
+
+  if(typeof fetchJ === 'function'){
+    fetchJ('oos_e1r_v0_2_equity_curve')
+      .then(x => {
+        DATA.e1rV02OosEquity = x;
+        injectE1RV02OOSEquityUI();
+      })
+      .catch(() => {});
+  }
+
+  setTimeout(injectE1RV02OOSEquityUI, 1200);
+  setTimeout(injectE1RV02OOSEquityUI, 2400);
+  setTimeout(injectE1RV02OOSEquityUI, 4200);
 })();
 
