@@ -169,6 +169,11 @@ def main() -> None:
     if equity_script.exists():
         runpy.run_path(str(equity_script), run_name="__main__")
         print("  exports/oos_e1r_v0_2_equity_curve.json")
+        lifecycle_script = ROOT / "scripts/run_e1r_v0_2_sidecar_lifecycle.py"
+        if lifecycle_script.exists():
+            runpy.run_path(str(lifecycle_script), run_name="__main__")
+            print("  exports/oos_e1r_v0_2_sidecar_lifecycle.json")
+            print("  exports/oos_e1r_v0_2_sidecar_turnover.json")
 
 
 if __name__ == "__main__":

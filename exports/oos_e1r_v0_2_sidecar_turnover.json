@@ -1,0 +1,61 @@
+{
+  "generated_at": "2026-07-05T14:40:53.740202+00:00",
+  "strategy_id": "E1R_REGIME_AWARE_V0_2",
+  "phase": "OOS_2B_3_SIDECAR_TURNOVER",
+  "execution_status": "PAPER_TRACKING_NO_REAL_EXECUTION",
+  "source": "exports/oos_e1r_v0_2_equity_curve.json",
+  "start_date": "2026-06-18",
+  "end_date": "2026-06-18",
+  "row_count": 1,
+  "average_one_way_turnover": 0.0,
+  "latest": {
+    "date": "2026-06-18",
+    "previous_date": null,
+    "generated_at": "2026-07-05T14:40:53.740202+00:00",
+    "strategy_id": "E1R_REGIME_AWARE_V0_2",
+    "phase": "OOS_2B_3_SIDECAR_TURNOVER",
+    "execution_status": "PAPER_TRACKING_NO_REAL_EXECUTION",
+    "market_state": "UPTREND",
+    "sidecar_active": false,
+    "lifecycle_status": "NO_PREVIOUS_RECORD",
+    "previous_count": 0,
+    "current_count": 0,
+    "entered_count": 0,
+    "exited_count": 0,
+    "stayed_count": 0,
+    "gross_added_weight": 0.0,
+    "gross_removed_weight": 0.0,
+    "two_way_turnover": 0.0,
+    "one_way_turnover": 0.0,
+    "entered_symbols": [],
+    "exited_symbols": []
+  },
+  "records": [
+    {
+      "date": "2026-06-18",
+      "previous_date": null,
+      "generated_at": "2026-07-05T14:40:53.740202+00:00",
+      "strategy_id": "E1R_REGIME_AWARE_V0_2",
+      "phase": "OOS_2B_3_SIDECAR_TURNOVER",
+      "execution_status": "PAPER_TRACKING_NO_REAL_EXECUTION",
+      "market_state": "UPTREND",
+      "sidecar_active": false,
+      "lifecycle_status": "NO_PREVIOUS_RECORD",
+      "previous_count": 0,
+      "current_count": 0,
+      "entered_count": 0,
+      "exited_count": 0,
+      "stayed_count": 0,
+      "gross_added_weight": 0.0,
+      "gross_removed_weight": 0.0,
+      "two_way_turnover": 0.0,
+      "one_way_turnover": 0.0,
+      "entered_symbols": [],
+      "exited_symbols": []
+    }
+  ],
+  "notes": [
+    "Turnover is based on target position changes, not real fills.",
+    "This prepares transaction-cost analysis but does not apply costs yet."
+  ]
+}
