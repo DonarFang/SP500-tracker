@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-07-05T14:23:54.661430+00:00",
+  "strategy_id": "E1R_REGIME_AWARE_V0_2",
+  "phase": "OOS_2B_FORWARD_EQUITY_CURVE",
+  "equity_status": "OOS_EQUITY_INITIALIZED_TARGET_ONLY",
+  "execution_status": "PAPER_TRACKING_NO_REAL_EXECUTION",
+  "curve_type": "FORWARD_OOS_EQUITY",
+  "start_date": "2026-06-18",
+  "end_date": "2026-06-18",
+  "row_count": 1,
+  "latest": {
+    "date": "2026-06-18",
+    "generated_at": "2026-07-05T14:23:54.661430+00:00",
+    "market_state": "UPTREND",
+    "core_active": true,
+    "sidecar_active": false,
+    "sidecar_selected_count": 0,
+    "core_equity": 100000.0,
+    "sidecar_equity": 100000.0,
+    "combined_equity": 100000.0,
+    "core_daily_return": 0.0,
+    "sidecar_daily_return": 0.0,
+    "combined_daily_return": 0.0,
+    "core_source": "legacy_oos_if_available_else_initial_capital",
+    "sidecar_source": "target_only_no_mtm_in_oos_2b_1",
+    "combined_source": "core_bridge_plus_sidecar_target_only",
+    "execution_status": "PAPER_TRACKING_NO_REAL_EXECUTION",
+    "equity_status": "OOS_EQUITY_INITIALIZED_TARGET_ONLY",
+    "update_mode": "UPDATED_EXISTING_DATE"
+  },
+  "records": [
+    {
+      "date": "2026-06-18",
+      "generated_at": "2026-07-05T14:23:54.661430+00:00",
+      "market_state": "UPTREND",
+      "core_active": true,
+      "sidecar_active": false,
+      "sidecar_selected_count": 0,
+      "core_equity": 100000.0,
+      "sidecar_equity": 100000.0,
+      "combined_equity": 100000.0,
+      "core_daily_return": 0.0,
+      "sidecar_daily_return": 0.0,
+      "combined_daily_return": 0.0,
+      "core_source": "legacy_oos_if_available_else_initial_capital",
+      "sidecar_source": "target_only_no_mtm_in_oos_2b_1",
+      "combined_source": "core_bridge_plus_sidecar_target_only",
+      "execution_status": "PAPER_TRACKING_NO_REAL_EXECUTION",
+      "equity_status": "OOS_EQUITY_INITIALIZED_TARGET_ONLY",
+      "update_mode": "UPDATED_EXISTING_DATE"
+    }
+  ],
+  "notes": [
+    "OOS-2B.1 initializes E1R v0.2 forward/OOS equity curve schema.",
+    "Core equity bridges to existing legacy OOS equity when available.",
+    "Sidecar equity is target-only and does not apply MTM return yet.",
+    "No real orders are executed by this script.",
+    "OOS-2B.2 should add sidecar daily MTM and simulated/real position lifecycle."
+  ]
+}

@@ -164,6 +164,11 @@ def main() -> None:
     print("  exports/oos_e1r_v0_2_sidecar.json")
     print("  exports/oos_e1r_v0_2_positions.json")
     print("  exports/oos_e1r_v0_2_orders.json")
+    # Refresh forward/OOS equity curve after status and signal exports.
+    equity_script = ROOT / "scripts/run_e1r_v0_2_oos_equity.py"
+    if equity_script.exists():
+        runpy.run_path(str(equity_script), run_name="__main__")
+        print("  exports/oos_e1r_v0_2_equity_curve.json")
 
 
 if __name__ == "__main__":
