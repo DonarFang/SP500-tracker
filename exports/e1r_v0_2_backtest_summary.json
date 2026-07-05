@@ -1,0 +1,50 @@
+{
+  "generated_at": "2026-07-05T14:14:24.664587+00:00",
+  "source": "exports/backtest.json",
+  "comparison_name": "Strategy Variant Comparison",
+  "strategy_id": "E1R_REGIME_AWARE_V0_2",
+  "version": "E1R-v0.2-formal-sidecar-sleeve",
+  "research_status": "FORMAL_SIDECAR_SLEEVE_ENGINE",
+  "curve_type": "FULL_5Y_BACKTEST_EQUITY",
+  "start_date": "2021-06-14",
+  "end_date": "2026-06-16",
+  "row_count": 1258,
+  "v0_1": {
+    "strategy_id": "E1R_REGIME_AWARE_V0_1",
+    "total_return_pct": 105.61,
+    "spx_return_pct": null,
+    "alpha_pct": 28.77,
+    "max_drawdown_pct": 28.69,
+    "profit_factor": 1.73,
+    "sharpe_ratio": 0.48,
+    "research_status": "UPTREND_EXECUTION_V0_1",
+    "regime_aware_logic": "UPTREND_EXECUTION_V0_1_ENTRY_ONLY",
+    "row_count": 1259
+  },
+  "v0_2": {
+    "strategy_id": "E1R_REGIME_AWARE_V0_2",
+    "total_return_pct": 116.7435999134756,
+    "spx_return_pct": 76.844174428316,
+    "alpha_pct": 39.89942548515961,
+    "max_drawdown_pct": 25.904809362815108,
+    "profit_factor": 1.1919630955509348,
+    "sharpe_ratio": 0.7957270568329264,
+    "research_status": "FORMAL_SIDECAR_SLEEVE_ENGINE",
+    "regime_aware_logic": "UPTREND_V0_1_CORE_PLUS_SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE",
+    "sidecar_active_days": 135,
+    "sidecar_active_by_regime": {
+      "SIDEWAYS": 135
+    },
+    "sidecar_active_by_subclass": {
+      "MA_CONFLICT": 135
+    },
+    "composition_exists": true,
+    "row_count": 1258
+  },
+  "notes": [
+    "This is the full 5Y E1R v0.2 backtest equity export for Dashboard display.",
+    "It is not the live OOS / forward equity curve.",
+    "OOS / forward equity will be exported separately in OOS-2B.",
+    "Large legacy backtest exports should not be committed with this lightweight export."
+  ]
+}
