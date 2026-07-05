@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-07-05T14:59:06.508119+00:00",
+  "stage": "B_STAGE_3_1_WORKFLOW_PATCH",
+  "status": "PATCHED",
+  "main_branch": "main",
+  "feature_branch": "feature/e1-5y-data",
+  "patched_file": ".github/workflows/update.yml",
+  "runner_added": "scripts/run_e1r_v0_2_oos.py",
+  "policy": "controlled_patch_only_no_blind_overwrite",
+  "notes": [
+    "This patch adds the E1R v0.2 OOS export runner to the main daily update workflow.",
+    "It does not overwrite the whole feature workflow.",
+    "It does not modify backtest.py or dashboard files.",
+    "The E1R v0.2 OOS runner remains paper tracking / no real execution."
+  ]
+}
