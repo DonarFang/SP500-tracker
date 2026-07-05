@@ -1231,7 +1231,7 @@ function renderE1RV02OOSEquityCard(){
       </div>
 
       <div class="e1r-oos-equity-note">
-        Forward/OOS equity is initialized as paper tracking. Sidecar MTM and real/simulated position lifecycle are not connected yet.
+        Forward/OOS equity is initialized as paper tracking (PAPER_TRACKING_NO_REAL_EXECUTION / OOS_EQUITY_INITIALIZED_TARGET_ONLY). Sidecar MTM and real/simulated position lifecycle are not connected yet.
       </div>
 
       <div class="cwrap e1r-oos-equity-chart-wrap" style="height:220px">
