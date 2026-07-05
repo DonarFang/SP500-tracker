@@ -5,3 +5,10 @@ __pycache__/
 *.log
 .pytest_cache/
 data/research/e1_5y/raw/
+
+# E1-R generated research outputs / local backups
+_research_outputs_backup_*/
+data/research/e1_5y/audits/
+data/research/e1_5y/integration_tests/
+data/research/e1_5y/sideways_full_scan/
+exports/e1r_candidates.json
