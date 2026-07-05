@@ -1,0 +1,36 @@
+{
+  "generated_at": "2026-07-05T15:53:10.277600+00:00",
+  "stage": "B_STAGE_3_6_DASHBOARD_E1R_EXPORT_PATH_FIX",
+  "status": "PATCHED_E1R_DASHBOARD_EXPORT_PATHS",
+  "main_head_before": "913867a",
+  "file": "dashboard/app.js",
+  "root_cause": "E1R v0.2 module used exports/... relative to /dashboard/, causing GitHub Pages to request /dashboard/exports/... and return 404.",
+  "fix": "Changed E1R v0.2 module fetch paths from exports/... to ../exports/...",
+  "replace_count": 10,
+  "validated_exports": [
+    "exports/e1r_v0_2_status.json",
+    "exports/oos_e1r_v0_2_summary.json",
+    "exports/oos_e1r_v0_2_sidecar.json",
+    "exports/oos_e1r_v0_2_positions.json",
+    "exports/oos_e1r_v0_2_orders.json",
+    "exports/oos_e1r_v0_2_equity_curve.json",
+    "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+    "exports/oos_e1r_v0_2_sidecar_turnover.json",
+    "exports/e1r_v0_2_backtest_summary.json",
+    "exports/e1r_v0_2_backtest_equity_curve.json"
+  ],
+  "old_paths_remaining_inside_e1r_module": [],
+  "missing_new_paths": [],
+  "node_check": {
+    "node_available": false,
+    "status": "BASIC_MODULE_BRACE_CHECK_PASS",
+    "module_open_braces": 76,
+    "module_close_braces": 76
+  },
+  "boundary": [
+    "Only dashboard/app.js is modified.",
+    "No export JSON files modified.",
+    "No research data modified.",
+    "No engine/backtest/workflow files modified."
+  ]
+}

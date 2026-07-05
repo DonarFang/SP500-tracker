@@ -976,16 +976,16 @@ loadAll();
   "use strict";
 
   const E1R_V02_PATHS = {
-    status: "exports/e1r_v0_2_status.json",
-    oosSummary: "exports/oos_e1r_v0_2_summary.json",
-    sidecar: "exports/oos_e1r_v0_2_sidecar.json",
-    positions: "exports/oos_e1r_v0_2_positions.json",
-    orders: "exports/oos_e1r_v0_2_orders.json",
-    oosEquity: "exports/oos_e1r_v0_2_equity_curve.json",
-    lifecycle: "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
-    turnover: "exports/oos_e1r_v0_2_sidecar_turnover.json",
-    backtestSummary: "exports/e1r_v0_2_backtest_summary.json",
-    backtestEquity: "exports/e1r_v0_2_backtest_equity_curve.json"
+    status: "../exports/e1r_v0_2_status.json",
+    oosSummary: "../exports/oos_e1r_v0_2_summary.json",
+    sidecar: "../exports/oos_e1r_v0_2_sidecar.json",
+    positions: "../exports/oos_e1r_v0_2_positions.json",
+    orders: "../exports/oos_e1r_v0_2_orders.json",
+    oosEquity: "../exports/oos_e1r_v0_2_equity_curve.json",
+    lifecycle: "../exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+    turnover: "../exports/oos_e1r_v0_2_sidecar_turnover.json",
+    backtestSummary: "../exports/e1r_v0_2_backtest_summary.json",
+    backtestEquity: "../exports/e1r_v0_2_backtest_equity_curve.json"
   };
 
   const E1R_V02_CLASSES = {
