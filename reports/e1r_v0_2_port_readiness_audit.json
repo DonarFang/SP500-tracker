@@ -1,0 +1,622 @@
+{
+  "generated_at": "2026-07-05T14:49:06.939592+00:00",
+  "feature": {
+    "path": "/Users/dongfang/Downloads/sp500-tracker-5y",
+    "branch": "feature/e1-5y-data",
+    "head": "b8787ad",
+    "clean": false,
+    "status_short": "?? scripts/e1r_v0_2_port_readiness_audit.py"
+  },
+  "main": {
+    "path": "/Users/dongfang/Downloads/sp500-tracker-v13",
+    "branch": "main",
+    "head": "5730bc6",
+    "clean": true,
+    "status_short": ""
+  },
+  "summary": {
+    "missing_required_in_feature": [],
+    "required_missing_in_main": [
+      "src/engine/e1r_sidecar_sleeve.py",
+      "src/engine/e1r_composer.py",
+      "scripts/export_e1r_v0_2_status.py",
+      "scripts/run_e1r_v0_2_oos.py",
+      "scripts/run_e1r_v0_2_oos_equity.py",
+      "scripts/run_e1r_v0_2_sidecar_lifecycle.py",
+      "scripts/export_e1r_v0_2_backtest_equity.py",
+      "docs/research/E1R_V0_2_IMPLEMENTATION_MANIFEST.md",
+      "docs/research/E1R_V0_2_OOS_2B_2_SIDECAR_MTM_SPEC.md",
+      "docs/research/E1R_V0_2_UI_OOS_INTEGRATION_AUDIT.md",
+      "docs/research/E1R_V0_2_PORT_TO_MAIN_PLAN.md"
+    ],
+    "required_changed_vs_main": [
+      "src/engine/backtest.py",
+      "dashboard/app.js",
+      "dashboard/styles.css",
+      ".github/workflows/update.yml"
+    ],
+    "manual_review_required": [
+      "src/engine/backtest.py",
+      "dashboard/app.js",
+      "dashboard/styles.css",
+      ".github/workflows/update.yml"
+    ],
+    "ready_for_copy": false
+  },
+  "required_files": [
+    {
+      "path": "src/engine/e1r_sidecar_sleeve.py",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 18116,
+      "main_size": null,
+      "feature_sha256": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "src/engine/e1r_composer.py",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 12956,
+      "main_size": null,
+      "feature_sha256": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "src/engine/backtest.py",
+      "feature_exists": true,
+      "main_exists": true,
+      "feature_size": 147151,
+      "main_size": 120653,
+      "feature_sha256": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "main_sha256": "4445dfe967a8c50fd9ef79bf8091c270e38d0fcb7cdd5921a74b172fe2e3d78b",
+      "same_content": false,
+      "manual_review": true,
+      "copy_recommendation": "MANUAL_REVIEW_BEFORE_COPY"
+    },
+    {
+      "path": "scripts/export_e1r_v0_2_status.py",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 7487,
+      "main_size": null,
+      "feature_sha256": "8e29636b5ccc642e850184829a4e5d9c33c8060b54b420fc3d2bfa978a1d44ba",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "scripts/run_e1r_v0_2_oos.py",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 6507,
+      "main_size": null,
+      "feature_sha256": "f23f4d1adafe01a53f0831ee77b94cb8657c36979487d867b5a7d43c15ee78eb",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "scripts/run_e1r_v0_2_oos_equity.py",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 14443,
+      "main_size": null,
+      "feature_sha256": "0941b2f33059efc2a03155a66b1fd1c67f90f38e8fbd794eb4fa499489e956aa",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "scripts/run_e1r_v0_2_sidecar_lifecycle.py",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 10598,
+      "main_size": null,
+      "feature_sha256": "daf62770d6618bcefa101d889515077b9379e1152694b8d2ce447477937bb98d",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "scripts/export_e1r_v0_2_backtest_equity.py",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 7206,
+      "main_size": null,
+      "feature_sha256": "f04f8e67c20bb8ff039fb63805b2a4756e06ab6cdd19bf9eb89baaa6316b6439",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "dashboard/app.js",
+      "feature_exists": true,
+      "main_exists": true,
+      "feature_size": 72217,
+      "main_size": 59118,
+      "feature_sha256": "2513cf92c2e75655c9357e68f04c97f595ece242d2153a9cf2399313cf5a7b61",
+      "main_sha256": "14b3b7ce359e96dd9b7cfb5829aa4a0f2b45e0a841b03388c6d33ea8aa38ebd9",
+      "same_content": false,
+      "manual_review": true,
+      "copy_recommendation": "MANUAL_REVIEW_BEFORE_COPY"
+    },
+    {
+      "path": "dashboard/styles.css",
+      "feature_exists": true,
+      "main_exists": true,
+      "feature_size": 14170,
+      "main_size": 7439,
+      "feature_sha256": "625f04329a04b0e0dbbbe4a31aec937ca20add18d76ae346c933c6bec59cd81c",
+      "main_sha256": "93d6145aafcaee45b22b48f3e99121591ffe2984c243b531587ffb7b66a0bfbd",
+      "same_content": false,
+      "manual_review": true,
+      "copy_recommendation": "MANUAL_REVIEW_BEFORE_COPY"
+    },
+    {
+      "path": ".github/workflows/update.yml",
+      "feature_exists": true,
+      "main_exists": true,
+      "feature_size": 1349,
+      "main_size": 1305,
+      "feature_sha256": "7cabf8e434a6ea2d7a482d30eb3d2a17ee6e2f5890bc52fea5acfc4ef654a944",
+      "main_sha256": "4a2b78d66d12c1411a944c1d136eddbc2e7496bfbcf84d0f377a883bd69b368b",
+      "same_content": false,
+      "manual_review": true,
+      "copy_recommendation": "MANUAL_REVIEW_BEFORE_COPY"
+    },
+    {
+      "path": "docs/research/E1R_V0_2_IMPLEMENTATION_MANIFEST.md",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 4881,
+      "main_size": null,
+      "feature_sha256": "374817ced312943ec1db141d4831e4ed65c99fa4fc8157c9c9064e16030737eb",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "docs/research/E1R_V0_2_OOS_2B_2_SIDECAR_MTM_SPEC.md",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 2180,
+      "main_size": null,
+      "feature_sha256": "f9b06aa21fb580933ecfb3e2898d71bd5c253ce1e8a7f54ff956ff15a07bc994",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "docs/research/E1R_V0_2_UI_OOS_INTEGRATION_AUDIT.md",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 7621,
+      "main_size": null,
+      "feature_sha256": "ecbce8a06a4f99d9abcbbd4b9ee1ff53305edfab59366f3d836d1beaa8e47b07",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "docs/research/E1R_V0_2_PORT_TO_MAIN_PLAN.md",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 7542,
+      "main_size": null,
+      "feature_sha256": "25b898ade5edea9b119a07026f774b990cae13965aab4012222de7d1b1bec619",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    }
+  ],
+  "lightweight_exports": [
+    {
+      "path": "exports/e1r_v0_2_status.json",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 1581,
+      "main_size": null,
+      "feature_sha256": "5daae8bdf59e880ad4ca0aa4c29dafef0ac045536c1f011eab03c0f44755e458",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_summary.json",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 873,
+      "main_size": null,
+      "feature_sha256": "0e9f38b93b0c256679bf76d2b07be8f21695e979670259b2298b76c17192e3e4",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar.json",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 507,
+      "main_size": null,
+      "feature_sha256": "648d2310c18c39316467d4ec37d084237b554191812c4649817719ac9c75488c",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_positions.json",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 446,
+      "main_size": null,
+      "feature_sha256": "9bff71f9d605b4046e76401086507239c93ebb1d258456082986732c12a2dc04",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_orders.json",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 255,
+      "main_size": null,
+      "feature_sha256": "0a0bc253f9123327854f1f7d7f36226e0c986410da7c906971a06e2d0673928c",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_equity_curve.json",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 2632,
+      "main_size": null,
+      "feature_sha256": "9c7abd1d89ab14f1bc46e8117f8d225662776e939b4a112793cee173299556a7",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 2557,
+      "main_size": null,
+      "feature_sha256": "f8efacd03302b5a681e50492349a4edd68b11fba16df6d3cb1eaef881ae8cb1e",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar_turnover.json",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 1924,
+      "main_size": null,
+      "feature_sha256": "3565fc3774717fa2164de7505b11b0e4861631be6eafc04d93121d6955c6c768",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "exports/e1r_v0_2_backtest_summary.json",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 1752,
+      "main_size": null,
+      "feature_sha256": "bffd3ef915f79bf382aea6944eea4c409f0ca86445138a4be6d2739d5ca25d03",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    },
+    {
+      "path": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "feature_exists": true,
+      "main_exists": false,
+      "feature_size": 338259,
+      "main_size": null,
+      "feature_sha256": "d7f88af6ac3a73e9e8426f1956ceeb9c2f6cfdf5d611b76fdcd7d99dd474f705",
+      "main_sha256": null,
+      "same_content": false,
+      "manual_review": false,
+      "copy_recommendation": "COPY_NEW_TO_MAIN"
+    }
+  ],
+  "heavy_exports_do_not_blindly_copy": [
+    {
+      "path": "exports/backtest.json",
+      "feature_exists": true,
+      "main_exists": true,
+      "feature_size": 414344,
+      "main_size": 414344,
+      "feature_sha256": "70b19b04362b227d4284d8318a3cb964ec8085c47d59d49b79beacb5a1ea31b9",
+      "main_sha256": "70b19b04362b227d4284d8318a3cb964ec8085c47d59d49b79beacb5a1ea31b9",
+      "same_content": true,
+      "manual_review": false,
+      "copy_recommendation": "NO_COPY_NEEDED_SAME_CONTENT"
+    },
+    {
+      "path": "exports/equity_curve.json",
+      "feature_exists": true,
+      "main_exists": true,
+      "feature_size": 4002,
+      "main_size": 4002,
+      "feature_sha256": "ceb4314d25e88aad39296511ab59360b8ed575c8c604617bfb74802dc9f72d93",
+      "main_sha256": "ceb4314d25e88aad39296511ab59360b8ed575c8c604617bfb74802dc9f72d93",
+      "same_content": true,
+      "manual_review": false,
+      "copy_recommendation": "NO_COPY_NEEDED_SAME_CONTENT"
+    },
+    {
+      "path": "exports/trade_log.json",
+      "feature_exists": true,
+      "main_exists": true,
+      "feature_size": 79490,
+      "main_size": 79490,
+      "feature_sha256": "b71d650513c8083a0ce4a150be9af19a0484c7d06238f0bf4ead5ce697f9bf87",
+      "main_sha256": "b71d650513c8083a0ce4a150be9af19a0484c7d06238f0bf4ead5ce697f9bf87",
+      "same_content": true,
+      "manual_review": false,
+      "copy_recommendation": "NO_COPY_NEEDED_SAME_CONTENT"
+    },
+    {
+      "path": "exports/portfolio_backtest.json",
+      "feature_exists": true,
+      "main_exists": true,
+      "feature_size": 239573,
+      "main_size": 239573,
+      "feature_sha256": "07c95881aa9c2adfdfa09d9f159fb9d43feb1293075a05bb31d2c115820ca6f6",
+      "main_sha256": "07c95881aa9c2adfdfa09d9f159fb9d43feb1293075a05bb31d2c115820ca6f6",
+      "same_content": true,
+      "manual_review": false,
+      "copy_recommendation": "NO_COPY_NEEDED_SAME_CONTENT"
+    },
+    {
+      "path": "exports/action_forward_returns.json",
+      "feature_exists": true,
+      "main_exists": true,
+      "feature_size": 3976,
+      "main_size": 3976,
+      "feature_sha256": "0a7e113c9e6a536adce50a3573f10e6939dee00130b95561fd5308016a576430",
+      "main_sha256": "0a7e113c9e6a536adce50a3573f10e6939dee00130b95561fd5308016a576430",
+      "same_content": true,
+      "manual_review": false,
+      "copy_recommendation": "NO_COPY_NEEDED_SAME_CONTENT"
+    }
+  ],
+  "json_checks": [
+    {
+      "path": "exports/e1r_v0_2_status.json",
+      "exists": true,
+      "valid_json": true,
+      "top_level_type": "dict",
+      "keys": [
+        "core",
+        "e1r_market_state",
+        "generated_at",
+        "legacy_market_state",
+        "mutually_exclusive_state_model",
+        "notes",
+        "regime",
+        "research_status",
+        "sidecar",
+        "source_files",
+        "status_date",
+        "strategy_id",
+        "subclass",
+        "version"
+      ],
+      "error": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_summary.json",
+      "exists": true,
+      "valid_json": true,
+      "top_level_type": "dict",
+      "keys": [
+        "core_active",
+        "equity_status",
+        "execution_status",
+        "generated_at",
+        "gross_exposure",
+        "market_state",
+        "mutually_exclusive_state_model",
+        "notes",
+        "phase",
+        "regime",
+        "research_status",
+        "sidecar_active",
+        "sidecar_selected_count",
+        "status_date",
+        "strategy_id",
+        "subclass",
+        "top_n",
+        "version"
+      ],
+      "error": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar.json",
+      "exists": true,
+      "valid_json": true,
+      "top_level_type": "dict",
+      "keys": [
+        "active",
+        "active_condition",
+        "excluded_symbols",
+        "generated_at",
+        "gross_exposure",
+        "market_state",
+        "phase",
+        "regime",
+        "selected",
+        "selected_count",
+        "source_record_date",
+        "source_record_next_date",
+        "status_date",
+        "strategy_id",
+        "subclass",
+        "top_n"
+      ],
+      "error": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_positions.json",
+      "exists": true,
+      "valid_json": true,
+      "top_level_type": "dict",
+      "keys": [
+        "core",
+        "generated_at",
+        "market_state",
+        "phase",
+        "sidecar",
+        "status_date",
+        "strategy_id"
+      ],
+      "error": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_orders.json",
+      "exists": true,
+      "valid_json": true,
+      "top_level_type": "dict",
+      "keys": [
+        "execution_status",
+        "generated_at",
+        "market_state",
+        "orders",
+        "phase",
+        "status_date",
+        "strategy_id"
+      ],
+      "error": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_equity_curve.json",
+      "exists": true,
+      "valid_json": true,
+      "top_level_type": "dict",
+      "keys": [
+        "curve_type",
+        "end_date",
+        "equity_status",
+        "execution_status",
+        "generated_at",
+        "latest",
+        "notes",
+        "phase",
+        "records",
+        "row_count",
+        "start_date",
+        "strategy_id"
+      ],
+      "error": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+      "exists": true,
+      "valid_json": true,
+      "top_level_type": "dict",
+      "keys": [
+        "end_date",
+        "execution_status",
+        "generated_at",
+        "latest",
+        "notes",
+        "phase",
+        "records",
+        "row_count",
+        "source",
+        "start_date",
+        "strategy_id"
+      ],
+      "error": null
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar_turnover.json",
+      "exists": true,
+      "valid_json": true,
+      "top_level_type": "dict",
+      "keys": [
+        "average_one_way_turnover",
+        "end_date",
+        "execution_status",
+        "generated_at",
+        "latest",
+        "notes",
+        "phase",
+        "records",
+        "row_count",
+        "source",
+        "start_date",
+        "strategy_id"
+      ],
+      "error": null
+    },
+    {
+      "path": "exports/e1r_v0_2_backtest_summary.json",
+      "exists": true,
+      "valid_json": true,
+      "top_level_type": "dict",
+      "keys": [
+        "comparison_name",
+        "curve_type",
+        "end_date",
+        "generated_at",
+        "notes",
+        "research_status",
+        "row_count",
+        "source",
+        "start_date",
+        "strategy_id",
+        "v0_1",
+        "v0_2",
+        "version"
+      ],
+      "error": null
+    },
+    {
+      "path": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "exists": true,
+      "valid_json": true,
+      "top_level_type": "dict",
+      "keys": [
+        "curve_type",
+        "end_date",
+        "generated_at",
+        "row_count",
+        "series",
+        "start_date",
+        "summary"
+      ],
+      "error": null
+    }
+  ],
+  "recommendation": "NOT_READY_REVIEW_STATUS_OR_MISSING_FILES"
+}
