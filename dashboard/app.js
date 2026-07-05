@@ -16,7 +16,7 @@ const REG_META = {
 };
 const IDX_ICONS = {SPX:'📊',NDX:'💻',VIX:'😨',SOX:'🔬'};
 
-let DATA = {market:null,marketState:null,e1rV02Status:null,e1rV02OosSummary:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,
+let DATA = {market:null,marketState:null,e1rV02Status:null,e1rV02OosSummary:null,e1rV02BacktestEquity:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,
   e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null};
 let charts = {};
 
@@ -983,5 +983,207 @@ function injectE1RV02OOSCard(){
   setTimeout(injectE1RV02OOSCard, 700);
   setTimeout(injectE1RV02OOSCard, 1700);
   setTimeout(injectE1RV02OOSCard, 3200);
+})();
+
+
+// === E1R v0.2 5Y Backtest Equity Dashboard UI ===
+// This patch replaces the legacy Research equity chart with the lightweight
+// FULL_5Y_BACKTEST_EQUITY export when available.
+function getE1RV02BacktestEquity(){
+  return DATA.e1rV02BacktestEquity || {};
+}
+
+function formatPctValue(v){
+  if(v === undefined || v === null || Number.isNaN(Number(v))) return '—';
+  return `${Number(v).toFixed(2)}%`;
+}
+
+function renderE1RV02BacktestSummaryCard(){
+  const eq = getE1RV02BacktestEquity();
+  const summary = eq.summary || {};
+  const v1 = summary.v0_1 || {};
+  const v2 = summary.v0_2 || {};
+
+  return `
+    <div id="e1r-v02-backtest-card" class="e1r-backtest-card">
+      <div class="e1r-backtest-main">
+        <div>
+          <div class="e1r-backtest-label">E1R v0.2 Backtest Equity</div>
+          <div class="e1r-backtest-value">Full 5Y Backtest Curve</div>
+        </div>
+        <div class="e1r-backtest-date">${summary.start_date || eq.start_date || '—'} → ${summary.end_date || eq.end_date || '—'}</div>
+      </div>
+
+      <div class="e1r-backtest-grid">
+        <div><span>Curve Type</span><b>${summary.curve_type || eq.curve_type || '—'}</b></div>
+        <div><span>Rows</span><b>${summary.row_count || eq.row_count || '—'}</b></div>
+        <div><span>v0.1 Return</span><b>${formatPctValue(v1.total_return_pct)}</b></div>
+        <div><span>v0.2 Return</span><b>${formatPctValue(v2.total_return_pct)}</b></div>
+        <div><span>v0.2 MaxDD</span><b>${formatPctValue(v2.max_drawdown_pct)}</b></div>
+        <div><span>Sidecar Days</span><b>${v2.sidecar_active_days ?? '—'}</b></div>
+      </div>
+
+      <div class="e1r-backtest-note">
+        This chart uses exports/e1r_v0_2_backtest_equity_curve.json. It is the 5Y backtest curve, not the live OOS equity curve.
+      </div>
+    </div>
+  `;
+}
+
+function normalizeE1REquitySeries(series){
+  if(!Array.isArray(series)) return [];
+  return series
+    .filter(r => r && r.date && r.equity !== undefined && r.equity !== null)
+    .map(r => ({
+      date: r.date,
+      equity: Number(r.equity),
+      daily_return: r.daily_return
+    }))
+    .filter(r => Number.isFinite(r.equity))
+    .sort((a,b) => String(a.date).localeCompare(String(b.date)));
+}
+
+function injectE1RV02BacktestSummaryCard(){
+  const target = document.getElementById('s-research');
+  if(!target) return;
+  if(document.getElementById('e1r-v02-backtest-card')) return;
+
+  const canvas = document.getElementById('cw-equity');
+  if(canvas){
+    const wrap = canvas.closest('.cwrap') || canvas.parentElement;
+    if(wrap){
+      wrap.insertAdjacentHTML('beforebegin', renderE1RV02BacktestSummaryCard());
+      return;
+    }
+  }
+
+  target.insertAdjacentHTML('afterbegin', renderE1RV02BacktestSummaryCard());
+}
+
+function renderE1RV02BacktestEquityChart(){
+  const eq = getE1RV02BacktestEquity();
+  const series = eq.series || {};
+  const v1 = normalizeE1REquitySeries(series.E1R_REGIME_AWARE_V0_1);
+  const v2 = normalizeE1REquitySeries(series.E1R_REGIME_AWARE_V0_2);
+
+  if(!v2.length) return false;
+
+  const canvas = document.getElementById('cw-equity');
+  if(!canvas || typeof Chart === 'undefined') return false;
+
+  injectE1RV02BacktestSummaryCard();
+
+  const byDateV1 = {};
+  v1.forEach(r => { byDateV1[r.date] = r.equity; });
+
+  const labels = v2.map(r => r.date);
+  const v1Data = labels.map(d => byDateV1[d] ?? null);
+  const v2Data = v2.map(r => r.equity);
+
+  if(charts && charts.equity){
+    charts.equity.destroy();
+  }
+
+  charts.equity = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'E1R v0.1 Core',
+          data: v1Data,
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.15
+        },
+        {
+          label: 'E1R v0.2 Core + Sidecar',
+          data: v2Data,
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.15
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      plugins: {
+        legend: {
+          display: true
+        },
+        tooltip: {
+          callbacks: {
+            label: function(ctx){
+              const val = ctx.parsed.y;
+              if(val === null || val === undefined) return `${ctx.dataset.label}: —`;
+              return `${ctx.dataset.label}: ${Number(val).toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            maxTicksLimit: 8
+          }
+        },
+        y: {
+          ticks: {
+            callback: function(value){
+              return Number(value).toLocaleString(undefined, {maximumFractionDigits: 0});
+            }
+          }
+        }
+      }
+    }
+  });
+
+  return true;
+}
+
+function injectE1RV02BacktestEquityUI(){
+  if(!DATA.e1rV02BacktestEquity) return;
+  injectE1RV02BacktestSummaryCard();
+  renderE1RV02BacktestEquityChart();
+}
+
+(function installE1RV02BacktestEquityPatch(){
+  function patchRenderForBacktestEquity(){
+    if(typeof render !== 'function') return false;
+    if(render.__e1rV02BacktestEquityPatched) return true;
+
+    const originalRender = render;
+    render = function(tab){
+      const result = originalRender.apply(this, arguments);
+      if(tab === 'research'){
+        setTimeout(injectE1RV02BacktestEquityUI, 0);
+      }
+      return result;
+    };
+    render.__e1rV02BacktestEquityPatched = true;
+    return true;
+  }
+
+  patchRenderForBacktestEquity();
+
+  if(typeof fetchJ === 'function'){
+    fetchJ('e1r_v0_2_backtest_equity_curve')
+      .then(x => {
+        DATA.e1rV02BacktestEquity = x;
+        const oldCard = document.getElementById('e1r-v02-backtest-card');
+        if(oldCard) oldCard.remove();
+        injectE1RV02BacktestEquityUI();
+      })
+      .catch(() => {});
+  }
+
+  setTimeout(injectE1RV02BacktestEquityUI, 1000);
+  setTimeout(injectE1RV02BacktestEquityUI, 2200);
+  setTimeout(injectE1RV02BacktestEquityUI, 4000);
 })();
 
