@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-07-05T12:50:20.751833+00:00",
+  "phase": "OOS_STATUS_SIGNAL_ONLY",
+  "strategy_id": "E1R_REGIME_AWARE_V0_2",
+  "status_date": "2026-06-18",
+  "market_state": "UPTREND",
+  "regime": "UPTREND",
+  "subclass": null,
+  "active": false,
+  "active_condition": "SIDEWAYS_MA_CONFLICT",
+  "gross_exposure": 0.25,
+  "top_n": 10,
+  "excluded_symbols": [
+    "VIXY"
+  ],
+  "source_record_date": "2026-06-17",
+  "source_record_next_date": "2026-06-18",
+  "selected_count": 0,
+  "selected": []
+}

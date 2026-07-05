@@ -22,6 +22,7 @@ jobs:
 
       - name: 增量更新 + 信号计算
         run: python fetch_data.py
+        python3 scripts/run_e1r_v0_2_oos.py
 
       - name: OOS 数据日期预检
         id: oos_check

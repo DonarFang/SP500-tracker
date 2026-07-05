@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-07-05T12:50:20.751833+00:00",
+  "phase": "OOS_STATUS_SIGNAL_ONLY",
+  "strategy_id": "E1R_REGIME_AWARE_V0_2",
+  "status_date": "2026-06-18",
+  "market_state": "UPTREND",
+  "core": {
+    "active": true,
+    "strategy_id": "E1R_REGIME_AWARE_V0_1",
+    "positions_status": "NOT_CONNECTED_IN_OOS_1"
+  },
+  "sidecar": {
+    "active": false,
+    "positions_status": "TARGET_ONLY_NOT_EXECUTED",
+    "target_positions": []
+  }
+}
