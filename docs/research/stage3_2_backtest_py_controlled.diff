@@ -1,0 +1,766 @@
+--- main_before/src/engine/backtest.py
++++ feature_source/src/engine/backtest.py
+@@ -14,9 +14,11 @@
+ """
+ from __future__ import annotations
+ import math
++import json
++from pathlib import Path
+ from ..features.rs import period_return, rs_percentile
+ from ..features.momentum import (
+-    momentum_score as calc_momentum, moving_average, linreg_slope
++    momentum_score as calc_momentum, moving_average, linreg_slope, momentum_acceleration
+ )
+ from ..features.trend_health import trend_health_score as calc_trend_health
+ from ..engine.leader_ranking import leader_score as calc_leader_score
+@@ -798,6 +800,48 @@
+     one_way  = a["total_one_way"]             # 0.001
+     init_cap = float(a.get("initial_capital", 100_000))
+     strategy_variant = a.get("strategy_variant", "top3_entry_rs_minhold_relstop")
++    e1r_shell_mode = bool(a.get("e1r_shell_mode", False))
++    e1r_regime_wiring_enabled = bool(a.get("e1r_regime_wiring_enabled", False))
++    e1r_uptrend_execution_enabled = bool(a.get("e1r_uptrend_execution_enabled", False))
++    e1r_regime_daily = a.get("e1r_regime_daily", {}) or {}
++
++    def _e1r_regime_on(date: str) -> str:
++        if not e1r_regime_wiring_enabled or not date:
++            return "N/A"
++        rec = e1r_regime_daily.get(date, {})
++        if isinstance(rec, dict):
++            return rec.get("regime") or rec.get("spx_regime") or rec.get("weekly_regime") or "UNCLASSIFIED"
++        if isinstance(rec, str):
++            return rec
++        return "UNCLASSIFIED"
++
++    def _e1r_mode_for_regime(regime: str) -> str:
++        if regime == "UPTREND":
++            return "UPTREND_EMERGING_CONFIRMED_ENABLED"
++        if regime == "SIDEWAYS":
++            return "SIDEWAYS_QUALITY_BREAKOUT_ONLY"
++        if regime == "DOWNTREND":
++            return "DOWNTREND_EXCEPTION_ONLY"
++        if regime == "N/A":
++            return "N/A"
++        return "UNCLASSIFIED_NO_RISK_EXPANSION"
++
++    def _e1r_risk_budget_for_regime(regime: str) -> dict:
++        if regime == "UPTREND":
++            return {"mode": "UPTREND_RISK_ON", "max_positions": 3, "max_total_exposure_pct": 100.0}
++        if regime == "SIDEWAYS":
++            return {"mode": "SIDEWAYS_LIMITED", "max_positions": 2, "max_total_exposure_pct": 33.3}
++        if regime == "DOWNTREND":
++            return {"mode": "DOWNTREND_DEFENSIVE", "max_positions": 1, "max_total_exposure_pct": 10.0}
++        if regime == "N/A":
++            return {"mode": "N/A", "max_positions": None, "max_total_exposure_pct": None}
++        return {"mode": "UNCLASSIFIED_DEFENSIVE", "max_positions": 0, "max_total_exposure_pct": 0.0}
++
++    def _e1r_dominant_regime(weights: dict) -> str:
++        if not weights:
++            return "UNCLASSIFIED" if e1r_regime_wiring_enabled else "N/A"
++        return max(weights.items(), key=lambda kv: kv[1])[0]
++
+     entry_top_n = int(a.get("entry_top_n", 3))
+     rank_based_exit = bool(a.get("rank_based_exit", False))
+     market_gate_enabled = bool(a.get("market_gate_enabled", True))
+@@ -1001,6 +1045,10 @@
+         "ls60_reduce_already_triggered":   0,
+         "action_reason_buy_add_mismatch":  0,   # BUY/ADD 不一致（记录，不中断）
+         "fill_only_no_empty_slot":         0,   # fill_only 模式：无空仓位，跳过 BUY
++        "e1r_legacy_buy_blocked":          0,   # E1-R execution: legacy BUY suppressed
++        "e1r_no_capacity":                 0,   # E1-R execution: no available slot
++        "e1r_candidate_buy_generated":     0,   # E1-R execution: candidate BUY generated
++        "e1r_emerging_to_confirmed_add":   0,   # E1-R execution: upgrade ADD generated
+     }
+     orders_executed = 0
+ 
+@@ -1031,6 +1079,14 @@
+     equity_curve:  list[float] = []
+     spx_curve:     list[float] = []
+     daily_records: list[dict]  = []
++    # Continuous observer-only daily equity records.
++    # Read-only telemetry for regime/equity attribution.
++    daily_equity_records: list[dict] = []
++    daily_equity_peak = init_cap
++    sim_end_liquidation_record = None
++    # E1-R Phase 3A candidate tagging only.
++    # These records are diagnostics; they must not affect orders or execution.
++    e1r_candidate_records: list[dict] = []
+     spx_entry = 0.0  # 在日循环中遇到第一个 sim 日时设置，保证与 Period 区间一致
+ 
+     # ── Qualified Pool 诊断计数器 ───────────────────────────────
+@@ -1091,7 +1147,9 @@
+                     if len(holdings) >= max_pos:
+                         skip_reasons["max_positions_reached"] += 1
+                         continue
+-                    target = port_val * buy_pct
++                    _order_size_units = float(order.get("target_size_units", 1.0))
++                    _order_size_units = max(0.0, min(_order_size_units, 1.0))
++                    target = port_val * buy_pct * _order_size_units
+                     if port_val > 0 and target / port_val > max_pct:
+                         target = port_val * max_pct
+                         skip_reasons["max_single_size_reached"] += 1
+@@ -1107,11 +1165,12 @@
+                     holdings[sym] = {
+                         "shares":                shares,
+                         "avg_cost":              exec_price,
+-                        "size_units":            1.0,
++                        "size_units":            _order_size_units,
+                         "entry_close_ref":       close_ref,
+                         "entry_date":            exec_date,
+                         "entry_sig_date":        sig_date,
+                         "entry_signal":          "BUY",
++                        "e1r_entry_type":       order.get("e1r_entry_type"),
+                         "highest_close":         close_ref,
+                         "min_close_since_entry": close_ref,
+                         "current_close":         close_ref,
+@@ -1127,6 +1186,10 @@
+                         "realized_cost_basis":   0.0,
+                         "action_history":        ["BUY"],
+                         "ls60_reduce_triggered": False,  # 方案A：LS<60 REDUCE 一次性保护
++                        # E1-R Phase 2 regime wiring telemetry. Observer-only.
++                        "entry_regime": _e1r_regime_on(exec_date),
++                        "entry_type": order.get("e1r_entry_type") or ("E1R_PLACEHOLDER_LEGACY_ENTRY" if e1r_regime_wiring_enabled else None),
++                        "regime_day_weights": {},
+                     }
+ 
+                 elif action == "ADD":
+@@ -1141,7 +1204,9 @@
+                         skip_reasons["max_single_size_reached"] += 1
+                         continue
+                     current_val = h["shares"] * exec_price
+-                    target_add  = port_val * add_pct
++                    _add_size_units = float(order.get("add_size_units", 0.5))
++                    _add_size_units = max(0.0, min(_add_size_units, 0.5))
++                    target_add  = port_val * buy_pct * _add_size_units
+                     new_total   = current_val + target_add
+                     if port_val > 0 and new_total / port_val > max_pct:
+                         target_add = max(0, port_val * max_pct - current_val)
+@@ -1154,7 +1219,10 @@
+                     old_c, old_s = h["avg_cost"], h["shares"]
+                     h["avg_cost"]   = (old_s * old_c + add_shares * exec_price) / (old_s + add_shares)
+                     h["shares"]    += add_shares
+-                    h["size_units"] = min(1.5, h["size_units"] + 0.5)
++                    h["size_units"] = min(1.0 if e1r_uptrend_execution_enabled else 1.5, h["size_units"] + _add_size_units)
++                    if order.get("e1r_entry_type"):
++                        h["e1r_entry_type"] = order.get("e1r_entry_type")
++                        h["entry_type"] = order.get("e1r_entry_type")
+                     h["action_history"].append("ADD")
+                     h["ls60_reduce_triggered"] = False  # ADD 后清零 ls60 保护
+                     cash -= target_add
+@@ -1231,6 +1299,11 @@
+                         "exit_adverse_gap_pct":  round(exit_gap * 100, 3),
+                         "total_execution_drag_pct": round((entry_gap + exit_gap) * 100, 3),
+                         "is_sim_end":           False,
++                        "entry_regime":         h.get("entry_regime", _e1r_regime_on(entry_date)),
++                        "exit_regime":          _e1r_regime_on(exec_date),
++                        "dominant_regime":      _e1r_dominant_regime(h.get("regime_day_weights", {})),
++                        "entry_type":           h.get("entry_type"),
++                        "regime_day_weights":   h.get("regime_day_weights", {}),
+                         "exit_reason":          exec_primary_reason,
+                         "exit_reasons":         exec_reasons,
+                         "exit_type":            h.get("exit_type", "NORMAL_EXIT"),
+@@ -1279,6 +1352,12 @@
+             else:
+                 position_value += h["shares"] * h["avg_cost"]
+ 
++        if e1r_regime_wiring_enabled:
++            _today_regime_for_positions = _e1r_regime_on(date_t)
++            for _h in holdings.values():
++                _weights = _h.setdefault("regime_day_weights", {})
++                _weights[_today_regime_for_positions] = _weights.get(_today_regime_for_positions, 0) + 1
++
+         total_equity = cash + position_value
+ 
+         # P0 guards
+@@ -1414,13 +1493,60 @@
+             else:
+                 market_gate_days["blocked_total"] += 1
+ 
++        # ── Continuous daily equity observer record ─────────────────────
++        _prev_equity = (
++            daily_equity_records[-1]["total_equity"]
++            if daily_equity_records else init_cap
++        )
++        _daily_return_pct = (
++            (total_equity / _prev_equity - 1) * 100
++            if _prev_equity and _prev_equity > 0 else 0.0
++        )
++        daily_equity_peak = max(daily_equity_peak, total_equity)
++        _drawdown_pct = (
++            (daily_equity_peak - total_equity) / daily_equity_peak * 100
++            if daily_equity_peak and daily_equity_peak > 0 else 0.0
++        )
++        _gate_state = (
++            "ALLOW" if market_entry_allowed else
++            "SHOCK" if market_shock else "RISK_OFF"
++        )
++
++        daily_equity_records.append({
++            "date": date_t,
++            "cash": round(cash, 2),
++            "positions_value": round(position_value, 2),
++            "total_equity": round(total_equity, 2),
++            "daily_return_pct": round(_daily_return_pct, 4),
++            "drawdown_pct": round(_drawdown_pct, 4),
++            "exposure_pct": round(position_value / total_equity * 100, 2) if total_equity > 0 else 0.0,
++            "open_positions_count": len(holdings),
++            "pending_orders_count": len(pending_orders),
++            "market_gate_state": _gate_state,
++            "spx_regime": _e1r_regime_on(date_t) if e1r_regime_wiring_enabled else None,
++            "e1r_active_mode": _e1r_mode_for_regime(_e1r_regime_on(date_t)) if e1r_regime_wiring_enabled else None,
++            "risk_budget_mode": _e1r_risk_budget_for_regime(_e1r_regime_on(date_t))["mode"] if e1r_regime_wiring_enabled else None,
++            "risk_budget": _e1r_risk_budget_for_regime(_e1r_regime_on(date_t)) if e1r_regime_wiring_enabled else None,
++            "spx_close": round(spx_close_t, 2),
++            "spx_ma50": round(spx_ma50_t, 2),
++            "spx_day_return_pct": round(spx_day_return * 100, 4),
++            "event": "EOD_MARK_TO_MARKET",
++        })
++
+         all_ret60 = []
++        all_ret60_prev20 = []
+         for s in symbols:
+             p_s = get_close_series_by_date(s, date_t)
+             if len(p_s) > 60:
+                 r = period_return(p_s, 60)
+                 if r is not None:
+                     all_ret60.append(r)
++            # E1-R Phase 3A: previous RS reference for Emerging Leader acceleration.
++            # Uses data up to T-20 only; diagnostic-only, no execution impact.
++            if e1r_shell_mode and len(p_s) > 80:
++                r_prev = period_return(p_s[:-20], 60)
++                if r_prev is not None:
++                    all_ret60_prev20.append(r_prev)
+ 
+         # 先重建全市场当日信号与 Leader Score，用于确定 Top 3 Entry Universe
+         day_signals: dict[str, dict] = {}
+@@ -1440,9 +1566,19 @@
+ 
+             from ..features.trend_health import trend_lifecycle
+             state   = trend_lifecycle(th, mom, rs)
++            ma20s   = moving_average(p, 20)
++            ma20_v  = ma20s[-1] if ma20s else close_t
++            ma20_sl = linreg_slope(ma20s[-10:]) if len(ma20s) >= 10 else 0
+             ma50s   = moving_average(p, 50)
+             ma50_v  = ma50s[-1] if ma50s else close_t
+             ma50_sl = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0
++            rs_prev20 = 50.0
++            rs_20d_improvement = 0.0
++            if e1r_shell_mode and len(p) > 80 and all_ret60_prev20:
++                ret60_prev20 = period_return(p[:-20], 60)
++                rs_prev20 = rs_percentile(ret60_prev20, all_ret60_prev20)
++                rs_20d_improvement = round(rs - rs_prev20, 2)
++            mom_acc = momentum_acceleration(p) if e1r_shell_mode else 0.0
+ 
+             action  = trade_action(
+                 state, mom, rs, close_t, ma50_v, ma50_sl,
+@@ -1460,8 +1596,18 @@
+                 "leader_score":   ls,
+                 "trend_health":   th,
+                 "close_t":        close_t,
++                "ma20":           ma20_v,
++                "ma20_slope":     ma20_sl,
+                 "ma50":           ma50_v,
+                 "ma50_slope":     ma50_sl,
++                # E1-R Phase 3A diagnostic fields.
++                "rs_prev20":      rs_prev20,
++                "rs_20d_improvement": rs_20d_improvement,
++                "momentum_acceleration": mom_acc,
++                "e1r_entry_type": None,
++                "e1r_uptrend_emerging_eligible": False,
++                "e1r_uptrend_confirmed_eligible": False,
++                "e1r_entry_reason": [],
+             }
+ 
+         # ── Entry Universe ────────────────────────────────────────────
+@@ -1471,6 +1617,115 @@
+             key=lambda x: x[1],
+             reverse=True
+         )
++
++        # E1-R Phase 3A: UPTREND candidate tagging only.
++        # This does not change buy_orders, management_orders, holdings, or cash.
++        if e1r_shell_mode and e1r_regime_wiring_enabled and _e1r_regime_on(date_t) == "UPTREND":
++            leader_rank_all = {s: i + 1 for i, (s, _) in enumerate(top_ranked)}
++            for sym, sig in day_signals.items():
++                rank_all = leader_rank_all.get(sym, 9999)
++                emerging_reasons = []
++                if sig["rs_score"] >= 80: emerging_reasons.append("rs_above_80")
++                if sig.get("rs_20d_improvement", 0) >= 10: emerging_reasons.append("rs_20d_improvement_above_10")
++                if sig["momentum_score"] >= 70: emerging_reasons.append("momentum_above_70")
++                if sig.get("momentum_acceleration", 0) > 0: emerging_reasons.append("momentum_acceleration_positive")
++                if sig["trend_health"] >= 65: emerging_reasons.append("trend_health_above_65")
++                if sig["close_t"] > sig.get("ma20", sig["close_t"]): emerging_reasons.append("close_above_ma20")
++                if sig.get("ma20_slope", 0) > 0 or sig.get("ma20", 0) > sig.get("ma50", 0): emerging_reasons.append("ma20_structure_positive")
++                if rank_all <= 20: emerging_reasons.append("leader_rank_top20")
++
++                emerging = (
++                    sig["rs_score"] >= 80
++                    and sig.get("rs_20d_improvement", 0) >= 10
++                    and sig["momentum_score"] >= 70
++                    and sig.get("momentum_acceleration", 0) > 0
++                    and sig["trend_health"] >= 65
++                    and sig["close_t"] > sig.get("ma20", sig["close_t"])
++                    and (sig.get("ma20_slope", 0) > 0 or sig.get("ma20", 0) > sig.get("ma50", 0))
++                    and rank_all <= 20
++                )
++                confirmed_reasons = []
++                if sig["rs_score"] >= 90: confirmed_reasons.append("rs_above_90")
++                if rank_all <= 5: confirmed_reasons.append("leader_rank_top5")
++                if sig["leader_score"] >= 75: confirmed_reasons.append("leader_score_above_75")
++                if sig["momentum_score"] >= 75: confirmed_reasons.append("momentum_above_75")
++                if sig["trend_health"] >= 70: confirmed_reasons.append("trend_health_above_70")
++                if sig["close_t"] > sig.get("ma50", sig["close_t"]): confirmed_reasons.append("close_above_ma50")
++                if sig.get("ma50_slope", 0) >= 0: confirmed_reasons.append("ma50_slope_non_negative")
++                confirmed = (
++                    sig["rs_score"] >= 90
++                    and rank_all <= 5
++                    and sig["leader_score"] >= 75
++                    and sig["momentum_score"] >= 75
++                    and sig["trend_health"] >= 70
++                    and sig["close_t"] > sig.get("ma50", sig["close_t"])
++                    and sig.get("ma50_slope", 0) >= 0
++                )
++                if emerging or confirmed:
++                    entry_type = "E1R_UPTREND_CONFIRMED" if confirmed else "E1R_UPTREND_EMERGING"
++                    reasons = confirmed_reasons if confirmed else emerging_reasons
++                    sig["e1r_entry_type"] = entry_type
++                    sig["e1r_uptrend_emerging_eligible"] = emerging
++                    sig["e1r_uptrend_confirmed_eligible"] = confirmed
++                    sig["e1r_entry_reason"] = reasons
++                    e1r_candidate_records.append({
++                        "date": date_t,
++                        "symbol": sym,
++                        "spx_regime": "UPTREND",
++                        "e1r_entry_type": entry_type,
++                        "e1r_uptrend_emerging_eligible": emerging,
++                        "e1r_uptrend_confirmed_eligible": confirmed,
++                        "leader_rank": rank_all,
++                        "leader_score": round(sig["leader_score"], 2),
++                        "rs_score": round(sig["rs_score"], 2),
++                        "rs_prev20": round(sig.get("rs_prev20", 0), 2),
++                        "rs_20d_improvement": round(sig.get("rs_20d_improvement", 0), 2),
++                        "momentum_score": round(sig["momentum_score"], 2),
++                        "momentum_acceleration": round(sig.get("momentum_acceleration", 0), 2),
++                        "trend_health": round(sig["trend_health"], 2),
++                        "close": round(sig["close_t"], 2),
++                        "ma20": round(sig.get("ma20", 0), 2),
++                        "ma50": round(sig.get("ma50", 0), 2),
++                        "ma20_slope": round(sig.get("ma20_slope", 0), 6),
++                        "ma50_slope": round(sig.get("ma50_slope", 0), 6),
++                        "reasons": reasons,
++                        "diagnostic_only": True,
++                    })
++
++        # E1-R Phase 3B: UPTREND Execution v0.1 candidate selection.
++        # Only entry execution is changed; existing E1 reduce/exit logic remains intact.
++        e1r_selected_buy: dict | None = None
++        if e1r_uptrend_execution_enabled and _e1r_regime_on(date_t) == "UPTREND":
++            e1r_buy_candidates = []
++            for s, v in day_signals.items():
++                if s in holdings:
++                    continue
++                if not v.get("e1r_entry_type"):
++                    continue
++                _etype = v.get("e1r_entry_type")
++                _priority = 0 if _etype == "E1R_UPTREND_CONFIRMED" else 1
++                e1r_buy_candidates.append((
++                    _priority,
++                    leader_rank_all.get(s, 9999),
++                    -v.get("leader_score", 0),
++                    -v.get("momentum_acceleration", 0),
++                    -v.get("rs_20d_improvement", 0),
++                    s,
++                    v,
++                ))
++            e1r_buy_candidates.sort()
++            if e1r_buy_candidates and market_entry_allowed:
++                if len(holdings) < min(max_pos, entry_capacity):
++                    _, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]
++                    _etype = _sig.get("e1r_entry_type")
++                    e1r_selected_buy = {
++                        "sym": _sym,
++                        "sig": _sig,
++                        "entry_type": _etype,
++                        "target_size_units": 1.0 if _etype == "E1R_UPTREND_CONFIRMED" else 0.5,
++                    }
++                else:
++                    skip_reasons["e1r_no_capacity"] += len(e1r_buy_candidates)
+ 
+         if qualified_entry_enabled and candidate_top_n is not None:
+             # Qualified Candidate Pool 逻辑：
+@@ -1524,6 +1779,30 @@
+             # 职责拆分：
+             #   Entry Engine  → 由 Qualified Pool 或旧 trade_action BUY 决定
+             #   Position Mgmt → 由 trade_action 决定（HOLD/ADD/REDUCE/EXIT）
++            if (
++                e1r_uptrend_execution_enabled
++                and e1r_selected_buy
++                and sym == e1r_selected_buy["sym"]
++                and sym not in holdings
++            ):
++                _etype = e1r_selected_buy["entry_type"]
++                buy_orders.append({
++                    "sym":            sym,
++                    "action":         "BUY",
++                    "signal_date":    date_t,
++                    "ls":             ls,
++                    "close_t":        close_t,
++                    "entry_rank":     top_entry_rank.get(sym) or leader_rank_all.get(sym),
++                    "strategy":       "E1R_UPTREND_EXECUTION_V0_1",
++                    "entry_mode":     "e1r_uptrend_execution_v0_1",
++                    "primary_reason": _etype,
++                    "reasons":        sig.get("e1r_entry_reason", []),
++                    "e1r_entry_type": _etype,
++                    "target_size_units": e1r_selected_buy["target_size_units"],
++                })
++                skip_reasons["e1r_candidate_buy_generated"] += 1
++                continue
++
+             if qualified_entry_enabled:
+                 # Qualified Pool 模式：接管新开仓权限
+                 # 不使用 trade_action()=="BUY"，由候选池资格决定是否可开仓
+@@ -1577,6 +1856,9 @@
+             else:
+                 # 旧模式：trade_action()=="BUY" + Strict TopN
+                 if action == "BUY":
++                    if e1r_uptrend_execution_enabled:
++                        skip_reasons["e1r_legacy_buy_blocked"] += 1
++                        continue
+                     if sym in holdings:
+                         continue
+                     if sig.get("rs_score", 0.0) < entry_rs_min:
+@@ -1740,6 +2022,44 @@
+                     "reasons":       reason_info.get("reasons", []),
+                 })
+ 
++        # E1-R Phase 3B: Emerging → Confirmed upgrade ADD.
++        # This is the only ADD behavior introduced in Phase 3B and it never overrides
++        # existing EXIT/REDUCE management orders generated above.
++        if e1r_uptrend_execution_enabled and _e1r_regime_on(date_t) == "UPTREND":
++            scheduled_management = {o["sym"]: o["action"] for o in management_orders}
++            for sym, h in holdings.items():
++                if scheduled_management.get(sym) in ("EXIT", "REDUCE", "REL_REDUCE", "TP_REDUCE", "ADD"):
++                    continue
++                sig = day_signals.get(sym)
++                if not sig or not sig.get("e1r_uptrend_confirmed_eligible"):
++                    continue
++                if h.get("e1r_entry_type") != "E1R_UPTREND_EMERGING":
++                    continue
++                if h.get("size_units", 0.0) >= 1.0:
++                    continue
++                close_t_h = h.get("current_close", 0.0)
++                pos_ret = (close_t_h / h["avg_cost"] - 1.0) if h.get("avg_cost", 0) > 0 and close_t_h > 0 else 0.0
++                if pos_ret <= 0.03:
++                    continue
++                if close_t_h <= sig.get("ma20", close_t_h):
++                    continue
++                if sig.get("momentum_acceleration", 0) < 0:
++                    continue
++                management_orders.append({
++                    "sym": sym,
++                    "action": "ADD",
++                    "signal_date": date_t,
++                    "ls": sig.get("leader_score", h.get("leader_score_entry", 0)),
++                    "close_t": close_t_h,
++                    "entry_rank": top_entry_rank.get(sym) or leader_rank_all.get(sym),
++                    "strategy": "E1R_UPTREND_EXECUTION_V0_1",
++                    "primary_reason": "emerging_upgraded_to_confirmed",
++                    "reasons": ["emerging_upgraded_to_confirmed", "position_return_above_3pct", "close_above_ma20", "momentum_acceleration_non_negative"],
++                    "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
++                    "add_size_units": 0.5,
++                })
++                skip_reasons["e1r_emerging_to_confirmed_add"] += 1
++
+         # Relative SPX stop: if the holding underperforms SPX since entry
+         # by more than the configured threshold, reduce 50% once per position.
+         if relative_stop_enabled:
+@@ -1898,6 +2218,11 @@
+             "action_count":         len(h["action_history"]),
+             "execution_model":      "adverse_intraday_v1.0",
+             "is_sim_end":           True,
++            "entry_regime":         h.get("entry_regime", _e1r_regime_on(entry_date)),
++            "exit_regime":          _e1r_regime_on(last_date),
++            "dominant_regime":      _e1r_dominant_regime(h.get("regime_day_weights", {})),
++            "entry_type":           h.get("entry_type"),
++            "regime_day_weights":   h.get("regime_day_weights", {}),
+             "exit_type":            h.get("exit_type", "SIM_END"),
+             "exit_warning_log":     h.get("exit_warning_log", []),
+             "exit_warning_count":   len(h.get("exit_warning_log", [])),
+@@ -1907,6 +2232,19 @@
+     # 修正3: 强制平仓后更新 final_equity
+     final_equity = cash
+     equity_curve.append(final_equity)
++
++    sim_end_liquidation_record = {
++        "date": last_date,
++        "cash": round(cash, 2),
++        "positions_value": 0.0,
++        "total_equity": round(final_equity, 2),
++        "open_positions_count": 0,
++        "sim_end_trades": sim_end_count,
++        "spx_regime": _e1r_regime_on(last_date) if e1r_regime_wiring_enabled else None,
++        "e1r_active_mode": _e1r_mode_for_regime(_e1r_regime_on(last_date)) if e1r_regime_wiring_enabled else None,
++        "risk_budget_mode": _e1r_risk_budget_for_regime(_e1r_regime_on(last_date))["mode"] if e1r_regime_wiring_enabled else None,
++        "event": "SIM_END_LIQUIDATION",
++    }
+ 
+     # ════════════════════════════════════════════════════
+     # 修正4: sample_validity 检查
+@@ -2042,6 +2380,8 @@
+             "qp_buy_orders_generated":   qp_diag["buy_orders_generated"],
+             "min_holding_days": min_holding_days,
+             "min_hold_allow_broken_exit": min_hold_allow_broken_exit,
++            "e1r_regime_wiring_enabled": e1r_regime_wiring_enabled,
++            "e1r_regime_source": a.get("e1r_regime_source") if e1r_regime_wiring_enabled else None,
+             "relative_stop_enabled": relative_stop_enabled,
+             "relative_stop_underperform_pct": round(relative_stop_underperform * 100, 2),
+             "relative_stop_action": relative_stop_action,
+@@ -2134,6 +2474,12 @@
+         "equity_curve":      [round(e, 2) for e in equity_curve[::5]],
+         "spx_curve":         [round(e * init_cap, 2) for e in spx_curve[::5]],
+         "daily_records":     daily_records,
++        "daily_equity_records": daily_equity_records,
++        "daily_equity_record_count": len(daily_equity_records),
++        "sim_end_liquidation_record": sim_end_liquidation_record,
++        "e1r_candidates": e1r_candidate_records if e1r_shell_mode else [],
++        "e1r_candidate_count": len(e1r_candidate_records) if e1r_shell_mode else 0,
++        "e1r_uptrend_execution_enabled": e1r_uptrend_execution_enabled,
+         # 交易记录
+         "trades":            closed_trades,
+         "total_trades_all":  total_trades,
+@@ -2166,7 +2512,7 @@
+     2. Within the same status, prefer higher total return.
+     3. Break ties with higher Profit Factor, higher Sharpe, then lower max drawdown.
+     """
+-    logger.info("[Backtest Layer D v1.6] 3-Variant LS60 Mode Comparison...")
++    logger.info("[Backtest Layer D v1.6] Strategy Variant Comparison...")
+ 
+     base = {
+         **LAYER_D_ASSUMPTIONS,
+@@ -2202,6 +2548,21 @@
+         "ls60_exit_mode":            "exit",
+     }
+ 
++    def _load_e1r_regime_daily() -> dict:
++        regime_path = Path("data/research/e1_5y/regimes/spx_regime_daily.json")
++        if not regime_path.exists():
++            logger.warn(f"  E1-R regime wiring: missing {regime_path}")
++            return {}
++        try:
++            obj = json.loads(regime_path.read_text())
++        except Exception as exc:
++            logger.warn(f"  E1-R regime wiring: failed to load {regime_path}: {exc}")
++            return {}
++        daily = obj.get("daily_regime", obj) if isinstance(obj, dict) else {}
++        return daily if isinstance(daily, dict) else {}
++
++    _e1r_regime_daily = _load_e1r_regime_daily()
++
+     variants = {
+         # E1: Gate G4 + MinHold10（审计对照基准，不可修改）
+         "E1_AUDITED_G4_MINHOLD10": {
+@@ -2211,6 +2572,23 @@
+             "dynamic_exit_enabled":  False,
+             "relative_stop_enabled": False,
+             "version":               "E1-audited-g4-minhold10",
++        },
++        # E1-R v0.1 shell: research candidate placeholder.
++        # Shell intentionally mirrors E1 execution rules for Phase 1 so that
++        # exports/backtest.json exposes the strategy ID without changing E1.
++        "E1R_REGIME_AWARE_V0_1": {
++            **base, **_gate_g4,
++            "strategy_variant":      "E1R_regime_aware_v0_1_shell",
++            "min_holding_days":      10,
++            "dynamic_exit_enabled":  False,
++            "relative_stop_enabled": False,
++            "version":               "E1R-uptrend-execution-v0.1",
++            "e1r_shell_mode":        True,
++            "e1r_uptrend_execution_enabled": True,
++            "e1r_regime_wiring_enabled": True,
++            "e1r_regime_daily":      _e1r_regime_daily,
++            "e1r_regime_source":     "data/research/e1_5y/regimes/spx_regime_daily.json",
++            "e1r_spec_ref":          "docs/research/E1R_REGIME_AWARE_STRATEGY_SPEC_v0.1.md",
+         },
+         # E2v2: Gate G4 + Dynamic Exit v2（CAUTIOUS/CASH_MODE 下 LS<60 直接退出）
+         "E2_DYNAMIC_EXIT_V2": {
+@@ -2226,23 +2604,33 @@
+     # ── 分期定义 ─────────────────────────────────────────────────
+     # 时间轴保持完整（确保 warm-up / MA50 / RS 计算不失真）；
+     # 只用 sim_start_date / sim_end_date 控制交易执行和统计区间。
+-    periods = {
+-        "A_2023_11_TO_2024_12": {
+-            "label":          "Period A: 2023-11 → 2024-12",
+-            "sim_start_date": "2023-11-06",
+-            "sim_end_date":   "2024-12-31",
+-        },
+-        "B_2024_12_TO_2026_06": {
+-            "label":          "Period B: 2024-12 → 2026-06",
+-            "sim_start_date": "2024-12-03",
+-            "sim_end_date":   "2026-06-11",
+-        },
+-        "C_FULL_2023_11_TO_2026_06": {
+-            "label":          "Period C (Full): 2023-11 → 2026-06",
+-            "sim_start_date": "2023-11-06",
+-            "sim_end_date":   "2026-06-11",
+-        },
+-    }
++    import os as _os
++    if _os.environ.get("SP500_RESEARCH_5Y") == "1":
++        periods = {
++            "C_FULL_5Y_2021_06_TO_2026_06": {
++                "label":          "Period C (Full 5Y): 2021-06 → 2026-06",
++                "sim_start_date": "2021-06-11",
++                "sim_end_date":   "2026-06-18",
++            },
++        }
++    else:
++        periods = {
++            "A_2023_11_TO_2024_12": {
++                "label":          "Period A: 2023-11 → 2024-12",
++                "sim_start_date": "2023-11-06",
++                "sim_end_date":   "2024-12-31",
++            },
++            "B_2024_12_TO_2026_06": {
++                "label":          "Period B: 2024-12 → 2026-06",
++                "sim_start_date": "2024-12-03",
++                "sim_end_date":   "2026-06-11",
++            },
++            "C_FULL_2023_11_TO_2026_06": {
++                "label":          "Period C (Full): 2023-11 → 2026-06",
++                "sim_start_date": "2023-11-06",
++                "sim_end_date":   "2026-06-11",
++            },
++        }
+ 
+     # ── 逐 period × variant 跑回测 ──────────────────────────────
+     period_results = {}
+@@ -2255,7 +2643,7 @@
+             _use_ndx = ndx_prices or []
+             _use_sox = sox_prices or []
+             _use_vix = []  # Gate v2.1 不使用 VIX
+-            period_results[period_key]["variants"][variant_id] = run_stateful_simulation(
++            _result = run_stateful_simulation(
+                 symbols=symbols,
+                 prices_map=prices_map,
+                 dates_map=dates_map,
+@@ -2271,9 +2659,100 @@
+                 vix_prices=_use_vix,
+                 vix_dates=vix_dates or [],
+             )
++            if assumptions.get("e1r_shell_mode"):
++                _result["strategy_id"] = variant_id
++                _result["research_status"] = "REGIME_WIRING_ONLY_NOT_IMPLEMENTED"
++                _result["e1r_shell_mode"] = True
++                _result["e1r_regime_wiring_enabled"] = True
++                _result["e1r_spec_ref"] = assumptions.get("e1r_spec_ref")
++                _result["e1r_regime_source"] = assumptions.get("e1r_regime_source")
++                _result.setdefault("strategy_controls", {})["e1r_shell_mode"] = True
++                _result["strategy_controls"]["e1r_regime_wiring_enabled"] = True
++                _result["strategy_controls"]["e1r_spec_ref"] = assumptions.get("e1r_spec_ref")
++                _result["strategy_controls"]["e1r_regime_source"] = assumptions.get("e1r_regime_source")
++                if assumptions.get("e1r_uptrend_execution_enabled"):
++                    _result["strategy_controls"]["regime_aware_logic"] = "UPTREND_EXECUTION_V0_1_ENTRY_ONLY"
++                    _result["research_status"] = "UPTREND_EXECUTION_V0_1"
++                    _result["e1r_candidate_tagging_enabled"] = True
++                    _result["e1r_uptrend_execution_enabled"] = True
++                    _result["strategy_controls"]["e1r_candidate_tagging_enabled"] = True
++                    _result["strategy_controls"]["e1r_uptrend_execution_enabled"] = True
++                    _result["strategy_controls"]["exit_reduce_logic"] = "LEGACY_E1_UNCHANGED"
++                else:
++                    _result["strategy_controls"]["regime_aware_logic"] = "NOT_IMPLEMENTED_PHASE_3A_CANDIDATE_TAGGING_ONLY"
++                    _result["research_status"] = "UPTREND_CANDIDATE_TAGGING_ONLY_NOT_EXECUTED"
++                    _result["e1r_candidate_tagging_enabled"] = True
++                    _result["strategy_controls"]["e1r_candidate_tagging_enabled"] = True
++            period_results[period_key]["variants"][variant_id] = _result
+ 
+     # ── 为兼容现有输出格式，把 Period C（全区间）当作主结果 ────
+-    variant_results = period_results["C_FULL_2023_11_TO_2026_06"]["variants"]
++    _full_period_key = "C_FULL_5Y_2021_06_TO_2026_06" if "C_FULL_5Y_2021_06_TO_2026_06" in period_results else "C_FULL_2023_11_TO_2026_06"
++    variant_results = period_results[_full_period_key]["variants"]
++
++    # ── E1-R v0.2 formal sidecar sleeve composition ────────────────
++    #
++    # Design principle:
++    # - Do not modify run_stateful_simulation().
++    # - Do not modify E1R_REGIME_AWARE_V0_1.
++    # - Compose the validated SIDEWAYS:MA_CONFLICT Top10 25% sleeve
++    #   with the existing E1R v0.1 core daily returns.
++    #
++    # This keeps the formal engine semantics aligned with the validated
++    # research S4 sidecar instead of approximating it inside the Top3
++    # stateful order loop.
++    try:
++        from src.engine.e1r_sidecar_sleeve import (
++            E1RSidecarConfig,
++            build_e1r_sidecar_sleeve,
++        )
++        from src.engine.e1r_composer import compose_e1r_v0_2_variant
++
++        _core_e1r = variant_results.get("E1R_REGIME_AWARE_V0_1")
++        _core_records = (_core_e1r or {}).get("daily_equity_records", []) if _core_e1r else []
++
++        _stock_dir = Path("data/research/e1_5y/raw/stocks")
++        _spx_path = Path("data/research/e1_5y/raw/indices/SPX.json")
++        _regime_path = Path("data/research/e1_5y/regimes/spx_regime_daily.json")
++
++        if _core_e1r and _core_records and _stock_dir.exists() and _spx_path.exists() and _regime_path.exists():
++            _sidecar_cfg = E1RSidecarConfig(
++                start_date=_core_records[0]["date"],
++                end_date=_core_records[-1]["date"],
++                allowed_subclasses=("MA_CONFLICT",),
++                top_n=10,
++                gross_exposure=0.25,
++                min_history_days=200,
++                min_price=5.0,
++                initial_equity=float(base.get("initial_capital", 100000)),
++                excluded_symbols=("VIXY",),
++            )
++
++            _sidecar_result = build_e1r_sidecar_sleeve(
++                stock_dir=_stock_dir,
++                spx_path=_spx_path,
++                regime_path=_regime_path,
++                config=_sidecar_cfg,
++            )
++
++            variant_results["E1R_REGIME_AWARE_V0_2"] = compose_e1r_v0_2_variant(
++                core_variant_result=_core_e1r,
++                sidecar_result=_sidecar_result,
++                initial_equity=float(base.get("initial_capital", 100000)),
++            )
++
++            _sidecar_summary = _sidecar_result.get("summary", {}) or {}
++            logger.info(
++                "  E1-R v0.2 formal sidecar sleeve composed: "
++                f"active_days={_sidecar_summary.get('active_days')} "
++                f"return={_sidecar_summary.get('full_period_strategy_return_pct'):.2f}%"
++            )
++        else:
++            logger.warn(
++                "  E1-R v0.2 formal sidecar sleeve skipped: missing core records or research 5Y inputs"
++            )
++
++    except Exception as exc:
++        logger.warn(f"  E1-R v0.2 formal sidecar sleeve failed: {exc}")
+ 
+     status_rank = {
+         "PASS":                          5,
+@@ -2325,6 +2804,9 @@
+             "candidate_top_n": controls.get("candidate_top_n"),
+             "qualified_states": controls.get("qualified_states", []),
+             "relative_stop_stats": controls.get("relative_stop_stats", {}),
++            "e1r_shell_mode": controls.get("e1r_shell_mode", False),
++            "e1r_regime_wiring_enabled": controls.get("e1r_regime_wiring_enabled", False),
++            "research_status": result.get("research_status"),
+         })
+ 
+     logger.info("  === 4-Variant Qualified Pool Comparison ===")
+@@ -2377,7 +2859,7 @@
+     # Preserve selected Layer D's top-level shape for current exporters/dashboard.
+     return {
+         **selected_result,
+-        "name": "3-Variant LS60 Mode Comparison",
++        "name": "Strategy Variant Comparison",
+         "version": "v1.6-ls60-mode-comparison",
+         "selected_variant": selected_id,
+         "selection_policy": (

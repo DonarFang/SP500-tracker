@@ -1,0 +1,89 @@
+{
+  "generated_at": "2026-07-05T15:06:02.658504+00:00",
+  "stage": "B_STAGE_3_2_BACKTEST_CONTROLLED_INTEGRATION",
+  "status": "INTEGRATED_FEATURE_BACKTEST_WITH_GUARDS",
+  "policy": "controlled_integration_with_snapshots_diff_compile_and_marker_checks",
+  "main": {
+    "branch": "main",
+    "head": "893fba7",
+    "clean": true
+  },
+  "feature": {
+    "branch": "feature/e1-5y-data",
+    "head": "5f6063e",
+    "clean": true
+  },
+  "integrated_file": "src/engine/backtest.py",
+  "snapshots": [
+    "docs/research/stage3_2_backtest_snapshots/backtest_main_before_stage3_2.py",
+    "docs/research/stage3_2_backtest_snapshots/backtest_feature_source_stage3_2.py"
+  ],
+  "diff_file": "docs/research/stage3_2_backtest_py_controlled.diff",
+  "required_legacy_markers": [
+    "E1_AUDITED_G4_MINHOLD10",
+    "E2_DYNAMIC_EXIT_V2"
+  ],
+  "required_e1r_markers": [
+    "E1R_REGIME_AWARE_V0_2",
+    "e1r_composer"
+  ],
+  "composer_functions_available": [
+    "safe_float",
+    "pct_display",
+    "compound_return",
+    "max_drawdown",
+    "sharpe_ratio",
+    "profit_factor",
+    "extract_core_interval_returns",
+    "build_equity_records_from_returns",
+    "summarize_combined_variant",
+    "compose_e1r_v0_2_variant"
+  ],
+  "composer_functions_used_by_feature_backtest": [
+    "max_drawdown",
+    "sharpe_ratio",
+    "profit_factor",
+    "compose_e1r_v0_2_variant"
+  ],
+  "composer_functions_used_after_integration": [
+    "max_drawdown",
+    "sharpe_ratio",
+    "profit_factor",
+    "compose_e1r_v0_2_variant"
+  ],
+  "main_before_legacy_hits": {
+    "E1_AUDITED_G4_MINHOLD10": 1,
+    "E2_DYNAMIC_EXIT_V2": 1
+  },
+  "feature_legacy_hits": {
+    "E1_AUDITED_G4_MINHOLD10": 1,
+    "E2_DYNAMIC_EXIT_V2": 1
+  },
+  "feature_e1r_hits": {
+    "E1R_REGIME_AWARE_V0_2": 1,
+    "e1r_composer": 1
+  },
+  "integrated_legacy_hits": {
+    "E1_AUDITED_G4_MINHOLD10": 1,
+    "E2_DYNAMIC_EXIT_V2": 1
+  },
+  "integrated_e1r_hits": {
+    "E1R_REGIME_AWARE_V0_2": 1,
+    "e1r_composer": 1
+  },
+  "line_counts": {
+    "main_before": 2496,
+    "feature_source": 2978,
+    "integrated": 2978,
+    "diff": 766
+  },
+  "boundary": [
+    "No broker integration.",
+    "No real order execution.",
+    "Legacy E1/E2 markers preserved.",
+    "E1R v0.2 variant markers present.",
+    "Concrete e1r_composer function usage detected dynamically.",
+    "File compiles with py_compile."
+  ],
+  "next_stage": "Stage 3.3 dashboard/styles.css scoped append."
+}
