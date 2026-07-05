@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-07-05T14:53:15.303676+00:00",
+  "stage": "B_STAGE_1_LOW_RISK_COPY_TO_MAIN",
+  "feature_root": "/Users/dongfang/Downloads/sp500-tracker-5y",
+  "main_root": "/Users/dongfang/Downloads/sp500-tracker-v13",
+  "feature_branch": "feature/e1-5y-data",
+  "main_branch": "main",
+  "copied_files": [
+    "src/engine/e1r_sidecar_sleeve.py",
+    "src/engine/e1r_composer.py",
+    "scripts/export_e1r_v0_2_status.py",
+    "scripts/run_e1r_v0_2_oos.py",
+    "scripts/run_e1r_v0_2_oos_equity.py",
+    "scripts/run_e1r_v0_2_sidecar_lifecycle.py",
+    "scripts/export_e1r_v0_2_backtest_equity.py",
+    "docs/research/E1R_V0_2_IMPLEMENTATION_MANIFEST.md",
+    "docs/research/E1R_V0_2_OOS_2B_2_SIDECAR_MTM_SPEC.md",
+    "docs/research/E1R_V0_2_UI_OOS_INTEGRATION_AUDIT.md",
+    "docs/research/E1R_V0_2_PORT_TO_MAIN_PLAN.md",
+    "docs/research/E1R_V0_2_PORT_READINESS_AUDIT.md"
+  ],
+  "overwritten_files": [],
+  "excluded_stage1": [
+    "src/engine/backtest.py",
+    "dashboard/app.js",
+    "dashboard/styles.css",
+    ".github/workflows/update.yml",
+    "exports/backtest.json",
+    "exports/equity_curve.json",
+    "exports/trade_log.json",
+    "exports/portfolio_backtest.json",
+    "exports/action_forward_returns.json"
+  ],
+  "next_stage": "Manual review / controlled integration for backtest.py, dashboard/app.js, dashboard/styles.css, .github/workflows/update.yml"
+}

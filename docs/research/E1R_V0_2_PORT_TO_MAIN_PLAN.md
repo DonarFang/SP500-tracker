@@ -1,0 +1,271 @@
+# E1R v0.2 Port / Merge Plan to sp500-tracker-v13/main
+
+## 1. Purpose
+
+This document defines the controlled migration plan for moving selected E1R v0.2 work from the research branch/worktree to the deployment branch/worktree.
+
+Research branch/worktree:
+
+- Path: `/Users/dongfang/Downloads/sp500-tracker-5y`
+- Branch: `feature/e1-5y-data`
+
+Deployment branch/worktree:
+
+- Path: `/Users/dongfang/Downloads/sp500-tracker-v13`
+- Branch: `main`
+
+The goal is to avoid uncontrolled migration from research code into the deployed GitHub Pages dashboard.
+
+## 2. Current Research Branch Status
+
+E1R v0.2 has completed the following layers:
+
+1. Formal 5Y backtest engine
+2. Full 5Y validation
+3. E1R v0.2 implementation manifest
+4. Market State UI
+5. OOS-1 status/signal export
+6. OOS-2A lightweight 5Y backtest equity export
+7. Dashboard 5Y backtest equity display
+8. OOS-2B.1 forward/OOS equity curve initialization
+9. Dashboard forward/OOS equity display
+10. OOS-2B.2 sidecar paper MTM framework
+11. OOS-2B.3 sidecar lifecycle / turnover tracking
+12. UI/OOS integration audit manifest
+
+Current strategy status:
+
+- Strategy ID: `E1R_REGIME_AWARE_V0_2`
+- Execution Status: `PAPER_TRACKING_NO_REAL_EXECUTION`
+- Equity Status: `OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER`
+
+## 3. Migration Principle
+
+Do not blindly merge the full research branch into main.
+
+The correct approach is:
+
+1. Identify required source files.
+2. Identify required dashboard files.
+3. Identify required docs.
+4. Identify required workflow changes.
+5. Decide which generated exports should be committed to main.
+6. Run smoke tests in v13/main.
+7. Commit/push main only after validation.
+
+Reason:
+
+- `feature/e1-5y-data` contains research data, experimental exports, and accumulated Dashboard wrapper patches.
+- `main` is the deployed GitHub Pages branch and should remain clean.
+
+## 4. Files Likely Required for Port
+
+### 4.1 Engine / Strategy Source Files
+
+Likely required:
+
+- `src/engine/e1r_sidecar_sleeve.py`
+- `src/engine/e1r_composer.py`
+- `src/engine/backtest.py`
+
+Risk:
+
+- `src/engine/backtest.py` may have local changes that should be reviewed carefully before replacing main.
+
+Required validation:
+
+1. E1R v0.1 remains unchanged.
+2. E1R v0.2 is added as a separate variant.
+3. Frozen E1 results remain reproducible.
+4. No research-only assumptions leak into production path.
+
+### 4.2 OOS / Export Scripts
+
+Likely required:
+
+- `scripts/export_e1r_v0_2_status.py`
+- `scripts/run_e1r_v0_2_oos.py`
+- `scripts/run_e1r_v0_2_oos_equity.py`
+- `scripts/run_e1r_v0_2_sidecar_lifecycle.py`
+- `scripts/export_e1r_v0_2_backtest_equity.py`
+
+Validation needed:
+
+1. Scripts run from v13/main root.
+2. Missing 5Y research data is handled gracefully.
+3. Generated exports have stable schema.
+4. Daily workflow does not fail when market is closed.
+5. No full 5Y backtest is triggered by daily workflow.
+
+### 4.3 Dashboard Files
+
+Likely required:
+
+- `dashboard/app.js`
+- `dashboard/styles.css`
+
+Important caution:
+
+- Current `dashboard/app.js` integration in the feature branch used safe wrapper patches.
+- Before porting to main, consider consolidating the E1R v0.2 UI into first-class render functions.
+
+Recommended before main port:
+
+1. Review app.js wrappers.
+2. Remove duplicate / layered patch style if feasible.
+3. Keep Market Overview and Research & Backtest rendering explicit.
+4. Preserve fallback behavior if new JSON files are missing.
+
+### 4.4 GitHub Workflow
+
+Likely required:
+
+- `.github/workflows/update.yml`
+
+Validation needed:
+
+1. Existing daily update still works.
+2. E1R v0.2 OOS exports run after data update.
+3. Failures do not block core dashboard exports unless intended.
+4. No excessive runtime is introduced.
+
+### 4.5 Documentation
+
+Recommended to port:
+
+- `docs/research/E1R_V0_2_IMPLEMENTATION_MANIFEST.md`
+- `docs/research/E1R_V0_2_OOS_2B_2_SIDECAR_MTM_SPEC.md`
+- `docs/research/E1R_V0_2_UI_OOS_INTEGRATION_AUDIT.md`
+- `docs/research/E1R_V0_2_PORT_TO_MAIN_PLAN.md`
+
+## 5. Generated Export Files
+
+Generated exports should be handled carefully.
+
+### 5.1 Likely Required Lightweight Exports
+
+Potentially port or regenerate in v13/main:
+
+- `exports/e1r_v0_2_status.json`
+- `exports/oos_e1r_v0_2_summary.json`
+- `exports/oos_e1r_v0_2_sidecar.json`
+- `exports/oos_e1r_v0_2_positions.json`
+- `exports/oos_e1r_v0_2_orders.json`
+- `exports/oos_e1r_v0_2_equity_curve.json`
+- `exports/oos_e1r_v0_2_sidecar_lifecycle.json`
+- `exports/oos_e1r_v0_2_sidecar_turnover.json`
+- `exports/e1r_v0_2_backtest_summary.json`
+- `exports/e1r_v0_2_backtest_equity_curve.json`
+
+### 5.2 Do Not Blindly Port Heavy / Legacy Generated Files
+
+Do not blindly replace:
+
+- `exports/backtest.json`
+- `exports/equity_curve.json`
+- `exports/trade_log.json`
+- `exports/portfolio_backtest.json`
+- `exports/action_forward_returns.json`
+
+Reason:
+
+- These may be large, legacy, or generated by different workflows.
+- They should only be updated by an explicit validation run.
+
+## 6. Pre-Port Smoke Tests
+
+Before touching v13/main, run these checks in the feature branch:
+
+1. `git status --short` is clean.
+2. `python3 scripts/run_e1r_v0_2_oos.py` passes.
+3. `python3 scripts/run_e1r_v0_2_oos_equity.py` passes.
+4. `python3 scripts/run_e1r_v0_2_sidecar_lifecycle.py` passes.
+5. Dashboard `app.js` contains no obvious duplicate wrappers.
+6. Required export JSON files exist and parse.
+
+After copying selected files to v13/main, run:
+
+1. `python3 scripts/run_e1r_v0_2_oos.py`
+2. `python3 scripts/run_e1r_v0_2_oos_equity.py`
+3. `python3 scripts/run_e1r_v0_2_sidecar_lifecycle.py`
+4. JSON schema checks
+5. Dashboard static file checks
+6. Git diff review
+
+## 7. Recommended Port Strategy
+
+Use a controlled copy strategy instead of full branch merge.
+
+### Step 1 — Audit source diff
+
+Compare selected files between:
+
+- `/Users/dongfang/Downloads/sp500-tracker-5y`
+- `/Users/dongfang/Downloads/sp500-tracker-v13`
+
+### Step 2 — Copy source/scripts/docs only
+
+Copy reviewed files first.
+
+### Step 3 — Run local validation in v13/main
+
+Validate scripts and JSON outputs.
+
+### Step 4 — Copy or regenerate lightweight exports
+
+Prefer regeneration in v13/main when possible.
+
+### Step 5 — Patch Dashboard
+
+Either:
+
+- Copy `app.js` / `styles.css` if safe
+
+or better:
+
+- Cleanly integrate E1R v0.2 UI into v13/main dashboard.
+
+### Step 6 — Commit main
+
+Commit only after:
+
+1. Git status is reviewed.
+2. JSON validation passes.
+3. Dashboard checks pass.
+4. Old deployed dashboard behavior is preserved.
+
+## 8. Main-Port Readiness Checklist
+
+- [ ] feature/e1-5y-data clean
+- [ ] v13/main clean
+- [ ] required source files identified
+- [ ] required scripts identified
+- [ ] required docs identified
+- [ ] required lightweight exports identified
+- [ ] heavy legacy exports excluded
+- [ ] Dashboard app.js reviewed for wrapper debt
+- [ ] smoke tests pass in feature branch
+- [ ] selected files copied to v13/main
+- [ ] smoke tests pass in v13/main
+- [ ] Dashboard loads new E1R v0.2 JSON exports
+- [ ] commit main
+- [ ] push main
+- [ ] verify GitHub Pages dashboard
+
+## 9. Recommendation
+
+Recommended next immediate task:
+
+Run an automated port-readiness audit comparing `feature/e1-5y-data` and `sp500-tracker-v13/main`.
+
+The audit should output:
+
+1. Current branch for both worktrees
+2. Git cleanliness for both worktrees
+3. Existence of required files in feature branch
+4. Existence of corresponding files in v13/main
+5. Whether v13/main already has conflicting files
+6. List of files recommended for copy
+7. List of files requiring manual review
+
+Only after this audit should selected files be copied into v13/main.
