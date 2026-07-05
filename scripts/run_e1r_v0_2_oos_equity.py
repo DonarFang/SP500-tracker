@@ -97,6 +97,154 @@ def compute_return(prev_equity: float, new_equity: float) -> float:
     return (new_equity / prev_equity) - 1.0
 
 
+
+def load_stock_price_map() -> dict[str, dict[str, float]]:
+    """
+    Load stock close prices from data/research/e1_5y/raw/stocks.
+    """
+    stock_dir = ROOT / "data/research/e1_5y/raw/stocks"
+    out: dict[str, dict[str, float]] = {}
+
+    if not stock_dir.exists():
+        return out
+
+    for path in stock_dir.glob("*.json"):
+        symbol = path.stem.upper()
+        raw = read_json(path, None)
+        rows = None
+
+        if isinstance(raw, list):
+            rows = raw
+        elif isinstance(raw, dict):
+            for key in ["prices", "records", "data", "bars", "history"]:
+                if isinstance(raw.get(key), list):
+                    rows = raw.get(key)
+                    break
+
+            if rows is None:
+                maybe_rows = []
+                for k, v in raw.items():
+                    if isinstance(v, dict):
+                        r = dict(v)
+                        r.setdefault("date", k)
+                        maybe_rows.append(r)
+                if maybe_rows:
+                    rows = maybe_rows
+
+        if not isinstance(rows, list):
+            continue
+
+        price_by_date: dict[str, float] = {}
+        for r in rows:
+            if not isinstance(r, dict):
+                continue
+            date = pick(r, ["date", "Date", "data_date"], None)
+            close = safe_float(pick(r, ["close", "Close", "adj_close", "Adj Close", "adjClose"], None), None)
+            if date and close is not None:
+                price_by_date[str(date)] = close
+
+        if price_by_date:
+            out[symbol] = price_by_date
+
+    return out
+
+
+def compute_sidecar_mtm_return(
+    previous_record: dict[str, Any] | None,
+    current_date: str,
+    price_map: dict[str, dict[str, float]],
+) -> tuple[float, str, list[dict[str, Any]]]:
+    """
+    Compute current sidecar MTM return using previous record's sidecar_positions.
+    No lookahead: previous positions are used to calculate previous_date -> current_date return.
+    """
+    if not previous_record:
+        return 0.0, "NO_PREVIOUS_SIDECAR_POSITIONS", []
+
+    previous_date = previous_record.get("date")
+    previous_positions = previous_record.get("sidecar_positions") or []
+
+    if previous_record.get("sidecar_active") is not True or not previous_positions:
+        return 0.0, "PREVIOUS_SIDECAR_INACTIVE", []
+
+    details = []
+    total_return = 0.0
+    missing = 0
+
+    for pos in previous_positions:
+        if not isinstance(pos, dict):
+            continue
+
+        symbol = str(pos.get("symbol") or "").upper()
+        weight = safe_float(pos.get("target_weight", pos.get("weight")), 0.0) or 0.0
+
+        if not symbol or weight == 0:
+            continue
+
+        prices = price_map.get(symbol, {})
+        prev_close = safe_float(prices.get(str(previous_date)), None)
+        curr_close = safe_float(prices.get(str(current_date)), None)
+
+        if prev_close is None or curr_close is None or prev_close == 0:
+            missing += 1
+            details.append({
+                "symbol": symbol,
+                "weight": weight,
+                "status": "MISSING_PRICE_DATA",
+                "previous_date": previous_date,
+                "current_date": current_date,
+                "previous_close": prev_close,
+                "current_close": curr_close,
+                "return": None,
+                "contribution": 0.0,
+            })
+            continue
+
+        raw_return = (curr_close / prev_close) - 1.0
+        contribution = weight * raw_return
+        total_return += contribution
+
+        details.append({
+            "symbol": symbol,
+            "weight": weight,
+            "status": "OK",
+            "previous_date": previous_date,
+            "current_date": current_date,
+            "previous_close": prev_close,
+            "current_close": curr_close,
+            "return": raw_return,
+            "contribution": contribution,
+        })
+
+    if missing and all(d.get("status") == "MISSING_PRICE_DATA" for d in details):
+        return 0.0, "MISSING_PRICE_DATA", details
+
+    return total_return, "CALCULATED_FROM_PREVIOUS_POSITIONS", details
+
+
+def normalize_current_sidecar_positions(sidecar: dict[str, Any]) -> list[dict[str, Any]]:
+    selected = sidecar.get("selected", []) or []
+    out = []
+
+    if not isinstance(selected, list):
+        return out
+
+    for h in selected:
+        if not isinstance(h, dict):
+            continue
+        symbol = h.get("symbol")
+        if not symbol:
+            continue
+        out.append({
+            "symbol": str(symbol).upper(),
+            "target_weight": safe_float(h.get("weight"), 0.0) or 0.0,
+            "score": h.get("score"),
+            "source": "E1R_V0_2_SIDECAR_TARGET",
+        })
+
+    return out
+
+
 def main() -> None:
     status = read_json(ROOT / "exports/e1r_v0_2_status.json", {}) or {}
     summary = read_json(ROOT / "exports/oos_e1r_v0_2_summary.json", {}) or {}
@@ -125,6 +273,8 @@ def main() -> None:
     core_active = bool(summary.get("core_active", status.get("core", {}).get("active", False)))
     sidecar_active = bool(summary.get("sidecar_active", sidecar.get("active", False)))
     selected_count = int(summary.get("sidecar_selected_count", sidecar.get("selected_count", 0)) or 0)
+    current_sidecar_positions = normalize_current_sidecar_positions(sidecar)
+    price_map = load_stock_price_map()
 
     initial_capital = 100000.0
     legacy_core = extract_existing_oos_core_equity()
@@ -149,6 +299,8 @@ def main() -> None:
         daily_core_return = safe_float(previous.get("core_daily_return"), 0.0) or 0.0
         daily_sidecar_return = safe_float(previous.get("sidecar_daily_return"), 0.0) or 0.0
         daily_combined_return = safe_float(previous.get("combined_daily_return"), 0.0) or 0.0
+        sidecar_mtm_status = "SAME_DATE_NO_NEW_MTM"
+        sidecar_mtm_details = previous.get("sidecar_mtm_details", [])
         update_mode = "UPDATED_EXISTING_DATE"
     else:
         prev_core_equity = safe_float(previous.get("core_equity"), None) if previous else None
@@ -162,14 +314,19 @@ def main() -> None:
         if prev_combined_equity is None:
             prev_combined_equity = initial_capital
 
-        # OOS-2B.1:
+        # OOS-2B.2:
         # Core equity bridges to legacy OOS equity if available.
-        # Sidecar is target-only/paper initialized; no MTM return is applied yet.
+        # Sidecar MTM uses previous record's sidecar_positions to avoid lookahead.
         core_equity = legacy_core["equity"] if core_active else prev_core_equity
-        sidecar_equity = prev_sidecar_equity
 
         daily_core_return = compute_return(prev_core_equity, core_equity)
-        daily_sidecar_return = 0.0
+
+        daily_sidecar_return, sidecar_mtm_status, sidecar_mtm_details = compute_sidecar_mtm_return(
+            previous_record=previous,
+            current_date=status_date,
+            price_map=price_map,
+        )
+        sidecar_equity = prev_sidecar_equity * (1.0 + daily_sidecar_return)
 
         combined_daily_return = (1.0 + daily_core_return) * (1.0 + daily_sidecar_return) - 1.0
         combined_equity = prev_combined_equity * (1.0 + combined_daily_return)
@@ -184,6 +341,9 @@ def main() -> None:
         "core_active": core_active,
         "sidecar_active": sidecar_active,
         "sidecar_selected_count": selected_count,
+        "sidecar_positions": current_sidecar_positions if sidecar_active else [],
+        "sidecar_mtm_status": sidecar_mtm_status,
+        "sidecar_mtm_details": sidecar_mtm_details,
         "core_equity": core_equity,
         "sidecar_equity": sidecar_equity,
         "combined_equity": combined_equity,
@@ -191,10 +351,10 @@ def main() -> None:
         "sidecar_daily_return": daily_sidecar_return,
         "combined_daily_return": daily_combined_return,
         "core_source": legacy_core["source"],
-        "sidecar_source": "target_only_no_mtm_in_oos_2b_1",
+        "sidecar_source": "previous_positions_close_to_close_mtm_when_available",
         "combined_source": "core_bridge_plus_sidecar_target_only",
         "execution_status": "PAPER_TRACKING_NO_REAL_EXECUTION",
-        "equity_status": "OOS_EQUITY_INITIALIZED_TARGET_ONLY",
+        "equity_status": "OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER",
         "update_mode": update_mode,
     }
 
@@ -211,7 +371,7 @@ def main() -> None:
         "generated_at": generated_at,
         "strategy_id": "E1R_REGIME_AWARE_V0_2",
         "phase": "OOS_2B_FORWARD_EQUITY_CURVE",
-        "equity_status": "OOS_EQUITY_INITIALIZED_TARGET_ONLY",
+        "equity_status": "OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER",
         "execution_status": "PAPER_TRACKING_NO_REAL_EXECUTION",
         "curve_type": "FORWARD_OOS_EQUITY",
         "start_date": records[0]["date"] if records else status_date,
@@ -220,9 +380,9 @@ def main() -> None:
         "latest": latest,
         "records": records,
         "notes": [
-            "OOS-2B.1 initializes E1R v0.2 forward/OOS equity curve schema.",
+            "OOS-2B.2 adds sidecar close-to-close MTM tracking when previous positions are available.",
             "Core equity bridges to existing legacy OOS equity when available.",
-            "Sidecar equity is target-only and does not apply MTM return yet.",
+            "Sidecar equity uses previous sidecar positions for close-to-close MTM to avoid lookahead.",
             "No real orders are executed by this script.",
             "OOS-2B.2 should add sidecar daily MTM and simulated/real position lifecycle.",
         ],
