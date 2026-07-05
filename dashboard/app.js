@@ -16,7 +16,7 @@ const REG_META = {
 };
 const IDX_ICONS = {SPX:'📊',NDX:'💻',VIX:'😨',SOX:'🔬'};
 
-let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,
+let DATA = {market:null,marketState:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,
   e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null};
 let charts = {};
 
@@ -715,3 +715,154 @@ function render(tab) {
 } // end render()
 
 loadAll();
+
+
+// === E1R v0.2 Market State UI Patch ===
+// This block is intentionally appended as a safe UI wrapper.
+// It avoids changing the existing Market Overview render internals.
+function getCurrentMarketStateInfo(){
+  const raw = DATA.marketState || {};
+  const market = DATA.market || raw.market || raw || {};
+
+  function pick(obj, keys){
+    for(const k of keys){
+      if(obj && obj[k] !== undefined && obj[k] !== null && obj[k] !== '') return obj[k];
+    }
+    return null;
+  }
+
+  let latest = pick(raw, ['latest','current','current_state','latest_state']);
+
+  if(!latest && Array.isArray(raw.daily_regime)){
+    latest = raw.daily_regime[raw.daily_regime.length - 1];
+  }
+
+  if(!latest && raw.daily_regime && typeof raw.daily_regime === 'object'){
+    const keys = Object.keys(raw.daily_regime).sort();
+    const lastKey = keys[keys.length - 1];
+    latest = raw.daily_regime[lastKey];
+    if(latest && typeof latest === 'object' && !latest.date) latest.date = lastKey;
+  }
+
+  if(!latest && Array.isArray(raw.records)) latest = raw.records[raw.records.length - 1];
+  if(!latest && Array.isArray(raw.daily)) latest = raw.daily[raw.daily.length - 1];
+  if(!latest) latest = market;
+
+  const regimeRaw = String(
+    pick(latest, ['regime','market_regime','marketRegime','state','market_state','trend_state','regime_label']) ||
+    pick(market, ['regime','market_regime','marketRegime','state','market_state','trend_state','regime_label']) ||
+    'UNKNOWN'
+  ).toUpperCase();
+
+  const subclassRaw = String(
+    pick(latest, ['subclass','regime_subclass','market_subclass','sub_state','substate','sideways_subclass']) ||
+    pick(market, ['subclass','regime_subclass','market_subclass','sub_state','substate','sideways_subclass']) ||
+    ''
+  ).toUpperCase();
+
+  const date =
+    pick(latest, ['date','data_date','as_of','asOf']) ||
+    pick(market, ['date','data_date','as_of','asOf']) ||
+    raw.data_date ||
+    raw.generated_at_display ||
+    raw.generated_at ||
+    '—';
+
+  let state = 'UNKNOWN';
+
+  if(regimeRaw.includes('UP')){
+    state = 'UPTREND';
+  }else if(regimeRaw.includes('DOWN')){
+    state = 'DOWNTREND';
+  }else if(regimeRaw.includes('SIDE')){
+    if(subclassRaw.includes('MA_CONFLICT')) state = 'SIDEWAYS_MA_CONFLICT';
+    else if(subclassRaw.includes('DETERIOR')) state = 'SIDEWAYS_DETERIORATION';
+    else if(subclassRaw.includes('RECOVER')) state = 'SIDEWAYS_RECOVERY';
+    else state = 'SIDEWAYS';
+  }
+
+  const labelMap = {
+    UPTREND: 'Uptrend',
+    DOWNTREND: 'Downtrend',
+    SIDEWAYS_MA_CONFLICT: 'Sideway-MA-conflict',
+    SIDEWAYS_DETERIORATION: 'Sideway-Deterioration',
+    SIDEWAYS_RECOVERY: 'Sideway-Recovery',
+    SIDEWAYS: 'Sideway',
+    UNKNOWN: 'Unknown'
+  };
+
+  return {
+    state,
+    label: labelMap[state] || state,
+    regimeRaw,
+    subclassRaw: subclassRaw || '—',
+    date,
+    e1rCoreActive: state === 'UPTREND',
+    e1rSidecarActive: state === 'SIDEWAYS_MA_CONFLICT'
+  };
+}
+
+function renderMarketStateCard(){
+  const ms = getCurrentMarketStateInfo();
+  const cls = `market-state-card state-${ms.state.toLowerCase().replaceAll('_','-')}`;
+
+  return `
+    <div id="market-state-card" class="${cls}">
+      <div class="market-state-main">
+        <div>
+          <div class="market-state-label">Current Market State</div>
+          <div class="market-state-value">${ms.label}</div>
+        </div>
+        <div class="market-state-date">As of ${ms.date}</div>
+      </div>
+
+      <div class="market-state-grid">
+        <div><span>Raw regime</span><b>${ms.regimeRaw}</b></div>
+        <div><span>Subclass</span><b>${ms.subclassRaw}</b></div>
+        <div><span>E1R Core</span><b>${ms.e1rCoreActive ? 'Active' : 'Inactive'}</b></div>
+        <div><span>E1R Sidecar</span><b>${ms.e1rSidecarActive ? 'Active' : 'Inactive'}</b></div>
+      </div>
+
+      <div class="market-state-note">
+        E1R v0.2 uses mutually exclusive daily states. Core is active in UPTREND; sidecar is active only in SIDEWAYS:MA_CONFLICT.
+      </div>
+    </div>
+  `;
+}
+
+function injectMarketStateCard(){
+  const target = document.getElementById('s-market');
+  if(!target) return;
+  if(document.getElementById('market-state-card')) return;
+  target.insertAdjacentHTML('afterbegin', renderMarketStateCard());
+}
+
+(function installMarketStatePatch(){
+  function patchRender(){
+    if(typeof render !== 'function') return false;
+    if(render.__marketStatePatched) return true;
+
+    const originalRender = render;
+    render = function(tab){
+      const result = originalRender.apply(this, arguments);
+      if(tab === 'market'){
+        setTimeout(injectMarketStateCard, 0);
+      }
+      return result;
+    };
+    render.__marketStatePatched = true;
+    return true;
+  }
+
+  const ok = patchRender();
+
+  // Fallback: try to inject after data/render finishes.
+  setTimeout(injectMarketStateCard, 500);
+  setTimeout(injectMarketStateCard, 1500);
+  setTimeout(injectMarketStateCard, 3000);
+
+  if(!ok){
+    console.warn('Market State UI patch: render() not found at install time; fallback timers active.');
+  }
+})();
+

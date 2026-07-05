@@ -95,3 +95,101 @@ tr:hover td{background:var(--bg2)}
 .research-metrics .mc-sub{line-height:1.35}
 @media(max-width:800px){.research-status-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.research-status-grid{grid-template-columns:1fr}}
+
+
+/* E1R v0.2 Market State UI */
+.market-state-card{
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  padding:16px;
+  margin:0 0 16px 0;
+  background:rgba(255,255,255,.045);
+  box-shadow:0 8px 24px rgba(0,0,0,.16);
+}
+.market-state-main{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+.market-state-label{
+  font-size:12px;
+  opacity:.72;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.market-state-value{
+  font-size:28px;
+  font-weight:800;
+  line-height:1.15;
+  margin-top:4px;
+}
+.market-state-date{
+  font-size:12px;
+  opacity:.72;
+  white-space:nowrap;
+  margin-top:4px;
+}
+.market-state-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin-top:10px;
+}
+.market-state-grid div{
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  padding:10px;
+  background:rgba(0,0,0,.12);
+}
+.market-state-grid span{
+  display:block;
+  font-size:11px;
+  opacity:.65;
+  margin-bottom:4px;
+}
+.market-state-grid b{
+  display:block;
+  font-size:13px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.market-state-note{
+  margin-top:12px;
+  font-size:12px;
+  line-height:1.5;
+  opacity:.72;
+}
+.state-uptrend{
+  border-left:4px solid #22c55e;
+}
+.state-downtrend{
+  border-left:4px solid #ef4444;
+}
+.state-sideways-ma-conflict{
+  border-left:4px solid #f59e0b;
+}
+.state-sideways-deterioration{
+  border-left:4px solid #fb7185;
+}
+.state-sideways-recovery{
+  border-left:4px solid #38bdf8;
+}
+.state-sideways,
+.state-unknown{
+  border-left:4px solid #94a3b8;
+}
+@media (max-width: 900px){
+  .market-state-main{
+    display:block;
+  }
+  .market-state-date{
+    margin-top:8px;
+  }
+  .market-state-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
