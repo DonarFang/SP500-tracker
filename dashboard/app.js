@@ -770,11 +770,16 @@ function getCurrentMarketStateInfo(){
 
   let state = 'UNKNOWN';
 
-  if(regimeRaw.includes('UP')){
+  if(regimeRaw.includes('UP') || regimeRaw.includes('RISK-ON')){
     state = 'UPTREND';
-  }else if(regimeRaw.includes('DOWN')){
+  }else if(regimeRaw.includes('DOWN') || regimeRaw.includes('RISK-OFF')){
     state = 'DOWNTREND';
-  }else if(regimeRaw.includes('SIDE')){
+  }else if(
+    regimeRaw.includes('SIDE') ||
+    regimeRaw.includes('NEUTRAL') ||
+    regimeRaw.includes('MIXED') ||
+    regimeRaw.includes('CAUTION')
+  ){
     if(subclassRaw.includes('MA_CONFLICT')) state = 'SIDEWAYS_MA_CONFLICT';
     else if(subclassRaw.includes('DETERIOR')) state = 'SIDEWAYS_DETERIORATION';
     else if(subclassRaw.includes('RECOVER')) state = 'SIDEWAYS_RECOVERY';
