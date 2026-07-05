@@ -1,0 +1,132 @@
+{
+  "generated_at": "2026-07-05T15:25:01.098415+00:00",
+  "stage": "B_STAGE_3_4_APP_JS_CLEAN_INTEGRATION",
+  "status": "APPENDED_CLEAN_E1R_V0_2_DASHBOARD_MODULE",
+  "policy": "do_not_copy_feature_app_js_wholesale_append_isolated_idempotent_e1r_module",
+  "main": {
+    "branch": "main",
+    "head": "48ccc66",
+    "clean": true
+  },
+  "feature": {
+    "branch": "feature/e1-5y-data",
+    "head": "5f6063e",
+    "clean": true
+  },
+  "integrated_file": "dashboard/app.js",
+  "module_marker": "E1R_V0_2_DASHBOARD_MODULE_STAGE_3_4_CLEAN_INTEGRATION",
+  "evidence_sources": [
+    "feature/dashboard/app.js",
+    "main/dashboard/app.js",
+    "main/dashboard/styles.css"
+  ],
+  "feature_evidence": {
+    "e1r_occurrences": 198,
+    "oos_occurrences": 78,
+    "json_paths": [
+      "exports/e1r_v0_2_backtest_equity_curve.json",
+      "exports/oos_e1r_v0_2_equity_curve.json"
+    ],
+    "function_names": [
+      "e1rPerfSource",
+      "fmtOosEquity",
+      "fmtOosPct",
+      "getE1RV02BacktestEquity",
+      "getE1RV02OOSEquity",
+      "getE1RV02OOSSummary",
+      "injectE1RV02BacktestEquityUI",
+      "injectE1RV02BacktestSummaryCard",
+      "injectE1RV02OOSCard",
+      "injectE1RV02OOSEquityUI",
+      "installE1RV02BacktestEquityPatch",
+      "installE1RV02OOSEquityPatch",
+      "installE1RV02OOSPatch",
+      "normalizeE1REquitySeries",
+      "normalizeOOSEquityRecords",
+      "oosCard",
+      "patchRenderForOOS",
+      "patchRenderForOOSEquity",
+      "renderE1RResearchPanel",
+      "renderE1RV02BacktestEquityChart",
+      "renderE1RV02BacktestSummaryCard",
+      "renderE1RV02OOSCard",
+      "renderE1RV02OOSEquityCard",
+      "renderE1RV02OOSEquityChart",
+      "sidecarActive"
+    ],
+    "class_tokens": [
+      "e1r-backtest-card",
+      "e1r-backtest-date",
+      "e1r-backtest-grid",
+      "e1r-backtest-label",
+      "e1r-backtest-main",
+      "e1r-backtest-note",
+      "e1r-backtest-value",
+      "e1r-card",
+      "e1r-oos-card",
+      "e1r-oos-date",
+      "e1r-oos-equity-card",
+      "e1r-oos-equity-chart-wrap",
+      "e1r-oos-equity-date",
+      "e1r-oos-equity-grid",
+      "e1r-oos-equity-label",
+      "e1r-oos-equity-main",
+      "e1r-oos-equity-note",
+      "e1r-oos-equity-value",
+      "e1r-oos-grid",
+      "e1r-oos-label",
+      "e1r-oos-main",
+      "e1r-oos-note",
+      "e1r-oos-value",
+      "oos-banner"
+    ],
+    "id_tokens": [
+      "cw-e1r-v02-oos-equity",
+      "e1r-v02-backtest-card",
+      "e1r-v02-oos-card",
+      "e1r-v02-oos-equity-card"
+    ]
+  },
+  "json_paths": [
+    "exports/e1r_v0_2_status.json",
+    "exports/oos_e1r_v0_2_summary.json",
+    "exports/oos_e1r_v0_2_sidecar.json",
+    "exports/oos_e1r_v0_2_positions.json",
+    "exports/oos_e1r_v0_2_orders.json",
+    "exports/oos_e1r_v0_2_equity_curve.json",
+    "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+    "exports/oos_e1r_v0_2_sidecar_turnover.json",
+    "exports/e1r_v0_2_backtest_summary.json",
+    "exports/e1r_v0_2_backtest_equity_curve.json"
+  ],
+  "runtime_guards": [
+    "idempotent init guard window.__E1R_V02_DASHBOARD_INITIALIZED__",
+    "isolated IIFE, no override of existing dashboard functions",
+    "paper tracking only",
+    "no broker/order execution references",
+    "missing JSON handled as unavailable UI rather than crash"
+  ],
+  "forbidden_runtime_hits": [],
+  "snapshots": [
+    "docs/research/stage3_4_app_snapshots/app_main_before_stage3_4.js",
+    "docs/research/stage3_4_app_snapshots/app_feature_source_stage3_4.js",
+    "docs/research/stage3_4_app_snapshots/app_generated_e1r_v0_2_module_stage3_4.js",
+    "docs/research/stage3_4_app_snapshots/feature_app_e1r_evidence_stage3_4.json"
+  ],
+  "diff_file": "docs/research/stage3_4_app_js_clean_integration.diff",
+  "line_counts": {
+    "main_before": 972,
+    "feature_source": 1396,
+    "generated_module": 330,
+    "integrated": 1303,
+    "diff": 337
+  },
+  "boundary": [
+    "Only dashboard/app.js changed.",
+    "No dashboard/styles.css changes.",
+    "No src/engine/backtest.py changes.",
+    "No workflow changes.",
+    "Feature app.js was used as evidence source, not copied wholesale."
+  ],
+  "next_stage": "Stage 3.5 main smoke test + dashboard JSON validation."
+}
