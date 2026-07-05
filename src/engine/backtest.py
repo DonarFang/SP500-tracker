@@ -2512,7 +2512,7 @@ def run_strategy_variant_comparison(
     2. Within the same status, prefer higher total return.
     3. Break ties with higher Profit Factor, higher Sharpe, then lower max drawdown.
     """
-    logger.info("[Backtest Layer D v1.6] 3-Variant LS60 Mode Comparison...")
+    logger.info("[Backtest Layer D v1.6] Strategy Variant Comparison...")
 
     base = {
         **LAYER_D_ASSUMPTIONS,
@@ -2689,6 +2689,71 @@ def run_strategy_variant_comparison(
     _full_period_key = "C_FULL_5Y_2021_06_TO_2026_06" if "C_FULL_5Y_2021_06_TO_2026_06" in period_results else "C_FULL_2023_11_TO_2026_06"
     variant_results = period_results[_full_period_key]["variants"]
 
+    # ── E1-R v0.2 formal sidecar sleeve composition ────────────────
+    #
+    # Design principle:
+    # - Do not modify run_stateful_simulation().
+    # - Do not modify E1R_REGIME_AWARE_V0_1.
+    # - Compose the validated SIDEWAYS:MA_CONFLICT Top10 25% sleeve
+    #   with the existing E1R v0.1 core daily returns.
+    #
+    # This keeps the formal engine semantics aligned with the validated
+    # research S4 sidecar instead of approximating it inside the Top3
+    # stateful order loop.
+    try:
+        from src.engine.e1r_sidecar_sleeve import (
+            E1RSidecarConfig,
+            build_e1r_sidecar_sleeve,
+        )
+        from src.engine.e1r_composer import compose_e1r_v0_2_variant
+
+        _core_e1r = variant_results.get("E1R_REGIME_AWARE_V0_1")
+        _core_records = (_core_e1r or {}).get("daily_equity_records", []) if _core_e1r else []
+
+        _stock_dir = Path("data/research/e1_5y/raw/stocks")
+        _spx_path = Path("data/research/e1_5y/raw/indices/SPX.json")
+        _regime_path = Path("data/research/e1_5y/regimes/spx_regime_daily.json")
+
+        if _core_e1r and _core_records and _stock_dir.exists() and _spx_path.exists() and _regime_path.exists():
+            _sidecar_cfg = E1RSidecarConfig(
+                start_date=_core_records[0]["date"],
+                end_date=_core_records[-1]["date"],
+                allowed_subclasses=("MA_CONFLICT",),
+                top_n=10,
+                gross_exposure=0.25,
+                min_history_days=200,
+                min_price=5.0,
+                initial_equity=float(base.get("initial_capital", 100000)),
+                excluded_symbols=("VIXY",),
+            )
+
+            _sidecar_result = build_e1r_sidecar_sleeve(
+                stock_dir=_stock_dir,
+                spx_path=_spx_path,
+                regime_path=_regime_path,
+                config=_sidecar_cfg,
+            )
+
+            variant_results["E1R_REGIME_AWARE_V0_2"] = compose_e1r_v0_2_variant(
+                core_variant_result=_core_e1r,
+                sidecar_result=_sidecar_result,
+                initial_equity=float(base.get("initial_capital", 100000)),
+            )
+
+            _sidecar_summary = _sidecar_result.get("summary", {}) or {}
+            logger.info(
+                "  E1-R v0.2 formal sidecar sleeve composed: "
+                f"active_days={_sidecar_summary.get('active_days')} "
+                f"return={_sidecar_summary.get('full_period_strategy_return_pct'):.2f}%"
+            )
+        else:
+            logger.warn(
+                "  E1-R v0.2 formal sidecar sleeve skipped: missing core records or research 5Y inputs"
+            )
+
+    except Exception as exc:
+        logger.warn(f"  E1-R v0.2 formal sidecar sleeve failed: {exc}")
+
     status_rank = {
         "PASS":                          5,
         "PARTIAL":                       4,
@@ -2794,7 +2859,7 @@ def run_strategy_variant_comparison(
     # Preserve selected Layer D's top-level shape for current exporters/dashboard.
     return {
         **selected_result,
-        "name": "3-Variant LS60 Mode Comparison",
+        "name": "Strategy Variant Comparison",
         "version": "v1.6-ls60-mode-comparison",
         "selected_variant": selected_id,
         "selection_policy": (
