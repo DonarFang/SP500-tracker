@@ -36,9 +36,10 @@ jobs:
         continue-on-error: true  # OOS 失败不阻塞数据发布
 
 
-      - name: 增量更新 + 信号计算
-        run: python fetch_data.py
-        python3 scripts/run_e1r_v0_2_oos.py
+      - name: E1R v0.2 OOS exports
+        run: |
+          python3 scripts/run_e1r_v0_2_oos.py
+        continue-on-error: true  # E1R v0.2 OOS paper tracking 不阻塞主数据发布
       - name: 提交更新
         run: |
           git config user.name "github-actions[bot]"

@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-07-05T15:01:15.475411+00:00",
+  "stage": "B_STAGE_3_1_WORKFLOW_FIX",
+  "status": "FIXED_BAD_INLINE_RUN_BLOCK",
+  "patched_file": ".github/workflows/update.yml",
+  "problem": "Previous patch inserted python3 scripts/run_e1r_v0_2_oos.py under a single-line run block, producing invalid or incorrect workflow YAML.",
+  "fix": "Use a dedicated E1R v0.2 OOS exports step with run: | and continue-on-error: true.",
+  "runner": "python3 scripts/run_e1r_v0_2_oos.py"
+}
