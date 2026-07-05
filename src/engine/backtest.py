@@ -2604,23 +2604,33 @@ def run_strategy_variant_comparison(
     # ── 分期定义 ─────────────────────────────────────────────────
     # 时间轴保持完整（确保 warm-up / MA50 / RS 计算不失真）；
     # 只用 sim_start_date / sim_end_date 控制交易执行和统计区间。
-    periods = {
-        "A_2023_11_TO_2024_12": {
-            "label":          "Period A: 2023-11 → 2024-12",
-            "sim_start_date": "2023-11-06",
-            "sim_end_date":   "2024-12-31",
-        },
-        "B_2024_12_TO_2026_06": {
-            "label":          "Period B: 2024-12 → 2026-06",
-            "sim_start_date": "2024-12-03",
-            "sim_end_date":   "2026-06-11",
-        },
-        "C_FULL_2023_11_TO_2026_06": {
-            "label":          "Period C (Full): 2023-11 → 2026-06",
-            "sim_start_date": "2023-11-06",
-            "sim_end_date":   "2026-06-11",
-        },
-    }
+    import os as _os
+    if _os.environ.get("SP500_RESEARCH_5Y") == "1":
+        periods = {
+            "C_FULL_5Y_2021_06_TO_2026_06": {
+                "label":          "Period C (Full 5Y): 2021-06 → 2026-06",
+                "sim_start_date": "2021-06-11",
+                "sim_end_date":   "2026-06-18",
+            },
+        }
+    else:
+        periods = {
+            "A_2023_11_TO_2024_12": {
+                "label":          "Period A: 2023-11 → 2024-12",
+                "sim_start_date": "2023-11-06",
+                "sim_end_date":   "2024-12-31",
+            },
+            "B_2024_12_TO_2026_06": {
+                "label":          "Period B: 2024-12 → 2026-06",
+                "sim_start_date": "2024-12-03",
+                "sim_end_date":   "2026-06-11",
+            },
+            "C_FULL_2023_11_TO_2026_06": {
+                "label":          "Period C (Full): 2023-11 → 2026-06",
+                "sim_start_date": "2023-11-06",
+                "sim_end_date":   "2026-06-11",
+            },
+        }
 
     # ── 逐 period × variant 跑回测 ──────────────────────────────
     period_results = {}
@@ -2676,7 +2686,8 @@ def run_strategy_variant_comparison(
             period_results[period_key]["variants"][variant_id] = _result
 
     # ── 为兼容现有输出格式，把 Period C（全区间）当作主结果 ────
-    variant_results = period_results["C_FULL_2023_11_TO_2026_06"]["variants"]
+    _full_period_key = "C_FULL_5Y_2021_06_TO_2026_06" if "C_FULL_5Y_2021_06_TO_2026_06" in period_results else "C_FULL_2023_11_TO_2026_06"
+    variant_results = period_results[_full_period_key]["variants"]
 
     status_rank = {
         "PASS":                          5,

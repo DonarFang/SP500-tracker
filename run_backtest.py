@@ -12,36 +12,78 @@ from src.utils import logger
 if __name__ == "__main__":
     ensure_dirs()
     run_layer_b = "--full" in sys.argv
+    research_5y = "--research-5y" in sys.argv
+    if research_5y:
+        os.environ["SP500_RESEARCH_5Y"] = "1"
 
     logger.info("加载价格数据...")
     from src.utils.helpers import read_json
     from src.utils.config import CONSTITUENTS_FILE
-    from src.data_ingestion.fetch_yahoo import get_price_series
+    from pathlib import Path
+    import json
 
-    symbols = read_json(CONSTITUENTS_FILE) or []
-    logger.info(f"成分股：{len(symbols)} 只")
+    def _series_from_research_5y_file(path: Path):
+        obj = json.loads(path.read_text())
+        bars = obj.get("bars", [])
+        dates = [str(r["date"]) for r in bars if isinstance(r, dict) and r.get("date") and r.get("close") is not None]
+        prices = [float(r["close"]) for r in bars if isinstance(r, dict) and r.get("date") and r.get("close") is not None]
+        return dates, prices
 
-    # 加载价格 + 日期
-    prices_map: dict = {}
-    dates_map:  dict = {}
-    for sym in symbols:
-        d, p = get_price_series(sym)
-        if len(p) >= 120:
-            prices_map[sym] = p
-            dates_map[sym]  = d
-    logger.info(f"有效价格序列：{len(prices_map)} 只")
+    if research_5y:
+        logger.info("Research 5Y mode: loading data/research/e1_5y/raw/...")
 
-    # SPX + 辅助指数（用于 Gate v2 市场状态判断）
-    from src.pipeline.update_pipeline import get_prices_safe
-    spx_dates, spx_prices = get_prices_safe("^GSPC")
-    if not spx_prices:
-        spx_dates, spx_prices = get_price_series("SPY")
-    logger.info(f"SPX: {len(spx_prices)} bars")
+        raw_stocks = Path("data/research/e1_5y/raw/stocks")
+        raw_indices = Path("data/research/e1_5y/raw/indices")
 
-    ndx_dates, ndx_prices = get_prices_safe("^NDX")
-    sox_dates, sox_prices = get_prices_safe("^SOX")
-    vix_dates, vix_prices = get_prices_safe("^VIX")
-    logger.info(f"辅助指数: NDX={len(ndx_prices)} SOX={len(sox_prices)} VIX={len(vix_prices)} bars")
+        symbols = []
+        prices_map: dict = {}
+        dates_map:  dict = {}
+
+        for fp in sorted(raw_stocks.glob("*.json")):
+            sym = fp.stem
+            d, p = _series_from_research_5y_file(fp)
+            if len(p) >= 252:
+                symbols.append(sym)
+                prices_map[sym] = p
+                dates_map[sym] = d
+
+        logger.info(f"Research 5Y有效价格序列：{len(prices_map)} 只")
+
+        spx_dates, spx_prices = _series_from_research_5y_file(raw_indices / "SPX.json")
+        ndx_dates, ndx_prices = _series_from_research_5y_file(raw_indices / "NDX.json")
+        sox_dates, sox_prices = _series_from_research_5y_file(raw_indices / "SOX.json")
+        vix_dates, vix_prices = [], []
+
+        logger.info(f"Research 5Y SPX: {len(spx_prices)} bars")
+        logger.info(f"Research 5Y辅助指数: NDX={len(ndx_prices)} SOX={len(sox_prices)} VIX={len(vix_prices)} bars")
+
+    else:
+        from src.data_ingestion.fetch_yahoo import get_price_series
+
+        symbols = read_json(CONSTITUENTS_FILE) or []
+        logger.info(f"成分股：{len(symbols)} 只")
+
+        # 加载价格 + 日期
+        prices_map: dict = {}
+        dates_map:  dict = {}
+        for sym in symbols:
+            d, p = get_price_series(sym)
+            if len(p) >= 120:
+                prices_map[sym] = p
+                dates_map[sym]  = d
+        logger.info(f"有效价格序列：{len(prices_map)} 只")
+
+        # SPX + 辅助指数（用于 Gate v2 市场状态判断）
+        from src.pipeline.update_pipeline import get_prices_safe
+        spx_dates, spx_prices = get_prices_safe("^GSPC")
+        if not spx_prices:
+            spx_dates, spx_prices = get_price_series("SPY")
+        logger.info(f"SPX: {len(spx_prices)} bars")
+
+        ndx_dates, ndx_prices = get_prices_safe("^NDX")
+        sox_dates, sox_prices = get_prices_safe("^SOX")
+        vix_dates, vix_prices = get_prices_safe("^VIX")
+        logger.info(f"辅助指数: NDX={len(ndx_prices)} SOX={len(sox_prices)} VIX={len(vix_prices)} bars")
 
     # 运行回测
     from src.engine.backtest import run_full_backtest
