@@ -16,7 +16,7 @@ const REG_META = {
 };
 const IDX_ICONS = {SPX:'📊',NDX:'💻',VIX:'😨',SOX:'🔬'};
 
-let DATA = {market:null,marketState:null,e1rV02Status:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,
+let DATA = {market:null,marketState:null,e1rV02Status:null,e1rV02OosSummary:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,
   e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null};
 let charts = {};
 
@@ -882,5 +882,106 @@ if(typeof fetchJ === 'function'){
   if(!ok){
     console.warn('Market State UI patch: render() not found at install time; fallback timers active.');
   }
+})();
+
+
+// === E1R v0.2 OOS-1 Dashboard Status UI ===
+// Shows current v0.2 forward/OOS status without implying live equity is connected.
+function getE1RV02OOSSummary(){
+  return DATA.e1rV02OosSummary || {};
+}
+
+function renderE1RV02OOSCard(){
+  const s = getE1RV02OOSSummary();
+
+  const marketState = s.market_state || 'UNKNOWN';
+  const coreActive = s.core_active === true;
+  const sidecarActive = s.sidecar_active === true;
+  const selectedCount = s.sidecar_selected_count ?? 0;
+  const executionStatus = s.execution_status || 'UNKNOWN';
+  const equityStatus = s.equity_status || 'UNKNOWN';
+  const phase = s.phase || 'UNKNOWN';
+  const statusDate = s.status_date || '—';
+
+  const executionLabel = executionStatus === 'NO_REAL_EXECUTION'
+    ? 'Signal Only'
+    : executionStatus;
+
+  const equityLabel = equityStatus === 'NOT_YET_CONNECTED'
+    ? 'Not Yet Connected'
+    : equityStatus;
+
+  return `
+    <div id="e1r-v02-oos-card" class="e1r-oos-card">
+      <div class="e1r-oos-main">
+        <div>
+          <div class="e1r-oos-label">E1R v0.2 Forward / OOS</div>
+          <div class="e1r-oos-value">${marketState}</div>
+        </div>
+        <div class="e1r-oos-date">As of ${statusDate}</div>
+      </div>
+
+      <div class="e1r-oos-grid">
+        <div><span>Core</span><b>${coreActive ? 'Active' : 'Inactive'}</b></div>
+        <div><span>Sidecar</span><b>${sidecarActive ? 'Active' : 'Inactive'}</b></div>
+        <div><span>Sidecar Count</span><b>${selectedCount}</b></div>
+        <div><span>Phase</span><b>${phase}</b></div>
+        <div><span>Execution</span><b>${executionLabel}</b></div>
+        <div><span>Equity</span><b>${equityLabel}</b></div>
+      </div>
+
+      <div class="e1r-oos-note">
+        OOS-1 exports status and target signals only. Real execution and v0.2 OOS equity curve are not connected yet.
+      </div>
+    </div>
+  `;
+}
+
+function injectE1RV02OOSCard(){
+  const target = document.getElementById('s-market');
+  if(!target) return;
+  if(document.getElementById('e1r-v02-oos-card')) return;
+
+  const marketCard = document.getElementById('market-state-card');
+  if(marketCard){
+    marketCard.insertAdjacentHTML('afterend', renderE1RV02OOSCard());
+  }else{
+    target.insertAdjacentHTML('afterbegin', renderE1RV02OOSCard());
+  }
+}
+
+(function installE1RV02OOSPatch(){
+  function patchRenderForOOS(){
+    if(typeof render !== 'function') return false;
+    if(render.__e1rV02OosPatched) return true;
+
+    const originalRender = render;
+    render = function(tab){
+      const result = originalRender.apply(this, arguments);
+      if(tab === 'market'){
+        setTimeout(injectE1RV02OOSCard, 0);
+      }
+      return result;
+    };
+    render.__e1rV02OosPatched = true;
+    return true;
+  }
+
+  patchRenderForOOS();
+
+  if(typeof fetchJ === 'function'){
+    fetchJ('oos_e1r_v0_2_summary')
+      .then(x => {
+        DATA.e1rV02OosSummary = x;
+        const old = document.getElementById('e1r-v02-oos-card');
+        if(old) old.remove();
+        injectE1RV02OOSCard();
+      })
+      .catch(() => {});
+  }
+
+  setTimeout(injectE1RV02OOSCard, 700);
+  setTimeout(injectE1RV02OOSCard, 1700);
+  setTimeout(injectE1RV02OOSCard, 3200);
 })();
 
