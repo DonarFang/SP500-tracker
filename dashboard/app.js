@@ -16,7 +16,7 @@ const REG_META = {
 };
 const IDX_ICONS = {SPX:'📊',NDX:'💻',VIX:'😨',SOX:'🔬'};
 
-let DATA = {market:null,marketState:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,
+let DATA = {market:null,marketState:null,e1rV02Status:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,
   e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null};
 let charts = {};
 
@@ -721,7 +721,7 @@ loadAll();
 // This block is intentionally appended as a safe UI wrapper.
 // It avoids changing the existing Market Overview render internals.
 function getCurrentMarketStateInfo(){
-  const raw = DATA.marketState || {};
+  const raw = DATA.e1rV02Status || DATA.marketState || {};
   const market = DATA.market || raw.market || raw || {};
 
   function pick(obj, keys){
@@ -749,7 +749,7 @@ function getCurrentMarketStateInfo(){
   if(!latest) latest = market;
 
   const regimeRaw = String(
-    pick(latest, ['regime','market_regime','marketRegime','state','market_state','trend_state','regime_label']) ||
+    pick(latest, ['e1r_market_state','regime','market_regime','marketRegime','state','market_state','trend_state','regime_label']) ||
     pick(market, ['regime','market_regime','marketRegime','state','market_state','trend_state','regime_label']) ||
     'UNKNOWN'
   ).toUpperCase();
@@ -761,8 +761,8 @@ function getCurrentMarketStateInfo(){
   ).toUpperCase();
 
   const date =
-    pick(latest, ['date','data_date','as_of','asOf']) ||
-    pick(market, ['date','data_date','as_of','asOf']) ||
+    pick(latest, ['status_date','date','data_date','as_of','asOf']) ||
+    pick(market, ['status_date','date','data_date','as_of','asOf']) ||
     raw.data_date ||
     raw.generated_at_display ||
     raw.generated_at ||
@@ -860,6 +860,19 @@ function injectMarketStateCard(){
   }
 
   const ok = patchRender();
+
+// Load lightweight E1R v0.2 status export when available.
+if(typeof fetchJ === 'function'){
+  fetchJ('e1r_v0_2_status')
+    .then(x => {
+      DATA.e1rV02Status = x;
+      const old = document.getElementById('market-state-card');
+      if(old) old.remove();
+      injectMarketStateCard();
+    })
+    .catch(() => {});
+}
+
 
   // Fallback: try to inject after data/render finishes.
   setTimeout(injectMarketStateCard, 500);
