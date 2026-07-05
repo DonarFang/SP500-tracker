@@ -1,0 +1,137 @@
+{
+  "generated_at": "2026-07-05T14:56:15.386938+00:00",
+  "stage": "B_STAGE_2_HIGH_RISK_REVIEW_AUDIT",
+  "feature": {
+    "path": "/Users/dongfang/Downloads/sp500-tracker-5y",
+    "branch": "feature/e1-5y-data",
+    "head": "5f6063e",
+    "clean": true
+  },
+  "main": {
+    "path": "/Users/dongfang/Downloads/sp500-tracker-v13",
+    "branch": "main",
+    "head": "2c884bf",
+    "clean": true
+  },
+  "summary": {
+    "high_risk_files": 4,
+    "same_content_count": 0,
+    "changed_count": 4,
+    "manual_integration_required": [
+      "src/engine/backtest.py",
+      "dashboard/app.js",
+      ".github/workflows/update.yml"
+    ],
+    "selective_copy_possible": [
+      "dashboard/styles.css"
+    ]
+  },
+  "files": [
+    {
+      "path": "src/engine/backtest.py",
+      "feature_exists": true,
+      "main_exists": true,
+      "feature_sha256": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "main_sha256": "4445dfe967a8c50fd9ef79bf8091c270e38d0fcb7cdd5921a74b172fe2e3d78b",
+      "same_content": false,
+      "feature_line_count": 2978,
+      "main_line_count": 2496,
+      "diff_line_count": 766,
+      "diff_file": "docs/research/stage2_high_risk_diffs/src__engine__backtest_py.diff",
+      "risk_level": "HIGH",
+      "recommendation": "MANUAL_INTEGRATION_REQUIRED",
+      "reason": "Core backtest file exists in main and feature; replacing it blindly may affect frozen E1/E2 results.",
+      "expected_action": "Extract only E1R v0.2 variant integration after confirming E1 frozen results are unchanged.",
+      "feature_keyword_hits": {
+        "E1R": 19,
+        "v0_2": 2,
+        "v0.2": 4,
+        "sidecar": 17,
+        "e1r_v0_2": 2
+      },
+      "main_keyword_hits": {}
+    },
+    {
+      "path": "dashboard/app.js",
+      "feature_exists": true,
+      "main_exists": true,
+      "feature_sha256": "2513cf92c2e75655c9357e68f04c97f595ece242d2153a9cf2399313cf5a7b61",
+      "main_sha256": "14b3b7ce359e96dd9b7cfb5829aa4a0f2b45e0a841b03388c6d33ea8aa38ebd9",
+      "same_content": false,
+      "feature_line_count": 1396,
+      "main_line_count": 972,
+      "diff_line_count": 1328,
+      "diff_file": "docs/research/stage2_high_risk_diffs/dashboard__app_js.diff",
+      "risk_level": "HIGH",
+      "recommendation": "CLEAN_INTEGRATION_RECOMMENDED",
+      "reason": "Feature dashboard/app.js contains accumulated safe-wrapper UI patches. Main should ideally receive a clean first-class integration.",
+      "expected_action": "Review feature diff and port E1R v0.2 UI into explicit render/load functions rather than blindly replacing main app.js.",
+      "feature_keyword_hits": {
+        "E1R": 68,
+        "v0_2": 7,
+        "v0.2": 14,
+        "sidecar": 12,
+        "oos_e1r": 3,
+        "e1r_v0_2": 6,
+        "FORWARD_OOS_EQUITY": 1,
+        "FULL_5Y_BACKTEST_EQUITY": 1,
+        "OOS_EQUITY": 2,
+        "PAPER_TRACKING": 1
+      },
+      "main_keyword_hits": {
+        "E1R": 6
+      },
+      "wrapper_marker_hits": {
+        "installE1R": 3,
+        "__e1r": 6,
+        "setTimeout(inject": 16,
+        "Forward/OOS Equity Dashboard UI": 1,
+        "5Y Backtest Equity Dashboard UI": 1
+      }
+    },
+    {
+      "path": "dashboard/styles.css",
+      "feature_exists": true,
+      "main_exists": true,
+      "feature_sha256": "625f04329a04b0e0dbbbe4a31aec937ca20add18d76ae346c933c6bec59cd81c",
+      "main_sha256": "93d6145aafcaee45b22b48f3e99121591ffe2984c243b531587ffb7b66a0bfbd",
+      "same_content": false,
+      "feature_line_count": 450,
+      "main_line_count": 107,
+      "diff_line_count": 403,
+      "diff_file": "docs/research/stage2_high_risk_diffs/dashboard__styles_css.diff",
+      "risk_level": "MEDIUM",
+      "recommendation": "SELECTIVE_COPY_OR_APPEND_AFTER_REVIEW",
+      "reason": "CSS additions are lower risk than app.js but can still affect layout globally.",
+      "expected_action": "Append only E1R v0.2 scoped CSS blocks after confirming selectors are scoped and do not override global layout.",
+      "feature_keyword_hits": {
+        "E1R": 4,
+        "v0.2": 4
+      },
+      "main_keyword_hits": {}
+    },
+    {
+      "path": ".github/workflows/update.yml",
+      "feature_exists": true,
+      "main_exists": true,
+      "feature_sha256": "7cabf8e434a6ea2d7a482d30eb3d2a17ee6e2f5890bc52fea5acfc4ef654a944",
+      "main_sha256": "4a2b78d66d12c1411a944c1d136eddbc2e7496bfbcf84d0f377a883bd69b368b",
+      "same_content": false,
+      "feature_line_count": 47,
+      "main_line_count": 46,
+      "diff_line_count": 10,
+      "diff_file": "docs/research/stage2_high_risk_diffs/_github__workflows__update_yml.diff",
+      "risk_level": "HIGH",
+      "recommendation": "MANUAL_WORKFLOW_PATCH_REQUIRED",
+      "reason": "Workflow controls daily production update. Blind overwrite can break existing deployment cadence.",
+      "expected_action": "Patch only E1R v0.2 OOS runner step after existing update/export steps; ensure failures are controlled.",
+      "feature_keyword_hits": {
+        "v0_2": 1,
+        "e1r_v0_2": 1,
+        "run_e1r_v0_2": 1
+      },
+      "main_keyword_hits": {}
+    }
+  ],
+  "next_recommendation": "Do not overwrite these files. Proceed with controlled patches in this order: workflow, backtest.py, styles.css, dashboard/app.js clean integration."
+}
