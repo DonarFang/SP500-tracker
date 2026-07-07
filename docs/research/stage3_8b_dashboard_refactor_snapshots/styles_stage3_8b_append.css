@@ -1,0 +1,198 @@
+/* === E1R_V0_2_STAGE3_8B_RESEARCH_BACKTEST_REFACTOR === */
+.rb38b-hidden-legacy {
+  display: none !important;
+}
+
+.rb38b-shell {
+  margin: 22px 0;
+  padding: 0;
+}
+
+.rb38b-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: rgba(18, 18, 18, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rb38b-title h1 {
+  margin: 0 0 6px 0;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.rb38b-title p {
+  margin: 0;
+  opacity: 0.78;
+  line-height: 1.45;
+}
+
+.rb38b-policy-pill,
+.rb38b-badge {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: rgba(0, 180, 120, 0.16);
+  color: #19c58f;
+}
+
+.rb38b-badge-warn {
+  background: rgba(255, 170, 0, 0.14);
+  color: #e6a21a;
+}
+
+.rb38b-card {
+  margin: 16px 0;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: rgba(20, 20, 20, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rb38b-curve-card {
+  border-color: rgba(0, 180, 120, 0.24);
+}
+
+.rb38b-market-card {
+  border-color: rgba(80, 160, 255, 0.26);
+}
+
+.rb38b-error {
+  border-color: rgba(255, 80, 80, 0.36);
+}
+
+.rb38b-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.rb38b-card-head h2 {
+  margin: 0 0 6px 0;
+  font-size: 18px;
+}
+
+.rb38b-card-head p {
+  margin: 0;
+  opacity: 0.72;
+  line-height: 1.45;
+}
+
+.rb38b-chart-wrap {
+  height: 360px;
+  min-height: 260px;
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.rb38b-table-wrap {
+  overflow-x: auto;
+}
+
+.rb38b-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.rb38b-table th,
+.rb38b-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: left;
+  vertical-align: top;
+}
+
+.rb38b-table thead th {
+  opacity: 0.74;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.rb38b-summary-table tbody th {
+  width: 24%;
+  opacity: 0.78;
+}
+
+.rb38b-trade-table td,
+.rb38b-trade-table th {
+  white-space: nowrap;
+}
+
+.rb38b-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.rb38b-metric {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.rb38b-metric span {
+  display: block;
+  font-size: 12px;
+  opacity: 0.68;
+  margin-bottom: 6px;
+}
+
+.rb38b-metric strong {
+  display: block;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.rb38b-footnote {
+  margin-top: 12px;
+  font-size: 12px;
+  opacity: 0.68;
+  line-height: 1.45;
+}
+
+.rb38b-loading {
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: rgba(18, 18, 18, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rb38b-loading strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.rb38b-loading span {
+  opacity: 0.72;
+}
+
+@media (max-width: 900px) {
+  .rb38b-title,
+  .rb38b-card-head {
+    flex-direction: column;
+  }
+
+  .rb38b-metric-grid {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+
+  .rb38b-chart-wrap {
+    height: 280px;
+  }
+}
+/* === END E1R_V0_2_STAGE3_8B_RESEARCH_BACKTEST_REFACTOR === */

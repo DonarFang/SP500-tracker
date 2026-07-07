@@ -1,0 +1,117 @@
+{
+  "generated_at": "2026-07-07T12:33:49.735261+00:00",
+  "stage": "B_STAGE_3_8B_RESEARCH_BACKTEST_DASHBOARD_REFACTOR_IMPLEMENTATION",
+  "status": "IMPLEMENTED_DASHBOARD_ONLY_REFACTOR",
+  "main": {
+    "branch": "main",
+    "head_before": "c9ed868"
+  },
+  "policy": {
+    "strategy_logic_changed": false,
+    "dashboard_only": true,
+    "exports_backtest_json_changed": false,
+    "engine_files_changed": false
+  },
+  "required_exports_validated": [
+    "exports/backtest.json",
+    "exports/trade_log.json",
+    "exports/e1r_v0_2_status.json",
+    "exports/e1r_v0_2_backtest_summary.json",
+    "exports/e1r_v0_2_backtest_equity_curve.json",
+    "exports/oos_summary.json",
+    "exports/oos_positions.json",
+    "exports/oos_trades.json",
+    "exports/oos_equity_curve.json",
+    "exports/oos_orders.json",
+    "exports/oos_e1r_v0_2_summary.json",
+    "exports/oos_e1r_v0_2_sidecar.json",
+    "exports/oos_e1r_v0_2_positions.json",
+    "exports/oos_e1r_v0_2_orders.json",
+    "exports/oos_e1r_v0_2_equity_curve.json",
+    "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+    "exports/oos_e1r_v0_2_sidecar_turnover.json",
+    "exports/market_state.json"
+  ],
+  "optional_exports": [
+    {
+      "path": "exports/market_regime.json",
+      "exists": false,
+      "valid_json": null
+    }
+  ],
+  "implemented_layout": [
+    "Unified Equity Curve — E1 vs E1R v0.2 vs SPX",
+    "Strategy Summary Comparison — E1 / E1R v0.2 / SPX",
+    "Trade Log — replaces Period comparison as the main transaction detail block",
+    "Market State — only market/regime context below Trade Log"
+  ],
+  "legacy_blocks_hidden_by_runtime": [
+    "E1-R Research Summary",
+    "Period comparison",
+    "E1R v0.2 Market / OOS Status",
+    "E1R v0.2 5Y Backtest",
+    "E1R v0.2 Forward / OOS Equity",
+    "E2 Dynamic Exit"
+  ],
+  "data_sources": {
+    "e1_historical": "../exports/backtest.json",
+    "e1_forward": [
+      "../exports/oos_summary.json",
+      "../exports/oos_equity_curve.json",
+      "../exports/oos_trades.json",
+      "../exports/oos_orders.json"
+    ],
+    "e1r_historical": [
+      "../exports/e1r_v0_2_backtest_summary.json",
+      "../exports/e1r_v0_2_backtest_equity_curve.json"
+    ],
+    "e1r_forward": [
+      "../exports/oos_e1r_v0_2_summary.json",
+      "../exports/oos_e1r_v0_2_equity_curve.json",
+      "../exports/oos_e1r_v0_2_orders.json",
+      "../exports/oos_e1r_v0_2_positions.json"
+    ],
+    "market_state": [
+      "../exports/e1r_v0_2_status.json",
+      "../exports/market_state.json",
+      "../exports/market_regime.json optional"
+    ],
+    "trade_log": "../exports/trade_log.json"
+  },
+  "files_changed": [
+    "dashboard/app.js",
+    "dashboard/styles.css",
+    "docs/research/E1R_V0_2_STAGE3_8B_DASHBOARD_REFACTOR_REPORT.json",
+    "docs/research/E1R_V0_2_STAGE3_8B_DASHBOARD_REFACTOR_REPORT.md",
+    "docs/research/stage3_8b_dashboard_refactor.diff",
+    "docs/research/stage3_8b_dashboard_refactor_snapshots/"
+  ],
+  "snapshots": [
+    "docs/research/stage3_8b_dashboard_refactor_snapshots/app_before_stage3_8b.js",
+    "docs/research/stage3_8b_dashboard_refactor_snapshots/styles_before_stage3_8b.css",
+    "docs/research/stage3_8b_dashboard_refactor_snapshots/app_stage3_8b_module.js",
+    "docs/research/stage3_8b_dashboard_refactor_snapshots/styles_stage3_8b_append.css"
+  ],
+  "diff_file": "docs/research/stage3_8b_dashboard_refactor.diff",
+  "validation": {
+    "required_app_terms_missing": [],
+    "node_check": {
+      "node_available": false,
+      "status": "BASIC_BRACE_CHECK_PASS",
+      "module_open_braces": 175,
+      "module_close_braces": 175,
+      "css_open_braces": 33,
+      "css_close_braces": 33
+    },
+    "forbidden_source_paths_changed": []
+  },
+  "acceptance_notes": [
+    "This implementation does not modify E1 or E1R v0.2 strategy logic.",
+    "Historical E1R v0.2 is labeled as frozen research artifact.",
+    "Forward metrics are derived from OOS/paper-tracking exports.",
+    "Period comparison is hidden from the main Research & Backtest view.",
+    "Market State is placed below Trade Log.",
+    "market_regime.json is optional; market_state.json is the required current market-state export."
+  ],
+  "next_stage": "Manual browser check of Research & Backtest page; if needed, Stage 3.8C visual/data-shape fix."
+}
