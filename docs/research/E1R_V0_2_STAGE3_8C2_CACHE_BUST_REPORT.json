@@ -1,0 +1,12 @@
+{
+  "generated_at": "2026-07-07T12:46:29.080083+00:00",
+  "stage": "B_STAGE_3_8C2_DASHBOARD_ASSET_CACHE_BUST",
+  "status": "INDEX_HTML_CACHE_BUST_APPLIED",
+  "version": "restore38c1-478a35f",
+  "files_changed": [
+    "dashboard/index.html"
+  ],
+  "strategy_logic_changed": false,
+  "exports_changed": false,
+  "reason": "Browser/GitHub Pages continued loading stale Stage 3.8B app.js/styles.css after dashboard files were restored. Cache-busting asset URLs force fresh asset retrieval."
+}
