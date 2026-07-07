@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-07-07T13:02:29.799851+00:00",
+  "stage": "B_STAGE_3_8E1_NATIVE_RESEARCH_BACKTEST_CLEANUP",
+  "status": "IMPLEMENTED_NATIVE_RESEARCH_CLEANUP",
+  "main": {
+    "branch": "main",
+    "head_before": "e0d5841"
+  },
+  "policy": {
+    "strategy_logic_changed": false,
+    "exports_changed": false,
+    "dashboard_global_runtime_module_added": false,
+    "native_render_path_only": true
+  },
+  "changes": {
+    "removed_old_period_card": true,
+    "kept_trade_log": true,
+    "added_market_state_below_trade_log": true,
+    "removed_oos_banner_below_trade_log": true,
+    "removed_e2_archive_banner_below_trade_log": true,
+    "disabled_e1r_v02_standalone_panels": true,
+    "cache_busted_index_assets": true
+  },
+  "files_changed": [
+    "dashboard/app.js",
+    "dashboard/index.html",
+    "docs/research/E1R_V0_2_STAGE3_8E1_NATIVE_RESEARCH_CLEANUP_REPORT.json",
+    "docs/research/E1R_V0_2_STAGE3_8E1_NATIVE_RESEARCH_CLEANUP_REPORT.md",
+    "docs/research/stage3_8e1_native_research_cleanup.diff"
+  ],
+  "removed_blocks": {
+    "old_period_card_chars": 1835,
+    "oos_banner_chars": 202,
+    "e2_archive_banner_chars": 301
+  },
+  "validation": {
+    "node_check": {
+      "node_available": false,
+      "status": "BASIC_MARKER_VALIDATION_ONLY"
+    },
+    "old_period_card_absent": true,
+    "trade_log_present": true,
+    "market_state_present": true,
+    "e1r_standalone_disable_marker_present": true,
+    "stage_3_8b_markers_absent": true
+  },
+  "acceptance_criteria": [
+    "Original 5 tabs remain visible.",
+    "Research & Backtest no longer shows the old period table.",
+    "Trade Log remains visible.",
+    "Only Market State appears below Trade Log.",
+    "E1R v0.2 standalone panels no longer appear as separate appended blocks.",
+    "No E1/E1R strategy logic files are modified.",
+    "No exports/backtest.json mutation."
+  ],
+  "next_stage": "Browser acceptance. If clean, Stage 3.8E-2 will integrate E1R v0.2 data into native curve and summary comparison."
+}

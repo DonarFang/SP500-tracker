@@ -265,6 +265,7 @@ function renderE1RResearchPanel(vr){
 // render dispatcher
 // ═══════════════════════════════════════════════════════
 function render(tab) {
+  // B_STAGE_3_8E1_NATIVE_RESEARCH_BACKTEST_CLEANUP: native tab cleanup only; no strategy logic changes.
 
   // ── Tab 1: Market Overview ───────────────────────────
   if (tab==='market') {
@@ -752,28 +753,8 @@ function render(tab) {
       </div></div>`;
     }
 
-    h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">Period comparison</div><div class="card-body">
-      <div class="tbl-wrap"><table>
-        <thead><tr><th>Period</th><th>E1 return</th><th>SPX</th><th>Alpha</th><th>MaxDD</th><th>PF</th><th>Sharpe</th><th>Trades</th></tr></thead>
-        <tbody>
-          <tr><td>A (Nov '23 – Dec '24)</td>
-            <td style="color:var(--green)">${fmt(pA.total_return_pct)}</td><td>${fmtSpx(pA)}</td>
-            <td style="color:${parseFloat(pA.alpha_pct||0)>=0?'var(--green)':'var(--red)'}">${fmt(pA.alpha_pct)}</td>
-            <td>${p2(pA.max_drawdown_pct)}%</td><td>${p2(pA.profit_factor)}</td><td>${p2(pA.sharpe_ratio)}</td><td>${pA.number_of_trades||0}</td></tr>
-          <tr><td>B (Dec '24 – Jun '26)</td>
-            <td style="color:var(--green)">${fmt(pB.total_return_pct)}</td><td>${fmtSpx(pB)}</td>
-            <td style="color:${parseFloat(pB.alpha_pct||0)>=0?'var(--green)':'var(--red)'}">${fmt(pB.alpha_pct)}</td>
-            <td>${p2(pB.max_drawdown_pct)}%</td><td>${p2(pB.profit_factor)}</td><td>${p2(pB.sharpe_ratio)}</td><td>${pB.number_of_trades||0}</td></tr>
-          <tr style="font-weight:600"><td>Full (Nov '23 – Jun '26)</td>
-            <td style="color:var(--green)">${fmt(e1.total_return_pct)}</td><td>${fmtSpx(e1)}</td>
-            <td style="color:${parseFloat(e1.alpha_pct||0)>=0?'var(--green)':'var(--red)'}">${fmt(e1.alpha_pct)}</td>
-            <td>${p2(e1.max_drawdown_pct)}%</td><td>${p2(e1.profit_factor)}</td><td>${p2(e1.sharpe_ratio)}</td><td>${e1.number_of_trades||0}</td></tr>
-        </tbody>
-      </table></div>
-      <div class="muted" style="font-size:12px;margin-top:.5rem">* SPX return implied from Alpha where source JSON does not expose period SPX return.</div>
-    </div></div>`;
+    // Stage 3.8E-1: removed old period table from this tab.
 
-    // Lifecycle stats migrated here
     if(lcStats.some(r=>r.n>0)){
       h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">个股趋势生命周期分布 <span class="sub">Top50 当前象限</span></div><div class="card-body">
         <div class="regime-grid">`;
@@ -798,17 +779,51 @@ function render(tab) {
       </table></div>
     </div></div>`;
 
-    h+=`<div class="oos-banner">
-      <strong>OOS log — 从 2026-06-16 起</strong> &nbsp;·&nbsp;
-      只追加不回写 &nbsp;·&nbsp;
-      至少积累 6个月或 20 笔完整交易后才做第一次验收 &nbsp;·&nbsp;
-      OOS 期间 E1 参数冻结
-    </div>`;
-    h+=`<div class="arch-banner">
-      <strong>E2 Dynamic Exit — 已归档</strong> &nbsp;·&nbsp;
-      V2 全面失败（Full −21.9%，MaxDD 51.1%，PF 0.83）&nbsp;·&nbsp;
-      不开发 E3 &nbsp;·&nbsp; No E2_V3. Dynamic Exit route terminated after failing acceptance criteria &nbsp;·&nbsp; 修改须建立新候选版本，不覆盖 E1 基准
-    </div>`;
+    // Stage 3.8E-1: keep only market context below the trade table.
+    const nativeMarket = DATA.market || {};
+    const nativeMarketState =
+      nativeMarket.market_state ||
+      nativeMarket.state ||
+      nativeMarket.regime ||
+      nativeMarket.current_regime ||
+      nativeMarket.market_regime ||
+      nativeMarket.trend_state ||
+      '—';
+    const nativeMarketDate =
+      nativeMarket.data_date ||
+      nativeMarket.date ||
+      nativeMarket.status_date ||
+      nativeMarket.generated_at_display ||
+      nativeMarket.generated_at ||
+      '—';
+    const nativeMarketScore =
+      nativeMarket.market_score ??
+      nativeMarket.score ??
+      nativeMarket.total_score ??
+      '—';
+    const nativeLeadership =
+      nativeMarket.leadership_count ??
+      nativeMarket.leadership ??
+      nativeMarket.leaders_count ??
+      '—';
+
+    h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">Market State</div><div class="card-body">
+      <div class="grid-4">
+        <div class="mc"><div class="mc-label">State</div><div class="mc-val">${nativeMarketState}</div></div>
+        <div class="mc"><div class="mc-label">Data date</div><div class="mc-val">${nativeMarketDate}</div></div>
+        <div class="mc"><div class="mc-label">Market score</div><div class="mc-val">${nativeMarketScore}</div></div>
+        <div class="mc"><div class="mc-label">Leadership</div><div class="mc-val">${nativeLeadership}</div></div>
+      </div>
+      <div class="muted" style="font-size:12px;margin-top:.5rem">
+        Stage 3.8E-1 cleanup: Trade Log is followed only by Market State. E1/E1R strategy logic is unchanged.
+      </div>
+    </div></div>`;
+
+
+    // Stage 3.8E-1: removed OOS note below trade table.
+
+    // Stage 3.8E-1: removed archived E2 note below trade table.
+
     h+=`<p class="note">执行模型：T日收盘信号 → T+1逆向成交（BUY at high, EXIT at low）· 单边成本 0.10% · 最大持仓 3</p>`;
     $('s-research').innerHTML=h;
 
@@ -1238,6 +1253,13 @@ loadAll();
   }
 
   async function e1rRenderAll() {
+    /*
+     * Stage 3.8E-1:
+     * Standalone E1R v0.2 panels are disabled.
+     * Future E1R display integration must happen inside native Research & Backtest render flow.
+     */
+    window.__E1R_V02_STANDALONE_PANELS_DISABLED_STAGE_3_8E1__ = true;
+    return;
     if (!document || !document.body) return;
 
     const [
