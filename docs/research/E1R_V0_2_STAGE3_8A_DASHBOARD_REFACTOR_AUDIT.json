@@ -1,0 +1,833 @@
+{
+  "generated_at": "2026-07-07T12:24:33.562128+00:00",
+  "stage": "B_STAGE_3_8A_RESEARCH_BACKTEST_DASHBOARD_REFACTOR_AUDIT",
+  "status": "AUDIT_COMPLETE_NO_SOURCE_CHANGES",
+  "main": {
+    "branch": "main",
+    "head": "855a443"
+  },
+  "policy": {
+    "strategy_logic_change_allowed": false,
+    "allowed_changes_next_stage": [
+      "dashboard display/layout",
+      "data loading paths",
+      "JSON normalization for dashboard only",
+      "summary/trade/equity presentation logic",
+      "status labels and caveats",
+      "CSS styling"
+    ],
+    "forbidden_changes_next_stage": [
+      "E1 entry/exit rules",
+      "E1R v0.2 regime rules",
+      "E1R v0.2 sidecar selection rules",
+      "Top10/sidecar exposure rules",
+      "combined return formula",
+      "historical backtest numbers",
+      "using historical 3Y/5Y to tune new parameters"
+    ]
+  },
+  "desired_research_page_structure": [
+    {
+      "order": 1,
+      "section": "Unified Equity Curve",
+      "purpose": "Show E1 vs E1R v0.2 vs SPX with historical frozen segment and forward paper-tracking segment.",
+      "must_include": [
+        "E1 historical backtest curve",
+        "E1 forward paper curve",
+        "E1R v0.2 historical frozen curve",
+        "E1R v0.2 forward paper curve",
+        "SPX benchmark curve",
+        "forward start marker"
+      ],
+      "strategy_logic_change_allowed": false
+    },
+    {
+      "order": 2,
+      "section": "Strategy Summary Comparison",
+      "purpose": "Compare E1, E1R v0.2, and SPX in one table/cards block; forward metrics update as paper tracking advances.",
+      "must_include": [
+        "historical frozen metrics",
+        "forward tracking metrics",
+        "combined/current metrics",
+        "data date",
+        "strategy status labels",
+        "explicit in-sample / frozen artifact caveat"
+      ],
+      "strategy_logic_change_allowed": false
+    },
+    {
+      "order": 3,
+      "section": "Trade Log",
+      "purpose": "Keep recent trades and paper trades; remove Period comparison.",
+      "must_include": [
+        "strategy",
+        "symbol",
+        "entry date",
+        "exit date or open",
+        "entry price",
+        "exit/current price",
+        "return",
+        "days held",
+        "market state",
+        "source: historical or forward",
+        "exit reason"
+      ],
+      "strategy_logic_change_allowed": false
+    },
+    {
+      "order": 4,
+      "section": "Market State",
+      "purpose": "Only keep current market/regime context below Trade Log.",
+      "must_include": [
+        "status date",
+        "market state",
+        "core active",
+        "sidecar active",
+        "sidecar selected count",
+        "data freshness"
+      ],
+      "strategy_logic_change_allowed": false
+    }
+  ],
+  "remove_or_hide_targets": [
+    {
+      "target": "E1-R Research Summary v0.1 top block",
+      "reason": "Legacy research block duplicates/confuses the new E1/E1R comparison structure.",
+      "replacement": "Merged E1 vs E1R summary comparison."
+    },
+    {
+      "target": "Period comparison",
+      "reason": "User explicitly wants Trade Log and not Period comparison.",
+      "replacement": "Remove/hide Period comparison from Research & Backtest."
+    },
+    {
+      "target": "Separate E1R v0.2 Market/OOS, 5Y Backtest, Forward/OOS panels",
+      "reason": "Standalone appended panels fragment the page.",
+      "replacement": "Merge into unified curve, summary comparison, and market state section."
+    },
+    {
+      "target": "Old text: Main engine migration / OOS tracking not yet completed",
+      "reason": "Stale/confusing after Stage 3.5/3.6 integration.",
+      "replacement": "Use frozen artifact + paper tracking status language."
+    },
+    {
+      "target": "E2 Dynamic Exit large note",
+      "reason": "E2 is deprecated and should not occupy main Research & Backtest attention.",
+      "replacement": "Small legacy note only, or move to collapsed diagnostics."
+    }
+  ],
+  "files_inspected": {
+    "dashboard_app": "dashboard/app.js",
+    "dashboard_styles": "dashboard/styles.css",
+    "dashboard_index": "dashboard/index.html",
+    "relevant_exports": [
+      "exports/backtest.json",
+      "exports/trade_log.json",
+      "exports/e1r_v0_2_status.json",
+      "exports/e1r_v0_2_backtest_summary.json",
+      "exports/e1r_v0_2_backtest_equity_curve.json",
+      "exports/oos_summary.json",
+      "exports/oos_positions.json",
+      "exports/oos_trades.json",
+      "exports/oos_equity_curve.json",
+      "exports/oos_orders.json",
+      "exports/oos_e1r_v0_2_summary.json",
+      "exports/oos_e1r_v0_2_sidecar.json",
+      "exports/oos_e1r_v0_2_positions.json",
+      "exports/oos_e1r_v0_2_orders.json",
+      "exports/oos_e1r_v0_2_equity_curve.json",
+      "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+      "exports/oos_e1r_v0_2_sidecar_turnover.json",
+      "exports/market_regime.json",
+      "exports/leaderboard.json",
+      "exports/watchlist.json"
+    ]
+  },
+  "current_dashboard": {
+    "app_lines": 1303,
+    "css_lines": 398,
+    "index_lines": 43,
+    "existing_blocks": {
+      "has_legacy_e1r_research_summary": true,
+      "has_period_comparison": true,
+      "has_trade_log": true,
+      "has_e1r_v02_module": true,
+      "has_e1r_v02_market_panel": true,
+      "has_e1r_v02_5y_panel": true,
+      "has_e1r_v02_forward_panel": true,
+      "has_e2_deprecated_note": true,
+      "has_main_engine_migration_not_completed_text": true
+    },
+    "function_like_blocks": [
+      "buildEquityDateLabels",
+      "chartKeyForPreview",
+      "e1rAsArray",
+      "e1rCreateOrGetPanel",
+      "e1rEscapeHtml",
+      "e1rFetchJson",
+      "e1rFindTarget",
+      "e1rInit",
+      "e1rLatest",
+      "e1rMetric",
+      "e1rNumber",
+      "e1rPercent",
+      "e1rPick",
+      "e1rRenderAll",
+      "e1rRenderBacktest",
+      "e1rRenderOosEquity",
+      "e1rRenderStatus",
+      "e1rRenderUnavailable",
+      "fetchResearchJ",
+      "getStockChartPayload",
+      "render",
+      "renderE1RResearchPanel",
+      "renderStockPreviewChart"
+    ],
+    "export_references": [
+      "../exports/e1r_v0_2_backtest_equity_curve.json",
+      "../exports/e1r_v0_2_backtest_summary.json",
+      "../exports/e1r_v0_2_status.json",
+      "../exports/oos_e1r_v0_2_equity_curve.json",
+      "../exports/oos_e1r_v0_2_orders.json",
+      "../exports/oos_e1r_v0_2_positions.json",
+      "../exports/oos_e1r_v0_2_sidecar.json",
+      "../exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+      "../exports/oos_e1r_v0_2_sidecar_turnover.json",
+      "../exports/oos_e1r_v0_2_summary.json"
+    ],
+    "dom_strings_sample": [
+      "\n  };\n\n  const E1R_V02_CLASSES = {\n    statusCard: ",
+      " && simEndDate!==lbAsOf);\n\n    const allTrades=e1.trades||[];\n    const simEnd=allTrades.filter(t=>t.is_sim_end);\n    const recentClosed=allTrades.filter(t=>!t.is_sim_end).slice(-5).reverse();\n    const leaders=DATA.leaderboard||[];\n\n    let h=`<div class=",
+      " : Number(v).toFixed(d);\n\n  const fullRet = fm.total_return_pct ?? e1r?.total_return_pct ?? reg?.summary?.e1r_full_return_pct ?? reg?.e1r_full_return_pct;\n  const maxDD   = fm.max_drawdown_pct ?? e1r?.max_drawdown_pct ?? reg?.summary?.e1r_max_drawdown_pct ?? reg?.e1r_max_drawdown_pct;\n  const pf      = fm.profit_factor ?? e1r?.profit_factor ?? reg?.summary?.e1r_profit_factor ?? reg?.e1r_profit_factor;\n  const sharpe  = fm.sharpe_ratio ?? e1r?.sharpe_ratio ?? e1r?.sharpe ?? reg?.summary?.e1r_sharpe ?? reg?.e1r_sharpe;\n  const trades  = fm.number_of_trades ?? e1r?.number_of_trades ?? e1r?.num_trades ?? e1r?.trades_count ?? reg?.summary?.e1r_trades;\n  const alpha   = fm.alpha_pct;\n  const exposure= fm.exposure_pct;\n\n  const up = reg?.regime_attribution?.UPTREND || reg?.regime_results?.UPTREND || reg?.UPTREND || {};\n  const upE1R = up?.e1r_return_pct ?? up?.e1r_total_return_pct ?? 70.92;\n  const upE1  = up?.e1_return_pct ?? up?.e1_total_return_pct ?? 10.63;\n  const upDelta = up?.delta_pct ?? up?.excess_pct ?? 60.29;\n\n  const r3i = s3i?.rule_results?.UPGRADE_WATCH_RECOVERY || s3i?.UPGRADE_WATCH_RECOVERY || {};\n  const r3ir = s3ir?.robustness_summary || s3ir?.summary || {};\n  const r3k = s3k?.summary || s3k?.decision || {};\n\n  const pass3ir = r3ir?.checks_passed ?? r3ir?.passed_checks ?? ",
+      " ? e1rNumber(coreEquity) : coreEquity)}\n        ${e1rMetric(",
+      " ? e1rNumber(sidecarEquity) : sidecarEquity)}\n        ${e1rMetric(",
+      "${E1R_V02_CLASSES.grid}",
+      ").catch(()=>null),\n      fetchResearchJ(",
+      ").catch(()=>null),\n    ]);\n    DATA.watchlist=wl.watchlist||[]; DATA.lifecycle=lc.regimes||{};\n    DATA.health=dh; DATA.backtest=bt; DATA.tradelog=tlog;\n    DATA.stockCharts=(sc&&sc.symbols)||{};\n    DATA.oosEquity=oosEq;\n    DATA.e1rRegime=e1rReg; DATA.e1rConfirmed=e1rConf;\n    DATA.e1rSideways3i=e1r3i; DATA.e1rSideways3ir=e1r3ir; DATA.e1rSideways3k=e1r3k; DATA.e1rFormal=e1rFormal;\n\n    [",
+      ").getTime();\n\n          if(!Number.isFinite(startMs) || !Number.isFinite(endMs) || endMs <= startMs){\n            return Array.from({length:n}, (_, i) => String(i));\n          }\n\n          return Array.from({length:n}, (_, i) => {\n            const t = startMs + (endMs - startMs) * i / (n - 1);\n            return new Date(t).toISOString().slice(0, 10);\n          });\n        };\n\n        const btLabels = buildEquityDateLabels(eqCurve.length);\n\n        const oosRows = (DATA.oosEquity?.curve || [])\n          .filter(r => r && r.date && r.equity != null);\n\n        const oosDates = oosRows.map(r => String(r.date));\n        const extraOosDates = oosDates.filter(d => !btLabels.includes(d));\n        const labels = btLabels.concat(extraOosDates);\n\n        const padAfter = labels.length - btLabels.length;\n        const pad = n => Array.from({length:n}, () => null);\n\n        const e1BacktestData = e1I.concat(pad(padAfter));\n        const spxData = spxI.concat(pad(padAfter));\n        const e1rData = e1rI.concat(pad(Math.max(0, labels.length - e1rI.length)));\n\n        // Extend SPX benchmark through OOS using Market Overview SPX chart.\n        // This keeps SPX buy & hold comparable with E1 OOS forward.\n        const spxAnchor = spxI[spxI.length-1] || 100;\n        const spxIx = DATA.market?.indices?.SPX || {};\n        const spxChartDates = spxIx.chart_dates || [];\n        const spxChartPrices = spxIx.chart_prices || [];\n        const btEndDate = e1.sample_validity?.simulation_end_date || labels[btLabels.length-1];\n\n        if(spxChartDates.length && spxChartPrices.length && btEndDate){\n          let baseIdx = spxChartDates.findIndex(d => String(d) >= String(btEndDate));\n          if(baseIdx < 0) baseIdx = spxChartDates.length - 1;\n\n          const baseClose = Number(spxChartPrices[baseIdx] || 0);\n          if(baseClose > 0){\n            spxData[btLabels.length-1] = spxAnchor;\n            labels.forEach((d, idx) => {\n              if(idx < btLabels.length) return;\n              const j = spxChartDates.indexOf(String(d));\n              if(j >= 0){\n                spxData[idx] = parseFloat(((Number(spxChartPrices[j] || 0) / baseClose) * spxAnchor).toFixed(2));\n              }\n            });\n          }\n        }\n\n        const e1Anchor = e1I[e1I.length-1] || 100;\n        const oosStartEquity = Number(oosRows[0]?.equity || 0) || 1;\n        const oosForwardData = Array.from({length:labels.length}, () => null);\n\n        if(oosRows.length){\n          oosForwardData[btLabels.length-1] = e1Anchor;\n          oosRows.forEach(r => {\n            const idx = labels.indexOf(String(r.date));\n            if(idx >= 0){\n              oosForwardData[idx] = parseFloat(((Number(r.equity || 0) / oosStartEquity) * e1Anchor).toFixed(2));\n            }\n          });\n        }\n\n        const oosStartDate = oosDates[0] || null;\n        const oosStartIndex = oosStartDate ? labels.indexOf(oosStartDate) : -1;\n\n        const shortDate = v => String(v).slice(2, 7);\n\n        const ds=[\n          {label:",
+      ");\n\n    const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];\n    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];\n    const oosRowsForNote=(DATA.oosEquity?.curve||[]);\n    const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||",
+      ");\n      }\n    },80);\n  }\n\n  // ── Tab 5: Research & Backtest ────────────────────────\n  if (tab===",
+      ");\n    panel.id = id;\n    panel.className = className || E1R_V02_CLASSES.statusCard;\n    panel.setAttribute(",
+      ");\n    });\n  });\n  // mouseleave 不清空（保留当前图）— 不绑定 mouseleave 清空逻辑\n  // 默认显示第一只\n  const firstSym = symbolGetter(rows[0]);\n  if(firstSym) showFor(firstSym);\n}\n\n\nasync function fetchJ(name) {\n  const r = await fetch(`${EXPORTS_BASE}/${name}.json?t=${Date.now()}`);\n  if (!r.ok) throw new Error(`${name}.json: HTTP ${r.status}`);\n  return r.json();\n}\n\nasync function fetchResearchJ(name) {\n  const r = await fetch(`${RESEARCH_BASE}/${name}.json?t=${Date.now()}`);\n  if (!r.ok) throw new Error(`${name}.json: HTTP ${r.status}`);\n  return r.json();\n}\n\nasync function loadAll() {\n  [",
+      ");\n}\n\n\nfunction renderE1RResearchPanel(vr){\n  const reg=DATA.e1rRegime, conf=DATA.e1rConfirmed, s3i=DATA.e1rSideways3i, s3ir=DATA.e1rSideways3ir, s3k=DATA.e1rSideways3k;\n  const formal=DATA.e1rFormal||{}, fm=formal.metrics||{};\n  const e1r=vr?.E1R_REGIME_AWARE_V0_1;\n  if(!reg && !conf && !s3i && !s3ir && !s3k && !e1r && !formal.variant_id) return ",
+      "); if(!el)return;\n        if(charts.equity)charts.equity.destroy();\n\n        const e1Start=eqCurve[0]||1, spxStart=spxCurve[0]||1, e1rStart=e1rCurve[0]||1;\n        const e1I=eqCurve.map(v=>parseFloat(((v/e1Start)*100).toFixed(2)));\n        const spxI=spxCurve.map(v=>parseFloat(((v/spxStart)*100).toFixed(2)));\n        const e1rI=e1rCurve.map(v=>parseFloat(((v/e1rStart)*100).toFixed(2)));\n\n        const buildEquityDateLabels = (n) => {\n          const sv = e1.sample_validity || {};\n          const startDate = sv.simulation_start_date || e1.simulation_start_date || null;\n          const endDate = sv.simulation_end_date || e1.simulation_end_date || null;\n\n          if(!startDate || !endDate || n <= 1){\n            return Array.from({length:n}, (_, i) => String(i));\n          }\n\n          const startMs = new Date(startDate + ",
+      ",\n    backtestEquity: ",
+      ",\n    oosEquity: ",
+      ", rows.length)}\n      </div>\n    `;\n  }\n\n  async function e1rRenderAll() {\n    if (!document || !document.body) return;\n\n    const [\n      statusResult,\n      summaryResult,\n      sidecarResult,\n      positionsResult,\n      ordersResult,\n      oosEquityResult,\n      lifecycleResult,\n      turnoverResult,\n      backtestSummaryResult,\n      backtestEquityResult\n    ] = await Promise.all([\n      e1rFetchJson(E1R_V02_PATHS.status),\n      e1rFetchJson(E1R_V02_PATHS.oosSummary),\n      e1rFetchJson(E1R_V02_PATHS.sidecar),\n      e1rFetchJson(E1R_V02_PATHS.positions),\n      e1rFetchJson(E1R_V02_PATHS.orders),\n      e1rFetchJson(E1R_V02_PATHS.oosEquity),\n      e1rFetchJson(E1R_V02_PATHS.lifecycle),\n      e1rFetchJson(E1R_V02_PATHS.turnover),\n      e1rFetchJson(E1R_V02_PATHS.backtestSummary),\n      e1rFetchJson(E1R_V02_PATHS.backtestEquity)\n    ]);\n\n    e1rRenderStatus(statusResult, summaryResult, sidecarResult);\n    e1rRenderBacktest(backtestSummaryResult, backtestEquityResult);\n    e1rRenderOosEquity(oosEquityResult, lifecycleResult, turnoverResult);\n\n    window.__E1R_V02_DASHBOARD_LAST_RESULT__ = {\n      status: statusResult.ok,\n      oosSummary: summaryResult.ok,\n      sidecar: sidecarResult.ok,\n      positions: positionsResult.ok,\n      orders: ordersResult.ok,\n      oosEquity: oosEquityResult.ok,\n      lifecycle: lifecycleResult.ok,\n      turnover: turnoverResult.ok,\n      backtestSummary: backtestSummaryResult.ok,\n      backtestEquity: backtestEquityResult.ok\n    };\n  }\n\n  function e1rInit() {\n    if (window.__E1R_V02_DASHBOARD_INITIALIZED__) return;\n    window.__E1R_V02_DASHBOARD_INITIALIZED__ = true;\n    e1rRenderAll();\n  }\n\n  window.E1RV02Dashboard = {\n    init: e1rInit,\n    renderAll: e1rRenderAll,\n    paths: E1R_V02_PATHS\n  };\n\n  if (document.readyState === ",
+      ", typeof coreEquity === ",
+      ", typeof sidecarEquity === ",
+      ",data:e1BacktestData,borderColor:",
+      ";\n\n  const E1R_V02_PATHS = {\n    status: ",
+      ";return;}\n\n    const e1rPanel = renderE1RResearchPanel(vr);\n\n    const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};\n    const pA=pc[",
+      ">\n        <h4>UPTREND Confirmed</h4>\n        <p>E1-R ${nfmt(upE1R)} vs E1 ${nfmt(upE1)}，delta ${nfmt(upDelta)}。</p>\n        <div class=",
+      ">\n        Backtest as-of: <strong>${simEndDate}</strong>\n      </span>\n      <span style=",
+      ">\n        模拟期内无未平仓仓位。OOS 阶段持仓将在此显示。\n      </div>`;\n    }\n    h+=`</div></div>`;\n\n    // ── 最近平仓 ───────────────────────────────────────────\n    if(recentClosed.length>0){\n      const recentRows=recentClosed.map(t=>{\n        const ret=t.return_pct||0, rc=ret>=0?",
+      ">\n      <div>\n        <h3>🧪 E1-R Research Summary</h3>\n        <div class=",
+      ">\n      <strong>E2 Dynamic Exit — 已归档</strong> &nbsp;·&nbsp;\n      V2 全面失败（Full −21.9%，MaxDD 51.1%，PF 0.83）&nbsp;·&nbsp;\n      不开发 E3 &nbsp;·&nbsp; No E2_V3. Dynamic Exit route terminated after failing acceptance criteria &nbsp;·&nbsp; 修改须建立新候选版本，不覆盖 E1 基准\n    </div>`;\n    h+=`<p class=",
+      ">\n      <strong>OOS log — 从 2026-06-16 起</strong> &nbsp;·&nbsp;\n      只追加不回写 &nbsp;·&nbsp;\n      至少积累 6个月或 20 笔完整交易后才做第一次验收 &nbsp;·&nbsp;\n      OOS 期间 E1 参数冻结\n    </div>`;\n    h+=`<div class=",
+      ">\n      ℹ️ <strong>E1 Model Positions</strong> — 以下为 E1 回测在模拟结束日（${simEndDate}）仍未平仓的模型仓位（SIM_END）。\n      这不是用户实际持仓。OOS 阶段将由每日 E1 forward portfolio 文件替代。\n    </div>`;\n\n    // ── 持仓表 ─────────────────────────────────────────────\n    h+=`<div class=",
+      "><div>Trades</div><strong>${trades??",
+      "><table>\n        <thead><tr><th>Period</th><th>E1 return</th><th>SPX</th><th>Alpha</th><th>MaxDD</th><th>PF</th><th>Sharpe</th><th>Trades</th></tr></thead>\n        <tbody>\n          <tr><td>A (Nov ",
+      ">E1R v0.2 is shown as paper tracking only. No broker execution is connected from this dashboard module.</div>\n    `;\n  }\n\n  function e1rRenderBacktest(summaryResult, equityResult) {\n    const panel = e1rCreateOrGetPanel(\n      ",
+      ">E1R_REGIME_AWARE_V0_1</span>\n    </div>\n\n    <div class=",
+      ">Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class=",
+      ">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||",
+      ">Formal backtest available from 5Y research export. Main engine migration / OOS tracking not yet completed.</div>\n      </div>\n      <span class=",
+      ">Period comparison</div><div class=",
+      ">Trade log — recent 20 trades</div><div class=",
+      ">Trades</div><div class=",
+      "E1 OOS forward",
+      "E1-R backtest",
+      "E1R v0.2 5Y Backtest",
+      "E1R v0.2 Forward / OOS Equity",
+      "E1R v0.2 Market / OOS Status",
+      "Equity rows",
+      "OOS start",
+      "]);\n    const coreEquity = e1rPick(latest, [",
+      "]);\n    const sidecarEquity = e1rPick(latest, [",
+      "],\n      E1R_V02_CLASSES.backtestCard\n    );\n\n    if (!summaryResult.ok && !equityResult.ok) {\n      e1rRenderUnavailable(panel, ",
+      "],\n      E1R_V02_CLASSES.equityCard\n    );\n\n    if (!equityResult.ok) {\n      e1rRenderUnavailable(panel, ",
+      "],\n      E1R_V02_CLASSES.statusCard\n    );\n\n    if (!statusResult.ok && !summaryResult.ok) {\n      e1rRenderUnavailable(panel, ",
+      "} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</div>\n      </div></div>`;\n    }\n\n    h+=`<div class=",
+      "};\n\nlet DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null,oosEquity:null,e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null,e1rFormal:null};\nlet charts = {};\n\nconst $   = id => document.getElementById(id);\nconst p2  = (v,d=2) => parseFloat(v||0).toFixed(d);\nconst sgn = v => v>=0?",
+      "}}\n          }\n        },plugins:[oosLinePlugin]});\n      },80);\n    }\n  }\n\n} // end render()\n\nloadAll();\n\n/* === E1R_V0_2_DASHBOARD_MODULE_STAGE_3_4_CLEAN_INTEGRATION === */\n(function () {\n  "
+    ]
+  },
+  "export_summaries": [
+    {
+      "path": "exports/backtest.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 414344,
+      "type": "dict",
+      "top_level_keys": [
+        "backtest",
+        "generated_at",
+        "generated_at_display"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1",
+        "contains_E2",
+        "contains_SPX",
+        "contains_trade_like_keys",
+        "contains_equity_like_keys",
+        "contains_oos_like_keys",
+        "contains_market_state_like_keys"
+      ]
+    },
+    {
+      "path": "exports/trade_log.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 79490,
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "generated_at_display",
+        "total_trades",
+        "trades"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_trade_like_keys"
+      ]
+    },
+    {
+      "path": "exports/e1r_v0_2_status.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 1587,
+      "type": "dict",
+      "top_level_keys": [
+        "core",
+        "e1r_market_state",
+        "generated_at",
+        "legacy_market_state",
+        "mutually_exclusive_state_model",
+        "notes",
+        "regime",
+        "research_status",
+        "sidecar",
+        "source_files",
+        "status_date",
+        "strategy_id",
+        "subclass",
+        "version"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1R_v0_1",
+        "contains_E1R_v0_2",
+        "contains_SPX",
+        "contains_trade_like_keys",
+        "contains_market_state_like_keys"
+      ]
+    },
+    {
+      "path": "exports/e1r_v0_2_backtest_summary.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 941,
+      "type": "dict",
+      "top_level_keys": [
+        "alpha_pct",
+        "artifact_type",
+        "composition_exists",
+        "frozen_artifact",
+        "max_drawdown_pct",
+        "profit_factor",
+        "regeneration_note",
+        "regime_aware_logic",
+        "research_status",
+        "row_count",
+        "sharpe_ratio",
+        "sidecar_active_by_regime",
+        "sidecar_active_by_subclass",
+        "sidecar_active_days",
+        "source_file",
+        "source_json_path",
+        "spx_return_pct",
+        "strategy_id",
+        "total_return_pct",
+        "variant"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1R_v0_2",
+        "contains_SPX",
+        "contains_trade_like_keys",
+        "contains_market_state_like_keys"
+      ]
+    },
+    {
+      "path": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 16004713,
+      "type": "dict",
+      "top_level_keys": [
+        "artifact_type",
+        "equity_curve",
+        "frozen_artifact",
+        "regeneration_note",
+        "row_count",
+        "rows",
+        "source_file",
+        "source_json_path",
+        "variant"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1R_v0_2",
+        "contains_SPX",
+        "contains_trade_like_keys",
+        "contains_equity_like_keys",
+        "contains_market_state_like_keys"
+      ]
+    },
+    {
+      "path": "exports/oos_summary.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 343,
+      "type": "dict",
+      "top_level_keys": [
+        "expected_market_date",
+        "generated_at",
+        "generated_at_display",
+        "last_market_date",
+        "last_successful_run",
+        "run_date",
+        "stale_reason",
+        "status"
+      ],
+      "array_length": null,
+      "detected_features": []
+    },
+    {
+      "path": "exports/oos_positions.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 1186,
+      "type": "dict",
+      "top_level_keys": [
+        "as_of",
+        "cash",
+        "generated_at",
+        "generated_at_display",
+        "pending_orders",
+        "positions",
+        "strategy_id"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1",
+        "contains_trade_like_keys",
+        "contains_oos_like_keys"
+      ]
+    },
+    {
+      "path": "exports/oos_trades.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 191,
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "generated_at_display",
+        "strategy_id",
+        "total_trades",
+        "trades"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1"
+      ]
+    },
+    {
+      "path": "exports/oos_equity_curve.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 2136,
+      "type": "dict",
+      "top_level_keys": [
+        "curve",
+        "generated_at",
+        "generated_at_display",
+        "initial_capital",
+        "strategy_id"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1",
+        "contains_equity_like_keys",
+        "contains_oos_like_keys"
+      ]
+    },
+    {
+      "path": "exports/oos_orders.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 2773,
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "generated_at_display",
+        "orders",
+        "strategy_id"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1",
+        "contains_trade_like_keys",
+        "contains_oos_like_keys"
+      ]
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_summary.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 873,
+      "type": "dict",
+      "top_level_keys": [
+        "core_active",
+        "equity_status",
+        "execution_status",
+        "generated_at",
+        "gross_exposure",
+        "market_state",
+        "mutually_exclusive_state_model",
+        "notes",
+        "phase",
+        "regime",
+        "research_status",
+        "sidecar_active",
+        "sidecar_selected_count",
+        "status_date",
+        "strategy_id",
+        "subclass",
+        "top_n",
+        "version"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1R_v0_2",
+        "contains_equity_like_keys",
+        "contains_oos_like_keys",
+        "contains_market_state_like_keys"
+      ]
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 507,
+      "type": "dict",
+      "top_level_keys": [
+        "active",
+        "active_condition",
+        "excluded_symbols",
+        "generated_at",
+        "gross_exposure",
+        "market_state",
+        "phase",
+        "regime",
+        "selected",
+        "selected_count",
+        "source_record_date",
+        "source_record_next_date",
+        "status_date",
+        "strategy_id",
+        "subclass",
+        "top_n"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1R_v0_2",
+        "contains_trade_like_keys",
+        "contains_market_state_like_keys"
+      ]
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_positions.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 446,
+      "type": "dict",
+      "top_level_keys": [
+        "core",
+        "generated_at",
+        "market_state",
+        "phase",
+        "sidecar",
+        "status_date",
+        "strategy_id"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1R_v0_1",
+        "contains_E1R_v0_2",
+        "contains_oos_like_keys",
+        "contains_market_state_like_keys"
+      ]
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_orders.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 255,
+      "type": "dict",
+      "top_level_keys": [
+        "execution_status",
+        "generated_at",
+        "market_state",
+        "orders",
+        "phase",
+        "status_date",
+        "strategy_id"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1R_v0_2",
+        "contains_oos_like_keys",
+        "contains_market_state_like_keys"
+      ]
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_equity_curve.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 2632,
+      "type": "dict",
+      "top_level_keys": [
+        "curve_type",
+        "end_date",
+        "equity_status",
+        "execution_status",
+        "generated_at",
+        "latest",
+        "notes",
+        "phase",
+        "records",
+        "row_count",
+        "start_date",
+        "strategy_id"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1R_v0_2",
+        "contains_trade_like_keys",
+        "contains_equity_like_keys",
+        "contains_oos_like_keys",
+        "contains_market_state_like_keys"
+      ]
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 2557,
+      "type": "dict",
+      "top_level_keys": [
+        "end_date",
+        "execution_status",
+        "generated_at",
+        "latest",
+        "notes",
+        "phase",
+        "records",
+        "row_count",
+        "source",
+        "start_date",
+        "strategy_id"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1R_v0_2",
+        "contains_trade_like_keys",
+        "contains_equity_like_keys",
+        "contains_oos_like_keys",
+        "contains_market_state_like_keys"
+      ]
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar_turnover.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 1924,
+      "type": "dict",
+      "top_level_keys": [
+        "average_one_way_turnover",
+        "end_date",
+        "execution_status",
+        "generated_at",
+        "latest",
+        "notes",
+        "phase",
+        "records",
+        "row_count",
+        "source",
+        "start_date",
+        "strategy_id"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_E1R_v0_2",
+        "contains_trade_like_keys",
+        "contains_equity_like_keys",
+        "contains_oos_like_keys",
+        "contains_market_state_like_keys"
+      ]
+    },
+    {
+      "path": "exports/market_regime.json",
+      "exists": false,
+      "valid_json": false,
+      "json_error": "missing",
+      "size_bytes": 0,
+      "type": null,
+      "top_level_keys": [],
+      "array_length": null,
+      "detected_features": []
+    },
+    {
+      "path": "exports/leaderboard.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 10946,
+      "type": "dict",
+      "top_level_keys": [
+        "data_source",
+        "generated_at",
+        "generated_at_display",
+        "leaders",
+        "phase"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_trade_like_keys"
+      ]
+    },
+    {
+      "path": "exports/watchlist.json",
+      "exists": true,
+      "valid_json": true,
+      "json_error": null,
+      "size_bytes": 11073,
+      "type": "dict",
+      "top_level_keys": [
+        "data_source",
+        "generated_at",
+        "generated_at_display",
+        "phase",
+        "watchlist"
+      ],
+      "array_length": null,
+      "detected_features": [
+        "contains_trade_like_keys"
+      ]
+    }
+  ],
+  "data_source_map": {
+    "e1_historical_backtest": {
+      "primary": "exports/backtest.json",
+      "available": true,
+      "notes": "Use frozen E1_AUDITED_G4_MINHOLD10 historical curve/summary if exposed by backtest.json."
+    },
+    "e1_trade_log": {
+      "primary": "exports/trade_log.json",
+      "available": true,
+      "notes": "Use existing trade log if available; otherwise derive display-only rows from available logs."
+    },
+    "e1_forward_oos": {
+      "primary_candidates": [
+        "exports/oos_summary.json",
+        "exports/oos_positions.json",
+        "exports/oos_trades.json",
+        "exports/oos_equity_curve.json",
+        "exports/oos_orders.json"
+      ],
+      "available": true,
+      "notes": "Forward tracking for E1 should be displayed as benchmark/control if data exists."
+    },
+    "e1r_historical_summary": {
+      "primary": "exports/e1r_v0_2_backtest_summary.json",
+      "available": true,
+      "notes": "Frozen research artifact, not independent OOS."
+    },
+    "e1r_historical_equity": {
+      "primary": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "available": true,
+      "notes": "Frozen research artifact discovered and normalized in Stage 3.5."
+    },
+    "e1r_forward_oos": {
+      "primary_candidates": [
+        "exports/oos_e1r_v0_2_summary.json",
+        "exports/oos_e1r_v0_2_positions.json",
+        "exports/oos_e1r_v0_2_orders.json",
+        "exports/oos_e1r_v0_2_equity_curve.json",
+        "exports/oos_e1r_v0_2_sidecar.json",
+        "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+        "exports/oos_e1r_v0_2_sidecar_turnover.json"
+      ],
+      "available": true,
+      "notes": "Forward paper tracking candidate. Should be compared against E1 and SPX."
+    },
+    "market_state": {
+      "primary_candidates": [
+        "exports/e1r_v0_2_status.json",
+        "exports/market_regime.json",
+        "exports/oos_e1r_v0_2_summary.json"
+      ],
+      "available": true,
+      "notes": "Only keep market state below Trade Log in the target layout."
+    }
+  },
+  "refactor_risks": [
+    "Legacy E1-R v0.1 research block is still present and should be removed/hidden in the new layout.",
+    "Period comparison is still present; user explicitly asked to remove it.",
+    "E1R v0.2 panels are currently appended as standalone blocks; they should be merged into unified curve/summary/market-state sections.",
+    "Stale text says main engine migration/OOS tracking not completed; replace with frozen artifact + paper tracking language."
+  ],
+  "recommended_stage_3_8b_actions": [
+    "Replace fragmented Research & Backtest content with four-section layout: unified curve, summary comparison, trade log, market state.",
+    "Hide/remove Period comparison from Research & Backtest.",
+    "Hide/remove legacy E1-R v0.1 top summary block or move it into a collapsed legacy/research-note section.",
+    "Merge E1R v0.2 standalone panels into unified summary/curve/market-state sections.",
+    "Keep E1 and E1R strategy logic frozen; only normalize existing JSON for display.",
+    "Add labels distinguishing historical frozen research artifacts from live forward paper tracking.",
+    "Keep Trade Log below summary; keep Market State below Trade Log.",
+    "Make missing/partial forward data explicit rather than displaying misleading N/A."
+  ],
+  "acceptance_criteria_for_stage_3_8b": [
+    "Research & Backtest shows one unified E1/E1R/SPX curve block.",
+    "Research & Backtest shows one combined E1 vs E1R vs SPX summary comparison.",
+    "Period comparison is absent.",
+    "Trade log is visible and not buried under period analysis.",
+    "Only market state/context remains below Trade Log.",
+    "E1R v0.2 historical numbers are labeled as frozen research artifacts.",
+    "Forward metrics are labeled as paper tracking and update from OOS exports.",
+    "No E1/E1R strategy logic files are modified.",
+    "No exports/backtest.json mutation is required."
+  ],
+  "next_stage": "Stage 3.8B Research & Backtest dashboard refactor implementation."
+}
