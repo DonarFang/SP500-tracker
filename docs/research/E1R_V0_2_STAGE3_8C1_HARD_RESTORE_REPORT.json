@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-07-07T12:43:13.165935+00:00",
+  "stage": "B_STAGE_3_8C1_HARD_RESTORE_DASHBOARD",
+  "status": "RESTORED_DASHBOARD_FILES_TO_PRE_STAGE_3_8B",
+  "restored_from_commit": "c9ed868",
+  "files_restored": [
+    "dashboard/app.js",
+    "dashboard/styles.css"
+  ],
+  "strategy_logic_changed": false,
+  "exports_changed": false,
+  "reason": "Stage 3.8B runtime module took over the whole dashboard. Stage 3.8C-0 auto-init containment was insufficient, so dashboard files are restored to pre-3.8B state."
+}
