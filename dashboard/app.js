@@ -2072,10 +2072,16 @@ loadAll();
     paths: RB38B_PATHS
   };
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", rb38bInit);
-  } else {
-    rb38bInit();
-  }
+  /*
+   * Stage 3.8C-0 emergency containment:
+   * Disable Stage 3.8B auto-init because it was taking over the whole dashboard
+   * instead of rendering only inside the Research & Backtest tab.
+   *
+   * The module remains available for diagnosis via:
+   *   window.RB38BResearchBacktest
+   *
+   * Do NOT call rb38bInit automatically.
+   */
+  window.__RB38B_AUTO_INIT_DISABLED__ = true;
 })();
 /* === END E1R_V0_2_STAGE3_8B_RESEARCH_BACKTEST_REFACTOR === */

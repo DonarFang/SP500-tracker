@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-07-07T12:40:06.327537+00:00",
+  "stage": "B_STAGE_3_8C0_EMERGENCY_CONTAINMENT",
+  "status": "DISABLED_STAGE_3_8B_AUTO_TAKEOVER",
+  "reason": "Stage 3.8B module auto-initialized on page load and took over the whole dashboard instead of being scoped to Research & Backtest tab.",
+  "strategy_logic_changed": false,
+  "dashboard_files_changed": [
+    "dashboard/app.js"
+  ],
+  "css_changed": false,
+  "exports_changed": false,
+  "node_check": {
+    "node_available": false,
+    "status": "SKIPPED"
+  },
+  "next": "Verify dashboard 5 tabs are restored, then implement Stage 3.8C with tab-scoped rendering only."
+}
