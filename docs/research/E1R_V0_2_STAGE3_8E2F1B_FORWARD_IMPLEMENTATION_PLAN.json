@@ -1,0 +1,301 @@
+{
+  "generated_at": "2026-07-08T06:41:50.180348+00:00",
+  "stage": "B_STAGE_3_8E2F1B_E1R_FORWARD_IMPLEMENTATION_PLAN",
+  "status": "PLAN_COMPLETE_NO_ENGINE_CHANGES",
+  "main": {
+    "branch": "main",
+    "head": "4ba7133"
+  },
+  "source_audit_basis": {
+    "audit_file": "docs/research/E1R_V0_2_STAGE3_8E2F1A_FORWARD_SOURCE_AUDIT.json",
+    "audit_stage": "B_STAGE_3_8E2F1A_E1R_FORWARD_IMPLEMENTATION_SOURCE_AUDIT",
+    "audit_head": "c16b2d6",
+    "audit_assessment": "E1 has a real OOS tracking engine. E1R currently has separate scaffolding scripts for status/equity artifacts but does not yet produce a full forward performance summary. Stage 3.8E-2F-1 likely needs either a dedicated E1R OOS engine that mirrors E1 tracking or a wrapper that reuses src/oos tracking primitives with E1R target positions/actions."
+  },
+  "policy": {
+    "source_changed": false,
+    "dashboard_changed": false,
+    "exports_changed": false,
+    "strategy_logic_changed": false
+  },
+  "decision": {
+    "reuse_e1_accounting_primitives": true,
+    "share_e1_state_file": false,
+    "official_e1r_runner": "scripts/run_e1r_v0_2_oos.py",
+    "dedicated_e1r_state_namespace": true,
+    "dashboard_after_export": true,
+    "recommended_path": "Reuse E1 OOS accounting/export primitives through an E1R-specific runner and E1R-specific state/export namespace."
+  },
+  "current_exports": {
+    "e1": {
+      "summary": "exports/oos_summary.json",
+      "equity_curve": "exports/oos_equity_curve.json",
+      "orders": "exports/oos_orders.json",
+      "positions": "exports/oos_positions.json",
+      "trades": "exports/oos_trades.json",
+      "state": "data/oos/portfolio_state.json"
+    },
+    "e1r_existing_scaffold": {
+      "summary": "exports/oos_e1r_v0_2_summary.json",
+      "equity_curve": "exports/oos_e1r_v0_2_equity_curve.json",
+      "orders": "exports/oos_e1r_v0_2_orders.json",
+      "positions": "exports/oos_e1r_v0_2_positions.json",
+      "sidecar": "exports/oos_e1r_v0_2_sidecar.json",
+      "status": "exports/e1r_v0_2_status.json"
+    }
+  },
+  "proposed_files_to_add": [
+    "data/oos/e1r_v0_2_portfolio_state.json",
+    "data/oos/e1r_v0_2_events.jsonl",
+    "data/oos/e1r_v0_2_run_history.jsonl"
+  ],
+  "proposed_files_to_modify": [
+    {
+      "file": "scripts/run_e1r_v0_2_oos.py",
+      "purpose": "Make this the official E1R v0.2 forward runner. Generate daily target/actions, update E1R-only state, and write performance exports.",
+      "risk": "medium"
+    },
+    {
+      "file": "scripts/run_e1r_v0_2_oos_equity.py",
+      "purpose": "Either fold into official runner or make it a helper for E1R daily mark-to-market. Avoid duplicate accounting ownership.",
+      "risk": "medium"
+    },
+    {
+      "file": "src/oos/portfolio_state.py",
+      "purpose": "Reuse or lightly generalize portfolio state primitives only if needed. No E1 behavior change.",
+      "risk": "medium"
+    },
+    {
+      "file": "src/oos/tracking_engine.py",
+      "purpose": "Reuse accounting primitives if already parameterizable. Prefer wrapper over changing E1 behavior.",
+      "risk": "medium-high"
+    },
+    {
+      "file": "src/oos/exporter.py",
+      "purpose": "Reuse exporter primitives or add E1R namespace export helpers.",
+      "risk": "medium"
+    },
+    {
+      "file": ".github/workflows/update.yml",
+      "purpose": "After local smoke validation, add E1R forward runner to daily update pipeline.",
+      "risk": "medium"
+    },
+    {
+      "file": "dashboard/app.js",
+      "purpose": "Only after exports contain real forward performance fields, map summary/equity fields to UI.",
+      "risk": "low-medium"
+    }
+  ],
+  "files_not_to_modify_in_implementation": [
+    {
+      "file": "src/engine/backtest.py",
+      "reason": "Historical E1/E1R backtest rules are frozen. Do not change strategy research logic during forward kickoff."
+    },
+    {
+      "file": "src/engine/e1r_composer.py",
+      "reason": "Frozen candidate composition logic should not be tuned. Only call it as a signal/target generator if needed."
+    },
+    {
+      "file": "src/engine/e1r_sidecar_sleeve.py",
+      "reason": "Frozen sidecar rule logic should not be changed for kickoff. Only consume output/state."
+    },
+    {
+      "file": "exports/e1r_v0_2_backtest_summary.json",
+      "reason": "Historical frozen artifact; must remain a benchmark/reference, not a forward state store."
+    },
+    {
+      "file": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "reason": "Historical frozen artifact; do not overwrite with forward data."
+    }
+  ],
+  "target_schema": {
+    "official_runner": "scripts/run_e1r_v0_2_oos.py",
+    "official_strategy_id": "E1R_REGIME_AWARE_V0_2",
+    "official_state_file": "data/oos/e1r_v0_2_portfolio_state.json",
+    "official_event_log": "data/oos/e1r_v0_2_events.jsonl",
+    "official_run_history": "data/oos/e1r_v0_2_run_history.jsonl",
+    "official_exports": {
+      "exports/oos_e1r_v0_2_summary.json": {
+        "required_status_fields": [
+          "generated_at",
+          "generated_at_display",
+          "status_date",
+          "strategy_id",
+          "version",
+          "forward_start_date",
+          "official_kickoff_date",
+          "forward_day_count",
+          "tracking_status",
+          "research_status"
+        ],
+        "required_performance_fields": [
+          "portfolio_value",
+          "equity",
+          "cash",
+          "market_value",
+          "forward_return_pct",
+          "spx_forward_return_pct",
+          "alpha_pct",
+          "max_drawdown_pct",
+          "sharpe_ratio",
+          "profit_factor",
+          "number_of_trades",
+          "executed_orders_count",
+          "open_positions_count"
+        ],
+        "required_exposure_fields": [
+          "gross_exposure",
+          "net_exposure",
+          "core_exposure",
+          "sidecar_exposure"
+        ],
+        "required_regime_fields": [
+          "market_state",
+          "regime",
+          "subclass",
+          "core_active",
+          "sidecar_active",
+          "sidecar_selected_count"
+        ]
+      },
+      "exports/oos_e1r_v0_2_equity_curve.json": {
+        "row_fields": [
+          "date",
+          "portfolio_value",
+          "equity",
+          "cash",
+          "market_value",
+          "strategy_indexed",
+          "spx_value",
+          "spx_indexed",
+          "forward_return_pct",
+          "spx_forward_return_pct",
+          "alpha_pct",
+          "drawdown_pct",
+          "gross_exposure",
+          "core_exposure",
+          "sidecar_exposure",
+          "market_state",
+          "regime",
+          "subclass"
+        ]
+      },
+      "exports/oos_e1r_v0_2_orders.json": {
+        "row_fields": [
+          "date",
+          "symbol",
+          "action",
+          "reason",
+          "target_weight",
+          "previous_weight",
+          "paper_price",
+          "shares",
+          "notional",
+          "status",
+          "core_or_sidecar"
+        ]
+      },
+      "exports/oos_e1r_v0_2_positions.json": {
+        "row_fields": [
+          "date",
+          "symbol",
+          "weight",
+          "shares",
+          "entry_date",
+          "entry_price",
+          "last_price",
+          "market_value",
+          "unrealized_return_pct",
+          "core_or_sidecar"
+        ]
+      }
+    }
+  },
+  "implementation_phases": [
+    {
+      "stage": "3.8E-2F-1C",
+      "name": "Runner dry-run audit",
+      "goal": "Run existing E1R OOS scripts locally without modification and inspect exact outputs/exit codes.",
+      "code_changes": false,
+      "acceptance": [
+        "Know which scripts run cleanly.",
+        "Know which outputs are placeholders vs calculated.",
+        "No source/export commit except docs report."
+      ]
+    },
+    {
+      "stage": "3.8E-2F-1D",
+      "name": "E1R state namespace implementation",
+      "goal": "Create E1R-only state/event/run-history files and prevent contamination of E1 state.",
+      "code_changes": true,
+      "acceptance": [
+        "data/oos/portfolio_state.json unchanged by E1R runner.",
+        "data/oos/e1r_v0_2_portfolio_state.json created/updated deterministically.",
+        "Runner is idempotent for same date/prices."
+      ]
+    },
+    {
+      "stage": "3.8E-2F-1E",
+      "name": "E1R forward performance accounting",
+      "goal": "Generate E1R summary/equity/positions/orders with real performance fields.",
+      "code_changes": true,
+      "acceptance": [
+        "summary contains forward_return_pct, portfolio_value, max_drawdown_pct.",
+        "equity curve has at least one official kickoff row.",
+        "positions/orders exist even if empty.",
+        "historical backtest files unchanged."
+      ]
+    },
+    {
+      "stage": "3.8E-2F-1F",
+      "name": "Daily pipeline integration",
+      "goal": "Add official E1R forward runner to GitHub Actions daily update pipeline.",
+      "code_changes": true,
+      "acceptance": [
+        "Daily pipeline updates E1 and E1R independently.",
+        "E1 exports/state remain unchanged except normal daily update.",
+        "E1R exports update daily after market data refresh."
+      ]
+    },
+    {
+      "stage": "3.8E-2F-1G",
+      "name": "Dashboard mapping",
+      "goal": "Map E1R forward summary/equity fields into Research & Backtest.",
+      "code_changes": true,
+      "acceptance": [
+        "E1R Forward latest shows official status_date.",
+        "E1R Forward return is populated from E1R forward summary.",
+        "E1R equity curve uses forward curve, not historical backtest fallback."
+      ]
+    }
+  ],
+  "risk_controls": [
+    "Do not modify frozen historical E1R strategy/backtest logic.",
+    "Do not use E1 portfolio_state.json for E1R.",
+    "Do not label backfilled rows as official OOS.",
+    "Do not infer E1R forward performance from historical E1R backtest summary.",
+    "Use smoke tests before GitHub Actions integration.",
+    "Commit docs/audits separately from engine changes.",
+    "Keep E1 and E1R export namespaces separate."
+  ],
+  "kickoff_policy": {
+    "e1_forward_start_date": "2026-06-18",
+    "e1r_official_kickoff_date_policy": "first trading day after Stage 3.8E-2F implementation is merged and daily update runner succeeds",
+    "backfill_policy": "allowed only as BACKFILL/SHADOW diagnostics; not counted as official E1R forward test",
+    "summary_field": "official_kickoff_date",
+    "tracking_status_values": [
+      "NOT_STARTED",
+      "KICKOFF_READY",
+      "LIVE_FORWARD",
+      "BACKFILL_SHADOW",
+      "ERROR"
+    ]
+  },
+  "acceptance_for_this_stage": [
+    "Implementation route is documented.",
+    "E1/E1R state separation is documented.",
+    "Target export schema is documented.",
+    "Kickoff policy is documented.",
+    "No engine/dashboard/export files are changed."
+  ]
+}
