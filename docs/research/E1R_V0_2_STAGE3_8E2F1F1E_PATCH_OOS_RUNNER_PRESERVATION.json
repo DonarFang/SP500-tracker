@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-08T07:55:40.836406+00:00",
+  "generated_at": "2026-07-08T08:01:41.945600+00:00",
   "stage": "B_STAGE_3_8E2F1F1E_PATCH_OOS_RUNNER_PRESERVATION",
   "status": "IMPLEMENTED_SOURCE_FIX",
-  "core_status": "created_core_from_existing_oos_runner",
+  "core_status": "core_already_exists",
   "source_changes": {
     "wrapper": "scripts/run_e1r_v0_2_oos.py",
     "core": "scripts/run_e1r_v0_2_oos_core.py"
