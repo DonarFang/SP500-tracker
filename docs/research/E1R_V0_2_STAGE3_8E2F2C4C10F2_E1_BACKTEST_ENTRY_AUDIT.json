@@ -1,0 +1,1207 @@
+{
+  "generated_at": "2026-07-08T12:22:51.393428+00:00",
+  "stage": "B_STAGE_3_8E2F2C4C10F2_E1_BACKTEST_ENTRY_AUDIT",
+  "status": "E1_BACKTEST_ENTRY_AUDIT_COMPLETE_NO_EXPORTS_WRITTEN",
+  "policy": {
+    "dashboard_changed": false,
+    "exports_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "canonical_exports_written": false,
+    "long_backtest_run": false
+  },
+  "direct_run": {
+    "cmd": [
+      "/Library/Developer/CommandLineTools/usr/bin/python3",
+      "src/engine/backtest.py"
+    ],
+    "returncode": 1,
+    "ok": false,
+    "stdout_tail": "",
+    "stderr_tail": "Traceback (most recent call last):\n  File \"/Users/dongfang/Downloads/sp500-tracker-v13/src/engine/backtest.py\", line 19, in <module>\n    from ..features.rs import period_return, rs_percentile\nImportError: attempted relative import with no known parent package\n"
+  },
+  "module_import": {
+    "returncode": 0,
+    "stdout": "{\n  \"import_ok\": true,\n  \"public_names\": [\n    \"LAYER_D_ASSUMPTIONS\",\n    \"Path\",\n    \"annotations\",\n    \"calc_leader_score\",\n    \"calc_momentum\",\n    \"calc_trend_health\",\n    \"forward_return\",\n    \"is_broken_trend\",\n    \"json\",\n    \"linreg_slope\",\n    \"logger\",\n    \"math\",\n    \"momentum_acceleration\",\n    \"moving_average\",\n    \"period_return\",\n    \"rs_percentile\",\n    \"run_action_forward_validation\",\n    \"run_full_backtest\",\n    \"run_leader_engine_validation\",\n    \"run_promotion_engine_validation\",\n    \"run_stateful_simulation\",\n    \"run_strategy_variant_comparison\",\n    \"run_trade_rule_validation\",\n    \"trade_action\",\n    \"trade_action_reason\"\n  ],\n  \"callables\": {\n    \"Path\": {\n      \"type\": \"type\",\n      \"signature\": \"(*args, **kwargs)\"\n    },\n    \"calc_leader_score\": {\n      \"type\": \"function\",\n      \"signature\": \"(rs: 'float', mom: 'float', th: 'float') -> 'float'\"\n    },\n    \"calc_momentum\": {\n      \"type\": \"function\",\n      \"signature\": \"(prices: 'list[float]', all_ret20: 'list[float]' = None, all_ret60: 'list[float]' = None, all_ma50_slopes: 'list[float]' = None) -> 'dict'\"\n    },\n    \"calc_trend_health\": {\n      \"type\": \"function\",\n      \"signature\": \"(prices: 'list[float]') -> 'dict'\"\n    },\n    \"forward_return\": {\n      \"type\": \"function\",\n      \"signature\": \"(prices: 'list[float]', t: 'int', days: 'int') -> 'float | None'\"\n    },\n    \"is_broken_trend\": {\n      \"type\": \"function\",\n      \"signature\": \"(trend_state: 'str') -> 'bool'\"\n    },\n    \"linreg_slope\": {\n      \"type\": \"function\",\n      \"signature\": \"(values: 'list[float]') -> 'float'\"\n    },\n    \"momentum_acceleration\": {\n      \"type\": \"function\",\n      \"signature\": \"(prices: 'list[float]', lookback: 'int' = 5) -> 'float'\"\n    },\n    \"moving_average\": {\n      \"type\": \"function\",\n      \"signature\": \"(prices: 'list[float]', window: 'int') -> 'list[float]'\"\n    },\n    \"period_return\": {\n      \"type\": \"function\",\n      \"signature\": \"(prices: 'list[float]', window: 'int') -> 'float | None'\"\n    },\n    \"rs_percentile\": {\n      \"type\": \"function\",\n      \"signature\": \"(symbol_return: 'float', all_returns: 'list[float]') -> 'float'\"\n    },\n    \"run_action_forward_validation\": {\n      \"type\": \"function\",\n      \"signature\": \"(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', spx_prices: 'list[float]', dates_map: 'dict[str, list[str]] | None' = None, spx_dates: 'list[str] | None' = None, forward_days: 'list[int]' = [5, 10, 20, 30], step: 'int' = 5, min_history: 'int' = 120, market_score_default: 'float' = 60.0) -> 'dict'\"\n    },\n    \"run_full_backtest\": {\n      \"type\": \"function\",\n      \"signature\": \"(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', spx_prices: 'list[float]', dates_map: 'dict[str, list[str]]' = None, spx_dates: 'list[str]' = None, run_layer_b: 'bool' = False, run_layer_d: 'bool' = True, ndx_prices: 'list[float]' = None, ndx_dates: 'list[str]' = None, sox_prices: 'list[float]' = None, sox_dates: 'list[str]' = None, vix_prices: 'list[float]' = None, vix_dates: 'list[str]' = None) -> 'dict'\"\n    },\n    \"run_leader_engine_validation\": {\n      \"type\": \"function\",\n      \"signature\": \"(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', spx_prices: 'list[float]', forward_days: 'list[int]' = [5, 10, 20, 30], step: 'int' = 5, min_history: 'int' = 120) -> 'dict'\"\n    },\n    \"run_promotion_engine_validation\": {\n      \"type\": \"function\",\n      \"signature\": \"(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', spx_prices: 'list[float]', promotion_thresholds: 'list[int]' = [80, 85, 90], track_days: 'list[int]' = [5, 10, 20, 30], step: 'int' = 5, min_history: 'int' = 120) -> 'dict'\"\n    },\n    \"run_stateful_simulation\": {\n      \"type\": \"function\",\n      \"signature\": \"(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', dates_map: 'dict[str, list[str]]', spx_prices: 'list[float]', spx_dates: 'list[str]', ohlc_map: 'dict' = None, assumptions: 'dict' = None, step: 'int' = 1, min_history: 'int' = 120, market_score_default: 'float' = 60.0, sim_start_date: 'str' = None, sim_end_date: 'str' = None, ndx_prices: 'list' = None, ndx_dates: 'list' = None, sox_prices: 'list' = None, sox_dates: 'list' = None, vix_prices: 'list' = None, vix_dates: 'list' = None) -> 'dict'\"\n    },\n    \"run_strategy_variant_comparison\": {\n      \"type\": \"function\",\n      \"signature\": \"(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', dates_map: 'dict[str, list[str]]', spx_prices: 'list[float]', spx_dates: 'list[str]', ndx_prices: 'list[float]' = None, ndx_dates: 'list[str]' = None, sox_prices: 'list[float]' = None, sox_dates: 'list[str]' = None, vix_prices: 'list[float]' = None, vix_dates: 'list[str]' = None) -> 'dict'\"\n    },\n    \"run_trade_rule_validation\": {\n      \"type\": \"function\",\n      \"signature\": \"(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', spx_prices: 'list[float]', forward_days: 'list[int]' = [5, 10, 20, 30], step: 'int' = 5, min_history: 'int' = 120, market_score_default: 'float' = 60.0) -> 'dict'\"\n    },\n    \"trade_action\": {\n      \"type\": \"function\",\n      \"signature\": \"(trend_state: 'str', mom_score: 'float', rs_score: 'float', price: 'float', ma50: 'float', ma50_slope: 'float', leader_score: 'float', trend_health: 'float', market_score: 'float' = 60.0, ls60_exit_mode: 'str' = 'reduce') -> 'str'\"\n    },\n    \"trade_action_reason\": {\n      \"type\": \"function\",\n      \"signature\": \"(trend_state: 'str', mom_score: 'float', rs_score: 'float', price: 'float', ma50: 'float', ma50_slope: 'float', leader_score: 'float', trend_health: 'float', market_score: 'float' = 60.0, ls60_exit_mode: 'str' = 'reduce') -> 'dict'\"\n    }\n  }\n}\n",
+    "stderr": "",
+    "json": {
+      "import_ok": true,
+      "public_names": [
+        "LAYER_D_ASSUMPTIONS",
+        "Path",
+        "annotations",
+        "calc_leader_score",
+        "calc_momentum",
+        "calc_trend_health",
+        "forward_return",
+        "is_broken_trend",
+        "json",
+        "linreg_slope",
+        "logger",
+        "math",
+        "momentum_acceleration",
+        "moving_average",
+        "period_return",
+        "rs_percentile",
+        "run_action_forward_validation",
+        "run_full_backtest",
+        "run_leader_engine_validation",
+        "run_promotion_engine_validation",
+        "run_stateful_simulation",
+        "run_strategy_variant_comparison",
+        "run_trade_rule_validation",
+        "trade_action",
+        "trade_action_reason"
+      ],
+      "callables": {
+        "Path": {
+          "type": "type",
+          "signature": "(*args, **kwargs)"
+        },
+        "calc_leader_score": {
+          "type": "function",
+          "signature": "(rs: 'float', mom: 'float', th: 'float') -> 'float'"
+        },
+        "calc_momentum": {
+          "type": "function",
+          "signature": "(prices: 'list[float]', all_ret20: 'list[float]' = None, all_ret60: 'list[float]' = None, all_ma50_slopes: 'list[float]' = None) -> 'dict'"
+        },
+        "calc_trend_health": {
+          "type": "function",
+          "signature": "(prices: 'list[float]') -> 'dict'"
+        },
+        "forward_return": {
+          "type": "function",
+          "signature": "(prices: 'list[float]', t: 'int', days: 'int') -> 'float | None'"
+        },
+        "is_broken_trend": {
+          "type": "function",
+          "signature": "(trend_state: 'str') -> 'bool'"
+        },
+        "linreg_slope": {
+          "type": "function",
+          "signature": "(values: 'list[float]') -> 'float'"
+        },
+        "momentum_acceleration": {
+          "type": "function",
+          "signature": "(prices: 'list[float]', lookback: 'int' = 5) -> 'float'"
+        },
+        "moving_average": {
+          "type": "function",
+          "signature": "(prices: 'list[float]', window: 'int') -> 'list[float]'"
+        },
+        "period_return": {
+          "type": "function",
+          "signature": "(prices: 'list[float]', window: 'int') -> 'float | None'"
+        },
+        "rs_percentile": {
+          "type": "function",
+          "signature": "(symbol_return: 'float', all_returns: 'list[float]') -> 'float'"
+        },
+        "run_action_forward_validation": {
+          "type": "function",
+          "signature": "(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', spx_prices: 'list[float]', dates_map: 'dict[str, list[str]] | None' = None, spx_dates: 'list[str] | None' = None, forward_days: 'list[int]' = [5, 10, 20, 30], step: 'int' = 5, min_history: 'int' = 120, market_score_default: 'float' = 60.0) -> 'dict'"
+        },
+        "run_full_backtest": {
+          "type": "function",
+          "signature": "(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', spx_prices: 'list[float]', dates_map: 'dict[str, list[str]]' = None, spx_dates: 'list[str]' = None, run_layer_b: 'bool' = False, run_layer_d: 'bool' = True, ndx_prices: 'list[float]' = None, ndx_dates: 'list[str]' = None, sox_prices: 'list[float]' = None, sox_dates: 'list[str]' = None, vix_prices: 'list[float]' = None, vix_dates: 'list[str]' = None) -> 'dict'"
+        },
+        "run_leader_engine_validation": {
+          "type": "function",
+          "signature": "(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', spx_prices: 'list[float]', forward_days: 'list[int]' = [5, 10, 20, 30], step: 'int' = 5, min_history: 'int' = 120) -> 'dict'"
+        },
+        "run_promotion_engine_validation": {
+          "type": "function",
+          "signature": "(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', spx_prices: 'list[float]', promotion_thresholds: 'list[int]' = [80, 85, 90], track_days: 'list[int]' = [5, 10, 20, 30], step: 'int' = 5, min_history: 'int' = 120) -> 'dict'"
+        },
+        "run_stateful_simulation": {
+          "type": "function",
+          "signature": "(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', dates_map: 'dict[str, list[str]]', spx_prices: 'list[float]', spx_dates: 'list[str]', ohlc_map: 'dict' = None, assumptions: 'dict' = None, step: 'int' = 1, min_history: 'int' = 120, market_score_default: 'float' = 60.0, sim_start_date: 'str' = None, sim_end_date: 'str' = None, ndx_prices: 'list' = None, ndx_dates: 'list' = None, sox_prices: 'list' = None, sox_dates: 'list' = None, vix_prices: 'list' = None, vix_dates: 'list' = None) -> 'dict'"
+        },
+        "run_strategy_variant_comparison": {
+          "type": "function",
+          "signature": "(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', dates_map: 'dict[str, list[str]]', spx_prices: 'list[float]', spx_dates: 'list[str]', ndx_prices: 'list[float]' = None, ndx_dates: 'list[str]' = None, sox_prices: 'list[float]' = None, sox_dates: 'list[str]' = None, vix_prices: 'list[float]' = None, vix_dates: 'list[str]' = None) -> 'dict'"
+        },
+        "run_trade_rule_validation": {
+          "type": "function",
+          "signature": "(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', spx_prices: 'list[float]', forward_days: 'list[int]' = [5, 10, 20, 30], step: 'int' = 5, min_history: 'int' = 120, market_score_default: 'float' = 60.0) -> 'dict'"
+        },
+        "trade_action": {
+          "type": "function",
+          "signature": "(trend_state: 'str', mom_score: 'float', rs_score: 'float', price: 'float', ma50: 'float', ma50_slope: 'float', leader_score: 'float', trend_health: 'float', market_score: 'float' = 60.0, ls60_exit_mode: 'str' = 'reduce') -> 'str'"
+        },
+        "trade_action_reason": {
+          "type": "function",
+          "signature": "(trend_state: 'str', mom_score: 'float', rs_score: 'float', price: 'float', ma50: 'float', ma50_slope: 'float', leader_score: 'float', trend_health: 'float', market_score: 'float' = 60.0, ls60_exit_mode: 'str' = 'reduce') -> 'dict'"
+        }
+      }
+    }
+  },
+  "source_report": {
+    "path": "src/engine/backtest.py",
+    "exists": true,
+    "date_literals": [
+      "2021-06-11",
+      "2023-11-06",
+      "2024-12-03",
+      "2024-12-31",
+      "2026-06-11",
+      "2026-06-18"
+    ],
+    "path_literals": [
+      "data/research/e1_5y/raw/indices/SPX.json",
+      "data/research/e1_5y/raw/stocks",
+      "data/research/e1_5y/regimes/spx_regime_daily.json",
+      "docs/layer_d_assumptions.md",
+      "docs/research/E1R_REGIME_AWARE_STRATEGY_SPEC_v0.1.md",
+      "exports/backtest.json"
+    ],
+    "functions": [
+      {
+        "name": "run_stateful_simulation",
+        "line": 763,
+        "end_line": 2486,
+        "args": [
+          "symbols",
+          "prices_map",
+          "dates_map",
+          "spx_prices",
+          "spx_dates",
+          "ohlc_map",
+          "assumptions",
+          "step",
+          "min_history",
+          "market_score_default",
+          "sim_start_date",
+          "sim_end_date",
+          "ndx_prices",
+          "ndx_dates",
+          "sox_prices",
+          "sox_dates",
+          "vix_prices",
+          "vix_dates"
+        ],
+        "terms": [
+          "daily_records",
+          "total_equity",
+          "cash",
+          "positions",
+          "portfolio",
+          "initial_capital",
+          "simulation_start_date",
+          "sim_start_date",
+          "market_entry_gate",
+          "pending_orders"
+        ],
+        "score": 42,
+        "source_head": "def run_stateful_simulation(\n    symbols:        list[str],\n    prices_map:     dict[str, list[float]],\n    dates_map:      dict[str, list[str]],\n    spx_prices:     list[float],\n    spx_dates:      list[str],\n    ohlc_map:       dict = None,\n    assumptions:    dict = None,\n    step:           int  = 1,\n    min_history:    int  = 120,\n    market_score_default: float = 60.0,\n    sim_start_date: str  = None,  # 交易执行起始日（None=从 min_history 后开始）\n    sim_end_date:   str  = None,  # 交易执行截止日（None=到末尾）\n    ndx_prices:     list = None,  # NDX 收盘价（Gate v2 Leadership 判断）\n    ndx_dates:      list = None,\n    sox_prices:     list = None,  # SOX 收盘价\n    sox_dates:      list = None,\n    vix_prices:     list = None,  # VIX 收盘价\n    vix_dates:      list = None,\n) -> dict:\n    \"\"\"\n    Layer D v1.6: Strict Top3 + RS threshold + MinHold + Relative SPX Stop\n\n    修正项（相比 v3）：\n    1. SPX master calendar — 时间轴以 SPX dates 为准\n    2. Date-based alignment — 所有股票按日期查找，不用 index 直接对齐\n    3. skipped_orders_by_reason — 跳过原因分类统计\n    4. sample_validity 检查 — 样本不足时返回 INSUFFICIENT_SAMPLE\n    \"\"\"\n    logger.info(\"[Backtest Layer D v1.6] Strict Top3 + RS/MinHold/RelStop Backtest...\")\n\n    # ── 冻结参数 ─────────────────────────────────────────\n    a        = assumptions or LAYER_D_ASSUMPTIONS\n    max_pos  = a[\"max_positions\"]\n    buy_pct  = a[\"buy_size\"]  / max_pos       # Top3: 1/3 per full slot\n    add_pct  = a[\"add_size\"]  / max_pos       # Top3: +1/6, only useful after REDUCE\n    max_pct  = a[\"max_single_size\"] / max_pos # Top3: max 1/3 per position\n    one_way  = a[\"total_one_way\"]             # 0.001\n    init_cap = float(a.get(\"initial_capital\", 100_000))\n    strategy_variant = a.get(\"strategy_variant\", \"top3_entry_rs_minhold_relstop\")\n    e1r_shell_mode = bool(a.get(\"e1r_shell_mode\", False))\n    e1r_regime_wiring_enabled = bool(a.get(\"e1r_regime_wiring_enabled\", False))\n    e1r_uptrend_execution_enabled = bool(a.get(\"e1r_uptrend_execution_enabled\", False))\n    e1r_regime_daily = a.get(\"e1r_regime_daily\", {}) or {}\n\n    def _e1r_regime_on(date: str) -> str:\n        if not e1r_regime_wiring_enabled or not date:\n            return \"N/A\"\n        rec = e1r_regime_daily.get(date, {})\n        if isinstance(rec, dict):\n            return rec.get(\"regime\") or rec.get(\"spx_regime\") or rec.get(\"weekly_regime\") or \"UNCLASSIFIED\"\n        if isinstance(rec, str):\n            return rec\n        return \"UNCLASSIFIED\"\n\n    def _e1r_mode_for_regime(regime: str) -> str:\n        if regime == \"UPTREND\":\n            return \"UPTREND_EMERGING_CONFIRMED_ENABLED\"\n        if regime == \"SIDEWAYS\":\n            return \"SIDEWAYS_QUALITY_BREAKOUT_ONLY\"\n        if regime == \"DOWNTREND\":\n            return \"DOWNTREND_EXCEPTION_ONLY\"\n        if regime == \"N/A\":\n            return \"N/A\"\n        return \"UNCLASSIFIED_NO_RISK_EXPANSION\"\n\n    def _e1r_risk_budget_for_regime(regime: str) -> dict:\n        if regime == \"UPTREND\":\n            return {\"mode\": \"UPTREND_RISK_ON\", \"max_positions\": 3, \"max_total_exposure_pct\": 100.0}\n        if regime == \"SIDEWAYS\":\n            return {\"mode\": \"SIDEWAYS_LIMITED\", \"max_positions\": 2, \"max_total_exposure_pct\": 33.3}\n        if regime == \"DOWNTREND\":\n            return {\"mode\": \"DOWNTREND_DEFENSIVE\", \"max_positions\": 1, \"max_total_exposure_pct\": 10.0}\n        if regime == \"N/A\":\n            return {\"mode\": \"N/A\", \"max_positions\": None, \"max_total_exposure_pct\": None}\n        return {\"mode\": \"UNCLASSIFIED_DEFENSIVE\", \"max_positions\": 0, \"max_total_exposure_pct\": 0.0}\n\n    def _e1r_dominant_regime(weights: dict) -> str:\n        if not weights:\n            return \"UNCLASSIFIED\" if e1r_regime_wiring_enabled else \"N/A\"\n        return max(weights.items(), key=lambda kv: kv[1])[0]\n\n    entry_top_n = int(a.get(\"entry_top_n\", 3))\n    rank_based_exit = bool(a.get(\"rank_based_exit\", False))\n    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))\n    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))\n    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则\n\n    # Qualified Candidate Pool 参数\n    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n\n    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))\n    qualified_rs_min          = float(a.get(\"qualified_rs_min\", 90.0))\n    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))\n    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))\n    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))\n    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))\n    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))\n\n    fill_only_enabled    = bool(a.get(\"fill_only_enabled\", False))\n    gate_use_slope       = bool(a.get(\"gate_use_slope\", True))\n    gate_use_leadership  = bool(a.get(\"gate_use_leadership\", True))\n\n    # ── 辅助指数 Lookup（日期 → 价格）─────────────────────────\n    # 用于 Gate v2 市场状态判断；缺失日期使用最近一个有效值\n    def _build_lookup(dates_list, prices_list):\n        \"\"\"建立 date_str → price 映射\"\"\"\n        m = {}\n        if dates_list and prices_list:\n            for d, p in zip(dates_list, prices_list):\n                m[d] = p\n        return m\n\n    ndx_lookup = _build_lookup(ndx_dates or [], ndx_prices or [])\n    sox_lookup = _build_lookup(sox_dates or [], sox_prices or [])\n    vix_lookup = _build_lookup(vix_dates or [], vix_prices or [])\n\n    def _get_price_on(lookup, date, fallback=None):\n        \"\"\"获取 date 当天价格，缺失时返回 fallback\"\"\"\n        return lookup.get(date, fallback)\n\n    # SPX MA50 历史队列（用于 10日 slope 计算）\n    from collections import deque\n    spx_ma50_history = deque(maxlen=11)  # 存最近11个 MA50 值（今天+10天前）\n\n    if qualified_entry_enabled:\n        logger.info(f\"  Qualified Pool: candidate_top_n={candidate_top_n} \"\n                    f\"RS>={qualified_rs_min} Mom>={qualified_momentum_min} \"\n                    f\"TH>={qualified_th_min} states={qualified_states} \"\n                    f\"price>MA50={qualified_price_above_ma50} slope>={qualified_ma50_slope_min}\")\n    else:\n        logger.info(f\"  Entry mode: Strict Top{entry_top_n} (legacy)\")\n    if ls60_exit_mode not in {\"exit\", \"reduce\"}:\n        raise ValueError(f\"Invalid ls60_exit_mode={ls60_exit_mode!r}; expected 'exit' or 'reduce'\")\n    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))\n    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))\n    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))\n    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))\n    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))\n    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))\n    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))\n    min_holding_days = int(a.get(\"min_holding_days\", 0))\n    # E2 Dynamic Exit parameters\n    dynamic_exit_enabled   = bool(a.get(\"dynamic_exit_enabled\", False))\n    min_hold_allow_brok"
+      },
+      {
+        "name": "run_strategy_variant_comparison",
+        "line": 2489,
+        "end_line": 2895,
+        "args": [
+          "symbols",
+          "prices_map",
+          "dates_map",
+          "spx_prices",
+          "spx_dates",
+          "ndx_prices",
+          "ndx_dates",
+          "sox_prices",
+          "sox_dates",
+          "vix_prices",
+          "vix_dates"
+        ],
+        "terms": [
+          "portfolio",
+          "initial_capital",
+          "simulation_start_date",
+          "sim_start_date",
+          "2023-11-06",
+          "2021-06-11",
+          "data/research/e1_5y",
+          "variant_results",
+          "E1_AUDITED_G4_MINHOLD10",
+          "MINHOLD10"
+        ],
+        "score": 30,
+        "source_head": "def run_strategy_variant_comparison(\n    symbols: list[str],\n    prices_map: dict[str, list[float]],\n    dates_map: dict[str, list[str]],\n    spx_prices: list[float],\n    spx_dates: list[str],\n    ndx_prices: list[float] = None,\n    ndx_dates:  list[str]   = None,\n    sox_prices: list[float] = None,\n    sox_dates:  list[str]   = None,\n    vix_prices: list[float] = None,\n    vix_dates:  list[str]   = None,\n) -> dict:\n    \"\"\"\n    Run four diagnostic portfolio variants using Strict Top3, no fixed TP.\n\n    V0_BASE: current Strict Top3 baseline.\n    V1_RS95: raise entry RS threshold from 90 to 95.\n    V2_RS95_MINHOLD5: add minimum 5 trading-day hold for ordinary REDUCE/EXIT.\n    V3_RS95_MINHOLD5_RELSTOP8: add relative SPX underperformance stop.\n\n    Selection policy:\n    1. Prefer PASS over PARTIAL over FAIL.\n    2. Within the same status, prefer higher total return.\n    3. Break ties with higher Profit Factor, higher Sharpe, then lower max drawdown.\n    \"\"\"\n    logger.info(\"[Backtest Layer D v1.6] Strategy Variant Comparison...\")\n\n    base = {\n        **LAYER_D_ASSUMPTIONS,\n        \"market_gate_enabled\": False,\n        \"market_shock_gate_enabled\": False,\n        \"partial_take_profit_enabled\": False,\n        \"block_add_after_take_profit\": False,\n    }\n    # ── Gate v2 No VIX（冻结市场层基准）─────────────────────────\n    _gate_v2_no_vix = {\n        \"market_gate_enabled\":       True,\n        \"risk_off_below_spx_ma50\":   True,\n        \"market_shock_gate_enabled\": True,\n        \"market_shock_daily_return\": -0.02,\n        \"candidate_top_n\":           None,\n        \"qualified_entry_enabled\":   False,\n        \"fill_only_enabled\":         False,\n    }\n\n    # ── E2 实验配置（Gate 固定 G4，只改退出层）────────────────\n    _gate_g4 = {\n        \"market_gate_enabled\":       True,\n        \"risk_off_below_spx_ma50\":   False,\n        \"market_shock_gate_enabled\": False,\n        \"market_shock_daily_return\": -0.02,\n        \"gate_use_slope\":            True,\n        \"gate_use_leadership\":       True,\n        \"candidate_top_n\":           None,\n        \"qualified_entry_enabled\":   False,\n        \"fill_only_enabled\":         False,\n        \"entry_top_n\":               3,\n        \"entry_rs_min\":              90.0,\n        \"ls60_exit_mode\":            \"exit\",\n    }\n\n    def _load_e1r_regime_daily() -> dict:\n        regime_path = Path(\"data/research/e1_5y/regimes/spx_regime_daily.json\")\n        if not regime_path.exists():\n            logger.warn(f\"  E1-R regime wiring: missing {regime_path}\")\n            return {}\n        try:\n            obj = json.loads(regime_path.read_text())\n        except Exception as exc:\n            logger.warn(f\"  E1-R regime wiring: failed to load {regime_path}: {exc}\")\n            return {}\n        daily = obj.get(\"daily_regime\", obj) if isinstance(obj, dict) else {}\n        return daily if isinstance(daily, dict) else {}\n\n    _e1r_regime_daily = _load_e1r_regime_daily()\n\n    variants = {\n        # E1: Gate G4 + MinHold10（审计对照基准，不可修改）\n        \"E1_AUDITED_G4_MINHOLD10\": {\n            **base, **_gate_g4,\n            \"strategy_variant\":      \"E1_audited_g4_minhold10\",\n            \"min_holding_days\":      10,\n            \"dynamic_exit_enabled\":  False,\n            \"relative_stop_enabled\": False,\n            \"version\":               \"E1-audited-g4-minhold10\",\n        },\n        # E1-R v0.1 shell: research candidate placeholder.\n        # Shell intentionally mirrors E1 execution rules for Phase 1 so that\n        # exports/backtest.json exposes the strategy ID without changing E1.\n        \"E1R_REGIME_AWARE_V0_1\": {\n            **base, **_gate_g4,\n            \"strategy_variant\":      \"E1R_regime_aware_v0_1_shell\",\n            \"min_holding_days\":      10,\n            \"dynamic_exit_enabled\":  False,\n            \"relative_stop_enabled\": False,\n            \"version\":               \"E1R-uptrend-execution-v0.1\",\n            \"e1r_shell_mode\":        True,\n            \"e1r_uptrend_execution_enabled\": True,\n            \"e1r_regime_wiring_enabled\": True,\n            \"e1r_regime_daily\":      _e1r_regime_daily,\n            \"e1r_regime_source\":     \"data/research/e1_5y/regimes/spx_regime_daily.json\",\n            \"e1r_spec_ref\":          \"docs/research/E1R_REGIME_AWARE_STRATEGY_SPEC_v0.1.md\",\n        },\n        # E2v2: Gate G4 + Dynamic Exit v2（CAUTIOUS/CASH_MODE 下 LS<60 直接退出）\n        \"E2_DYNAMIC_EXIT_V2\": {\n            **base, **_gate_g4,\n            \"strategy_variant\":      \"E2_dynamic_exit_v2\",\n            \"min_holding_days\":      0,\n            \"dynamic_exit_enabled\":  True,\n            \"relative_stop_enabled\": False,\n            \"version\":               \"E2-dynamic-exit-v2\",\n        },\n    }\n\n    # ── 分期定义 ─────────────────────────────────────────────────\n    # 时间轴保持完整（确保 warm-up / MA50 / RS 计算不失真）；\n    # 只用 sim_start_date / sim_end_date 控制交易执行和统计区间。\n    import os as _os\n    if _os.environ.get(\"SP500_RESEARCH_5Y\") == \"1\":\n        periods = {\n            \"C_FULL_5Y_2021_06_TO_2026_06\": {\n                \"label\":          \"Period C (Full 5Y): 2021-06 → 2026-06\",\n                \"sim_start_date\": \"2021-06-11\",\n                \"sim_end_date\":   \"2026-06-18\",\n            },\n        }\n    else:\n        periods = {\n            \"A_2023_11_TO_2024_12\": {\n                \"label\":          \"Period A: 2023-11 → 2024-12\",\n                \"sim_start_date\": \"2023-11-06\",\n                \"sim_end_date\":   \"2024-12-31\",\n            },\n            \"B_2024_12_TO_2026_06\": {\n                \"label\":          \"Period B: 2024-12 → 2026-06\",\n                \"sim_start_date\": \"2024-12-03\",\n                \"sim_end_date\":   \"2026-06-11\",\n            },\n            \"C_FULL_2023_11_TO_2026_06\": {\n                \"label\":          \"Period C (Full): 2023-11 → 2026-06\",\n                \"sim_start_date\": \"2023-11-06\",\n                \"sim_end_date\":   \"2026-06-11\",\n            },\n        }\n\n    # ── 逐 period × variant 跑回测 ──────────────────────────────\n    period_results = {}\n    for period_key, period_cfg in periods.items():\n        logger.info(f\"  ══ {period_cfg['label']} ══\")\n        period_results[period_key] = {\"label\": period_cfg[\"label\"], \"variants\": {}}\n        for variant_id, assumptions in variants.items():\n            logger.info(f\"    === {period_key}/{variant_id} ===\")\n            # E1/E2：Gate G4 固定使用 NDX/SOX（leadership），不传 VIX\n            _use_ndx = ndx_prices or []\n            _use_sox = sox_prices or []\n            _use_vix = []  # Gate v2.1 不使用 VIX\n            _result = run_stateful_simulation(\n                symbols=symbols,\n                prices_map=prices_map,\n                dates_map=dates_map,\n                spx_prices=spx_prices,\n                spx_dates=spx_dates,\n                assumptions=assumptions,\n                sim_start_date=period_cfg[\"sim_start_date\"],\n                sim_end_date=period_cfg[\"sim_end_date\"],\n                ndx_prices=_use_ndx,\n                ndx_dates=ndx_dates or [],\n                sox_prices=_use_sox,\n                sox_dates=sox_dates or [],\n                vix_prices=_use_v"
+      },
+      {
+        "name": "_load_e1r_regime_daily",
+        "line": 2551,
+        "end_line": 2562,
+        "args": [],
+        "terms": [
+          "data/research/e1_5y"
+        ],
+        "score": 9,
+        "source_head": "    def _load_e1r_regime_daily() -> dict:\n        regime_path = Path(\"data/research/e1_5y/regimes/spx_regime_daily.json\")\n        if not regime_path.exists():\n            logger.warn(f\"  E1-R regime wiring: missing {regime_path}\")\n            return {}\n        try:\n            obj = json.loads(regime_path.read_text())\n        except Exception as exc:\n            logger.warn(f\"  E1-R regime wiring: failed to load {regime_path}: {exc}\")\n            return {}\n        daily = obj.get(\"daily_regime\", obj) if isinstance(obj, dict) else {}\n        return daily if isinstance(daily, dict) else {}"
+      },
+      {
+        "name": "_e1r_risk_budget_for_regime",
+        "line": 829,
+        "end_line": 838,
+        "args": [
+          "regime"
+        ],
+        "terms": [
+          "positions"
+        ],
+        "score": 6,
+        "source_head": "    def _e1r_risk_budget_for_regime(regime: str) -> dict:\n        if regime == \"UPTREND\":\n            return {\"mode\": \"UPTREND_RISK_ON\", \"max_positions\": 3, \"max_total_exposure_pct\": 100.0}\n        if regime == \"SIDEWAYS\":\n            return {\"mode\": \"SIDEWAYS_LIMITED\", \"max_positions\": 2, \"max_total_exposure_pct\": 33.3}\n        if regime == \"DOWNTREND\":\n            return {\"mode\": \"DOWNTREND_DEFENSIVE\", \"max_positions\": 1, \"max_total_exposure_pct\": 10.0}\n        if regime == \"N/A\":\n            return {\"mode\": \"N/A\", \"max_positions\": None, \"max_total_exposure_pct\": None}\n        return {\"mode\": \"UNCLASSIFIED_DEFENSIVE\", \"max_positions\": 0, \"max_total_exposure_pct\": 0.0}"
+      },
+      {
+        "name": "run_full_backtest",
+        "line": 2904,
+        "end_line": 2978,
+        "args": [
+          "symbols",
+          "prices_map",
+          "spx_prices",
+          "dates_map",
+          "spx_dates",
+          "run_layer_b",
+          "run_layer_d",
+          "ndx_prices",
+          "ndx_dates",
+          "sox_prices",
+          "sox_dates",
+          "vix_prices",
+          "vix_dates"
+        ],
+        "terms": [
+          "run_trade_rule_validation",
+          "run_action_forward_validation"
+        ],
+        "score": 2,
+        "source_head": "def run_full_backtest(\n    symbols:      list[str],\n    prices_map:   dict[str, list[float]],\n    spx_prices:   list[float],\n    dates_map:    dict[str, list[str]] = None,\n    spx_dates:    list[str] = None,\n    run_layer_b:  bool = False,\n    run_layer_d:  bool = True,\n    ndx_prices:   list[float] = None,\n    ndx_dates:    list[str]   = None,\n    sox_prices:   list[float] = None,\n    sox_dates:    list[str]   = None,\n    vix_prices:   list[float] = None,\n    vix_dates:    list[str]   = None,\n) -> dict:\n    \"\"\"\n    运行完整4层回测验证（A → C → D → B）。\n    返回汇总结果，供 export_json 写入 backtest.json。\n    \"\"\"\n    logger.info(\"=== 开始回测验证（Backtest Methodology v1.0）===\")\n    dates_map  = dates_map  or {}\n    spx_dates  = spx_dates  or []\n    results    = {}\n\n    # Layer A: Leader Engine（最基础）\n    results[\"layer_a\"] = run_leader_engine_validation(\n        symbols, prices_map, spx_prices\n    )\n\n    # Layer C: Trade Rule Signal Validation\n    results[\"layer_c\"] = run_trade_rule_validation(\n        symbols, prices_map, spx_prices\n    )\n\n    # Layer C2: Action Forward Return Validation\n    results[\"layer_c2\"] = run_action_forward_validation(\n        symbols=symbols,\n        prices_map=prices_map,\n        spx_prices=spx_prices,\n        dates_map=dates_map,\n        spx_dates=spx_dates,\n    )\n\n    # Layer D: 4-variant strategy comparison; selected result remains top-level compatible\n    if run_layer_d:\n        results[\"layer_d\"] = run_strategy_variant_comparison(\n            symbols, prices_map, dates_map, spx_prices, spx_dates,\n            ndx_prices=ndx_prices or [], ndx_dates=ndx_dates or [],\n            sox_prices=sox_prices or [], sox_dates=sox_dates or [],\n            vix_prices=vix_prices or [], vix_dates=vix_dates or [],\n        )\n\n    # Layer B: Promotion Engine（需要历史快照，可选）\n    if run_layer_b:\n        results[\"layer_b\"] = run_promotion_engine_validation(\n            symbols, prices_map, spx_prices\n        )\n\n    # 整体评分\n    statuses = [v[\"status\"] for v in results.values()]\n    overall = \"PASS\"     if all(s == \"PASS\" for s in statuses) else \\\n              \"PROMISING\" if (sum(s == \"PASS\" for s in statuses) >= 2 or\n                               sum(s == \"PROMISING_INSUFFICIENT_SAMPLE\" for s in statuses) >= 1) else \\\n              \"PARTIAL\"  if any(s in (\"PASS\",\"PARTIAL\") for s in statuses) else \"FAIL\"\n\n    logger.info(f\"=== 回测完成: {overall} ===\")\n    for k, v in results.items():\n        logger.info(f\"  {k.upper()}: {v['status']}\")\n\n    return {\n        \"overall_status\": overall,\n        \"methodology\":    \"Backtest Methodology v1.0\",\n        \"model_version\":  \"Quantitative Model Spec v1.0 (Frozen)\",\n        \"results\":        results,\n    }"
+      },
+      {
+        "name": "run_trade_rule_validation",
+        "line": 313,
+        "end_line": 464,
+        "args": [
+          "symbols",
+          "prices_map",
+          "spx_prices",
+          "forward_days",
+          "step",
+          "min_history",
+          "market_score_default"
+        ],
+        "terms": [
+          "run_trade_rule_validation"
+        ],
+        "score": 1,
+        "source_head": "def run_trade_rule_validation(\n    symbols: list[str],\n    prices_map: dict[str, list[float]],\n    spx_prices: list[float],\n    forward_days: list[int] = [5, 10, 20, 30],\n    step: int = 5,\n    min_history: int = 120,\n    market_score_default: float = 60.0,\n) -> dict:\n    \"\"\"\n    Layer C: Trade Rule Validation\n\n    对每个 BUY/EXIT 信号，测量信号后的前向收益，\n    并与 SPX 同期收益对比。\n    \"\"\"\n    logger.info(\"[Backtest Layer C] Trade Rule Validation...\")\n\n    signal_returns = {\n        \"BUY\":  {d: [] for d in forward_days},\n        \"ADD\":  {d: [] for d in forward_days},\n        \"EXIT\": {d: [] for d in forward_days},\n        \"HOLD\": {d: [] for d in forward_days},\n    }\n    spx_returns = {d: [] for d in forward_days}\n\n    # 去重：记录每只股票的上次信号日期（避免连续多天重复计算）\n    last_signal_day: dict[str, int] = {}\n    signal_counts = {\"BUY\": 0, \"ADD\": 0, \"HOLD\": 0, \"REDUCE\": 0, \"EXIT\": 0}\n    dedup_gap = 5  # 同一股票同一信号至少间隔5天才重新计入\n\n    # 用 SPX 长度作为时间轴，避免被个股短数据截断\n    n_days = len(spx_prices)\n    processed = 0\n\n    for t in range(min_history, n_days - max(forward_days), step):\n        # SPX 前向收益（用于基准比较）\n        for days in forward_days:\n            spx_ret = forward_return(spx_prices, t, days)\n            if spx_ret is not None:\n                spx_returns[days].append(spx_ret * 100)\n\n        # 每只股票生成信号\n        all_ret60 = []\n        for sym in symbols:\n            if sym in prices_map:\n                r = period_return(prices_map[sym][:t+1], 60)\n                if r is not None:\n                    all_ret60.append(r)\n\n        for sym in symbols:\n            if sym not in prices_map:\n                continue\n            p = prices_map[sym][:t+1]\n            if len(p) < 60:\n                continue\n\n            ret60 = period_return(p, 60) or 0.0\n            rs = rs_percentile(ret60, all_ret60)\n            mom_dict = calc_momentum(p)\n            mom = mom_dict[\"momentum_score\"]\n            th_dict = calc_trend_health(p)\n            th = th_dict[\"trend_health\"]\n            ls = calc_leader_score(rs, mom, th)\n\n            # Trend State\n            from ..features.trend_health import trend_lifecycle\n            state = trend_lifecycle(th, mom, rs)\n\n            ma50s = moving_average(p, 50)\n            ma50_val = ma50s[-1] if ma50s else p[-1]\n            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0\n\n            action = trade_action(\n                state, mom, rs, p[-1], ma50_val,\n                ma50_sl, ls, th, market_score_default\n            )\n\n            if action not in signal_returns:\n                continue\n\n            signal_counts[action] = signal_counts.get(action, 0) + 1\n\n            # 去重：同一股票同一信号至少间隔 dedup_gap 天\n            key = f\"{sym}_{action}\"\n            if key in last_signal_day and t - last_signal_day[key] < dedup_gap:\n                continue\n            last_signal_day[key] = t\n\n            p_full = prices_map[sym]\n            for days in forward_days:\n                ret = forward_return(p_full, t, days)\n                if ret is not None:\n                    signal_returns[action][days].append(ret * 100)\n\n        processed += 1\n        if processed % 20 == 0:\n            logger.info(f\"  Layer C: {t}/{n_days} 天已处理...\")\n\n    # 汇总\n    def stats(rets):\n        if not rets:\n            return {\"n\": 0}\n        avg = sum(rets) / len(rets)\n        med = sorted(rets)[len(rets)//2]\n        std = math.sqrt(sum((r-avg)**2 for r in rets)/len(rets)) if len(rets)>1 else 0\n        wins = [r for r in rets if r > 0]\n        losses = [r for r in rets if r <= 0]\n        pf = abs(sum(wins)/sum(losses)) if losses and sum(losses) != 0 else 0\n        sh = avg/std * math.sqrt(252/20) if std > 0 else 0\n        return {\n            \"n\":          len(rets),\n            \"avg_ret\":    round(avg, 3),\n            \"med_ret\":    round(med, 3),\n            \"win_rate\":   round(len(wins)/len(rets)*100, 1),\n            \"vol\":        round(std, 3),\n            \"profit_factor\": round(pf, 2),\n            \"sharpe\":     round(sh, 2),\n        }\n\n    summary = {}\n    for sig in signal_returns:\n        summary[sig] = {f\"fwd{d}d\": stats(signal_returns[sig][d]) for d in forward_days}\n\n    spx_summary = {f\"fwd{d}d\": stats(spx_returns[d]) for d in forward_days}\n\n    # 判断 PASS/FAIL\n    buy_vs_spx = []\n    for days in forward_days:\n        k = f\"fwd{days}d\"\n        buy_avg = summary[\"BUY\"].get(k, {}).get(\"avg_ret\", 0)\n        spx_avg = spx_summary.get(k, {}).get(\"avg_ret\", 0)\n        buy_vs_spx.append(buy_avg > spx_avg)\n\n    pass_count = sum(buy_vs_spx)\n    status = \"PASS\" if pass_count >= 3 else \"PARTIAL\" if pass_count >= 2 else \"FAIL\"\n\n    # 有效 BUY 信号数量（去重后）\n    buy_n = summary.get(\"BUY\",{}).get(\"fwd20d\",{}).get(\"n\", 0)\n\n    logger.info(f\"  Layer C: {status} (BUY跑赢SPX {pass_count}/4, BUY信号数={buy_n})\")\n    logger.info(f\"  全市场 Action 分布(market_wide, 去重前): {signal_counts}\")\n    return {\n        \"layer\":          \"C\",\n        \"name\":           \"Trade Rule Validation\",\n        \"status\":         status,\n        \"buy_vs_spx\":     buy_vs_spx,\n        \"buy_signal_count\": buy_n,\n        \"signal_counts_raw\": signal_counts,\n        \"signal_summary\": summary,\n        \"spx_benchmark\":  spx_summary,\n        \"dedup_gap_days\": dedup_gap,\n    }"
+      },
+      {
+        "name": "run_action_forward_validation",
+        "line": 595,
+        "end_line": 756,
+        "args": [
+          "symbols",
+          "prices_map",
+          "spx_prices",
+          "dates_map",
+          "spx_dates",
+          "forward_days",
+          "step",
+          "min_history",
+          "market_score_default"
+        ],
+        "terms": [
+          "run_action_forward_validation"
+        ],
+        "score": 1,
+        "source_head": "def run_action_forward_validation(\n    symbols:       list[str],\n    prices_map:    dict[str, list[float]],\n    spx_prices:    list[float],\n    dates_map:     dict[str, list[str]] | None = None,\n    spx_dates:     list[str] | None = None,\n    forward_days:  list[int] = [5, 10, 20, 30],\n    step:          int = 5,\n    min_history:   int = 120,\n    market_score_default: float = 60.0,\n) -> dict:\n    \"\"\"\n    Layer C2: Action Forward Return Validation\n\n    验证每种 Action 之后的前向收益：\n    - BUY  → 买入后是否有正向期望？\n    - ADD  → 加仓后是否继续超额？\n    - HOLD → 继续持有是否比卖出更好？\n    - REDUCE → 减仓后股票是否真的走弱？\n    - EXIT → 退出后是否避免了进一步下跌？\n    \"\"\"\n    logger.info(\"[Backtest Layer C2] Action Forward Return Validation...\")\n    dates_map = dates_map or {}\n    spx_dates = spx_dates or []\n    action_returns = {\n        a: {d: [] for d in forward_days}\n        for a in [\"BUY\",\"ADD\",\"HOLD\",\"REDUCE\",\"EXIT\"]\n    }\n    spx_returns = {d: [] for d in forward_days}\n\n    # 用 SPX 长度作为时间轴基准（不被个股短数据截断）\n    # 个股在信号计算时独立检查是否有足够历史\n    n_days = len(spx_prices)\n    logger.info(f\"  回测时间轴：{n_days} bars（基于 SPX）\")\n    if spx_dates:\n        logger.info(f\"  回测期间：{spx_dates[min_history] if len(spx_dates)>min_history else '?'} → {spx_dates[-1]}\")\n\n    # 去重：同一股票同一信号至少间隔 5 天\n    last_action_day: dict[str, int] = {}\n    dedup_gap = 5\n\n    for t in range(min_history, n_days - max(forward_days), step):\n        for d in forward_days:\n            r = forward_return(spx_prices, t, d)\n            if r is not None:\n                spx_returns[d].append(r * 100)\n\n        all_ret60 = [\n            (period_return(prices_map[s][:t+1], 60) or 0.0)\n            for s in symbols if s in prices_map and len(prices_map[s]) > t+1\n        ]\n\n        for sym in symbols:\n            if sym not in prices_map:\n                continue\n            p = prices_map[sym][:t+1]\n            if len(p) < 60:\n                continue\n\n            ret60 = period_return(p, 60) or 0.0\n            rs    = rs_percentile(ret60, all_ret60)\n            mom_d = calc_momentum(p)\n            mom   = mom_d[\"momentum_score\"]\n            th_d  = calc_trend_health(p)\n            th    = th_d[\"trend_health\"]\n            ls    = calc_leader_score(rs, mom, th)\n\n            from ..features.trend_health import trend_lifecycle\n            state    = trend_lifecycle(th, mom, rs)\n            ma50s    = moving_average(p, 50)\n            ma50_v   = ma50s[-1] if ma50s else p[-1]\n            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0\n\n            action = trade_action(\n                state, mom, rs, p[-1], ma50_v,\n                ma50_sl, ls, th, market_score_default\n            )\n\n            if action not in action_returns:\n                continue\n\n            key = f\"{sym}_{action}\"\n            if key in last_action_day and t - last_action_day[key] < dedup_gap:\n                continue\n            last_action_day[key] = t\n\n            p_full = prices_map[sym]\n            for d in forward_days:\n                r = forward_return(p_full, t, d)\n                if r is not None:\n                    action_returns[action][d].append(r * 100)\n\n    # 统计\n    def stats(rets):\n        if not rets: return {\"n\": 0}\n        avg = sum(rets)/len(rets)\n        med = sorted(rets)[len(rets)//2]\n        std = math.sqrt(sum((r-avg)**2 for r in rets)/len(rets)) if len(rets)>1 else 0\n        wins = [r for r in rets if r > 0]\n        return {\n            \"n\":         len(rets),\n            \"avg_ret\":   round(avg, 3),\n            \"med_ret\":   round(med, 3),\n            \"win_rate\":  round(len(wins)/len(rets)*100, 1),\n            \"vol\":       round(std, 3),\n        }\n\n    summary   = {a: {f\"fwd{d}d\": stats(action_returns[a][d]) for d in forward_days} for a in action_returns}\n    spx_summ  = {f\"fwd{d}d\": stats(spx_returns[d]) for d in forward_days}\n\n    # 关键验证\n    # 1. HOLD 后收益是否为正（持有有效）\n    hold_positive = sum(\n        1 for d in forward_days\n        if summary[\"HOLD\"].get(f\"fwd{d}d\",{}).get(\"avg_ret\",0) > 0\n    )\n    # 2. REDUCE/EXIT 后收益是否低于 HOLD（减仓/退出有保护作用）\n    reduce_lower = sum(\n        1 for d in forward_days\n        if summary[\"REDUCE\"].get(f\"fwd{d}d\",{}).get(\"avg_ret\",999) <\n           summary[\"HOLD\"].get(f\"fwd{d}d\",{}).get(\"avg_ret\",0)\n    )\n    exit_lower = sum(\n        1 for d in forward_days\n        if summary[\"EXIT\"].get(f\"fwd{d}d\",{}).get(\"avg_ret\",999) <\n           summary[\"HOLD\"].get(f\"fwd{d}d\",{}).get(\"avg_ret\",0)\n    )\n\n    status = \"PASS\" if hold_positive >= 3 and (reduce_lower + exit_lower) >= 4 else              \"PARTIAL\" if hold_positive >= 2 else \"FAIL\"\n\n    # 日志输出\n    for d in forward_days:\n        k = f\"fwd{d}d\"\n        row = {a: summary[a].get(k,{}).get(\"avg_ret\",\"—\") for a in [\"BUY\",\"ADD\",\"HOLD\",\"REDUCE\",\"EXIT\"]}\n        spx = spx_summ.get(k,{}).get(\"avg_ret\",\"—\")\n        logger.info(\n            f\"  C2 {d:2d}日: \"\n            f\"BUY={row['BUY']:+.2f}% \"\n            f\"ADD={row['ADD']:+.2f}% \"\n            f\"HOLD={row['HOLD']:+.2f}% \"\n            f\"REDUCE={row['REDUCE']:+.2f}% \"\n            f\"EXIT={row['EXIT']:+.2f}% \"\n            f\"SPX={spx:+.2f}%\"\n            if isinstance(row[\"BUY\"], float) else f\"  C2 {d}日: 无数据\"\n        )\n    logger.info(f\"  Layer C2: {status} (HOLD正收益 {hold_positive}/4, REDUCE低于HOLD {reduce_lower}/4, EXIT低于HOLD {exit_lower}/4)\")\n\n    return {\n        \"layer\":   \"C2\",\n        \"name\":    \"Action Forward Return Validation\",\n        \"status\":  status,\n        \"hold_positive_count\":  hold_positive,\n        \"reduce_lower_count\":   reduce_lower,\n        \"exit_lower_count\":     exit_lower,\n        \"action_summary\":       summary,\n        \"spx_benchmark\":        spx_summ,\n        \"interpretation\": {\n            \"HOLD\":   \"持有有效\" if hold_positive >= 3 else \"持有期望偏低，需检查\",\n            \"REDUCE\": f\"减仓有保护 ({reduce_lower}/4)\" if reduce_lower >= 3 else \"减仓保护不足\",\n            \"EXIT\":   f\"退出有保护 ({exit_lower}/4)\" if exit_lower >= 3 else \"退出可能过早\",\n        },\n    }"
+      }
+    ],
+    "important_lines": [
+      {
+        "line": 34,
+        "terms": [
+          "initial_capital"
+        ],
+        "text": "    \"initial_capital\":   100_000,"
+      },
+      {
+        "line": 35,
+        "terms": [
+          "positions"
+        ],
+        "text": "    \"max_positions\":      3,"
+      },
+      {
+        "line": 36,
+        "terms": [
+          "portfolio"
+        ],
+        "text": "    \"buy_size\":          1.0,    # Top3: 1/3 portfolio full position"
+      },
+      {
+        "line": 37,
+        "terms": [
+          "portfolio"
+        ],
+        "text": "    \"add_size\":          0.5,    # Top3: +1/6 portfolio, used only after REDUCE if allowed"
+      },
+      {
+        "line": 51,
+        "terms": [
+          "cash"
+        ],
+        "text": "    \"cash_yield\":        0.0,"
+      },
+      {
+        "line": 83,
+        "terms": [
+          "positions"
+        ],
+        "text": "    # max_positions：组合最大持仓数"
+      },
+      {
+        "line": 313,
+        "terms": [
+          "run_trade_rule_validation"
+        ],
+        "text": "def run_trade_rule_validation("
+      },
+      {
+        "line": 595,
+        "terms": [
+          "run_action_forward_validation"
+        ],
+        "text": "def run_action_forward_validation("
+      },
+      {
+        "line": 774,
+        "terms": [
+          "sim_start_date"
+        ],
+        "text": "    sim_start_date: str  = None,  # 交易执行起始日（None=从 min_history 后开始）"
+      },
+      {
+        "line": 796,
+        "terms": [
+          "positions"
+        ],
+        "text": "    max_pos  = a[\"max_positions\"]"
+      },
+      {
+        "line": 801,
+        "terms": [
+          "initial_capital"
+        ],
+        "text": "    init_cap = float(a.get(\"initial_capital\", 100_000))"
+      },
+      {
+        "line": 831,
+        "terms": [
+          "positions"
+        ],
+        "text": "            return {\"mode\": \"UPTREND_RISK_ON\", \"max_positions\": 3, \"max_total_exposure_pct\": 100.0}"
+      },
+      {
+        "line": 833,
+        "terms": [
+          "positions"
+        ],
+        "text": "            return {\"mode\": \"SIDEWAYS_LIMITED\", \"max_positions\": 2, \"max_total_exposure_pct\": 33.3}"
+      },
+      {
+        "line": 835,
+        "terms": [
+          "positions"
+        ],
+        "text": "            return {\"mode\": \"DOWNTREND_DEFENSIVE\", \"max_positions\": 1, \"max_total_exposure_pct\": 10.0}"
+      },
+      {
+        "line": 837,
+        "terms": [
+          "positions"
+        ],
+        "text": "            return {\"mode\": \"N/A\", \"max_positions\": None, \"max_total_exposure_pct\": None}"
+      },
+      {
+        "line": 838,
+        "terms": [
+          "positions"
+        ],
+        "text": "        return {\"mode\": \"UNCLASSIFIED_DEFENSIVE\", \"max_positions\": 0, \"max_total_exposure_pct\": 0.0}"
+      },
+      {
+        "line": 951,
+        "terms": [
+          "sim_start_date"
+        ],
+        "text": "    _trade_start = sim_start_date  # None = 从 min_history 后第一天"
+      },
+      {
+        "line": 1016,
+        "terms": [
+          "cash"
+        ],
+        "text": "    cash            = init_cap"
+      },
+      {
+        "line": 1018,
+        "terms": [
+          "pending_orders"
+        ],
+        "text": "    pending_orders: list[dict] = []"
+      },
+      {
+        "line": 1024,
+        "terms": [
+          "positions"
+        ],
+        "text": "        \"max_positions_reached\":    0,"
+      },
+      {
+        "line": 1025,
+        "terms": [
+          "cash"
+        ],
+        "text": "        \"cash_insufficient\":        0,"
+      },
+      {
+        "line": 1056,
+        "terms": [
+          "portfolio"
+        ],
+        "text": "    portfolio_action_dist = {\"HOLD\": 0, \"ADD\": 0, \"REDUCE\": 0, \"REL_REDUCE\": 0, \"EXIT\": 0, \"TP_REDUCE\": 0}"
+      },
+      {
+        "line": 1081,
+        "terms": [
+          "daily_records"
+        ],
+        "text": "    daily_records: list[dict]  = []"
+      },
+      {
+        "line": 1112,
+        "terms": [
+          "pending_orders"
+        ],
+        "text": "            pending_orders = []   # 不生成订单"
+      },
+      {
+        "line": 1120,
+        "terms": [
+          "pending_orders"
+        ],
+        "text": "        for order in pending_orders:"
+      },
+      {
+        "line": 1138,
+        "terms": [
+          "cash"
+        ],
+        "text": "                port_val = cash + sum("
+      },
+      {
+        "line": 1148,
+        "terms": [
+          "positions"
+        ],
+        "text": "                        skip_reasons[\"max_positions_reached\"] += 1"
+      },
+      {
+        "line": 1156,
+        "terms": [
+          "cash"
+        ],
+        "text": "                    if target > cash:"
+      },
+      {
+        "line": 1157,
+        "terms": [
+          "cash"
+        ],
+        "text": "                        if cash * 0.99 < 10:"
+      },
+      {
+        "line": 1158,
+        "terms": [
+          "cash"
+        ],
+        "text": "                            skip_reasons[\"cash_insufficient\"] += 1"
+      },
+      {
+        "line": 1160,
+        "terms": [
+          "cash"
+        ],
+        "text": "                        target = cash * 0.99"
+      },
+      {
+        "line": 1163,
+        "terms": [
+          "cash"
+        ],
+        "text": "                    cash  -= shares * exec_price"
+      },
+      {
+        "line": 1213,
+        "terms": [
+          "cash"
+        ],
+        "text": "                    if target_add > cash:"
+      },
+      {
+        "line": 1214,
+        "terms": [
+          "cash"
+        ],
+        "text": "                        if cash * 0.99 < 10:"
+      },
+      {
+        "line": 1215,
+        "terms": [
+          "cash"
+        ],
+        "text": "                            skip_reasons[\"cash_insufficient\"] += 1"
+      },
+      {
+        "line": 1217,
+        "terms": [
+          "cash"
+        ],
+        "text": "                        target_add = cash * 0.99"
+      },
+      {
+        "line": 1228,
+        "terms": [
+          "cash"
+        ],
+        "text": "                    cash -= target_add"
+      },
+      {
+        "line": 1264,
+        "terms": [
+          "cash"
+        ],
+        "text": "                    cash    += proceeds"
+      },
+      {
+        "line": 1321,
+        "terms": [
+          "cash"
+        ],
+        "text": "                    cash            += sell_shares * exec_price"
+      },
+      {
+        "line": 1356,
+        "terms": [
+          "positions"
+        ],
+        "text": "            _today_regime_for_positions = _e1r_regime_on(date_t)"
+      },
+      {
+        "line": 1359,
+        "terms": [
+          "positions"
+        ],
+        "text": "                _weights[_today_regime_for_positions] = _weights.get(_today_regime_for_positions, 0) + 1"
+      },
+      {
+        "line": 1361,
+        "terms": [
+          "total_equity",
+          "cash"
+        ],
+        "text": "        total_equity = cash + position_value"
+      },
+      {
+        "line": 1364,
+        "terms": [
+          "cash"
+        ],
+        "text": "        if cash < -1.0:"
+      },
+      {
+        "line": 1365,
+        "terms": [
+          "cash"
+        ],
+        "text": "            logger.warn(f\"  {date_t}: negative cash={cash:.2f}\")"
+      },
+      {
+        "line": 1366,
+        "terms": [
+          "cash"
+        ],
+        "text": "            cash = 0.0"
+      },
+      {
+        "line": 1367,
+        "terms": [
+          "total_equity"
+        ],
+        "text": "        if position_value > total_equity * 1.02:"
+      },
+      {
+        "line": 1370,
+        "terms": [
+          "total_equity"
+        ],
+        "text": "        equity_curve.append(total_equity)"
+      },
+      {
+        "line": 1377,
+        "terms": [
+          "pending_orders"
+        ],
+        "text": "        # STEP 3: 生成 T 日信号 → pending_orders for T+1"
+      },
+      {
+        "line": 1462,
+        "terms": [
+          "cash"
+        ],
+        "text": "            _cash_mode = ("
+      },
+      {
+        "line": 1468,
+        "terms": [
+          "cash"
+        ],
+        "text": "            if _cash_mode:"
+      },
+      {
+        "line": 1498,
+        "terms": [
+          "total_equity"
+        ],
+        "text": "            daily_equity_records[-1][\"total_equity\"]"
+      },
+      {
+        "line": 1502,
+        "terms": [
+          "total_equity"
+        ],
+        "text": "            (total_equity / _prev_equity - 1) * 100"
+      },
+      {
+        "line": 1505,
+        "terms": [
+          "total_equity"
+        ],
+        "text": "        daily_equity_peak = max(daily_equity_peak, total_equity)"
+      },
+      {
+        "line": 1507,
+        "terms": [
+          "total_equity"
+        ],
+        "text": "            (daily_equity_peak - total_equity) / daily_equity_peak * 100"
+      },
+      {
+        "line": 1517,
+        "terms": [
+          "cash"
+        ],
+        "text": "            \"cash\": round(cash, 2),"
+      },
+      {
+        "line": 1518,
+        "terms": [
+          "positions"
+        ],
+        "text": "            \"positions_value\": round(position_value, 2),"
+      },
+      {
+        "line": 1519,
+        "terms": [
+          "total_equity"
+        ],
+        "text": "            \"total_equity\": round(total_equity, 2),"
+      },
+      {
+        "line": 1522,
+        "terms": [
+          "total_equity"
+        ],
+        "text": "            \"exposure_pct\": round(position_value / total_equity * 100, 2) if total_equity > 0 else 0.0,"
+      },
+      {
+        "line": 1523,
+        "terms": [
+          "positions"
+        ],
+        "text": "            \"open_positions_count\": len(holdings),"
+      },
+      {
+        "line": 1524,
+        "terms": [
+          "pending_orders"
+        ],
+        "text": "            \"pending_orders_count\": len(pending_orders),"
+      },
+      {
+        "line": 1622,
+        "terms": [
+          "cash"
+        ],
+        "text": "        # This does not change buy_orders, management_orders, holdings, or cash."
+      },
+      {
+        "line": 1775,
+        "terms": [
+          "portfolio"
+        ],
+        "text": "                if action in portfolio_action_dist:"
+      },
+      {
+        "line": 1776,
+        "terms": [
+          "portfolio"
+        ],
+        "text": "                    portfolio_action_dist[action] += 1"
+      },
+      {
+        "line": 1871,
+        "terms": [
+          "positions"
+        ],
+        "text": "                    # Gate OFF 时依赖 STEP 1 执行层的 max_positions_reached 检查"
+      },
+      {
+        "line": 2134,
+        "terms": [
+          "pending_orders"
+        ],
+        "text": "        pending_orders = management_orders + buy_orders"
+      },
+      {
+        "line": 2143,
+        "terms": [
+          "cash"
+        ],
+        "text": "                f\"day={spx_day_return*100:+.1f}% cash={cash:.0f} \""
+      },
+      {
+        "line": 2148,
+        "terms": [
+          "daily_records"
+        ],
+        "text": "            daily_records.append({"
+      },
+      {
+        "line": 2150,
+        "terms": [
+          "cash"
+        ],
+        "text": "                \"cash\":           round(cash, 2),"
+      },
+      {
+        "line": 2152,
+        "terms": [
+          "total_equity"
+        ],
+        "text": "                \"total_equity\":   round(total_equity, 2),"
+      },
+      {
+        "line": 2154,
+        "terms": [
+          "pending_orders"
+        ],
+        "text": "                \"pending_orders\": len(pending_orders),"
+      },
+      {
+        "line": 2196,
+        "terms": [
+          "cash"
+        ],
+        "text": "        cash    += h[\"shares\"] * exec_price"
+      },
+      {
+        "line": 2233,
+        "terms": [
+          "cash"
+        ],
+        "text": "    final_equity = cash"
+      },
+      {
+        "line": 2238,
+        "terms": [
+          "cash"
+        ],
+        "text": "        \"cash\": round(cash, 2),"
+      },
+      {
+        "line": 2239,
+        "terms": [
+          "positions"
+        ],
+        "text": "        \"positions_value\": 0.0,"
+      },
+      {
+        "line": 2240,
+        "terms": [
+          "total_equity"
+        ],
+        "text": "        \"total_equity\": round(final_equity, 2),"
+      },
+      {
+        "line": 2241,
+        "terms": [
+          "positions"
+        ],
+        "text": "        \"open_positions_count\": 0,"
+      },
+      {
+        "line": 2402,
+        "terms": [
+          "cash"
+        ],
+        "text": "            \"note\": \"Partial reduction releases cash but does not free a Max3 symbol slot.\","
+      },
+      {
+        "line": 2404,
+        "terms": [
+          "market_entry_gate"
+        ],
+        "text": "        \"market_entry_gate\": {"
+      },
+      {
+        "line": 2420,
+        "terms": [
+          "simulation_start_date",
+          "sim_start_date"
+        ],
+        "text": "            \"simulation_start_date\": sim_start_date,"
+      },
+      {
+        "line": 2438,
+        "terms": [
+          "initial_capital"
+        ],
+        "text": "        \"initial_capital\":   init_cap,"
+      },
+      {
+        "line": 2456,
+        "terms": [
+          "pending_orders"
+        ],
+        "text": "        \"pending_orders_executed\":  orders_executed,"
+      },
+      {
+        "line": 2457,
+        "terms": [
+          "pending_orders"
+        ],
+        "text": "        \"pending_orders_skipped\":   sum(skip_reasons.values()),"
+      },
+      {
+        "line": 2459,
+        "terms": [
+          "portfolio"
+        ],
+        "text": "        \"portfolio_action_distribution\":      portfolio_action_dist,"
+      },
+      {
+        "line": 2476,
+        "terms": [
+          "daily_records"
+        ],
+        "text": "        \"daily_records\":     daily_records,"
+      },
+      {
+        "line": 2503,
+        "terms": [
+          "portfolio"
+        ],
+        "text": "    Run four diagnostic portfolio variants using Strict Top3, no fixed TP."
+      },
+      {
+        "line": 2552,
+        "terms": [
+          "data/research/e1_5y"
+        ],
+        "text": "        regime_path = Path(\"data/research/e1_5y/regimes/spx_regime_daily.json\")"
+      },
+      {
+        "line": 2568,
+        "terms": [
+          "E1_AUDITED_G4_MINHOLD10",
+          "MINHOLD10"
+        ],
+        "text": "        \"E1_AUDITED_G4_MINHOLD10\": {"
+      },
+      {
+        "line": 2590,
+        "terms": [
+          "data/research/e1_5y"
+        ],
+        "text": "            \"e1r_regime_source\":     \"data/research/e1_5y/regimes/spx_regime_daily.json\","
+      },
+      {
+        "line": 2606,
+        "terms": [
+          "sim_start_date"
+        ],
+        "text": "    # 只用 sim_start_date / sim_end_date 控制交易执行和统计区间。"
+      },
+      {
+        "line": 2612,
+        "terms": [
+          "sim_start_date",
+          "2021-06-11"
+        ],
+        "text": "                \"sim_start_date\": \"2021-06-11\","
+      },
+      {
+        "line": 2620,
+        "terms": [
+          "sim_start_date",
+          "2023-11-06"
+        ],
+        "text": "                \"sim_start_date\": \"2023-11-06\","
+      },
+      {
+        "line": 2625,
+        "terms": [
+          "sim_start_date"
+        ],
+        "text": "                \"sim_start_date\": \"2024-12-03\","
+      },
+      {
+        "line": 2630,
+        "terms": [
+          "sim_start_date",
+          "2023-11-06"
+        ],
+        "text": "                \"sim_start_date\": \"2023-11-06\","
+      },
+      {
+        "line": 2653,
+        "terms": [
+          "sim_start_date"
+        ],
+        "text": "                sim_start_date=period_cfg[\"sim_start_date\"],"
+      },
+      {
+        "line": 2690,
+        "terms": [
+          "variant_results"
+        ],
+        "text": "    variant_results = period_results[_full_period_key][\"variants\"]"
+      },
+      {
+        "line": 2710,
+        "terms": [
+          "variant_results"
+        ],
+        "text": "        _core_e1r = variant_results.get(\"E1R_REGIME_AWARE_V0_1\")"
+      },
+      {
+        "line": 2713,
+        "terms": [
+          "data/research/e1_5y"
+        ],
+        "text": "        _stock_dir = Path(\"data/research/e1_5y/raw/stocks\")"
+      },
+      {
+        "line": 2714,
+        "terms": [
+          "data/research/e1_5y"
+        ],
+        "text": "        _spx_path = Path(\"data/research/e1_5y/raw/indices/SPX.json\")"
+      },
+      {
+        "line": 2715,
+        "terms": [
+          "data/research/e1_5y"
+        ],
+        "text": "        _regime_path = Path(\"data/research/e1_5y/regimes/spx_regime_daily.json\")"
+      },
+      {
+        "line": 2726,
+        "terms": [
+          "initial_capital"
+        ],
+        "text": "                initial_equity=float(base.get(\"initial_capital\", 100000)),"
+      },
+      {
+        "line": 2737,
+        "terms": [
+          "variant_results"
+        ],
+        "text": "            variant_results[\"E1R_REGIME_AWARE_V0_2\"] = compose_e1r_v0_2_variant("
+      },
+      {
+        "line": 2740,
+        "terms": [
+          "initial_capital"
+        ],
+        "text": "                initial_equity=float(base.get(\"initial_capital\", 100000)),"
+      },
+      {
+        "line": 2778,
+        "terms": [
+          "variant_results"
+        ],
+        "text": "    selected_id, selected_result = max(variant_results.items(), key=selection_key)"
+      },
+      {
+        "line": 2780,
+        "terms": [
+          "variant_results"
+        ],
+        "text": "    for variant_id, result in variant_results.items():"
+      },
+      {
+        "line": 2829,
+        "terms": [
+          "variant_results"
+        ],
+        "text": "    for vid, res in variant_results.items():"
+      },
+      {
+        "line": 2870,
+        "terms": [
+          "variant_results"
+        ],
+        "text": "        \"variant_results\": variant_results,"
+      },
+      {
+        "line": 2887,
+        "terms": [
+          "simulation_start_date",
+          "sim_start_date"
+        ],
+        "text": "                        \"sim_start_date\":   r.get(\"sample_validity\", {}).get(\"simulation_start_date\"),"
+      },
+      {
+        "line": 2934,
+        "terms": [
+          "run_trade_rule_validation"
+        ],
+        "text": "    results[\"layer_c\"] = run_trade_rule_validation("
+      },
+      {
+        "line": 2939,
+        "terms": [
+          "run_action_forward_validation"
+        ],
+        "text": "    results[\"layer_c2\"] = run_action_forward_validation("
+      }
+    ],
+    "main_guard": false
+  },
+  "loop_candidates": [
+    {
+      "name": "run_stateful_simulation",
+      "line": 763,
+      "end_line": 2486,
+      "args": [
+        "symbols",
+        "prices_map",
+        "dates_map",
+        "spx_prices",
+        "spx_dates",
+        "ohlc_map",
+        "assumptions",
+        "step",
+        "min_history",
+        "market_score_default",
+        "sim_start_date",
+        "sim_end_date",
+        "ndx_prices",
+        "ndx_dates",
+        "sox_prices",
+        "sox_dates",
+        "vix_prices",
+        "vix_dates"
+      ],
+      "terms": [
+        "daily_records",
+        "total_equity",
+        "cash",
+        "positions",
+        "portfolio",
+        "initial_capital",
+        "simulation_start_date",
+        "sim_start_date",
+        "market_entry_gate",
+        "pending_orders"
+      ],
+      "score": 42,
+      "source_head": "def run_stateful_simulation(\n    symbols:        list[str],\n    prices_map:     dict[str, list[float]],\n    dates_map:      dict[str, list[str]],\n    spx_prices:     list[float],\n    spx_dates:      list[str],\n    ohlc_map:       dict = None,\n    assumptions:    dict = None,\n    step:           int  = 1,\n    min_history:    int  = 120,\n    market_score_default: float = 60.0,\n    sim_start_date: str  = None,  # 交易执行起始日（None=从 min_history 后开始）\n    sim_end_date:   str  = None,  # 交易执行截止日（None=到末尾）\n    ndx_prices:     list = None,  # NDX 收盘价（Gate v2 Leadership 判断）\n    ndx_dates:      list = None,\n    sox_prices:     list = None,  # SOX 收盘价\n    sox_dates:      list = None,\n    vix_prices:     list = None,  # VIX 收盘价\n    vix_dates:      list = None,\n) -> dict:\n    \"\"\"\n    Layer D v1.6: Strict Top3 + RS threshold + MinHold + Relative SPX Stop\n\n    修正项（相比 v3）：\n    1. SPX master calendar — 时间轴以 SPX dates 为准\n    2. Date-based alignment — 所有股票按日期查找，不用 index 直接对齐\n    3. skipped_orders_by_reason — 跳过原因分类统计\n    4. sample_validity 检查 — 样本不足时返回 INSUFFICIENT_SAMPLE\n    \"\"\"\n    logger.info(\"[Backtest Layer D v1.6] Strict Top3 + RS/MinHold/RelStop Backtest...\")\n\n    # ── 冻结参数 ─────────────────────────────────────────\n    a        = assumptions or LAYER_D_ASSUMPTIONS\n    max_pos  = a[\"max_positions\"]\n    buy_pct  = a[\"buy_size\"]  / max_pos       # Top3: 1/3 per full slot\n    add_pct  = a[\"add_size\"]  / max_pos       # Top3: +1/6, only useful after REDUCE\n    max_pct  = a[\"max_single_size\"] / max_pos # Top3: max 1/3 per position\n    one_way  = a[\"total_one_way\"]             # 0.001\n    init_cap = float(a.get(\"initial_capital\", 100_000))\n    strategy_variant = a.get(\"strategy_variant\", \"top3_entry_rs_minhold_relstop\")\n    e1r_shell_mode = bool(a.get(\"e1r_shell_mode\", False))\n    e1r_regime_wiring_enabled = bool(a.get(\"e1r_regime_wiring_enabled\", False))\n    e1r_uptrend_execution_enabled = bool(a.get(\"e1r_uptrend_execution_enabled\", False))\n    e1r_regime_daily = a.get(\"e1r_regime_daily\", {}) or {}\n\n    def _e1r_regime_on(date: str) -> str:\n        if not e1r_regime_wiring_enabled or not date:\n            return \"N/A\"\n        rec = e1r_regime_daily.get(date, {})\n        if isinstance(rec, dict):\n            return rec.get(\"regime\") or rec.get(\"spx_regime\") or rec.get(\"weekly_regime\") or \"UNCLASSIFIED\"\n        if isinstance(rec, str):\n            return rec\n        return \"UNCLASSIFIED\"\n\n    def _e1r_mode_for_regime(regime: str) -> str:\n        if regime == \"UPTREND\":\n            return \"UPTREND_EMERGING_CONFIRMED_ENABLED\"\n        if regime == \"SIDEWAYS\":\n            return \"SIDEWAYS_QUALITY_BREAKOUT_ONLY\"\n        if regime == \"DOWNTREND\":\n            return \"DOWNTREND_EXCEPTION_ONLY\"\n        if regime == \"N/A\":\n            return \"N/A\"\n        return \"UNCLASSIFIED_NO_RISK_EXPANSION\"\n\n    def _e1r_risk_budget_for_regime(regime: str) -> dict:\n        if regime == \"UPTREND\":\n            return {\"mode\": \"UPTREND_RISK_ON\", \"max_positions\": 3, \"max_total_exposure_pct\": 100.0}\n        if regime == \"SIDEWAYS\":\n            return {\"mode\": \"SIDEWAYS_LIMITED\", \"max_positions\": 2, \"max_total_exposure_pct\": 33.3}\n        if regime == \"DOWNTREND\":\n            return {\"mode\": \"DOWNTREND_DEFENSIVE\", \"max_positions\": 1, \"max_total_exposure_pct\": 10.0}\n        if regime == \"N/A\":\n            return {\"mode\": \"N/A\", \"max_positions\": None, \"max_total_exposure_pct\": None}\n        return {\"mode\": \"UNCLASSIFIED_DEFENSIVE\", \"max_positions\": 0, \"max_total_exposure_pct\": 0.0}\n\n    def _e1r_dominant_regime(weights: dict) -> str:\n        if not weights:\n            return \"UNCLASSIFIED\" if e1r_regime_wiring_enabled else \"N/A\"\n        return max(weights.items(), key=lambda kv: kv[1])[0]\n\n    entry_top_n = int(a.get(\"entry_top_n\", 3))\n    rank_based_exit = bool(a.get(\"rank_based_exit\", False))\n    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))\n    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))\n    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则\n\n    # Qualified Candidate Pool 参数\n    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n\n    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))\n    qualified_rs_min          = float(a.get(\"qualified_rs_min\", 90.0))\n    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))\n    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))\n    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))\n    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))\n    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))\n\n    fill_only_enabled    = bool(a.get(\"fill_only_enabled\", False))\n    gate_use_slope       = bool(a.get(\"gate_use_slope\", True))\n    gate_use_leadership  = bool(a.get(\"gate_use_leadership\", True))\n\n    # ── 辅助指数 Lookup（日期 → 价格）─────────────────────────\n    # 用于 Gate v2 市场状态判断；缺失日期使用最近一个有效值\n    def _build_lookup(dates_list, prices_list):\n        \"\"\"建立 date_str → price 映射\"\"\"\n        m = {}\n        if dates_list and prices_list:\n            for d, p in zip(dates_list, prices_list):\n                m[d] = p\n        return m\n\n    ndx_lookup = _build_lookup(ndx_dates or [], ndx_prices or [])\n    sox_lookup = _build_lookup(sox_dates or [], sox_prices or [])\n    vix_lookup = _build_lookup(vix_dates or [], vix_prices or [])\n\n    def _get_price_on(lookup, date, fallback=None):\n        \"\"\"获取 date 当天价格，缺失时返回 fallback\"\"\"\n        return lookup.get(date, fallback)\n\n    # SPX MA50 历史队列（用于 10日 slope 计算）\n    from collections import deque\n    spx_ma50_history = deque(maxlen=11)  # 存最近11个 MA50 值（今天+10天前）\n\n    if qualified_entry_enabled:\n        logger.info(f\"  Qualified Pool: candidate_top_n={candidate_top_n} \"\n                    f\"RS>={qualified_rs_min} Mom>={qualified_momentum_min} \"\n                    f\"TH>={qualified_th_min} states={qualified_states} \"\n                    f\"price>MA50={qualified_price_above_ma50} slope>={qualified_ma50_slope_min}\")\n    else:\n        logger.info(f\"  Entry mode: Strict Top{entry_top_n} (legacy)\")\n    if ls60_exit_mode not in {\"exit\", \"reduce\"}:\n        raise ValueError(f\"Invalid ls60_exit_mode={ls60_exit_mode!r}; expected 'exit' or 'reduce'\")\n    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))\n    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))\n    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))\n    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))\n    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))\n    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))\n    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))\n    min_holding_days = int(a.get(\"min_holding_days\", 0))\n    # E2 Dynamic Exit parameters\n    dynamic_exit_enabled   = bool(a.get(\"dynamic_exit_enabled\", False))\n    min_hold_allow_brok"
+    },
+    {
+      "name": "run_strategy_variant_comparison",
+      "line": 2489,
+      "end_line": 2895,
+      "args": [
+        "symbols",
+        "prices_map",
+        "dates_map",
+        "spx_prices",
+        "spx_dates",
+        "ndx_prices",
+        "ndx_dates",
+        "sox_prices",
+        "sox_dates",
+        "vix_prices",
+        "vix_dates"
+      ],
+      "terms": [
+        "portfolio",
+        "initial_capital",
+        "simulation_start_date",
+        "sim_start_date",
+        "2023-11-06",
+        "2021-06-11",
+        "data/research/e1_5y",
+        "variant_results",
+        "E1_AUDITED_G4_MINHOLD10",
+        "MINHOLD10"
+      ],
+      "score": 30,
+      "source_head": "def run_strategy_variant_comparison(\n    symbols: list[str],\n    prices_map: dict[str, list[float]],\n    dates_map: dict[str, list[str]],\n    spx_prices: list[float],\n    spx_dates: list[str],\n    ndx_prices: list[float] = None,\n    ndx_dates:  list[str]   = None,\n    sox_prices: list[float] = None,\n    sox_dates:  list[str]   = None,\n    vix_prices: list[float] = None,\n    vix_dates:  list[str]   = None,\n) -> dict:\n    \"\"\"\n    Run four diagnostic portfolio variants using Strict Top3, no fixed TP.\n\n    V0_BASE: current Strict Top3 baseline.\n    V1_RS95: raise entry RS threshold from 90 to 95.\n    V2_RS95_MINHOLD5: add minimum 5 trading-day hold for ordinary REDUCE/EXIT.\n    V3_RS95_MINHOLD5_RELSTOP8: add relative SPX underperformance stop.\n\n    Selection policy:\n    1. Prefer PASS over PARTIAL over FAIL.\n    2. Within the same status, prefer higher total return.\n    3. Break ties with higher Profit Factor, higher Sharpe, then lower max drawdown.\n    \"\"\"\n    logger.info(\"[Backtest Layer D v1.6] Strategy Variant Comparison...\")\n\n    base = {\n        **LAYER_D_ASSUMPTIONS,\n        \"market_gate_enabled\": False,\n        \"market_shock_gate_enabled\": False,\n        \"partial_take_profit_enabled\": False,\n        \"block_add_after_take_profit\": False,\n    }\n    # ── Gate v2 No VIX（冻结市场层基准）─────────────────────────\n    _gate_v2_no_vix = {\n        \"market_gate_enabled\":       True,\n        \"risk_off_below_spx_ma50\":   True,\n        \"market_shock_gate_enabled\": True,\n        \"market_shock_daily_return\": -0.02,\n        \"candidate_top_n\":           None,\n        \"qualified_entry_enabled\":   False,\n        \"fill_only_enabled\":         False,\n    }\n\n    # ── E2 实验配置（Gate 固定 G4，只改退出层）────────────────\n    _gate_g4 = {\n        \"market_gate_enabled\":       True,\n        \"risk_off_below_spx_ma50\":   False,\n        \"market_shock_gate_enabled\": False,\n        \"market_shock_daily_return\": -0.02,\n        \"gate_use_slope\":            True,\n        \"gate_use_leadership\":       True,\n        \"candidate_top_n\":           None,\n        \"qualified_entry_enabled\":   False,\n        \"fill_only_enabled\":         False,\n        \"entry_top_n\":               3,\n        \"entry_rs_min\":              90.0,\n        \"ls60_exit_mode\":            \"exit\",\n    }\n\n    def _load_e1r_regime_daily() -> dict:\n        regime_path = Path(\"data/research/e1_5y/regimes/spx_regime_daily.json\")\n        if not regime_path.exists():\n            logger.warn(f\"  E1-R regime wiring: missing {regime_path}\")\n            return {}\n        try:\n            obj = json.loads(regime_path.read_text())\n        except Exception as exc:\n            logger.warn(f\"  E1-R regime wiring: failed to load {regime_path}: {exc}\")\n            return {}\n        daily = obj.get(\"daily_regime\", obj) if isinstance(obj, dict) else {}\n        return daily if isinstance(daily, dict) else {}\n\n    _e1r_regime_daily = _load_e1r_regime_daily()\n\n    variants = {\n        # E1: Gate G4 + MinHold10（审计对照基准，不可修改）\n        \"E1_AUDITED_G4_MINHOLD10\": {\n            **base, **_gate_g4,\n            \"strategy_variant\":      \"E1_audited_g4_minhold10\",\n            \"min_holding_days\":      10,\n            \"dynamic_exit_enabled\":  False,\n            \"relative_stop_enabled\": False,\n            \"version\":               \"E1-audited-g4-minhold10\",\n        },\n        # E1-R v0.1 shell: research candidate placeholder.\n        # Shell intentionally mirrors E1 execution rules for Phase 1 so that\n        # exports/backtest.json exposes the strategy ID without changing E1.\n        \"E1R_REGIME_AWARE_V0_1\": {\n            **base, **_gate_g4,\n            \"strategy_variant\":      \"E1R_regime_aware_v0_1_shell\",\n            \"min_holding_days\":      10,\n            \"dynamic_exit_enabled\":  False,\n            \"relative_stop_enabled\": False,\n            \"version\":               \"E1R-uptrend-execution-v0.1\",\n            \"e1r_shell_mode\":        True,\n            \"e1r_uptrend_execution_enabled\": True,\n            \"e1r_regime_wiring_enabled\": True,\n            \"e1r_regime_daily\":      _e1r_regime_daily,\n            \"e1r_regime_source\":     \"data/research/e1_5y/regimes/spx_regime_daily.json\",\n            \"e1r_spec_ref\":          \"docs/research/E1R_REGIME_AWARE_STRATEGY_SPEC_v0.1.md\",\n        },\n        # E2v2: Gate G4 + Dynamic Exit v2（CAUTIOUS/CASH_MODE 下 LS<60 直接退出）\n        \"E2_DYNAMIC_EXIT_V2\": {\n            **base, **_gate_g4,\n            \"strategy_variant\":      \"E2_dynamic_exit_v2\",\n            \"min_holding_days\":      0,\n            \"dynamic_exit_enabled\":  True,\n            \"relative_stop_enabled\": False,\n            \"version\":               \"E2-dynamic-exit-v2\",\n        },\n    }\n\n    # ── 分期定义 ─────────────────────────────────────────────────\n    # 时间轴保持完整（确保 warm-up / MA50 / RS 计算不失真）；\n    # 只用 sim_start_date / sim_end_date 控制交易执行和统计区间。\n    import os as _os\n    if _os.environ.get(\"SP500_RESEARCH_5Y\") == \"1\":\n        periods = {\n            \"C_FULL_5Y_2021_06_TO_2026_06\": {\n                \"label\":          \"Period C (Full 5Y): 2021-06 → 2026-06\",\n                \"sim_start_date\": \"2021-06-11\",\n                \"sim_end_date\":   \"2026-06-18\",\n            },\n        }\n    else:\n        periods = {\n            \"A_2023_11_TO_2024_12\": {\n                \"label\":          \"Period A: 2023-11 → 2024-12\",\n                \"sim_start_date\": \"2023-11-06\",\n                \"sim_end_date\":   \"2024-12-31\",\n            },\n            \"B_2024_12_TO_2026_06\": {\n                \"label\":          \"Period B: 2024-12 → 2026-06\",\n                \"sim_start_date\": \"2024-12-03\",\n                \"sim_end_date\":   \"2026-06-11\",\n            },\n            \"C_FULL_2023_11_TO_2026_06\": {\n                \"label\":          \"Period C (Full): 2023-11 → 2026-06\",\n                \"sim_start_date\": \"2023-11-06\",\n                \"sim_end_date\":   \"2026-06-11\",\n            },\n        }\n\n    # ── 逐 period × variant 跑回测 ──────────────────────────────\n    period_results = {}\n    for period_key, period_cfg in periods.items():\n        logger.info(f\"  ══ {period_cfg['label']} ══\")\n        period_results[period_key] = {\"label\": period_cfg[\"label\"], \"variants\": {}}\n        for variant_id, assumptions in variants.items():\n            logger.info(f\"    === {period_key}/{variant_id} ===\")\n            # E1/E2：Gate G4 固定使用 NDX/SOX（leadership），不传 VIX\n            _use_ndx = ndx_prices or []\n            _use_sox = sox_prices or []\n            _use_vix = []  # Gate v2.1 不使用 VIX\n            _result = run_stateful_simulation(\n                symbols=symbols,\n                prices_map=prices_map,\n                dates_map=dates_map,\n                spx_prices=spx_prices,\n                spx_dates=spx_dates,\n                assumptions=assumptions,\n                sim_start_date=period_cfg[\"sim_start_date\"],\n                sim_end_date=period_cfg[\"sim_end_date\"],\n                ndx_prices=_use_ndx,\n                ndx_dates=ndx_dates or [],\n                sox_prices=_use_sox,\n                sox_dates=sox_dates or [],\n                vix_prices=_use_v"
+    }
+  ],
+  "baseline_hashes": {
+    "src/engine/backtest.py": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+    "src/engine/e1r_composer.py": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+    "src/engine/e1r_sidecar_sleeve.py": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995"
+  },
+  "post_hashes": {
+    "src/engine/backtest.py": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+    "src/engine/e1r_composer.py": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+    "src/engine/e1r_sidecar_sleeve.py": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995"
+  },
+  "strategy_files_unchanged": true,
+  "canonical_exists_before": {
+    "exports/e1_5y_backtest_equity_curve.json": false,
+    "exports/e1r_v0_2_portfolio_backtest_equity_curve.json": false,
+    "exports/e1_e1r_5y_equity_comparison.json": false
+  },
+  "canonical_exists_after": {
+    "exports/e1_5y_backtest_equity_curve.json": false,
+    "exports/e1r_v0_2_portfolio_backtest_equity_curve.json": false,
+    "exports/e1_e1r_5y_equity_comparison.json": false
+  },
+  "canonical_existence_unchanged": true,
+  "diagnosis": [
+    "Direct backtest command ok: False.",
+    "Backtest module import ok: True.",
+    "Frozen strategy files unchanged: True.",
+    "Canonical export existence unchanged: True.",
+    "E1 loop/export candidate functions found: 2.",
+    "Direct command final error line: ImportError: attempted relative import with no known parent package",
+    "Backtest date literals: 2021-06-11, 2023-11-06, 2024-12-03, 2024-12-31, 2026-06-11, 2026-06-18",
+    "Top E1 loop/export candidate: run_stateful_simulation line 763 score=42.",
+    "Next step should fix command/import/entry failure or call internal functions via an export-only wrapper."
+  ],
+  "next_stage": {
+    "name": "Stage 3.8E-2F-2C-4C-10F-3",
+    "title": "Build export-only E1 5Y core wrapper",
+    "recommended_action": "Use the identified E1 loop/export candidate function(s). Do not modify frozen strategy logic. Create an export-only wrapper that runs E1 from 2021-06-11 to 2026-06-18 and emits one continuous portfolio daily/equity record per interval."
+  }
+}
