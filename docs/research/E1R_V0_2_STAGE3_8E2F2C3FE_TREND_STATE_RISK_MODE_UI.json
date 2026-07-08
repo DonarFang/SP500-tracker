@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-07-08T09:59:42.780770+00:00",
+  "stage": "B_STAGE_3_8E2F2C3FE_TREND_STATE_RISK_MODE_UI",
+  "status": "IMPLEMENTED_DASHBOARD_PATCH",
+  "files_changed": [
+    "dashboard/app.js"
+  ],
+  "changes": {
+    "data_declaration_changed": true,
+    "status_load_added": true,
+    "native_state_split": true,
+    "metric_changed": true
+  },
+  "source_values": {
+    "trend_state_source_file": "exports/e1r_v0_2_status.json",
+    "trend_state_regime": "UPTREND",
+    "trend_state_e1r_market_state": "UPTREND",
+    "risk_mode_source_file": "exports/market_state.json",
+    "risk_mode_state": "Risk-On",
+    "data_date": "2026-07-07",
+    "market_score": 60.0
+  },
+  "expected_ui": {
+    "Trend State": "UPTREND",
+    "Risk Mode": "Risk-On",
+    "Data date": "2026-07-07",
+    "Market score": 60.0
+  },
+  "policy": {
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "official_kickoff_date_set": false,
+    "tracking_status_changed_to_live": false
+  }
+}

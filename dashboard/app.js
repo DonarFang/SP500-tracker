@@ -16,7 +16,7 @@ const REG_META = {
 };
 const IDX_ICONS = {SPX:'📊',NDX:'💻',VIX:'😨',SOX:'🔬'};
 
-let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null,oosEquity:null,e1rV02OosOrders:null,e1rV02OosPositions:null,e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null,e1rFormal:null};
+let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null,oosEquity:null,e1rV02Status:null,e1rV02OosOrders:null,e1rV02OosPositions:null,e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null,e1rFormal:null};
 let charts = {};
 
 const $   = id => document.getElementById(id);
@@ -139,6 +139,7 @@ async function fetchResearchJ(name) {
 
 async function loadAll() {
   // Stage 3.8E-2B-v4: read-only daily summary exports for unified summary.
+  try { DATA.e1rV02Status = await fetchJ('e1r_v0_2_status'); } catch(e) { DATA.e1rV02Status = {}; }
   try { DATA.e1rV02BacktestSummary = await fetchJ('e1r_v0_2_backtest_summary'); } catch(e) { DATA.e1rV02BacktestSummary = {}; }
   try { DATA.e1rV02OosSummary = await fetchJ('oos_e1r_v0_2_summary'); } catch(e) { DATA.e1rV02OosSummary = {}; }
   try { DATA.oosSummaryNative = await fetchJ('oos_summary'); } catch(e) { DATA.oosSummaryNative = {}; }
@@ -1192,13 +1193,21 @@ Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
 
     // Stage 3.8E-1: keep only market context below the trade table.
     const nativeMarket = DATA.market || {};
-    const nativeMarketState =
-      nativeMarket.market_state ||
-      nativeMarket.state ||
-      nativeMarket.regime ||
-      nativeMarket.current_regime ||
-      nativeMarket.market_regime ||
+    const e1rStatus = DATA.e1rV02Status || {};
+    const nativeTrendState =
+      e1rStatus.regime ||
+      e1rStatus.trend_state ||
+      e1rStatus.market_regime ||
+      e1rStatus.e1r_market_state ||
       nativeMarket.trend_state ||
+      nativeMarket.market_regime ||
+      nativeMarket.regime ||
+      '—';
+    const nativeRiskMode =
+      nativeMarket.state ||
+      nativeMarket.risk_mode ||
+      nativeMarket.market_state ||
+      nativeMarket.risk_state ||
       '—';
     const nativeMarketDate =
       nativeMarket.data_date ||
@@ -1222,7 +1231,8 @@ Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
 
     h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">Market State</div><div class="card-body">
       <div class="grid-4">
-        <div class="mc"><div class="mc-label">State</div><div class="mc-val">${nativeMarketState}</div></div>
+        <div class="mc"><div class="mc-label">Trend State</div><div class="mc-val">${nativeTrendState}</div></div>
+        <div class="mc"><div class="mc-label">Risk Mode</div><div class="mc-val">${nativeRiskMode}</div></div>
         <div class="mc"><div class="mc-label">Data date</div><div class="mc-val">${nativeMarketDate}</div></div>
         <div class="mc"><div class="mc-label">Market score</div><div class="mc-val">${nativeMarketScore}</div></div>
         <div class="mc"><div class="mc-label">Leadership</div><div class="mc-val">${nativeLeadership}</div></div>
