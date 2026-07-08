@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-07-08T12:59:19.002257+00:00",
+  "stage": "B_STAGE_3_8E2F2C4C10F3D_S_E1_EXPORT_FIELD_MAPPING_FIX",
+  "status": "E1_EXPORT_FIELD_MAPPING_FIX_COMPLETE_NO_BACKTEST",
+  "policy": {
+    "dashboard_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "full_backtest_rerun": false,
+    "canonical_e1_rewritten": false,
+    "export_script_changed": true
+  },
+  "patch_report": {
+    "script_changed": true,
+    "market_value_mapping_fixed": true,
+    "n_positions_mapping_fixed": true
+  },
+  "canonical_audit": {
+    "canonical_path": "exports/e1_5y_backtest_equity_curve.json",
+    "exists": true,
+    "row_count": 1259,
+    "unique_dates": 1259,
+    "date_start": "2021-06-11",
+    "date_end": "2026-06-16",
+    "one_row_per_date": true,
+    "max_rows_per_date": 1,
+    "missing_market_value_rows_existing_canonical": 1259,
+    "missing_n_positions_rows_existing_canonical": 1259,
+    "note": "Existing canonical was not rewritten in this step; missing field counts reflect the already-saved file from 10F-3C."
+  },
+  "strategy_files_unchanged": true,
+  "diagnosis": [
+    "Fixed export script field mapping for future E1 canonical regeneration.",
+    "Existing E1 canonical was not rewritten and remains valid as the saved continuous equity curve.",
+    "market_value/n_positions fields in the existing canonical will remain None until an explicit regeneration is approved.",
+    "No frozen strategy files were modified."
+  ],
+  "next_stage": {
+    "name": "Stage 3.8E-2F-2C-4C-10F-4A",
+    "title": "Generate regime-aware E1R sidecar records with explicit 5Y window",
+    "recommended_action": "Use saved E1 5Y core equity as input and generate/validate sidecar records before composing E1R."
+  }
+}
