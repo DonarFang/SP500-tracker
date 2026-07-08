@@ -1,0 +1,599 @@
+{
+  "generated_at": "2026-07-08T06:44:53.415831+00:00",
+  "stage": "B_STAGE_3_8E2F1C_E1R_RUNNER_DRY_RUN_AUDIT",
+  "status": "AUDIT_COMPLETE_EXPORT_CHANGES_REVERTED",
+  "main": {
+    "branch": "main",
+    "head": "fd19a9e"
+  },
+  "policy": {
+    "source_changed": false,
+    "dashboard_changed": false,
+    "strategy_logic_changed": false,
+    "export_changes_committed": false,
+    "runtime_export_changes_reverted": true
+  },
+  "scripts": [
+    "scripts/run_e1r_v0_2_oos.py",
+    "scripts/run_e1r_v0_2_oos_equity.py",
+    "scripts/export_e1r_v0_2_status.py"
+  ],
+  "watch_files": [
+    "data/oos/portfolio_state.json",
+    "data/oos/e1r_v0_2_portfolio_state.json",
+    "data/oos/e1r_v0_2_events.jsonl",
+    "data/oos/e1r_v0_2_run_history.jsonl",
+    "exports/oos_e1r_v0_2_summary.json",
+    "exports/oos_e1r_v0_2_equity_curve.json",
+    "exports/oos_e1r_v0_2_orders.json",
+    "exports/oos_e1r_v0_2_positions.json",
+    "exports/oos_e1r_v0_2_sidecar.json",
+    "exports/e1r_v0_2_status.json",
+    "exports/oos_summary.json",
+    "exports/oos_equity_curve.json",
+    "exports/oos_orders.json",
+    "exports/oos_positions.json"
+  ],
+  "before_hashes": {
+    "data/oos/portfolio_state.json": {
+      "exists": true,
+      "sha256": "a24593e811f5dc9c2fe918577b9d779bdaf81b551f315404a8723ce1504f730c",
+      "size_bytes": 967
+    },
+    "data/oos/e1r_v0_2_portfolio_state.json": {
+      "exists": false,
+      "sha256": null,
+      "size_bytes": null
+    },
+    "data/oos/e1r_v0_2_events.jsonl": {
+      "exists": false,
+      "sha256": null,
+      "size_bytes": null
+    },
+    "data/oos/e1r_v0_2_run_history.jsonl": {
+      "exists": false,
+      "sha256": null,
+      "size_bytes": null
+    },
+    "exports/oos_e1r_v0_2_summary.json": {
+      "exists": true,
+      "sha256": "385c58420b46049b4274532d4b4ad262e7e108cca8f24db4887d7c5b810fcd0c",
+      "size_bytes": 873
+    },
+    "exports/oos_e1r_v0_2_equity_curve.json": {
+      "exists": true,
+      "sha256": "a2d596d5e320893cdf38680c7b29d4b159265433940eb7a8650a82b19d36b496",
+      "size_bytes": 2632
+    },
+    "exports/oos_e1r_v0_2_orders.json": {
+      "exists": true,
+      "sha256": "cd74e1d341261790b4651fa30af5c18934a2261e72ce90336c3ea3fa15e13dc9",
+      "size_bytes": 255
+    },
+    "exports/oos_e1r_v0_2_positions.json": {
+      "exists": true,
+      "sha256": "df91546ffb37dcf6a75ccef4261a7ec425ca4ca6a42fed192d3df975851b2311",
+      "size_bytes": 446
+    },
+    "exports/oos_e1r_v0_2_sidecar.json": {
+      "exists": true,
+      "sha256": "a7f3f0204e7d207fcba3832921c5e6964be0df5109d70ad164a2ba8750a85799",
+      "size_bytes": 507
+    },
+    "exports/e1r_v0_2_status.json": {
+      "exists": true,
+      "sha256": "f05d4346d7d59fe361f928bdff24c612eb8eff028d1ecc57f0b86cedd6784c72",
+      "size_bytes": 1580
+    },
+    "exports/oos_summary.json": {
+      "exists": true,
+      "sha256": "9d3ff937c6e14df70bfbc529642a63be362a9946b8df973bc2f65afcb580b83b",
+      "size_bytes": 1006
+    },
+    "exports/oos_equity_curve.json": {
+      "exists": true,
+      "sha256": "05f62aff31e2dfd9c65d6e2eb5b1528a439b8eb474d3478e765b9c372c8a1a2c",
+      "size_bytes": 2311
+    },
+    "exports/oos_orders.json": {
+      "exists": true,
+      "sha256": "94e8f3887c401d14869bceea13d5aad34dad140532457ca0bbc5b3069d8ac539",
+      "size_bytes": 2773
+    },
+    "exports/oos_positions.json": {
+      "exists": true,
+      "sha256": "24e3a524932c4ea1f1a94f886031269520a1448ca3675d839c836d1e46938f67",
+      "size_bytes": 1186
+    }
+  },
+  "after_hashes": {
+    "data/oos/portfolio_state.json": {
+      "exists": true,
+      "sha256": "a24593e811f5dc9c2fe918577b9d779bdaf81b551f315404a8723ce1504f730c",
+      "size_bytes": 967
+    },
+    "data/oos/e1r_v0_2_portfolio_state.json": {
+      "exists": false,
+      "sha256": null,
+      "size_bytes": null
+    },
+    "data/oos/e1r_v0_2_events.jsonl": {
+      "exists": false,
+      "sha256": null,
+      "size_bytes": null
+    },
+    "data/oos/e1r_v0_2_run_history.jsonl": {
+      "exists": false,
+      "sha256": null,
+      "size_bytes": null
+    },
+    "exports/oos_e1r_v0_2_summary.json": {
+      "exists": true,
+      "sha256": "289b0c7ec21d663340a2a65f012d8ef4805dc09a596c3dce063ce8d51a473813",
+      "size_bytes": 873
+    },
+    "exports/oos_e1r_v0_2_equity_curve.json": {
+      "exists": true,
+      "sha256": "bb8bfff0661873d2b7ba0989b538afc90f71c3177092c4f2a8ac44d528cd7d69",
+      "size_bytes": 2632
+    },
+    "exports/oos_e1r_v0_2_orders.json": {
+      "exists": true,
+      "sha256": "7f4be366af1966fb13bb89f7ee886fda41cbaf2c2ee004f3cf4c04756fdf4c69",
+      "size_bytes": 255
+    },
+    "exports/oos_e1r_v0_2_positions.json": {
+      "exists": true,
+      "sha256": "c801a9782e60c0aa0996b78d5ad5f7d0b39c8c0141cd90f4302cd2270bbf3f9c",
+      "size_bytes": 446
+    },
+    "exports/oos_e1r_v0_2_sidecar.json": {
+      "exists": true,
+      "sha256": "1a999e34828ceb2e9840c56cb37c6c2d8276f7d88e45a99db8df085bc6aa2312",
+      "size_bytes": 507
+    },
+    "exports/e1r_v0_2_status.json": {
+      "exists": true,
+      "sha256": "5bb9cca68f1998fcb6f13d1d11a572f74585a1fd7dc24ea934ab90a77cacd67b",
+      "size_bytes": 1580
+    },
+    "exports/oos_summary.json": {
+      "exists": true,
+      "sha256": "9d3ff937c6e14df70bfbc529642a63be362a9946b8df973bc2f65afcb580b83b",
+      "size_bytes": 1006
+    },
+    "exports/oos_equity_curve.json": {
+      "exists": true,
+      "sha256": "05f62aff31e2dfd9c65d6e2eb5b1528a439b8eb474d3478e765b9c372c8a1a2c",
+      "size_bytes": 2311
+    },
+    "exports/oos_orders.json": {
+      "exists": true,
+      "sha256": "94e8f3887c401d14869bceea13d5aad34dad140532457ca0bbc5b3069d8ac539",
+      "size_bytes": 2773
+    },
+    "exports/oos_positions.json": {
+      "exists": true,
+      "sha256": "24e3a524932c4ea1f1a94f886031269520a1448ca3675d839c836d1e46938f67",
+      "size_bytes": 1186
+    }
+  },
+  "changed_watch_files": [
+    {
+      "path": "exports/oos_e1r_v0_2_summary.json",
+      "before": {
+        "exists": true,
+        "sha256": "385c58420b46049b4274532d4b4ad262e7e108cca8f24db4887d7c5b810fcd0c",
+        "size_bytes": 873
+      },
+      "after": {
+        "exists": true,
+        "sha256": "289b0c7ec21d663340a2a65f012d8ef4805dc09a596c3dce063ce8d51a473813",
+        "size_bytes": 873
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_equity_curve.json",
+      "before": {
+        "exists": true,
+        "sha256": "a2d596d5e320893cdf38680c7b29d4b159265433940eb7a8650a82b19d36b496",
+        "size_bytes": 2632
+      },
+      "after": {
+        "exists": true,
+        "sha256": "bb8bfff0661873d2b7ba0989b538afc90f71c3177092c4f2a8ac44d528cd7d69",
+        "size_bytes": 2632
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_orders.json",
+      "before": {
+        "exists": true,
+        "sha256": "cd74e1d341261790b4651fa30af5c18934a2261e72ce90336c3ea3fa15e13dc9",
+        "size_bytes": 255
+      },
+      "after": {
+        "exists": true,
+        "sha256": "7f4be366af1966fb13bb89f7ee886fda41cbaf2c2ee004f3cf4c04756fdf4c69",
+        "size_bytes": 255
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_positions.json",
+      "before": {
+        "exists": true,
+        "sha256": "df91546ffb37dcf6a75ccef4261a7ec425ca4ca6a42fed192d3df975851b2311",
+        "size_bytes": 446
+      },
+      "after": {
+        "exists": true,
+        "sha256": "c801a9782e60c0aa0996b78d5ad5f7d0b39c8c0141cd90f4302cd2270bbf3f9c",
+        "size_bytes": 446
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar.json",
+      "before": {
+        "exists": true,
+        "sha256": "a7f3f0204e7d207fcba3832921c5e6964be0df5109d70ad164a2ba8750a85799",
+        "size_bytes": 507
+      },
+      "after": {
+        "exists": true,
+        "sha256": "1a999e34828ceb2e9840c56cb37c6c2d8276f7d88e45a99db8df085bc6aa2312",
+        "size_bytes": 507
+      }
+    },
+    {
+      "path": "exports/e1r_v0_2_status.json",
+      "before": {
+        "exists": true,
+        "sha256": "f05d4346d7d59fe361f928bdff24c612eb8eff028d1ecc57f0b86cedd6784c72",
+        "size_bytes": 1580
+      },
+      "after": {
+        "exists": true,
+        "sha256": "5bb9cca68f1998fcb6f13d1d11a572f74585a1fd7dc24ea934ab90a77cacd67b",
+        "size_bytes": 1580
+      }
+    }
+  ],
+  "git_status_after_script_run": [
+    " M exports/e1r_v0_2_status.json",
+    " M exports/oos_e1r_v0_2_equity_curve.json",
+    " M exports/oos_e1r_v0_2_orders.json",
+    " M exports/oos_e1r_v0_2_positions.json",
+    " M exports/oos_e1r_v0_2_sidecar.json",
+    " M exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+    " M exports/oos_e1r_v0_2_sidecar_turnover.json",
+    " M exports/oos_e1r_v0_2_summary.json"
+  ],
+  "script_results": [
+    {
+      "script": "scripts/run_e1r_v0_2_oos.py",
+      "cmd": [
+        "python3",
+        "scripts/run_e1r_v0_2_oos.py"
+      ],
+      "returncode": 0,
+      "stdout": "Wrote /Users/dongfang/Downloads/sp500-tracker-v13/exports/e1r_v0_2_status.json\nstatus_date: 2026-06-18\ne1r_market_state: UPTREND\nregime: UPTREND\nsubclass: None\ncore.active: True\nsidecar.active: False\nsidecar.selected_count: 0\nE1R v0.2 OOS-1 export complete\nstatus_date: 2026-06-18\nmarket_state: UPTREND\ncore_active: True\nsidecar_active: False\nsidecar_selected_count: 0\nwrote:\n  exports/e1r_v0_2_status.json\n  exports/oos_e1r_v0_2_summary.json\n  exports/oos_e1r_v0_2_sidecar.json\n  exports/oos_e1r_v0_2_positions.json\n  exports/oos_e1r_v0_2_orders.json\nE1R v0.2 OOS-2B equity export complete\nstatus_date: 2026-06-18\nmarket_state: UPTREND\ncore_active: True\nsidecar_active: False\nsidecar_selected_count: 0\ncore_equity: 100000.0\nsidecar_equity: 100000.0\ncombined_equity: 100000.0\nrow_count: 1\nupdate_mode: UPDATED_EXISTING_DATE\nwrote: exports/oos_e1r_v0_2_equity_curve.json\n  exports/oos_e1r_v0_2_equity_curve.json\nE1R v0.2 OOS-2B.3 sidecar lifecycle/turnover export complete\ndate: 2026-06-18\nprevious_date: None\nmarket_state: UPTREND\nsidecar_active: False\nlifecycle_status: NO_PREVIOUS_RECORD\nprevious_count: 0\ncurrent_count: 0\nentered_count: 0\nexited_count: 0\none_way_turnover: 0.0\nwrote: exports/oos_e1r_v0_2_sidecar_lifecycle.json\nwrote: exports/oos_e1r_v0_2_sidecar_turnover.json\n  exports/oos_e1r_v0_2_sidecar_lifecycle.json\n  exports/oos_e1r_v0_2_sidecar_turnover.json\n",
+      "stderr": ""
+    },
+    {
+      "script": "scripts/run_e1r_v0_2_oos_equity.py",
+      "cmd": [
+        "python3",
+        "scripts/run_e1r_v0_2_oos_equity.py"
+      ],
+      "returncode": 0,
+      "stdout": "E1R v0.2 OOS-2B equity export complete\nstatus_date: 2026-06-18\nmarket_state: UPTREND\ncore_active: True\nsidecar_active: False\nsidecar_selected_count: 0\ncore_equity: 100000.0\nsidecar_equity: 100000.0\ncombined_equity: 100000.0\nrow_count: 1\nupdate_mode: UPDATED_EXISTING_DATE\nwrote: exports/oos_e1r_v0_2_equity_curve.json\n",
+      "stderr": ""
+    },
+    {
+      "script": "scripts/export_e1r_v0_2_status.py",
+      "cmd": [
+        "python3",
+        "scripts/export_e1r_v0_2_status.py"
+      ],
+      "returncode": 0,
+      "stdout": "Wrote /Users/dongfang/Downloads/sp500-tracker-v13/exports/e1r_v0_2_status.json\nstatus_date: 2026-06-18\ne1r_market_state: UPTREND\nregime: UPTREND\nsubclass: None\ncore.active: True\nsidecar.active: False\nsidecar.selected_count: 0\n",
+      "stderr": ""
+    }
+  ],
+  "json_after": {
+    "data/oos/portfolio_state.json": {
+      "exists": true,
+      "valid_json": true,
+      "path": "data/oos/portfolio_state.json",
+      "type": "dict",
+      "top_level_keys": [
+        "cash",
+        "holdings",
+        "holdings_value",
+        "equity",
+        "n_positions",
+        "pending_orders",
+        "closed_trades"
+      ],
+      "array_length": null,
+      "preview": "{\n  \"cash\": 0.02,\n  \"holdings\": {\n    \"WDC\": {\n      \"units\": 45.4534,\n      \"cost_basis\": 33366.7024,\n      \"entry_date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"entry_price\": 733.3526,\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"execution_provenance\": \"LIVE_FORWARD\"\n    },\n    \"STX\": {\n      \"units\": 30.4224,\n      \"cost_basis\": 33349.9212,\n      \"entry_date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"entry_price\": 1095.134,\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"execution_provenance\": \"LIVE_FORWARD\"\n    },\n    \"BE\": {\n      \"units\": 96.0442,\n      \"cost_basis\": 33283.358367,\n      \"entry_date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"entry_price\": 346.1959,\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"execution_provenance\": \"LIVE_FORWARD\"\n    }\n  },\n  \"holdings_value\": 75255.18,\n  \"equity\": 75255.2,\n  \"n_positions\": 3,\n  \"pending_orders\": [],\n  \"closed_trades\": []\n}"
+    },
+    "data/oos/e1r_v0_2_portfolio_state.json": {
+      "exists": false,
+      "path": "data/oos/e1r_v0_2_portfolio_state.json"
+    },
+    "exports/oos_e1r_v0_2_summary.json": {
+      "exists": true,
+      "valid_json": true,
+      "path": "exports/oos_e1r_v0_2_summary.json",
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "phase",
+        "strategy_id",
+        "version",
+        "research_status",
+        "status_date",
+        "market_state",
+        "regime",
+        "subclass",
+        "mutually_exclusive_state_model",
+        "core_active",
+        "sidecar_active",
+        "sidecar_selected_count",
+        "gross_exposure",
+        "top_n",
+        "execution_status",
+        "equity_status",
+        "notes"
+      ],
+      "array_length": null,
+      "preview": "{\n  \"generated_at\": \"2026-07-08T06:44:45.419044+00:00\",\n  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"version\": \"E1R-v0.2-formal-sidecar-sleeve\",\n  \"research_status\": \"FORMAL_SIDECAR_SLEEVE_ENGINE\",\n  \"status_date\": \"2026-06-18\",\n  \"market_state\": \"UPTREND\",\n  \"regime\": \"UPTREND\",\n  \"subclass\": null,\n  \"mutually_exclusive_state_model\": true,\n  \"core_active\": true,\n  \"sidecar_active\": false,\n  \"sidecar_selected_count\": 0,\n  \"gross_exposure\": 0.25,\n  \"top_n\": 10,\n  \"execution_status\": \"NO_REAL_EXECUTION\",\n  \"equity_status\": \"NOT_YET_CONNECTED\",\n  \"notes\": [\n    \"OOS-1 exports daily E1R v0.2 state and sidecar target signals only.\",\n    \"No real orders are executed by this script.\",\n    \"No E1R v0.2 OOS equity curve is updated by this script.\",\n    \"This is the bridge layer for Dashboard and future OOS equity integration.\"\n  ]\n}"
+    },
+    "exports/oos_e1r_v0_2_equity_curve.json": {
+      "exists": true,
+      "valid_json": true,
+      "path": "exports/oos_e1r_v0_2_equity_curve.json",
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "strategy_id",
+        "phase",
+        "equity_status",
+        "execution_status",
+        "curve_type",
+        "start_date",
+        "end_date",
+        "row_count",
+        "latest",
+        "records",
+        "notes"
+      ],
+      "array_length": null,
+      "preview": "{\n  \"generated_at\": \"2026-07-08T06:44:46.330487+00:00\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"phase\": \"OOS_2B_FORWARD_EQUITY_CURVE\",\n  \"equity_status\": \"OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER\",\n  \"execution_status\": \"PAPER_TRACKING_NO_REAL_EXECUTION\",\n  \"curve_type\": \"FORWARD_OOS_EQUITY\",\n  \"start_date\": \"2026-06-18\",\n  \"end_date\": \"2026-06-18\",\n  \"row_count\": 1,\n  \"latest\": {\n    \"date\": \"2026-06-18\",\n    \"generated_at\": \"2026-07-08T06:44:46.330487+00:00\",\n    \"market_state\": \"UPTREND\",\n    \"core_active\": true,\n    \"sidecar_active\": false,\n    \"sidecar_selected_count\": 0,\n    \"sidecar_positions\": [],\n    \"sidecar_mtm_status\": \"SAME_DATE_NO_NEW_MTM\",\n    \"sidecar_mtm_details\": [],\n    \"core_equity\": 100000.0,\n    \"sidecar_equity\": 100000.0,\n    \"combined_equity\": 100000.0,\n    \"core_daily_return\": 0.0,\n    \"sidecar_daily_return\": 0.0,\n    \"combined_daily_return\": 0.0,\n    \"core_source\": \"legacy_oos_if_available_else_initial_capital\",\n    \"sidecar_source\": \"previous_positions_close_to_close_mtm_when_available\",\n    \"combined_source\": \"core_bridge_plus_sidecar_target_only\",\n    \"execution_status\": \"PAPER_TRACKING_NO_REAL_EXECUTION\",\n    \"equity_status\": \"OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER\",\n    \"update_mode\": \"UPDATED_EXISTING_DATE\"\n  },\n  \"records\": [\n    {\n      \"date\": \"2026-06-18\",\n      \"generated_at\": \"2026-07-08T06:44:46.330487+00:00\",\n      \"market_state\": \"UPTREND\",\n      \"core_active\": true,\n      \"sidecar_active\": false,\n      \"sidecar_selected_count\": 0,\n      \"sidecar_positions\": [],\n      \"sidecar_mtm_status\": \"SAME_DATE_NO_NEW_MTM\",\n      \"sidecar_mtm_details\": [],\n      \"core_equity\": 100000.0,\n      \"sidecar_equity\": 100000.0,\n      \"combined_equity\": 100000.0,\n      \"core_daily_return\": 0.0,\n      \"sidecar_daily_return\": 0.0,\n      \"combined_dai"
+    },
+    "exports/oos_e1r_v0_2_orders.json": {
+      "exists": true,
+      "valid_json": true,
+      "path": "exports/oos_e1r_v0_2_orders.json",
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "phase",
+        "strategy_id",
+        "status_date",
+        "market_state",
+        "execution_status",
+        "orders"
+      ],
+      "array_length": null,
+      "preview": "{\n  \"generated_at\": \"2026-07-08T06:44:45.419044+00:00\",\n  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"status_date\": \"2026-06-18\",\n  \"market_state\": \"UPTREND\",\n  \"execution_status\": \"NO_REAL_EXECUTION\",\n  \"orders\": []\n}"
+    },
+    "exports/oos_e1r_v0_2_positions.json": {
+      "exists": true,
+      "valid_json": true,
+      "path": "exports/oos_e1r_v0_2_positions.json",
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "phase",
+        "strategy_id",
+        "status_date",
+        "market_state",
+        "core",
+        "sidecar"
+      ],
+      "array_length": null,
+      "preview": "{\n  \"generated_at\": \"2026-07-08T06:44:45.419044+00:00\",\n  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"status_date\": \"2026-06-18\",\n  \"market_state\": \"UPTREND\",\n  \"core\": {\n    \"active\": true,\n    \"strategy_id\": \"E1R_REGIME_AWARE_V0_1\",\n    \"positions_status\": \"NOT_CONNECTED_IN_OOS_1\"\n  },\n  \"sidecar\": {\n    \"active\": false,\n    \"positions_status\": \"TARGET_ONLY_NOT_EXECUTED\",\n    \"target_positions\": []\n  }\n}"
+    },
+    "exports/oos_e1r_v0_2_sidecar.json": {
+      "exists": true,
+      "valid_json": true,
+      "path": "exports/oos_e1r_v0_2_sidecar.json",
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "phase",
+        "strategy_id",
+        "status_date",
+        "market_state",
+        "regime",
+        "subclass",
+        "active",
+        "active_condition",
+        "gross_exposure",
+        "top_n",
+        "excluded_symbols",
+        "source_record_date",
+        "source_record_next_date",
+        "selected_count",
+        "selected"
+      ],
+      "array_length": null,
+      "preview": "{\n  \"generated_at\": \"2026-07-08T06:44:45.419044+00:00\",\n  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"status_date\": \"2026-06-18\",\n  \"market_state\": \"UPTREND\",\n  \"regime\": \"UPTREND\",\n  \"subclass\": null,\n  \"active\": false,\n  \"active_condition\": \"SIDEWAYS_MA_CONFLICT\",\n  \"gross_exposure\": 0.25,\n  \"top_n\": 10,\n  \"excluded_symbols\": [\n    \"VIXY\"\n  ],\n  \"source_record_date\": \"2026-06-17\",\n  \"source_record_next_date\": \"2026-06-18\",\n  \"selected_count\": 0,\n  \"selected\": []\n}"
+    },
+    "exports/e1r_v0_2_status.json": {
+      "exists": true,
+      "valid_json": true,
+      "path": "exports/e1r_v0_2_status.json",
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "strategy_id",
+        "version",
+        "research_status",
+        "status_date",
+        "e1r_market_state",
+        "regime",
+        "subclass",
+        "mutually_exclusive_state_model",
+        "core",
+        "sidecar",
+        "legacy_market_state",
+        "source_files",
+        "notes"
+      ],
+      "array_length": null,
+      "preview": "{\n  \"generated_at\": \"2026-07-08T06:44:53.395851+00:00\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"version\": \"E1R-v0.2-formal-sidecar-sleeve\",\n  \"research_status\": \"FORMAL_SIDECAR_SLEEVE_ENGINE\",\n  \"status_date\": \"2026-06-18\",\n  \"e1r_market_state\": \"UPTREND\",\n  \"regime\": \"UPTREND\",\n  \"subclass\": null,\n  \"mutually_exclusive_state_model\": true,\n  \"core\": {\n    \"strategy_id\": \"E1R_REGIME_AWARE_V0_1\",\n    \"active\": true,\n    \"active_condition\": \"UPTREND\"\n  },\n  \"sidecar\": {\n    \"active\": false,\n    \"active_condition\": \"SIDEWAYS_MA_CONFLICT\",\n    \"gross_exposure\": 0.25,\n    \"top_n\": 10,\n    \"excluded_symbols\": [\n      \"VIXY\"\n    ],\n    \"selected_count\": 0,\n    \"selected\": [],\n    \"source_record_date\": \"2026-06-17\",\n    \"source_record_next_date\": \"2026-06-18\"\n  },\n  \"legacy_market_state\": {\n    \"date\": \"2026-07-07\",\n    \"state\": \"Risk-On\",\n    \"state_zh\": \"风险偏好\",\n    \"market_score\": 60.0,\n    \"leadership_confirmed\": false,\n    \"leadership_label\": \"Leadership Unconfirmed ⚠️\"\n  },\n  \"source_files\": {\n    \"regime\": \"data/research/e1_5y/regimes/spx_regime_daily.json\",\n    \"stocks\": \"data/research/e1_5y/raw/stocks\",\n    \"spx\": \"data/research/e1_5y/raw/indices/SPX.json\",\n    \"legacy_market_state\": \"exports/market_state.json\"\n  },\n  \"notes\": [\n    \"E1R v0.2 uses mutually exclusive daily market states.\",\n    \"Core is active only in UPTREND under the current v0.2 state model.\",\n    \"Sidecar is active only in SIDEWAYS_MA_CONFLICT when holdings are available.\",\n    \"This status export is a lightweight bridge for Dashboard and future OOS integration.\"\n  ]\n}"
+    },
+    "exports/oos_summary.json": {
+      "exists": true,
+      "valid_json": true,
+      "path": "exports/oos_summary.json",
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "generated_at_display",
+        "status",
+        "strategy_id",
+        "oos_start_date",
+        "run_date",
+        "last_successful_run",
+        "last_market_date",
+        "expected_market_date",
+        "initial_capital",
+        "final_equity",
+        "total_return_pct",
+        "max_drawdown_pct",
+        "profit_factor",
+        "win_rate_pct",
+        "total_trades",
+        "open_positions",
+        "live_event_count",
+        "backfill_event_count",
+        "first_review_criteria",
+        "provenance_note",
+        "mixed_provenance_positions"
+      ],
+      "array_length": null,
+      "preview": "{\n  \"generated_at\": \"2026-07-07T22:52:43.361353+00:00\",\n  \"generated_at_display\": \"2026年7月7日 18:52 ET\",\n  \"status\": \"OOS_ACTIVE\",\n  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\",\n  \"oos_start_date\": \"2026-06-16\",\n  \"run_date\": \"2026-07-07\",\n  \"last_successful_run\": \"2026-07-07\",\n  \"last_market_date\": \"2026-07-07\",\n  \"expected_market_date\": \"2026-07-07\",\n  \"initial_capital\": 100000,\n  \"final_equity\": 75255.2,\n  \"total_return_pct\": -24.74,\n  \"max_drawdown_pct\": 24.74,\n  \"profit_factor\": null,\n  \"win_rate_pct\": null,\n  \"total_trades\": 0,\n  \"open_positions\": 3,\n  \"live_event_count\": 14,\n  \"backfill_event_count\": 5,\n  \"first_review_criteria\": \"6 months elapsed OR 20 complete trades, whichever is later\",\n  \"provenance_note\": \"BACKFILLED_PRELIVE: events replayed after engine deployment. LIVE_FORWARD: events generated by automated daily run. MIXED: signal from BACKFILLED_PRELIVE, execution from LIVE_FORWARD — not counted in pure LIVE_FORWARD trade statistics.\",\n  \"mixed_provenance_positions\": 3\n}"
+    },
+    "exports/oos_equity_curve.json": {
+      "exists": true,
+      "valid_json": true,
+      "path": "exports/oos_equity_curve.json",
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "generated_at_display",
+        "strategy_id",
+        "initial_capital",
+        "curve"
+      ],
+      "array_length": null,
+      "preview": "{\n  \"generated_at\": \"2026-07-07T22:52:43.361353+00:00\",\n  \"generated_at_display\": \"2026年7月7日 18:52 ET\",\n  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\",\n  \"initial_capital\": 100000,\n  \"curve\": [\n    {\n      \"date\": \"2026-06-18\",\n      \"equity\": 100000.0,\n      \"cash\": 100000.0,\n      \"holdings_value\": 0,\n      \"n_positions\": 0,\n      \"source\": \"BACKFILLED_PRELIVE\"\n    },\n    {\n      \"date\": \"2026-06-22\",\n      \"equity\": 99800.3,\n      \"cash\": 0.02,\n      \"holdings_value\": 99800.28,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-06-23\",\n      \"equity\": 93008.6,\n      \"cash\": 0.02,\n      \"holdings_value\": 93008.58,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-06-24\",\n      \"equity\": 90809.99,\n      \"cash\": 0.02,\n      \"holdings_value\": 90809.97,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-06-25\",\n      \"equity\": 91587.65,\n      \"cash\": 0.02,\n      \"holdings_value\": 91587.63,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-06-26\",\n      \"equity\": 78238.34,\n      \"cash\": 0.02,\n      \"holdings_value\": 78238.32,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-06-29\",\n      \"equity\": 85508.3,\n      \"cash\": 0.02,\n      \"holdings_value\": 85508.28,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-06-30\",\n      \"equity\": 87462.21,\n      \"cash\": 0.02,\n      \"holdings_value\": 87462.19,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-07-01\",\n      \"equity\": 82845.04,\n      \"cash\": 0.02,\n      \"holdings_value\": 82845.02,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-"
+    },
+    "exports/oos_orders.json": {
+      "exists": true,
+      "valid_json": true,
+      "path": "exports/oos_orders.json",
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "generated_at_display",
+        "strategy_id",
+        "orders"
+      ],
+      "array_length": null,
+      "preview": "{\n  \"generated_at\": \"2026-07-07T22:52:43.361353+00:00\",\n  \"generated_at_display\": \"2026年7月7日 18:52 ET\",\n  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\",\n  \"orders\": [\n    {\n      \"event_id\": \"2026-06-18_ORDER_BUY_WDC\",\n      \"event_type\": \"ORDER_GENERATED\",\n      \"date\": \"2026-06-18\",\n      \"symbol\": \"WDC\",\n      \"action\": \"BUY\",\n      \"rank\": 1,\n      \"leader_score\": 81.54,\n      \"rs_score\": 98.2,\n      \"execute_date\": \"T+1\",\n      \"source\": \"BACKFILLED_PRELIVE\",\n      \"_written_at\": \"2026-06-20T13:38:22.614690+00:00\"\n    },\n    {\n      \"event_id\": \"2026-06-18_ORDER_BUY_STX\",\n      \"event_type\": \"ORDER_GENERATED\",\n      \"date\": \"2026-06-18\",\n      \"symbol\": \"STX\",\n      \"action\": \"BUY\",\n      \"rank\": 2,\n      \"leader_score\": 79.86,\n      \"rs_score\": 98.4,\n      \"execute_date\": \"T+1\",\n      \"source\": \"BACKFILLED_PRELIVE\",\n      \"_written_at\": \"2026-06-20T13:38:22.614817+00:00\"\n    },\n    {\n      \"event_id\": \"2026-06-18_ORDER_BUY_BE\",\n      \"event_type\": \"ORDER_GENERATED\",\n      \"date\": \"2026-06-18\",\n      \"symbol\": \"BE\",\n      \"action\": \"BUY\",\n      \"rank\": 3,\n      \"leader_score\": 78.72,\n      \"rs_score\": 97.8,\n      \"execute_date\": \"T+1\",\n      \"source\": \"BACKFILLED_PRELIVE\",\n      \"_written_at\": \"2026-06-20T13:38:22.614931+00:00\"\n    },\n    {\n      \"event_id\": \"2026-06-22_BUY_EXECUTED_WDC\",\n      \"event_type\": \"BUY_EXECUTED\",\n      \"date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"symbol\": \"WDC\",\n      \"action\": \"BUY\",\n      \"fill_price\": 733.3526,\n      \"units\": 45.4534,\n      \"total_cost\": 33366.7024,\n      \"cost_rate\": 0.001,\n      \"source\": \"LIVE_FORWARD\",\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"order_ref\": \"2026-06-18_ORDER_BUY_WDC\",\n      \"_written_at\": \"2026-06-22T23:16:17.177552+00:00\"\n    },\n    {\n      \"event_id\": \"2026-06-22_BUY_EX"
+    },
+    "exports/oos_positions.json": {
+      "exists": true,
+      "valid_json": true,
+      "path": "exports/oos_positions.json",
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "generated_at_display",
+        "strategy_id",
+        "as_of",
+        "positions",
+        "pending_orders",
+        "cash"
+      ],
+      "array_length": null,
+      "preview": "{\n  \"generated_at\": \"2026-07-07T22:52:43.361353+00:00\",\n  \"generated_at_display\": \"2026年7月7日 18:52 ET\",\n  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\",\n  \"as_of\": \"2026-07-07\",\n  \"positions\": [\n    {\n      \"symbol\": \"WDC\",\n      \"entry_date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"entry_price\": 733.3526,\n      \"units\": 45.4534,\n      \"cost_basis\": 33366.7,\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"execution_provenance\": \"LIVE_FORWARD\",\n      \"mixed_provenance\": true\n    },\n    {\n      \"symbol\": \"STX\",\n      \"entry_date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"entry_price\": 1095.134,\n      \"units\": 30.4224,\n      \"cost_basis\": 33349.92,\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"execution_provenance\": \"LIVE_FORWARD\",\n      \"mixed_provenance\": true\n    },\n    {\n      \"symbol\": \"BE\",\n      \"entry_date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"entry_price\": 346.1959,\n      \"units\": 96.0442,\n      \"cost_basis\": 33283.36,\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"execution_provenance\": \"LIVE_FORWARD\",\n      \"mixed_provenance\": true\n    }\n  ],\n  \"pending_orders\": [],\n  \"cash\": 0.02\n}"
+    }
+  },
+  "classification": {
+    "all_scripts_succeeded": true,
+    "changed_watch_file_count": 6,
+    "touches_e1_state": false,
+    "touches_e1_exports": false,
+    "e1r_summary_after": {
+      "exists": true,
+      "valid_json": true,
+      "path": "exports/oos_e1r_v0_2_summary.json",
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "phase",
+        "strategy_id",
+        "version",
+        "research_status",
+        "status_date",
+        "market_state",
+        "regime",
+        "subclass",
+        "mutually_exclusive_state_model",
+        "core_active",
+        "sidecar_active",
+        "sidecar_selected_count",
+        "gross_exposure",
+        "top_n",
+        "execution_status",
+        "equity_status",
+        "notes"
+      ],
+      "array_length": null,
+      "preview": "{\n  \"generated_at\": \"2026-07-08T06:44:45.419044+00:00\",\n  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"version\": \"E1R-v0.2-formal-sidecar-sleeve\",\n  \"research_status\": \"FORMAL_SIDECAR_SLEEVE_ENGINE\",\n  \"status_date\": \"2026-06-18\",\n  \"market_state\": \"UPTREND\",\n  \"regime\": \"UPTREND\",\n  \"subclass\": null,\n  \"mutually_exclusive_state_model\": true,\n  \"core_active\": true,\n  \"sidecar_active\": false,\n  \"sidecar_selected_count\": 0,\n  \"gross_exposure\": 0.25,\n  \"top_n\": 10,\n  \"execution_status\": \"NO_REAL_EXECUTION\",\n  \"equity_status\": \"NOT_YET_CONNECTED\",\n  \"notes\": [\n    \"OOS-1 exports daily E1R v0.2 state and sidecar target signals only.\",\n    \"No real orders are executed by this script.\",\n    \"No E1R v0.2 OOS equity curve is updated by this script.\",\n    \"This is the bridge layer for Dashboard and future OOS equity integration.\"\n  ]\n}"
+    },
+    "e1r_equity_after": {
+      "exists": true,
+      "valid_json": true,
+      "path": "exports/oos_e1r_v0_2_equity_curve.json",
+      "type": "dict",
+      "top_level_keys": [
+        "generated_at",
+        "strategy_id",
+        "phase",
+        "equity_status",
+        "execution_status",
+        "curve_type",
+        "start_date",
+        "end_date",
+        "row_count",
+        "latest",
+        "records",
+        "notes"
+      ],
+      "array_length": null,
+      "preview": "{\n  \"generated_at\": \"2026-07-08T06:44:46.330487+00:00\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"phase\": \"OOS_2B_FORWARD_EQUITY_CURVE\",\n  \"equity_status\": \"OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER\",\n  \"execution_status\": \"PAPER_TRACKING_NO_REAL_EXECUTION\",\n  \"curve_type\": \"FORWARD_OOS_EQUITY\",\n  \"start_date\": \"2026-06-18\",\n  \"end_date\": \"2026-06-18\",\n  \"row_count\": 1,\n  \"latest\": {\n    \"date\": \"2026-06-18\",\n    \"generated_at\": \"2026-07-08T06:44:46.330487+00:00\",\n    \"market_state\": \"UPTREND\",\n    \"core_active\": true,\n    \"sidecar_active\": false,\n    \"sidecar_selected_count\": 0,\n    \"sidecar_positions\": [],\n    \"sidecar_mtm_status\": \"SAME_DATE_NO_NEW_MTM\",\n    \"sidecar_mtm_details\": [],\n    \"core_equity\": 100000.0,\n    \"sidecar_equity\": 100000.0,\n    \"combined_equity\": 100000.0,\n    \"core_daily_return\": 0.0,\n    \"sidecar_daily_return\": 0.0,\n    \"combined_daily_return\": 0.0,\n    \"core_source\": \"legacy_oos_if_available_else_initial_capital\",\n    \"sidecar_source\": \"previous_positions_close_to_close_mtm_when_available\",\n    \"combined_source\": \"core_bridge_plus_sidecar_target_only\",\n    \"execution_status\": \"PAPER_TRACKING_NO_REAL_EXECUTION\",\n    \"equity_status\": \"OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER\",\n    \"update_mode\": \"UPDATED_EXISTING_DATE\"\n  },\n  \"records\": [\n    {\n      \"date\": \"2026-06-18\",\n      \"generated_at\": \"2026-07-08T06:44:46.330487+00:00\",\n      \"market_state\": \"UPTREND\",\n      \"core_active\": true,\n      \"sidecar_active\": false,\n      \"sidecar_selected_count\": 0,\n      \"sidecar_positions\": [],\n      \"sidecar_mtm_status\": \"SAME_DATE_NO_NEW_MTM\",\n      \"sidecar_mtm_details\": [],\n      \"core_equity\": 100000.0,\n      \"sidecar_equity\": 100000.0,\n      \"combined_equity\": 100000.0,\n      \"core_daily_return\": 0.0,\n      \"sidecar_daily_return\": 0.0,\n      \"combined_dai"
+    },
+    "implementation_readiness": "CAN_EXTEND_EXISTING_RUNNER_WITH_GUARDS"
+  },
+  "decision_rules": {
+    "CAN_EXTEND_EXISTING_RUNNER_WITH_GUARDS": "Existing E1R scripts run and stay isolated from E1 state/exports; implementation can extend them.",
+    "NEEDS_CLEAN_RUNNER_OR_ISOLATION_BEFORE_IMPLEMENTATION": "Existing scripts fail or touch E1 files; implement isolation first or create a clean E1R runner."
+  }
+}
