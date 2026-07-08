@@ -1,0 +1,322 @@
+{
+  "generated_at": "2026-07-08T07:50:32.002424+00:00",
+  "stage": "B_STAGE_3_8E2F1F1D_PINPOINT_E1R_RESET_SCRIPT",
+  "status": "AUDIT_COMPLETE_RUNTIME_RESTORED",
+  "main": {
+    "branch": "main",
+    "head": "34f69ab"
+  },
+  "baseline": {
+    "orders_count": 10,
+    "positions_count": 10,
+    "buy_orders": 10,
+    "position_weight_sum": 0.24999999999999997,
+    "summary_tracking_status": "KICKOFF_READY",
+    "summary_official_kickoff_date": null,
+    "summary_forward_start_date": null,
+    "summary_execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+    "summary_open_positions_count": 10,
+    "summary_paper_orders_count": 10,
+    "state_positions_count": 10,
+    "state_official_kickoff_date": null
+  },
+  "steps": [
+    {
+      "script": "scripts/export_e1r_v0_2_status.py",
+      "before": {
+        "orders_count": 10,
+        "positions_count": 10,
+        "buy_orders": 10,
+        "position_weight_sum": 0.24999999999999997,
+        "summary_tracking_status": "KICKOFF_READY",
+        "summary_official_kickoff_date": null,
+        "summary_forward_start_date": null,
+        "summary_execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+        "summary_open_positions_count": 10,
+        "summary_paper_orders_count": 10,
+        "state_positions_count": 10,
+        "state_official_kickoff_date": null
+      },
+      "after": {
+        "orders_count": 10,
+        "positions_count": 10,
+        "buy_orders": 10,
+        "position_weight_sum": 0.24999999999999997,
+        "summary_tracking_status": "KICKOFF_READY",
+        "summary_official_kickoff_date": null,
+        "summary_forward_start_date": null,
+        "summary_execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+        "summary_open_positions_count": 10,
+        "summary_paper_orders_count": 10,
+        "state_positions_count": 10,
+        "state_official_kickoff_date": null
+      },
+      "changed_files": [
+        "exports/e1r_v0_2_status.json"
+      ],
+      "classification": {
+        "returncode": 0,
+        "clears_orders": false,
+        "clears_positions": false,
+        "sets_official_kickoff_date": false,
+        "changes_execution_status": false,
+        "touches_e1_files": [],
+        "dangerous_for_workflow": []
+      },
+      "stdout_tail": "Wrote /Users/dongfang/Downloads/sp500-tracker-v13/exports/e1r_v0_2_status.json\nstatus_date: 2026-06-18\ne1r_market_state: UPTREND\nregime: UPTREND\nsubclass: None\ncore.active: True\nsidecar.active: False\nsidecar.selected_count: 0\n",
+      "stderr_tail": ""
+    },
+    {
+      "script": "scripts/run_e1r_v0_2_oos.py",
+      "before": {
+        "orders_count": 10,
+        "positions_count": 10,
+        "buy_orders": 10,
+        "position_weight_sum": 0.24999999999999997,
+        "summary_tracking_status": "KICKOFF_READY",
+        "summary_official_kickoff_date": null,
+        "summary_forward_start_date": null,
+        "summary_execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+        "summary_open_positions_count": 10,
+        "summary_paper_orders_count": 10,
+        "state_positions_count": 10,
+        "state_official_kickoff_date": null
+      },
+      "after": {
+        "orders_count": 0,
+        "positions_count": 0,
+        "buy_orders": 0,
+        "position_weight_sum": 0,
+        "summary_tracking_status": null,
+        "summary_official_kickoff_date": null,
+        "summary_forward_start_date": null,
+        "summary_execution_status": "NO_REAL_EXECUTION",
+        "summary_open_positions_count": null,
+        "summary_paper_orders_count": null,
+        "state_positions_count": 10,
+        "state_official_kickoff_date": null
+      },
+      "changed_files": [
+        "exports/e1r_v0_2_status.json",
+        "exports/oos_e1r_v0_2_summary.json",
+        "exports/oos_e1r_v0_2_equity_curve.json",
+        "exports/oos_e1r_v0_2_orders.json",
+        "exports/oos_e1r_v0_2_positions.json",
+        "exports/oos_e1r_v0_2_sidecar.json",
+        "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+        "exports/oos_e1r_v0_2_sidecar_turnover.json"
+      ],
+      "classification": {
+        "returncode": 0,
+        "clears_orders": true,
+        "clears_positions": true,
+        "sets_official_kickoff_date": false,
+        "changes_execution_status": true,
+        "touches_e1_files": [],
+        "dangerous_for_workflow": true
+      },
+      "stdout_tail": "ctive: True\nsidecar.active: False\nsidecar.selected_count: 0\nE1R v0.2 OOS-1 export complete\nstatus_date: 2026-06-18\nmarket_state: UPTREND\ncore_active: True\nsidecar_active: False\nsidecar_selected_count: 0\nwrote:\n  exports/e1r_v0_2_status.json\n  exports/oos_e1r_v0_2_summary.json\n  exports/oos_e1r_v0_2_sidecar.json\n  exports/oos_e1r_v0_2_positions.json\n  exports/oos_e1r_v0_2_orders.json\nE1R v0.2 OOS-2B equity export complete\nstatus_date: 2026-06-18\nmarket_state: UPTREND\ncore_active: True\nsidecar_active: False\nsidecar_selected_count: 0\ncore_equity: 75255.2\nsidecar_equity: 100000.0\ncombined_equity: 75255.2\nrow_count: 1\nupdate_mode: APPENDED_NEW_DATE\nwrote: exports/oos_e1r_v0_2_equity_curve.json\n  exports/oos_e1r_v0_2_equity_curve.json\nE1R v0.2 OOS-2B.3 sidecar lifecycle/turnover export complete\ndate: 2026-06-18\nprevious_date: None\nmarket_state: UPTREND\nsidecar_active: False\nlifecycle_status: NO_PREVIOUS_RECORD\nprevious_count: 0\ncurrent_count: 0\nentered_count: 0\nexited_count: 0\none_way_turnover: 0.0\nwrote: exports/oos_e1r_v0_2_sidecar_lifecycle.json\nwrote: exports/oos_e1r_v0_2_sidecar_turnover.json\n  exports/oos_e1r_v0_2_sidecar_lifecycle.json\n  exports/oos_e1r_v0_2_sidecar_turnover.json\n",
+      "stderr_tail": ""
+    },
+    {
+      "script": "scripts/run_e1r_v0_2_oos_equity.py",
+      "before": {
+        "orders_count": 10,
+        "positions_count": 10,
+        "buy_orders": 10,
+        "position_weight_sum": 0.24999999999999997,
+        "summary_tracking_status": "KICKOFF_READY",
+        "summary_official_kickoff_date": null,
+        "summary_forward_start_date": null,
+        "summary_execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+        "summary_open_positions_count": 10,
+        "summary_paper_orders_count": 10,
+        "state_positions_count": 10,
+        "state_official_kickoff_date": null
+      },
+      "after": {
+        "orders_count": 10,
+        "positions_count": 10,
+        "buy_orders": 10,
+        "position_weight_sum": 0.24999999999999997,
+        "summary_tracking_status": "KICKOFF_READY",
+        "summary_official_kickoff_date": null,
+        "summary_forward_start_date": null,
+        "summary_execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+        "summary_open_positions_count": 10,
+        "summary_paper_orders_count": 10,
+        "state_positions_count": 10,
+        "state_official_kickoff_date": null
+      },
+      "changed_files": [
+        "exports/oos_e1r_v0_2_equity_curve.json"
+      ],
+      "classification": {
+        "returncode": 0,
+        "clears_orders": false,
+        "clears_positions": false,
+        "sets_official_kickoff_date": false,
+        "changes_execution_status": false,
+        "touches_e1_files": [],
+        "dangerous_for_workflow": []
+      },
+      "stdout_tail": "E1R v0.2 OOS-2B equity export complete\nstatus_date: 2026-06-18\nmarket_state: UPTREND\ncore_active: True\nsidecar_active: False\nsidecar_selected_count: 0\ncore_equity: 75255.2\nsidecar_equity: 100000.0\ncombined_equity: 75255.2\nrow_count: 1\nupdate_mode: APPENDED_NEW_DATE\nwrote: exports/oos_e1r_v0_2_equity_curve.json\n",
+      "stderr_tail": ""
+    },
+    {
+      "script": "scripts/export_e1r_v0_2_targets_preview.py",
+      "before": {
+        "orders_count": 10,
+        "positions_count": 10,
+        "buy_orders": 10,
+        "position_weight_sum": 0.24999999999999997,
+        "summary_tracking_status": "KICKOFF_READY",
+        "summary_official_kickoff_date": null,
+        "summary_forward_start_date": null,
+        "summary_execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+        "summary_open_positions_count": 10,
+        "summary_paper_orders_count": 10,
+        "state_positions_count": 10,
+        "state_official_kickoff_date": null
+      },
+      "after": {
+        "orders_count": 10,
+        "positions_count": 10,
+        "buy_orders": 10,
+        "position_weight_sum": 0.24999999999999997,
+        "summary_tracking_status": "KICKOFF_READY",
+        "summary_official_kickoff_date": null,
+        "summary_forward_start_date": null,
+        "summary_execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+        "summary_open_positions_count": 10,
+        "summary_paper_orders_count": 10,
+        "state_positions_count": 10,
+        "state_official_kickoff_date": null
+      },
+      "changed_files": [
+        "exports/oos_e1r_v0_2_targets.json"
+      ],
+      "classification": {
+        "returncode": 0,
+        "clears_orders": false,
+        "clears_positions": false,
+        "sets_official_kickoff_date": false,
+        "changes_execution_status": false,
+        "touches_e1_files": [],
+        "dangerous_for_workflow": []
+      },
+      "stdout_tail": "E1R target extraction preview complete\nstatus_date: 2026-06-18\ntracking_status: KICKOFF_READY\nofficial_kickoff_date: None\ncore_targets: 10\nsidecar_targets: 0\nall_targets: 10\ncore_weight_sum: 0.24999999999999997\nsidecar_weight_sum: 0\ntotal_weight_sum: 0.24999999999999997\nwrote: exports/oos_e1r_v0_2_targets.json\n",
+      "stderr_tail": ""
+    },
+    {
+      "script": "scripts/export_e1r_v0_2_orders_positions_preview.py",
+      "before": {
+        "orders_count": 10,
+        "positions_count": 10,
+        "buy_orders": 10,
+        "position_weight_sum": 0.24999999999999997,
+        "summary_tracking_status": "KICKOFF_READY",
+        "summary_official_kickoff_date": null,
+        "summary_forward_start_date": null,
+        "summary_execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+        "summary_open_positions_count": 10,
+        "summary_paper_orders_count": 10,
+        "state_positions_count": 10,
+        "state_official_kickoff_date": null
+      },
+      "after": {
+        "orders_count": 10,
+        "positions_count": 10,
+        "buy_orders": 10,
+        "position_weight_sum": 0.24999999999999997,
+        "summary_tracking_status": "KICKOFF_READY",
+        "summary_official_kickoff_date": null,
+        "summary_forward_start_date": null,
+        "summary_execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+        "summary_open_positions_count": 10,
+        "summary_paper_orders_count": 10,
+        "state_positions_count": 10,
+        "state_official_kickoff_date": null
+      },
+      "changed_files": [
+        "exports/oos_e1r_v0_2_orders_preview.json",
+        "exports/oos_e1r_v0_2_positions_preview.json"
+      ],
+      "classification": {
+        "returncode": 0,
+        "clears_orders": false,
+        "clears_positions": false,
+        "sets_official_kickoff_date": false,
+        "changes_execution_status": false,
+        "touches_e1_files": [],
+        "dangerous_for_workflow": []
+      },
+      "stdout_tail": "E1R orders/positions preview complete\nstatus_date: 2026-06-18\ntracking_status: KICKOFF_READY\nofficial_kickoff_date: None\ntargets: 10\norders: 10\npositions: 10\nbuy_orders: 0\nadd_orders: 0\nhold_orders: 10\nreduce_orders: 0\nexit_orders: 0\npositions_weight_sum: 0.24999999999999997\norders_abs_delta_weight_sum: 0.0\nwrote: exports/oos_e1r_v0_2_orders_preview.json\nwrote: exports/oos_e1r_v0_2_positions_preview.json\n",
+      "stderr_tail": ""
+    },
+    {
+      "script": "scripts/run_e1r_v0_2_forward_performance.py",
+      "before": {
+        "orders_count": 10,
+        "positions_count": 10,
+        "buy_orders": 10,
+        "position_weight_sum": 0.24999999999999997,
+        "summary_tracking_status": "KICKOFF_READY",
+        "summary_official_kickoff_date": null,
+        "summary_forward_start_date": null,
+        "summary_execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+        "summary_open_positions_count": 10,
+        "summary_paper_orders_count": 10,
+        "state_positions_count": 10,
+        "state_official_kickoff_date": null
+      },
+      "after": {
+        "orders_count": 10,
+        "positions_count": 10,
+        "buy_orders": 10,
+        "position_weight_sum": 0.24999999999999997,
+        "summary_tracking_status": "KICKOFF_READY",
+        "summary_official_kickoff_date": null,
+        "summary_forward_start_date": null,
+        "summary_execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+        "summary_open_positions_count": 10,
+        "summary_paper_orders_count": 10,
+        "state_positions_count": 10,
+        "state_official_kickoff_date": null
+      },
+      "changed_files": [
+        "data/oos/e1r_v0_2_portfolio_state.json",
+        "data/oos/e1r_v0_2_events.jsonl",
+        "data/oos/e1r_v0_2_run_history.jsonl",
+        "exports/oos_e1r_v0_2_summary.json",
+        "exports/oos_e1r_v0_2_equity_curve.json"
+      ],
+      "classification": {
+        "returncode": 0,
+        "clears_orders": false,
+        "clears_positions": false,
+        "sets_official_kickoff_date": false,
+        "changes_execution_status": false,
+        "touches_e1_files": [],
+        "dangerous_for_workflow": []
+      },
+      "stdout_tail": "E1R v0.2 forward performance layer complete\nstatus_date: 2026-06-18\nofficial_kickoff_date: 2026-06-18\ntracking_status: KICKOFF_READY\nportfolio_value: 100000.0\nforward_return_pct: 0.0\nmax_drawdown_pct: 0.0\nsharpe_ratio: None\ngross_exposure: 0.24999999999999997\nwrote: data/oos/e1r_v0_2_portfolio_state.json\nwrote: exports/oos_e1r_v0_2_summary.json\nwrote: exports/oos_e1r_v0_2_equity_curve.json\nwrote: exports/oos_e1r_v0_2_positions.json\nwrote: exports/oos_e1r_v0_2_orders.json\nE1R forward performance preservation guard applied\norders_count: 10\npositions_count: 10\nposition_weight_sum: 0.24999999999999997\ntracking_status: KICKOFF_READY\nofficial_kickoff_date: None\nexecution_status: PAPER_POSITIONS_READY_KICKOFF_PENDING\n",
+      "stderr_tail": ""
+    }
+  ],
+  "dangerous_scripts": [
+    "scripts/run_e1r_v0_2_oos.py"
+  ],
+  "reset_scripts": [
+    "scripts/run_e1r_v0_2_oos.py"
+  ],
+  "classification": {
+    "has_dangerous_script": true,
+    "has_reset_script": true,
+    "safe_to_integrate_workflow": false
+  },
+  "next_stage": {
+    "stage": "3.8E-2F-1F-1E",
+    "purpose": "Patch the exact reset script(s), then rerun full daily sequence dry-run."
+  }
+}
