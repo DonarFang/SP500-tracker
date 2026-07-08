@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-07-08T07:39:42.165698+00:00",
+  "stage": "B_STAGE_3_8E2F1F1B_FORWARD_PERFORMANCE_PRESERVATION_FIX",
+  "status": "IMPLEMENTED_SOURCE_FIX",
+  "core_status": "created_core_from_existing_forward_performance_script",
+  "source_changes": {
+    "wrapper": "scripts/run_e1r_v0_2_forward_performance.py",
+    "core": "scripts/run_e1r_v0_2_forward_performance_core.py"
+  },
+  "policy": {
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false,
+    "e1_state_changed": false,
+    "e1_exports_changed": false,
+    "dashboard_changed": false,
+    "workflow_changed": false
+  },
+  "guard_condition": {
+    "tracking_status": "KICKOFF_READY",
+    "official_kickoff_date": null,
+    "accepted_paper_orders_exist": true,
+    "accepted_paper_positions_exist": true
+  },
+  "guard_effect": [
+    "Preserve exports/oos_e1r_v0_2_orders.json",
+    "Preserve exports/oos_e1r_v0_2_positions.json",
+    "Preserve KICKOFF_READY semantics in summary/state",
+    "Prevent premature official_kickoff_date assignment"
+  ],
+  "next_stage": {
+    "stage": "3.8E-2F-1F-1C",
+    "purpose": "Re-run daily sequence dry-run audit and require official_orders_preserved=true and official_positions_preserved=true."
+  }
+}

@@ -1,8 +1,8 @@
 {
   "strategy_id": "E1R_REGIME_AWARE_V0_2",
   "version": "v0.2",
-  "created_at": "2026-07-08T06:49:56.662242+00:00",
-  "updated_at": "2026-07-08T07:10:22.015887+00:00",
+  "created_at": "2026-07-08T07:39:42.229110+00:00",
+  "updated_at": "2026-07-08T07:39:42.230179+00:00",
   "official_kickoff_date": null,
   "status_date": "2026-06-18",
   "portfolio_value": 100000.0,
@@ -202,8 +202,8 @@
     }
   ],
   "last_summary": {
-    "generated_at": "2026-07-08T06:49:56.662064+00:00",
-    "generated_at_display": "2026-07-08 14:49 local",
+    "generated_at": "2026-07-08T07:39:42.228987+00:00",
+    "generated_at_display": "2026-07-08 15:39 local",
     "status_date": "2026-06-18",
     "strategy_id": "E1R_REGIME_AWARE_V0_2",
     "version": "v0.2",
@@ -243,22 +243,23 @@
       "No E1 state/export is touched.",
       "Positions/orders remain empty until E1R target/action engine is wired.",
       "Historical E1R backtest artifacts are not modified.",
-      "2026-06-18 is treated as E1R shadow/backfill scaffold start, not official LIVE_FORWARD kickoff.",
-      "official_kickoff_date remains null until E1R target/action generation and daily pipeline integration are complete.",
-      "Stage 3.8E-2F-1E-4 promoted accepted preview targets into E1R official paper orders/positions, still KICKOFF_READY.",
-      "LIVE_FORWARD remains disabled until daily pipeline integration succeeds."
+      "Stage 3.8E-2F-1F-1B preservation guard restored accepted paper orders/positions after forward performance run."
     ],
-    "shadow_start_date": "2026-06-18",
-    "backfill_start_date": "2026-06-18",
-    "kickoff_semantics": {
-      "shadow_start_date": "2026-06-18",
-      "official_kickoff_date": null,
-      "meaning": "2026-06-18 is a shadow/backfill scaffold start, not the official E1R live forward test kickoff.",
-      "official_live_forward_policy": "Official E1R LIVE_FORWARD starts after target/action generation and daily pipeline integration succeed."
-    },
-    "paper_orders_count": 10
+    "paper_orders_count": 10,
+    "preservation_guard": {
+      "active": true,
+      "reason": "KICKOFF_READY paper orders/positions must not be erased before LIVE_FORWARD.",
+      "preserved_at": "2026-07-08T07:39:42.230170+00:00",
+      "core_script": "scripts/run_e1r_v0_2_forward_performance_core.py"
+    }
   },
-  "shadow_start_date": "2026-06-18",
-  "backfill_start_date": "2026-06-18",
-  "tracking_status": "KICKOFF_READY"
+  "tracking_status": "KICKOFF_READY",
+  "forward_start_date": null,
+  "execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+  "preservation_guard": {
+    "active": true,
+    "reason": "KICKOFF_READY paper orders/positions must not be erased before LIVE_FORWARD.",
+    "preserved_at": "2026-07-08T07:39:42.230170+00:00",
+    "core_script": "scripts/run_e1r_v0_2_forward_performance_core.py"
+  }
 }
