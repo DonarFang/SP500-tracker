@@ -1,0 +1,64 @@
+{
+  "generated_at": "2026-07-08T11:59:24.085213+00:00",
+  "stage": "B_STAGE_3_8E2F2C4C10B_DIRECT_GENERATOR_DRY_RUN",
+  "status": "DIRECT_GENERATOR_DRY_RUN_COMPLETE_NO_CANONICAL_EXPORTS_WRITTEN",
+  "policy": {
+    "dashboard_changed": false,
+    "exports_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "canonical_exports_written": false,
+    "long_backtest_run": false
+  },
+  "paths": {
+    "stock_dir": "data/research/e1_5y/raw/stocks",
+    "spx_path": "data/research/e1_5y/raw/indices/SPX.json",
+    "regime_path": "data/research/e1_5y/regimes/spx_regime_daily.json",
+    "stock_dir_exists": true,
+    "stock_file_count": 542,
+    "spx_path_exists": true,
+    "regime_path_exists": true
+  },
+  "baseline_strategy_hashes": {
+    "src/engine/backtest.py": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+    "src/engine/e1r_composer.py": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+    "src/engine/e1r_sidecar_sleeve.py": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995"
+  },
+  "baseline_canonical_exists": {
+    "exports/e1_5y_backtest_equity_curve.json": false,
+    "exports/e1r_v0_2_portfolio_backtest_equity_curve.json": false,
+    "exports/e1_e1r_5y_equity_comparison.json": false
+  },
+  "imports": {
+    "sidecar_ok": false,
+    "composer_ok": false,
+    "error": "TypeError: __init__() missing 2 required positional arguments: 'start_date' and 'end_date'",
+    "traceback_tail": "Traceback (most recent call last):\n  File \"/tmp/stage4c10b_direct_generator_dry_run.py\", line 328, in main\n    config = sidecar.E1RSidecarConfig()\nTypeError: __init__() missing 2 required positional arguments: 'start_date' and 'end_date'\n"
+  },
+  "post_strategy_hashes": {
+    "src/engine/backtest.py": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+    "src/engine/e1r_composer.py": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+    "src/engine/e1r_sidecar_sleeve.py": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995"
+  },
+  "strategy_files_unchanged": true,
+  "post_canonical_exists": {
+    "exports/e1_5y_backtest_equity_curve.json": false,
+    "exports/e1r_v0_2_portfolio_backtest_equity_curve.json": false,
+    "exports/e1_e1r_5y_equity_comparison.json": false
+  },
+  "canonical_existence_unchanged": true,
+  "diagnosis": [
+    "Sidecar build ok: False.",
+    "Sidecar record candidate lists: 0.",
+    "Compose attempts ok: 0.",
+    "Manual extract non-empty attempts: 0.",
+    "Strategy files unchanged: True.",
+    "Canonical export existence unchanged: True.",
+    "No complete portfolio equity preview yet; likely missing 5Y core_daily_equity_records from E1 core backtest."
+  ],
+  "next_stage": {
+    "name": "Stage 3.8E-2F-2C-4C-10C",
+    "title": "Generate or recover 5Y E1 core daily equity records",
+    "recommended_action": "If 10B confirms sidecar_records are available but composer cannot create full E1R equity, build the missing 5Y core_daily_equity_records from frozen E1 backtest logic, then compose E1R v0.2."
+  }
+}
