@@ -1,0 +1,4157 @@
+{
+  "generated_at": "2026-07-08T10:03:45.050820+00:00",
+  "stage": "B_STAGE_3_8E2F2C4A_EQUITY_CURVE_RENDER_AUDIT",
+  "status": "AUDIT_COMPLETE_NO_SOURCE_CHANGES",
+  "policy": {
+    "dashboard_changed": false,
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false
+  },
+  "file_summaries": {
+    "e1_backtest": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_level_keys": [
+        "backtest",
+        "generated_at",
+        "generated_at_display"
+      ],
+      "row_count": 0,
+      "first_row": {},
+      "last_row": {},
+      "sample_keys": []
+    },
+    "e1_oos_equity": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_level_keys": [
+        "curve",
+        "generated_at",
+        "generated_at_display",
+        "initial_capital",
+        "strategy_id"
+      ],
+      "row_count": 12,
+      "first_row": {
+        "date": "2026-06-18",
+        "equity": 100000.0,
+        "cash": 100000.0,
+        "holdings_value": 0,
+        "n_positions": 0,
+        "source": "BACKFILLED_PRELIVE"
+      },
+      "last_row": {
+        "date": "2026-07-07",
+        "equity": 75255.2,
+        "cash": 0.02,
+        "holdings_value": 75255.18,
+        "n_positions": 3,
+        "source": "LIVE_FORWARD"
+      },
+      "sample_keys": [
+        "cash",
+        "date",
+        "equity",
+        "holdings_value",
+        "n_positions",
+        "source"
+      ]
+    },
+    "e1r_backtest_summary": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_level_keys": [
+        "alpha_pct",
+        "artifact_type",
+        "composition_exists",
+        "frozen_artifact",
+        "max_drawdown_pct",
+        "profit_factor",
+        "regeneration_note",
+        "regime_aware_logic",
+        "research_status",
+        "row_count",
+        "sharpe_ratio",
+        "sidecar_active_by_regime",
+        "sidecar_active_by_subclass",
+        "sidecar_active_days",
+        "source_file",
+        "source_json_path",
+        "spx_return_pct",
+        "strategy_id",
+        "total_return_pct",
+        "variant"
+      ],
+      "row_count": 0,
+      "first_row": {},
+      "last_row": {},
+      "sample_keys": []
+    },
+    "e1r_backtest_equity": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_level_keys": [
+        "artifact_type",
+        "equity_curve",
+        "frozen_artifact",
+        "regeneration_note",
+        "row_count",
+        "rows",
+        "source_file",
+        "source_json_path",
+        "variant"
+      ],
+      "row_count": 8819,
+      "first_row": {
+        "date": "2021-06-11",
+        "symbol": "ADBE",
+        "spx_regime": "UPTREND",
+        "e1r_entry_type": "E1R_UPTREND_EMERGING",
+        "e1r_uptrend_emerging_eligible": true,
+        "e1r_uptrend_confirmed_eligible": false,
+        "leader_rank": 14,
+        "leader_score": 90.88,
+        "rs_score": 89.0,
+        "rs_prev20": 18.6,
+        "rs_20d_improvement": 70.4,
+        "momentum_score": 93.0,
+        "momentum_acceleration": 41.0,
+        "trend_health": 90.9,
+        "close": 541.26,
+        "ma20": 501.12,
+        "ma50": 501.37,
+        "ma20_slope": 0.002536,
+        "ma50_slope": 0.002011,
+        "reasons": [
+          "rs_above_80",
+          "rs_20d_improvement_above_10",
+          "momentum_above_70",
+          "momentum_acceleration_positive",
+          "trend_health_above_65",
+          "close_above_ma20",
+          "ma20_structure_positive",
+          "leader_rank_top20"
+        ],
+        "diagnostic_only": true,
+        "equity": 541.26
+      },
+      "last_row": {
+        "date": "2026-06-16",
+        "symbol": "WSM",
+        "spx_regime": "UPTREND",
+        "e1r_entry_type": "E1R_UPTREND_EMERGING",
+        "e1r_uptrend_emerging_eligible": true,
+        "e1r_uptrend_confirmed_eligible": false,
+        "leader_rank": 19,
+        "leader_score": 91.06,
+        "rs_score": 83.9,
+        "rs_prev20": 10.8,
+        "rs_20d_improvement": 73.1,
+        "momentum_score": 100.0,
+        "momentum_acceleration": 27.9,
+        "trend_health": 90.0,
+        "close": 227.18,
+        "ma20": 204.43,
+        "ma50": 193.01,
+        "ma20_slope": 0.009685,
+        "ma50_slope": 0.00366,
+        "reasons": [
+          "rs_above_80",
+          "rs_20d_improvement_above_10",
+          "momentum_above_70",
+          "momentum_acceleration_positive",
+          "trend_health_above_65",
+          "close_above_ma20",
+          "ma20_structure_positive",
+          "leader_rank_top20"
+        ],
+        "diagnostic_only": true,
+        "equity": 227.18
+      },
+      "sample_keys": [
+        "close",
+        "date",
+        "diagnostic_only",
+        "e1r_entry_type",
+        "e1r_uptrend_confirmed_eligible",
+        "e1r_uptrend_emerging_eligible",
+        "equity",
+        "leader_rank",
+        "leader_score",
+        "ma20",
+        "ma20_slope",
+        "ma50",
+        "ma50_slope",
+        "momentum_acceleration",
+        "momentum_score",
+        "reasons",
+        "rs_20d_improvement",
+        "rs_prev20",
+        "rs_score",
+        "spx_regime",
+        "symbol",
+        "trend_health"
+      ]
+    },
+    "e1r_forward_equity": {
+      "exists": true,
+      "json_valid": true,
+      "type": "list",
+      "top_level_keys": null,
+      "row_count": 1,
+      "first_row": {
+        "date": "2026-06-18",
+        "portfolio_value": 100000.0,
+        "equity": 100000.0,
+        "strategy_id": "E1R_REGIME_AWARE_V0_2",
+        "version": "v0.2",
+        "cash": 100000.0,
+        "market_value": 0.0,
+        "strategy_indexed": 100.0,
+        "forward_return_pct": 0.0,
+        "drawdown_pct": 0.0,
+        "gross_exposure": 0.25,
+        "core_exposure": 0.25,
+        "sidecar_exposure": 0.0,
+        "market_state": "UPTREND",
+        "regime": "UPTREND",
+        "subclass": null,
+        "official_kickoff_date": null,
+        "shadow_start_date": "2026-06-18",
+        "backfill_start_date": "2026-06-18",
+        "tracking_status": "KICKOFF_READY"
+      },
+      "last_row": {
+        "date": "2026-06-18",
+        "portfolio_value": 100000.0,
+        "equity": 100000.0,
+        "strategy_id": "E1R_REGIME_AWARE_V0_2",
+        "version": "v0.2",
+        "cash": 100000.0,
+        "market_value": 0.0,
+        "strategy_indexed": 100.0,
+        "forward_return_pct": 0.0,
+        "drawdown_pct": 0.0,
+        "gross_exposure": 0.25,
+        "core_exposure": 0.25,
+        "sidecar_exposure": 0.0,
+        "market_state": "UPTREND",
+        "regime": "UPTREND",
+        "subclass": null,
+        "official_kickoff_date": null,
+        "shadow_start_date": "2026-06-18",
+        "backfill_start_date": "2026-06-18",
+        "tracking_status": "KICKOFF_READY"
+      },
+      "sample_keys": [
+        "backfill_start_date",
+        "cash",
+        "core_exposure",
+        "date",
+        "drawdown_pct",
+        "equity",
+        "forward_return_pct",
+        "gross_exposure",
+        "market_state",
+        "market_value",
+        "official_kickoff_date",
+        "portfolio_value",
+        "regime",
+        "shadow_start_date",
+        "sidecar_exposure",
+        "strategy_id",
+        "strategy_indexed",
+        "subclass",
+        "tracking_status",
+        "version"
+      ]
+    },
+    "market_state": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_level_keys": [
+        "data_source",
+        "generated_at",
+        "generated_at_display",
+        "market",
+        "phase"
+      ],
+      "row_count": 0,
+      "first_row": {},
+      "last_row": {},
+      "sample_keys": []
+    },
+    "e1r_status": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_level_keys": [
+        "core",
+        "e1r_market_state",
+        "generated_at",
+        "legacy_market_state",
+        "mutually_exclusive_state_model",
+        "notes",
+        "regime",
+        "research_status",
+        "sidecar",
+        "source_files",
+        "status_date",
+        "strategy_id",
+        "subclass",
+        "version"
+      ],
+      "row_count": 0,
+      "first_row": {},
+      "last_row": {},
+      "sample_keys": []
+    }
+  },
+  "app_hits": [
+    {
+      "line": 19,
+      "terms": [
+        "oosEq",
+        "Chart"
+      ],
+      "text": "let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null,oosEquity:null,e1rV02Status:null,e1rV02OosOrders:null,e1rV02OosPositions:null,e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null,e1rFormal:null};"
+    },
+    {
+      "line": 37,
+      "terms": [
+        "Chart"
+      ],
+      "text": "// ── Reusable Stock Preview Chart ────────────────────────"
+    },
+    {
+      "line": 38,
+      "terms": [
+        "Chart"
+      ],
+      "text": "function getStockChartPayload(symbol){"
+    },
+    {
+      "line": 39,
+      "terms": [
+        "Chart"
+      ],
+      "text": "  const sc = DATA.stockCharts || {};"
+    },
+    {
+      "line": 47,
+      "terms": [
+        "Chart"
+      ],
+      "text": "function renderStockPreviewChart(containerId, symbol){"
+    },
+    {
+      "line": 54,
+      "terms": [
+        "Chart"
+      ],
+      "text": "  const p = getStockChartPayload(symbol);"
+    },
+    {
+      "line": 90,
+      "terms": [
+        "Chart",
+        "datasets"
+      ],
+      "text": "  charts[chartKey] = new Chart(el,{type:'line',data:{labels,datasets:ds},"
+    },
+    {
+      "line": 105,
+      "terms": [
+        "Chart"
+      ],
+      "text": "  const showFor = sym => { if(sym) renderStockPreviewChart(previewContainerId, sym); };"
+    },
+    {
+      "line": 161,
+      "terms": [
+        "oosEq"
+      ],
+      "text": "    const [wl,lc,dh,bt,tlog,sc,oosEq,e1rOrders,e1rPositions,e1rReg,e1rConf,e1r3i,e1r3ir,e1r3k,e1rFormal] = await Promise.all(["
+    },
+    {
+      "line": 168,
+      "terms": [
+        "oos_equity_curve"
+      ],
+      "text": "      fetchJ('oos_equity_curve').catch(()=>null),"
+    },
+    {
+      "line": 180,
+      "terms": [
+        "Chart"
+      ],
+      "text": "    DATA.stockCharts=(sc&&sc.symbols)||{};"
+    },
+    {
+      "line": 181,
+      "terms": [
+        "oosEq"
+      ],
+      "text": "    DATA.oosEquity=oosEq;"
+    },
+    {
+      "line": 273,
+      "terms": [
+        "e1rForwardEquityCurveRows"
+      ],
+      "text": "function e1rForwardEquityCurveRows(raw) {"
+    },
+    {
+      "line": 300,
+      "terms": [
+        "e1rForwardEquityCurveRows"
+      ],
+      "text": "  const rows = e1rForwardEquityCurveRows(raw);"
+    },
+    {
+      "line": 411,
+      "terms": [
+        "e1rV02OosEquityCurve"
+      ],
+      "text": "${e1rForwardEquityCurveHtml(DATA.e1rV02OosEquityCurve)}"
+    },
+    {
+      "line": 820,
+      "terms": [
+        "Chart",
+        "datasets"
+      ],
+      "text": "        charts.spx=new Chart(spxEl,{type:'line',data:{labels:spxIdx.chart_dates.map(d=>d.slice(5)),datasets:["
+    },
+    {
+      "line": 836,
+      "terms": [
+        "Chart",
+        "datasets"
+      ],
+      "text": "        charts.sector=new Chart(secEl,{type:'doughnut',data:{labels:secArr.map(e=>e[0]),datasets:[{data:secArr.map(e=>e[1]),backgroundColor:PALETTE.slice(0,secArr.length),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});"
+    },
+    {
+      "line": 900,
+      "terms": [
+        "Chart",
+        "datasets"
+      ],
+      "text": "        charts.rsMom=new Chart(e1,{type:'scatter',data:{datasets:[{label:'Top10',data:leaders.map(s=>({x:s.rs_score||0,y:s.momentum_score||0})),backgroundColor:PALETTE,pointRadius:8,pointHoverRadius:11}]},"
+    },
+    {
+      "line": 908,
+      "terms": [
+        "Chart",
+        "datasets"
+      ],
+      "text": "        charts.health=new Chart(e2,{type:'bar',data:{labels:sorted.map(s=>s.symbol),datasets:[{label:'健康度',data:sorted.map(s=>s.trend_health||0),backgroundColor:sorted.map(s=>scCol(s.trend_health||0)),borderRadius:4}]},"
+    },
+    {
+      "line": 976,
+      "terms": [
+        "Chart"
+      ],
+      "text": "      charts.promo=new Chart(el,{type:'bar',data:{"
+    },
+    {
+      "line": 978,
+      "terms": [
+        "datasets"
+      ],
+      "text": "        datasets:[{label:'晋升分',data:top15.map(s=>s.promotion_score||0),backgroundColor:top15.map(s=>scCol(s.promotion_score||0)),borderRadius:4}]"
+    },
+    {
+      "line": 1145,
+      "terms": [
+        "eqCurve"
+      ],
+      "text": "    const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];"
+    },
+    {
+      "line": 1147,
+      "terms": [
+        "oosEq"
+      ],
+      "text": "    const oosRowsForNote=(DATA.oosEquity?.curve||[]);"
+    },
+    {
+      "line": 1160,
+      "terms": [
+        "eqCurve"
+      ],
+      "text": "    if(eqCurve.length>1){"
+    },
+    {
+      "line": 1162,
+      "terms": [
+        "Equity curve"
+      ],
+      "text": "Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class=\"card-body\">"
+    },
+    {
+      "line": 1164,
+      "terms": [
+        "E1-R OOS tracking"
+      ],
+      "text": "        <div class=\"muted\" style=\"font-size:12px;margin-top:.5rem\">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</div>"
+    },
+    {
+      "line": 1253,
+      "terms": [
+        "eqCurve"
+      ],
+      "text": "    if(eqCurve.length>1){"
+    },
+    {
+      "line": 1258,
+      "terms": [
+        "eqCurve"
+      ],
+      "text": "        const e1Start=eqCurve[0]||1, spxStart=spxCurve[0]||1, e1rStart=e1rCurve[0]||1;"
+    },
+    {
+      "line": 1259,
+      "terms": [
+        "eqCurve"
+      ],
+      "text": "        const e1I=eqCurve.map(v=>parseFloat(((v/e1Start)*100).toFixed(2)));"
+    },
+    {
+      "line": 1285,
+      "terms": [
+        "eqCurve"
+      ],
+      "text": "        const btLabels = buildEquityDateLabels(eqCurve.length);"
+    },
+    {
+      "line": 1287,
+      "terms": [
+        "oosEq"
+      ],
+      "text": "        const oosRows = (DATA.oosEquity?.curve || [])"
+    },
+    {
+      "line": 1302,
+      "terms": [
+        "E1 OOS forward",
+        "SPX buy & hold"
+      ],
+      "text": "        // This keeps SPX buy & hold comparable with E1 OOS forward."
+    },
+    {
+      "line": 1305,
+      "terms": [
+        "Chart"
+      ],
+      "text": "        const spxChartDates = spxIx.chart_dates || [];"
+    },
+    {
+      "line": 1306,
+      "terms": [
+        "Chart"
+      ],
+      "text": "        const spxChartPrices = spxIx.chart_prices || [];"
+    },
+    {
+      "line": 1309,
+      "terms": [
+        "Chart"
+      ],
+      "text": "        if(spxChartDates.length && spxChartPrices.length && btEndDate){"
+    },
+    {
+      "line": 1310,
+      "terms": [
+        "Chart"
+      ],
+      "text": "          let baseIdx = spxChartDates.findIndex(d => String(d) >= String(btEndDate));"
+    },
+    {
+      "line": 1311,
+      "terms": [
+        "Chart"
+      ],
+      "text": "          if(baseIdx < 0) baseIdx = spxChartDates.length - 1;"
+    },
+    {
+      "line": 1313,
+      "terms": [
+        "Chart"
+      ],
+      "text": "          const baseClose = Number(spxChartPrices[baseIdx] || 0);"
+    },
+    {
+      "line": 1318,
+      "terms": [
+        "Chart"
+      ],
+      "text": "              const j = spxChartDates.indexOf(String(d));"
+    },
+    {
+      "line": 1320,
+      "terms": [
+        "Chart"
+      ],
+      "text": "                spxData[idx] = parseFloat(((Number(spxChartPrices[j] || 0) / baseClose) * spxAnchor).toFixed(2));"
+    },
+    {
+      "line": 1346,
+      "terms": [
+        "E1 backtest"
+      ],
+      "text": "          {label:'E1 backtest',data:e1BacktestData,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},"
+    },
+    {
+      "line": 1347,
+      "terms": [
+        "SPX buy & hold"
+      ],
+      "text": "          {label:'SPX buy & hold',data:spxData,borderColor:'#888',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.2},"
+    },
+    {
+      "line": 1351,
+      "terms": [
+        "E1 OOS forward"
+      ],
+      "text": "          ds.splice(1,0,{label:'E1 OOS forward',data:oosForwardData,borderColor:'#1D9E75',backgroundColor:'transparent',borderWidth:2,borderDash:[6,4],pointRadius:0,tension:0.2,spanGaps:false});"
+    },
+    {
+      "line": 1355,
+      "terms": [
+        "E1-R backtest"
+      ],
+      "text": "          ds.splice(oosRows.length?2:1,0,{label:'E1-R backtest',data:e1rData,borderColor:'#D4537E',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.2});"
+    },
+    {
+      "line": 1381,
+      "terms": [
+        "Chart"
+      ],
+      "text": "        charts.equity=new Chart(el,{type:'line',data:{"
+    },
+    {
+      "line": 1383,
+      "terms": [
+        "datasets"
+      ],
+      "text": "          datasets:ds"
+    },
+    {
+      "line": 1422,
+      "terms": [
+        "oos_e1r_v0_2_equity_curve",
+        "oosEq"
+      ],
+      "text": "    oosEquity: \"../exports/oos_e1r_v0_2_equity_curve.json\","
+    },
+    {
+      "line": 1426,
+      "terms": [
+        "e1r_v0_2_backtest_equity_curve"
+      ],
+      "text": "    backtestEquity: \"../exports/e1r_v0_2_backtest_equity_curve.json\""
+    },
+    {
+      "line": 1694,
+      "terms": [
+        "oosEq"
+      ],
+      "text": "      oosEquityResult,"
+    },
+    {
+      "line": 1705,
+      "terms": [
+        "oosEq"
+      ],
+      "text": "      e1rFetchJson(E1R_V02_PATHS.oosEquity),"
+    },
+    {
+      "line": 1714,
+      "terms": [
+        "oosEq"
+      ],
+      "text": "    e1rRenderOosEquity(oosEquityResult, lifecycleResult, turnoverResult);"
+    },
+    {
+      "line": 1722,
+      "terms": [
+        "oosEq"
+      ],
+      "text": "      oosEquity: oosEquityResult.ok,"
+    }
+  ],
+  "equity_contexts": [
+    {
+      "match_line": 1162,
+      "match_text": "Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class=\"card-body\">",
+      "context": [
+        {
+          "line": 1144,
+          "text": ""
+        },
+        {
+          "line": 1145,
+          "text": "    const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];"
+        },
+        {
+          "line": 1146,
+          "text": "    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];"
+        },
+        {
+          "line": 1147,
+          "text": "    const oosRowsForNote=(DATA.oosEquity?.curve||[]);"
+        },
+        {
+          "line": 1148,
+          "text": "    const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';"
+        },
+        {
+          "line": 1149,
+          "text": ""
+        },
+        {
+          "line": 1150,
+          "text": "    // Lifecycle 统计迁入"
+        },
+        {
+          "line": 1151,
+          "text": "    const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];"
+        },
+        {
+          "line": 1152,
+          "text": "    const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));"
+        },
+        {
+          "line": 1153,
+          "text": ""
+        },
+        {
+          "line": 1154,
+          "text": "    let h=e2bV4RenderSummaryComparison(e1);"
+        },
+        {
+          "line": 1155,
+          "text": ""
+        },
+        {
+          "line": 1156,
+          "text": ""
+        },
+        {
+          "line": 1157,
+          "text": "    // Stage 3.8E-2B-v4: old E1-only metric cards replaced by unified summary above."
+        },
+        {
+          "line": 1158,
+          "text": ""
+        },
+        {
+          "line": 1159,
+          "text": ""
+        },
+        {
+          "line": 1160,
+          "text": "    if(eqCurve.length>1){"
+        },
+        {
+          "line": 1161,
+          "text": "      h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">"
+        },
+        {
+          "line": 1162,
+          "text": "Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class=\"card-body\">"
+        },
+        {
+          "line": 1163,
+          "text": "        <div class=\"cwrap\" style=\"height:220px\"><canvas id=\"cw-equity\"></canvas></div>"
+        },
+        {
+          "line": 1164,
+          "text": "        <div class=\"muted\" style=\"font-size:12px;margin-top:.5rem\">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</div>"
+        },
+        {
+          "line": 1165,
+          "text": "      </div></div>`;"
+        },
+        {
+          "line": 1166,
+          "text": "    }"
+        },
+        {
+          "line": 1167,
+          "text": ""
+        },
+        {
+          "line": 1168,
+          "text": "    // Stage 3.8E-1: removed old period table from this tab."
+        },
+        {
+          "line": 1169,
+          "text": ""
+        },
+        {
+          "line": 1170,
+          "text": "    if(lcStats.some(r=>r.n>0)){"
+        },
+        {
+          "line": 1171,
+          "text": "      h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">个股趋势生命周期分布 <span class=\"sub\">Top50 当前象限</span></div><div class=\"card-body\">"
+        },
+        {
+          "line": 1172,
+          "text": "        <div class=\"regime-grid\">`;"
+        },
+        {
+          "line": 1173,
+          "text": "      lcStats.forEach(({reg,n,zh})=>{"
+        },
+        {
+          "line": 1174,
+          "text": "        const stocks=lc[reg]||[];"
+        },
+        {
+          "line": 1175,
+          "text": "        h+=`<div class=\"regime-cell badge-${reg}\">"
+        },
+        {
+          "line": 1176,
+          "text": "          <div style=\"font-size:13px;font-weight:600;margin-bottom:4px\">${zh} <span style=\"font-size:20px;font-weight:700\">${n}</span></div>"
+        },
+        {
+          "line": 1177,
+          "text": "          <div style=\"font-size:11px;opacity:.8;margin-bottom:6px\">${REG_META[reg]?.desc||''}</div>"
+        },
+        {
+          "line": 1178,
+          "text": "          <div style=\"display:flex;flex-wrap:wrap;gap:4px\">"
+        },
+        {
+          "line": 1179,
+          "text": "            ${stocks.slice(0,5).map(s=>`<span style=\"font-size:10px;background:rgba(255,255,255,0.25);padding:1px 6px;border-radius:10px;font-weight:500\">${s.symbol}</span>`).join('')}"
+        },
+        {
+          "line": 1180,
+          "text": "            ${stocks.length>5?`<span style=\"font-size:10px;opacity:.6\">+${stocks.length-5}</span>`:''}"
+        },
+        {
+          "line": 1181,
+          "text": "          </div>"
+        },
+        {
+          "line": 1182,
+          "text": "        </div>`;"
+        },
+        {
+          "line": 1183,
+          "text": "      });"
+        },
+        {
+          "line": 1184,
+          "text": "      h+=`</div></div></div>`;"
+        },
+        {
+          "line": 1185,
+          "text": "    }"
+        },
+        {
+          "line": 1186,
+          "text": ""
+        },
+        {
+          "line": 1187,
+          "text": "    h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">Trade log — recent 20 trades</div><div class=\"card-body\">"
+        },
+        {
+          "line": 1188,
+          "text": "      <div class=\"tbl-wrap\"><table>"
+        },
+        {
+          "line": 1189,
+          "text": "        <thead><tr><th>Symbol</th><th>Entry</th><th>Exit</th><th>Entry $</th><th>Exit $</th><th>Return</th><th>Days</th><th>Exit reason</th><th>SIM?</th></tr></thead>"
+        },
+        {
+          "line": 1190,
+          "text": "        <tbody>${tradeRows}</tbody>"
+        },
+        {
+          "line": 1191,
+          "text": "      </table></div>"
+        },
+        {
+          "line": 1192,
+          "text": "    </div></div>`;"
+        },
+        {
+          "line": 1193,
+          "text": ""
+        },
+        {
+          "line": 1194,
+          "text": "    // Stage 3.8E-1: keep only market context below the trade table."
+        },
+        {
+          "line": 1195,
+          "text": "    const nativeMarket = DATA.market || {};"
+        },
+        {
+          "line": 1196,
+          "text": "    const e1rStatus = DATA.e1rV02Status || {};"
+        },
+        {
+          "line": 1197,
+          "text": "    const nativeTrendState ="
+        },
+        {
+          "line": 1198,
+          "text": "      e1rStatus.regime ||"
+        },
+        {
+          "line": 1199,
+          "text": "      e1rStatus.trend_state ||"
+        },
+        {
+          "line": 1200,
+          "text": "      e1rStatus.market_regime ||"
+        },
+        {
+          "line": 1201,
+          "text": "      e1rStatus.e1r_market_state ||"
+        },
+        {
+          "line": 1202,
+          "text": "      nativeMarket.trend_state ||"
+        },
+        {
+          "line": 1203,
+          "text": "      nativeMarket.market_regime ||"
+        },
+        {
+          "line": 1204,
+          "text": "      nativeMarket.regime ||"
+        },
+        {
+          "line": 1205,
+          "text": "      '—';"
+        },
+        {
+          "line": 1206,
+          "text": "    const nativeRiskMode ="
+        },
+        {
+          "line": 1207,
+          "text": "      nativeMarket.state ||"
+        }
+      ]
+    },
+    {
+      "match_line": 1164,
+      "match_text": "        <div class=\"muted\" style=\"font-size:12px;margin-top:.5rem\">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</div>",
+      "context": [
+        {
+          "line": 1146,
+          "text": "    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];"
+        },
+        {
+          "line": 1147,
+          "text": "    const oosRowsForNote=(DATA.oosEquity?.curve||[]);"
+        },
+        {
+          "line": 1148,
+          "text": "    const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';"
+        },
+        {
+          "line": 1149,
+          "text": ""
+        },
+        {
+          "line": 1150,
+          "text": "    // Lifecycle 统计迁入"
+        },
+        {
+          "line": 1151,
+          "text": "    const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];"
+        },
+        {
+          "line": 1152,
+          "text": "    const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));"
+        },
+        {
+          "line": 1153,
+          "text": ""
+        },
+        {
+          "line": 1154,
+          "text": "    let h=e2bV4RenderSummaryComparison(e1);"
+        },
+        {
+          "line": 1155,
+          "text": ""
+        },
+        {
+          "line": 1156,
+          "text": ""
+        },
+        {
+          "line": 1157,
+          "text": "    // Stage 3.8E-2B-v4: old E1-only metric cards replaced by unified summary above."
+        },
+        {
+          "line": 1158,
+          "text": ""
+        },
+        {
+          "line": 1159,
+          "text": ""
+        },
+        {
+          "line": 1160,
+          "text": "    if(eqCurve.length>1){"
+        },
+        {
+          "line": 1161,
+          "text": "      h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">"
+        },
+        {
+          "line": 1162,
+          "text": "Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class=\"card-body\">"
+        },
+        {
+          "line": 1163,
+          "text": "        <div class=\"cwrap\" style=\"height:220px\"><canvas id=\"cw-equity\"></canvas></div>"
+        },
+        {
+          "line": 1164,
+          "text": "        <div class=\"muted\" style=\"font-size:12px;margin-top:.5rem\">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</div>"
+        },
+        {
+          "line": 1165,
+          "text": "      </div></div>`;"
+        },
+        {
+          "line": 1166,
+          "text": "    }"
+        },
+        {
+          "line": 1167,
+          "text": ""
+        },
+        {
+          "line": 1168,
+          "text": "    // Stage 3.8E-1: removed old period table from this tab."
+        },
+        {
+          "line": 1169,
+          "text": ""
+        },
+        {
+          "line": 1170,
+          "text": "    if(lcStats.some(r=>r.n>0)){"
+        },
+        {
+          "line": 1171,
+          "text": "      h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">个股趋势生命周期分布 <span class=\"sub\">Top50 当前象限</span></div><div class=\"card-body\">"
+        },
+        {
+          "line": 1172,
+          "text": "        <div class=\"regime-grid\">`;"
+        },
+        {
+          "line": 1173,
+          "text": "      lcStats.forEach(({reg,n,zh})=>{"
+        },
+        {
+          "line": 1174,
+          "text": "        const stocks=lc[reg]||[];"
+        },
+        {
+          "line": 1175,
+          "text": "        h+=`<div class=\"regime-cell badge-${reg}\">"
+        },
+        {
+          "line": 1176,
+          "text": "          <div style=\"font-size:13px;font-weight:600;margin-bottom:4px\">${zh} <span style=\"font-size:20px;font-weight:700\">${n}</span></div>"
+        },
+        {
+          "line": 1177,
+          "text": "          <div style=\"font-size:11px;opacity:.8;margin-bottom:6px\">${REG_META[reg]?.desc||''}</div>"
+        },
+        {
+          "line": 1178,
+          "text": "          <div style=\"display:flex;flex-wrap:wrap;gap:4px\">"
+        },
+        {
+          "line": 1179,
+          "text": "            ${stocks.slice(0,5).map(s=>`<span style=\"font-size:10px;background:rgba(255,255,255,0.25);padding:1px 6px;border-radius:10px;font-weight:500\">${s.symbol}</span>`).join('')}"
+        },
+        {
+          "line": 1180,
+          "text": "            ${stocks.length>5?`<span style=\"font-size:10px;opacity:.6\">+${stocks.length-5}</span>`:''}"
+        },
+        {
+          "line": 1181,
+          "text": "          </div>"
+        },
+        {
+          "line": 1182,
+          "text": "        </div>`;"
+        },
+        {
+          "line": 1183,
+          "text": "      });"
+        },
+        {
+          "line": 1184,
+          "text": "      h+=`</div></div></div>`;"
+        },
+        {
+          "line": 1185,
+          "text": "    }"
+        },
+        {
+          "line": 1186,
+          "text": ""
+        },
+        {
+          "line": 1187,
+          "text": "    h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">Trade log — recent 20 trades</div><div class=\"card-body\">"
+        },
+        {
+          "line": 1188,
+          "text": "      <div class=\"tbl-wrap\"><table>"
+        },
+        {
+          "line": 1189,
+          "text": "        <thead><tr><th>Symbol</th><th>Entry</th><th>Exit</th><th>Entry $</th><th>Exit $</th><th>Return</th><th>Days</th><th>Exit reason</th><th>SIM?</th></tr></thead>"
+        },
+        {
+          "line": 1190,
+          "text": "        <tbody>${tradeRows}</tbody>"
+        },
+        {
+          "line": 1191,
+          "text": "      </table></div>"
+        },
+        {
+          "line": 1192,
+          "text": "    </div></div>`;"
+        },
+        {
+          "line": 1193,
+          "text": ""
+        },
+        {
+          "line": 1194,
+          "text": "    // Stage 3.8E-1: keep only market context below the trade table."
+        },
+        {
+          "line": 1195,
+          "text": "    const nativeMarket = DATA.market || {};"
+        },
+        {
+          "line": 1196,
+          "text": "    const e1rStatus = DATA.e1rV02Status || {};"
+        },
+        {
+          "line": 1197,
+          "text": "    const nativeTrendState ="
+        },
+        {
+          "line": 1198,
+          "text": "      e1rStatus.regime ||"
+        },
+        {
+          "line": 1199,
+          "text": "      e1rStatus.trend_state ||"
+        },
+        {
+          "line": 1200,
+          "text": "      e1rStatus.market_regime ||"
+        },
+        {
+          "line": 1201,
+          "text": "      e1rStatus.e1r_market_state ||"
+        },
+        {
+          "line": 1202,
+          "text": "      nativeMarket.trend_state ||"
+        },
+        {
+          "line": 1203,
+          "text": "      nativeMarket.market_regime ||"
+        },
+        {
+          "line": 1204,
+          "text": "      nativeMarket.regime ||"
+        },
+        {
+          "line": 1205,
+          "text": "      '—';"
+        },
+        {
+          "line": 1206,
+          "text": "    const nativeRiskMode ="
+        },
+        {
+          "line": 1207,
+          "text": "      nativeMarket.state ||"
+        },
+        {
+          "line": 1208,
+          "text": "      nativeMarket.risk_mode ||"
+        },
+        {
+          "line": 1209,
+          "text": "      nativeMarket.market_state ||"
+        }
+      ]
+    }
+  ],
+  "dataset_contexts": [
+    {
+      "match_line": 87,
+      "match_text": "  const ds = [{label:'Close',data:p.close,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,0.08)',borderWidth:2,pointRadius:0,fill:true,tension:0.15}];",
+      "context": [
+        {
+          "line": 75,
+          "text": "  // 每次重建容器内 canvas（不用全局 id，避免多容器 id 冲突）"
+        },
+        {
+          "line": 76,
+          "text": "  wrap.innerHTML = `"
+        },
+        {
+          "line": 77,
+          "text": "    <div style=\"display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:6px\">"
+        },
+        {
+          "line": 78,
+          "text": "      <div><strong style=\"font-size:15px\">${symbol}</strong>"
+        },
+        {
+          "line": 79,
+          "text": "        <span style=\"color:var(--text2);font-size:12px\">${p.name||''} · ${p.sector||''}</span></div>"
+        },
+        {
+          "line": 80,
+          "text": "      <div style=\"font-size:11px;color:var(--text2);display:flex;gap:10px;flex-wrap:wrap;align-items:center\">${metaBits.join('<span style=\"opacity:.4\">·</span>')}</div>"
+        },
+        {
+          "line": 81,
+          "text": "    </div>"
+        },
+        {
+          "line": 82,
+          "text": "    <div class=\"cwrap\" style=\"height:200px\"><canvas></canvas></div>`;"
+        },
+        {
+          "line": 83,
+          "text": ""
+        },
+        {
+          "line": 84,
+          "text": "  const el = wrap.querySelector('canvas');"
+        },
+        {
+          "line": 85,
+          "text": "  if(!el) return;"
+        },
+        {
+          "line": 86,
+          "text": "  const labels = p.dates.map(d=>String(d).slice(5));"
+        },
+        {
+          "line": 87,
+          "text": "  const ds = [{label:'Close',data:p.close,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,0.08)',borderWidth:2,pointRadius:0,fill:true,tension:0.15}];"
+        },
+        {
+          "line": 88,
+          "text": "  if(p.ma20 && p.ma20.length) ds.push({label:'MA20',data:p.ma20,borderColor:'#1D9E75',borderWidth:1.5,pointRadius:0,borderDash:[],tension:0.15});"
+        },
+        {
+          "line": 89,
+          "text": "  if(p.ma50 && p.ma50.length) ds.push({label:'MA50',data:p.ma50,borderColor:'#BA7517',borderWidth:1.5,pointRadius:0,borderDash:[4,3],tension:0.15});"
+        },
+        {
+          "line": 90,
+          "text": "  charts[chartKey] = new Chart(el,{type:'line',data:{labels,datasets:ds},"
+        },
+        {
+          "line": 91,
+          "text": "    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},"
+        },
+        {
+          "line": 92,
+          "text": "      plugins:{legend:{display:true,labels:{font:{size:10},boxWidth:18,usePointStyle:true}},"
+        },
+        {
+          "line": 93,
+          "text": "        tooltip:{callbacks:{title:items=>p.dates[items[0].dataIndex]}}},"
+        },
+        {
+          "line": 94,
+          "text": "      scales:{x:{ticks:{font:{size:9},maxTicksLimit:8},grid:{display:false}},"
+        },
+        {
+          "line": 95,
+          "text": "              y:{ticks:{font:{size:9}},grid:{color:'rgba(128,128,128,0.1)'}}}}});"
+        },
+        {
+          "line": 96,
+          "text": "}"
+        },
+        {
+          "line": 97,
+          "text": ""
+        },
+        {
+          "line": 98,
+          "text": "function bindStockPreviewRows(rootSelector, rowSelector, symbolGetter, previewContainerId){"
+        },
+        {
+          "line": 99,
+          "text": "  const root = document.querySelector(rootSelector);"
+        },
+        {
+          "line": 100,
+          "text": "  if(!root) return;"
+        },
+        {
+          "line": 101,
+          "text": "  const rows = Array.from(root.querySelectorAll(rowSelector));"
+        },
+        {
+          "line": 102,
+          "text": "  if(!rows.length) return;"
+        },
+        {
+          "line": 103,
+          "text": "  let pinned = null; // click/tap 锁定的 symbol"
+        },
+        {
+          "line": 104,
+          "text": ""
+        },
+        {
+          "line": 105,
+          "text": "  const showFor = sym => { if(sym) renderStockPreviewChart(previewContainerId, sym); };"
+        },
+        {
+          "line": 106,
+          "text": ""
+        },
+        {
+          "line": 107,
+          "text": "  rows.forEach(row=>{"
+        },
+        {
+          "line": 108,
+          "text": "    const sym = symbolGetter(row);"
+        },
+        {
+          "line": 109,
+          "text": "    if(!sym) return;"
+        },
+        {
+          "line": 110,
+          "text": "    row.style.cursor = 'pointer';"
+        },
+        {
+          "line": 111,
+          "text": "    // desktop hover"
+        }
+      ]
+    },
+    {
+      "match_line": 88,
+      "match_text": "  if(p.ma20 && p.ma20.length) ds.push({label:'MA20',data:p.ma20,borderColor:'#1D9E75',borderWidth:1.5,pointRadius:0,borderDash:[],tension:0.15});",
+      "context": [
+        {
+          "line": 76,
+          "text": "  wrap.innerHTML = `"
+        },
+        {
+          "line": 77,
+          "text": "    <div style=\"display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:6px\">"
+        },
+        {
+          "line": 78,
+          "text": "      <div><strong style=\"font-size:15px\">${symbol}</strong>"
+        },
+        {
+          "line": 79,
+          "text": "        <span style=\"color:var(--text2);font-size:12px\">${p.name||''} · ${p.sector||''}</span></div>"
+        },
+        {
+          "line": 80,
+          "text": "      <div style=\"font-size:11px;color:var(--text2);display:flex;gap:10px;flex-wrap:wrap;align-items:center\">${metaBits.join('<span style=\"opacity:.4\">·</span>')}</div>"
+        },
+        {
+          "line": 81,
+          "text": "    </div>"
+        },
+        {
+          "line": 82,
+          "text": "    <div class=\"cwrap\" style=\"height:200px\"><canvas></canvas></div>`;"
+        },
+        {
+          "line": 83,
+          "text": ""
+        },
+        {
+          "line": 84,
+          "text": "  const el = wrap.querySelector('canvas');"
+        },
+        {
+          "line": 85,
+          "text": "  if(!el) return;"
+        },
+        {
+          "line": 86,
+          "text": "  const labels = p.dates.map(d=>String(d).slice(5));"
+        },
+        {
+          "line": 87,
+          "text": "  const ds = [{label:'Close',data:p.close,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,0.08)',borderWidth:2,pointRadius:0,fill:true,tension:0.15}];"
+        },
+        {
+          "line": 88,
+          "text": "  if(p.ma20 && p.ma20.length) ds.push({label:'MA20',data:p.ma20,borderColor:'#1D9E75',borderWidth:1.5,pointRadius:0,borderDash:[],tension:0.15});"
+        },
+        {
+          "line": 89,
+          "text": "  if(p.ma50 && p.ma50.length) ds.push({label:'MA50',data:p.ma50,borderColor:'#BA7517',borderWidth:1.5,pointRadius:0,borderDash:[4,3],tension:0.15});"
+        },
+        {
+          "line": 90,
+          "text": "  charts[chartKey] = new Chart(el,{type:'line',data:{labels,datasets:ds},"
+        },
+        {
+          "line": 91,
+          "text": "    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},"
+        },
+        {
+          "line": 92,
+          "text": "      plugins:{legend:{display:true,labels:{font:{size:10},boxWidth:18,usePointStyle:true}},"
+        },
+        {
+          "line": 93,
+          "text": "        tooltip:{callbacks:{title:items=>p.dates[items[0].dataIndex]}}},"
+        },
+        {
+          "line": 94,
+          "text": "      scales:{x:{ticks:{font:{size:9},maxTicksLimit:8},grid:{display:false}},"
+        },
+        {
+          "line": 95,
+          "text": "              y:{ticks:{font:{size:9}},grid:{color:'rgba(128,128,128,0.1)'}}}}});"
+        },
+        {
+          "line": 96,
+          "text": "}"
+        },
+        {
+          "line": 97,
+          "text": ""
+        },
+        {
+          "line": 98,
+          "text": "function bindStockPreviewRows(rootSelector, rowSelector, symbolGetter, previewContainerId){"
+        },
+        {
+          "line": 99,
+          "text": "  const root = document.querySelector(rootSelector);"
+        },
+        {
+          "line": 100,
+          "text": "  if(!root) return;"
+        },
+        {
+          "line": 101,
+          "text": "  const rows = Array.from(root.querySelectorAll(rowSelector));"
+        },
+        {
+          "line": 102,
+          "text": "  if(!rows.length) return;"
+        },
+        {
+          "line": 103,
+          "text": "  let pinned = null; // click/tap 锁定的 symbol"
+        },
+        {
+          "line": 104,
+          "text": ""
+        },
+        {
+          "line": 105,
+          "text": "  const showFor = sym => { if(sym) renderStockPreviewChart(previewContainerId, sym); };"
+        },
+        {
+          "line": 106,
+          "text": ""
+        },
+        {
+          "line": 107,
+          "text": "  rows.forEach(row=>{"
+        },
+        {
+          "line": 108,
+          "text": "    const sym = symbolGetter(row);"
+        },
+        {
+          "line": 109,
+          "text": "    if(!sym) return;"
+        },
+        {
+          "line": 110,
+          "text": "    row.style.cursor = 'pointer';"
+        },
+        {
+          "line": 111,
+          "text": "    // desktop hover"
+        },
+        {
+          "line": 112,
+          "text": "    row.addEventListener('mouseenter',()=>{ if(!pinned) showFor(sym); });"
+        }
+      ]
+    },
+    {
+      "match_line": 89,
+      "match_text": "  if(p.ma50 && p.ma50.length) ds.push({label:'MA50',data:p.ma50,borderColor:'#BA7517',borderWidth:1.5,pointRadius:0,borderDash:[4,3],tension:0.15});",
+      "context": [
+        {
+          "line": 77,
+          "text": "    <div style=\"display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:6px\">"
+        },
+        {
+          "line": 78,
+          "text": "      <div><strong style=\"font-size:15px\">${symbol}</strong>"
+        },
+        {
+          "line": 79,
+          "text": "        <span style=\"color:var(--text2);font-size:12px\">${p.name||''} · ${p.sector||''}</span></div>"
+        },
+        {
+          "line": 80,
+          "text": "      <div style=\"font-size:11px;color:var(--text2);display:flex;gap:10px;flex-wrap:wrap;align-items:center\">${metaBits.join('<span style=\"opacity:.4\">·</span>')}</div>"
+        },
+        {
+          "line": 81,
+          "text": "    </div>"
+        },
+        {
+          "line": 82,
+          "text": "    <div class=\"cwrap\" style=\"height:200px\"><canvas></canvas></div>`;"
+        },
+        {
+          "line": 83,
+          "text": ""
+        },
+        {
+          "line": 84,
+          "text": "  const el = wrap.querySelector('canvas');"
+        },
+        {
+          "line": 85,
+          "text": "  if(!el) return;"
+        },
+        {
+          "line": 86,
+          "text": "  const labels = p.dates.map(d=>String(d).slice(5));"
+        },
+        {
+          "line": 87,
+          "text": "  const ds = [{label:'Close',data:p.close,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,0.08)',borderWidth:2,pointRadius:0,fill:true,tension:0.15}];"
+        },
+        {
+          "line": 88,
+          "text": "  if(p.ma20 && p.ma20.length) ds.push({label:'MA20',data:p.ma20,borderColor:'#1D9E75',borderWidth:1.5,pointRadius:0,borderDash:[],tension:0.15});"
+        },
+        {
+          "line": 89,
+          "text": "  if(p.ma50 && p.ma50.length) ds.push({label:'MA50',data:p.ma50,borderColor:'#BA7517',borderWidth:1.5,pointRadius:0,borderDash:[4,3],tension:0.15});"
+        },
+        {
+          "line": 90,
+          "text": "  charts[chartKey] = new Chart(el,{type:'line',data:{labels,datasets:ds},"
+        },
+        {
+          "line": 91,
+          "text": "    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},"
+        },
+        {
+          "line": 92,
+          "text": "      plugins:{legend:{display:true,labels:{font:{size:10},boxWidth:18,usePointStyle:true}},"
+        },
+        {
+          "line": 93,
+          "text": "        tooltip:{callbacks:{title:items=>p.dates[items[0].dataIndex]}}},"
+        },
+        {
+          "line": 94,
+          "text": "      scales:{x:{ticks:{font:{size:9},maxTicksLimit:8},grid:{display:false}},"
+        },
+        {
+          "line": 95,
+          "text": "              y:{ticks:{font:{size:9}},grid:{color:'rgba(128,128,128,0.1)'}}}}});"
+        },
+        {
+          "line": 96,
+          "text": "}"
+        },
+        {
+          "line": 97,
+          "text": ""
+        },
+        {
+          "line": 98,
+          "text": "function bindStockPreviewRows(rootSelector, rowSelector, symbolGetter, previewContainerId){"
+        },
+        {
+          "line": 99,
+          "text": "  const root = document.querySelector(rootSelector);"
+        },
+        {
+          "line": 100,
+          "text": "  if(!root) return;"
+        },
+        {
+          "line": 101,
+          "text": "  const rows = Array.from(root.querySelectorAll(rowSelector));"
+        },
+        {
+          "line": 102,
+          "text": "  if(!rows.length) return;"
+        },
+        {
+          "line": 103,
+          "text": "  let pinned = null; // click/tap 锁定的 symbol"
+        },
+        {
+          "line": 104,
+          "text": ""
+        },
+        {
+          "line": 105,
+          "text": "  const showFor = sym => { if(sym) renderStockPreviewChart(previewContainerId, sym); };"
+        },
+        {
+          "line": 106,
+          "text": ""
+        },
+        {
+          "line": 107,
+          "text": "  rows.forEach(row=>{"
+        },
+        {
+          "line": 108,
+          "text": "    const sym = symbolGetter(row);"
+        },
+        {
+          "line": 109,
+          "text": "    if(!sym) return;"
+        },
+        {
+          "line": 110,
+          "text": "    row.style.cursor = 'pointer';"
+        },
+        {
+          "line": 111,
+          "text": "    // desktop hover"
+        },
+        {
+          "line": 112,
+          "text": "    row.addEventListener('mouseenter',()=>{ if(!pinned) showFor(sym); });"
+        },
+        {
+          "line": 113,
+          "text": "    // click/tap 锁定切换"
+        }
+      ]
+    },
+    {
+      "match_line": 90,
+      "match_text": "  charts[chartKey] = new Chart(el,{type:'line',data:{labels,datasets:ds},",
+      "context": [
+        {
+          "line": 78,
+          "text": "      <div><strong style=\"font-size:15px\">${symbol}</strong>"
+        },
+        {
+          "line": 79,
+          "text": "        <span style=\"color:var(--text2);font-size:12px\">${p.name||''} · ${p.sector||''}</span></div>"
+        },
+        {
+          "line": 80,
+          "text": "      <div style=\"font-size:11px;color:var(--text2);display:flex;gap:10px;flex-wrap:wrap;align-items:center\">${metaBits.join('<span style=\"opacity:.4\">·</span>')}</div>"
+        },
+        {
+          "line": 81,
+          "text": "    </div>"
+        },
+        {
+          "line": 82,
+          "text": "    <div class=\"cwrap\" style=\"height:200px\"><canvas></canvas></div>`;"
+        },
+        {
+          "line": 83,
+          "text": ""
+        },
+        {
+          "line": 84,
+          "text": "  const el = wrap.querySelector('canvas');"
+        },
+        {
+          "line": 85,
+          "text": "  if(!el) return;"
+        },
+        {
+          "line": 86,
+          "text": "  const labels = p.dates.map(d=>String(d).slice(5));"
+        },
+        {
+          "line": 87,
+          "text": "  const ds = [{label:'Close',data:p.close,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,0.08)',borderWidth:2,pointRadius:0,fill:true,tension:0.15}];"
+        },
+        {
+          "line": 88,
+          "text": "  if(p.ma20 && p.ma20.length) ds.push({label:'MA20',data:p.ma20,borderColor:'#1D9E75',borderWidth:1.5,pointRadius:0,borderDash:[],tension:0.15});"
+        },
+        {
+          "line": 89,
+          "text": "  if(p.ma50 && p.ma50.length) ds.push({label:'MA50',data:p.ma50,borderColor:'#BA7517',borderWidth:1.5,pointRadius:0,borderDash:[4,3],tension:0.15});"
+        },
+        {
+          "line": 90,
+          "text": "  charts[chartKey] = new Chart(el,{type:'line',data:{labels,datasets:ds},"
+        },
+        {
+          "line": 91,
+          "text": "    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},"
+        },
+        {
+          "line": 92,
+          "text": "      plugins:{legend:{display:true,labels:{font:{size:10},boxWidth:18,usePointStyle:true}},"
+        },
+        {
+          "line": 93,
+          "text": "        tooltip:{callbacks:{title:items=>p.dates[items[0].dataIndex]}}},"
+        },
+        {
+          "line": 94,
+          "text": "      scales:{x:{ticks:{font:{size:9},maxTicksLimit:8},grid:{display:false}},"
+        },
+        {
+          "line": 95,
+          "text": "              y:{ticks:{font:{size:9}},grid:{color:'rgba(128,128,128,0.1)'}}}}});"
+        },
+        {
+          "line": 96,
+          "text": "}"
+        },
+        {
+          "line": 97,
+          "text": ""
+        },
+        {
+          "line": 98,
+          "text": "function bindStockPreviewRows(rootSelector, rowSelector, symbolGetter, previewContainerId){"
+        },
+        {
+          "line": 99,
+          "text": "  const root = document.querySelector(rootSelector);"
+        },
+        {
+          "line": 100,
+          "text": "  if(!root) return;"
+        },
+        {
+          "line": 101,
+          "text": "  const rows = Array.from(root.querySelectorAll(rowSelector));"
+        },
+        {
+          "line": 102,
+          "text": "  if(!rows.length) return;"
+        },
+        {
+          "line": 103,
+          "text": "  let pinned = null; // click/tap 锁定的 symbol"
+        },
+        {
+          "line": 104,
+          "text": ""
+        },
+        {
+          "line": 105,
+          "text": "  const showFor = sym => { if(sym) renderStockPreviewChart(previewContainerId, sym); };"
+        },
+        {
+          "line": 106,
+          "text": ""
+        },
+        {
+          "line": 107,
+          "text": "  rows.forEach(row=>{"
+        },
+        {
+          "line": 108,
+          "text": "    const sym = symbolGetter(row);"
+        },
+        {
+          "line": 109,
+          "text": "    if(!sym) return;"
+        },
+        {
+          "line": 110,
+          "text": "    row.style.cursor = 'pointer';"
+        },
+        {
+          "line": 111,
+          "text": "    // desktop hover"
+        },
+        {
+          "line": 112,
+          "text": "    row.addEventListener('mouseenter',()=>{ if(!pinned) showFor(sym); });"
+        },
+        {
+          "line": 113,
+          "text": "    // click/tap 锁定切换"
+        },
+        {
+          "line": 114,
+          "text": "    row.addEventListener('click',()=>{"
+        }
+      ]
+    },
+    {
+      "match_line": 820,
+      "match_text": "        charts.spx=new Chart(spxEl,{type:'line',data:{labels:spxIdx.chart_dates.map(d=>d.slice(5)),datasets:[",
+      "context": [
+        {
+          "line": 808,
+          "text": "      `Market Score ${sc}，SPX ${parseFloat(m.spx_close||0).toLocaleString()}，VIX ${vix.available?p2(vix.price,1)+'（'+vix.vix_state+'）':'N/A'}，涨跌比 ${m.advance_count}:${m.decline_count}。Gate v2.1 状态：${gateLabel}。`,"
+        },
+        {
+          "line": 809,
+          "text": "      `${m.leadership_confirmed?'NDX/SOX 均位于MA50上方，Leadership Confirmed。':'Leadership Unconfirmed，等待指数收复MA50。'}${idx.tech_premium!==undefined?' NDX相对SPX 20日：'+(idx.tech_premium>=0?'+':'')+p2(idx.tech_premium,2)+'%。':''}`,"
+        },
+        {
+          "line": 810,
+          "text": "      `${m.state_icon||'🟡'} ${m.state_zh||'中性观望'}，${sc>=80?'强势偏好，全力持仓领导股。':sc>=60?'风险偏好，适合趋势跟随。':sc>=40?'中性观望，控制仓位。':sc>=20?'风险规避，大幅减仓。':'防御模式，空仓等待。'}`,"
+        },
+        {
+          "line": 811,
+          "text": "      sc>=80?'满仓持有 BUY 信号强势股':sc>=60?'保留核心持仓，新仓只买 BUY 信号':sc>=40?'减少新仓，保留 HOLD 信号':sc>=20?'只保留最强持仓，清理 REDUCE 信号':'全面防御，清仓等待 Market Score ≥ 40'"
+        },
+        {
+          "line": 812,
+          "text": "    );"
+        },
+        {
+          "line": 813,
+          "text": "    h+='<p class=\"note\">数据来自 Yahoo Finance，每交易日 18:00 ET 自动更新。不构成投资建议。</p>';"
+        },
+        {
+          "line": 814,
+          "text": "    $('s-market').innerHTML=h;"
+        },
+        {
+          "line": 815,
+          "text": ""
+        },
+        {
+          "line": 816,
+          "text": "    setTimeout(()=>{"
+        },
+        {
+          "line": 817,
+          "text": "      const spxEl=$('cw-spx'), spxIdx=idx['SPX']||{};"
+        },
+        {
+          "line": 818,
+          "text": "      if(spxEl&&spxIdx.chart_dates?.length){"
+        },
+        {
+          "line": 819,
+          "text": "        if(charts.spx)charts.spx.destroy();"
+        },
+        {
+          "line": 820,
+          "text": "        charts.spx=new Chart(spxEl,{type:'line',data:{labels:spxIdx.chart_dates.map(d=>d.slice(5)),datasets:["
+        },
+        {
+          "line": 821,
+          "text": "          {label:'SPX',data:spxIdx.chart_prices,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},"
+        },
+        {
+          "line": 822,
+          "text": "          {label:'MA20',data:spxIdx.chart_ma20,borderColor:'#1D9E75',borderWidth:1.5,pointRadius:0,borderDash:[4,3],fill:false},"
+        },
+        {
+          "line": 823,
+          "text": "          {label:'MA50',data:spxIdx.chart_ma50,borderColor:'#BA7517',borderWidth:1.5,pointRadius:0,borderDash:[6,3],fill:false},"
+        },
+        {
+          "line": 824,
+          "text": "        ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},"
+        },
+        {
+          "line": 825,
+          "text": "          plugins:{legend:{labels:{font:{size:10},boxWidth:10,padding:8}}},"
+        },
+        {
+          "line": 826,
+          "text": "          scales:{x:{ticks:{font:{size:10},maxTicksLimit:10},grid:{display:false}},"
+        },
+        {
+          "line": 827,
+          "text": "                  y:{ticks:{font:{size:10},callback:v=>parseFloat(v).toLocaleString()},grid:{color:'rgba(128,128,128,0.1)'}}}"
+        },
+        {
+          "line": 828,
+          "text": "        }});"
+        },
+        {
+          "line": 829,
+          "text": "      }"
+        },
+        {
+          "line": 830,
+          "text": "      const secEl=$('cw-sector'), secLeg=$('sec-legend');"
+        },
+        {
+          "line": 831,
+          "text": "      const secmap={}; (DATA.leaderboard||[]).forEach(s=>{const sec=s.sector||'Other';secmap[sec]=(secmap[sec]||0)+1;});"
+        },
+        {
+          "line": 832,
+          "text": "      const secArr=Object.entries(secmap).sort((a,b)=>b[1]-a[1]);"
+        },
+        {
+          "line": 833,
+          "text": "      if(secEl&&secArr.length){"
+        },
+        {
+          "line": 834,
+          "text": "        if(secLeg) secLeg.innerHTML=secArr.map((e,i)=>`<span style=\"display:flex;align-items:center;gap:3px\"><span style=\"width:8px;height:8px;border-radius:2px;background:${PALETTE[i%PALETTE.length]}\"></span>${e[0]}(${e[1]})</span>`).join('');"
+        },
+        {
+          "line": 835,
+          "text": "        if(charts.sector)charts.sector.destroy();"
+        },
+        {
+          "line": 836,
+          "text": "        charts.sector=new Chart(secEl,{type:'doughnut',data:{labels:secArr.map(e=>e[0]),datasets:[{data:secArr.map(e=>e[1]),backgroundColor:PALETTE.slice(0,secArr.length),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});"
+        },
+        {
+          "line": 837,
+          "text": "      }"
+        },
+        {
+          "line": 838,
+          "text": "    },80);"
+        },
+        {
+          "line": 839,
+          "text": "  }"
+        },
+        {
+          "line": 840,
+          "text": ""
+        },
+        {
+          "line": 841,
+          "text": "  // ── Tab 2: Leader Board ──────────────────────────────"
+        },
+        {
+          "line": 842,
+          "text": "  if (tab==='leader') {"
+        },
+        {
+          "line": 843,
+          "text": "    const leaders=DATA.leaderboard||[];"
+        },
+        {
+          "line": 844,
+          "text": "    if(!leaders.length){$('s-leader').innerHTML='<div class=\"loading\">暂无数据</div>';return;}"
+        }
+      ]
+    },
+    {
+      "match_line": 821,
+      "match_text": "          {label:'SPX',data:spxIdx.chart_prices,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},",
+      "context": [
+        {
+          "line": 809,
+          "text": "      `${m.leadership_confirmed?'NDX/SOX 均位于MA50上方，Leadership Confirmed。':'Leadership Unconfirmed，等待指数收复MA50。'}${idx.tech_premium!==undefined?' NDX相对SPX 20日：'+(idx.tech_premium>=0?'+':'')+p2(idx.tech_premium,2)+'%。':''}`,"
+        },
+        {
+          "line": 810,
+          "text": "      `${m.state_icon||'🟡'} ${m.state_zh||'中性观望'}，${sc>=80?'强势偏好，全力持仓领导股。':sc>=60?'风险偏好，适合趋势跟随。':sc>=40?'中性观望，控制仓位。':sc>=20?'风险规避，大幅减仓。':'防御模式，空仓等待。'}`,"
+        },
+        {
+          "line": 811,
+          "text": "      sc>=80?'满仓持有 BUY 信号强势股':sc>=60?'保留核心持仓，新仓只买 BUY 信号':sc>=40?'减少新仓，保留 HOLD 信号':sc>=20?'只保留最强持仓，清理 REDUCE 信号':'全面防御，清仓等待 Market Score ≥ 40'"
+        },
+        {
+          "line": 812,
+          "text": "    );"
+        },
+        {
+          "line": 813,
+          "text": "    h+='<p class=\"note\">数据来自 Yahoo Finance，每交易日 18:00 ET 自动更新。不构成投资建议。</p>';"
+        },
+        {
+          "line": 814,
+          "text": "    $('s-market').innerHTML=h;"
+        },
+        {
+          "line": 815,
+          "text": ""
+        },
+        {
+          "line": 816,
+          "text": "    setTimeout(()=>{"
+        },
+        {
+          "line": 817,
+          "text": "      const spxEl=$('cw-spx'), spxIdx=idx['SPX']||{};"
+        },
+        {
+          "line": 818,
+          "text": "      if(spxEl&&spxIdx.chart_dates?.length){"
+        },
+        {
+          "line": 819,
+          "text": "        if(charts.spx)charts.spx.destroy();"
+        },
+        {
+          "line": 820,
+          "text": "        charts.spx=new Chart(spxEl,{type:'line',data:{labels:spxIdx.chart_dates.map(d=>d.slice(5)),datasets:["
+        },
+        {
+          "line": 821,
+          "text": "          {label:'SPX',data:spxIdx.chart_prices,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},"
+        },
+        {
+          "line": 822,
+          "text": "          {label:'MA20',data:spxIdx.chart_ma20,borderColor:'#1D9E75',borderWidth:1.5,pointRadius:0,borderDash:[4,3],fill:false},"
+        },
+        {
+          "line": 823,
+          "text": "          {label:'MA50',data:spxIdx.chart_ma50,borderColor:'#BA7517',borderWidth:1.5,pointRadius:0,borderDash:[6,3],fill:false},"
+        },
+        {
+          "line": 824,
+          "text": "        ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},"
+        },
+        {
+          "line": 825,
+          "text": "          plugins:{legend:{labels:{font:{size:10},boxWidth:10,padding:8}}},"
+        },
+        {
+          "line": 826,
+          "text": "          scales:{x:{ticks:{font:{size:10},maxTicksLimit:10},grid:{display:false}},"
+        },
+        {
+          "line": 827,
+          "text": "                  y:{ticks:{font:{size:10},callback:v=>parseFloat(v).toLocaleString()},grid:{color:'rgba(128,128,128,0.1)'}}}"
+        },
+        {
+          "line": 828,
+          "text": "        }});"
+        },
+        {
+          "line": 829,
+          "text": "      }"
+        },
+        {
+          "line": 830,
+          "text": "      const secEl=$('cw-sector'), secLeg=$('sec-legend');"
+        },
+        {
+          "line": 831,
+          "text": "      const secmap={}; (DATA.leaderboard||[]).forEach(s=>{const sec=s.sector||'Other';secmap[sec]=(secmap[sec]||0)+1;});"
+        },
+        {
+          "line": 832,
+          "text": "      const secArr=Object.entries(secmap).sort((a,b)=>b[1]-a[1]);"
+        },
+        {
+          "line": 833,
+          "text": "      if(secEl&&secArr.length){"
+        },
+        {
+          "line": 834,
+          "text": "        if(secLeg) secLeg.innerHTML=secArr.map((e,i)=>`<span style=\"display:flex;align-items:center;gap:3px\"><span style=\"width:8px;height:8px;border-radius:2px;background:${PALETTE[i%PALETTE.length]}\"></span>${e[0]}(${e[1]})</span>`).join('');"
+        },
+        {
+          "line": 835,
+          "text": "        if(charts.sector)charts.sector.destroy();"
+        },
+        {
+          "line": 836,
+          "text": "        charts.sector=new Chart(secEl,{type:'doughnut',data:{labels:secArr.map(e=>e[0]),datasets:[{data:secArr.map(e=>e[1]),backgroundColor:PALETTE.slice(0,secArr.length),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});"
+        },
+        {
+          "line": 837,
+          "text": "      }"
+        },
+        {
+          "line": 838,
+          "text": "    },80);"
+        },
+        {
+          "line": 839,
+          "text": "  }"
+        },
+        {
+          "line": 840,
+          "text": ""
+        },
+        {
+          "line": 841,
+          "text": "  // ── Tab 2: Leader Board ──────────────────────────────"
+        },
+        {
+          "line": 842,
+          "text": "  if (tab==='leader') {"
+        },
+        {
+          "line": 843,
+          "text": "    const leaders=DATA.leaderboard||[];"
+        },
+        {
+          "line": 844,
+          "text": "    if(!leaders.length){$('s-leader').innerHTML='<div class=\"loading\">暂无数据</div>';return;}"
+        },
+        {
+          "line": 845,
+          "text": "    let h=`<div class=\"card\"><div class=\"card-head\">Top 10 Leader Board <span class=\"sub\">LeaderScore = 0.5×RS + 0.3×Momentum + 0.2×TrendHealth</span></div><div class=\"card-body\"><div class=\"tbl-wrap\"><table>"
+        }
+      ]
+    },
+    {
+      "match_line": 822,
+      "match_text": "          {label:'MA20',data:spxIdx.chart_ma20,borderColor:'#1D9E75',borderWidth:1.5,pointRadius:0,borderDash:[4,3],fill:false},",
+      "context": [
+        {
+          "line": 810,
+          "text": "      `${m.state_icon||'🟡'} ${m.state_zh||'中性观望'}，${sc>=80?'强势偏好，全力持仓领导股。':sc>=60?'风险偏好，适合趋势跟随。':sc>=40?'中性观望，控制仓位。':sc>=20?'风险规避，大幅减仓。':'防御模式，空仓等待。'}`,"
+        },
+        {
+          "line": 811,
+          "text": "      sc>=80?'满仓持有 BUY 信号强势股':sc>=60?'保留核心持仓，新仓只买 BUY 信号':sc>=40?'减少新仓，保留 HOLD 信号':sc>=20?'只保留最强持仓，清理 REDUCE 信号':'全面防御，清仓等待 Market Score ≥ 40'"
+        },
+        {
+          "line": 812,
+          "text": "    );"
+        },
+        {
+          "line": 813,
+          "text": "    h+='<p class=\"note\">数据来自 Yahoo Finance，每交易日 18:00 ET 自动更新。不构成投资建议。</p>';"
+        },
+        {
+          "line": 814,
+          "text": "    $('s-market').innerHTML=h;"
+        },
+        {
+          "line": 815,
+          "text": ""
+        },
+        {
+          "line": 816,
+          "text": "    setTimeout(()=>{"
+        },
+        {
+          "line": 817,
+          "text": "      const spxEl=$('cw-spx'), spxIdx=idx['SPX']||{};"
+        },
+        {
+          "line": 818,
+          "text": "      if(spxEl&&spxIdx.chart_dates?.length){"
+        },
+        {
+          "line": 819,
+          "text": "        if(charts.spx)charts.spx.destroy();"
+        },
+        {
+          "line": 820,
+          "text": "        charts.spx=new Chart(spxEl,{type:'line',data:{labels:spxIdx.chart_dates.map(d=>d.slice(5)),datasets:["
+        },
+        {
+          "line": 821,
+          "text": "          {label:'SPX',data:spxIdx.chart_prices,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},"
+        },
+        {
+          "line": 822,
+          "text": "          {label:'MA20',data:spxIdx.chart_ma20,borderColor:'#1D9E75',borderWidth:1.5,pointRadius:0,borderDash:[4,3],fill:false},"
+        },
+        {
+          "line": 823,
+          "text": "          {label:'MA50',data:spxIdx.chart_ma50,borderColor:'#BA7517',borderWidth:1.5,pointRadius:0,borderDash:[6,3],fill:false},"
+        },
+        {
+          "line": 824,
+          "text": "        ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},"
+        },
+        {
+          "line": 825,
+          "text": "          plugins:{legend:{labels:{font:{size:10},boxWidth:10,padding:8}}},"
+        },
+        {
+          "line": 826,
+          "text": "          scales:{x:{ticks:{font:{size:10},maxTicksLimit:10},grid:{display:false}},"
+        },
+        {
+          "line": 827,
+          "text": "                  y:{ticks:{font:{size:10},callback:v=>parseFloat(v).toLocaleString()},grid:{color:'rgba(128,128,128,0.1)'}}}"
+        },
+        {
+          "line": 828,
+          "text": "        }});"
+        },
+        {
+          "line": 829,
+          "text": "      }"
+        },
+        {
+          "line": 830,
+          "text": "      const secEl=$('cw-sector'), secLeg=$('sec-legend');"
+        },
+        {
+          "line": 831,
+          "text": "      const secmap={}; (DATA.leaderboard||[]).forEach(s=>{const sec=s.sector||'Other';secmap[sec]=(secmap[sec]||0)+1;});"
+        },
+        {
+          "line": 832,
+          "text": "      const secArr=Object.entries(secmap).sort((a,b)=>b[1]-a[1]);"
+        },
+        {
+          "line": 833,
+          "text": "      if(secEl&&secArr.length){"
+        },
+        {
+          "line": 834,
+          "text": "        if(secLeg) secLeg.innerHTML=secArr.map((e,i)=>`<span style=\"display:flex;align-items:center;gap:3px\"><span style=\"width:8px;height:8px;border-radius:2px;background:${PALETTE[i%PALETTE.length]}\"></span>${e[0]}(${e[1]})</span>`).join('');"
+        },
+        {
+          "line": 835,
+          "text": "        if(charts.sector)charts.sector.destroy();"
+        },
+        {
+          "line": 836,
+          "text": "        charts.sector=new Chart(secEl,{type:'doughnut',data:{labels:secArr.map(e=>e[0]),datasets:[{data:secArr.map(e=>e[1]),backgroundColor:PALETTE.slice(0,secArr.length),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});"
+        },
+        {
+          "line": 837,
+          "text": "      }"
+        },
+        {
+          "line": 838,
+          "text": "    },80);"
+        },
+        {
+          "line": 839,
+          "text": "  }"
+        },
+        {
+          "line": 840,
+          "text": ""
+        },
+        {
+          "line": 841,
+          "text": "  // ── Tab 2: Leader Board ──────────────────────────────"
+        },
+        {
+          "line": 842,
+          "text": "  if (tab==='leader') {"
+        },
+        {
+          "line": 843,
+          "text": "    const leaders=DATA.leaderboard||[];"
+        },
+        {
+          "line": 844,
+          "text": "    if(!leaders.length){$('s-leader').innerHTML='<div class=\"loading\">暂无数据</div>';return;}"
+        },
+        {
+          "line": 845,
+          "text": "    let h=`<div class=\"card\"><div class=\"card-head\">Top 10 Leader Board <span class=\"sub\">LeaderScore = 0.5×RS + 0.3×Momentum + 0.2×TrendHealth</span></div><div class=\"card-body\"><div class=\"tbl-wrap\"><table>"
+        },
+        {
+          "line": 846,
+          "text": "      <thead><tr><th>#</th><th>代码</th><th>板块</th><th>RS%</th><th>动量</th><th>健康度</th><th>Leader分</th><th>趋势状态</th><th>操作</th></tr></thead><tbody>`;"
+        }
+      ]
+    },
+    {
+      "match_line": 823,
+      "match_text": "          {label:'MA50',data:spxIdx.chart_ma50,borderColor:'#BA7517',borderWidth:1.5,pointRadius:0,borderDash:[6,3],fill:false},",
+      "context": [
+        {
+          "line": 811,
+          "text": "      sc>=80?'满仓持有 BUY 信号强势股':sc>=60?'保留核心持仓，新仓只买 BUY 信号':sc>=40?'减少新仓，保留 HOLD 信号':sc>=20?'只保留最强持仓，清理 REDUCE 信号':'全面防御，清仓等待 Market Score ≥ 40'"
+        },
+        {
+          "line": 812,
+          "text": "    );"
+        },
+        {
+          "line": 813,
+          "text": "    h+='<p class=\"note\">数据来自 Yahoo Finance，每交易日 18:00 ET 自动更新。不构成投资建议。</p>';"
+        },
+        {
+          "line": 814,
+          "text": "    $('s-market').innerHTML=h;"
+        },
+        {
+          "line": 815,
+          "text": ""
+        },
+        {
+          "line": 816,
+          "text": "    setTimeout(()=>{"
+        },
+        {
+          "line": 817,
+          "text": "      const spxEl=$('cw-spx'), spxIdx=idx['SPX']||{};"
+        },
+        {
+          "line": 818,
+          "text": "      if(spxEl&&spxIdx.chart_dates?.length){"
+        },
+        {
+          "line": 819,
+          "text": "        if(charts.spx)charts.spx.destroy();"
+        },
+        {
+          "line": 820,
+          "text": "        charts.spx=new Chart(spxEl,{type:'line',data:{labels:spxIdx.chart_dates.map(d=>d.slice(5)),datasets:["
+        },
+        {
+          "line": 821,
+          "text": "          {label:'SPX',data:spxIdx.chart_prices,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},"
+        },
+        {
+          "line": 822,
+          "text": "          {label:'MA20',data:spxIdx.chart_ma20,borderColor:'#1D9E75',borderWidth:1.5,pointRadius:0,borderDash:[4,3],fill:false},"
+        },
+        {
+          "line": 823,
+          "text": "          {label:'MA50',data:spxIdx.chart_ma50,borderColor:'#BA7517',borderWidth:1.5,pointRadius:0,borderDash:[6,3],fill:false},"
+        },
+        {
+          "line": 824,
+          "text": "        ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},"
+        },
+        {
+          "line": 825,
+          "text": "          plugins:{legend:{labels:{font:{size:10},boxWidth:10,padding:8}}},"
+        },
+        {
+          "line": 826,
+          "text": "          scales:{x:{ticks:{font:{size:10},maxTicksLimit:10},grid:{display:false}},"
+        },
+        {
+          "line": 827,
+          "text": "                  y:{ticks:{font:{size:10},callback:v=>parseFloat(v).toLocaleString()},grid:{color:'rgba(128,128,128,0.1)'}}}"
+        },
+        {
+          "line": 828,
+          "text": "        }});"
+        },
+        {
+          "line": 829,
+          "text": "      }"
+        },
+        {
+          "line": 830,
+          "text": "      const secEl=$('cw-sector'), secLeg=$('sec-legend');"
+        },
+        {
+          "line": 831,
+          "text": "      const secmap={}; (DATA.leaderboard||[]).forEach(s=>{const sec=s.sector||'Other';secmap[sec]=(secmap[sec]||0)+1;});"
+        },
+        {
+          "line": 832,
+          "text": "      const secArr=Object.entries(secmap).sort((a,b)=>b[1]-a[1]);"
+        },
+        {
+          "line": 833,
+          "text": "      if(secEl&&secArr.length){"
+        },
+        {
+          "line": 834,
+          "text": "        if(secLeg) secLeg.innerHTML=secArr.map((e,i)=>`<span style=\"display:flex;align-items:center;gap:3px\"><span style=\"width:8px;height:8px;border-radius:2px;background:${PALETTE[i%PALETTE.length]}\"></span>${e[0]}(${e[1]})</span>`).join('');"
+        },
+        {
+          "line": 835,
+          "text": "        if(charts.sector)charts.sector.destroy();"
+        },
+        {
+          "line": 836,
+          "text": "        charts.sector=new Chart(secEl,{type:'doughnut',data:{labels:secArr.map(e=>e[0]),datasets:[{data:secArr.map(e=>e[1]),backgroundColor:PALETTE.slice(0,secArr.length),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});"
+        },
+        {
+          "line": 837,
+          "text": "      }"
+        },
+        {
+          "line": 838,
+          "text": "    },80);"
+        },
+        {
+          "line": 839,
+          "text": "  }"
+        },
+        {
+          "line": 840,
+          "text": ""
+        },
+        {
+          "line": 841,
+          "text": "  // ── Tab 2: Leader Board ──────────────────────────────"
+        },
+        {
+          "line": 842,
+          "text": "  if (tab==='leader') {"
+        },
+        {
+          "line": 843,
+          "text": "    const leaders=DATA.leaderboard||[];"
+        },
+        {
+          "line": 844,
+          "text": "    if(!leaders.length){$('s-leader').innerHTML='<div class=\"loading\">暂无数据</div>';return;}"
+        },
+        {
+          "line": 845,
+          "text": "    let h=`<div class=\"card\"><div class=\"card-head\">Top 10 Leader Board <span class=\"sub\">LeaderScore = 0.5×RS + 0.3×Momentum + 0.2×TrendHealth</span></div><div class=\"card-body\"><div class=\"tbl-wrap\"><table>"
+        },
+        {
+          "line": 846,
+          "text": "      <thead><tr><th>#</th><th>代码</th><th>板块</th><th>RS%</th><th>动量</th><th>健康度</th><th>Leader分</th><th>趋势状态</th><th>操作</th></tr></thead><tbody>`;"
+        },
+        {
+          "line": 847,
+          "text": "    leaders.forEach(s=>{"
+        }
+      ]
+    },
+    {
+      "match_line": 836,
+      "match_text": "        charts.sector=new Chart(secEl,{type:'doughnut',data:{labels:secArr.map(e=>e[0]),datasets:[{data:secArr.map(e=>e[1]),backgroundColor:PALETTE.slice(0,secArr.length),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});",
+      "context": [
+        {
+          "line": 824,
+          "text": "        ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},"
+        },
+        {
+          "line": 825,
+          "text": "          plugins:{legend:{labels:{font:{size:10},boxWidth:10,padding:8}}},"
+        },
+        {
+          "line": 826,
+          "text": "          scales:{x:{ticks:{font:{size:10},maxTicksLimit:10},grid:{display:false}},"
+        },
+        {
+          "line": 827,
+          "text": "                  y:{ticks:{font:{size:10},callback:v=>parseFloat(v).toLocaleString()},grid:{color:'rgba(128,128,128,0.1)'}}}"
+        },
+        {
+          "line": 828,
+          "text": "        }});"
+        },
+        {
+          "line": 829,
+          "text": "      }"
+        },
+        {
+          "line": 830,
+          "text": "      const secEl=$('cw-sector'), secLeg=$('sec-legend');"
+        },
+        {
+          "line": 831,
+          "text": "      const secmap={}; (DATA.leaderboard||[]).forEach(s=>{const sec=s.sector||'Other';secmap[sec]=(secmap[sec]||0)+1;});"
+        },
+        {
+          "line": 832,
+          "text": "      const secArr=Object.entries(secmap).sort((a,b)=>b[1]-a[1]);"
+        },
+        {
+          "line": 833,
+          "text": "      if(secEl&&secArr.length){"
+        },
+        {
+          "line": 834,
+          "text": "        if(secLeg) secLeg.innerHTML=secArr.map((e,i)=>`<span style=\"display:flex;align-items:center;gap:3px\"><span style=\"width:8px;height:8px;border-radius:2px;background:${PALETTE[i%PALETTE.length]}\"></span>${e[0]}(${e[1]})</span>`).join('');"
+        },
+        {
+          "line": 835,
+          "text": "        if(charts.sector)charts.sector.destroy();"
+        },
+        {
+          "line": 836,
+          "text": "        charts.sector=new Chart(secEl,{type:'doughnut',data:{labels:secArr.map(e=>e[0]),datasets:[{data:secArr.map(e=>e[1]),backgroundColor:PALETTE.slice(0,secArr.length),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});"
+        },
+        {
+          "line": 837,
+          "text": "      }"
+        },
+        {
+          "line": 838,
+          "text": "    },80);"
+        },
+        {
+          "line": 839,
+          "text": "  }"
+        },
+        {
+          "line": 840,
+          "text": ""
+        },
+        {
+          "line": 841,
+          "text": "  // ── Tab 2: Leader Board ──────────────────────────────"
+        },
+        {
+          "line": 842,
+          "text": "  if (tab==='leader') {"
+        },
+        {
+          "line": 843,
+          "text": "    const leaders=DATA.leaderboard||[];"
+        },
+        {
+          "line": 844,
+          "text": "    if(!leaders.length){$('s-leader').innerHTML='<div class=\"loading\">暂无数据</div>';return;}"
+        },
+        {
+          "line": 845,
+          "text": "    let h=`<div class=\"card\"><div class=\"card-head\">Top 10 Leader Board <span class=\"sub\">LeaderScore = 0.5×RS + 0.3×Momentum + 0.2×TrendHealth</span></div><div class=\"card-body\"><div class=\"tbl-wrap\"><table>"
+        },
+        {
+          "line": 846,
+          "text": "      <thead><tr><th>#</th><th>代码</th><th>板块</th><th>RS%</th><th>动量</th><th>健康度</th><th>Leader分</th><th>趋势状态</th><th>操作</th></tr></thead><tbody>`;"
+        },
+        {
+          "line": 847,
+          "text": "    leaders.forEach(s=>{"
+        },
+        {
+          "line": 848,
+          "text": "      const rc=(s.rs_score||0)>=70?'var(--green)':(s.rs_score||0)>=40?'var(--amber)':'var(--red)';"
+        },
+        {
+          "line": 849,
+          "text": "      h+=`<tr data-symbol=\"${s.symbol}\">"
+        },
+        {
+          "line": 850,
+          "text": "        <td style=\"color:var(--text3);font-weight:500\">${s.rank}</td>"
+        },
+        {
+          "line": 851,
+          "text": "        <td><div class=\"stock-symbol\">${s.symbol}</div><div class=\"stock-name\">${s.name||''}</div></td>"
+        },
+        {
+          "line": 852,
+          "text": "        <td><span class=\"pill\">${s.sector||'—'}</span></td>"
+        },
+        {
+          "line": 853,
+          "text": "        <td style=\"color:${rc};font-weight:600\">${p2(s.rs_score||0,1)}</td>"
+        },
+        {
+          "line": 854,
+          "text": "        <td style=\"color:${(s.momentum_score||0)>=50?'var(--green)':'var(--red)'};font-weight:500\">${p2(s.momentum_score||0,1)}</td>"
+        },
+        {
+          "line": 855,
+          "text": "        <td><span style=\"font-weight:600;color:${scCol(s.trend_health||0)}\">${p2(s.trend_health,0)}</span>${scBar(s.trend_health||0,'55px')}</td>"
+        },
+        {
+          "line": 856,
+          "text": "        <td style=\"font-weight:700;font-size:14px;color:${scCol(s.leader_score||0)}\">${p2(s.leader_score,1)}</td>"
+        },
+        {
+          "line": 857,
+          "text": "        <td>${tsBadge(s.trend_state||'')}</td>"
+        },
+        {
+          "line": 858,
+          "text": "        <td>${badge(s.trade_action||'HOLD')}</td>"
+        },
+        {
+          "line": 859,
+          "text": "      </tr>`;"
+        },
+        {
+          "line": 860,
+          "text": "    });"
+        }
+      ]
+    },
+    {
+      "match_line": 900,
+      "match_text": "        charts.rsMom=new Chart(e1,{type:'scatter',data:{datasets:[{label:'Top10',data:leaders.map(s=>({x:s.rs_score||0,y:s.momentum_score||0})),backgroundColor:PALETTE,pointRadius:8,pointHoverRadius:11}]},",
+      "context": [
+        {
+          "line": 888,
+          "text": ""
+        },
+        {
+          "line": 889,
+          "text": "    h+=aiBox("
+        },
+        {
+          "line": 890,
+          "text": "      `Top10 平均 RS ${p2(avg(leaders,'rs_score'),1)}，平均动量 ${p2(avg(leaders,'momentum_score'),1)}，平均健康度 ${p2(avg(leaders,'trend_health'),1)}，平均 LeaderScore ${p2(avg(leaders,'leader_score'),1)}。`,"
+        },
+        {
+          "line": 891,
+          "text": "      `${leaders.filter(s=>s.trade_action==='BUY'||s.trade_action==='ADD').map(s=>s.symbol).join('、')||'暂无'} 处于买入/加仓信号区间。`,"
+        },
+        {
+          "line": 892,
+          "text": "      `领导股整体${avg(leaders,'trend_health')>=65?'趋势健康，适合持有':'趋势减弱，注意控制风险'}。`,"
+        },
+        {
+          "line": 893,
+          "text": "      `重点跟踪 ${leaders.slice(0,3).map(s=>s.symbol).join('、')} 的走势与成交量变化。`"
+        },
+        {
+          "line": 894,
+          "text": "    );"
+        },
+        {
+          "line": 895,
+          "text": "    $('s-leader').innerHTML=h;"
+        },
+        {
+          "line": 896,
+          "text": "    setTimeout(()=>{"
+        },
+        {
+          "line": 897,
+          "text": "      bindStockPreviewRows('#s-leader','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'lb-stock-preview');"
+        },
+        {
+          "line": 898,
+          "text": "      const e1=$('cw-rs-mom');"
+        },
+        {
+          "line": 899,
+          "text": "      if(e1){if(charts.rsMom)charts.rsMom.destroy();"
+        },
+        {
+          "line": 900,
+          "text": "        charts.rsMom=new Chart(e1,{type:'scatter',data:{datasets:[{label:'Top10',data:leaders.map(s=>({x:s.rs_score||0,y:s.momentum_score||0})),backgroundColor:PALETTE,pointRadius:8,pointHoverRadius:11}]},"
+        },
+        {
+          "line": 901,
+          "text": "          options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${leaders[ctx.dataIndex]?.symbol}  RS:${p2(ctx.parsed.x,1)}  MOM:${p2(ctx.parsed.y,2)}%`}}},"
+        },
+        {
+          "line": 902,
+          "text": "            scales:{x:{title:{display:true,text:'RS Score (0-100)',font:{size:10}},min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},"
+        },
+        {
+          "line": 903,
+          "text": "                    y:{title:{display:true,text:'Momentum Score (0-100)',font:{size:10}},min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}}}"
+        },
+        {
+          "line": 904,
+          "text": "          }});}"
+        },
+        {
+          "line": 905,
+          "text": "      const e2=$('cw-health');"
+        },
+        {
+          "line": 906,
+          "text": "      if(e2){if(charts.health)charts.health.destroy();"
+        },
+        {
+          "line": 907,
+          "text": "        const sorted=[...leaders].sort((a,b)=>(b.trend_health||0)-(a.trend_health||0));"
+        },
+        {
+          "line": 908,
+          "text": "        charts.health=new Chart(e2,{type:'bar',data:{labels:sorted.map(s=>s.symbol),datasets:[{label:'健康度',data:sorted.map(s=>s.trend_health||0),backgroundColor:sorted.map(s=>scCol(s.trend_health||0)),borderRadius:4}]},"
+        },
+        {
+          "line": 909,
+          "text": "          options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}});}"
+        },
+        {
+          "line": 910,
+          "text": "    },80);"
+        },
+        {
+          "line": 911,
+          "text": "  }"
+        },
+        {
+          "line": 912,
+          "text": ""
+        },
+        {
+          "line": 913,
+          "text": "  // ── Tab 3: Watchlist ──────────────────────────────────"
+        },
+        {
+          "line": 914,
+          "text": "  if (tab==='watchlist') {"
+        },
+        {
+          "line": 915,
+          "text": "    const wl=DATA.watchlist||[];"
+        },
+        {
+          "line": 916,
+          "text": "    if(!wl.length){$('s-watchlist').innerHTML='<div class=\"loading\">暂无数据</div>';return;}"
+        },
+        {
+          "line": 917,
+          "text": "    const leaderSyms=new Set((DATA.leaderboard||[]).map(s=>s.symbol));"
+        },
+        {
+          "line": 918,
+          "text": "    const overlap=wl.filter(s=>leaderSyms.has(s.symbol)).length;"
+        },
+        {
+          "line": 919,
+          "text": "    const overlapPct=wl.length?Math.round(overlap/wl.length*100):0;"
+        },
+        {
+          "line": 920,
+          "text": "    const overlapColor=overlapPct<30?'var(--green)':'var(--red)';"
+        },
+        {
+          "line": 921,
+          "text": ""
+        },
+        {
+          "line": 922,
+          "text": "    let h=`<div style=\"display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;font-size:12px\">"
+        },
+        {
+          "line": 923,
+          "text": "      <span style=\"padding:4px 12px;border-radius:20px;background:var(--bg2)\">候选池：Rank 11–100</span>"
+        },
+        {
+          "line": 924,
+          "text": "      <span style=\"padding:4px 12px;border-radius:20px;background:var(--bg2)\">与LeaderBoard重叠：<strong style=\"color:${overlapColor}\">${overlapPct}%</strong>（目标&lt;30%）</span>"
+        }
+      ]
+    },
+    {
+      "match_line": 901,
+      "match_text": "          options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${leaders[ctx.dataIndex]?.symbol}  RS:${p2(ctx.parsed.x,1)}  MOM:${p2(ctx.parsed.y,2)}%`}}},",
+      "context": [
+        {
+          "line": 889,
+          "text": "    h+=aiBox("
+        },
+        {
+          "line": 890,
+          "text": "      `Top10 平均 RS ${p2(avg(leaders,'rs_score'),1)}，平均动量 ${p2(avg(leaders,'momentum_score'),1)}，平均健康度 ${p2(avg(leaders,'trend_health'),1)}，平均 LeaderScore ${p2(avg(leaders,'leader_score'),1)}。`,"
+        },
+        {
+          "line": 891,
+          "text": "      `${leaders.filter(s=>s.trade_action==='BUY'||s.trade_action==='ADD').map(s=>s.symbol).join('、')||'暂无'} 处于买入/加仓信号区间。`,"
+        },
+        {
+          "line": 892,
+          "text": "      `领导股整体${avg(leaders,'trend_health')>=65?'趋势健康，适合持有':'趋势减弱，注意控制风险'}。`,"
+        },
+        {
+          "line": 893,
+          "text": "      `重点跟踪 ${leaders.slice(0,3).map(s=>s.symbol).join('、')} 的走势与成交量变化。`"
+        },
+        {
+          "line": 894,
+          "text": "    );"
+        },
+        {
+          "line": 895,
+          "text": "    $('s-leader').innerHTML=h;"
+        },
+        {
+          "line": 896,
+          "text": "    setTimeout(()=>{"
+        },
+        {
+          "line": 897,
+          "text": "      bindStockPreviewRows('#s-leader','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'lb-stock-preview');"
+        },
+        {
+          "line": 898,
+          "text": "      const e1=$('cw-rs-mom');"
+        },
+        {
+          "line": 899,
+          "text": "      if(e1){if(charts.rsMom)charts.rsMom.destroy();"
+        },
+        {
+          "line": 900,
+          "text": "        charts.rsMom=new Chart(e1,{type:'scatter',data:{datasets:[{label:'Top10',data:leaders.map(s=>({x:s.rs_score||0,y:s.momentum_score||0})),backgroundColor:PALETTE,pointRadius:8,pointHoverRadius:11}]},"
+        },
+        {
+          "line": 901,
+          "text": "          options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${leaders[ctx.dataIndex]?.symbol}  RS:${p2(ctx.parsed.x,1)}  MOM:${p2(ctx.parsed.y,2)}%`}}},"
+        },
+        {
+          "line": 902,
+          "text": "            scales:{x:{title:{display:true,text:'RS Score (0-100)',font:{size:10}},min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},"
+        },
+        {
+          "line": 903,
+          "text": "                    y:{title:{display:true,text:'Momentum Score (0-100)',font:{size:10}},min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}}}"
+        },
+        {
+          "line": 904,
+          "text": "          }});}"
+        },
+        {
+          "line": 905,
+          "text": "      const e2=$('cw-health');"
+        },
+        {
+          "line": 906,
+          "text": "      if(e2){if(charts.health)charts.health.destroy();"
+        },
+        {
+          "line": 907,
+          "text": "        const sorted=[...leaders].sort((a,b)=>(b.trend_health||0)-(a.trend_health||0));"
+        },
+        {
+          "line": 908,
+          "text": "        charts.health=new Chart(e2,{type:'bar',data:{labels:sorted.map(s=>s.symbol),datasets:[{label:'健康度',data:sorted.map(s=>s.trend_health||0),backgroundColor:sorted.map(s=>scCol(s.trend_health||0)),borderRadius:4}]},"
+        },
+        {
+          "line": 909,
+          "text": "          options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}});}"
+        },
+        {
+          "line": 910,
+          "text": "    },80);"
+        },
+        {
+          "line": 911,
+          "text": "  }"
+        },
+        {
+          "line": 912,
+          "text": ""
+        },
+        {
+          "line": 913,
+          "text": "  // ── Tab 3: Watchlist ──────────────────────────────────"
+        },
+        {
+          "line": 914,
+          "text": "  if (tab==='watchlist') {"
+        },
+        {
+          "line": 915,
+          "text": "    const wl=DATA.watchlist||[];"
+        },
+        {
+          "line": 916,
+          "text": "    if(!wl.length){$('s-watchlist').innerHTML='<div class=\"loading\">暂无数据</div>';return;}"
+        },
+        {
+          "line": 917,
+          "text": "    const leaderSyms=new Set((DATA.leaderboard||[]).map(s=>s.symbol));"
+        },
+        {
+          "line": 918,
+          "text": "    const overlap=wl.filter(s=>leaderSyms.has(s.symbol)).length;"
+        },
+        {
+          "line": 919,
+          "text": "    const overlapPct=wl.length?Math.round(overlap/wl.length*100):0;"
+        },
+        {
+          "line": 920,
+          "text": "    const overlapColor=overlapPct<30?'var(--green)':'var(--red)';"
+        },
+        {
+          "line": 921,
+          "text": ""
+        },
+        {
+          "line": 922,
+          "text": "    let h=`<div style=\"display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;font-size:12px\">"
+        },
+        {
+          "line": 923,
+          "text": "      <span style=\"padding:4px 12px;border-radius:20px;background:var(--bg2)\">候选池：Rank 11–100</span>"
+        },
+        {
+          "line": 924,
+          "text": "      <span style=\"padding:4px 12px;border-radius:20px;background:var(--bg2)\">与LeaderBoard重叠：<strong style=\"color:${overlapColor}\">${overlapPct}%</strong>（目标&lt;30%）</span>"
+        },
+        {
+          "line": 925,
+          "text": "    </div>`;"
+        }
+      ]
+    },
+    {
+      "match_line": 908,
+      "match_text": "        charts.health=new Chart(e2,{type:'bar',data:{labels:sorted.map(s=>s.symbol),datasets:[{label:'健康度',data:sorted.map(s=>s.trend_health||0),backgroundColor:sorted.map(s=>scCol(s.trend_health||0)),borderRadius:4}]},",
+      "context": [
+        {
+          "line": 896,
+          "text": "    setTimeout(()=>{"
+        },
+        {
+          "line": 897,
+          "text": "      bindStockPreviewRows('#s-leader','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'lb-stock-preview');"
+        },
+        {
+          "line": 898,
+          "text": "      const e1=$('cw-rs-mom');"
+        },
+        {
+          "line": 899,
+          "text": "      if(e1){if(charts.rsMom)charts.rsMom.destroy();"
+        },
+        {
+          "line": 900,
+          "text": "        charts.rsMom=new Chart(e1,{type:'scatter',data:{datasets:[{label:'Top10',data:leaders.map(s=>({x:s.rs_score||0,y:s.momentum_score||0})),backgroundColor:PALETTE,pointRadius:8,pointHoverRadius:11}]},"
+        },
+        {
+          "line": 901,
+          "text": "          options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${leaders[ctx.dataIndex]?.symbol}  RS:${p2(ctx.parsed.x,1)}  MOM:${p2(ctx.parsed.y,2)}%`}}},"
+        },
+        {
+          "line": 902,
+          "text": "            scales:{x:{title:{display:true,text:'RS Score (0-100)',font:{size:10}},min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},"
+        },
+        {
+          "line": 903,
+          "text": "                    y:{title:{display:true,text:'Momentum Score (0-100)',font:{size:10}},min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}}}"
+        },
+        {
+          "line": 904,
+          "text": "          }});}"
+        },
+        {
+          "line": 905,
+          "text": "      const e2=$('cw-health');"
+        },
+        {
+          "line": 906,
+          "text": "      if(e2){if(charts.health)charts.health.destroy();"
+        },
+        {
+          "line": 907,
+          "text": "        const sorted=[...leaders].sort((a,b)=>(b.trend_health||0)-(a.trend_health||0));"
+        },
+        {
+          "line": 908,
+          "text": "        charts.health=new Chart(e2,{type:'bar',data:{labels:sorted.map(s=>s.symbol),datasets:[{label:'健康度',data:sorted.map(s=>s.trend_health||0),backgroundColor:sorted.map(s=>scCol(s.trend_health||0)),borderRadius:4}]},"
+        },
+        {
+          "line": 909,
+          "text": "          options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}});}"
+        },
+        {
+          "line": 910,
+          "text": "    },80);"
+        },
+        {
+          "line": 911,
+          "text": "  }"
+        },
+        {
+          "line": 912,
+          "text": ""
+        },
+        {
+          "line": 913,
+          "text": "  // ── Tab 3: Watchlist ──────────────────────────────────"
+        },
+        {
+          "line": 914,
+          "text": "  if (tab==='watchlist') {"
+        },
+        {
+          "line": 915,
+          "text": "    const wl=DATA.watchlist||[];"
+        },
+        {
+          "line": 916,
+          "text": "    if(!wl.length){$('s-watchlist').innerHTML='<div class=\"loading\">暂无数据</div>';return;}"
+        },
+        {
+          "line": 917,
+          "text": "    const leaderSyms=new Set((DATA.leaderboard||[]).map(s=>s.symbol));"
+        },
+        {
+          "line": 918,
+          "text": "    const overlap=wl.filter(s=>leaderSyms.has(s.symbol)).length;"
+        },
+        {
+          "line": 919,
+          "text": "    const overlapPct=wl.length?Math.round(overlap/wl.length*100):0;"
+        },
+        {
+          "line": 920,
+          "text": "    const overlapColor=overlapPct<30?'var(--green)':'var(--red)';"
+        },
+        {
+          "line": 921,
+          "text": ""
+        },
+        {
+          "line": 922,
+          "text": "    let h=`<div style=\"display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;font-size:12px\">"
+        },
+        {
+          "line": 923,
+          "text": "      <span style=\"padding:4px 12px;border-radius:20px;background:var(--bg2)\">候选池：Rank 11–100</span>"
+        },
+        {
+          "line": 924,
+          "text": "      <span style=\"padding:4px 12px;border-radius:20px;background:var(--bg2)\">与LeaderBoard重叠：<strong style=\"color:${overlapColor}\">${overlapPct}%</strong>（目标&lt;30%）</span>"
+        },
+        {
+          "line": 925,
+          "text": "    </div>`;"
+        },
+        {
+          "line": 926,
+          "text": ""
+        },
+        {
+          "line": 927,
+          "text": "    h+=`<div class=\"card\"><div class=\"card-head\">Watchlist Top20 — 潜在领导股"
+        },
+        {
+          "line": 928,
+          "text": "      <span class=\"sub\">0.40×Mom + 0.30×TH + 0.20×RankVel + 0.10×MomAccel</span>"
+        },
+        {
+          "line": 929,
+          "text": "    </div><div class=\"card-body\"><div class=\"tbl-wrap\"><table>"
+        },
+        {
+          "line": 930,
+          "text": "      <thead><tr>"
+        },
+        {
+          "line": 931,
+          "text": "        <th>当前#</th><th>代码 / 板块</th><th>晋升分</th>"
+        },
+        {
+          "line": 932,
+          "text": "        <th>排名变化<br><span style=\"font-weight:400;font-size:10px\">5日 / 20日</span></th>"
+        }
+      ]
+    },
+    {
+      "match_line": 978,
+      "match_text": "        datasets:[{label:'晋升分',data:top15.map(s=>s.promotion_score||0),backgroundColor:top15.map(s=>scCol(s.promotion_score||0)),borderRadius:4}]",
+      "context": [
+        {
+          "line": 966,
+          "text": "      `与Leader Board重叠率 ${overlapPct}%（${overlapPct<30?'✅达标':'⚠️偏高'}）。排名速度高+动量加速 = 真正的潜在领导股。`,"
+        },
+        {
+          "line": 967,
+          "text": "      `${tp2.length>0?`重点关注 ${tp2.slice(0,3).map(s=>s.symbol).join('、')}，有望晋升 Top10。`:'历史快照积累中，1-2周后 Rank Velocity 将显示真实数据。'}`,"
+        },
+        {
+          "line": 968,
+          "text": "      tp2.length>0?`跟踪 ${tp2.slice(0,3).map(s=>s.symbol).join('、')} 排名变化，突破前高可考虑建仓`:'继续观察，等待历史数据积累'"
+        },
+        {
+          "line": 969,
+          "text": "    );"
+        },
+        {
+          "line": 970,
+          "text": "    $('s-watchlist').innerHTML=h;"
+        },
+        {
+          "line": 971,
+          "text": "    setTimeout(()=>{"
+        },
+        {
+          "line": 972,
+          "text": "      bindStockPreviewRows('#s-watchlist','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'wl-stock-preview');"
+        },
+        {
+          "line": 973,
+          "text": "      const el=$('cw-promo'); if(!el)return;"
+        },
+        {
+          "line": 974,
+          "text": "      if(charts.promo)charts.promo.destroy();"
+        },
+        {
+          "line": 975,
+          "text": "      const top15=[...wl].sort((a,b)=>(b.promotion_score||0)-(a.promotion_score||0)).slice(0,15);"
+        },
+        {
+          "line": 976,
+          "text": "      charts.promo=new Chart(el,{type:'bar',data:{"
+        },
+        {
+          "line": 977,
+          "text": "        labels:top15.map(s=>s.symbol),"
+        },
+        {
+          "line": 978,
+          "text": "        datasets:[{label:'晋升分',data:top15.map(s=>s.promotion_score||0),backgroundColor:top15.map(s=>scCol(s.promotion_score||0)),borderRadius:4}]"
+        },
+        {
+          "line": 979,
+          "text": "      },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},"
+        },
+        {
+          "line": 980,
+          "text": "        scales:{y:{min:0,max:100,ticks:{font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}});"
+        },
+        {
+          "line": 981,
+          "text": "    },80);"
+        },
+        {
+          "line": 982,
+          "text": "  }"
+        },
+        {
+          "line": 983,
+          "text": ""
+        },
+        {
+          "line": 984,
+          "text": "  // ── Tab 4: Positions & Exit ───────────────────────────"
+        },
+        {
+          "line": 985,
+          "text": "  if (tab==='positions') {"
+        },
+        {
+          "line": 986,
+          "text": "    const bt=DATA.backtest;"
+        },
+        {
+          "line": 987,
+          "text": "    if(!bt){$('s-positions').innerHTML='<div class=\"error\">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>';return;}"
+        },
+        {
+          "line": 988,
+          "text": "    const vr=bt?.backtest?.results?.layer_d?.variant_results;"
+        },
+        {
+          "line": 989,
+          "text": "    const e1=vr?.E1_AUDITED_G4_MINHOLD10;"
+        },
+        {
+          "line": 990,
+          "text": "    if(!e1){$('s-positions').innerHTML='<div class=\"error\">E1 variant 数据缺失。</div>';return;}"
+        },
+        {
+          "line": 991,
+          "text": ""
+        },
+        {
+          "line": 992,
+          "text": "    // ── 日期元数据 ─────────────────────────────────────────"
+        },
+        {
+          "line": 993,
+          "text": "    const sv=e1.sample_validity||{};"
+        },
+        {
+          "line": 994,
+          "text": "    const simEndDate=sv.simulation_end_date||'—';          // 回测结束日"
+        },
+        {
+          "line": 995,
+          "text": "    const btAsOf=bt.generated_at_display||bt.generated_at||'—'; // backtest.json 生成时间"
+        },
+        {
+          "line": 996,
+          "text": "    const lbAsOf=DATA.market?.data_date||'—';              // leaderboard 数据日期"
+        },
+        {
+          "line": 997,
+          "text": "    // 日期错配：sim_end_date 与 leaderboard 日期超过 1 天"
+        },
+        {
+          "line": 998,
+          "text": "    const dateMismatch = (simEndDate!=='—' && lbAsOf!=='—' && simEndDate!==lbAsOf);"
+        },
+        {
+          "line": 999,
+          "text": ""
+        },
+        {
+          "line": 1000,
+          "text": "    const allTrades=e1.trades||[];"
+        },
+        {
+          "line": 1001,
+          "text": "    const simEnd=allTrades.filter(t=>t.is_sim_end);"
+        },
+        {
+          "line": 1002,
+          "text": "    const recentClosed=allTrades.filter(t=>!t.is_sim_end).slice(-5).reverse();"
+        }
+      ]
+    },
+    {
+      "match_line": 1302,
+      "match_text": "        // This keeps SPX buy & hold comparable with E1 OOS forward.",
+      "context": [
+        {
+          "line": 1290,
+          "text": "        const oosDates = oosRows.map(r => String(r.date));"
+        },
+        {
+          "line": 1291,
+          "text": "        const extraOosDates = oosDates.filter(d => !btLabels.includes(d));"
+        },
+        {
+          "line": 1292,
+          "text": "        const labels = btLabels.concat(extraOosDates);"
+        },
+        {
+          "line": 1293,
+          "text": ""
+        },
+        {
+          "line": 1294,
+          "text": "        const padAfter = labels.length - btLabels.length;"
+        },
+        {
+          "line": 1295,
+          "text": "        const pad = n => Array.from({length:n}, () => null);"
+        },
+        {
+          "line": 1296,
+          "text": ""
+        },
+        {
+          "line": 1297,
+          "text": "        const e1BacktestData = e1I.concat(pad(padAfter));"
+        },
+        {
+          "line": 1298,
+          "text": "        const spxData = spxI.concat(pad(padAfter));"
+        },
+        {
+          "line": 1299,
+          "text": "        const e1rData = e1rI.concat(pad(Math.max(0, labels.length - e1rI.length)));"
+        },
+        {
+          "line": 1300,
+          "text": ""
+        },
+        {
+          "line": 1301,
+          "text": "        // Extend SPX benchmark through OOS using Market Overview SPX chart."
+        },
+        {
+          "line": 1302,
+          "text": "        // This keeps SPX buy & hold comparable with E1 OOS forward."
+        },
+        {
+          "line": 1303,
+          "text": "        const spxAnchor = spxI[spxI.length-1] || 100;"
+        },
+        {
+          "line": 1304,
+          "text": "        const spxIx = DATA.market?.indices?.SPX || {};"
+        },
+        {
+          "line": 1305,
+          "text": "        const spxChartDates = spxIx.chart_dates || [];"
+        },
+        {
+          "line": 1306,
+          "text": "        const spxChartPrices = spxIx.chart_prices || [];"
+        },
+        {
+          "line": 1307,
+          "text": "        const btEndDate = e1.sample_validity?.simulation_end_date || labels[btLabels.length-1];"
+        },
+        {
+          "line": 1308,
+          "text": ""
+        },
+        {
+          "line": 1309,
+          "text": "        if(spxChartDates.length && spxChartPrices.length && btEndDate){"
+        },
+        {
+          "line": 1310,
+          "text": "          let baseIdx = spxChartDates.findIndex(d => String(d) >= String(btEndDate));"
+        },
+        {
+          "line": 1311,
+          "text": "          if(baseIdx < 0) baseIdx = spxChartDates.length - 1;"
+        },
+        {
+          "line": 1312,
+          "text": ""
+        },
+        {
+          "line": 1313,
+          "text": "          const baseClose = Number(spxChartPrices[baseIdx] || 0);"
+        },
+        {
+          "line": 1314,
+          "text": "          if(baseClose > 0){"
+        },
+        {
+          "line": 1315,
+          "text": "            spxData[btLabels.length-1] = spxAnchor;"
+        },
+        {
+          "line": 1316,
+          "text": "            labels.forEach((d, idx) => {"
+        },
+        {
+          "line": 1317,
+          "text": "              if(idx < btLabels.length) return;"
+        },
+        {
+          "line": 1318,
+          "text": "              const j = spxChartDates.indexOf(String(d));"
+        },
+        {
+          "line": 1319,
+          "text": "              if(j >= 0){"
+        },
+        {
+          "line": 1320,
+          "text": "                spxData[idx] = parseFloat(((Number(spxChartPrices[j] || 0) / baseClose) * spxAnchor).toFixed(2));"
+        },
+        {
+          "line": 1321,
+          "text": "              }"
+        },
+        {
+          "line": 1322,
+          "text": "            });"
+        },
+        {
+          "line": 1323,
+          "text": "          }"
+        },
+        {
+          "line": 1324,
+          "text": "        }"
+        },
+        {
+          "line": 1325,
+          "text": ""
+        },
+        {
+          "line": 1326,
+          "text": "        const e1Anchor = e1I[e1I.length-1] || 100;"
+        }
+      ]
+    },
+    {
+      "match_line": 1346,
+      "match_text": "          {label:'E1 backtest',data:e1BacktestData,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},",
+      "context": [
+        {
+          "line": 1334,
+          "text": "            if(idx >= 0){"
+        },
+        {
+          "line": 1335,
+          "text": "              oosForwardData[idx] = parseFloat(((Number(r.equity || 0) / oosStartEquity) * e1Anchor).toFixed(2));"
+        },
+        {
+          "line": 1336,
+          "text": "            }"
+        },
+        {
+          "line": 1337,
+          "text": "          });"
+        },
+        {
+          "line": 1338,
+          "text": "        }"
+        },
+        {
+          "line": 1339,
+          "text": ""
+        },
+        {
+          "line": 1340,
+          "text": "        const oosStartDate = oosDates[0] || null;"
+        },
+        {
+          "line": 1341,
+          "text": "        const oosStartIndex = oosStartDate ? labels.indexOf(oosStartDate) : -1;"
+        },
+        {
+          "line": 1342,
+          "text": ""
+        },
+        {
+          "line": 1343,
+          "text": "        const shortDate = v => String(v).slice(2, 7);"
+        },
+        {
+          "line": 1344,
+          "text": ""
+        },
+        {
+          "line": 1345,
+          "text": "        const ds=["
+        },
+        {
+          "line": 1346,
+          "text": "          {label:'E1 backtest',data:e1BacktestData,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},"
+        },
+        {
+          "line": 1347,
+          "text": "          {label:'SPX buy & hold',data:spxData,borderColor:'#888',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.2},"
+        },
+        {
+          "line": 1348,
+          "text": "        ];"
+        },
+        {
+          "line": 1349,
+          "text": ""
+        },
+        {
+          "line": 1350,
+          "text": "        if(oosRows.length){"
+        },
+        {
+          "line": 1351,
+          "text": "          ds.splice(1,0,{label:'E1 OOS forward',data:oosForwardData,borderColor:'#1D9E75',backgroundColor:'transparent',borderWidth:2,borderDash:[6,4],pointRadius:0,tension:0.2,spanGaps:false});"
+        },
+        {
+          "line": 1352,
+          "text": "        }"
+        },
+        {
+          "line": 1353,
+          "text": ""
+        },
+        {
+          "line": 1354,
+          "text": "        if(e1rI.length>1){"
+        },
+        {
+          "line": 1355,
+          "text": "          ds.splice(oosRows.length?2:1,0,{label:'E1-R backtest',data:e1rData,borderColor:'#D4537E',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.2});"
+        },
+        {
+          "line": 1356,
+          "text": "        }"
+        },
+        {
+          "line": 1357,
+          "text": ""
+        },
+        {
+          "line": 1358,
+          "text": "        const oosLinePlugin = {"
+        },
+        {
+          "line": 1359,
+          "text": "          id:'oosStartLine',"
+        },
+        {
+          "line": 1360,
+          "text": "          afterDraw(chart){"
+        },
+        {
+          "line": 1361,
+          "text": "            if(oosStartIndex < 0) return;"
+        },
+        {
+          "line": 1362,
+          "text": "            const {ctx, chartArea, scales} = chart;"
+        },
+        {
+          "line": 1363,
+          "text": "            if(!chartArea || !scales?.x) return;"
+        },
+        {
+          "line": 1364,
+          "text": "            const x = scales.x.getPixelForValue(oosStartIndex);"
+        },
+        {
+          "line": 1365,
+          "text": "            ctx.save();"
+        },
+        {
+          "line": 1366,
+          "text": "            ctx.beginPath();"
+        },
+        {
+          "line": 1367,
+          "text": "            ctx.setLineDash([4,4]);"
+        },
+        {
+          "line": 1368,
+          "text": "            ctx.strokeStyle = 'rgba(255,255,255,0.45)';"
+        },
+        {
+          "line": 1369,
+          "text": "            ctx.lineWidth = 1;"
+        },
+        {
+          "line": 1370,
+          "text": "            ctx.moveTo(x, chartArea.top);"
+        }
+      ]
+    },
+    {
+      "match_line": 1347,
+      "match_text": "          {label:'SPX buy & hold',data:spxData,borderColor:'#888',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.2},",
+      "context": [
+        {
+          "line": 1335,
+          "text": "              oosForwardData[idx] = parseFloat(((Number(r.equity || 0) / oosStartEquity) * e1Anchor).toFixed(2));"
+        },
+        {
+          "line": 1336,
+          "text": "            }"
+        },
+        {
+          "line": 1337,
+          "text": "          });"
+        },
+        {
+          "line": 1338,
+          "text": "        }"
+        },
+        {
+          "line": 1339,
+          "text": ""
+        },
+        {
+          "line": 1340,
+          "text": "        const oosStartDate = oosDates[0] || null;"
+        },
+        {
+          "line": 1341,
+          "text": "        const oosStartIndex = oosStartDate ? labels.indexOf(oosStartDate) : -1;"
+        },
+        {
+          "line": 1342,
+          "text": ""
+        },
+        {
+          "line": 1343,
+          "text": "        const shortDate = v => String(v).slice(2, 7);"
+        },
+        {
+          "line": 1344,
+          "text": ""
+        },
+        {
+          "line": 1345,
+          "text": "        const ds=["
+        },
+        {
+          "line": 1346,
+          "text": "          {label:'E1 backtest',data:e1BacktestData,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},"
+        },
+        {
+          "line": 1347,
+          "text": "          {label:'SPX buy & hold',data:spxData,borderColor:'#888',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.2},"
+        },
+        {
+          "line": 1348,
+          "text": "        ];"
+        },
+        {
+          "line": 1349,
+          "text": ""
+        },
+        {
+          "line": 1350,
+          "text": "        if(oosRows.length){"
+        },
+        {
+          "line": 1351,
+          "text": "          ds.splice(1,0,{label:'E1 OOS forward',data:oosForwardData,borderColor:'#1D9E75',backgroundColor:'transparent',borderWidth:2,borderDash:[6,4],pointRadius:0,tension:0.2,spanGaps:false});"
+        },
+        {
+          "line": 1352,
+          "text": "        }"
+        },
+        {
+          "line": 1353,
+          "text": ""
+        },
+        {
+          "line": 1354,
+          "text": "        if(e1rI.length>1){"
+        },
+        {
+          "line": 1355,
+          "text": "          ds.splice(oosRows.length?2:1,0,{label:'E1-R backtest',data:e1rData,borderColor:'#D4537E',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.2});"
+        },
+        {
+          "line": 1356,
+          "text": "        }"
+        },
+        {
+          "line": 1357,
+          "text": ""
+        },
+        {
+          "line": 1358,
+          "text": "        const oosLinePlugin = {"
+        },
+        {
+          "line": 1359,
+          "text": "          id:'oosStartLine',"
+        },
+        {
+          "line": 1360,
+          "text": "          afterDraw(chart){"
+        },
+        {
+          "line": 1361,
+          "text": "            if(oosStartIndex < 0) return;"
+        },
+        {
+          "line": 1362,
+          "text": "            const {ctx, chartArea, scales} = chart;"
+        },
+        {
+          "line": 1363,
+          "text": "            if(!chartArea || !scales?.x) return;"
+        },
+        {
+          "line": 1364,
+          "text": "            const x = scales.x.getPixelForValue(oosStartIndex);"
+        },
+        {
+          "line": 1365,
+          "text": "            ctx.save();"
+        },
+        {
+          "line": 1366,
+          "text": "            ctx.beginPath();"
+        },
+        {
+          "line": 1367,
+          "text": "            ctx.setLineDash([4,4]);"
+        },
+        {
+          "line": 1368,
+          "text": "            ctx.strokeStyle = 'rgba(255,255,255,0.45)';"
+        },
+        {
+          "line": 1369,
+          "text": "            ctx.lineWidth = 1;"
+        },
+        {
+          "line": 1370,
+          "text": "            ctx.moveTo(x, chartArea.top);"
+        },
+        {
+          "line": 1371,
+          "text": "            ctx.lineTo(x, chartArea.bottom);"
+        }
+      ]
+    },
+    {
+      "match_line": 1351,
+      "match_text": "          ds.splice(1,0,{label:'E1 OOS forward',data:oosForwardData,borderColor:'#1D9E75',backgroundColor:'transparent',borderWidth:2,borderDash:[6,4],pointRadius:0,tension:0.2,spanGaps:false});",
+      "context": [
+        {
+          "line": 1339,
+          "text": ""
+        },
+        {
+          "line": 1340,
+          "text": "        const oosStartDate = oosDates[0] || null;"
+        },
+        {
+          "line": 1341,
+          "text": "        const oosStartIndex = oosStartDate ? labels.indexOf(oosStartDate) : -1;"
+        },
+        {
+          "line": 1342,
+          "text": ""
+        },
+        {
+          "line": 1343,
+          "text": "        const shortDate = v => String(v).slice(2, 7);"
+        },
+        {
+          "line": 1344,
+          "text": ""
+        },
+        {
+          "line": 1345,
+          "text": "        const ds=["
+        },
+        {
+          "line": 1346,
+          "text": "          {label:'E1 backtest',data:e1BacktestData,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},"
+        },
+        {
+          "line": 1347,
+          "text": "          {label:'SPX buy & hold',data:spxData,borderColor:'#888',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.2},"
+        },
+        {
+          "line": 1348,
+          "text": "        ];"
+        },
+        {
+          "line": 1349,
+          "text": ""
+        },
+        {
+          "line": 1350,
+          "text": "        if(oosRows.length){"
+        },
+        {
+          "line": 1351,
+          "text": "          ds.splice(1,0,{label:'E1 OOS forward',data:oosForwardData,borderColor:'#1D9E75',backgroundColor:'transparent',borderWidth:2,borderDash:[6,4],pointRadius:0,tension:0.2,spanGaps:false});"
+        },
+        {
+          "line": 1352,
+          "text": "        }"
+        },
+        {
+          "line": 1353,
+          "text": ""
+        },
+        {
+          "line": 1354,
+          "text": "        if(e1rI.length>1){"
+        },
+        {
+          "line": 1355,
+          "text": "          ds.splice(oosRows.length?2:1,0,{label:'E1-R backtest',data:e1rData,borderColor:'#D4537E',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.2});"
+        },
+        {
+          "line": 1356,
+          "text": "        }"
+        },
+        {
+          "line": 1357,
+          "text": ""
+        },
+        {
+          "line": 1358,
+          "text": "        const oosLinePlugin = {"
+        },
+        {
+          "line": 1359,
+          "text": "          id:'oosStartLine',"
+        },
+        {
+          "line": 1360,
+          "text": "          afterDraw(chart){"
+        },
+        {
+          "line": 1361,
+          "text": "            if(oosStartIndex < 0) return;"
+        },
+        {
+          "line": 1362,
+          "text": "            const {ctx, chartArea, scales} = chart;"
+        },
+        {
+          "line": 1363,
+          "text": "            if(!chartArea || !scales?.x) return;"
+        },
+        {
+          "line": 1364,
+          "text": "            const x = scales.x.getPixelForValue(oosStartIndex);"
+        },
+        {
+          "line": 1365,
+          "text": "            ctx.save();"
+        },
+        {
+          "line": 1366,
+          "text": "            ctx.beginPath();"
+        },
+        {
+          "line": 1367,
+          "text": "            ctx.setLineDash([4,4]);"
+        },
+        {
+          "line": 1368,
+          "text": "            ctx.strokeStyle = 'rgba(255,255,255,0.45)';"
+        },
+        {
+          "line": 1369,
+          "text": "            ctx.lineWidth = 1;"
+        },
+        {
+          "line": 1370,
+          "text": "            ctx.moveTo(x, chartArea.top);"
+        },
+        {
+          "line": 1371,
+          "text": "            ctx.lineTo(x, chartArea.bottom);"
+        },
+        {
+          "line": 1372,
+          "text": "            ctx.stroke();"
+        },
+        {
+          "line": 1373,
+          "text": "            ctx.setLineDash([]);"
+        },
+        {
+          "line": 1374,
+          "text": "            ctx.fillStyle = 'rgba(255,255,255,0.65)';"
+        },
+        {
+          "line": 1375,
+          "text": "            ctx.font = '10px sans-serif';"
+        }
+      ]
+    },
+    {
+      "match_line": 1355,
+      "match_text": "          ds.splice(oosRows.length?2:1,0,{label:'E1-R backtest',data:e1rData,borderColor:'#D4537E',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.2});",
+      "context": [
+        {
+          "line": 1343,
+          "text": "        const shortDate = v => String(v).slice(2, 7);"
+        },
+        {
+          "line": 1344,
+          "text": ""
+        },
+        {
+          "line": 1345,
+          "text": "        const ds=["
+        },
+        {
+          "line": 1346,
+          "text": "          {label:'E1 backtest',data:e1BacktestData,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},"
+        },
+        {
+          "line": 1347,
+          "text": "          {label:'SPX buy & hold',data:spxData,borderColor:'#888',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.2},"
+        },
+        {
+          "line": 1348,
+          "text": "        ];"
+        },
+        {
+          "line": 1349,
+          "text": ""
+        },
+        {
+          "line": 1350,
+          "text": "        if(oosRows.length){"
+        },
+        {
+          "line": 1351,
+          "text": "          ds.splice(1,0,{label:'E1 OOS forward',data:oosForwardData,borderColor:'#1D9E75',backgroundColor:'transparent',borderWidth:2,borderDash:[6,4],pointRadius:0,tension:0.2,spanGaps:false});"
+        },
+        {
+          "line": 1352,
+          "text": "        }"
+        },
+        {
+          "line": 1353,
+          "text": ""
+        },
+        {
+          "line": 1354,
+          "text": "        if(e1rI.length>1){"
+        },
+        {
+          "line": 1355,
+          "text": "          ds.splice(oosRows.length?2:1,0,{label:'E1-R backtest',data:e1rData,borderColor:'#D4537E',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.2});"
+        },
+        {
+          "line": 1356,
+          "text": "        }"
+        },
+        {
+          "line": 1357,
+          "text": ""
+        },
+        {
+          "line": 1358,
+          "text": "        const oosLinePlugin = {"
+        },
+        {
+          "line": 1359,
+          "text": "          id:'oosStartLine',"
+        },
+        {
+          "line": 1360,
+          "text": "          afterDraw(chart){"
+        },
+        {
+          "line": 1361,
+          "text": "            if(oosStartIndex < 0) return;"
+        },
+        {
+          "line": 1362,
+          "text": "            const {ctx, chartArea, scales} = chart;"
+        },
+        {
+          "line": 1363,
+          "text": "            if(!chartArea || !scales?.x) return;"
+        },
+        {
+          "line": 1364,
+          "text": "            const x = scales.x.getPixelForValue(oosStartIndex);"
+        },
+        {
+          "line": 1365,
+          "text": "            ctx.save();"
+        },
+        {
+          "line": 1366,
+          "text": "            ctx.beginPath();"
+        },
+        {
+          "line": 1367,
+          "text": "            ctx.setLineDash([4,4]);"
+        },
+        {
+          "line": 1368,
+          "text": "            ctx.strokeStyle = 'rgba(255,255,255,0.45)';"
+        },
+        {
+          "line": 1369,
+          "text": "            ctx.lineWidth = 1;"
+        },
+        {
+          "line": 1370,
+          "text": "            ctx.moveTo(x, chartArea.top);"
+        },
+        {
+          "line": 1371,
+          "text": "            ctx.lineTo(x, chartArea.bottom);"
+        },
+        {
+          "line": 1372,
+          "text": "            ctx.stroke();"
+        },
+        {
+          "line": 1373,
+          "text": "            ctx.setLineDash([]);"
+        },
+        {
+          "line": 1374,
+          "text": "            ctx.fillStyle = 'rgba(255,255,255,0.65)';"
+        },
+        {
+          "line": 1375,
+          "text": "            ctx.font = '10px sans-serif';"
+        },
+        {
+          "line": 1376,
+          "text": "            ctx.fillText('OOS start', x + 6, chartArea.top + 12);"
+        },
+        {
+          "line": 1377,
+          "text": "            ctx.restore();"
+        },
+        {
+          "line": 1378,
+          "text": "          }"
+        },
+        {
+          "line": 1379,
+          "text": "        };"
+        }
+      ]
+    },
+    {
+      "match_line": 1383,
+      "match_text": "          datasets:ds",
+      "context": [
+        {
+          "line": 1371,
+          "text": "            ctx.lineTo(x, chartArea.bottom);"
+        },
+        {
+          "line": 1372,
+          "text": "            ctx.stroke();"
+        },
+        {
+          "line": 1373,
+          "text": "            ctx.setLineDash([]);"
+        },
+        {
+          "line": 1374,
+          "text": "            ctx.fillStyle = 'rgba(255,255,255,0.65)';"
+        },
+        {
+          "line": 1375,
+          "text": "            ctx.font = '10px sans-serif';"
+        },
+        {
+          "line": 1376,
+          "text": "            ctx.fillText('OOS start', x + 6, chartArea.top + 12);"
+        },
+        {
+          "line": 1377,
+          "text": "            ctx.restore();"
+        },
+        {
+          "line": 1378,
+          "text": "          }"
+        },
+        {
+          "line": 1379,
+          "text": "        };"
+        },
+        {
+          "line": 1380,
+          "text": ""
+        },
+        {
+          "line": 1381,
+          "text": "        charts.equity=new Chart(el,{type:'line',data:{"
+        },
+        {
+          "line": 1382,
+          "text": "          labels,"
+        },
+        {
+          "line": 1383,
+          "text": "          datasets:ds"
+        },
+        {
+          "line": 1384,
+          "text": "        },options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},"
+        },
+        {
+          "line": 1385,
+          "text": "          plugins:{"
+        },
+        {
+          "line": 1386,
+          "text": "            legend:{labels:{font:{size:10},boxWidth:10,padding:8}},"
+        },
+        {
+          "line": 1387,
+          "text": "            tooltip:{callbacks:{title:items=>labels[items[0].dataIndex]||''}}"
+        },
+        {
+          "line": 1388,
+          "text": "          },"
+        },
+        {
+          "line": 1389,
+          "text": "          scales:{"
+        },
+        {
+          "line": 1390,
+          "text": "            x:{"
+        },
+        {
+          "line": 1391,
+          "text": "              display:true,"
+        },
+        {
+          "line": 1392,
+          "text": "              ticks:{"
+        },
+        {
+          "line": 1393,
+          "text": "                font:{size:10},"
+        },
+        {
+          "line": 1394,
+          "text": "                maxTicksLimit:8,"
+        },
+        {
+          "line": 1395,
+          "text": "                callback:function(value){"
+        },
+        {
+          "line": 1396,
+          "text": "                  return shortDate(this.getLabelForValue(value));"
+        },
+        {
+          "line": 1397,
+          "text": "                }"
+        },
+        {
+          "line": 1398,
+          "text": "              },"
+        },
+        {
+          "line": 1399,
+          "text": "              grid:{display:false}"
+        },
+        {
+          "line": 1400,
+          "text": "            },"
+        },
+        {
+          "line": 1401,
+          "text": "            y:{ticks:{font:{size:10},callback:v=>v.toFixed(0)},grid:{color:'rgba(128,128,128,0.1)'}}"
+        },
+        {
+          "line": 1402,
+          "text": "          }"
+        },
+        {
+          "line": 1403,
+          "text": "        },plugins:[oosLinePlugin]});"
+        },
+        {
+          "line": 1404,
+          "text": "      },80);"
+        },
+        {
+          "line": 1405,
+          "text": "    }"
+        },
+        {
+          "line": 1406,
+          "text": "  }"
+        },
+        {
+          "line": 1407,
+          "text": ""
+        }
+      ]
+    }
+  ],
+  "diagnosis": [
+    "E1R forward equity file exists with row_count=1.",
+    "dashboard/app.js mentions oos_e1r_v0_2_equity_curve.",
+    "dashboard has some E1R forward text references.",
+    "main equity chart footnote still says E1-R OOS tracking is not yet completed."
+  ],
+  "next_patch_should": [
+    "Add E1R forward paper equity as a separate dataset only if oos_e1r_v0_2_equity_curve.json has usable rows.",
+    "Rename legend labels to distinguish E1R backtest vs E1R forward paper.",
+    "Update footnote so it no longer says E1-R OOS tracking is not yet completed when paper tracking data exists.",
+    "Do not modify strategy/backtest/export files."
+  ]
+}
