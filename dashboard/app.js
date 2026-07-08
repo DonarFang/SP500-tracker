@@ -265,6 +265,118 @@ function e2bV4DateFromOos(raw){
 }
 
 
+
+function e1rForwardEquityCurveRows(raw) {
+  if (!raw) return [];
+  const rows = Array.isArray(raw)
+    ? raw
+    : (raw.equity_curve || raw.rows || raw.data || raw.curve || []);
+
+  if (!Array.isArray(rows)) return [];
+
+  return rows
+    .map((r) => {
+      const date = r.date || r.status_date;
+      const equity = Number(r.equity ?? r.portfolio_value ?? r.combined_equity ?? r.value);
+      const indexed = Number(r.strategy_indexed ?? (Number.isFinite(equity) ? equity / 1000 : NaN));
+      return {
+        date,
+        equity,
+        strategy_indexed: indexed,
+        forward_return_pct: Number(r.forward_return_pct ?? 0),
+        tracking_status: r.tracking_status,
+        official_kickoff_date: r.official_kickoff_date,
+        gross_exposure: Number(r.gross_exposure ?? 0),
+      };
+    })
+    .filter((r) => r.date && Number.isFinite(r.equity));
+}
+
+function e1rForwardEquityCurveHtml(raw) {
+  const rows = e1rForwardEquityCurveRows(raw);
+  if (!rows.length) {
+    return `
+      <div class="panel-card">
+        <h4>E1R Forward Equity Curve</h4>
+        <p class="muted">No E1R forward equity rows available yet.</p>
+      </div>
+    `;
+  }
+
+  const first = rows[0];
+  const last = rows[rows.length - 1];
+
+  const fmtPct = (v) => {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return '—';
+    return `${(n * 100).toFixed(2)}%`;
+  };
+
+  const fmtMoney = (v) => {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return '—';
+    return `$${Math.round(n).toLocaleString()}`;
+  };
+
+  const values = rows.map((r) => Number(r.strategy_indexed || r.equity));
+  const minV = Math.min(...values);
+  const maxV = Math.max(...values);
+  const span = Math.max(maxV - minV, 1e-9);
+
+  const width = 520;
+  const height = 120;
+  const pad = 12;
+
+  const points = rows.map((r, i) => {
+    const x = rows.length === 1
+      ? width / 2
+      : pad + (i / (rows.length - 1)) * (width - pad * 2);
+    const y = height - pad - ((Number(r.strategy_indexed || r.equity) - minV) / span) * (height - pad * 2);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+
+  const singlePoint = rows.length === 1
+    ? `<circle cx="${width / 2}" cy="${height / 2}" r="4"></circle>`
+    : `<polyline fill="none" stroke-width="2" points="${points}"></polyline>`;
+
+  return `
+    <div class="panel-card e1r-forward-equity-panel">
+      <h4>E1R Forward Equity Curve</h4>
+      <div class="metric-grid compact">
+        <div class="mini-metric">
+          <span class="mini-label">Rows</span>
+          <span class="mini-value">${rows.length}</span>
+        </div>
+        <div class="mini-metric">
+          <span class="mini-label">Latest Date</span>
+          <span class="mini-value">${last.date}</span>
+        </div>
+        <div class="mini-metric">
+          <span class="mini-label">Latest Equity</span>
+          <span class="mini-value">${fmtMoney(last.equity)}</span>
+        </div>
+        <div class="mini-metric">
+          <span class="mini-label">Forward Return</span>
+          <span class="mini-value">${fmtPct(last.forward_return_pct)}</span>
+        </div>
+        <div class="mini-metric">
+          <span class="mini-label">Gross Exposure</span>
+          <span class="mini-value">${fmtPct(last.gross_exposure)}</span>
+        </div>
+      </div>
+      <svg class="mini-equity-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="E1R forward equity curve">
+        ${singlePoint}
+      </svg>
+      <p class="muted">
+        ${rows.length === 1
+          ? 'Only one forward row is available. The curve will form after additional daily pipeline runs.'
+          : `Forward curve from ${first.date} to ${last.date}.`}
+      </p>
+    </div>
+  `;
+}
+
+
 function e1rForwardDisplayRows(e1rForward) {
   if (!e1rForward) return '';
 
@@ -292,6 +404,7 @@ function e1rForwardDisplayRows(e1rForward) {
     <div class="mini-metric">
       <span class="mini-label">E1R Forward Status</span>
 ${e1rForwardDisplayRows(DATA.e1rV02OosSummary)}
+${e1rForwardEquityCurveHtml(DATA.e1rV02OosEquityCurve)}
       <span class="mini-value">${fmtText(e1rForward.tracking_status)}</span>
     </div>
     <div class="mini-metric">

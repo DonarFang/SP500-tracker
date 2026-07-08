@@ -1,0 +1,27 @@
+{
+  "generated_at": "2026-07-08T08:32:47.440471+00:00",
+  "stage": "B_STAGE_3_8E2F2C1_EQUITY_CURVE_MAPPING_PATCH",
+  "status": "IMPLEMENTED_DASHBOARD_PATCH",
+  "files_changed": [
+    "dashboard/app.js"
+  ],
+  "mapped_data_source": "exports/oos_e1r_v0_2_equity_curve.json",
+  "mapped_dashboard_alias": "DATA.e1rV02OosEquityCurve",
+  "mapped_ui": "E1R Forward Equity Curve panel",
+  "policy": {
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false
+  },
+  "notes": [
+    "Current E1R forward equity curve has one row, so UI displays a starting point and waits for additional daily rows.",
+    "This patch does not change E1R tracking status or official kickoff date."
+  ],
+  "next_stage": {
+    "stage": "3.8E-2F-2C-2",
+    "purpose": "Browser acceptance for Summary + E1R forward equity curve."
+  }
+}
