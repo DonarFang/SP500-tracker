@@ -1,0 +1,69 @@
+{
+  "generated_at": "2026-07-08T06:07:49.784246+00:00",
+  "stage": "B_STAGE_3_8E2B_V4_SURGICAL_E1_E1R_SUMMARY",
+  "status": "IMPLEMENTED_SURGICAL_SUMMARY_INTEGRATION_ONLY",
+  "main": {
+    "branch": "main",
+    "head_before": "f8ac999"
+  },
+  "policy": {
+    "strategy_logic_changed": false,
+    "exports_changed": false,
+    "equity_curve_changed": false,
+    "trade_log_changed": false,
+    "market_state_changed": false,
+    "non_ui_variable_prep_preserved": true,
+    "global_runtime_module_added": false
+  },
+  "changes": {
+    "legacy_e1r_function_replaced_with_stub": true,
+    "old_e1_banner_replaced_only": true,
+    "old_e1_cards_removed_only": true,
+    "unified_e1_e1r_summary_added": true,
+    "daily_oos_summary_fetches_added": true,
+    "cache_busted_index_assets": true
+  },
+  "preserved_non_ui_terms": [
+    "const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();",
+    "const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];",
+    "const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];",
+    "const oosRowsForNote=(DATA.oosEquity?.curve||[]);",
+    "const oosLatestDate=oosRowsForNote.length",
+    "const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];",
+    "const lcStats=regOrder.map",
+    "if(eqCurve.length>1){",
+    "Equity curve — E1 vs E1-R vs SPX",
+    "Trade log — recent 20 trades",
+    "Market State"
+  ],
+  "removed_blocks": {
+    "legacy_e1r_function_chars": 3721,
+    "old_e1_banner_chars": 256,
+    "old_e1_cards_chars": 1055
+  },
+  "validation": {
+    "node_check": {
+      "node_available": false,
+      "status": "BASIC_VALIDATION_ONLY"
+    },
+    "unified_summary_present": true,
+    "legacy_e1r_summary_absent": true,
+    "old_e1_banner_absent": true,
+    "equity_curve_present": true,
+    "trade_log_present": true,
+    "market_state_present": true,
+    "eqcurve_definition_preserved": true,
+    "trades_definition_preserved": true,
+    "lcstats_definition_preserved": true
+  },
+  "acceptance_criteria": [
+    "No core data load failure.",
+    "Original 5 tabs remain visible.",
+    "Research & Backtest shows Strategy Summary Comparison — E1 vs E1R.",
+    "Legacy E1-R Research Summary block is gone.",
+    "Old standalone E1 metric cards are gone.",
+    "Equity curve remains visible as before.",
+    "Trade Log remains visible.",
+    "Market State remains visible."
+  ]
+}
