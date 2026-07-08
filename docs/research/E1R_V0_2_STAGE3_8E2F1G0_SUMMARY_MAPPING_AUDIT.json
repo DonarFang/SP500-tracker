@@ -1,0 +1,527 @@
+{
+  "generated_at": "2026-07-08T08:24:08.637630+00:00",
+  "stage": "B_STAGE_3_8E2F1G0_SUMMARY_MAPPING_AUDIT",
+  "status": "AUDIT_COMPLETE_NO_SOURCE_CHANGES",
+  "main": {
+    "branch": "main",
+    "head": "b27ccca"
+  },
+  "policy": {
+    "source_changed": false,
+    "dashboard_changed": false,
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false
+  },
+  "summary_mapping_readiness": {
+    "forward_summary_exists": true,
+    "forward_summary_json_valid": true,
+    "dashboard_fetches_forward_summary": true,
+    "dashboard_has_summary_comparison": true,
+    "orders_count": 10,
+    "positions_count": 10,
+    "paper_state_ready": true,
+    "ready_for_summary_mapping_patch": true
+  },
+  "forward_summary_field_presence": {
+    "tracking_status": true,
+    "official_kickoff_date": true,
+    "forward_start_date": true,
+    "execution_status": true,
+    "portfolio_value": true,
+    "equity": true,
+    "gross_exposure": true,
+    "net_exposure": true,
+    "core_exposure": true,
+    "sidecar_exposure": true,
+    "cash": true,
+    "market_value": true,
+    "open_positions_count": true,
+    "paper_orders_count": true,
+    "executed_orders_count": true,
+    "number_of_trades": true
+  },
+  "dashboard_mentions_forward_fields": {
+    "tracking_status": false,
+    "execution_status": false,
+    "official_kickoff_date": false,
+    "portfolio_value": true,
+    "forward_return_pct": true,
+    "gross_exposure": false,
+    "open_positions_count": false,
+    "paper_orders_count": false
+  },
+  "recommended_summary_fields": {
+    "label": "E1R Forward",
+    "tracking_status": "KICKOFF_READY",
+    "execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+    "official_kickoff_date": null,
+    "portfolio_value": 100000.0,
+    "forward_return_pct": 0.0,
+    "gross_exposure": 0.24999999999999997,
+    "open_positions_count": 10,
+    "paper_orders_count": 10
+  },
+  "text_reports": {
+    "dashboard_app": {
+      "exists": true,
+      "line_count": 1356,
+      "term_hits": [
+        {
+          "line": 3,
+          "text": " * 5 tabs: Market Overview / Leader Board / Watchlist / Positions & Exit / Research & Backtest",
+          "terms": [
+            "Research",
+            "Backtest"
+          ]
+        },
+        {
+          "line": 134,
+          "text": "async function fetchResearchJ(name) {",
+          "terms": [
+            "Research"
+          ]
+        },
+        {
+          "line": 142,
+          "text": "  try { DATA.e1rV02BacktestSummary = await fetchJ('e1r_v0_2_backtest_summary'); } catch(e) { DATA.e1rV02BacktestSummary = {}; }",
+          "terms": [
+            "Backtest"
+          ]
+        },
+        {
+          "line": 143,
+          "text": "  try { DATA.e1rV02OosSummary = await fetchJ('oos_e1r_v0_2_summary'); } catch(e) { DATA.e1rV02OosSummary = {}; }",
+          "terms": [
+            "e1rV02OosSummary",
+            "e1r_v0_2_summary",
+            "oos_e1r_v0_2_summary"
+          ]
+        },
+        {
+          "line": 168,
+          "text": "      fetchResearchJ('e1r_regime_attribution_review').catch(()=>null),",
+          "terms": [
+            "Research"
+          ]
+        },
+        {
+          "line": 169,
+          "text": "      fetchResearchJ('e1r_phase3e_confirmed_quality_diagnostic').catch(()=>null),",
+          "terms": [
+            "Research"
+          ]
+        },
+        {
+          "line": 170,
+          "text": "      fetchResearchJ('e1r_phase3i_sideways_quality_decomposition_diagnostic').catch(()=>null),",
+          "terms": [
+            "Research"
+          ]
+        },
+        {
+          "line": 171,
+          "text": "      fetchResearchJ('e1r_phase3ir_sideways_recovery_robustness_diagnostic').catch(()=>null),",
+          "terms": [
+            "Research"
+          ]
+        },
+        {
+          "line": 172,
+          "text": "      fetchResearchJ('e1r_phase3k_sideways_recovery_regime_definition_review').catch(()=>null),",
+          "terms": [
+            "Research"
+          ]
+        },
+        {
+          "line": 173,
+          "text": "      fetchResearchJ('e1r_formal_backtest_v0_1').catch(()=>null),",
+          "terms": [
+            "Research"
+          ]
+        },
+        {
+          "line": 198,
+          "text": "function renderE1RResearchPanel(vr){",
+          "terms": [
+            "renderE1R",
+            "Research"
+          ]
+        },
+        {
+          "line": 200,
+          "text": "  // Unified E1/E1R summary is rendered in the Research & Backtest flow.",
+          "terms": [
+            "Research",
+            "Backtest"
+          ]
+        },
+        {
+          "line": 209,
+          "text": "// Preserves Research & Backtest variable-prep logic.",
+          "terms": [
+            "Research",
+            "Backtest"
+          ]
+        },
+        {
+          "line": 247,
+          "text": "  const raw = DATA.e1rV02BacktestSummary || DATA.e1rFormal || {};",
+          "terms": [
+            "Backtest"
+          ]
+        },
+        {
+          "line": 257,
+          "text": "    'return_pct','total_return_pct','forward_return_pct','oos_return_pct',",
+          "terms": [
+            "forward_return",
+            "forward_return_pct"
+          ]
+        },
+        {
+          "line": 258,
+          "text": "    'return','total_return','forward_return','oos_return'",
+          "terms": [
+            "forward_return"
+          ]
+        },
+        {
+          "line": 267,
+          "text": "function e2bV4RenderSummaryComparison(e1){",
+          "terms": [
+            "e2bV4RenderSummaryComparison"
+          ]
+        },
+        {
+          "line": 270,
+          "text": "  const e1rOos=DATA.e1rV02OosSummary || {};",
+          "terms": [
+            "e1rV02OosSummary"
+          ]
+        },
+        {
+          "line": 293,
+          "text": "    <div class=\"card-head\">Strategy Summary Comparison — E1 vs E1R</div>",
+          "terms": [
+            "Strategy Summary Comparison"
+          ]
+        },
+        {
+          "line": 635,
+          "text": "        Backtest as-of: <strong>${simEndDate}</strong>",
+          "terms": [
+            "Backtest"
+          ]
+        },
+        {
+          "line": 724,
+          "text": "  // ── Tab 5: Research & Backtest ────────────────────────",
+          "terms": [
+            "Research",
+            "Backtest"
+          ]
+        },
+        {
+          "line": 732,
+          "text": "    const e1rPanel = renderE1RResearchPanel(vr);",
+          "terms": [
+            "renderE1R",
+            "Research"
+          ]
+        },
+        {
+          "line": 774,
+          "text": "    let h=e2bV4RenderSummaryComparison(e1);",
+          "terms": [
+            "e2bV4RenderSummaryComparison"
+          ]
+        },
+        {
+          "line": 783,
+          "text": "        <div class=\"muted\" style=\"font-size:12px;margin-top:.5rem\">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</d",
+          "terms": [
+            "Backtest"
+          ]
+        },
+        {
+          "line": 905,
+          "text": "        const e1BacktestData = e1I.concat(pad(padAfter));",
+          "terms": [
+            "Backtest"
+          ]
+        },
+        {
+          "line": 954,
+          "text": "          {label:'E1 backtest',data:e1BacktestData,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},",
+          "terms": [
+            "Backtest"
+          ]
+        },
+        {
+          "line": 1026,
+          "text": "    oosSummary: \"../exports/oos_e1r_v0_2_summary.json\",",
+          "terms": [
+            "e1r_v0_2_summary",
+            "oos_e1r_v0_2_summary"
+          ]
+        },
+        {
+          "line": 1207,
+          "text": "  function e1rRenderBacktest(summaryResult, equityResult) {",
+          "terms": [
+            "Backtest"
+          ]
+        },
+        {
+          "line": 1210,
+          "text": "      \"E1R v0.2 5Y Backtest\",",
+          "terms": [
+            "Backtest"
+          ]
+        },
+        {
+          "line": 1266,
+          "text": "    const equity = e1rPick(latest, [\"equity\", \"combined_equity\", \"portfolio_value\"]);",
+          "terms": [
+            "portfolio_value"
+          ]
+        },
+        {
+          "line": 1290,
+          "text": "     * Future E1R display integration must happen inside native Research & Backtest render flow.",
+          "terms": [
+            "Research",
+            "Backtest"
+          ]
+        },
+        {
+          "line": 1321,
+          "text": "    e1rRenderBacktest(backtestSummaryResult, backtestEquityResult);",
+          "terms": [
+            "Backtest"
+          ]
+        }
+      ]
+    },
+    "dashboard_index": {
+      "exists": true,
+      "line_count": 43,
+      "term_hits": [
+        {
+          "line": 33,
+          "text": "    <button class=\"tab\"     onclick=\"go('research', this)\">🔬 Research &amp; Backtest</button>",
+          "terms": [
+            "Research",
+            "Backtest"
+          ]
+        }
+      ]
+    }
+  },
+  "json_reports": {
+    "e1r_forward_summary": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_level_keys": [
+        "alpha_pct",
+        "cash",
+        "core_active",
+        "core_exposure",
+        "equity",
+        "equity_status",
+        "executed_orders_count",
+        "execution_status",
+        "forward_day_count",
+        "forward_return_pct",
+        "forward_start_date",
+        "generated_at",
+        "generated_at_display",
+        "gross_exposure",
+        "market_state",
+        "market_value",
+        "max_drawdown_pct",
+        "net_exposure",
+        "notes",
+        "number_of_trades",
+        "official_kickoff_date",
+        "open_positions_count",
+        "paper_orders_count",
+        "phase",
+        "portfolio_value",
+        "preservation_guard",
+        "profit_factor",
+        "regime",
+        "research_status",
+        "sharpe_ratio",
+        "sidecar_active",
+        "sidecar_exposure",
+        "sidecar_selected_count",
+        "spx_forward_return_pct",
+        "status_date",
+        "strategy_id",
+        "subclass",
+        "tracking_status",
+        "version"
+      ],
+      "field_values": {
+        "tracking_status": "KICKOFF_READY",
+        "official_kickoff_date": null,
+        "forward_start_date": null,
+        "execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+        "portfolio_value": 100000.0,
+        "equity": 100000.0,
+        "gross_exposure": 0.24999999999999997,
+        "net_exposure": 0.24999999999999997,
+        "core_exposure": 0.24999999999999997,
+        "sidecar_exposure": 0.0,
+        "cash": 75000.0,
+        "market_value": 24999.999999999996,
+        "open_positions_count": 10,
+        "paper_orders_count": 10,
+        "executed_orders_count": 0,
+        "number_of_trades": 0
+      }
+    },
+    "e1r_forward_orders": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_level_keys": [
+        "counts",
+        "execution_status",
+        "generated_at",
+        "notes",
+        "official_kickoff_date",
+        "orders",
+        "preview",
+        "status_date",
+        "strategy_id",
+        "tracking_status",
+        "version"
+      ],
+      "field_values": {
+        "tracking_status": "KICKOFF_READY",
+        "official_kickoff_date": null,
+        "execution_status": "PAPER_ORDERS_READY_KICKOFF_PENDING"
+      },
+      "orders_count": 10
+    },
+    "e1r_forward_positions": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_level_keys": [
+        "counts",
+        "execution_status",
+        "exposure",
+        "generated_at",
+        "notes",
+        "official_kickoff_date",
+        "positions",
+        "preview",
+        "status_date",
+        "strategy_id",
+        "tracking_status",
+        "version"
+      ],
+      "field_values": {
+        "tracking_status": "KICKOFF_READY",
+        "official_kickoff_date": null,
+        "execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING"
+      },
+      "positions_count": 10
+    },
+    "e1r_forward_targets": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_level_keys": [
+        "contract",
+        "core_targets",
+        "counts",
+        "exposure_preview",
+        "generated_at",
+        "notes",
+        "official_kickoff_date",
+        "shadow_start_date",
+        "sidecar_targets",
+        "stage",
+        "status_date",
+        "strategy_id",
+        "targets",
+        "tracking_status",
+        "version"
+      ],
+      "field_values": {
+        "tracking_status": "KICKOFF_READY",
+        "official_kickoff_date": null
+      },
+      "targets_count": 10
+    },
+    "e1r_backtest_summary": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_level_keys": [
+        "alpha_pct",
+        "artifact_type",
+        "composition_exists",
+        "frozen_artifact",
+        "max_drawdown_pct",
+        "profit_factor",
+        "regeneration_note",
+        "regime_aware_logic",
+        "research_status",
+        "row_count",
+        "sharpe_ratio",
+        "sidecar_active_by_regime",
+        "sidecar_active_by_subclass",
+        "sidecar_active_days",
+        "source_file",
+        "source_json_path",
+        "spx_return_pct",
+        "strategy_id",
+        "total_return_pct",
+        "variant"
+      ],
+      "field_values": {}
+    },
+    "e1_summary": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_level_keys": [
+        "backfill_event_count",
+        "expected_market_date",
+        "final_equity",
+        "first_review_criteria",
+        "generated_at",
+        "generated_at_display",
+        "initial_capital",
+        "last_market_date",
+        "last_successful_run",
+        "live_event_count",
+        "max_drawdown_pct",
+        "mixed_provenance_positions",
+        "oos_start_date",
+        "open_positions",
+        "profit_factor",
+        "provenance_note",
+        "run_date",
+        "status",
+        "strategy_id",
+        "total_return_pct",
+        "total_trades",
+        "win_rate_pct"
+      ],
+      "field_values": {}
+    }
+  },
+  "next_stage": {
+    "stage": "3.8E-2F-1G-1",
+    "purpose": "Patch dashboard Summary comparison to display E1R forward fields from exports/oos_e1r_v0_2_summary.json.",
+    "after_that": "2C: map E1R forward equity curve."
+  }
+}
