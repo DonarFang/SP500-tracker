@@ -1,0 +1,150 @@
+{
+  "generated_at": "2026-07-08T13:03:38.170893+00:00",
+  "stage": "B_STAGE_3_8E2F2C4C10F4A_SIDECAR_RECORDS_EXPORT",
+  "status": "E1R_SIDECAR_RECORDS_5Y_NOT_READY",
+  "policy": {
+    "dashboard_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "e1r_canonical_written": false,
+    "portfolio_equity_composed": false,
+    "sidecar_records_written": false
+  },
+  "paths": {
+    "sidecar_records_path": "exports/e1r_v0_2_sidecar_records_5y.json",
+    "report_json": "docs/research/E1R_V0_2_STAGE3_8E2F2C4C10F4A_SIDECAR_RECORDS_EXPORT_REPORT.json",
+    "report_md": "docs/research/E1R_V0_2_STAGE3_8E2F2C4C10F4A_SIDECAR_RECORDS_EXPORT_REPORT.md"
+  },
+  "input_summary": {
+    "stock_dir": "data/research/e1_5y/raw/stocks",
+    "spx_path": "data/research/e1_5y/raw/indices/SPX.json",
+    "regime_path": "data/research/e1_5y/regimes/spx_regime_daily.json",
+    "stocks_loaded": 538,
+    "excluded_count": 1,
+    "excluded_sample": [
+      "VIXY"
+    ]
+  },
+  "interval_stats": {
+    "row_count": 1260,
+    "date_start": "2021-06-11",
+    "date_end": "2026-06-17",
+    "unique_dates": 1260,
+    "max_rows_per_date": 1,
+    "one_row_per_date": true,
+    "sample_first": [
+      {
+        "date": "2021-06-11",
+        "next_date": "2021-06-14"
+      },
+      {
+        "date": "2021-06-14",
+        "next_date": "2021-06-15"
+      },
+      {
+        "date": "2021-06-15",
+        "next_date": "2021-06-16"
+      }
+    ],
+    "sample_last": [
+      {
+        "date": "2026-06-15",
+        "next_date": "2026-06-16"
+      },
+      {
+        "date": "2026-06-16",
+        "next_date": "2026-06-17"
+      },
+      {
+        "date": "2026-06-17",
+        "next_date": "2026-06-18"
+      }
+    ]
+  },
+  "sidecar_stats": {
+    "row_count": 1260,
+    "date_start": "2021-06-11",
+    "date_end": "2026-06-17",
+    "unique_dates": 1260,
+    "max_rows_per_date": 1,
+    "one_row_per_date": true,
+    "regime_counts": {
+      "UPTREND": 861,
+      "SIDEWAYS": 241,
+      "DOWNTREND": 158
+    },
+    "subclass_counts": {
+      "NO_SUBCLASS": 1019,
+      "MA_CONFLICT": 135,
+      "DETERIORATION_TRANSITION": 63,
+      "RECOVERY_TRANSITION": 43
+    },
+    "active_count": 0,
+    "nonzero_sidecar_return_count": 0,
+    "sidecar_active_by_regime": {},
+    "sidecar_active_by_subclass": {},
+    "gross_exposure_min": null,
+    "gross_exposure_max": null,
+    "selected_count_min": null,
+    "selected_count_max": null
+  },
+  "sidecar_summary_type": "dict",
+  "sidecar_summary": {
+    "name": "E1R_SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE",
+    "allowed_subclasses": [
+      "MA_CONFLICT"
+    ],
+    "top_n": 10,
+    "gross_exposure": 0.25,
+    "excluded_symbols": [
+      "VIXY"
+    ],
+    "total_days": 1260,
+    "active_days": 135,
+    "exposure_pct_full_period": 10.714285714285714,
+    "full_period_strategy_return_pct": 6.327413860021602,
+    "full_period_spx_return_pct": 76.59060945389366,
+    "full_period_excess_vs_spx_pct": -70.26319559387207,
+    "active_window_strategy_return_pct": 6.327413860021802,
+    "active_window_spx_return_pct": 3.441248071243952,
+    "active_window_excess_vs_spx_pct": 2.8861657887778502,
+    "max_drawdown_pct": -4.30474425235311,
+    "profit_factor": 1.324066375239395,
+    "sharpe": 0.5485318434970625,
+    "active_day_win_rate_pct": 57.03703703703704,
+    "winning_active_days": 77,
+    "losing_active_days": 58,
+    "avg_active_day_return_pct": 0.04641354379249446,
+    "median_active_day_return_pct": 0.03310061400735197,
+    "trade_count_approx": 1350,
+    "equity_start": 100000.0,
+    "equity_end": 106327.4138600216
+  },
+  "validation": {
+    "full_intervals_ge_1000": true,
+    "sidecar_records_nonempty": true,
+    "sidecar_one_row_per_date": true,
+    "sidecar_active_count_positive": false,
+    "sidecar_active_count_reasonable": false,
+    "ma_conflict_active_present": false,
+    "canonical_e1r_files_unchanged": true
+  },
+  "canonical_e1r_exists_before": {
+    "exports/e1r_v0_2_portfolio_backtest_equity_curve.json": false,
+    "exports/e1_e1r_5y_equity_comparison.json": false
+  },
+  "canonical_e1r_exists_after": {
+    "exports/e1r_v0_2_portfolio_backtest_equity_curve.json": false,
+    "exports/e1_e1r_5y_equity_comparison.json": false
+  },
+  "diagnosis": [
+    "Generated regime-aware sidecar records using explicit 5Y window.",
+    "Sidecar records are validated separately from full E1/E1R portfolio equity.",
+    "No E1R portfolio canonical export was written in this stage."
+  ],
+  "next_stage": {
+    "name": "Stage 3.8E-2F-2C-4C-10F-4B",
+    "title": "Compose continuous E1R portfolio equity from E1 core + sidecar records",
+    "recommended_action": "Use exports/e1_5y_backtest_equity_curve.json and exports/e1r_v0_2_sidecar_records_5y.json to compose full-window E1R equity, then validate frozen metrics before writing canonical E1R export."
+  }
+}
