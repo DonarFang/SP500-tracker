@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-07-08T05:35:09.507118+00:00",
+  "stage": "B_STAGE_3_8E2B_EQCURVE_LOCAL_VAR_HOTFIX",
+  "status": "IMPLEMENTED_EQCURVE_LOCAL_VAR_HOTFIX_ONLY",
+  "main": {
+    "branch": "main",
+    "head_before": "900b224"
+  },
+  "policy": {
+    "strategy_logic_changed": false,
+    "exports_changed": false,
+    "summary_changed": false,
+    "equity_curve_mapping_changed": false,
+    "trade_log_changed": false,
+    "market_state_changed": false
+  },
+  "changes": {
+    "eqCurve_defined": true,
+    "spxCurve_defined": true,
+    "e1rCurve_defined": true,
+    "oosLatestDate_defined": true,
+    "cache_busted_index_assets": true
+  },
+  "validation": {
+    "node_check": {
+      "node_available": false,
+      "status": "BASIC_VALIDATION_ONLY"
+    },
+    "summary_present": true,
+    "trade_log_present": true,
+    "market_state_present": true,
+    "legacy_e1r_summary_absent": true
+  },
+  "acceptance_criteria": [
+    "Dashboard no longer shows core data load failure: eqCurve is not defined.",
+    "Original 5 tabs remain visible.",
+    "Strategy Summary Comparison remains visible.",
+    "Trade Log remains visible.",
+    "Market State remains visible.",
+    "Equity curve mapping quality is not evaluated in this hotfix."
+  ]
+}

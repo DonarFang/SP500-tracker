@@ -714,6 +714,15 @@ function render(tab) {
         // Stage 3.8E-2B: old E1-only metric cards removed.
 
 
+    // B_STAGE_3_8E2B_EQCURVE_LOCAL_VAR_HOTFIX
+    // Restore local curve variables after Stage 3.8E-2B summary cleanup.
+    // This hotfix only prevents undefined local variables; it does not change equity curve mapping logic.
+    const eqCurve = Array.isArray(e1.equity_curve) ? e1.equity_curve : [];
+    const spxCurve = Array.isArray(e1.spx_curve) ? e1.spx_curve : [];
+    const e1rCurve = Array.isArray(DATA.e1rFormal?.equity_curve) ? DATA.e1rFormal.equity_curve : [];
+    const oosLatestRowsForNote = Array.isArray(DATA.oosEquity?.curve) ? DATA.oosEquity.curve.filter(r => r && r.date) : [];
+    const oosLatestDate = oosLatestRowsForNote.length ? String(oosLatestRowsForNote[oosLatestRowsForNote.length-1].date) : '—';
+
     if(eqCurve.length>1){
       h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
         <div class="cwrap" style="height:220px"><canvas id="cw-equity"></canvas></div>

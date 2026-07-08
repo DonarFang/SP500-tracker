@@ -1,0 +1,38 @@
+--- dashboard/app.js.before_eqcurve_hotfix
++++ dashboard/app.js.after_eqcurve_hotfix
+@@ -714,6 +714,15 @@
+         // Stage 3.8E-2B: old E1-only metric cards removed.
+ 
+ 
++    // B_STAGE_3_8E2B_EQCURVE_LOCAL_VAR_HOTFIX
++    // Restore local curve variables after Stage 3.8E-2B summary cleanup.
++    // This hotfix only prevents undefined local variables; it does not change equity curve mapping logic.
++    const eqCurve = Array.isArray(e1.equity_curve) ? e1.equity_curve : [];
++    const spxCurve = Array.isArray(e1.spx_curve) ? e1.spx_curve : [];
++    const e1rCurve = Array.isArray(DATA.e1rFormal?.equity_curve) ? DATA.e1rFormal.equity_curve : [];
++    const oosLatestRowsForNote = Array.isArray(DATA.oosEquity?.curve) ? DATA.oosEquity.curve.filter(r => r && r.date) : [];
++    const oosLatestDate = oosLatestRowsForNote.length ? String(oosLatestRowsForNote[oosLatestRowsForNote.length-1].date) : '—';
++
+     if(eqCurve.length>1){
+       h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
+         <div class="cwrap" style="height:220px"><canvas id="cw-equity"></canvas></div>
+
+--- dashboard/index.html.before_eqcurve_hotfix
++++ dashboard/index.html.after_eqcurve_hotfix
+@@ -4,7 +4,7 @@
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>SP500 Trend Decision Support Cockpit</title>
+-<link rel="stylesheet" href="styles.css?v=stage38e2b-v3-c1a7e46">
++<link rel="stylesheet" href="styles.css?v=stage38e2b-eqcurve-hotfix-900b224">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+ <style>
+ .badge-hold{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500;background:#F1EFE8;color:#2C2C2A}
+@@ -38,6 +38,6 @@
+   <div id="s-positions" class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
+   <div id="s-research"  class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
+ </div>
+-<script src="app.js?v=stage38e2b-v3-c1a7e46"></script>
++<script src="app.js?v=stage38e2b-eqcurve-hotfix-900b224"></script>
+ </body>
+ </html>
