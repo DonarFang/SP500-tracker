@@ -1,0 +1,411 @@
+{
+  "generated_at": "2026-07-08T07:13:45.797502+00:00",
+  "stage": "B_STAGE_3_8E2F1F0_DAILY_PIPELINE_INTEGRATION_AUDIT",
+  "status": "AUDIT_COMPLETE_NO_SOURCE_CHANGES",
+  "main": {
+    "branch": "main",
+    "head": "5af4432"
+  },
+  "policy": {
+    "source_changed": false,
+    "workflow_changed": false,
+    "exports_changed": false,
+    "state_changed": false,
+    "dashboard_changed": false
+  },
+  "question": "Where should E1R forward runner sequence be integrated into daily pipeline?",
+  "e1r_scripts_present_in_workflow": {
+    "run_e1r_v0_2_oos.py": true,
+    "run_e1r_v0_2_oos_equity.py": false,
+    "export_e1r_v0_2_targets_preview.py": false,
+    "export_e1r_v0_2_orders_positions_preview.py": false,
+    "run_e1r_v0_2_forward_performance.py": false,
+    "export_e1r_v0_2_status.py": false
+  },
+  "recommended_sequence": [
+    "python3 scripts/export_e1r_v0_2_status.py",
+    "python3 scripts/run_e1r_v0_2_oos.py",
+    "python3 scripts/run_e1r_v0_2_oos_equity.py",
+    "python3 scripts/export_e1r_v0_2_targets_preview.py",
+    "python3 scripts/export_e1r_v0_2_orders_positions_preview.py",
+    "python3 scripts/run_e1r_v0_2_forward_performance.py"
+  ],
+  "recommended_next_stage": {
+    "stage": "3.8E-2F-1F-1",
+    "purpose": "Add E1R runner sequence to daily pipeline while keeping tracking_status=KICKOFF_READY.",
+    "after_that": "3.8E-2F-1G maps E1R forward fields into Summary; then 2C maps E1R equity curve."
+  },
+  "file_reports": {
+    ".github/workflows/update.yml": {
+      "exists": true,
+      "path": ".github/workflows/update.yml",
+      "line_count": 51,
+      "term_hits": [
+        {
+          "line": 29,
+          "text": "          python run_oos.py --check",
+          "terms": [
+            "run_oos.py"
+          ]
+        },
+        {
+          "line": 35,
+          "text": "        run: python run_oos.py",
+          "terms": [
+            "run_oos.py"
+          ]
+        },
+        {
+          "line": 41,
+          "text": "          python3 scripts/run_e1r_v0_2_oos.py",
+          "terms": [
+            "run_e1r_v0_2_oos.py"
+          ]
+        },
+        {
+          "line": 47,
+          "text": "          git add -f data/ exports/ data/rank_history/ data/oos/",
+          "terms": [
+            "git add",
+            "exports/",
+            "data/oos/"
+          ]
+        }
+      ],
+      "preview": "   1: name: 每日更新 S&P 500 数据\n   2: \n   3: on:\n   4:   schedule:\n   5:     - cron: '0 22 * * 1-5'\n   6:     - cron: '0 23 * * 1-5'\n   7:   workflow_dispatch:\n   8: \n   9: permissions:\n  10:   contents: write\n  11: \n  12: jobs:\n  13:   update:\n  14:     runs-on: ubuntu-latest\n  15:     timeout-minutes: 15\n  16:     steps:\n  17:       - uses: actions/checkout@v4\n  18:       - uses: actions/setup-python@v5\n  19:         with:\n  20:           python-version: '3.11'\n  21:       - run: pip install -r requirements.txt\n  22: \n  23:       - name: 增量更新 + 信号计算\n  24:         run: python fetch_data.py\n  25: \n  26:       - name: OOS 数据日期预检\n  27:         id: oos_check\n  28:         run: |\n  29:           python run_oos.py --check\n  30:           echo \"check_passed=true\" >> $GITHUB_OUTPUT\n  31:         continue-on-error: true\n  32: \n  33:       - name: OOS Tracking Engine\n  34:         if: steps.oos_check.outputs.check_passed == 'true'\n  35:         run: python run_oos.py\n  36:         continue-on-error: true  # OOS 失败不阻塞数据发布\n  37: \n  38: \n  39:       - name: E1R v0.2 OOS exports\n  40:         run: |\n  41:           python3 scripts/run_e1r_v0_2_oos.py\n  42:         continue-on-error: true  # E1R v0.2 OOS paper tracking 不阻塞主数据发布\n  43:       - name: 提交更新\n  44:         run: |\n  45:           git config user.name \"github-actions[bot]\"\n  46:           git config user.email \"github-actions[bot]@users.noreply.github.com\"\n  47:           git add -f data/ exports/ data/rank_history/ data/oos/\n  48:           git diff --cached --quiet && echo \"数据无变化\" || (\n  49:             git commit -m \"📊 自动更新：$(TZ='America/New_York' date '+%Y-%m-%d %H:%M ET')\"\n  50:             git push\n  51:           )"
+    },
+    "run_oos.py": {
+      "exists": true,
+      "path": "run_oos.py",
+      "line_count": 352,
+      "term_hits": [
+        {
+          "line": 3,
+          "text": "run_oos.py — Forward/OOS Tracking Engine entry point v1.1",
+          "terms": [
+            "run_oos.py"
+          ]
+        },
+        {
+          "line": 5,
+          "text": "  python3 run_oos.py                        # run for today (NO_OP on weekends/holidays)",
+          "terms": [
+            "run_oos.py"
+          ]
+        },
+        {
+          "line": 6,
+          "text": "  python3 run_oos.py --date 2026-06-18      # run for specific signal date",
+          "terms": [
+            "run_oos.py"
+          ]
+        },
+        {
+          "line": 7,
+          "text": "  python3 run_oos.py --backfill 2026-06-16  # backfill (BACKFILLED_PRELIVE)",
+          "terms": [
+            "run_oos.py"
+          ]
+        },
+        {
+          "line": 8,
+          "text": "  python3 run_oos.py --status               # show current OOS status",
+          "terms": [
+            "run_oos.py"
+          ]
+        },
+        {
+          "line": 9,
+          "text": "  python3 run_oos.py --check                # pre-check data freshness",
+          "terms": [
+            "run_oos.py"
+          ]
+        }
+      ],
+      "preview": "   1: #!/usr/bin/env python3\n   2: \"\"\"\n   3: run_oos.py — Forward/OOS Tracking Engine entry point v1.1\n   4: Usage:\n   5:   python3 run_oos.py                        # run for today (NO_OP on weekends/holidays)\n   6:   python3 run_oos.py --date 2026-06-18      # run for specific signal date\n   7:   python3 run_oos.py --backfill 2026-06-16  # backfill (BACKFILLED_PRELIVE)\n   8:   python3 run_oos.py --status               # show current OOS status\n   9:   python3 run_oos.py --check                # pre-check data freshness\n  10: \"\"\"\n  11: from __future__ import annotations\n  12: \n  13: import argparse, json, logging, sys\n  14: from pathlib import Path\n  15: from datetime import date, datetime, timedelta\n  16: \n  17: logging.basicConfig(\n  18:     level=logging.INFO,\n  19:     format=\"[%(asctime)s] %(levelname)-5s %(message)s\",\n  20:     datefmt=\"%H:%M:%S\",\n  21: )\n  22: logger = logging.getLogger(__name__)\n  23: sys.path.insert(0, str(Path(__file__).parent))\n  24: \n  25: \n  26: def _load_price_from_history(symbol: str, as_of_date: str | None = None) -> dict | None:\n  27:     \"\"\"\n  28:     Load latest available OHLC for a symbol from data/prices/{symbol}.json.\n  29:     If as_of_date is provided, use the last row with date <= as_of_date.\n  30:     This is required for OOS mark-to-market of existing holdings.\n  31:     \"\"\"\n  32:     p = Path(\"data\") / \"prices\" / f\"{symbol}.json\"\n  33:     if not p.exists():\n  34:         return None\n  35:     try:\n  36:         rows = json.loads(p.read_text())\n  37:         if not isinstance(rows, list) or not rows:\n  38:             return None\n  39: \n  40:         chosen = None\n  41:         if as_of_date:\n  42:             for r in rows:\n  43:                 d = r.get(\"date\")\n  44:                 if d and d <= as_of_date:\n  45:                     chosen = r\n  46:                 elif d and d > as_of_date:\n  47:                     break\n  48:         if chosen is None:\n  49:             chosen = rows[-1]\n  50: \n  51:         close = chosen.get(\"close\")\n  52:         if close is None:\n  53:             return None\n  54:         return {\n  55:             \"open\":  chosen.get(\"open\", close),\n  56:             \"high\":  chosen.get(\"high\", close),\n  57:             \"low\":   chosen.get(\"low\", close),\n  58:             \"close\": close,\n  59:             \"date\":  chosen.get(\"date\"),\n  60:             \"source\": \"data/prices\",\n  61:         }\n  62:     except Exception as e:\n  63:         logger.warning(f\"Cannot load price history for {symbol}: {e}\")\n  64:         return None\n  65: \n  66: \n  67: def _current_oos_holding_symbols() -> list[str]:\n  68:     \"\"\"\n  69:     Read current OOS holdings so mark-to-market does not depend on leaderboard/trade_actions membership.\n  70:     \"\"\"\n  71:     p = Path(\"data\") / \"oos\" / \"portfolio_state.json\"\n  72:     if not p.exists():\n  73:         return []\n  74:     try:\n  75:         j = json.loads(p.read_text())\n  76:         h = j.get(\"holdings\", {}) or {}\n  77:         return sorted(h.keys())\n  78:     except Exception as e:\n  79:         logger.warning(f\"Cannot load OOS holdings from portfolio_state.json: {e}\")\n  80:         return []\n  81: \n  82: \n  83: def load_market_data():\n  84:     exports = Path(\"exports\")\n  85:     leaders, prices, mkt_state, data_date = [], {}, {\"gate_open\": False}, None\n  86: \n  87:     try:\n  88:         lb = json.loads((exports / \"leaderboard.json\").read_text())\n  89:         leaders = lb.get(\"leaders\", [])\n  90:     except Exception as e:\n  91:         logger.error(f\"Cannot load leaderboard.json: {e}\")\n  92: \n  93:     try:\n  94:         ms = json.loads((exports / \"market_state.json\").read_text())\n  95:         m  = ms.get(\"market\", {})\n  96:         data_date = m.get(\"data_date\") or ms.get(\"generated_at\", \"\")[:10]\n  97:         mkt_state = {\n  98:             \"gate_open\":               m.get(\"leadership_confirmed\", False),\n  99:             \"spx_ma50_slope_positive\": m.get(\"spx_ma50_slope_positive\", False),\n 100:             \"leadership_confirmed\":    m.get(\"leadership_confirmed\", False),\n 101:             \"data_date\":               data_date,\n 102:         }\n 103:     except Exception as e:\n 104:         logger.error(f\"Cannot load market_state.json: {e}\")\n 105: \n 106:     try:\n 107:         ta = json.loads((exports / \"trade_actions.json\").read_text())\n 108:         for stock in ta.get(\"stocks\", []):\n 109:             sym = stock[\"symbol\"]\n 110:             prices[sym] = {\n 111:                 \"open\":  stock.get(\"price\"),\n 112:                 \"high\":  stock.get(\"high\", stock.get(\"price\")),\n 113:                 \"low\":   stock.get(\"low\",  stock.get(\"price\")),\n 114:                 \"close\": stock.get(\"price\"),\n 115:                 \"source\": \"trade_actions\",\n 116:             }\n 117:     except Exception as e:\n 118:         logger.warning(f\"Cannot load trade_actions.json: {e}\")\n 119: \n 120:     # Critical OOS mark-to-market supplement:\n 121:     # existing holdings must be priced even when they are no longer in trade_actions.\n 122:     for sym in _current_oos_holding_symbols():\n 123:         hist_px = _load_price_from_history(sym, data_date)\n 124:         if hist_px and hist_px.get(\"close\") is not None:\n 125:             prices[sym] = hist_px\n 126: \n 127:     return leaders, prices, mkt_state, data_date\n 128: \n 129: \n 130: def cmd_status():\n 131:     from src.oos.event_store import load_all_events, get_last_processed_date\n 132:     from src.oos.portfolio_state import PortfolioState\n 133:     events = load_all_events()\n 134:     if not events:\n 135:         print(\"No OOS events yet.\")\n 136:         return\n 137:     state    = PortfolioState.rebuild_from_events(events)\n 138:     last     = get_last_processed_date()\n 139:     live     = sum(1 for e in events if e.get(\"source\") == \"LIVE_FORWARD\")\n 140:     backfill = sum(1 for e in events if e.get(\"source\") == \"BACKFILLED_PRELIVE\")\n 141:     print(f\"Last processed date : {last}\")\n 142:     print(f\"Total events        : {len(events)}\")\n 143:     print(f\"LIVE_FORWARD events : {live}\")\n 144:     print(f\"BACKFILLED_PRELIVE  : {backfill}\")\n 145:     print(f\"Open positions      : {len(state.holdings)}\")\n 146:     print(f\"Closed trades       : {len(state.closed_trades)}\")\n 147:     print(f\"Cash                : ${state.cash:,.2f}\")\n 148:     for sym, h in state.holdings.items():\n 149:         sp = h.get(\"signal_provenance\", \"?\")\n 150:         ep = h.get(\"execution_provenance\", \"?\")\n 151:         print(f\"  {sym}: {h['units']} units @ ${h['entry_price']} \"\n 152:               f\"(since {h['entry_date']}) sig={sp} exec={ep}\")\n 153: \n 154: \n 155: \n 156: \n 157: def cmd_replay_invalidated(date_str: str) -> None:\n 158:     \"\"\"\n 159:     Replay an invalidated date.\n 160:     Safety checks:\n 161:     1. LIVE_FORWARD events must be 0 (only allowed during BACKFILLED_PRELIVE phase)\n 162:     2. events.jsonl must exist and be valid\n 163:     3. After clearing the date's events, re-run backfill for that date only\n 164: \n 165:     Does NOT delete Git history. Appends corrective events with source=BACKFILLED_PRELIVE.\n 166:     The invalidated events file must already exist as audit record.\n 167:     \"\"\"\n 168:     import os\n 169:     from pathlib import Path\n 170:     from src.oos.event_store import load_all_events, EVENTS_FILE, OOS_DIR\n 171:     from src.oos.portfolio_state import PortfolioState\n 172: \n 173:     logger.info(f\"=== REPLAY INVALIDATED: {date_str} ===\")\n 174: \n 175:     # 1. Load all current events\n 176:     events = load_all_events()\n 177:     live_count = sum(1 for e in events if e.get(\"source\") == \"LIVE_FORWARD\")\n 178: \n 179:     if live_count > 0:\n 180:         logger.error(\n 181:             f\"REPLAY BLOCKED: {live_count} LIVE_FORWARD events exist. \"\n 182:             f\"Replay is only permitted when LIVE_FORWARD events = 0.\"\n 183:         )\n 184:         sys.exit(1)\n 185: \n 186:     # 2. Check invalidated audit file exists\n 187:     invalidated_files = list(OOS_DIR.glob(\"events_INVALIDATED_*.jsonl\"))\n 188:     if not invalidated_files:\n 189:         logger.error(\"No INVALIDATED audit file found. Run cp first.\")\n 190:         sys.exit(1)\n 191:     logger.info(f\"Audit file exists: {[f.name for f in invalidated_files]}\")\n 192: \n 193:     # 3. Remove events for the target date only\n 194:     remaining = [e for e in events if e.get(\"date\") != date_str]\n 195:     removed   = [e for e in events if e.get(\"date\") == date_str]\n 196:     logger.info(f\"Removing {len(removed)} events for {date_str}, keeping {len(remaining)}\")\n 197: \n 198:     # Rewrite events.jsonl without the invalidated date\n 199:     import json\n 200:     tmp = EVENTS_FILE.with_suffix(\".tmp\")\n 201:     with open(tmp, \"w\", encoding=\"utf-8\") as f:\n 202:         for ev in remaining:\n 203:             f.write(json.dumps(ev, ensure_ascii=False) + \"\\n\")\n 204:     tmp.replace(EVENTS_FILE)\n 205:     logger.info(f\"events.jsonl rewritten: {len(remaining)} events remain\")\n 206: \n 207:     # 4. Re-run for the target date as BACKFILLED_PRELIVE\n 208:     logger.info(f\"Re-running {date_str} as BACKFILLED_PRELIVE ...\")\n 209:     leaders, prices, mkt_state, data_date = load_market_data()\n 210:     from src.oos.tracking_engine import run_oos_day\n 211:     result = run_oos_day(\n 212:         signal_date=date_str,\n 213:         leaders=leaders,\n 214:         prices=prices,\n 215:         market_state=mkt_state,\n 216:         source=\"BACKFILLED_PRELIVE\",\n 217:         data_date=data_date,\n 218:     )\n 219: \n 220:     # 5. Verify no negative cash"
+    },
+    "scripts/run_e1r_v0_2_oos.py": {
+      "exists": true,
+      "path": "scripts/run_e1r_v0_2_oos.py",
+      "line_count": 180,
+      "term_hits": [
+        {
+          "line": 22,
+          "text": "    status_script = ROOT / \"scripts/export_e1r_v0_2_status.py\"",
+          "terms": [
+            "export_e1r_v0_2_status.py"
+          ]
+        },
+        {
+          "line": 23,
+          "text": "    status_path = ROOT / \"exports/e1r_v0_2_status.json\"",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 26,
+          "text": "        raise RuntimeError(\"Missing scripts/export_e1r_v0_2_status.py\")",
+          "terms": [
+            "export_e1r_v0_2_status.py"
+          ]
+        },
+        {
+          "line": 32,
+          "text": "        raise RuntimeError(\"exports/e1r_v0_2_status.json was not generated\")",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 150,
+          "text": "    write_json(ROOT / \"exports/oos_e1r_v0_2_summary.json\", summary)",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 151,
+          "text": "    write_json(ROOT / \"exports/oos_e1r_v0_2_sidecar.json\", sidecar_export)",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 152,
+          "text": "    write_json(ROOT / \"exports/oos_e1r_v0_2_positions.json\", positions)",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 153,
+          "text": "    write_json(ROOT / \"exports/oos_e1r_v0_2_orders.json\", orders)",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 162,
+          "text": "    print(\"  exports/e1r_v0_2_status.json\")",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 163,
+          "text": "    print(\"  exports/oos_e1r_v0_2_summary.json\")",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 164,
+          "text": "    print(\"  exports/oos_e1r_v0_2_sidecar.json\")",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 165,
+          "text": "    print(\"  exports/oos_e1r_v0_2_positions.json\")",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 166,
+          "text": "    print(\"  exports/oos_e1r_v0_2_orders.json\")",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 168,
+          "text": "    equity_script = ROOT / \"scripts/run_e1r_v0_2_oos_equity.py\"",
+          "terms": [
+            "run_e1r_v0_2_oos_equity.py"
+          ]
+        },
+        {
+          "line": 171,
+          "text": "        print(\"  exports/oos_e1r_v0_2_equity_curve.json\")",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 175,
+          "text": "            print(\"  exports/oos_e1r_v0_2_sidecar_lifecycle.json\")",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 176,
+          "text": "            print(\"  exports/oos_e1r_v0_2_sidecar_turnover.json\")",
+          "terms": [
+            "exports/"
+          ]
+        }
+      ],
+      "preview": "   1: from __future__ import annotations\n   2: \n   3: import json\n   4: import runpy\n   5: from datetime import datetime, timezone\n   6: from pathlib import Path\n   7: from typing import Any\n   8: \n   9: ROOT = Path(__file__).resolve().parents[1]\n  10: \n  11: \n  12: def read_json(path: Path) -> Any:\n  13:     return json.loads(path.read_text())\n  14: \n  15: \n  16: def write_json(path: Path, obj: Any) -> None:\n  17:     path.parent.mkdir(parents=True, exist_ok=True)\n  18:     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + \"\\n\")\n  19: \n  20: \n  21: def main() -> None:\n  22:     status_script = ROOT / \"scripts/export_e1r_v0_2_status.py\"\n  23:     status_path = ROOT / \"exports/e1r_v0_2_status.json\"\n  24: \n  25:     if not status_script.exists():\n  26:         raise RuntimeError(\"Missing scripts/export_e1r_v0_2_status.py\")\n  27: \n  28:     # Refresh the lightweight v0.2 status first.\n  29:     runpy.run_path(str(status_script), run_name=\"__main__\")\n  30: \n  31:     if not status_path.exists():\n  32:         raise RuntimeError(\"exports/e1r_v0_2_status.json was not generated\")\n  33: \n  34:     status = read_json(status_path)\n  35: \n  36:     generated_at = datetime.now(timezone.utc).isoformat()\n  37:     status_date = status.get(\"status_date\")\n  38:     strategy_id = status.get(\"strategy_id\", \"E1R_REGIME_AWARE_V0_2\")\n  39:     market_state = status.get(\"e1r_market_state\", \"UNKNOWN\")\n  40:     regime = status.get(\"regime\")\n  41:     subclass = status.get(\"subclass\")\n  42: \n  43:     core = status.get(\"core\", {}) or {}\n  44:     sidecar = status.get(\"sidecar\", {}) or {}\n  45:     selected = sidecar.get(\"selected\", []) or []\n  46: \n  47:     core_active = bool(core.get(\"active\"))\n  48:     sidecar_active = bool(sidecar.get(\"active\"))\n  49: \n  50:     phase = \"OOS_STATUS_SIGNAL_ONLY\"\n  51: \n  52:     summary = {\n  53:         \"generated_at\": generated_at,\n  54:         \"phase\": phase,\n  55:         \"strategy_id\": strategy_id,\n  56:         \"version\": status.get(\"version\"),\n  57:         \"research_status\": status.get(\"research_status\"),\n  58:         \"status_date\": status_date,\n  59:         \"market_state\": market_state,\n  60:         \"regime\": regime,\n  61:         \"subclass\": subclass,\n  62:         \"mutually_exclusive_state_model\": bool(status.get(\"mutually_exclusive_state_model\")),\n  63:         \"core_active\": core_active,\n  64:         \"sidecar_active\": sidecar_active,\n  65:         \"sidecar_selected_count\": len(selected),\n  66:         \"gross_exposure\": sidecar.get(\"gross_exposure\"),\n  67:         \"top_n\": sidecar.get(\"top_n\"),\n  68:         \"execution_status\": \"NO_REAL_EXECUTION\",\n  69:         \"equity_status\": \"NOT_YET_CONNECTED\",\n  70:         \"notes\": [\n  71:             \"OOS-1 exports daily E1R v0.2 state and sidecar target signals only.\",\n  72:             \"No real orders are executed by this script.\",\n  73:             \"No E1R v0.2 OOS equity curve is updated by this script.\",\n  74:             \"This is the bridge layer for Dashboard and future OOS equity integration.\",\n  75:         ],\n  76:     }\n  77: \n  78:     sidecar_export = {\n  79:         \"generated_at\": generated_at,\n  80:         \"phase\": phase,\n  81:         \"strategy_id\": strategy_id,\n  82:         \"status_date\": status_date,\n  83:         \"market_state\": market_state,\n  84:         \"regime\": regime,\n  85:         \"subclass\": subclass,\n  86:         \"active\": sidecar_active,\n  87:         \"active_condition\": sidecar.get(\"active_condition\"),\n  88:         \"gross_exposure\": sidecar.get(\"gross_exposure\"),\n  89:         \"top_n\": sidecar.get(\"top_n\"),\n  90:         \"excluded_symbols\": sidecar.get(\"excluded_symbols\", []),\n  91:         \"source_record_date\": sidecar.get(\"source_record_date\"),\n  92:         \"source_record_next_date\": sidecar.get(\"source_record_next_date\"),\n  93:         \"selected_count\": len(selected),\n  94:         \"selected\": selected,\n  95:     }\n  96: \n  97:     target_positions = []\n  98:     if sidecar_active:\n  99:         for h in selected:\n 100:             symbol = h.get(\"symbol\")\n 101:             if not symbol:\n 102:                 continue\n 103:             target_positions.append({\n 104:                 \"symbol\": symbol,\n 105:                 \"sleeve\": \"E1R_V0_2_SIDECAR\",\n 106:                 \"target_weight\": h.get(\"weight\"),\n 107:                 \"score\": h.get(\"score\"),\n 108:                 \"source\": \"SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE\",\n 109:                 \"execution_status\": \"TARGET_ONLY_NOT_EXECUTED\",\n 110:             })\n 111: \n 112:     positions = {\n 113:         \"generated_at\": generated_at,\n 114:         \"phase\": phase,\n 115:         \"strategy_id\": strategy_id,\n 116:         \"status_date\": status_date,\n 117:         \"market_state\": market_state,\n 118:         \"core\": {\n 119:             \"active\": core_active,\n 120:             \"strategy_id\": core.get(\"strategy_id\", \"E1R_REGIME_AWARE_V0_1\"),\n 121:             \"positions_status\": \"NOT_CONNECTED_IN_OOS_1\",\n 122:         },\n 123:         \"sidecar\": {\n 124:             \"active\": sidecar_active,\n 125:             \"positions_status\": \"TARGET_ONLY_NOT_EXECUTED\",\n 126:             \"target_positions\": target_positions,\n 127:         },\n 128:     }\n 129: \n 130:     orders = {\n 131:         \"generated_at\": generated_at,\n 132:         \"phase\": phase,\n 133:         \"strategy_id\": strategy_id,\n 134:         \"status_date\": status_date,\n 135:         \"market_state\": market_state,\n 136:         \"execution_status\": \"NO_REAL_EXECUTION\",\n 137:         \"orders\": [\n 138:             {\n 139:                 \"symbol\": p[\"symbol\"],\n 140:                 \"sleeve\": p[\"sleeve\"],\n 141:                 \"target_weight\": p[\"target_weight\"],\n 142:                 \"side\": \"TARGET_HOLD\",\n 143:                 \"status\": \"SIGNAL_ONLY\",\n 144:                 \"reason\": \"E1R_V0_2_OOS_1_SIGNAL_EXPORT_ONLY\",\n 145:             }\n 146:             for p in target_positions\n 147:         ],\n 148:     }\n 149: \n 150:     write_json(ROOT / \"exports/oos_e1r_v0_2_summary.json\", summary)\n 151:     write_json(ROOT / \"exports/oos_e1r_v0_2_sidecar.json\", sidecar_export)\n 152:     write_json(ROOT / \"exports/oos_e1r_v0_2_positions.json\", positions)\n 153:     write_json(ROOT / \"exports/oos_e1r_v0_2_orders.json\", orders)\n 154: \n 155:     print(\"E1R v0.2 OOS-1 export complete\")\n 156:     print(\"status_date:\", status_date)\n 157:     print(\"market_state:\", market_state)\n 158:     print(\"core_active:\", core_active)\n 159:     print(\"sidecar_active:\", sidecar_active)\n 160:     print(\"sidecar_selected_count:\", len(selected))\n 161:     print(\"wrote:\")\n 162:     print(\"  exports/e1r_v0_2_status.json\")\n 163:     print(\"  exports/oos_e1r_v0_2_summary.json\")\n 164:     print(\"  exports/oos_e1r_v0_2_sidecar.json\")\n 165:     print(\"  exports/oos_e1r_v0_2_positions.json\")\n 166:     print(\"  exports/oos_e1r_v0_2_orders.json\")\n 167:     # Refresh forward/OOS equity curve after status and signal exports.\n 168:     equity_script = ROOT / \"scripts/run_e1r_v0_2_oos_equity.py\"\n 169:     if equity_script.exists():\n 170:         runpy.run_path(str(equity_script), run_name=\"__main__\")\n 171:         print(\"  exports/oos_e1r_v0_2_equity_curve.json\")\n 172:         lifecycle_script = ROOT / \"scripts/run_e1r_v0_2_sidecar_lifecycle.py\"\n 173:         if lifecycle_script.exists():\n 174:             runpy.run_path(str(lifecycle_script), run_name=\"__main__\")\n 175:             print(\"  exports/oos_e1r_v0_2_sidecar_lifecycle.json\")\n 176:             print(\"  exports/oos_e1r_v0_2_sidecar_turnover.json\")\n 177: \n 178: \n 179: if __name__ == \"__main__\":\n 180:     main()"
+    },
+    "scripts/run_e1r_v0_2_oos_equity.py": {
+      "exists": true,
+      "path": "scripts/run_e1r_v0_2_oos_equity.py",
+      "line_count": 408,
+      "term_hits": [
+        {
+          "line": 47,
+          "text": "      - exports/oos_summary.json",
+          "terms": [
+            "oos_summary",
+            "exports/"
+          ]
+        },
+        {
+          "line": 48,
+          "text": "      - exports/oos_equity_curve.json",
+          "terms": [
+            "oos_equity_curve",
+            "exports/"
+          ]
+        },
+        {
+          "line": 52,
+          "text": "    summary = read_json(ROOT / \"exports/oos_summary.json\", {}) or {}",
+          "terms": [
+            "oos_summary",
+            "exports/"
+          ]
+        },
+        {
+          "line": 53,
+          "text": "    curve = read_json(ROOT / \"exports/oos_equity_curve.json\", {}) or {}",
+          "terms": [
+            "oos_equity_curve",
+            "exports/"
+          ]
+        },
+        {
+          "line": 249,
+          "text": "    status = read_json(ROOT / \"exports/e1r_v0_2_status.json\", {}) or {}",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 250,
+          "text": "    summary = read_json(ROOT / \"exports/oos_e1r_v0_2_summary.json\", {}) or {}",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 251,
+          "text": "    sidecar = read_json(ROOT / \"exports/oos_e1r_v0_2_sidecar.json\", {}) or {}",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 253,
+          "text": "    out_path = ROOT / \"exports/oos_e1r_v0_2_equity_curve.json\"",
+          "terms": [
+            "exports/"
+          ]
+        }
+      ],
+      "preview": "   1: from __future__ import annotations\n   2: \n   3: import json\n   4: from datetime import datetime, timezone\n   5: from pathlib import Path\n   6: from typing import Any\n   7: \n   8: ROOT = Path(__file__).resolve().parents[1]\n   9: \n  10: \n  11: def read_json(path: Path, default: Any = None) -> Any:\n  12:     if not path.exists():\n  13:         return default\n  14:     return json.loads(path.read_text())\n  15: \n  16: \n  17: def write_json(path: Path, obj: Any) -> None:\n  18:     path.parent.mkdir(parents=True, exist_ok=True)\n  19:     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + \"\\n\")\n  20: \n  21: \n  22: def pick(obj: Any, keys: list[str], default: Any = None) -> Any:\n  23:     if not isinstance(obj, dict):\n  24:         return default\n  25:     for k in keys:\n  26:         v = obj.get(k)\n  27:         if v not in (None, \"\"):\n  28:             return v\n  29:     return default\n  30: \n  31: \n  32: def safe_float(v: Any, default: float | None = None) -> float | None:\n  33:     try:\n  34:         if v is None:\n  35:             return default\n  36:         return float(v)\n  37:     except Exception:\n  38:         return default\n  39: \n  40: \n  41: def extract_existing_oos_core_equity() -> dict[str, Any]:\n  42:     \"\"\"\n  43:     Best-effort bridge to existing legacy OOS equity if present.\n  44: \n  45:     This function does not assume a fixed old schema.\n  46:     It tries to find the latest equity value from:\n  47:       - exports/oos_summary.json\n  48:       - exports/oos_equity_curve.json\n  49: \n  50:     If nothing usable exists, it initializes at 100000.\n  51:     \"\"\"\n  52:     summary = read_json(ROOT / \"exports/oos_summary.json\", {}) or {}\n  53:     curve = read_json(ROOT / \"exports/oos_equity_curve.json\", {}) or {}\n  54: \n  55:     equity = safe_float(\n  56:         pick(summary, [\"equity\", \"current_equity\", \"portfolio_value\", \"final_equity\", \"total_equity\"]),\n  57:         None,\n  58:     )\n  59: \n  60:     date = pick(summary, [\"date\", \"status_date\", \"as_of\", \"data_date\"], None)\n  61: \n  62:     records = None\n  63:     if isinstance(curve, list):\n  64:         records = curve\n  65:     elif isinstance(curve, dict):\n  66:         records = (\n  67:             curve.get(\"records\")\n  68:             or curve.get(\"equity_curve\")\n  69:             or curve.get(\"series\")\n  70:             or curve.get(\"data\")\n  71:         )\n  72: \n  73:     if isinstance(records, list) and records:\n  74:         rows = [r for r in records if isinstance(r, dict)]\n  75:         if rows:\n  76:             rows = sorted(rows, key=lambda r: str(pick(r, [\"date\", \"status_date\", \"as_of\"], \"\")))\n  77:             last = rows[-1]\n  78:             equity = safe_float(\n  79:                 pick(last, [\"equity\", \"total_equity\", \"portfolio_value\", \"value\"]),\n  80:                 equity,\n  81:             )\n  82:             date = pick(last, [\"date\", \"status_date\", \"as_of\"], date)\n  83: \n  84:     if equity is None:\n  85:         equity = 100000.0\n  86: \n  87:     return {\n  88:         \"date\": date,\n  89:         \"equity\": equity,\n  90:         \"source\": \"legacy_oos_if_available_else_initial_capital\",\n  91:     }\n  92: \n  93: \n  94: def compute_return(prev_equity: float, new_equity: float) -> float:\n  95:     if prev_equity == 0:\n  96:         return 0.0\n  97:     return (new_equity / prev_equity) - 1.0\n  98: \n  99: \n 100: \n 101: def load_stock_price_map() -> dict[str, dict[str, float]]:\n 102:     \"\"\"\n 103:     Load stock close prices from data/research/e1_5y/raw/stocks.\n 104:     \"\"\"\n 105:     stock_dir = ROOT / \"data/research/e1_5y/raw/stocks\"\n 106:     out: dict[str, dict[str, float]] = {}\n 107: \n 108:     if not stock_dir.exists():\n 109:         return out\n 110: \n 111:     for path in stock_dir.glob(\"*.json\"):\n 112:         symbol = path.stem.upper()\n 113:         raw = read_json(path, None)\n 114:         rows = None\n 115: \n 116:         if isinstance(raw, list):\n 117:             rows = raw\n 118:         elif isinstance(raw, dict):\n 119:             for key in [\"prices\", \"records\", \"data\", \"bars\", \"history\"]:\n 120:                 if isinstance(raw.get(key), list):\n 121:                     rows = raw.get(key)\n 122:                     break\n 123: \n 124:             if rows is None:\n 125:                 maybe_rows = []\n 126:                 for k, v in raw.items():\n 127:                     if isinstance(v, dict):\n 128:                         r = dict(v)\n 129:                         r.setdefault(\"date\", k)\n 130:                         maybe_rows.append(r)\n 131:                 if maybe_rows:\n 132:                     rows = maybe_rows\n 133: \n 134:         if not isinstance(rows, list):\n 135:             continue\n 136: \n 137:         price_by_date: dict[str, float] = {}\n 138:         for r in rows:\n 139:             if not isinstance(r, dict):\n 140:                 continue\n 141:             date = pick(r, [\"date\", \"Date\", \"data_date\"], None)\n 142:             close = safe_float(pick(r, [\"close\", \"Close\", \"adj_close\", \"Adj Close\", \"adjClose\"], None), None)\n 143:             if date and close is not None:\n 144:                 price_by_date[str(date)] = close\n 145: \n 146:         if price_by_date:\n 147:             out[symbol] = price_by_date\n 148: \n 149:     return out\n 150: \n 151: \n 152: def compute_sidecar_mtm_return(\n 153:     previous_record: dict[str, Any] | None,\n 154:     current_date: str,\n 155:     price_map: dict[str, dict[str, float]],\n 156: ) -> tuple[float, str, list[dict[str, Any]]]:\n 157:     \"\"\"\n 158:     Compute current sidecar MTM return using previous record's sidecar_positions.\n 159:     No lookahead: previous positions are used to calculate previous_date -> current_date return.\n 160:     \"\"\"\n 161:     if not previous_record:\n 162:         return 0.0, \"NO_PREVIOUS_SIDECAR_POSITIONS\", []\n 163: \n 164:     previous_date = previous_record.get(\"date\")\n 165:     previous_positions = previous_record.get(\"sidecar_positions\") or []\n 166: \n 167:     if previous_record.get(\"sidecar_active\") is not True or not previous_positions:\n 168:         return 0.0, \"PREVIOUS_SIDECAR_INACTIVE\", []\n 169: \n 170:     details = []\n 171:     total_return = 0.0\n 172:     missing = 0\n 173: \n 174:     for pos in previous_positions:\n 175:         if not isinstance(pos, dict):\n 176:             continue\n 177: \n 178:         symbol = str(pos.get(\"symbol\") or \"\").upper()\n 179:         weight = safe_float(pos.get(\"target_weight\", pos.get(\"weight\")), 0.0) or 0.0\n 180: \n 181:         if not symbol or weight == 0:\n 182:             continue\n 183: \n 184:         prices = price_map.get(symbol, {})\n 185:         prev_close = safe_float(prices.get(str(previous_date)), None)\n 186:         curr_close = safe_float(prices.get(str(current_date)), None)\n 187: \n 188:         if prev_close is None or curr_close is None or prev_close == 0:\n 189:             missing += 1\n 190:             details.append({\n 191:                 \"symbol\": symbol,\n 192:                 \"weight\": weight,\n 193:                 \"status\": \"MISSING_PRICE_DATA\",\n 194:                 \"previous_date\": previous_date,\n 195:                 \"current_date\": current_date,\n 196:                 \"previous_close\": prev_close,\n 197:                 \"current_close\": curr_close,\n 198:                 \"return\": None,\n 199:                 \"contribution\": 0.0,\n 200:             })\n 201:             continue\n 202: \n 203:         raw_return = (curr_close / prev_close) - 1.0\n 204:         contribution = weight * raw_return\n 205:         total_return += contribution\n 206: \n 207:         details.append({\n 208:             \"symbol\": symbol,\n 209:             \"weight\": weight,\n 210:             \"status\": \"OK\",\n 211:             \"previous_date\": previous_date,\n 212:             \"current_date\": current_date,\n 213:             \"previous_close\": prev_close,\n 214:             \"current_close\": curr_close,\n 215:             \"return\": raw_return,\n 216:             \"contribution\": contribution,\n 217:         })\n 218: \n 219:     if missing and all(d.get(\"status\") == \"MISSING_PRICE_DATA\" for d in details):\n 220:         return 0.0, \"MISSING_PRICE_DATA\", details"
+    },
+    "scripts/export_e1r_v0_2_targets_preview.py": {
+      "exists": true,
+      "path": "scripts/export_e1r_v0_2_targets_preview.py",
+      "line_count": 344,
+      "term_hits": [
+        {
+          "line": 175,
+          "text": "            \"source\": \"exports/leaderboard.json\",",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 243,
+          "text": "            \"source\": \"exports/oos_e1r_v0_2_sidecar.json\",",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 300,
+          "text": "            \"core_target_source\": \"exports/leaderboard.json\",",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 301,
+          "text": "            \"sidecar_target_source\": \"exports/oos_e1r_v0_2_sidecar.json\",",
+          "terms": [
+            "exports/"
+          ]
+        }
+      ],
+      "preview": "   1: #!/usr/bin/env python3\n   2: \"\"\"\n   3: Stage 3.8E-2F-1E-2\n   4: E1R v0.2 target extraction preview.\n   5: \n   6: Purpose:\n   7: - Extract symbol-level E1R target candidates.\n   8: - Do not create orders.\n   9: - Do not update positions.\n  10: - Do not modify E1 state/export.\n  11: - Do not change LIVE_FORWARD status.\n  12: \"\"\"\n  13: \n  14: from __future__ import annotations\n  15: \n  16: import json\n  17: from datetime import datetime, timezone\n  18: from pathlib import Path\n  19: from typing import Any, Dict, List, Optional\n  20: \n  21: \n  22: ROOT = Path(__file__).resolve().parents[1]\n  23: EXPORT_DIR = ROOT / \"exports\"\n  24: \n  25: STATUS_PATH = EXPORT_DIR / \"e1r_v0_2_status.json\"\n  26: SIDECAR_PATH = EXPORT_DIR / \"oos_e1r_v0_2_sidecar.json\"\n  27: LEADERBOARD_PATH = EXPORT_DIR / \"leaderboard.json\"\n  28: SUMMARY_PATH = EXPORT_DIR / \"oos_e1r_v0_2_summary.json\"\n  29: \n  30: TARGETS_PATH = EXPORT_DIR / \"oos_e1r_v0_2_targets.json\"\n  31: \n  32: STRATEGY_ID = \"E1R_REGIME_AWARE_V0_2\"\n  33: VERSION = \"v0.2\"\n  34: \n  35: \n  36: def read_json(path: Path, default: Any) -> Any:\n  37:     if not path.exists():\n  38:         return default\n  39:     try:\n  40:         return json.loads(path.read_text())\n  41:     except Exception:\n  42:         return default\n  43: \n  44: \n  45: def write_json(path: Path, obj: Any) -> None:\n  46:     path.parent.mkdir(parents=True, exist_ok=True)\n  47:     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + \"\\n\")\n  48: \n  49: \n  50: def now_iso() -> str:\n  51:     return datetime.now(timezone.utc).isoformat()\n  52: \n  53: \n  54: def as_bool(v: Any, default: bool = False) -> bool:\n  55:     if isinstance(v, bool):\n  56:         return v\n  57:     if v is None:\n  58:         return default\n  59:     if isinstance(v, str):\n  60:         return v.strip().lower() in {\"1\", \"true\", \"yes\", \"y\", \"active\"}\n  61:     return bool(v)\n  62: \n  63: \n  64: def as_float(v: Any, default: Optional[float] = None) -> Optional[float]:\n  65:     try:\n  66:         if v is None or v == \"\":\n  67:             return default\n  68:         return float(v)\n  69:     except Exception:\n  70:         return default\n  71: \n  72: \n  73: def pick_first(obj: Dict[str, Any], keys: List[str], default: Any = None) -> Any:\n  74:     if not isinstance(obj, dict):\n  75:         return default\n  76:     for k in keys:\n  77:         if k in obj and obj[k] not in (None, \"\"):\n  78:             return obj[k]\n  79:     return default\n  80: \n  81: \n  82: def normalize_symbol(v: Any) -> Optional[str]:\n  83:     if not isinstance(v, str):\n  84:         return None\n  85:     s = v.strip().upper()\n  86:     if not s:\n  87:         return None\n  88:     return s\n  89: \n  90: \n  91: def extract_leader_rows(raw: Any) -> List[Dict[str, Any]]:\n  92:     if isinstance(raw, dict):\n  93:         for key in [\"leaders\", \"rows\", \"data\", \"leaderboard\"]:\n  94:             rows = raw.get(key)\n  95:             if isinstance(rows, list):\n  96:                 return [r for r in rows if isinstance(r, dict)]\n  97:     if isinstance(raw, list):\n  98:         return [r for r in raw if isinstance(r, dict)]\n  99:     return []\n 100: \n 101: \n 102: def extract_selected_list(raw: Any) -> List[Any]:\n 103:     if isinstance(raw, dict):\n 104:         for key in [\"selected\", \"selected_symbols\", \"symbols\", \"candidates\", \"positions\"]:\n 105:             v = raw.get(key)\n 106:             if isinstance(v, list):\n 107:                 return v\n 108:         # common nested sidecar structure\n 109:         sidecar = raw.get(\"sidecar\")\n 110:         if isinstance(sidecar, dict):\n 111:             for key in [\"selected\", \"selected_symbols\", \"symbols\", \"candidates\", \"positions\"]:\n 112:                 v = sidecar.get(key)\n 113:                 if isinstance(v, list):\n 114:                     return v\n 115:     return []\n 116: \n 117: \n 118: def extract_symbol_from_row(row: Any) -> Optional[str]:\n 119:     if isinstance(row, str):\n 120:         return normalize_symbol(row)\n 121:     if not isinstance(row, dict):\n 122:         return None\n 123:     return normalize_symbol(pick_first(row, [\"symbol\", \"ticker\", \"name\"]))\n 124: \n 125: \n 126: def extract_core_targets(leaderboard: Any, status: Dict[str, Any], summary: Dict[str, Any]) -> List[Dict[str, Any]]:\n 127:     rows = extract_leader_rows(leaderboard)\n 128: \n 129:     core_active = as_bool(\n 130:         pick_first(status, [\"core_active\"], None),\n 131:         default=as_bool(pick_first(summary, [\"core_active\"], True), True),\n 132:     )\n 133: \n 134:     if not core_active:\n 135:         return []\n 136: \n 137:     top_n = int(as_float(\n 138:         pick_first(status, [\"top_n\"], pick_first(summary, [\"top_n\"], 10)),\n 139:         10,\n 140:     ) or 10)\n 141: \n 142:     # Conservative preview rule:\n 143:     # Use top N current leaderboard symbols as core target candidates.\n 144:     # Weighting is only preview-level until execution accounting is approved.\n 145:     core_exposure = as_float(\n 146:         pick_first(summary, [\"core_exposure\"], None),\n 147:         None,\n 148:     )\n 149: \n 150:     gross_exposure = as_float(\n 151:         pick_first(status, [\"gross_exposure\"], pick_first(summary, [\"gross_exposure\"], 0.0)),\n 152:         0.0,\n 153:     ) or 0.0\n 154: \n 155:     if core_exposure is None:\n 156:         # If current status only has gross_exposure, use it as preview sleeve exposure.\n 157:         # This does not imply execution approval.\n 158:         core_exposure = gross_exposure\n 159: \n 160:     selected = []\n 161:     seen = set()\n 162:     for rank, row in enumerate(rows, start=1):\n 163:         sym = extract_symbol_from_row(row)\n 164:         if not sym or sym in seen:\n 165:             continue\n 166:         seen.add(sym)\n 167: \n 168:         score = pick_first(row, [\"leader_score\", \"score\", \"ls\", \"rank_score\"], None)\n 169:         price = pick_first(row, [\"price\", \"last_price\", \"close\"], None)\n 170: \n 171:         selected.append({\n 172:             \"date_rank\": rank,\n 173:             \"symbol\": sym,\n 174:             \"core_or_sidecar\": \"core\",\n 175:             \"source\": \"exports/leaderboard.json\",\n 176:             \"target_weight\": None,\n 177:             \"preview_weight\": None,\n 178:             \"leader_score\": score,\n 179:             \"price\": price,\n 180:             \"raw\": row,\n 181:         })\n 182: \n 183:         if len(selected) >= top_n:\n 184:             break\n 185: \n 186:     if selected:\n 187:         equal_weight = core_exposure / len(selected) if len(selected) else 0.0\n 188:         for row in selected:\n 189:             row[\"preview_weight\"] = equal_weight\n 190:             row[\"target_weight\"] = equal_weight\n 191: \n 192:     return selected\n 193: \n 194: \n 195: def extract_sidecar_targets(sidecar: Any, status: Dict[str, Any], summary: Dict[str, Any]) -> List[Dict[str, Any]]:\n 196:     sidecar_obj = sidecar if isinstance(sidecar, dict) else {}\n 197:     selected_raw = extract_selected_list(sidecar_obj)\n 198: \n 199:     status_sidecar = status.get(\"sidecar\") if isinstance(status.get(\"sidecar\"), dict) else {}\n 200: \n 201:     sidecar_active = as_bool(\n 202:         pick_first(status, [\"sidecar_active\"], None),\n 203:         default=as_bool(pick_first(summary, [\"sidecar_active\"], False), False),\n 204:     )\n 205:     if not sidecar_active:\n 206:         # Still extract visible candidates, but mark inactive.\n 207:         pass\n 208: \n 209:     sidecar_exposure = as_float(\n 210:         pick_first(summary, [\"sidecar_exposure\"], None),\n 211:         None,\n 212:     )\n 213: \n 214:     gross_exposure = as_float(\n 215:         pick_first(sidecar_obj, [\"gross_exposure\"], pick_first(status_sidecar, [\"gross_exposure\"], pick_first(summary, [\"gross_exposure\"], 0.0))),\n 216:         0.0,\n 217:     ) or 0.0\n 218: \n 219:     if sidecar_exposure is None:\n 220:         sidecar_exposure = gross_exposure if sidecar_active else 0.0"
+    },
+    "scripts/export_e1r_v0_2_orders_positions_preview.py": {
+      "exists": true,
+      "path": "scripts/export_e1r_v0_2_orders_positions_preview.py",
+      "line_count": 293,
+      "term_hits": [
+        {
+          "line": 203,
+          "text": "            \"source\": \"data/oos/e1r_v0_2_portfolio_state.json\",",
+          "terms": [
+            "data/oos/"
+          ]
+        }
+      ],
+      "preview": "   1: #!/usr/bin/env python3\n   2: \"\"\"\n   3: Stage 3.8E-2F-1E-3\n   4: E1R v0.2 orders / positions preview from target weights.\n   5: \n   6: Preview only:\n   7: - Does not change LIVE_FORWARD status.\n   8: - Does not set official_kickoff_date.\n   9: - Does not touch E1 state/export.\n  10: - Does not overwrite official E1R orders/positions exports.\n  11: \"\"\"\n  12: \n  13: from __future__ import annotations\n  14: \n  15: import json\n  16: from datetime import datetime, timezone\n  17: from pathlib import Path\n  18: from typing import Any, Dict, List\n  19: \n  20: \n  21: ROOT = Path(__file__).resolve().parents[1]\n  22: EXPORT_DIR = ROOT / \"exports\"\n  23: STATE_DIR = ROOT / \"data\" / \"oos\"\n  24: \n  25: TARGETS_PATH = EXPORT_DIR / \"oos_e1r_v0_2_targets.json\"\n  26: SUMMARY_PATH = EXPORT_DIR / \"oos_e1r_v0_2_summary.json\"\n  27: STATE_PATH = STATE_DIR / \"e1r_v0_2_portfolio_state.json\"\n  28: \n  29: ORDERS_PREVIEW_PATH = EXPORT_DIR / \"oos_e1r_v0_2_orders_preview.json\"\n  30: POSITIONS_PREVIEW_PATH = EXPORT_DIR / \"oos_e1r_v0_2_positions_preview.json\"\n  31: \n  32: STRATEGY_ID = \"E1R_REGIME_AWARE_V0_2\"\n  33: VERSION = \"v0.2\"\n  34: \n  35: \n  36: def now_iso() -> str:\n  37:     return datetime.now(timezone.utc).isoformat()\n  38: \n  39: \n  40: def read_json(path: Path, default: Any) -> Any:\n  41:     if not path.exists():\n  42:         return default\n  43:     try:\n  44:         return json.loads(path.read_text())\n  45:     except Exception:\n  46:         return default\n  47: \n  48: \n  49: def write_json(path: Path, obj: Any) -> None:\n  50:     path.parent.mkdir(parents=True, exist_ok=True)\n  51:     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + \"\\n\")\n  52: \n  53: \n  54: def to_float(v: Any, default: float = 0.0) -> float:\n  55:     try:\n  56:         if v is None or v == \"\":\n  57:             return default\n  58:         return float(v)\n  59:     except Exception:\n  60:         return default\n  61: \n  62: \n  63: def normalize_positions(raw_positions: Any) -> Dict[str, Dict[str, Any]]:\n  64:     out: Dict[str, Dict[str, Any]] = {}\n  65:     if not isinstance(raw_positions, list):\n  66:         return out\n  67: \n  68:     for row in raw_positions:\n  69:         if not isinstance(row, dict):\n  70:             continue\n  71:         sym = str(row.get(\"symbol\") or \"\").strip().upper()\n  72:         if not sym:\n  73:             continue\n  74:         out[sym] = {\n  75:             **row,\n  76:             \"symbol\": sym,\n  77:             \"weight\": to_float(row.get(\"weight\") or row.get(\"target_weight\"), 0.0),\n  78:         }\n  79:     return out\n  80: \n  81: \n  82: def build_preview() -> Dict[str, Any]:\n  83:     targets_doc = read_json(TARGETS_PATH, {})\n  84:     summary = read_json(SUMMARY_PATH, {})\n  85:     state = read_json(STATE_PATH, {})\n  86: \n  87:     if targets_doc.get(\"strategy_id\") != STRATEGY_ID:\n  88:         raise SystemExit(\"targets strategy_id mismatch or missing\")\n  89: \n  90:     status_date = targets_doc.get(\"status_date\") or summary.get(\"status_date\")\n  91:     tracking_status = summary.get(\"tracking_status\") or targets_doc.get(\"tracking_status\")\n  92: \n  93:     if tracking_status != \"KICKOFF_READY\":\n  94:         raise SystemExit(f\"expected KICKOFF_READY preview status, got {tracking_status}\")\n  95: \n  96:     if summary.get(\"official_kickoff_date\") is not None:\n  97:         raise SystemExit(\"official_kickoff_date must remain null during preview\")\n  98: \n  99:     targets = targets_doc.get(\"targets\") or []\n 100:     if not isinstance(targets, list) or not targets:\n 101:         raise SystemExit(\"targets list missing or empty\")\n 102: \n 103:     previous_positions = normalize_positions(state.get(\"positions\") or [])\n 104:     portfolio_value = to_float(summary.get(\"portfolio_value\") or state.get(\"portfolio_value\"), 100000.0)\n 105: \n 106:     orders: List[Dict[str, Any]] = []\n 107:     positions: List[Dict[str, Any]] = []\n 108: \n 109:     target_symbols = set()\n 110: \n 111:     for rank, target in enumerate(targets, start=1):\n 112:         if not isinstance(target, dict):\n 113:             continue\n 114: \n 115:         symbol = str(target.get(\"symbol\") or \"\").strip().upper()\n 116:         if not symbol:\n 117:             continue\n 118: \n 119:         target_symbols.add(symbol)\n 120: \n 121:         target_weight = to_float(target.get(\"target_weight\"), 0.0)\n 122:         previous = previous_positions.get(symbol, {})\n 123:         previous_weight = to_float(previous.get(\"weight\"), 0.0)\n 124: \n 125:         delta_weight = target_weight - previous_weight\n 126: \n 127:         if abs(delta_weight) < 1e-12:\n 128:             action = \"HOLD\"\n 129:         elif previous_weight == 0 and target_weight > 0:\n 130:             action = \"BUY\"\n 131:         elif target_weight == 0 and previous_weight > 0:\n 132:             action = \"EXIT\"\n 133:         elif delta_weight > 0:\n 134:             action = \"ADD\"\n 135:         else:\n 136:             action = \"REDUCE\"\n 137: \n 138:         notional = portfolio_value * abs(delta_weight)\n 139: \n 140:         order = {\n 141:             \"date\": status_date,\n 142:             \"strategy_id\": STRATEGY_ID,\n 143:             \"version\": VERSION,\n 144:             \"preview\": True,\n 145:             \"symbol\": symbol,\n 146:             \"action\": action,\n 147:             \"reason\": \"TARGET_DIFF_PREVIEW\",\n 148:             \"target_weight\": target_weight,\n 149:             \"previous_weight\": previous_weight,\n 150:             \"delta_weight\": delta_weight,\n 151:             \"paper_price\": target.get(\"price\"),\n 152:             \"shares\": None,\n 153:             \"notional\": notional,\n 154:             \"status\": \"PREVIEW_NOT_EXECUTED\",\n 155:             \"core_or_sidecar\": target.get(\"core_or_sidecar\"),\n 156:             \"source\": target.get(\"source\"),\n 157:             \"date_rank\": target.get(\"date_rank\", rank),\n 158:         }\n 159:         orders.append(order)\n 160: \n 161:         if target_weight > 0:\n 162:             positions.append({\n 163:                 \"date\": status_date,\n 164:                 \"strategy_id\": STRATEGY_ID,\n 165:                 \"version\": VERSION,\n 166:                 \"preview\": True,\n 167:                 \"symbol\": symbol,\n 168:                 \"weight\": target_weight,\n 169:                 \"shares\": None,\n 170:                 \"entry_date\": None,\n 171:                 \"entry_price\": None,\n 172:                 \"last_price\": target.get(\"price\"),\n 173:                 \"market_value\": portfolio_value * target_weight,\n 174:                 \"unrealized_return_pct\": 0.0,\n 175:                 \"core_or_sidecar\": target.get(\"core_or_sidecar\"),\n 176:                 \"source\": target.get(\"source\"),\n 177:                 \"date_rank\": target.get(\"date_rank\", rank),\n 178:             })\n 179: \n 180:     # Exits for previous positions not in targets.\n 181:     for symbol, previous in previous_positions.items():\n 182:         if symbol in target_symbols:\n 183:             continue\n 184:         previous_weight = to_float(previous.get(\"weight\"), 0.0)\n 185:         if previous_weight <= 0:\n 186:             continue\n 187:         orders.append({\n 188:             \"date\": status_date,\n 189:             \"strategy_id\": STRATEGY_ID,\n 190:             \"version\": VERSION,\n 191:             \"preview\": True,\n 192:             \"symbol\": symbol,\n 193:             \"action\": \"EXIT\",\n 194:             \"reason\": \"REMOVED_FROM_TARGETS_PREVIEW\",\n 195:             \"target_weight\": 0.0,\n 196:             \"previous_weight\": previous_weight,\n 197:             \"delta_weight\": -previous_weight,\n 198:             \"paper_price\": previous.get(\"last_price\"),\n 199:             \"shares\": None,\n 200:             \"notional\": portfolio_value * previous_weight,\n 201:             \"status\": \"PREVIEW_NOT_EXECUTED\",\n 202:             \"core_or_sidecar\": previous.get(\"core_or_sidecar\"),\n 203:             \"source\": \"data/oos/e1r_v0_2_portfolio_state.json\",\n 204:             \"date_rank\": None,\n 205:         })\n 206: \n 207:     action_counts: Dict[str, int] = {}\n 208:     for order in orders:\n 209:         action_counts[order[\"action\"]] = action_counts.get(order[\"action\"], 0) + 1\n 210: \n 211:     return {\n 212:         \"generated_at\": now_iso(),\n 213:         \"status_date\": status_date,\n 214:         \"strategy_id\": STRATEGY_ID,\n 215:         \"version\": VERSION,\n 216:         \"stage\": \"Stage 3.8E-2F-1E-3\",\n 217:         \"tracking_status\": tracking_status,\n 218:         \"official_kickoff_date\": summary.get(\"official_kickoff_date\"),\n 219:         \"shadow_start_date\": summary.get(\"shadow_start_date\"),\n 220:         \"execution_status\": \"ORDERS_POSITIONS_PREVIEW_ONLY\","
+    },
+    "scripts/run_e1r_v0_2_forward_performance.py": {
+      "exists": true,
+      "path": "scripts/run_e1r_v0_2_forward_performance.py",
+      "line_count": 423,
+      "term_hits": [
+        {
+          "line": 209,
+          "text": "    e1 = read_json(EXPORT_DIR / \"oos_summary.json\", {})",
+          "terms": [
+            "oos_summary"
+          ]
+        }
+      ],
+      "preview": "   1: #!/usr/bin/env python3\n   2: \"\"\"\n   3: Stage 3.8E-2F-1D\n   4: E1R v0.2 independent forward performance layer.\n   5: \n   6: Purpose:\n   7: - Do not touch E1 OOS state.\n   8: - Do not modify frozen E1R backtest artifacts.\n   9: - Consume existing E1R status/equity scaffolding.\n  10: - Write E1R-only state and forward performance exports.\n  11: \"\"\"\n  12: \n  13: from __future__ import annotations\n  14: \n  15: import json\n  16: import math\n  17: from dataclasses import dataclass, asdict\n  18: from datetime import datetime, timezone\n  19: from pathlib import Path\n  20: from typing import Any, Dict, List, Optional, Tuple\n  21: \n  22: \n  23: ROOT = Path(__file__).resolve().parents[1]\n  24: \n  25: STATE_DIR = ROOT / \"data\" / \"oos\"\n  26: EXPORT_DIR = ROOT / \"exports\"\n  27: \n  28: STATE_PATH = STATE_DIR / \"e1r_v0_2_portfolio_state.json\"\n  29: EVENTS_PATH = STATE_DIR / \"e1r_v0_2_events.jsonl\"\n  30: RUN_HISTORY_PATH = STATE_DIR / \"e1r_v0_2_run_history.jsonl\"\n  31: \n  32: SUMMARY_PATH = EXPORT_DIR / \"oos_e1r_v0_2_summary.json\"\n  33: EQUITY_PATH = EXPORT_DIR / \"oos_e1r_v0_2_equity_curve.json\"\n  34: POSITIONS_PATH = EXPORT_DIR / \"oos_e1r_v0_2_positions.json\"\n  35: ORDERS_PATH = EXPORT_DIR / \"oos_e1r_v0_2_orders.json\"\n  36: \n  37: STATUS_PATH = EXPORT_DIR / \"e1r_v0_2_status.json\"\n  38: SCAFFOLD_SUMMARY_PATH = EXPORT_DIR / \"oos_e1r_v0_2_summary.json\"\n  39: SCAFFOLD_EQUITY_PATH = EXPORT_DIR / \"oos_e1r_v0_2_equity_curve.json\"\n  40: \n  41: STRATEGY_ID = \"E1R_REGIME_AWARE_V0_2\"\n  42: VERSION = \"v0.2\"\n  43: INITIAL_CAPITAL = 100000.0\n  44: \n  45: \n  46: def utc_now_iso() -> str:\n  47:     return datetime.now(timezone.utc).isoformat()\n  48: \n  49: \n  50: def generated_at_display() -> str:\n  51:     # Keep display simple and deterministic enough for dashboard.\n  52:     return datetime.now().strftime(\"%Y-%m-%d %H:%M local\")\n  53: \n  54: \n  55: def read_json(path: Path, default: Any) -> Any:\n  56:     if not path.exists():\n  57:         return default\n  58:     try:\n  59:         return json.loads(path.read_text())\n  60:     except Exception:\n  61:         return default\n  62: \n  63: \n  64: def write_json(path: Path, obj: Any) -> None:\n  65:     path.parent.mkdir(parents=True, exist_ok=True)\n  66:     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + \"\\n\")\n  67: \n  68: \n  69: def append_jsonl(path: Path, obj: Dict[str, Any]) -> None:\n  70:     path.parent.mkdir(parents=True, exist_ok=True)\n  71:     with path.open(\"a\") as f:\n  72:         f.write(json.dumps(obj, ensure_ascii=False) + \"\\n\")\n  73: \n  74: \n  75: def to_float(v: Any, default: Optional[float] = None) -> Optional[float]:\n  76:     try:\n  77:         if v is None or v == \"\":\n  78:             return default\n  79:         n = float(v)\n  80:         if math.isfinite(n):\n  81:             return n\n  82:     except Exception:\n  83:         pass\n  84:     return default\n  85: \n  86: \n  87: def pct_return(current: float, base: float) -> float:\n  88:     if not base:\n  89:         return 0.0\n  90:     return (current / base - 1.0) * 100.0\n  91: \n  92: \n  93: def max_drawdown_pct(values: List[float]) -> float:\n  94:     if not values:\n  95:         return 0.0\n  96:     peak = values[0]\n  97:     max_dd = 0.0\n  98:     for v in values:\n  99:         peak = max(peak, v)\n 100:         if peak:\n 101:             dd = (v / peak - 1.0) * 100.0\n 102:             max_dd = min(max_dd, dd)\n 103:     return max_dd\n 104: \n 105: \n 106: def daily_returns(values: List[float]) -> List[float]:\n 107:     out = []\n 108:     for a, b in zip(values, values[1:]):\n 109:         if a:\n 110:             out.append(b / a - 1.0)\n 111:     return out\n 112: \n 113: \n 114: def sharpe_ratio(values: List[float]) -> Optional[float]:\n 115:     rets = daily_returns(values)\n 116:     if len(rets) < 2:\n 117:         return None\n 118:     avg = sum(rets) / len(rets)\n 119:     var = sum((x - avg) ** 2 for x in rets) / (len(rets) - 1)\n 120:     sd = math.sqrt(var)\n 121:     if sd == 0:\n 122:         return None\n 123:     return (avg / sd) * math.sqrt(252)\n 124: \n 125: \n 126: def first_existing(*vals: Any, default: Any = None) -> Any:\n 127:     for v in vals:\n 128:         if v is not None and v != \"\":\n 129:             return v\n 130:     return default\n 131: \n 132: \n 133: def normalize_status_date(status: Dict[str, Any], scaffold_summary: Dict[str, Any], equity_rows: List[Dict[str, Any]]) -> str:\n 134:     latest_equity_date = equity_rows[-1].get(\"date\") if equity_rows else None\n 135:     return str(first_existing(\n 136:         status.get(\"status_date\"),\n 137:         scaffold_summary.get(\"status_date\"),\n 138:         scaffold_summary.get(\"date\"),\n 139:         latest_equity_date,\n 140:         default=datetime.now().strftime(\"%Y-%m-%d\"),\n 141:     ))\n 142: \n 143: \n 144: def normalize_equity_rows(raw: Any) -> List[Dict[str, Any]]:\n 145:     if isinstance(raw, list):\n 146:         rows = raw\n 147:     elif isinstance(raw, dict):\n 148:         if isinstance(raw.get(\"curve\"), list):\n 149:             rows = raw[\"curve\"]\n 150:         elif isinstance(raw.get(\"rows\"), list):\n 151:             rows = raw[\"rows\"]\n 152:         elif isinstance(raw.get(\"equity_curve\"), list):\n 153:             rows = raw[\"equity_curve\"]\n 154:         else:\n 155:             rows = []\n 156:     else:\n 157:         rows = []\n 158: \n 159:     cleaned = []\n 160:     for row in rows:\n 161:         if not isinstance(row, dict):\n 162:             continue\n 163:         date = row.get(\"date\") or row.get(\"status_date\")\n 164:         if not date:\n 165:             continue\n 166: \n 167:         combined = to_float(\n 168:             first_existing(\n 169:                 row.get(\"combined_equity\"),\n 170:                 row.get(\"portfolio_value\"),\n 171:                 row.get(\"equity\"),\n 172:                 row.get(\"nav\"),\n 173:             ),\n 174:             None,\n 175:         )\n 176: \n 177:         core = to_float(row.get(\"core_equity\"), None)\n 178:         sidecar = to_float(row.get(\"sidecar_equity\"), None)\n 179: \n 180:         if combined is None:\n 181:             if core is not None and sidecar is not None:\n 182:                 # Existing scaffold appears to record sleeve equity values.\n 183:                 # Avoid double-counting by keeping the combined value if present;\n 184:                 # otherwise use the average as neutral 100000 baseline proxy.\n 185:                 combined = (core + sidecar) / 2.0\n 186:             elif core is not None:\n 187:                 combined = core\n 188:             elif sidecar is not None:\n 189:                 combined = sidecar\n 190:             else:\n 191:                 combined = INITIAL_CAPITAL\n 192: \n 193:         cleaned.append({\n 194:             **row,\n 195:             \"date\": str(date),\n 196:             \"portfolio_value\": float(combined),\n 197:             \"equity\": float(combined),\n 198:         })\n 199: \n 200:     # de-duplicate by date, keep latest occurrence\n 201:     by_date = {}\n 202:     for row in cleaned:\n 203:         by_date[row[\"date\"]] = row\n 204:     return [by_date[d] for d in sorted(by_date.keys())]\n 205: \n 206: \n 207: def infer_spx_forward_return_pct() -> Optional[float]:\n 208:     # Optional benchmark cross-check from E1 OOS summary when available.\n 209:     e1 = read_json(EXPORT_DIR / \"oos_summary.json\", {})\n 210:     for key in (\"spx_forward_return_pct\", \"spx_return_pct\", \"benchmark_return_pct\"):\n 211:         v = to_float(e1.get(key), None) if isinstance(e1, dict) else None\n 212:         if v is not None:\n 213:             return v\n 214:     return None\n 215: \n 216: \n 217: def build_forward_outputs() -> Tuple[Dict[str, Any], List[Dict[str, Any]], List[Dict[str, Any]], List[Dict[str, Any]], Dict[str, Any]]:\n 218:     status = read_json(STATUS_PATH, {})\n 219:     scaffold_summary = read_json(SCAFFOLD_SUMMARY_PATH, {})\n 220:     raw_equity = read_json(SCAFFOLD_EQUITY_PATH, [])"
+    },
+    "scripts/export_e1r_v0_2_status.py": {
+      "exists": true,
+      "path": "scripts/export_e1r_v0_2_status.py",
+      "line_count": 217,
+      "term_hits": [
+        {
+          "line": 109,
+          "text": "    legacy_market_path = ROOT / \"exports/market_state.json\"",
+          "terms": [
+            "exports/"
+          ]
+        },
+        {
+          "line": 110,
+          "text": "    out_path = ROOT / \"exports/e1r_v0_2_status.json\"",
+          "terms": [
+            "exports/"
+          ]
+        }
+      ],
+      "preview": "   1: from __future__ import annotations\n   2: \n   3: import json\n   4: import sys\n   5: from datetime import datetime, timezone\n   6: from pathlib import Path\n   7: from typing import Any\n   8: \n   9: ROOT = Path(__file__).resolve().parents[1]\n  10: sys.path.insert(0, str(ROOT))\n  11: \n  12: from src.engine.e1r_sidecar_sleeve import E1RSidecarConfig, build_e1r_sidecar_sleeve\n  13: \n  14: \n  15: def read_json(path: Path) -> Any:\n  16:     return json.loads(path.read_text())\n  17: \n  18: \n  19: def write_json(path: Path, obj: Any) -> None:\n  20:     path.parent.mkdir(parents=True, exist_ok=True)\n  21:     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + \"\\n\")\n  22: \n  23: \n  24: def pick(obj: Any, keys: list[str], default: Any = None) -> Any:\n  25:     if not isinstance(obj, dict):\n  26:         return default\n  27:     for k in keys:\n  28:         v = obj.get(k)\n  29:         if v not in (None, \"\"):\n  30:             return v\n  31:     return default\n  32: \n  33: \n  34: def normalize_e1r_state(regime: str, subclass: str) -> str:\n  35:     r = (regime or \"UNKNOWN\").upper()\n  36:     s = (subclass or \"\").upper()\n  37: \n  38:     if \"UP\" in r:\n  39:         return \"UPTREND\"\n  40:     if \"DOWN\" in r:\n  41:         return \"DOWNTREND\"\n  42:     if \"SIDE\" in r:\n  43:         if \"MA_CONFLICT\" in s:\n  44:             return \"SIDEWAYS_MA_CONFLICT\"\n  45:         if \"DETERIOR\" in s:\n  46:             return \"SIDEWAYS_DETERIORATION\"\n  47:         if \"RECOVER\" in s:\n  48:             return \"SIDEWAYS_RECOVERY\"\n  49:         return \"SIDEWAYS\"\n  50:     return \"UNKNOWN\"\n  51: \n  52: \n  53: def extract_latest_regime(regime_json: Any) -> dict[str, Any]:\n  54:     daily = regime_json.get(\"daily_regime\") if isinstance(regime_json, dict) else regime_json\n  55: \n  56:     if isinstance(daily, list):\n  57:         rows = [r for r in daily if isinstance(r, dict)]\n  58:         if not rows:\n  59:             raise RuntimeError(\"daily_regime list is empty\")\n  60:         rows = sorted(rows, key=lambda r: str(r.get(\"date\", \"\")))\n  61:         return rows[-1]\n  62: \n  63:     if isinstance(daily, dict):\n  64:         keys = sorted(daily.keys())\n  65:         if not keys:\n  66:             raise RuntimeError(\"daily_regime dict is empty\")\n  67:         k = keys[-1]\n  68:         row = daily[k]\n  69:         if not isinstance(row, dict):\n  70:             row = {\"value\": row}\n  71:         row = dict(row)\n  72:         row.setdefault(\"date\", k)\n  73:         return row\n  74: \n  75:     raise RuntimeError(\"Unsupported spx_regime_daily.json structure\")\n  76: \n  77: \n  78: def extract_legacy_market_state(path: Path) -> dict[str, Any]:\n  79:     if not path.exists():\n  80:         return {}\n  81: \n  82:     raw = read_json(path)\n  83:     market = raw.get(\"market\", raw) if isinstance(raw, dict) else {}\n  84: \n  85:     return {\n  86:         \"date\": pick(market, [\"date\", \"data_date\", \"as_of\"], pick(raw, [\"generated_at_display\", \"generated_at\"], None) if isinstance(raw, dict) else None),\n  87:         \"state\": pick(market, [\"state\", \"market_state\", \"trend_state\", \"regime\"], None),\n  88:         \"state_zh\": pick(market, [\"state_zh\"], None),\n  89:         \"market_score\": pick(market, [\"market_score\"], None),\n  90:         \"leadership_confirmed\": pick(market, [\"leadership_confirmed\"], None),\n  91:         \"leadership_label\": pick(market, [\"leadership_label\"], None),\n  92:     }\n  93: \n  94: \n  95: def simplify_holding(h: dict[str, Any]) -> dict[str, Any]:\n  96:     return {\n  97:         \"symbol\": h.get(\"symbol\"),\n  98:         \"score\": h.get(\"score\"),\n  99:         \"weight\": h.get(\"weight\"),\n 100:         \"raw_return\": h.get(\"raw_return\"),\n 101:         \"contribution\": h.get(\"contribution\"),\n 102:     }\n 103: \n 104: \n 105: def main() -> None:\n 106:     regime_path = ROOT / \"data/research/e1_5y/regimes/spx_regime_daily.json\"\n 107:     stock_dir = ROOT / \"data/research/e1_5y/raw/stocks\"\n 108:     spx_path = ROOT / \"data/research/e1_5y/raw/indices/SPX.json\"\n 109:     legacy_market_path = ROOT / \"exports/market_state.json\"\n 110:     out_path = ROOT / \"exports/e1r_v0_2_status.json\"\n 111: \n 112:     regime_json = read_json(regime_path)\n 113:     latest = extract_latest_regime(regime_json)\n 114: \n 115:     date = str(pick(latest, [\"date\", \"as_of\", \"data_date\"], \"UNKNOWN\"))\n 116:     regime = str(pick(latest, [\"regime\", \"market_regime\", \"state\"], \"UNKNOWN\")).upper()\n 117:     subclass = str(pick(latest, [\"subclass\", \"regime_subclass\", \"market_subclass\", \"sideways_subclass\"], \"\") or \"\").upper()\n 118:     e1r_market_state = normalize_e1r_state(regime, subclass)\n 119: \n 120:     config = E1RSidecarConfig(\n 121:         start_date=\"2021-06-11\",\n 122:         end_date=date,\n 123:         allowed_subclasses=(\"MA_CONFLICT\",),\n 124:         top_n=10,\n 125:         gross_exposure=0.25,\n 126:         min_history_days=200,\n 127:         min_price=5.0,\n 128:         initial_equity=100000.0,\n 129:         excluded_symbols=(\"VIXY\",),\n 130:     )\n 131: \n 132:     sidecar_result = build_e1r_sidecar_sleeve(\n 133:         stock_dir=stock_dir,\n 134:         spx_path=spx_path,\n 135:         regime_path=regime_path,\n 136:         config=config,\n 137:     )\n 138: \n 139:     records = sidecar_result.get(\"records\", []) or []\n 140:     last_record = None\n 141: \n 142:     for r in records:\n 143:         if r.get(\"date\") == date or r.get(\"next_date\") == date:\n 144:             last_record = r\n 145: \n 146:     if last_record is None and records:\n 147:         last_record = records[-1]\n 148: \n 149:     holdings = []\n 150:     if isinstance(last_record, dict):\n 151:         raw_holdings = (\n 152:             last_record.get(\"holdings\")\n 153:             or last_record.get(\"selected\")\n 154:             or last_record.get(\"selected_holdings\")\n 155:             or []\n 156:         )\n 157:         if isinstance(raw_holdings, list):\n 158:             holdings = [simplify_holding(h) for h in raw_holdings if isinstance(h, dict)]\n 159: \n 160:     sidecar_active = e1r_market_state == \"SIDEWAYS_MA_CONFLICT\" and len(holdings) > 0\n 161:     core_active = e1r_market_state == \"UPTREND\"\n 162: \n 163:     status = {\n 164:         \"generated_at\": datetime.now(timezone.utc).isoformat(),\n 165:         \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n 166:         \"version\": \"E1R-v0.2-formal-sidecar-sleeve\",\n 167:         \"research_status\": \"FORMAL_SIDECAR_SLEEVE_ENGINE\",\n 168:         \"status_date\": date,\n 169:         \"e1r_market_state\": e1r_market_state,\n 170:         \"regime\": regime,\n 171:         \"subclass\": subclass or None,\n 172:         \"mutually_exclusive_state_model\": True,\n 173:         \"core\": {\n 174:             \"strategy_id\": \"E1R_REGIME_AWARE_V0_1\",\n 175:             \"active\": core_active,\n 176:             \"active_condition\": \"UPTREND\",\n 177:         },\n 178:         \"sidecar\": {\n 179:             \"active\": sidecar_active,\n 180:             \"active_condition\": \"SIDEWAYS_MA_CONFLICT\",\n 181:             \"gross_exposure\": 0.25,\n 182:             \"top_n\": 10,\n 183:             \"excluded_symbols\": [\"VIXY\"],\n 184:             \"selected_count\": len(holdings),\n 185:             \"selected\": holdings,\n 186:             \"source_record_date\": last_record.get(\"date\") if isinstance(last_record, dict) else None,\n 187:             \"source_record_next_date\": last_record.get(\"next_date\") if isinstance(last_record, dict) else None,\n 188:         },\n 189:         \"legacy_market_state\": extract_legacy_market_state(legacy_market_path),\n 190:         \"source_files\": {\n 191:             \"regime\": str(regime_path.relative_to(ROOT)),\n 192:             \"stocks\": str(stock_dir.relative_to(ROOT)),\n 193:             \"spx\": str(spx_path.relative_to(ROOT)),\n 194:             \"legacy_market_state\": str(legacy_market_path.relative_to(ROOT)),\n 195:         },\n 196:         \"notes\": [\n 197:             \"E1R v0.2 uses mutually exclusive daily market states.\",\n 198:             \"Core is active only in UPTREND under the current v0.2 state model.\",\n 199:             \"Sidecar is active only in SIDEWAYS_MA_CONFLICT when holdings are available.\",\n 200:             \"This status export is a lightweight bridge for Dashboard and future OOS integration.\",\n 201:         ],\n 202:     }\n 203: \n 204:     write_json(out_path, status)\n 205: \n 206:     print(\"Wrote\", out_path)\n 207:     print(\"status_date:\", status[\"status_date\"])\n 208:     print(\"e1r_market_state:\", status[\"e1r_market_state\"])\n 209:     print(\"regime:\", status[\"regime\"])\n 210:     print(\"subclass:\", status[\"subclass\"])\n 211:     print(\"core.active:\", status[\"core\"][\"active\"])\n 212:     print(\"sidecar.active:\", status[\"sidecar\"][\"active\"])\n 213:     print(\"sidecar.selected_count:\", status[\"sidecar\"][\"selected_count\"])\n 214: \n 215: \n 216: if __name__ == \"__main__\":\n 217:     main()"
+    }
+  }
+}
