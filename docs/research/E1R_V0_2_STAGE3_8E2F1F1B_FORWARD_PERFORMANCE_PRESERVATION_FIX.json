@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-08T07:39:42.165698+00:00",
+  "generated_at": "2026-07-08T07:41:51.787474+00:00",
   "stage": "B_STAGE_3_8E2F1F1B_FORWARD_PERFORMANCE_PRESERVATION_FIX",
   "status": "IMPLEMENTED_SOURCE_FIX",
-  "core_status": "created_core_from_existing_forward_performance_script",
+  "core_status": "core_already_exists",
   "source_changes": {
     "wrapper": "scripts/run_e1r_v0_2_forward_performance.py",
     "core": "scripts/run_e1r_v0_2_forward_performance_core.py"
