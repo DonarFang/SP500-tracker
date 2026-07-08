@@ -1,0 +1,840 @@
+{
+  "generated_at": "2026-07-08T08:30:57.833791+00:00",
+  "stage": "B_STAGE_3_8E2F2C0_EQUITY_CURVE_MAPPING_AUDIT",
+  "status": "AUDIT_COMPLETE_NO_SOURCE_CHANGES",
+  "main": {
+    "branch": "main",
+    "head": "2e1be15"
+  },
+  "policy": {
+    "source_changed": false,
+    "dashboard_changed": false,
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false
+  },
+  "readiness": {
+    "e1r_curve_exists": true,
+    "e1r_curve_json_valid": true,
+    "e1r_curve_row_count": 1,
+    "e1r_curve_has_date": true,
+    "e1r_curve_has_equity": true,
+    "dashboard_fetches_e1r_forward_curve": true,
+    "dashboard_mentions_e1r_curve_var": true,
+    "ready_for_equity_curve_mapping_patch": true
+  },
+  "e1r_curve": {
+    "exists": true,
+    "json_valid": true,
+    "type": "list",
+    "row_count": 1,
+    "sample_keys": [
+      "backfill_start_date",
+      "cash",
+      "core_exposure",
+      "date",
+      "drawdown_pct",
+      "equity",
+      "forward_return_pct",
+      "gross_exposure",
+      "market_state",
+      "market_value",
+      "official_kickoff_date",
+      "portfolio_value",
+      "regime",
+      "shadow_start_date",
+      "sidecar_exposure",
+      "strategy_id",
+      "strategy_indexed",
+      "subclass",
+      "tracking_status",
+      "version"
+    ],
+    "first_row": {
+      "date": "2026-06-18",
+      "portfolio_value": 100000.0,
+      "equity": 100000.0,
+      "strategy_id": "E1R_REGIME_AWARE_V0_2",
+      "version": "v0.2",
+      "cash": 100000.0,
+      "market_value": 0.0,
+      "strategy_indexed": 100.0,
+      "forward_return_pct": 0.0,
+      "drawdown_pct": 0.0,
+      "gross_exposure": 0.25,
+      "core_exposure": 0.25,
+      "sidecar_exposure": 0.0,
+      "market_state": "UPTREND",
+      "regime": "UPTREND",
+      "subclass": null,
+      "official_kickoff_date": null,
+      "shadow_start_date": "2026-06-18",
+      "backfill_start_date": "2026-06-18",
+      "tracking_status": "KICKOFF_READY"
+    },
+    "last_row": {
+      "date": "2026-06-18",
+      "portfolio_value": 100000.0,
+      "equity": 100000.0,
+      "strategy_id": "E1R_REGIME_AWARE_V0_2",
+      "version": "v0.2",
+      "cash": 100000.0,
+      "market_value": 0.0,
+      "strategy_indexed": 100.0,
+      "forward_return_pct": 0.0,
+      "drawdown_pct": 0.0,
+      "gross_exposure": 0.25,
+      "core_exposure": 0.25,
+      "sidecar_exposure": 0.0,
+      "market_state": "UPTREND",
+      "regime": "UPTREND",
+      "subclass": null,
+      "official_kickoff_date": null,
+      "shadow_start_date": "2026-06-18",
+      "backfill_start_date": "2026-06-18",
+      "tracking_status": "KICKOFF_READY"
+    },
+    "has_date": true,
+    "has_equity": true
+  },
+  "e1_curve": {
+    "exists": true,
+    "json_valid": true,
+    "type": "dict",
+    "row_count": 12,
+    "sample_keys": [
+      "cash",
+      "date",
+      "equity",
+      "holdings_value",
+      "n_positions",
+      "source"
+    ],
+    "first_row": {
+      "date": "2026-06-18",
+      "equity": 100000.0,
+      "cash": 100000.0,
+      "holdings_value": 0,
+      "n_positions": 0,
+      "source": "BACKFILLED_PRELIVE"
+    },
+    "last_row": {
+      "date": "2026-07-07",
+      "equity": 75255.2,
+      "cash": 0.02,
+      "holdings_value": 75255.18,
+      "n_positions": 3,
+      "source": "LIVE_FORWARD"
+    },
+    "has_date": true,
+    "has_equity": true
+  },
+  "e1r_summary_snapshot": {
+    "tracking_status": "KICKOFF_READY",
+    "execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+    "portfolio_value": 100000.0,
+    "forward_return_pct": 0.0,
+    "gross_exposure": 0.24999999999999997,
+    "open_positions_count": 10
+  },
+  "app_report": {
+    "line_count": 1421,
+    "fetches_e1r_forward_curve": true,
+    "mentions_e1r_curve_var": true,
+    "mentions_e1_curve_var": true,
+    "mentions_spx_curve_var": true,
+    "term_hits": [
+      {
+        "line": 3,
+        "text": " * 5 tabs: Market Overview / Leader Board / Watchlist / Positions & Exit / Research & Backtest",
+        "terms": [
+          "Research",
+          "Backtest"
+        ]
+      },
+      {
+        "line": 19,
+        "text": "let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null,oosEquity:null,e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null,e1rFormal:null};",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 37,
+        "text": "// ── Reusable Stock Preview Chart ────────────────────────",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 38,
+        "text": "function getStockChartPayload(symbol){",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 39,
+        "text": "  const sc = DATA.stockCharts || {};",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 47,
+        "text": "function renderStockPreviewChart(containerId, symbol){",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 54,
+        "text": "  const p = getStockChartPayload(symbol);",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 75,
+        "text": "  // 每次重建容器内 canvas（不用全局 id，避免多容器 id 冲突）",
+        "terms": [
+          "canvas"
+        ]
+      },
+      {
+        "line": 82,
+        "text": "    <div class=\"cwrap\" style=\"height:200px\"><canvas></canvas></div>`;",
+        "terms": [
+          "canvas"
+        ]
+      },
+      {
+        "line": 84,
+        "text": "  const el = wrap.querySelector('canvas');",
+        "terms": [
+          "canvas"
+        ]
+      },
+      {
+        "line": 90,
+        "text": "  charts[chartKey] = new Chart(el,{type:'line',data:{labels,datasets:ds},",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 105,
+        "text": "  const showFor = sym => { if(sym) renderStockPreviewChart(previewContainerId, sym); };",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 134,
+        "text": "async function fetchResearchJ(name) {",
+        "terms": [
+          "Research"
+        ]
+      },
+      {
+        "line": 142,
+        "text": "  try { DATA.e1rV02BacktestSummary = await fetchJ('e1r_v0_2_backtest_summary'); } catch(e) { DATA.e1rV02BacktestSummary = {}; }",
+        "terms": [
+          "e1rV02",
+          "Backtest"
+        ]
+      },
+      {
+        "line": 143,
+        "text": "  try { DATA.e1rV02OosSummary = await fetchJ('oos_e1r_v0_2_summary'); } catch(e) { DATA.e1rV02OosSummary = {}; }",
+        "terms": [
+          "e1rV02"
+        ]
+      },
+      {
+        "line": 167,
+        "text": "      fetchJ('oos_equity_curve').catch(()=>null),",
+        "terms": [
+          "equity",
+          "equity_curve"
+        ]
+      },
+      {
+        "line": 168,
+        "text": "      fetchResearchJ('e1r_regime_attribution_review').catch(()=>null),",
+        "terms": [
+          "Research"
+        ]
+      },
+      {
+        "line": 169,
+        "text": "      fetchResearchJ('e1r_phase3e_confirmed_quality_diagnostic').catch(()=>null),",
+        "terms": [
+          "Research"
+        ]
+      },
+      {
+        "line": 170,
+        "text": "      fetchResearchJ('e1r_phase3i_sideways_quality_decomposition_diagnostic').catch(()=>null),",
+        "terms": [
+          "Research"
+        ]
+      },
+      {
+        "line": 171,
+        "text": "      fetchResearchJ('e1r_phase3ir_sideways_recovery_robustness_diagnostic').catch(()=>null),",
+        "terms": [
+          "Research"
+        ]
+      },
+      {
+        "line": 172,
+        "text": "      fetchResearchJ('e1r_phase3k_sideways_recovery_regime_definition_review').catch(()=>null),",
+        "terms": [
+          "Research"
+        ]
+      },
+      {
+        "line": 173,
+        "text": "      fetchResearchJ('e1r_formal_backtest_v0_1').catch(()=>null),",
+        "terms": [
+          "Research"
+        ]
+      },
+      {
+        "line": 177,
+        "text": "    DATA.stockCharts=(sc&&sc.symbols)||{};",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 198,
+        "text": "function renderE1RResearchPanel(vr){",
+        "terms": [
+          "Research"
+        ]
+      },
+      {
+        "line": 200,
+        "text": "  // Unified E1/E1R summary is rendered in the Research & Backtest flow.",
+        "terms": [
+          "Research",
+          "Backtest"
+        ]
+      },
+      {
+        "line": 209,
+        "text": "// Preserves Research & Backtest variable-prep logic.",
+        "terms": [
+          "Research",
+          "Backtest"
+        ]
+      },
+      {
+        "line": 247,
+        "text": "  const raw = DATA.e1rV02BacktestSummary || DATA.e1rFormal || {};",
+        "terms": [
+          "e1rV02",
+          "Backtest"
+        ]
+      },
+      {
+        "line": 294,
+        "text": "${e1rForwardDisplayRows(DATA.e1rV02OosSummary)}",
+        "terms": [
+          "e1rV02"
+        ]
+      },
+      {
+        "line": 311,
+        "text": "      <span class=\"mini-value\">${fmtMoney(e1rForward.portfolio_value ?? e1rForward.equity)}</span>",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 335,
+        "text": "  const e1rOos=DATA.e1rV02OosSummary || {};",
+        "terms": [
+          "e1rV02"
+        ]
+      },
+      {
+        "line": 478,
+        "text": "        <div class=\"cwrap\" style=\"height:200px\"><canvas id=\"cw-spx\"></canvas></div>",
+        "terms": [
+          "canvas"
+        ]
+      },
+      {
+        "line": 482,
+        "text": "        <div class=\"cwrap\" style=\"height:160px\"><canvas id=\"cw-sector\"></canvas></div>",
+        "terms": [
+          "canvas"
+        ]
+      },
+      {
+        "line": 505,
+        "text": "        charts.spx=new Chart(spxEl,{type:'line',data:{labels:spxIdx.chart_dates.map(d=>d.slice(5)),datasets:[",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 521,
+        "text": "        charts.sector=new Chart(secEl,{type:'doughnut',data:{labels:secArr.map(e=>e[0]),datasets:[{data:secArr.map(e=>e[1]),backgroundColor:PALETTE.slice(0,secArr.length),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{disp",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 551,
+        "text": "      <div class=\"card\" style=\"margin-bottom:0\"><div class=\"card-head\">RS% vs 动量散点</div><div class=\"card-body\"><div class=\"cwrap\" style=\"height:240px\"><canvas id=\"cw-rs-mom\"></canvas></div></div></div>",
+        "terms": [
+          "canvas"
+        ]
+      },
+      {
+        "line": 552,
+        "text": "      <div class=\"card\" style=\"margin-bottom:0\"><div class=\"card-head\">健康度对比</div><div class=\"card-body\"><div class=\"cwrap\" style=\"height:240px\"><canvas id=\"cw-health\"></canvas></div></div></div>",
+        "terms": [
+          "canvas"
+        ]
+      },
+      {
+        "line": 585,
+        "text": "        charts.rsMom=new Chart(e1,{type:'scatter',data:{datasets:[{label:'Top10',data:leaders.map(s=>({x:s.rs_score||0,y:s.momentum_score||0})),backgroundColor:PALETTE,pointRadius:8,pointHoverRadius:11}]},",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 593,
+        "text": "        charts.health=new Chart(e2,{type:'bar',data:{labels:sorted.map(s=>s.symbol),datasets:[{label:'健康度',data:sorted.map(s=>s.trend_health||0),backgroundColor:sorted.map(s=>scCol(s.trend_health||0)),borderRadius:4}]},",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 644,
+        "text": "      <div class=\"cwrap\" style=\"height:220px\"><canvas id=\"cw-promo\"></canvas></div>",
+        "terms": [
+          "canvas"
+        ]
+      },
+      {
+        "line": 661,
+        "text": "      charts.promo=new Chart(el,{type:'bar',data:{",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 700,
+        "text": "        Backtest as-of: <strong>${simEndDate}</strong>",
+        "terms": [
+          "Backtest"
+        ]
+      },
+      {
+        "line": 789,
+        "text": "  // ── Tab 5: Research & Backtest ────────────────────────",
+        "terms": [
+          "Research",
+          "Backtest"
+        ]
+      },
+      {
+        "line": 797,
+        "text": "    const e1rPanel = renderE1RResearchPanel(vr);",
+        "terms": [
+          "Research"
+        ]
+      },
+      {
+        "line": 830,
+        "text": "    const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];",
+        "terms": [
+          "equity",
+          "equity_curve",
+          "eqCurve",
+          "spxCurve"
+        ]
+      },
+      {
+        "line": 831,
+        "text": "    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];",
+        "terms": [
+          "equity",
+          "equity_curve",
+          "e1rCurve"
+        ]
+      },
+      {
+        "line": 845,
+        "text": "    if(eqCurve.length>1){",
+        "terms": [
+          "eqCurve"
+        ]
+      },
+      {
+        "line": 847,
+        "text": "        <div class=\"cwrap\" style=\"height:220px\"><canvas id=\"cw-equity\"></canvas></div>",
+        "terms": [
+          "equity",
+          "canvas"
+        ]
+      },
+      {
+        "line": 848,
+        "text": "        <div class=\"muted\" style=\"font-size:12px;margin-top:.5rem\">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</d",
+        "terms": [
+          "Backtest"
+        ]
+      },
+      {
+        "line": 926,
+        "text": "    if(eqCurve.length>1){",
+        "terms": [
+          "eqCurve"
+        ]
+      },
+      {
+        "line": 928,
+        "text": "        const el=$('cw-equity'); if(!el)return;",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 929,
+        "text": "        if(charts.equity)charts.equity.destroy();",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 931,
+        "text": "        const e1Start=eqCurve[0]||1, spxStart=spxCurve[0]||1, e1rStart=e1rCurve[0]||1;",
+        "terms": [
+          "e1rCurve",
+          "eqCurve",
+          "spxCurve"
+        ]
+      },
+      {
+        "line": 932,
+        "text": "        const e1I=eqCurve.map(v=>parseFloat(((v/e1Start)*100).toFixed(2)));",
+        "terms": [
+          "eqCurve"
+        ]
+      },
+      {
+        "line": 933,
+        "text": "        const spxI=spxCurve.map(v=>parseFloat(((v/spxStart)*100).toFixed(2)));",
+        "terms": [
+          "spxCurve"
+        ]
+      },
+      {
+        "line": 934,
+        "text": "        const e1rI=e1rCurve.map(v=>parseFloat(((v/e1rStart)*100).toFixed(2)));",
+        "terms": [
+          "e1rCurve"
+        ]
+      },
+      {
+        "line": 958,
+        "text": "        const btLabels = buildEquityDateLabels(eqCurve.length);",
+        "terms": [
+          "eqCurve"
+        ]
+      },
+      {
+        "line": 961,
+        "text": "          .filter(r => r && r.date && r.equity != null);",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 970,
+        "text": "        const e1BacktestData = e1I.concat(pad(padAfter));",
+        "terms": [
+          "Backtest"
+        ]
+      },
+      {
+        "line": 978,
+        "text": "        const spxChartDates = spxIx.chart_dates || [];",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 979,
+        "text": "        const spxChartPrices = spxIx.chart_prices || [];",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 982,
+        "text": "        if(spxChartDates.length && spxChartPrices.length && btEndDate){",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 983,
+        "text": "          let baseIdx = spxChartDates.findIndex(d => String(d) >= String(btEndDate));",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 984,
+        "text": "          if(baseIdx < 0) baseIdx = spxChartDates.length - 1;",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 986,
+        "text": "          const baseClose = Number(spxChartPrices[baseIdx] || 0);",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 991,
+        "text": "              const j = spxChartDates.indexOf(String(d));",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 993,
+        "text": "                spxData[idx] = parseFloat(((Number(spxChartPrices[j] || 0) / baseClose) * spxAnchor).toFixed(2));",
+        "terms": [
+          "Chart"
+        ]
+      },
+      {
+        "line": 1000,
+        "text": "        const oosStartEquity = Number(oosRows[0]?.equity || 0) || 1;",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1008,
+        "text": "              oosForwardData[idx] = parseFloat(((Number(r.equity || 0) / oosStartEquity) * e1Anchor).toFixed(2));",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1019,
+        "text": "          {label:'E1 backtest',data:e1BacktestData,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',borderWidth:2,pointRadius:0,tension:0.2,fill:true},",
+        "terms": [
+          "Backtest"
+        ]
+      },
+      {
+        "line": 1054,
+        "text": "        charts.equity=new Chart(el,{type:'line',data:{",
+        "terms": [
+          "equity",
+          "Chart"
+        ]
+      },
+      {
+        "line": 1095,
+        "text": "    oosEquity: \"../exports/oos_e1r_v0_2_equity_curve.json\",",
+        "terms": [
+          "equity",
+          "equity_curve",
+          "oos_e1r_v0_2_equity_curve"
+        ]
+      },
+      {
+        "line": 1099,
+        "text": "    backtestEquity: \"../exports/e1r_v0_2_backtest_equity_curve.json\"",
+        "terms": [
+          "equity",
+          "equity_curve"
+        ]
+      },
+      {
+        "line": 1104,
+        "text": "    equityCard: \"e1r-oos-equity-card\",",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1143,
+        "text": "    for (const key of [\"records\", \"data\", \"items\", \"rows\", \"equity_curve\", \"curve\", \"positions\", \"orders\", \"trades\"]) {",
+        "terms": [
+          "equity",
+          "equity_curve"
+        ]
+      },
+      {
+        "line": 1272,
+        "text": "  function e1rRenderBacktest(summaryResult, equityResult) {",
+        "terms": [
+          "equity",
+          "Backtest"
+        ]
+      },
+      {
+        "line": 1275,
+        "text": "      \"E1R v0.2 5Y Backtest\",",
+        "terms": [
+          "Backtest"
+        ]
+      },
+      {
+        "line": 1280,
+        "text": "    if (!summaryResult.ok && !equityResult.ok) {",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1286,
+        "text": "    const equityRows = e1rAsArray(equityResult.data);",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1287,
+        "text": "    const latest = equityRows.length ? equityRows[equityRows.length - 1] : {};",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1307,
+        "text": "        ${e1rMetric(\"Equity rows\", equityRows.length)}",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1312,
+        "text": "  function e1rRenderOosEquity(equityResult, lifecycleResult, turnoverResult) {",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1314,
+        "text": "      \"e1r-v02-oos-equity-panel\",",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1317,
+        "text": "      E1R_V02_CLASSES.equityCard",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1320,
+        "text": "    if (!equityResult.ok) {",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1321,
+        "text": "      e1rRenderUnavailable(panel, \"E1R v0.2 OOS equity\", equityResult);",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1325,
+        "text": "    const rows = e1rAsArray(equityResult.data);",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1326,
+        "text": "    const latest = rows.length ? rows[rows.length - 1] : e1rLatest(equityResult.data);",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1331,
+        "text": "    const equity = e1rPick(latest, [\"equity\", \"combined_equity\", \"portfolio_value\"]);",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1332,
+        "text": "    const coreEquity = e1rPick(latest, [\"core_equity\"]);",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1333,
+        "text": "    const sidecarEquity = e1rPick(latest, [\"sidecar_equity\"]);",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1341,
+        "text": "        ${e1rMetric(\"Combined equity\", typeof equity === \"number\" ? e1rNumber(equity) : equity)}",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1342,
+        "text": "        ${e1rMetric(\"Core equity\", typeof coreEquity === \"number\" ? e1rNumber(coreEquity) : coreEquity)}",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1343,
+        "text": "        ${e1rMetric(\"Sidecar equity\", typeof sidecarEquity === \"number\" ? e1rNumber(sidecarEquity) : sidecarEquity)}",
+        "terms": [
+          "equity"
+        ]
+      },
+      {
+        "line": 1355,
+        "text": "     * Future E1R display integration must happen inside native Research & Backtest render flow.",
+        "terms": [
+          "Research",
+          "Backtest"
+        ]
+      },
+      {
+        "line": 1386,
+        "text": "    e1rRenderBacktest(backtestSummaryResult, backtestEquityResult);",
+        "terms": [
+          "Backtest"
+        ]
+      }
+    ]
+  },
+  "next_stage": {
+    "stage": "3.8E-2F-2C-1",
+    "purpose": "Patch dashboard equity curve to include E1R forward curve."
+  }
+}
