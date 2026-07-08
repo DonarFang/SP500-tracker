@@ -16,7 +16,7 @@ const REG_META = {
 };
 const IDX_ICONS = {SPX:'📊',NDX:'💻',VIX:'😨',SOX:'🔬'};
 
-let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null,oosEquity:null,e1rV02Status:null,e1rV02OosOrders:null,e1rV02OosPositions:null,e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null,e1rFormal:null};
+let DATA = {market:null,leaderboard:null,watchlist:null,lifecycle:null,health:null,backtest:null,tradelog:null,stockCharts:null,oosEquity:null,e1rV02Status:null,e1rV02OosOrders:null,e1rV02OosPositions:null,e1rV02OosEquityCurve:null,e1rRegime:null,e1rConfirmed:null,e1rSideways3i:null,e1rSideways3ir:null,e1rSideways3k:null,e1rFormal:null};
 let charts = {};
 
 const $   = id => document.getElementById(id);
@@ -158,7 +158,7 @@ async function loadAll() {
     $('uptime').textContent='数据时间：'+(mkt.generated_at_display||mkt.generated_at||'未知');
 
     // 辅助数据并行加载，各自 fallback
-    const [wl,lc,dh,bt,tlog,sc,oosEq,e1rOrders,e1rPositions,e1rReg,e1rConf,e1r3i,e1r3ir,e1r3k,e1rFormal] = await Promise.all([
+    const [wl,lc,dh,bt,tlog,sc,oosEq,e1rOrders,e1rPositions,e1rOosEquity,e1rReg,e1rConf,e1r3i,e1r3ir,e1r3k,e1rFormal] = await Promise.all([
       fetchJ('watchlist').catch(()=>({watchlist:[]})),
       fetchJ('lifecycle').catch(()=>({regimes:{}})),
       fetchJ('data_health').catch(()=>null),
@@ -168,6 +168,7 @@ async function loadAll() {
       fetchJ('oos_equity_curve').catch(()=>null),
       fetchJ('oos_e1r_v0_2_orders').catch(()=>({orders:[]})),
       fetchJ('oos_e1r_v0_2_positions').catch(()=>({positions:[]})),
+      fetchJ('oos_e1r_v0_2_equity_curve').catch(()=>({equity_curve:[]})),
       fetchResearchJ('e1r_regime_attribution_review').catch(()=>null),
       fetchResearchJ('e1r_phase3e_confirmed_quality_diagnostic').catch(()=>null),
       fetchResearchJ('e1r_phase3i_sideways_quality_decomposition_diagnostic').catch(()=>null),
@@ -179,7 +180,7 @@ async function loadAll() {
     DATA.health=dh; DATA.backtest=bt; DATA.tradelog=tlog;
     DATA.stockCharts=(sc&&sc.symbols)||{};
     DATA.oosEquity=oosEq;
-    DATA.e1rV02OosOrders=e1rOrders; DATA.e1rV02OosPositions=e1rPositions;
+    DATA.e1rV02OosOrders=e1rOrders; DATA.e1rV02OosPositions=e1rPositions; DATA.e1rV02OosEquityCurve=e1rOosEquity;
     DATA.e1rRegime=e1rReg; DATA.e1rConfirmed=e1rConf;
     DATA.e1rSideways3i=e1r3i; DATA.e1rSideways3ir=e1r3ir; DATA.e1rSideways3k=e1r3k; DATA.e1rFormal=e1rFormal;
 
@@ -1146,6 +1147,13 @@ function render(tab) {
     const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];
     const oosRowsForNote=(DATA.oosEquity?.curve||[]);
     const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';
+    const e1rForwardRowsForNote=e1rForwardEquityCurveRows(DATA.e1rV02OosEquityCurve);
+    const e1rForwardLatest=e1rForwardRowsForNote.length ? e1rForwardRowsForNote[e1rForwardRowsForNote.length-1] : {};
+    const e1rForwardTrackingStatus=e1rForwardLatest.tracking_status || DATA.e1rV02Status?.tracking_status || '—';
+    const e1rForwardLatestDate=e1rForwardLatest.date || '—';
+    const e1rForwardNote=e1rForwardRowsForNote.length
+      ? `E1R forward paper: ${e1rForwardRowsForNote.length} row${e1rForwardRowsForNote.length===1?'':'s'} · status: ${e1rForwardTrackingStatus} · latest: ${e1rForwardLatestDate} · curve forms after additional daily pipeline runs.`
+      : 'E1R forward paper: no rows yet.';
 
     // Lifecycle 统计迁入
     const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];
@@ -1159,9 +1167,9 @@ function render(tab) {
 
     if(eqCurve.length>1){
       h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">
-Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
+Equity curve — E1 vs E1R vs SPX (indexed to 100)</div><div class="card-body">
         <div class="cwrap" style="height:220px"><canvas id="cw-equity"></canvas></div>
-        <div class="muted" style="font-size:12px;margin-top:.5rem">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</div>
+        <div class="muted" style="font-size:12px;margin-top:.5rem">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · E1 OOS latest: ${oosLatestDate} · ${e1rForwardNote}</div>
       </div></div>`;
     }
 
@@ -1287,9 +1295,13 @@ Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
         const oosRows = (DATA.oosEquity?.curve || [])
           .filter(r => r && r.date && r.equity != null);
 
+        const e1rForwardRows = e1rForwardRowsForNote;
         const oosDates = oosRows.map(r => String(r.date));
-        const extraOosDates = oosDates.filter(d => !btLabels.includes(d));
-        const labels = btLabels.concat(extraOosDates);
+        const e1rForwardDates = e1rForwardRows.map(r => String(r.date));
+        const extraForwardDates = Array.from(new Set(oosDates.concat(e1rForwardDates)))
+          .filter(d => !btLabels.includes(d))
+          .sort();
+        const labels = btLabels.concat(extraForwardDates);
 
         const padAfter = labels.length - btLabels.length;
         const pad = n => Array.from({length:n}, () => null);
@@ -1337,6 +1349,21 @@ Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
           });
         }
 
+        const e1rForwardData = Array.from({length:labels.length}, () => null);
+        if(e1rForwardRows.length){
+          e1rForwardRows.forEach(r => {
+            const idx = labels.indexOf(String(r.date));
+            if(idx >= 0){
+              const v = Number.isFinite(Number(r.strategy_indexed))
+                ? Number(r.strategy_indexed)
+                : (Number.isFinite(Number(r.equity)) ? Number(r.equity) / 1000 : NaN);
+              if(Number.isFinite(v)){
+                e1rForwardData[idx] = parseFloat(v.toFixed(2));
+              }
+            }
+          });
+        }
+
         const oosStartDate = oosDates[0] || null;
         const oosStartIndex = oosStartDate ? labels.indexOf(oosStartDate) : -1;
 
@@ -1352,7 +1379,11 @@ Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
         }
 
         if(e1rI.length>1){
-          ds.splice(oosRows.length?2:1,0,{label:'E1-R backtest',data:e1rData,borderColor:'#D4537E',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.2});
+          ds.splice(oosRows.length?2:1,0,{label:'E1R backtest',data:e1rData,borderColor:'#D4537E',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.2});
+        }
+
+        if(e1rForwardRows.length){
+          ds.splice(oosRows.length?3:2,0,{label:'E1R forward paper',data:e1rForwardData,borderColor:'#D4537E',backgroundColor:'transparent',borderWidth:2,borderDash:[6,4],pointRadius:e1rForwardRows.length===1?4:2,pointHoverRadius:6,tension:0.2,spanGaps:false});
         }
 
         const oosLinePlugin = {

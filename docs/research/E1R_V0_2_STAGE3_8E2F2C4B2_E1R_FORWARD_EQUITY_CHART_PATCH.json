@@ -1,0 +1,40 @@
+{
+  "generated_at": "2026-07-08T10:11:02.443451+00:00",
+  "stage": "B_STAGE_3_8E2F2C4B2_E1R_FORWARD_EQUITY_CHART_PATCH",
+  "status": "IMPLEMENTED_DASHBOARD_PATCH",
+  "files_changed": [
+    "dashboard/app.js"
+  ],
+  "changes": {
+    "data_declaration_changed": true,
+    "loadall_destructure_changed": true,
+    "loadall_fetch_added": true,
+    "data_assignment_changed": true,
+    "note_vars_added": true,
+    "footnote_changed": true,
+    "label_block_changed": true,
+    "forward_data_block_changed": true,
+    "dataset_block_changed": true
+  },
+  "source_values": {
+    "e1r_forward_equity_rows": 1,
+    "latest_date": "2026-06-18",
+    "latest_strategy_indexed": 100.0,
+    "tracking_status": "KICKOFF_READY",
+    "regime": "UPTREND"
+  },
+  "expected_ui": {
+    "title": "Equity curve — E1 vs E1R vs SPX (indexed to 100)",
+    "dataset": "E1R forward paper",
+    "footnote_contains": "E1R forward paper",
+    "current_rows": 1
+  },
+  "policy": {
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false
+  }
+}
