@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-07-08T06:49:56.753499+00:00",
+  "stage": "B_STAGE_3_8E2F1D_E1R_FORWARD_PERFORMANCE_IMPLEMENTATION",
+  "status": "IMPLEMENTED_LOCAL_FORWARD_PERFORMANCE_LAYER",
+  "policy": {
+    "e1_state_changed": false,
+    "e1_exports_changed": false,
+    "frozen_strategy_logic_changed": false,
+    "dashboard_changed": false,
+    "github_actions_changed": false
+  },
+  "outputs": {
+    "summary": "exports/oos_e1r_v0_2_summary.json",
+    "equity_curve": "exports/oos_e1r_v0_2_equity_curve.json",
+    "positions": "exports/oos_e1r_v0_2_positions.json",
+    "orders": "exports/oos_e1r_v0_2_orders.json",
+    "state": "data/oos/e1r_v0_2_portfolio_state.json",
+    "events": "data/oos/e1r_v0_2_events.jsonl",
+    "run_history": "data/oos/e1r_v0_2_run_history.jsonl"
+  },
+  "summary_snapshot": {
+    "status_date": "2026-06-18",
+    "official_kickoff_date": "2026-06-18",
+    "tracking_status": "KICKOFF_READY",
+    "forward_day_count": 1,
+    "portfolio_value": 100000.0,
+    "forward_return_pct": 0.0,
+    "max_drawdown_pct": 0.0,
+    "gross_exposure": 0.25,
+    "market_state": "UPTREND",
+    "regime": "UPTREND",
+    "core_active": true,
+    "sidecar_active": false
+  },
+  "equity_rows": 1,
+  "next_stage": "Stage 3.8E-2F-1E: wire E1R target/action generation and formalize LIVE_FORWARD kickoff status"
+}
