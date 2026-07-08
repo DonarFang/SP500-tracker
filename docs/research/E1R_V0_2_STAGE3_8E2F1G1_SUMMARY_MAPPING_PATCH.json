@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-07-08T08:29:38.629162+00:00",
+  "stage": "B_STAGE_3_8E2F1G1_SUMMARY_MAPPING_PATCH",
+  "status": "IMPLEMENTED_DASHBOARD_PATCH",
+  "files_changed": [
+    "dashboard/app.js"
+  ],
+  "mapped_fields": [
+    "tracking_status",
+    "execution_status",
+    "official_kickoff_date",
+    "forward_start_date",
+    "portfolio_value",
+    "forward_return_pct",
+    "gross_exposure",
+    "open_positions_count",
+    "paper_orders_count"
+  ],
+  "policy": {
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false
+  },
+  "next_stage": {
+    "stage": "2C",
+    "purpose": "Map E1R forward equity curve into dashboard equity curve."
+  }
+}

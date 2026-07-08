@@ -264,6 +264,71 @@ function e2bV4DateFromOos(raw){
   return e2bV4Pick(latest,['date','status_date','latest_date','as_of','generated_at_display','generated_at']);
 }
 
+
+function e1rForwardDisplayRows(e1rForward) {
+  if (!e1rForward) return '';
+
+  const fmtPct = (v) => {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return '—';
+    return `${(n * 100).toFixed(1)}%`;
+  };
+
+  const fmtMoney = (v) => {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return '—';
+    return `$${Math.round(n).toLocaleString()}`;
+  };
+
+  const fmtText = (v) => {
+    if (v === null || v === undefined || v === '') return '—';
+    return String(v);
+  };
+
+  const kickoff = e1rForward.official_kickoff_date || 'Pending';
+  const forwardStart = e1rForward.forward_start_date || 'Pending';
+
+  return `
+    <div class="mini-metric">
+      <span class="mini-label">E1R Forward Status</span>
+${e1rForwardDisplayRows(DATA.e1rV02OosSummary)}
+      <span class="mini-value">${fmtText(e1rForward.tracking_status)}</span>
+    </div>
+    <div class="mini-metric">
+      <span class="mini-label">Execution Status</span>
+      <span class="mini-value">${fmtText(e1rForward.execution_status)}</span>
+    </div>
+    <div class="mini-metric">
+      <span class="mini-label">Kickoff Date</span>
+      <span class="mini-value">${kickoff}</span>
+    </div>
+    <div class="mini-metric">
+      <span class="mini-label">Forward Start</span>
+      <span class="mini-value">${forwardStart}</span>
+    </div>
+    <div class="mini-metric">
+      <span class="mini-label">Portfolio Value</span>
+      <span class="mini-value">${fmtMoney(e1rForward.portfolio_value ?? e1rForward.equity)}</span>
+    </div>
+    <div class="mini-metric">
+      <span class="mini-label">Forward Return</span>
+      <span class="mini-value">${fmtPct(e1rForward.forward_return_pct ?? 0)}</span>
+    </div>
+    <div class="mini-metric">
+      <span class="mini-label">Gross Exposure</span>
+      <span class="mini-value">${fmtPct(e1rForward.gross_exposure)}</span>
+    </div>
+    <div class="mini-metric">
+      <span class="mini-label">Open Positions</span>
+      <span class="mini-value">${fmtText(e1rForward.open_positions_count)}</span>
+    </div>
+    <div class="mini-metric">
+      <span class="mini-label">Paper Orders</span>
+      <span class="mini-value">${fmtText(e1rForward.paper_orders_count)}</span>
+    </div>
+  `;
+}
+
 function e2bV4RenderSummaryComparison(e1){
   const e1r=e2bV4E1RHistorical();
   const e1Oos=DATA.oosSummaryNative || DATA.oosSummary || {};
