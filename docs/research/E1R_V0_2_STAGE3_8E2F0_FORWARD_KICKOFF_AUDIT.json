@@ -1,0 +1,3915 @@
+{
+  "generated_at": "2026-07-08T06:24:55.288374+00:00",
+  "stage": "B_STAGE_3_8E2F0_E1R_FORWARD_KICKOFF_READINESS_AUDIT",
+  "status": "AUDIT_COMPLETE_NO_SOURCE_CHANGES",
+  "main": {
+    "branch": "main",
+    "head": "9d3f522"
+  },
+  "policy": {
+    "source_changed": false,
+    "dashboard_changed": false,
+    "exports_changed": false,
+    "strategy_logic_changed": false
+  },
+  "question": "How should E1R v0.2 forward test be properly kicked off?",
+  "readiness": {
+    "e1_forward_start": {
+      "source": "exports/oos_summary.json",
+      "key": "oos_start_date",
+      "value": "2026-06-16"
+    },
+    "e1r_status_scaffold_exists": true,
+    "e1r_equity_curve_scaffold_exists": true,
+    "e1r_orders_scaffold_exists": true,
+    "e1r_positions_scaffold_exists": true,
+    "e1r_forward_performance_fields_exist": false,
+    "current_assessment": "NOT_YET_KICKED_OFF_AS_FORWARD_PERFORMANCE_TEST",
+    "recommended_next_step": "Implement E1R forward engine/export kickoff, not just dashboard mapping."
+  },
+  "kickoff_schema": {
+    "official_strategy_id": "E1R_REGIME_AWARE_V0_2",
+    "recommended_forward_start_policy": {
+      "principle": "Do not retroactively count pre-kickoff dates as true OOS performance.",
+      "start_date_options": [
+        {
+          "option": "next_available_trading_day_after_implementation",
+          "meaning": "Official E1R forward tracking begins after the engine is implemented and committed.",
+          "recommended": true
+        },
+        {
+          "option": "backfill_from_2026_06_18_as_shadow_history",
+          "meaning": "Can be generated for diagnostics only, clearly labeled BACKFILL / SHADOW, not official OOS.",
+          "recommended": false
+        }
+      ]
+    },
+    "required_daily_exports": {
+      "exports/oos_e1r_v0_2_summary.json": {
+        "status_fields": [
+          "generated_at",
+          "generated_at_display",
+          "status_date",
+          "strategy_id",
+          "version",
+          "forward_start_date",
+          "forward_day_count",
+          "research_status",
+          "tracking_status"
+        ],
+        "performance_fields": [
+          "portfolio_value",
+          "equity",
+          "cash",
+          "market_value",
+          "forward_return_pct",
+          "spx_forward_return_pct",
+          "alpha_pct",
+          "max_drawdown_pct",
+          "sharpe_ratio",
+          "profit_factor",
+          "number_of_trades",
+          "open_positions_count",
+          "executed_orders_count"
+        ],
+        "exposure_fields": [
+          "gross_exposure",
+          "net_exposure",
+          "core_exposure",
+          "sidecar_exposure"
+        ],
+        "regime_fields": [
+          "market_state",
+          "regime",
+          "subclass",
+          "core_active",
+          "sidecar_active",
+          "sidecar_selected_count"
+        ]
+      },
+      "exports/oos_e1r_v0_2_equity_curve.json": {
+        "row_fields": [
+          "date",
+          "equity",
+          "portfolio_value",
+          "cash",
+          "market_value",
+          "spx_value",
+          "spx_indexed",
+          "strategy_indexed",
+          "drawdown_pct",
+          "gross_exposure"
+        ]
+      },
+      "exports/oos_e1r_v0_2_orders.json": {
+        "row_fields": [
+          "date",
+          "symbol",
+          "action",
+          "reason",
+          "target_weight",
+          "fill_policy",
+          "paper_price",
+          "shares",
+          "notional",
+          "status"
+        ]
+      },
+      "exports/oos_e1r_v0_2_positions.json": {
+        "row_fields": [
+          "date",
+          "symbol",
+          "weight",
+          "shares",
+          "entry_date",
+          "entry_price",
+          "last_price",
+          "market_value",
+          "unrealized_return_pct",
+          "source",
+          "core_or_sidecar"
+        ]
+      }
+    },
+    "minimum_kickoff_acceptance": [
+      "E1R summary export contains forward_start_date and status_date.",
+      "E1R summary export contains portfolio_value/equity and forward_return_pct.",
+      "E1R equity curve has at least one row for kickoff date.",
+      "E1R positions export exists even if empty.",
+      "E1R orders export exists even if empty.",
+      "Daily update pipeline writes all E1R OOS exports deterministically.",
+      "Dashboard does not infer E1R performance from historical backtest fields."
+    ]
+  },
+  "repo_candidate_files": [
+    "dashboard/app.js",
+    "docs/research/stage3_2_backtest_snapshots/backtest_feature_source_stage3_2.py",
+    "docs/research/stage3_2_backtest_snapshots/backtest_main_before_stage3_2.py",
+    "docs/research/stage3_4_app_snapshots/app_feature_source_stage3_4.js",
+    "docs/research/stage3_4_app_snapshots/app_generated_e1r_v0_2_module_stage3_4.js",
+    "docs/research/stage3_4_app_snapshots/app_main_before_stage3_4.js",
+    "docs/research/stage3_8b_dashboard_refactor_snapshots/app_before_stage3_8b.js",
+    "docs/research/stage3_8b_dashboard_refactor_snapshots/app_stage3_8b_module.js",
+    "run_oos.py",
+    "scripts/export_e1r_v0_2_backtest_equity.py",
+    "scripts/export_e1r_v0_2_status.py",
+    "scripts/run_e1r_v0_2_oos.py",
+    "scripts/run_e1r_v0_2_oos_equity.py",
+    "scripts/run_e1r_v0_2_sidecar_lifecycle.py",
+    "src/engine/backtest.py",
+    "src/engine/e1r_composer.py",
+    "src/engine/e1r_sidecar_sleeve.py",
+    "src/oos/__init__.py",
+    "src/oos/exporter.py",
+    "src/oos/portfolio_state.py",
+    "src/oos/tracking_engine.py"
+  ],
+  "watched_file_reports": {
+    ".github/workflows/update.yml": {
+      "exists": true,
+      "path": ".github/workflows/update.yml",
+      "line_count": 51,
+      "hits": {
+        "OOS": [
+          26,
+          33,
+          36,
+          39,
+          42
+        ],
+        "paper": [
+          42
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "OOS",
+          "line": 26,
+          "text": "      - name: OOS 数据日期预检"
+        },
+        {
+          "term": "OOS",
+          "line": 33,
+          "text": "      - name: OOS Tracking Engine"
+        },
+        {
+          "term": "OOS",
+          "line": 36,
+          "text": "        continue-on-error: true  # OOS 失败不阻塞数据发布"
+        },
+        {
+          "term": "OOS",
+          "line": 39,
+          "text": "      - name: E1R v0.2 OOS exports"
+        },
+        {
+          "term": "OOS",
+          "line": 42,
+          "text": "        continue-on-error: true  # E1R v0.2 OOS paper tracking 不阻塞主数据发布"
+        },
+        {
+          "term": "paper",
+          "line": 42,
+          "text": "        continue-on-error: true  # E1R v0.2 OOS paper tracking 不阻塞主数据发布"
+        }
+      ]
+    },
+    "scripts/update_pipeline.py": {
+      "exists": false,
+      "path": "scripts/update_pipeline.py",
+      "hits": {},
+      "line_hits": []
+    },
+    "scripts/init_data.py": {
+      "exists": false,
+      "path": "scripts/init_data.py",
+      "hits": {},
+      "line_hits": []
+    },
+    "scripts/backtest.py": {
+      "exists": false,
+      "path": "scripts/backtest.py",
+      "hits": {},
+      "line_hits": []
+    },
+    "src/engine/backtest.py": {
+      "exists": true,
+      "path": "src/engine/backtest.py",
+      "line_count": 2978,
+      "hits": {
+        "E1_AUDITED_G4_MINHOLD10": [
+          2568
+        ],
+        "E1R_REGIME_AWARE_V0_2": [
+          2737
+        ],
+        "forward": [
+          115,
+          180,
+          196,
+          203,
+          227,
+          228,
+          241,
+          259,
+          280,
+          317,
+          331,
+          332,
+          333,
+          334,
+          336,
+          347,
+          349,
+          350,
+          402,
+          403,
+          434,
+          436,
+          440,
+          595,
+          601,
+          620,
+          623,
+          636,
+          637,
+          638,
+          682,
+          683,
+          702,
+          703,
+          708,
+          713,
+          718,
+          726,
+          2939
+        ],
+        "equity": [
+          1079,
+          1082,
+          1083,
+          1084,
+          1085,
+          1361,
+          1367,
+          1370,
+          1496,
+          1497,
+          1498,
+          1499,
+          1502,
+          1503,
+          1505,
+          1507,
+          1508,
+          1515,
+          1519,
+          1522,
+          2152,
+          2232,
+          2233,
+          2234,
+          2240,
+          2290,
+          2292,
+          2294,
+          2295,
+          2349,
+          2439,
+          2474,
+          2477,
+          2478,
+          2711,
+          2726,
+          2740
+        ],
+        "positions": [
+          35,
+          83,
+          796,
+          831,
+          833,
+          835,
+          837,
+          838,
+          1024,
+          1148,
+          1356,
+          1359,
+          1518,
+          1523,
+          1871,
+          2239,
+          2241
+        ],
+        "orders": [
+          789,
+          1018,
+          1022,
+          1053,
+          1088,
+          1098,
+          1112,
+          1118,
+          1120,
+          1164,
+          1229,
+          1268,
+          1339,
+          1377,
+          1524,
+          1622,
+          1757,
+          1758,
+          1789,
+          1836,
+          1849,
+          1879,
+          2013,
+          2027,
+          2029,
+          2048,
+          2066,
+          2083,
+          2096,
+          2110,
+          2111,
+          2114,
+          2125,
+          2126,
+          2133,
+          2134,
+          2154,
+          2271,
+          2284,
+          2380
+        ],
+        "gross_exposure": [
+          2723
+        ],
+        "sidecar": [
+          2692,
+          2701,
+          2704,
+          2706,
+          2718,
+          2730,
+          2734,
+          2739,
+          2743,
+          2745,
+          2746,
+          2747,
+          2751,
+          2755
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 2568,
+          "text": "        \"E1_AUDITED_G4_MINHOLD10\": {"
+        },
+        {
+          "term": "E1R_REGIME_AWARE_V0_2",
+          "line": 2737,
+          "text": "            variant_results[\"E1R_REGIME_AWARE_V0_2\"] = compose_e1r_v0_2_variant("
+        },
+        {
+          "term": "forward",
+          "line": 115,
+          "text": "def forward_return(prices: list[float], t: int, days: int) -> float | None:"
+        },
+        {
+          "term": "forward",
+          "line": 180,
+          "text": "    forward_days: list[int] = [5, 10, 20, 30],"
+        },
+        {
+          "term": "forward",
+          "line": 196,
+          "text": "    results = {b: {d: [] for d in forward_days} for b in buckets}"
+        },
+        {
+          "term": "forward",
+          "line": 203,
+          "text": "    for t in range(min_history, n_days - max(forward_days), step):"
+        },
+        {
+          "term": "forward",
+          "line": 227,
+          "text": "                    for days in forward_days:"
+        },
+        {
+          "term": "forward",
+          "line": 228,
+          "text": "                        ret = forward_return(p_series, t, days)"
+        },
+        {
+          "term": "forward",
+          "line": 241,
+          "text": "        for days in forward_days:"
+        },
+        {
+          "term": "forward",
+          "line": 259,
+          "text": "    for days in forward_days:"
+        },
+        {
+          "term": "forward",
+          "line": 280,
+          "text": "        bucket_sample_counts[b] = {f\"fwd{d}d\": summary[b].get(f\"fwd{d}d\",{}).get(\"n\",0) for d in forward_days}"
+        },
+        {
+          "term": "forward",
+          "line": 317,
+          "text": "    forward_days: list[int] = [5, 10, 20, 30],"
+        },
+        {
+          "term": "forward",
+          "line": 331,
+          "text": "        \"BUY\":  {d: [] for d in forward_days},"
+        },
+        {
+          "term": "forward",
+          "line": 332,
+          "text": "        \"ADD\":  {d: [] for d in forward_days},"
+        },
+        {
+          "term": "equity",
+          "line": 1079,
+          "text": "    equity_curve:  list[float] = []"
+        },
+        {
+          "term": "equity",
+          "line": 1082,
+          "text": "    # Continuous observer-only daily equity records."
+        },
+        {
+          "term": "equity",
+          "line": 1083,
+          "text": "    # Read-only telemetry for regime/equity attribution."
+        },
+        {
+          "term": "equity",
+          "line": 1084,
+          "text": "    daily_equity_records: list[dict] = []"
+        },
+        {
+          "term": "equity",
+          "line": 1085,
+          "text": "    daily_equity_peak = init_cap"
+        },
+        {
+          "term": "equity",
+          "line": 1361,
+          "text": "        total_equity = cash + position_value"
+        },
+        {
+          "term": "equity",
+          "line": 1367,
+          "text": "        if position_value > total_equity * 1.02:"
+        },
+        {
+          "term": "equity",
+          "line": 1370,
+          "text": "        equity_curve.append(total_equity)"
+        },
+        {
+          "term": "equity",
+          "line": 1496,
+          "text": "        # ── Continuous daily equity observer record ─────────────────────"
+        },
+        {
+          "term": "equity",
+          "line": 1497,
+          "text": "        _prev_equity = ("
+        },
+        {
+          "term": "equity",
+          "line": 1498,
+          "text": "            daily_equity_records[-1][\"total_equity\"]"
+        },
+        {
+          "term": "equity",
+          "line": 1499,
+          "text": "            if daily_equity_records else init_cap"
+        },
+        {
+          "term": "positions",
+          "line": 35,
+          "text": "    \"max_positions\":      3,"
+        },
+        {
+          "term": "positions",
+          "line": 83,
+          "text": "    # max_positions：组合最大持仓数"
+        },
+        {
+          "term": "positions",
+          "line": 796,
+          "text": "    max_pos  = a[\"max_positions\"]"
+        },
+        {
+          "term": "positions",
+          "line": 831,
+          "text": "            return {\"mode\": \"UPTREND_RISK_ON\", \"max_positions\": 3, \"max_total_exposure_pct\": 100.0}"
+        },
+        {
+          "term": "positions",
+          "line": 833,
+          "text": "            return {\"mode\": \"SIDEWAYS_LIMITED\", \"max_positions\": 2, \"max_total_exposure_pct\": 33.3}"
+        },
+        {
+          "term": "positions",
+          "line": 835,
+          "text": "            return {\"mode\": \"DOWNTREND_DEFENSIVE\", \"max_positions\": 1, \"max_total_exposure_pct\": 10.0}"
+        },
+        {
+          "term": "positions",
+          "line": 837,
+          "text": "            return {\"mode\": \"N/A\", \"max_positions\": None, \"max_total_exposure_pct\": None}"
+        },
+        {
+          "term": "positions",
+          "line": 838,
+          "text": "        return {\"mode\": \"UNCLASSIFIED_DEFENSIVE\", \"max_positions\": 0, \"max_total_exposure_pct\": 0.0}"
+        },
+        {
+          "term": "positions",
+          "line": 1024,
+          "text": "        \"max_positions_reached\":    0,"
+        },
+        {
+          "term": "positions",
+          "line": 1148,
+          "text": "                        skip_reasons[\"max_positions_reached\"] += 1"
+        },
+        {
+          "term": "positions",
+          "line": 1356,
+          "text": "            _today_regime_for_positions = _e1r_regime_on(date_t)"
+        },
+        {
+          "term": "positions",
+          "line": 1359,
+          "text": "                _weights[_today_regime_for_positions] = _weights.get(_today_regime_for_positions, 0) + 1"
+        },
+        {
+          "term": "orders",
+          "line": 789,
+          "text": "    3. skipped_orders_by_reason — 跳过原因分类统计"
+        },
+        {
+          "term": "orders",
+          "line": 1018,
+          "text": "    pending_orders: list[dict] = []"
+        },
+        {
+          "term": "orders",
+          "line": 1022,
+          "text": "    # 修正3: skipped_orders_by_reason"
+        },
+        {
+          "term": "orders",
+          "line": 1053,
+          "text": "    orders_executed = 0"
+        },
+        {
+          "term": "orders",
+          "line": 1088,
+          "text": "    # These records are diagnostics; they must not affect orders or execution."
+        },
+        {
+          "term": "orders",
+          "line": 1098,
+          "text": "        \"buy_orders_generated\": 0,   # qualified_pool BUY 生成数"
+        },
+        {
+          "term": "orders",
+          "line": 1112,
+          "text": "            pending_orders = []   # 不生成订单"
+        },
+        {
+          "term": "orders",
+          "line": 1118,
+          "text": "        # STEP 1: 执行前一日 pending orders（T-1信号 → T日执行）"
+        },
+        {
+          "term": "orders",
+          "line": 1120,
+          "text": "        for order in pending_orders:"
+        },
+        {
+          "term": "orders",
+          "line": 1164,
+          "text": "                    orders_executed += 1"
+        },
+        {
+          "term": "orders",
+          "line": 1229,
+          "text": "                    orders_executed += 1"
+        },
+        {
+          "term": "orders",
+          "line": 1268,
+          "text": "                    orders_executed += 1"
+        },
+        {
+          "term": "gross_exposure",
+          "line": 2723,
+          "text": "                gross_exposure=0.25,"
+        },
+        {
+          "term": "sidecar",
+          "line": 2692,
+          "text": "    # ── E1-R v0.2 formal sidecar sleeve composition ────────────────"
+        },
+        {
+          "term": "sidecar",
+          "line": 2701,
+          "text": "    # research S4 sidecar instead of approximating it inside the Top3"
+        },
+        {
+          "term": "sidecar",
+          "line": 2704,
+          "text": "        from src.engine.e1r_sidecar_sleeve import ("
+        },
+        {
+          "term": "sidecar",
+          "line": 2706,
+          "text": "            build_e1r_sidecar_sleeve,"
+        },
+        {
+          "term": "sidecar",
+          "line": 2718,
+          "text": "            _sidecar_cfg = E1RSidecarConfig("
+        },
+        {
+          "term": "sidecar",
+          "line": 2730,
+          "text": "            _sidecar_result = build_e1r_sidecar_sleeve("
+        },
+        {
+          "term": "sidecar",
+          "line": 2734,
+          "text": "                config=_sidecar_cfg,"
+        },
+        {
+          "term": "sidecar",
+          "line": 2739,
+          "text": "                sidecar_result=_sidecar_result,"
+        },
+        {
+          "term": "sidecar",
+          "line": 2743,
+          "text": "            _sidecar_summary = _sidecar_result.get(\"summary\", {}) or {}"
+        },
+        {
+          "term": "sidecar",
+          "line": 2745,
+          "text": "                \"  E1-R v0.2 formal sidecar sleeve composed: \""
+        },
+        {
+          "term": "sidecar",
+          "line": 2746,
+          "text": "                f\"active_days={_sidecar_summary.get('active_days')} \""
+        },
+        {
+          "term": "sidecar",
+          "line": 2747,
+          "text": "                f\"return={_sidecar_summary.get('full_period_strategy_return_pct'):.2f}%\""
+        }
+      ]
+    },
+    "src/engine/e1r_composer.py": {
+      "exists": true,
+      "path": "src/engine/e1r_composer.py",
+      "line_count": 360,
+      "hits": {
+        "E1R_REGIME_AWARE_V0_2": [
+          9,
+          300
+        ],
+        "equity": [
+          5,
+          9,
+          13,
+          55,
+          56,
+          59,
+          62,
+          95,
+          113,
+          171,
+          173,
+          175,
+          176,
+          181,
+          182,
+          184,
+          190,
+          191,
+          216,
+          217,
+          224,
+          225,
+          260,
+          268,
+          286,
+          288,
+          292,
+          293,
+          322,
+          323
+        ],
+        "gross_exposure": [
+          164,
+          208,
+          356
+        ],
+        "sidecar": [
+          6,
+          19,
+          96,
+          99,
+          106,
+          131,
+          132,
+          133,
+          143,
+          144,
+          146,
+          154,
+          155,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          199,
+          200,
+          206,
+          207,
+          208,
+          221,
+          230,
+          233,
+          243,
+          245,
+          246,
+          248,
+          255,
+          269,
+          270,
+          271,
+          272,
+          276,
+          285,
+          289,
+          291
+        ],
+        "sidecar_active": [
+          162,
+          206,
+          233,
+          248,
+          269,
+          270,
+          271,
+          343,
+          344,
+          345
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1R_REGIME_AWARE_V0_2",
+          "line": 9,
+          "text": "- E1R_REGIME_AWARE_V0_2 formal combined daily equity records"
+        },
+        {
+          "term": "E1R_REGIME_AWARE_V0_2",
+          "line": 300,
+          "text": "        \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\","
+        },
+        {
+          "term": "equity",
+          "line": 5,
+          "text": "- E1R_REGIME_AWARE_V0_1 core daily equity records"
+        },
+        {
+          "term": "equity",
+          "line": 9,
+          "text": "- E1R_REGIME_AWARE_V0_2 formal combined daily equity records"
+        },
+        {
+          "term": "equity",
+          "line": 13,
+          "text": "Core daily equity record date means:"
+        },
+        {
+          "term": "equity",
+          "line": 55,
+          "text": "def max_drawdown(equity_values: Sequence[float]) -> Optional[float]:"
+        },
+        {
+          "term": "equity",
+          "line": 56,
+          "text": "    if not equity_values:"
+        },
+        {
+          "term": "equity",
+          "line": 59,
+          "text": "    peak = equity_values[0]"
+        },
+        {
+          "term": "equity",
+          "line": 62,
+          "text": "    for value in equity_values:"
+        },
+        {
+          "term": "equity",
+          "line": 95,
+          "text": "    core_daily_equity_records: Sequence[dict[str, Any]],"
+        },
+        {
+          "term": "equity",
+          "line": 113,
+          "text": "    for row in core_daily_equity_records:"
+        },
+        {
+          "term": "equity",
+          "line": 171,
+          "text": "def build_equity_records_from_returns("
+        },
+        {
+          "term": "equity",
+          "line": 173,
+          "text": "    initial_equity: float,"
+        },
+        {
+          "term": "equity",
+          "line": 175,
+          "text": "    equity = initial_equity"
+        },
+        {
+          "term": "gross_exposure",
+          "line": 164,
+          "text": "            \"sidecar_gross_exposure\": sidecar.get(\"gross_exposure\"),"
+        },
+        {
+          "term": "gross_exposure",
+          "line": 208,
+          "text": "            \"sidecar_gross_exposure\": row.get(\"sidecar_gross_exposure\"),"
+        },
+        {
+          "term": "gross_exposure",
+          "line": 356,
+          "text": "        \"e1r_v0_2_sidecar_gross_exposure\": sidecar_result.get(\"config\", {}).get(\"gross_exposure\"),"
+        },
+        {
+          "term": "sidecar",
+          "line": 6,
+          "text": "- E1R sidecar sleeve daily return records"
+        },
+        {
+          "term": "sidecar",
+          "line": 19,
+          "text": "Therefore, for sidecar interval (date -> next_date), use core daily return"
+        },
+        {
+          "term": "sidecar",
+          "line": 96,
+          "text": "    sidecar_records: Sequence[dict[str, Any]],"
+        },
+        {
+          "term": "sidecar",
+          "line": 99,
+          "text": "    Align core daily returns to sidecar intervals by next_date."
+        },
+        {
+          "term": "sidecar",
+          "line": 106,
+          "text": "      sidecar_return,"
+        },
+        {
+          "term": "sidecar",
+          "line": 131,
+          "text": "    for sidecar in sidecar_records:"
+        },
+        {
+          "term": "sidecar",
+          "line": 132,
+          "text": "        date = sidecar.get(\"date\")"
+        },
+        {
+          "term": "sidecar",
+          "line": 133,
+          "text": "        next_date = sidecar.get(\"next_date\")"
+        },
+        {
+          "term": "sidecar",
+          "line": 143,
+          "text": "        sidecar_return = safe_float(sidecar.get(\"portfolio_return\")) or 0.0"
+        },
+        {
+          "term": "sidecar",
+          "line": 144,
+          "text": "        spx_return = safe_float(sidecar.get(\"spx_return\")) or 0.0"
+        },
+        {
+          "term": "sidecar",
+          "line": 146,
+          "text": "        combined_return = (1.0 + core_return) * (1.0 + sidecar_return) - 1.0"
+        },
+        {
+          "term": "sidecar",
+          "line": 154,
+          "text": "            \"sidecar_return\": sidecar_return,"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 162,
+          "text": "            \"sidecar_active\": bool(sidecar.get(\"is_active\")),"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 206,
+          "text": "            \"sidecar_active\": row.get(\"sidecar_active\"),"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 233,
+          "text": "    active_records = [r for r in interval_records if r.get(\"sidecar_active\")]"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 248,
+          "text": "        if row.get(\"sidecar_active\"):"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 269,
+          "text": "        \"sidecar_active_days\": len(active_records),"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 270,
+          "text": "        \"sidecar_active_by_regime\": active_by_regime,"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 271,
+          "text": "        \"sidecar_active_by_subclass\": active_by_subclass,"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 343,
+          "text": "    result[\"sidecar_active_days\"] = summary[\"sidecar_active_days\"]"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 344,
+          "text": "    result[\"sidecar_active_by_regime\"] = summary[\"sidecar_active_by_regime\"]"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 345,
+          "text": "    result[\"sidecar_active_by_subclass\"] = summary[\"sidecar_active_by_subclass\"]"
+        }
+      ]
+    },
+    "src/engine/e1r_sidecar_sleeve.py": {
+      "exists": true,
+      "path": "src/engine/e1r_sidecar_sleeve.py",
+      "line_count": 594,
+      "hits": {
+        "E1_AUDITED_G4_MINHOLD10": [
+          22
+        ],
+        "E1R_REGIME_AWARE_V0_2": [
+          6
+        ],
+        "equity": [
+          49,
+          87,
+          88,
+          91,
+          94,
+          477,
+          478,
+          486,
+          487,
+          489,
+          519,
+          533,
+          534,
+          574
+        ],
+        "gross_exposure": [
+          46,
+          410,
+          428,
+          437,
+          462,
+          501,
+          571
+        ],
+        "sidecar": [
+          2,
+          6,
+          26,
+          401,
+          473,
+          538,
+          550,
+          551,
+          564
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 22,
+          "text": "- E1_AUDITED_G4_MINHOLD10"
+        },
+        {
+          "term": "E1R_REGIME_AWARE_V0_2",
+          "line": 6,
+          "text": "Formal engine module for E1R_REGIME_AWARE_V0_2 sidecar sleeve."
+        },
+        {
+          "term": "equity",
+          "line": 49,
+          "text": "    initial_equity: float = 100000.0"
+        },
+        {
+          "term": "equity",
+          "line": 87,
+          "text": "def max_drawdown(equity_values: Sequence[float]) -> Optional[float]:"
+        },
+        {
+          "term": "equity",
+          "line": 88,
+          "text": "    if not equity_values:"
+        },
+        {
+          "term": "equity",
+          "line": 91,
+          "text": "    peak = equity_values[0]"
+        },
+        {
+          "term": "equity",
+          "line": 94,
+          "text": "    for value in equity_values:"
+        },
+        {
+          "term": "equity",
+          "line": 477,
+          "text": "    equity = config.initial_equity"
+        },
+        {
+          "term": "equity",
+          "line": 478,
+          "text": "    equity_curve = [equity]"
+        },
+        {
+          "term": "equity",
+          "line": 486,
+          "text": "        equity *= 1.0 + record[\"portfolio_return\"]"
+        },
+        {
+          "term": "equity",
+          "line": 487,
+          "text": "        equity_curve.append(equity)"
+        },
+        {
+          "term": "equity",
+          "line": 489,
+          "text": "    full_strategy_return = equity_curve[-1] / config.initial_equity - 1.0"
+        },
+        {
+          "term": "equity",
+          "line": 519,
+          "text": "        \"max_drawdown_pct\": pct_display(max_drawdown(equity_curve)),"
+        },
+        {
+          "term": "equity",
+          "line": 533,
+          "text": "        \"equity_start\": config.initial_equity,"
+        },
+        {
+          "term": "gross_exposure",
+          "line": 46,
+          "text": "    gross_exposure: float = 0.25"
+        },
+        {
+          "term": "gross_exposure",
+          "line": 410,
+          "text": "    gross_exposure = float(config.gross_exposure)"
+        },
+        {
+          "term": "gross_exposure",
+          "line": 428,
+          "text": "            and gross_exposure > 0"
+        },
+        {
+          "term": "gross_exposure",
+          "line": 437,
+          "text": "            weight = gross_exposure / len(selected)"
+        },
+        {
+          "term": "gross_exposure",
+          "line": 462,
+          "text": "            \"gross_exposure\": gross_exposure if is_active else 0.0,"
+        },
+        {
+          "term": "gross_exposure",
+          "line": 501,
+          "text": "        \"gross_exposure\": config.gross_exposure,"
+        },
+        {
+          "term": "gross_exposure",
+          "line": 571,
+          "text": "            \"gross_exposure\": config.gross_exposure,"
+        },
+        {
+          "term": "sidecar",
+          "line": 2,
+          "text": "E1-R sidecar sleeve engine."
+        },
+        {
+          "term": "sidecar",
+          "line": 6,
+          "text": "Formal engine module for E1R_REGIME_AWARE_V0_2 sidecar sleeve."
+        },
+        {
+          "term": "sidecar",
+          "line": 26,
+          "text": "The sidecar sleeve is later composed with the E1R v0.1 core daily returns by"
+        },
+        {
+          "term": "sidecar",
+          "line": 401,
+          "text": "def run_daily_rebalanced_sidecar("
+        },
+        {
+          "term": "sidecar",
+          "line": 473,
+          "text": "def summarize_sidecar("
+        },
+        {
+          "term": "sidecar",
+          "line": 538,
+          "text": "def build_e1r_sidecar_sleeve("
+        },
+        {
+          "term": "sidecar",
+          "line": 550,
+          "text": "    records = run_daily_rebalanced_sidecar(rankings, spx, regimes, intervals, config)"
+        },
+        {
+          "term": "sidecar",
+          "line": 551,
+          "text": "    summary = summarize_sidecar(records, config)"
+        },
+        {
+          "term": "sidecar",
+          "line": 564,
+          "text": "        \"engine\": \"e1r_sidecar_sleeve\","
+        }
+      ]
+    },
+    "dashboard/app.js": {
+      "exists": true,
+      "path": "dashboard/app.js",
+      "line_count": 1356,
+      "hits": {
+        "E1_AUDITED_G4_MINHOLD10": [
+          296,
+          609,
+          626,
+          729,
+          735,
+          736
+        ],
+        "oos_summary": [
+          144
+        ],
+        "oos_equity_curve": [
+          167
+        ],
+        "oos_e1r_v0_2": [
+          143,
+          1026,
+          1027,
+          1028,
+          1029,
+          1030,
+          1031,
+          1032
+        ],
+        "forward": [
+          257,
+          258,
+          273,
+          648,
+          910,
+          959
+        ],
+        "OOS": [
+          300,
+          648,
+          683,
+          783,
+          854,
+          909,
+          910,
+          959,
+          984,
+          1172,
+          1250,
+          1256
+        ],
+        "paper": [
+          273,
+          1143,
+          1203
+        ],
+        "equity": [
+          167,
+          765,
+          766,
+          782,
+          863,
+          864,
+          896,
+          935,
+          943,
+          989,
+          1030,
+          1034,
+          1039,
+          1078,
+          1207,
+          1215,
+          1221,
+          1222,
+          1242,
+          1247,
+          1249,
+          1252,
+          1255,
+          1256,
+          1260,
+          1261,
+          1266,
+          1267,
+          1268,
+          1276,
+          1277,
+          1278
+        ],
+        "positions": [
+          145,
+          182,
+          185,
+          605,
+          607,
+          610,
+          641,
+          713,
+          716,
+          719,
+          783,
+          1028,
+          1078,
+          1251,
+          1300,
+          1311,
+          1328
+        ],
+        "orders": [
+          1029,
+          1078,
+          1301,
+          1312,
+          1329
+        ],
+        "sidecar": [
+          1027,
+          1031,
+          1032,
+          1169,
+          1184,
+          1189,
+          1190,
+          1199,
+          1230,
+          1241,
+          1268,
+          1269,
+          1278,
+          1299,
+          1310,
+          1320,
+          1327
+        ],
+        "core_active": [
+          1188
+        ],
+        "sidecar_active": [
+          1189,
+          1230
+        ],
+        "status_date": [
+          264,
+          826,
+          1186,
+          1265
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 296,
+          "text": "        <thead><tr><th>Metric</th><th>E1_AUDITED_G4_MINHOLD10</th><th>E1R v0.2</th></tr></thead>"
+        },
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 609,
+          "text": "    const e1=vr?.E1_AUDITED_G4_MINHOLD10;"
+        },
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 626,
+          "text": "      <strong>E1_AUDITED_G4_MINHOLD10 (frozen)</strong> &nbsp;·&nbsp;"
+        },
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 729,
+          "text": "    const e1=vr?.E1_AUDITED_G4_MINHOLD10;"
+        },
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 735,
+          "text": "    const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};"
+        },
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 736,
+          "text": "    const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};"
+        },
+        {
+          "term": "oos_summary",
+          "line": 144,
+          "text": "  try { DATA.oosSummaryNative = await fetchJ('oos_summary'); } catch(e) { DATA.oosSummaryNative = {}; }"
+        },
+        {
+          "term": "oos_equity_curve",
+          "line": 167,
+          "text": "      fetchJ('oos_equity_curve').catch(()=>null),"
+        },
+        {
+          "term": "oos_e1r_v0_2",
+          "line": 143,
+          "text": "  try { DATA.e1rV02OosSummary = await fetchJ('oos_e1r_v0_2_summary'); } catch(e) { DATA.e1rV02OosSummary = {}; }"
+        },
+        {
+          "term": "oos_e1r_v0_2",
+          "line": 1026,
+          "text": "    oosSummary: \"../exports/oos_e1r_v0_2_summary.json\","
+        },
+        {
+          "term": "oos_e1r_v0_2",
+          "line": 1027,
+          "text": "    sidecar: \"../exports/oos_e1r_v0_2_sidecar.json\","
+        },
+        {
+          "term": "oos_e1r_v0_2",
+          "line": 1028,
+          "text": "    positions: \"../exports/oos_e1r_v0_2_positions.json\","
+        },
+        {
+          "term": "oos_e1r_v0_2",
+          "line": 1029,
+          "text": "    orders: \"../exports/oos_e1r_v0_2_orders.json\","
+        },
+        {
+          "term": "oos_e1r_v0_2",
+          "line": 1030,
+          "text": "    oosEquity: \"../exports/oos_e1r_v0_2_equity_curve.json\","
+        },
+        {
+          "term": "oos_e1r_v0_2",
+          "line": 1031,
+          "text": "    lifecycle: \"../exports/oos_e1r_v0_2_sidecar_lifecycle.json\","
+        },
+        {
+          "term": "oos_e1r_v0_2",
+          "line": 1032,
+          "text": "    turnover: \"../exports/oos_e1r_v0_2_sidecar_turnover.json\","
+        },
+        {
+          "term": "forward",
+          "line": 257,
+          "text": "    'return_pct','total_return_pct','forward_return_pct','oos_return_pct',"
+        },
+        {
+          "term": "forward",
+          "line": 258,
+          "text": "    'return','total_return','forward_return','oos_return'"
+        },
+        {
+          "term": "forward",
+          "line": 273,
+          "text": "    ['Status','Frozen benchmark + forward paper tracking','Frozen research candidate + forward paper tracking'],"
+        },
+        {
+          "term": "forward",
+          "line": 648,
+          "text": "      这不是用户实际持仓。OOS 阶段将由每日 E1 forward portfolio 文件替代。"
+        },
+        {
+          "term": "forward",
+          "line": 910,
+          "text": "        // This keeps SPX buy & hold comparable with E1 OOS forward."
+        },
+        {
+          "term": "forward",
+          "line": 959,
+          "text": "          ds.splice(1,0,{label:'E1 OOS forward',data:oosForwardData,borderColor:'#1D9E75',backgroundColor:'transparent',borderWidth:2,borderDash:[6,4],pointRadius:0,tension:0.2,spanGaps:false});"
+        },
+        {
+          "term": "OOS",
+          "line": 300,
+          "text": "        Historical metrics are frozen research/backtest artifacts. Forward fields are read from daily OOS exports when available. No strategy logic is changed."
+        },
+        {
+          "term": "OOS",
+          "line": 648,
+          "text": "      这不是用户实际持仓。OOS 阶段将由每日 E1 forward portfolio 文件替代。"
+        },
+        {
+          "term": "OOS",
+          "line": 683,
+          "text": "        模拟期内无未平仓仓位。OOS 阶段持仓将在此显示。"
+        },
+        {
+          "term": "OOS",
+          "line": 783,
+          "text": "        <div class=\"muted\" style=\"font-size:12px;margin-top:.5rem\">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: n"
+        },
+        {
+          "term": "OOS",
+          "line": 854,
+          "text": "    // Stage 3.8E-1: removed OOS note below trade table."
+        },
+        {
+          "term": "OOS",
+          "line": 909,
+          "text": "        // Extend SPX benchmark through OOS using Market Overview SPX chart."
+        },
+        {
+          "term": "OOS",
+          "line": 910,
+          "text": "        // This keeps SPX buy & hold comparable with E1 OOS forward."
+        },
+        {
+          "term": "OOS",
+          "line": 959,
+          "text": "          ds.splice(1,0,{label:'E1 OOS forward',data:oosForwardData,borderColor:'#1D9E75',backgroundColor:'transparent',borderWidth:2,borderDash:[6,4],pointRadius:0,tension:0.2,spanGaps:false});"
+        },
+        {
+          "term": "OOS",
+          "line": 984,
+          "text": "            ctx.fillText('OOS start', x + 6, chartArea.top + 12);"
+        },
+        {
+          "term": "OOS",
+          "line": 1172,
+          "text": "      \"E1R v0.2 Market / OOS Status\","
+        },
+        {
+          "term": "OOS",
+          "line": 1250,
+          "text": "      \"E1R v0.2 Forward / OOS Equity\","
+        },
+        {
+          "term": "OOS",
+          "line": 1256,
+          "text": "      e1rRenderUnavailable(panel, \"E1R v0.2 OOS equity\", equityResult);"
+        },
+        {
+          "term": "paper",
+          "line": 273,
+          "text": "    ['Status','Frozen benchmark + forward paper tracking','Frozen research candidate + forward paper tracking'],"
+        },
+        {
+          "term": "paper",
+          "line": 1143,
+          "text": "    header.innerHTML = `<h3>${e1rEscapeHtml(title)}</h3><span class=\"e1r-v02-badge\">paper tracking</span>`;"
+        },
+        {
+          "term": "paper",
+          "line": 1203,
+          "text": "      <div class=\"e1r-v02-note\">E1R v0.2 is shown as paper tracking only. No broker execution is connected from this dashboard module.</div>"
+        },
+        {
+          "term": "equity",
+          "line": 167,
+          "text": "      fetchJ('oos_equity_curve').catch(()=>null),"
+        },
+        {
+          "term": "equity",
+          "line": 765,
+          "text": "    const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];"
+        },
+        {
+          "term": "equity",
+          "line": 766,
+          "text": "    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];"
+        },
+        {
+          "term": "equity",
+          "line": 782,
+          "text": "        <div class=\"cwrap\" style=\"height:220px\"><canvas id=\"cw-equity\"></canvas></div>"
+        },
+        {
+          "term": "equity",
+          "line": 863,
+          "text": "        const el=$('cw-equity'); if(!el)return;"
+        },
+        {
+          "term": "equity",
+          "line": 864,
+          "text": "        if(charts.equity)charts.equity.destroy();"
+        },
+        {
+          "term": "equity",
+          "line": 896,
+          "text": "          .filter(r => r && r.date && r.equity != null);"
+        },
+        {
+          "term": "equity",
+          "line": 935,
+          "text": "        const oosStartEquity = Number(oosRows[0]?.equity || 0) || 1;"
+        },
+        {
+          "term": "equity",
+          "line": 943,
+          "text": "              oosForwardData[idx] = parseFloat(((Number(r.equity || 0) / oosStartEquity) * e1Anchor).toFixed(2));"
+        },
+        {
+          "term": "equity",
+          "line": 989,
+          "text": "        charts.equity=new Chart(el,{type:'line',data:{"
+        },
+        {
+          "term": "equity",
+          "line": 1030,
+          "text": "    oosEquity: \"../exports/oos_e1r_v0_2_equity_curve.json\","
+        },
+        {
+          "term": "equity",
+          "line": 1034,
+          "text": "    backtestEquity: \"../exports/e1r_v0_2_backtest_equity_curve.json\""
+        },
+        {
+          "term": "positions",
+          "line": 145,
+          "text": "  ['market','leader','watchlist','positions','research'].forEach(t=>{"
+        },
+        {
+          "term": "positions",
+          "line": 182,
+          "text": "    ['market','leader','watchlist','positions','research'].forEach(t=>render(t));"
+        },
+        {
+          "term": "positions",
+          "line": 185,
+          "text": "    ['market','leader','watchlist','positions','research'].forEach(t=>{"
+        },
+        {
+          "term": "positions",
+          "line": 605,
+          "text": "  if (tab==='positions') {"
+        },
+        {
+          "term": "positions",
+          "line": 607,
+          "text": "    if(!bt){$('s-positions').innerHTML='<div class=\"error\">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>';return;}"
+        },
+        {
+          "term": "positions",
+          "line": 610,
+          "text": "    if(!e1){$('s-positions').innerHTML='<div class=\"error\">E1 variant 数据缺失。</div>';return;}"
+        },
+        {
+          "term": "positions",
+          "line": 641,
+          "text": "        ⚠️ DATE MISMATCH — LS from leaderboard may not match model positions"
+        },
+        {
+          "term": "positions",
+          "line": 713,
+          "text": "    $('s-positions').innerHTML=h;"
+        },
+        {
+          "term": "positions",
+          "line": 716,
+          "text": "      const root=$('s-positions');"
+        },
+        {
+          "term": "positions",
+          "line": 719,
+          "text": "        bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');"
+        },
+        {
+          "term": "positions",
+          "line": 783,
+          "text": "        <div class=\"muted\" style=\"font-size:12px;margin-top:.5rem\">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: n"
+        },
+        {
+          "term": "positions",
+          "line": 1028,
+          "text": "    positions: \"../exports/oos_e1r_v0_2_positions.json\","
+        },
+        {
+          "term": "orders",
+          "line": 1029,
+          "text": "    orders: \"../exports/oos_e1r_v0_2_orders.json\","
+        },
+        {
+          "term": "orders",
+          "line": 1078,
+          "text": "    for (const key of [\"records\", \"data\", \"items\", \"rows\", \"equity_curve\", \"curve\", \"positions\", \"orders\", \"trades\"]) {"
+        },
+        {
+          "term": "orders",
+          "line": 1301,
+          "text": "      ordersResult,"
+        },
+        {
+          "term": "orders",
+          "line": 1312,
+          "text": "      e1rFetchJson(E1R_V02_PATHS.orders),"
+        },
+        {
+          "term": "orders",
+          "line": 1329,
+          "text": "      orders: ordersResult.ok,"
+        },
+        {
+          "term": "sidecar",
+          "line": 1027,
+          "text": "    sidecar: \"../exports/oos_e1r_v0_2_sidecar.json\","
+        },
+        {
+          "term": "sidecar",
+          "line": 1031,
+          "text": "    lifecycle: \"../exports/oos_e1r_v0_2_sidecar_lifecycle.json\","
+        },
+        {
+          "term": "sidecar",
+          "line": 1032,
+          "text": "    turnover: \"../exports/oos_e1r_v0_2_sidecar_turnover.json\","
+        },
+        {
+          "term": "sidecar",
+          "line": 1169,
+          "text": "  function e1rRenderStatus(statusResult, summaryResult, sidecarResult) {"
+        },
+        {
+          "term": "sidecar",
+          "line": 1184,
+          "text": "    const sidecar = e1rLatest(sidecarResult.data);"
+        },
+        {
+          "term": "sidecar",
+          "line": 1189,
+          "text": "    const sidecarActive = e1rPick(status, [\"sidecar_active\", \"is_sidecar_active\"], e1rPick(sidecar, [\"sidecar_active\", \"is_sidecar_active\"]));"
+        },
+        {
+          "term": "sidecar",
+          "line": 1190,
+          "text": "    const selectedCount = e1rPick(status, [\"sidecar_selected_count\", \"selected_count\"], e1rPick(sidecar, [\"selected_count\", \"sidecar_selected_count\"], \"0\"));"
+        },
+        {
+          "term": "sidecar",
+          "line": 1199,
+          "text": "        ${e1rMetric(\"Sidecar active\", sidecarActive)}"
+        },
+        {
+          "term": "sidecar",
+          "line": 1230,
+          "text": "    const sidecarDays = e1rPick(summary, [\"sidecar_active_days\", \"sidecar_days\"]);"
+        },
+        {
+          "term": "sidecar",
+          "line": 1241,
+          "text": "        ${e1rMetric(\"Sidecar days\", sidecarDays)}"
+        },
+        {
+          "term": "sidecar",
+          "line": 1268,
+          "text": "    const sidecarEquity = e1rPick(latest, [\"sidecar_equity\"]);"
+        },
+        {
+          "term": "sidecar",
+          "line": 1269,
+          "text": "    const mtmStatus = e1rPick(latest, [\"mtm_status\", \"sidecar_mtm_status\"], e1rPick(lifecycle, [\"lifecycle_status\"], \"N/A\"));"
+        },
+        {
+          "term": "core_active",
+          "line": 1188,
+          "text": "    const coreActive = e1rPick(status, [\"core_active\", \"is_core_active\"], e1rPick(summary, [\"core_active\", \"is_core_active\"]));"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 1189,
+          "text": "    const sidecarActive = e1rPick(status, [\"sidecar_active\", \"is_sidecar_active\"], e1rPick(sidecar, [\"sidecar_active\", \"is_sidecar_active\"]));"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 1230,
+          "text": "    const sidecarDays = e1rPick(summary, [\"sidecar_active_days\", \"sidecar_days\"]);"
+        },
+        {
+          "term": "status_date",
+          "line": 264,
+          "text": "  return e2bV4Pick(latest,['date','status_date','latest_date','as_of','generated_at_display','generated_at']);"
+        },
+        {
+          "term": "status_date",
+          "line": 826,
+          "text": "      nativeMarket.status_date ||"
+        },
+        {
+          "term": "status_date",
+          "line": 1186,
+          "text": "    const statusDate = e1rPick(status, [\"status_date\", \"latest_date\", \"date\", \"as_of\"], e1rPick(summary, [\"status_date\", \"latest_date\", \"date\", \"as_of\"]));"
+        },
+        {
+          "term": "status_date",
+          "line": 1265,
+          "text": "    const latestDate = e1rPick(latest, [\"date\", \"status_date\", \"as_of\"]);"
+        }
+      ]
+    },
+    "exports/oos_summary.json": {
+      "exists": true,
+      "path": "exports/oos_summary.json",
+      "line_count": 24,
+      "hits": {
+        "E1_AUDITED_G4_MINHOLD10": [
+          5
+        ],
+        "OOS": [
+          4
+        ],
+        "equity": [
+          12
+        ],
+        "positions": [
+          18,
+          23
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 5,
+          "text": "  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\","
+        },
+        {
+          "term": "OOS",
+          "line": 4,
+          "text": "  \"status\": \"OOS_ACTIVE\","
+        },
+        {
+          "term": "equity",
+          "line": 12,
+          "text": "  \"final_equity\": 75255.2,"
+        },
+        {
+          "term": "positions",
+          "line": 18,
+          "text": "  \"open_positions\": 3,"
+        },
+        {
+          "term": "positions",
+          "line": 23,
+          "text": "  \"mixed_provenance_positions\": 3"
+        }
+      ]
+    },
+    "exports/oos_equity_curve.json": {
+      "exists": true,
+      "path": "exports/oos_equity_curve.json",
+      "line_count": 104,
+      "hits": {
+        "E1_AUDITED_G4_MINHOLD10": [
+          4
+        ],
+        "equity": [
+          9,
+          17,
+          25,
+          33,
+          41,
+          49,
+          57,
+          65,
+          73,
+          81,
+          89,
+          97
+        ],
+        "positions": [
+          12,
+          20,
+          28,
+          36,
+          44,
+          52,
+          60,
+          68,
+          76,
+          84,
+          92,
+          100
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 4,
+          "text": "  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\","
+        },
+        {
+          "term": "equity",
+          "line": 9,
+          "text": "      \"equity\": 100000.0,"
+        },
+        {
+          "term": "equity",
+          "line": 17,
+          "text": "      \"equity\": 99800.3,"
+        },
+        {
+          "term": "equity",
+          "line": 25,
+          "text": "      \"equity\": 93008.6,"
+        },
+        {
+          "term": "equity",
+          "line": 33,
+          "text": "      \"equity\": 90809.99,"
+        },
+        {
+          "term": "equity",
+          "line": 41,
+          "text": "      \"equity\": 91587.65,"
+        },
+        {
+          "term": "equity",
+          "line": 49,
+          "text": "      \"equity\": 78238.34,"
+        },
+        {
+          "term": "equity",
+          "line": 57,
+          "text": "      \"equity\": 85508.3,"
+        },
+        {
+          "term": "equity",
+          "line": 65,
+          "text": "      \"equity\": 87462.21,"
+        },
+        {
+          "term": "equity",
+          "line": 73,
+          "text": "      \"equity\": 82845.04,"
+        },
+        {
+          "term": "equity",
+          "line": 81,
+          "text": "      \"equity\": 75468.05,"
+        },
+        {
+          "term": "equity",
+          "line": 89,
+          "text": "      \"equity\": 80999.93,"
+        },
+        {
+          "term": "equity",
+          "line": 97,
+          "text": "      \"equity\": 75255.2,"
+        },
+        {
+          "term": "positions",
+          "line": 12,
+          "text": "      \"n_positions\": 0,"
+        },
+        {
+          "term": "positions",
+          "line": 20,
+          "text": "      \"n_positions\": 3,"
+        },
+        {
+          "term": "positions",
+          "line": 28,
+          "text": "      \"n_positions\": 3,"
+        },
+        {
+          "term": "positions",
+          "line": 36,
+          "text": "      \"n_positions\": 3,"
+        },
+        {
+          "term": "positions",
+          "line": 44,
+          "text": "      \"n_positions\": 3,"
+        },
+        {
+          "term": "positions",
+          "line": 52,
+          "text": "      \"n_positions\": 3,"
+        },
+        {
+          "term": "positions",
+          "line": 60,
+          "text": "      \"n_positions\": 3,"
+        },
+        {
+          "term": "positions",
+          "line": 68,
+          "text": "      \"n_positions\": 3,"
+        },
+        {
+          "term": "positions",
+          "line": 76,
+          "text": "      \"n_positions\": 3,"
+        },
+        {
+          "term": "positions",
+          "line": 84,
+          "text": "      \"n_positions\": 3,"
+        },
+        {
+          "term": "positions",
+          "line": 92,
+          "text": "      \"n_positions\": 3,"
+        },
+        {
+          "term": "positions",
+          "line": 100,
+          "text": "      \"n_positions\": 3,"
+        }
+      ]
+    },
+    "exports/oos_orders.json": {
+      "exists": true,
+      "path": "exports/oos_orders.json",
+      "line_count": 94,
+      "hits": {
+        "E1_AUDITED_G4_MINHOLD10": [
+          4
+        ],
+        "orders": [
+          5
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 4,
+          "text": "  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\","
+        },
+        {
+          "term": "orders",
+          "line": 5,
+          "text": "  \"orders\": ["
+        }
+      ]
+    },
+    "exports/oos_positions.json": {
+      "exists": true,
+      "path": "exports/oos_positions.json",
+      "line_count": 43,
+      "hits": {
+        "E1_AUDITED_G4_MINHOLD10": [
+          4
+        ],
+        "positions": [
+          6
+        ],
+        "orders": [
+          41
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 4,
+          "text": "  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\","
+        },
+        {
+          "term": "positions",
+          "line": 6,
+          "text": "  \"positions\": ["
+        },
+        {
+          "term": "orders",
+          "line": 41,
+          "text": "  \"pending_orders\": [],"
+        }
+      ]
+    },
+    "exports/oos_trades.json": {
+      "exists": true,
+      "path": "exports/oos_trades.json",
+      "line_count": 7,
+      "hits": {
+        "E1_AUDITED_G4_MINHOLD10": [
+          4
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 4,
+          "text": "  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\","
+        }
+      ]
+    },
+    "exports/oos_e1r_v0_2_summary.json": {
+      "exists": true,
+      "path": "exports/oos_e1r_v0_2_summary.json",
+      "line_count": 25,
+      "hits": {
+        "E1R_REGIME_AWARE_V0_2": [
+          4
+        ],
+        "OOS": [
+          3,
+          20,
+          22,
+          23
+        ],
+        "equity": [
+          18,
+          22,
+          23
+        ],
+        "orders": [
+          21
+        ],
+        "gross_exposure": [
+          15
+        ],
+        "sidecar": [
+          5,
+          13,
+          14,
+          20
+        ],
+        "core_active": [
+          12
+        ],
+        "sidecar_active": [
+          13
+        ],
+        "status_date": [
+          7
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1R_REGIME_AWARE_V0_2",
+          "line": 4,
+          "text": "  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\","
+        },
+        {
+          "term": "OOS",
+          "line": 3,
+          "text": "  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\","
+        },
+        {
+          "term": "OOS",
+          "line": 20,
+          "text": "    \"OOS-1 exports daily E1R v0.2 state and sidecar target signals only.\","
+        },
+        {
+          "term": "OOS",
+          "line": 22,
+          "text": "    \"No E1R v0.2 OOS equity curve is updated by this script.\","
+        },
+        {
+          "term": "OOS",
+          "line": 23,
+          "text": "    \"This is the bridge layer for Dashboard and future OOS equity integration.\""
+        },
+        {
+          "term": "equity",
+          "line": 18,
+          "text": "  \"equity_status\": \"NOT_YET_CONNECTED\","
+        },
+        {
+          "term": "equity",
+          "line": 22,
+          "text": "    \"No E1R v0.2 OOS equity curve is updated by this script.\","
+        },
+        {
+          "term": "equity",
+          "line": 23,
+          "text": "    \"This is the bridge layer for Dashboard and future OOS equity integration.\""
+        },
+        {
+          "term": "orders",
+          "line": 21,
+          "text": "    \"No real orders are executed by this script.\","
+        },
+        {
+          "term": "gross_exposure",
+          "line": 15,
+          "text": "  \"gross_exposure\": 0.25,"
+        },
+        {
+          "term": "sidecar",
+          "line": 5,
+          "text": "  \"version\": \"E1R-v0.2-formal-sidecar-sleeve\","
+        },
+        {
+          "term": "sidecar",
+          "line": 13,
+          "text": "  \"sidecar_active\": false,"
+        },
+        {
+          "term": "sidecar",
+          "line": 14,
+          "text": "  \"sidecar_selected_count\": 0,"
+        },
+        {
+          "term": "sidecar",
+          "line": 20,
+          "text": "    \"OOS-1 exports daily E1R v0.2 state and sidecar target signals only.\","
+        },
+        {
+          "term": "core_active",
+          "line": 12,
+          "text": "  \"core_active\": true,"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 13,
+          "text": "  \"sidecar_active\": false,"
+        },
+        {
+          "term": "status_date",
+          "line": 7,
+          "text": "  \"status_date\": \"2026-06-18\","
+        }
+      ]
+    },
+    "exports/oos_e1r_v0_2_equity_curve.json": {
+      "exists": true,
+      "path": "exports/oos_e1r_v0_2_equity_curve.json",
+      "line_count": 66,
+      "hits": {
+        "E1R_REGIME_AWARE_V0_2": [
+          3
+        ],
+        "OOS": [
+          4,
+          5,
+          7,
+          31,
+          55,
+          60,
+          61,
+          64
+        ],
+        "equity": [
+          5,
+          21,
+          22,
+          23,
+          31,
+          45,
+          46,
+          47,
+          55,
+          61,
+          62
+        ],
+        "positions": [
+          18,
+          28,
+          42,
+          52,
+          60,
+          62
+        ],
+        "orders": [
+          63
+        ],
+        "sidecar": [
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          28,
+          29,
+          40,
+          41,
+          42,
+          43,
+          44,
+          46,
+          49,
+          52,
+          53,
+          60,
+          62,
+          64
+        ],
+        "core_active": [
+          15,
+          39
+        ],
+        "sidecar_active": [
+          16,
+          40
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1R_REGIME_AWARE_V0_2",
+          "line": 3,
+          "text": "  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\","
+        },
+        {
+          "term": "OOS",
+          "line": 4,
+          "text": "  \"phase\": \"OOS_2B_FORWARD_EQUITY_CURVE\","
+        },
+        {
+          "term": "OOS",
+          "line": 5,
+          "text": "  \"equity_status\": \"OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER\","
+        },
+        {
+          "term": "OOS",
+          "line": 7,
+          "text": "  \"curve_type\": \"FORWARD_OOS_EQUITY\","
+        },
+        {
+          "term": "OOS",
+          "line": 31,
+          "text": "    \"equity_status\": \"OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER\","
+        },
+        {
+          "term": "OOS",
+          "line": 55,
+          "text": "      \"equity_status\": \"OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER\","
+        },
+        {
+          "term": "OOS",
+          "line": 60,
+          "text": "    \"OOS-2B.2 adds sidecar close-to-close MTM tracking when previous positions are available.\","
+        },
+        {
+          "term": "OOS",
+          "line": 61,
+          "text": "    \"Core equity bridges to existing legacy OOS equity when available.\","
+        },
+        {
+          "term": "OOS",
+          "line": 64,
+          "text": "    \"OOS-2B.2 should add sidecar daily MTM and simulated/real position lifecycle.\""
+        },
+        {
+          "term": "equity",
+          "line": 5,
+          "text": "  \"equity_status\": \"OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER\","
+        },
+        {
+          "term": "equity",
+          "line": 21,
+          "text": "    \"core_equity\": 100000.0,"
+        },
+        {
+          "term": "equity",
+          "line": 22,
+          "text": "    \"sidecar_equity\": 100000.0,"
+        },
+        {
+          "term": "equity",
+          "line": 23,
+          "text": "    \"combined_equity\": 100000.0,"
+        },
+        {
+          "term": "equity",
+          "line": 31,
+          "text": "    \"equity_status\": \"OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER\","
+        },
+        {
+          "term": "equity",
+          "line": 45,
+          "text": "      \"core_equity\": 100000.0,"
+        },
+        {
+          "term": "equity",
+          "line": 46,
+          "text": "      \"sidecar_equity\": 100000.0,"
+        },
+        {
+          "term": "equity",
+          "line": 47,
+          "text": "      \"combined_equity\": 100000.0,"
+        },
+        {
+          "term": "equity",
+          "line": 55,
+          "text": "      \"equity_status\": \"OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER\","
+        },
+        {
+          "term": "equity",
+          "line": 61,
+          "text": "    \"Core equity bridges to existing legacy OOS equity when available.\","
+        },
+        {
+          "term": "equity",
+          "line": 62,
+          "text": "    \"Sidecar equity uses previous sidecar positions for close-to-close MTM to avoid lookahead.\","
+        },
+        {
+          "term": "positions",
+          "line": 18,
+          "text": "    \"sidecar_positions\": [],"
+        },
+        {
+          "term": "positions",
+          "line": 28,
+          "text": "    \"sidecar_source\": \"previous_positions_close_to_close_mtm_when_available\","
+        },
+        {
+          "term": "positions",
+          "line": 42,
+          "text": "      \"sidecar_positions\": [],"
+        },
+        {
+          "term": "positions",
+          "line": 52,
+          "text": "      \"sidecar_source\": \"previous_positions_close_to_close_mtm_when_available\","
+        },
+        {
+          "term": "positions",
+          "line": 60,
+          "text": "    \"OOS-2B.2 adds sidecar close-to-close MTM tracking when previous positions are available.\","
+        },
+        {
+          "term": "positions",
+          "line": 62,
+          "text": "    \"Sidecar equity uses previous sidecar positions for close-to-close MTM to avoid lookahead.\","
+        },
+        {
+          "term": "orders",
+          "line": 63,
+          "text": "    \"No real orders are executed by this script.\","
+        },
+        {
+          "term": "sidecar",
+          "line": 16,
+          "text": "    \"sidecar_active\": false,"
+        },
+        {
+          "term": "sidecar",
+          "line": 17,
+          "text": "    \"sidecar_selected_count\": 0,"
+        },
+        {
+          "term": "sidecar",
+          "line": 18,
+          "text": "    \"sidecar_positions\": [],"
+        },
+        {
+          "term": "sidecar",
+          "line": 19,
+          "text": "    \"sidecar_mtm_status\": \"SAME_DATE_NO_NEW_MTM\","
+        },
+        {
+          "term": "sidecar",
+          "line": 20,
+          "text": "    \"sidecar_mtm_details\": [],"
+        },
+        {
+          "term": "sidecar",
+          "line": 22,
+          "text": "    \"sidecar_equity\": 100000.0,"
+        },
+        {
+          "term": "sidecar",
+          "line": 25,
+          "text": "    \"sidecar_daily_return\": 0.0,"
+        },
+        {
+          "term": "sidecar",
+          "line": 28,
+          "text": "    \"sidecar_source\": \"previous_positions_close_to_close_mtm_when_available\","
+        },
+        {
+          "term": "sidecar",
+          "line": 29,
+          "text": "    \"combined_source\": \"core_bridge_plus_sidecar_target_only\","
+        },
+        {
+          "term": "sidecar",
+          "line": 40,
+          "text": "      \"sidecar_active\": false,"
+        },
+        {
+          "term": "sidecar",
+          "line": 41,
+          "text": "      \"sidecar_selected_count\": 0,"
+        },
+        {
+          "term": "sidecar",
+          "line": 42,
+          "text": "      \"sidecar_positions\": [],"
+        },
+        {
+          "term": "core_active",
+          "line": 15,
+          "text": "    \"core_active\": true,"
+        },
+        {
+          "term": "core_active",
+          "line": 39,
+          "text": "      \"core_active\": true,"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 16,
+          "text": "    \"sidecar_active\": false,"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 40,
+          "text": "      \"sidecar_active\": false,"
+        }
+      ]
+    },
+    "exports/oos_e1r_v0_2_orders.json": {
+      "exists": true,
+      "path": "exports/oos_e1r_v0_2_orders.json",
+      "line_count": 9,
+      "hits": {
+        "E1R_REGIME_AWARE_V0_2": [
+          4
+        ],
+        "OOS": [
+          3
+        ],
+        "orders": [
+          8
+        ],
+        "status_date": [
+          5
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1R_REGIME_AWARE_V0_2",
+          "line": 4,
+          "text": "  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\","
+        },
+        {
+          "term": "OOS",
+          "line": 3,
+          "text": "  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\","
+        },
+        {
+          "term": "orders",
+          "line": 8,
+          "text": "  \"orders\": []"
+        },
+        {
+          "term": "status_date",
+          "line": 5,
+          "text": "  \"status_date\": \"2026-06-18\","
+        }
+      ]
+    },
+    "exports/oos_e1r_v0_2_positions.json": {
+      "exists": true,
+      "path": "exports/oos_e1r_v0_2_positions.json",
+      "line_count": 17,
+      "hits": {
+        "E1R_REGIME_AWARE_V0_2": [
+          4
+        ],
+        "OOS": [
+          3,
+          10
+        ],
+        "positions": [
+          10,
+          14,
+          15
+        ],
+        "sidecar": [
+          12
+        ],
+        "status_date": [
+          5
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1R_REGIME_AWARE_V0_2",
+          "line": 4,
+          "text": "  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\","
+        },
+        {
+          "term": "OOS",
+          "line": 3,
+          "text": "  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\","
+        },
+        {
+          "term": "OOS",
+          "line": 10,
+          "text": "    \"positions_status\": \"NOT_CONNECTED_IN_OOS_1\""
+        },
+        {
+          "term": "positions",
+          "line": 10,
+          "text": "    \"positions_status\": \"NOT_CONNECTED_IN_OOS_1\""
+        },
+        {
+          "term": "positions",
+          "line": 14,
+          "text": "    \"positions_status\": \"TARGET_ONLY_NOT_EXECUTED\","
+        },
+        {
+          "term": "positions",
+          "line": 15,
+          "text": "    \"target_positions\": []"
+        },
+        {
+          "term": "sidecar",
+          "line": 12,
+          "text": "  \"sidecar\": {"
+        },
+        {
+          "term": "status_date",
+          "line": 5,
+          "text": "  \"status_date\": \"2026-06-18\","
+        }
+      ]
+    },
+    "exports/oos_e1r_v0_2_sidecar.json": {
+      "exists": true,
+      "path": "exports/oos_e1r_v0_2_sidecar.json",
+      "line_count": 20,
+      "hits": {
+        "E1R_REGIME_AWARE_V0_2": [
+          4
+        ],
+        "OOS": [
+          3
+        ],
+        "gross_exposure": [
+          11
+        ],
+        "status_date": [
+          5
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1R_REGIME_AWARE_V0_2",
+          "line": 4,
+          "text": "  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\","
+        },
+        {
+          "term": "OOS",
+          "line": 3,
+          "text": "  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\","
+        },
+        {
+          "term": "gross_exposure",
+          "line": 11,
+          "text": "  \"gross_exposure\": 0.25,"
+        },
+        {
+          "term": "status_date",
+          "line": 5,
+          "text": "  \"status_date\": \"2026-06-18\","
+        }
+      ]
+    },
+    "exports/e1r_v0_2_status.json": {
+      "exists": true,
+      "path": "exports/e1r_v0_2_status.json",
+      "line_count": 49,
+      "hits": {
+        "E1R_REGIME_AWARE_V0_2": [
+          3
+        ],
+        "OOS": [
+          47
+        ],
+        "gross_exposure": [
+          19
+        ],
+        "sidecar": [
+          4,
+          16
+        ],
+        "status_date": [
+          6
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1R_REGIME_AWARE_V0_2",
+          "line": 3,
+          "text": "  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\","
+        },
+        {
+          "term": "OOS",
+          "line": 47,
+          "text": "    \"This status export is a lightweight bridge for Dashboard and future OOS integration.\""
+        },
+        {
+          "term": "gross_exposure",
+          "line": 19,
+          "text": "    \"gross_exposure\": 0.25,"
+        },
+        {
+          "term": "sidecar",
+          "line": 4,
+          "text": "  \"version\": \"E1R-v0.2-formal-sidecar-sleeve\","
+        },
+        {
+          "term": "sidecar",
+          "line": 16,
+          "text": "  \"sidecar\": {"
+        },
+        {
+          "term": "status_date",
+          "line": 6,
+          "text": "  \"status_date\": \"2026-06-18\","
+        }
+      ]
+    },
+    "exports/e1r_v0_2_backtest_summary.json": {
+      "exists": true,
+      "path": "exports/e1r_v0_2_backtest_summary.json",
+      "line_count": 26,
+      "hits": {
+        "E1R_REGIME_AWARE_V0_2": [
+          2,
+          20
+        ],
+        "sidecar": [
+          11,
+          12,
+          15
+        ],
+        "sidecar_active": [
+          11,
+          12,
+          15
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1R_REGIME_AWARE_V0_2",
+          "line": 2,
+          "text": "  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\","
+        },
+        {
+          "term": "E1R_REGIME_AWARE_V0_2",
+          "line": 20,
+          "text": "  \"variant\": \"E1R_REGIME_AWARE_V0_2\","
+        },
+        {
+          "term": "sidecar",
+          "line": 11,
+          "text": "  \"sidecar_active_days\": 135,"
+        },
+        {
+          "term": "sidecar",
+          "line": 12,
+          "text": "  \"sidecar_active_by_regime\": {"
+        },
+        {
+          "term": "sidecar",
+          "line": 15,
+          "text": "  \"sidecar_active_by_subclass\": {"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 11,
+          "text": "  \"sidecar_active_days\": 135,"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 12,
+          "text": "  \"sidecar_active_by_regime\": {"
+        },
+        {
+          "term": "sidecar_active",
+          "line": 15,
+          "text": "  \"sidecar_active_by_subclass\": {"
+        }
+      ]
+    },
+    "exports/e1r_v0_2_backtest_equity_curve.json": {
+      "exists": true,
+      "path": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "line_count": 573843,
+      "hits": {
+        "E1R_REGIME_AWARE_V0_2": [
+          2
+        ],
+        "equity": [
+          3,
+          41,
+          73,
+          106,
+          138,
+          171,
+          204,
+          237,
+          269,
+          302,
+          335,
+          368,
+          401,
+          434,
+          467,
+          499,
+          531,
+          564,
+          597,
+          630,
+          663,
+          696,
+          728,
+          760,
+          793,
+          826,
+          859,
+          891,
+          923,
+          956,
+          989,
+          1021,
+          1054,
+          1087,
+          1120,
+          1153,
+          1186,
+          1219,
+          1252,
+          1285
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1R_REGIME_AWARE_V0_2",
+          "line": 2,
+          "text": "  \"variant\": \"E1R_REGIME_AWARE_V0_2\","
+        },
+        {
+          "term": "equity",
+          "line": 3,
+          "text": "  \"artifact_type\": \"frozen_5y_backtest_equity_curve\","
+        },
+        {
+          "term": "equity",
+          "line": 41,
+          "text": "      \"equity\": 541.26"
+        },
+        {
+          "term": "equity",
+          "line": 73,
+          "text": "      \"equity\": 22.75"
+        },
+        {
+          "term": "equity",
+          "line": 106,
+          "text": "      \"equity\": 396.64"
+        },
+        {
+          "term": "equity",
+          "line": 138,
+          "text": "      \"equity\": 114.01"
+        },
+        {
+          "term": "equity",
+          "line": 171,
+          "text": "      \"equity\": 352.09"
+        },
+        {
+          "term": "equity",
+          "line": 204,
+          "text": "      \"equity\": 135.77"
+        },
+        {
+          "term": "equity",
+          "line": 237,
+          "text": "      \"equity\": 421.53"
+        },
+        {
+          "term": "equity",
+          "line": 269,
+          "text": "      \"equity\": 508.46"
+        },
+        {
+          "term": "equity",
+          "line": 302,
+          "text": "      \"equity\": 21.5"
+        },
+        {
+          "term": "equity",
+          "line": 335,
+          "text": "      \"equity\": 99.99"
+        },
+        {
+          "term": "equity",
+          "line": 368,
+          "text": "      \"equity\": 45.79"
+        }
+      ]
+    },
+    "data/oos/portfolio_state.json": {
+      "exists": true,
+      "path": "data/oos/portfolio_state.json",
+      "line_count": 37,
+      "hits": {
+        "equity": [
+          33
+        ],
+        "positions": [
+          34
+        ],
+        "orders": [
+          35
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "equity",
+          "line": 33,
+          "text": "  \"equity\": 75255.2,"
+        },
+        {
+          "term": "positions",
+          "line": 34,
+          "text": "  \"n_positions\": 3,"
+        },
+        {
+          "term": "orders",
+          "line": 35,
+          "text": "  \"pending_orders\": [],"
+        }
+      ]
+    },
+    "data/oos/events.jsonl": {
+      "exists": true,
+      "path": "data/oos/events.jsonl",
+      "line_count": 19,
+      "hits": {
+        "E1_AUDITED_G4_MINHOLD10": [
+          1
+        ],
+        "equity": [
+          5,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "positions": [
+          5,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "E1_AUDITED_G4_MINHOLD10",
+          "line": 1,
+          "text": "{\"event_id\": \"2026-06-18_INIT\", \"event_type\": \"INIT\", \"date\": \"2026-06-18\", \"initial_capital\": 100000.0, \"source\": \"BACKFILLED_PRELIVE\", \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\", \"_written_at\": \"2026-06-20T13:38:22.614328+00:00\"}"
+        },
+        {
+          "term": "equity",
+          "line": 5,
+          "text": "{\"event_id\": \"2026-06-18_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-18\", \"equity\": 100000.0, \"cash\": 100000.0, \"holdings_value\": 0, \"n_positions\": 0, \"gate_open\": true, \"source\": \"BACKFILLED_PRELIVE\", \"_written_at\": \"2026"
+        },
+        {
+          "term": "equity",
+          "line": 9,
+          "text": "{\"event_id\": \"2026-06-22_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-22\", \"equity\": 99800.3, \"cash\": 0.02, \"holdings_value\": 99800.28, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-06"
+        },
+        {
+          "term": "equity",
+          "line": 10,
+          "text": "{\"event_id\": \"2026-06-23_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-23\", \"equity\": 93008.6, \"cash\": 0.02, \"holdings_value\": 93008.58, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-06"
+        },
+        {
+          "term": "equity",
+          "line": 11,
+          "text": "{\"event_id\": \"2026-06-24_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-24\", \"equity\": 90809.99, \"cash\": 0.02, \"holdings_value\": 90809.97, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-0"
+        },
+        {
+          "term": "equity",
+          "line": 12,
+          "text": "{\"event_id\": \"2026-06-25_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-25\", \"equity\": 91587.65, \"cash\": 0.02, \"holdings_value\": 91587.63, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-0"
+        },
+        {
+          "term": "equity",
+          "line": 13,
+          "text": "{\"event_id\": \"2026-06-26_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-26\", \"equity\": 78238.34, \"cash\": 0.02, \"holdings_value\": 78238.32, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-0"
+        },
+        {
+          "term": "equity",
+          "line": 14,
+          "text": "{\"event_id\": \"2026-06-29_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-29\", \"equity\": 85508.3, \"cash\": 0.02, \"holdings_value\": 85508.28, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-06"
+        },
+        {
+          "term": "equity",
+          "line": 15,
+          "text": "{\"event_id\": \"2026-06-30_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-30\", \"equity\": 87462.21, \"cash\": 0.02, \"holdings_value\": 87462.19, \"n_positions\": 3, \"gate_open\": true, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-06"
+        },
+        {
+          "term": "equity",
+          "line": 16,
+          "text": "{\"event_id\": \"2026-07-01_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-07-01\", \"equity\": 82845.04, \"cash\": 0.02, \"holdings_value\": 82845.02, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-0"
+        },
+        {
+          "term": "equity",
+          "line": 17,
+          "text": "{\"event_id\": \"2026-07-02_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-07-02\", \"equity\": 75468.05, \"cash\": 0.02, \"holdings_value\": 75468.03, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-0"
+        },
+        {
+          "term": "equity",
+          "line": 18,
+          "text": "{\"event_id\": \"2026-07-06_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-07-06\", \"equity\": 80999.93, \"cash\": 0.02, \"holdings_value\": 80999.91, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-0"
+        },
+        {
+          "term": "equity",
+          "line": 19,
+          "text": "{\"event_id\": \"2026-07-07_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-07-07\", \"equity\": 75255.2, \"cash\": 0.02, \"holdings_value\": 75255.18, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-07"
+        },
+        {
+          "term": "positions",
+          "line": 5,
+          "text": "{\"event_id\": \"2026-06-18_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-18\", \"equity\": 100000.0, \"cash\": 100000.0, \"holdings_value\": 0, \"n_positions\": 0, \"gate_open\": true, \"source\": \"BACKFILLED_PRELIVE\", \"_written_at\": \"2026"
+        },
+        {
+          "term": "positions",
+          "line": 9,
+          "text": "{\"event_id\": \"2026-06-22_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-22\", \"equity\": 99800.3, \"cash\": 0.02, \"holdings_value\": 99800.28, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-06"
+        },
+        {
+          "term": "positions",
+          "line": 10,
+          "text": "{\"event_id\": \"2026-06-23_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-23\", \"equity\": 93008.6, \"cash\": 0.02, \"holdings_value\": 93008.58, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-06"
+        },
+        {
+          "term": "positions",
+          "line": 11,
+          "text": "{\"event_id\": \"2026-06-24_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-24\", \"equity\": 90809.99, \"cash\": 0.02, \"holdings_value\": 90809.97, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-0"
+        },
+        {
+          "term": "positions",
+          "line": 12,
+          "text": "{\"event_id\": \"2026-06-25_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-25\", \"equity\": 91587.65, \"cash\": 0.02, \"holdings_value\": 91587.63, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-0"
+        },
+        {
+          "term": "positions",
+          "line": 13,
+          "text": "{\"event_id\": \"2026-06-26_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-26\", \"equity\": 78238.34, \"cash\": 0.02, \"holdings_value\": 78238.32, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-0"
+        },
+        {
+          "term": "positions",
+          "line": 14,
+          "text": "{\"event_id\": \"2026-06-29_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-29\", \"equity\": 85508.3, \"cash\": 0.02, \"holdings_value\": 85508.28, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-06"
+        },
+        {
+          "term": "positions",
+          "line": 15,
+          "text": "{\"event_id\": \"2026-06-30_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-06-30\", \"equity\": 87462.21, \"cash\": 0.02, \"holdings_value\": 87462.19, \"n_positions\": 3, \"gate_open\": true, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-06"
+        },
+        {
+          "term": "positions",
+          "line": 16,
+          "text": "{\"event_id\": \"2026-07-01_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-07-01\", \"equity\": 82845.04, \"cash\": 0.02, \"holdings_value\": 82845.02, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-0"
+        },
+        {
+          "term": "positions",
+          "line": 17,
+          "text": "{\"event_id\": \"2026-07-02_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-07-02\", \"equity\": 75468.05, \"cash\": 0.02, \"holdings_value\": 75468.03, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-0"
+        },
+        {
+          "term": "positions",
+          "line": 18,
+          "text": "{\"event_id\": \"2026-07-06_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-07-06\", \"equity\": 80999.93, \"cash\": 0.02, \"holdings_value\": 80999.91, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-0"
+        },
+        {
+          "term": "positions",
+          "line": 19,
+          "text": "{\"event_id\": \"2026-07-07_EOD_SNAPSHOT\", \"event_type\": \"EOD_SNAPSHOT\", \"date\": \"2026-07-07\", \"equity\": 75255.2, \"cash\": 0.02, \"holdings_value\": 75255.18, \"n_positions\": 3, \"gate_open\": false, \"source\": \"LIVE_FORWARD\", \"_written_at\": \"2026-07"
+        }
+      ]
+    },
+    "data/oos/run_history.jsonl": {
+      "exists": true,
+      "path": "data/oos/run_history.jsonl",
+      "line_count": 17,
+      "hits": {
+        "OOS": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "equity": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "positions": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "orders": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ]
+      },
+      "line_hits": [
+        {
+          "term": "OOS",
+          "line": 3,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "OOS",
+          "line": 4,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 99800.1, \"executed\": [{\"symbol\": \"WDC\", \"action\": \"BUY\", \"fill_price\": 746.9762, \"signal_provenance\": \"BACKFILLED_PRELIVE\", \"execution_provenance\": \"BACKFIL"
+        },
+        {
+          "term": "OOS",
+          "line": 5,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "OOS",
+          "line": 6,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "OOS",
+          "line": 7,
+          "text": "{\"date\": \"2026-06-22\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99800.3, \"executed\": [{\"symbol\": \"WDC\", \"action\": \"BUY\", \"fill_price\": 733.3526, \"units\": 45.4534, \"total_cost\": 33366.7024, \"signal_provenance\": \"BACKFILLED_PRE"
+        },
+        {
+          "term": "OOS",
+          "line": 8,
+          "text": "{\"date\": \"2026-06-23\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 95854.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 10, \"_written_at\": \"2026-06-23T23:05:25.376215+00:00\"}"
+        },
+        {
+          "term": "OOS",
+          "line": 9,
+          "text": "{\"date\": \"2026-06-24\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 97978.65, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 11, \"_written_at\": \"2026-06-24T23:01:58.763168+00:00\"}"
+        },
+        {
+          "term": "OOS",
+          "line": 10,
+          "text": "{\"date\": \"2026-06-25\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 12, \"_written_at\": \"2026-06-25T23:13:56.225218+00:00\"}"
+        },
+        {
+          "term": "OOS",
+          "line": 11,
+          "text": "{\"date\": \"2026-06-26\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 13, \"_written_at\": \"2026-06-26T23:01:41.948465+00:00\"}"
+        },
+        {
+          "term": "OOS",
+          "line": 12,
+          "text": "{\"date\": \"2026-06-29\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 14, \"_written_at\": \"2026-06-29T22:52:13.423745+00:00\"}"
+        },
+        {
+          "term": "OOS",
+          "line": 13,
+          "text": "{\"date\": \"2026-06-30\", \"source\": \"LIVE_FORWARD\", \"gate_open\": true, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 15, \"_written_at\": \"2026-06-30T23:06:55.629758+00:00\"}"
+        },
+        {
+          "term": "OOS",
+          "line": 14,
+          "text": "{\"date\": \"2026-07-01\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 16, \"_written_at\": \"2026-07-01T23:09:20.204971+00:00\"}"
+        },
+        {
+          "term": "equity",
+          "line": 1,
+          "text": "{\"date\": \"2026-06-20\", \"source\": \"LIVE_FORWARD\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_positions\""
+        },
+        {
+          "term": "equity",
+          "line": 2,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "equity",
+          "line": 3,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "equity",
+          "line": 4,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 99800.1, \"executed\": [{\"symbol\": \"WDC\", \"action\": \"BUY\", \"fill_price\": 746.9762, \"signal_provenance\": \"BACKFILLED_PRELIVE\", \"execution_provenance\": \"BACKFIL"
+        },
+        {
+          "term": "equity",
+          "line": 5,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "equity",
+          "line": 6,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "equity",
+          "line": 7,
+          "text": "{\"date\": \"2026-06-22\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99800.3, \"executed\": [{\"symbol\": \"WDC\", \"action\": \"BUY\", \"fill_price\": 733.3526, \"units\": 45.4534, \"total_cost\": 33366.7024, \"signal_provenance\": \"BACKFILLED_PRE"
+        },
+        {
+          "term": "equity",
+          "line": 8,
+          "text": "{\"date\": \"2026-06-23\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 95854.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 10, \"_written_at\": \"2026-06-23T23:05:25.376215+00:00\"}"
+        },
+        {
+          "term": "equity",
+          "line": 9,
+          "text": "{\"date\": \"2026-06-24\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 97978.65, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 11, \"_written_at\": \"2026-06-24T23:01:58.763168+00:00\"}"
+        },
+        {
+          "term": "equity",
+          "line": 10,
+          "text": "{\"date\": \"2026-06-25\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 12, \"_written_at\": \"2026-06-25T23:13:56.225218+00:00\"}"
+        },
+        {
+          "term": "equity",
+          "line": 11,
+          "text": "{\"date\": \"2026-06-26\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 13, \"_written_at\": \"2026-06-26T23:01:41.948465+00:00\"}"
+        },
+        {
+          "term": "equity",
+          "line": 12,
+          "text": "{\"date\": \"2026-06-29\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 14, \"_written_at\": \"2026-06-29T22:52:13.423745+00:00\"}"
+        },
+        {
+          "term": "positions",
+          "line": 1,
+          "text": "{\"date\": \"2026-06-20\", \"source\": \"LIVE_FORWARD\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_positions\""
+        },
+        {
+          "term": "positions",
+          "line": 2,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "positions",
+          "line": 3,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "positions",
+          "line": 4,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 99800.1, \"executed\": [{\"symbol\": \"WDC\", \"action\": \"BUY\", \"fill_price\": 746.9762, \"signal_provenance\": \"BACKFILLED_PRELIVE\", \"execution_provenance\": \"BACKFIL"
+        },
+        {
+          "term": "positions",
+          "line": 5,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "positions",
+          "line": 6,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "positions",
+          "line": 7,
+          "text": "{\"date\": \"2026-06-22\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99800.3, \"executed\": [{\"symbol\": \"WDC\", \"action\": \"BUY\", \"fill_price\": 733.3526, \"units\": 45.4534, \"total_cost\": 33366.7024, \"signal_provenance\": \"BACKFILLED_PRE"
+        },
+        {
+          "term": "positions",
+          "line": 8,
+          "text": "{\"date\": \"2026-06-23\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 95854.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 10, \"_written_at\": \"2026-06-23T23:05:25.376215+00:00\"}"
+        },
+        {
+          "term": "positions",
+          "line": 9,
+          "text": "{\"date\": \"2026-06-24\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 97978.65, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 11, \"_written_at\": \"2026-06-24T23:01:58.763168+00:00\"}"
+        },
+        {
+          "term": "positions",
+          "line": 10,
+          "text": "{\"date\": \"2026-06-25\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 12, \"_written_at\": \"2026-06-25T23:13:56.225218+00:00\"}"
+        },
+        {
+          "term": "positions",
+          "line": 11,
+          "text": "{\"date\": \"2026-06-26\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 13, \"_written_at\": \"2026-06-26T23:01:41.948465+00:00\"}"
+        },
+        {
+          "term": "positions",
+          "line": 12,
+          "text": "{\"date\": \"2026-06-29\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 14, \"_written_at\": \"2026-06-29T22:52:13.423745+00:00\"}"
+        },
+        {
+          "term": "orders",
+          "line": 1,
+          "text": "{\"date\": \"2026-06-20\", \"source\": \"LIVE_FORWARD\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_positions\""
+        },
+        {
+          "term": "orders",
+          "line": 2,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "orders",
+          "line": 3,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "orders",
+          "line": 4,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 99800.1, \"executed\": [{\"symbol\": \"WDC\", \"action\": \"BUY\", \"fill_price\": 746.9762, \"signal_provenance\": \"BACKFILLED_PRELIVE\", \"execution_provenance\": \"BACKFIL"
+        },
+        {
+          "term": "orders",
+          "line": 5,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "orders",
+          "line": 6,
+          "text": "{\"date\": \"2026-06-18\", \"source\": \"BACKFILLED_PRELIVE\", \"gate_open\": true, \"equity\": 100000.0, \"executed\": [], \"new_orders\": [{\"symbol\": \"WDC\", \"action\": \"BUY\"}, {\"symbol\": \"STX\", \"action\": \"BUY\"}, {\"symbol\": \"BE\", \"action\": \"BUY\"}], \"n_posi"
+        },
+        {
+          "term": "orders",
+          "line": 7,
+          "text": "{\"date\": \"2026-06-22\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99800.3, \"executed\": [{\"symbol\": \"WDC\", \"action\": \"BUY\", \"fill_price\": 733.3526, \"units\": 45.4534, \"total_cost\": 33366.7024, \"signal_provenance\": \"BACKFILLED_PRE"
+        },
+        {
+          "term": "orders",
+          "line": 8,
+          "text": "{\"date\": \"2026-06-23\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 95854.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 10, \"_written_at\": \"2026-06-23T23:05:25.376215+00:00\"}"
+        },
+        {
+          "term": "orders",
+          "line": 9,
+          "text": "{\"date\": \"2026-06-24\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 97978.65, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 11, \"_written_at\": \"2026-06-24T23:01:58.763168+00:00\"}"
+        },
+        {
+          "term": "orders",
+          "line": 10,
+          "text": "{\"date\": \"2026-06-25\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 12, \"_written_at\": \"2026-06-25T23:13:56.225218+00:00\"}"
+        },
+        {
+          "term": "orders",
+          "line": 11,
+          "text": "{\"date\": \"2026-06-26\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 13, \"_written_at\": \"2026-06-26T23:01:41.948465+00:00\"}"
+        },
+        {
+          "term": "orders",
+          "line": 12,
+          "text": "{\"date\": \"2026-06-29\", \"source\": \"LIVE_FORWARD\", \"gate_open\": false, \"equity\": 99900.1, \"executed\": [], \"new_orders\": [], \"n_positions\": 3, \"status\": \"OOS_ACTIVE\", \"event_count\": 14, \"_written_at\": \"2026-06-29T22:52:13.423745+00:00\"}"
+        }
+      ]
+    }
+  },
+  "json_reports": {
+    "exports/oos_summary.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "exports/oos_summary.json",
+        "size_bytes": 1006,
+        "type": "dict",
+        "top_level_keys": [
+          "generated_at",
+          "generated_at_display",
+          "status",
+          "strategy_id",
+          "oos_start_date",
+          "run_date",
+          "last_successful_run",
+          "last_market_date",
+          "expected_market_date",
+          "initial_capital",
+          "final_equity",
+          "total_return_pct",
+          "max_drawdown_pct",
+          "profit_factor",
+          "win_rate_pct",
+          "total_trades",
+          "open_positions",
+          "live_event_count",
+          "backfill_event_count",
+          "first_review_criteria",
+          "provenance_note",
+          "mixed_provenance_positions"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"generated_at\": \"2026-07-07T22:52:43.361353+00:00\",\n  \"generated_at_display\": \"2026年7月7日 18:52 ET\",\n  \"status\": \"OOS_ACTIVE\",\n  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\",\n  \"oos_start_date\": \"2026-06-16\",\n  \"run_date\": \"2026-07-07\",\n  \"last_successful_run\": \"2026-07-07\",\n  \"last_market_date\": \"2026-07-07\",\n  \"expected_market_date\": \"2026-07-07\",\n  \"initial_capital\": 100000,\n  \"final_equity\": 75255.2,\n  \"total_return_pct\": -24.74,\n  \"max_drawdown_pct\": 24.74,\n  \"profit_factor\": null,\n  \"win_rate_pct\": null,\n  \"total_trades\": 0,\n  \"open_positions\": 3,\n  \"live_event_count\": 14,\n  \"backfill_event_count\": 5,\n  \"first_review_criteria\": \"6 months elapsed OR 20 complete trades, whichever is later\",\n  \"provenance_note\": \"BACKFILLED_PRELIVE: events replayed after engine deployment. LIVE_FORWARD: events generated by automated daily run. MIXED: signal from BACKFILLED_PRELIVE, execution from LIVE_FORWARD — not counted in pure LIVE_FORWARD trade statistics.\",\n  \"mixed_provenance_positions\": 3\n}",
+      "field_presence": {
+        "date_like": {
+          "generated_at": "2026-07-07T22:52:43.361353+00:00",
+          "generated_at_display": "2026年7月7日 18:52 ET"
+        },
+        "performance_like": {
+          "total_return_pct": -24.74,
+          "profit_factor": null,
+          "max_drawdown_pct": 24.74
+        },
+        "regime_like": {}
+      }
+    },
+    "exports/oos_equity_curve.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "exports/oos_equity_curve.json",
+        "size_bytes": 2311,
+        "type": "dict",
+        "top_level_keys": [
+          "generated_at",
+          "generated_at_display",
+          "strategy_id",
+          "initial_capital",
+          "curve"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"generated_at\": \"2026-07-07T22:52:43.361353+00:00\",\n  \"generated_at_display\": \"2026年7月7日 18:52 ET\",\n  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\",\n  \"initial_capital\": 100000,\n  \"curve\": [\n    {\n      \"date\": \"2026-06-18\",\n      \"equity\": 100000.0,\n      \"cash\": 100000.0,\n      \"holdings_value\": 0,\n      \"n_positions\": 0,\n      \"source\": \"BACKFILLED_PRELIVE\"\n    },\n    {\n      \"date\": \"2026-06-22\",\n      \"equity\": 99800.3,\n      \"cash\": 0.02,\n      \"holdings_value\": 99800.28,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-06-23\",\n      \"equity\": 93008.6,\n      \"cash\": 0.02,\n      \"holdings_value\": 93008.58,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-06-24\",\n      \"equity\": 90809.99,\n      \"cash\": 0.02,\n      \"holdings_value\": 90809.97,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-06-25\",\n      \"equity\": 91587.65,\n      \"cash\": 0.02,\n      \"holdings_value\": 91587.63,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-06-26\",\n      \"equity\": 78238.34,\n      \"cash\": 0.02,\n      \"holdings_value\": 78238.32,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-06-29\",\n      \"equity\": 85508.3,\n      \"cash\": 0.02,\n      \"holdings_value\": 85508.28,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-06-30\",\n      \"equity\": 87462.21,\n      \"cash\": 0.02,\n      \"holdings_value\": 87462.19,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-07-01\",\n      \"equity\": 82845.04,\n      \"cash\": 0.02,\n      \"holdings_value\": 82845.02,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-07-02\",\n      \"equity\": 75468.05,\n      \"cash\": 0.02,\n      \"holdings_value\": 75468.03,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-07-06\",\n      \"equity\": 80999.93,\n      \"cash\": 0.02,\n      \"holdings_value\": 80999.91,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    },\n    {\n      \"date\": \"2026-07-07\",\n      \"equity\": 75255.2,\n      \"cash\": 0.02,\n      \"holdings_value\": 75255.18,\n      \"n_positions\": 3,\n      \"source\": \"LIVE_FORWARD\"\n    }\n  ]\n}",
+      "field_presence": {
+        "date_like": {
+          "generated_at": "2026-07-07T22:52:43.361353+00:00",
+          "generated_at_display": "2026年7月7日 18:52 ET"
+        },
+        "performance_like": {},
+        "regime_like": {}
+      }
+    },
+    "exports/oos_orders.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "exports/oos_orders.json",
+        "size_bytes": 2773,
+        "type": "dict",
+        "top_level_keys": [
+          "generated_at",
+          "generated_at_display",
+          "strategy_id",
+          "orders"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"generated_at\": \"2026-07-07T22:52:43.361353+00:00\",\n  \"generated_at_display\": \"2026年7月7日 18:52 ET\",\n  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\",\n  \"orders\": [\n    {\n      \"event_id\": \"2026-06-18_ORDER_BUY_WDC\",\n      \"event_type\": \"ORDER_GENERATED\",\n      \"date\": \"2026-06-18\",\n      \"symbol\": \"WDC\",\n      \"action\": \"BUY\",\n      \"rank\": 1,\n      \"leader_score\": 81.54,\n      \"rs_score\": 98.2,\n      \"execute_date\": \"T+1\",\n      \"source\": \"BACKFILLED_PRELIVE\",\n      \"_written_at\": \"2026-06-20T13:38:22.614690+00:00\"\n    },\n    {\n      \"event_id\": \"2026-06-18_ORDER_BUY_STX\",\n      \"event_type\": \"ORDER_GENERATED\",\n      \"date\": \"2026-06-18\",\n      \"symbol\": \"STX\",\n      \"action\": \"BUY\",\n      \"rank\": 2,\n      \"leader_score\": 79.86,\n      \"rs_score\": 98.4,\n      \"execute_date\": \"T+1\",\n      \"source\": \"BACKFILLED_PRELIVE\",\n      \"_written_at\": \"2026-06-20T13:38:22.614817+00:00\"\n    },\n    {\n      \"event_id\": \"2026-06-18_ORDER_BUY_BE\",\n      \"event_type\": \"ORDER_GENERATED\",\n      \"date\": \"2026-06-18\",\n      \"symbol\": \"BE\",\n      \"action\": \"BUY\",\n      \"rank\": 3,\n      \"leader_score\": 78.72,\n      \"rs_score\": 97.8,\n      \"execute_date\": \"T+1\",\n      \"source\": \"BACKFILLED_PRELIVE\",\n      \"_written_at\": \"2026-06-20T13:38:22.614931+00:00\"\n    },\n    {\n      \"event_id\": \"2026-06-22_BUY_EXECUTED_WDC\",\n      \"event_type\": \"BUY_EXECUTED\",\n      \"date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"symbol\": \"WDC\",\n      \"action\": \"BUY\",\n      \"fill_price\": 733.3526,\n      \"units\": 45.4534,\n      \"total_cost\": 33366.7024,\n      \"cost_rate\": 0.001,\n      \"source\": \"LIVE_FORWARD\",\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"order_ref\": \"2026-06-18_ORDER_BUY_WDC\",\n      \"_written_at\": \"2026-06-22T23:16:17.177552+00:00\"\n    },\n    {\n      \"event_id\": \"2026-06-22_BUY_EXECUTED_STX\",\n      \"event_type\": \"BUY_EXECUTED\",\n      \"date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"symbol\": \"STX\",\n      \"action\": \"BUY\",\n      \"fill_price\": 1095.134,\n      \"units\": 30.4224,\n      \"total_cost\": 33349.9212,\n      \"cost_rate\": 0.001,\n      \"source\": \"LIVE_FORWARD\",\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"order_ref\": \"2026-06-18_ORDER_BUY_STX\",\n      \"_written_at\": \"2026-06-22T23:16:17.178629+00:00\"\n    },\n    {\n      \"event_id\": \"2026-06-22_BUY_EXECUTED_BE\",\n      \"event_type\": \"BUY_EXECUTED\",\n      \"date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"symbol\": \"BE\",\n      \"action\": \"BUY\",\n      \"fill_price\": 346.1959,\n      \"units\": 96.0442,\n      \"total_cost\": 33283.358367,\n      \"cost_rate\": 0.001,\n      \"source\": \"LIVE_FORWA\n...TRUNCATED...",
+      "field_presence": {
+        "date_like": {
+          "generated_at": "2026-07-07T22:52:43.361353+00:00",
+          "generated_at_display": "2026年7月7日 18:52 ET"
+        },
+        "performance_like": {},
+        "regime_like": {}
+      }
+    },
+    "exports/oos_positions.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "exports/oos_positions.json",
+        "size_bytes": 1186,
+        "type": "dict",
+        "top_level_keys": [
+          "generated_at",
+          "generated_at_display",
+          "strategy_id",
+          "as_of",
+          "positions",
+          "pending_orders",
+          "cash"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"generated_at\": \"2026-07-07T22:52:43.361353+00:00\",\n  \"generated_at_display\": \"2026年7月7日 18:52 ET\",\n  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\",\n  \"as_of\": \"2026-07-07\",\n  \"positions\": [\n    {\n      \"symbol\": \"WDC\",\n      \"entry_date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"entry_price\": 733.3526,\n      \"units\": 45.4534,\n      \"cost_basis\": 33366.7,\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"execution_provenance\": \"LIVE_FORWARD\",\n      \"mixed_provenance\": true\n    },\n    {\n      \"symbol\": \"STX\",\n      \"entry_date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"entry_price\": 1095.134,\n      \"units\": 30.4224,\n      \"cost_basis\": 33349.92,\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"execution_provenance\": \"LIVE_FORWARD\",\n      \"mixed_provenance\": true\n    },\n    {\n      \"symbol\": \"BE\",\n      \"entry_date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"entry_price\": 346.1959,\n      \"units\": 96.0442,\n      \"cost_basis\": 33283.36,\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"execution_provenance\": \"LIVE_FORWARD\",\n      \"mixed_provenance\": true\n    }\n  ],\n  \"pending_orders\": [],\n  \"cash\": 0.02\n}",
+      "field_presence": {
+        "date_like": {
+          "generated_at": "2026-07-07T22:52:43.361353+00:00",
+          "generated_at_display": "2026年7月7日 18:52 ET",
+          "as_of": "2026-07-07"
+        },
+        "performance_like": {
+          "cash": 0.02
+        },
+        "regime_like": {}
+      }
+    },
+    "exports/oos_trades.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "exports/oos_trades.json",
+        "size_bytes": 191,
+        "type": "dict",
+        "top_level_keys": [
+          "generated_at",
+          "generated_at_display",
+          "strategy_id",
+          "total_trades",
+          "trades"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"generated_at\": \"2026-07-07T22:52:43.361353+00:00\",\n  \"generated_at_display\": \"2026年7月7日 18:52 ET\",\n  \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\",\n  \"total_trades\": 0,\n  \"trades\": []\n}",
+      "field_presence": {
+        "date_like": {
+          "generated_at": "2026-07-07T22:52:43.361353+00:00",
+          "generated_at_display": "2026年7月7日 18:52 ET"
+        },
+        "performance_like": {
+          "trades": []
+        },
+        "regime_like": {}
+      }
+    },
+    "exports/oos_e1r_v0_2_summary.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "exports/oos_e1r_v0_2_summary.json",
+        "size_bytes": 873,
+        "type": "dict",
+        "top_level_keys": [
+          "generated_at",
+          "phase",
+          "strategy_id",
+          "version",
+          "research_status",
+          "status_date",
+          "market_state",
+          "regime",
+          "subclass",
+          "mutually_exclusive_state_model",
+          "core_active",
+          "sidecar_active",
+          "sidecar_selected_count",
+          "gross_exposure",
+          "top_n",
+          "execution_status",
+          "equity_status",
+          "notes"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"generated_at\": \"2026-07-07T23:56:04.521255+00:00\",\n  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"version\": \"E1R-v0.2-formal-sidecar-sleeve\",\n  \"research_status\": \"FORMAL_SIDECAR_SLEEVE_ENGINE\",\n  \"status_date\": \"2026-06-18\",\n  \"market_state\": \"UPTREND\",\n  \"regime\": \"UPTREND\",\n  \"subclass\": null,\n  \"mutually_exclusive_state_model\": true,\n  \"core_active\": true,\n  \"sidecar_active\": false,\n  \"sidecar_selected_count\": 0,\n  \"gross_exposure\": 0.25,\n  \"top_n\": 10,\n  \"execution_status\": \"NO_REAL_EXECUTION\",\n  \"equity_status\": \"NOT_YET_CONNECTED\",\n  \"notes\": [\n    \"OOS-1 exports daily E1R v0.2 state and sidecar target signals only.\",\n    \"No real orders are executed by this script.\",\n    \"No E1R v0.2 OOS equity curve is updated by this script.\",\n    \"This is the bridge layer for Dashboard and future OOS equity integration.\"\n  ]\n}",
+      "field_presence": {
+        "date_like": {
+          "status_date": "2026-06-18",
+          "generated_at": "2026-07-07T23:56:04.521255+00:00"
+        },
+        "performance_like": {
+          "gross_exposure": 0.25
+        },
+        "regime_like": {
+          "market_state": "UPTREND",
+          "regime": "UPTREND",
+          "subclass": null,
+          "core_active": true,
+          "sidecar_active": false,
+          "sidecar_selected_count": 0,
+          "execution_status": "NO_REAL_EXECUTION",
+          "equity_status": "NOT_YET_CONNECTED"
+        }
+      }
+    },
+    "exports/oos_e1r_v0_2_equity_curve.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "exports/oos_e1r_v0_2_equity_curve.json",
+        "size_bytes": 2632,
+        "type": "dict",
+        "top_level_keys": [
+          "generated_at",
+          "strategy_id",
+          "phase",
+          "equity_status",
+          "execution_status",
+          "curve_type",
+          "start_date",
+          "end_date",
+          "row_count",
+          "latest",
+          "records",
+          "notes"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"generated_at\": \"2026-07-07T23:56:04.524822+00:00\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"phase\": \"OOS_2B_FORWARD_EQUITY_CURVE\",\n  \"equity_status\": \"OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER\",\n  \"execution_status\": \"PAPER_TRACKING_NO_REAL_EXECUTION\",\n  \"curve_type\": \"FORWARD_OOS_EQUITY\",\n  \"start_date\": \"2026-06-18\",\n  \"end_date\": \"2026-06-18\",\n  \"row_count\": 1,\n  \"latest\": {\n    \"date\": \"2026-06-18\",\n    \"generated_at\": \"2026-07-07T23:56:04.524822+00:00\",\n    \"market_state\": \"UPTREND\",\n    \"core_active\": true,\n    \"sidecar_active\": false,\n    \"sidecar_selected_count\": 0,\n    \"sidecar_positions\": [],\n    \"sidecar_mtm_status\": \"SAME_DATE_NO_NEW_MTM\",\n    \"sidecar_mtm_details\": [],\n    \"core_equity\": 100000.0,\n    \"sidecar_equity\": 100000.0,\n    \"combined_equity\": 100000.0,\n    \"core_daily_return\": 0.0,\n    \"sidecar_daily_return\": 0.0,\n    \"combined_daily_return\": 0.0,\n    \"core_source\": \"legacy_oos_if_available_else_initial_capital\",\n    \"sidecar_source\": \"previous_positions_close_to_close_mtm_when_available\",\n    \"combined_source\": \"core_bridge_plus_sidecar_target_only\",\n    \"execution_status\": \"PAPER_TRACKING_NO_REAL_EXECUTION\",\n    \"equity_status\": \"OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER\",\n    \"update_mode\": \"UPDATED_EXISTING_DATE\"\n  },\n  \"records\": [\n    {\n      \"date\": \"2026-06-18\",\n      \"generated_at\": \"2026-07-07T23:56:04.524822+00:00\",\n      \"market_state\": \"UPTREND\",\n      \"core_active\": true,\n      \"sidecar_active\": false,\n      \"sidecar_selected_count\": 0,\n      \"sidecar_positions\": [],\n      \"sidecar_mtm_status\": \"SAME_DATE_NO_NEW_MTM\",\n      \"sidecar_mtm_details\": [],\n      \"core_equity\": 100000.0,\n      \"sidecar_equity\": 100000.0,\n      \"combined_equity\": 100000.0,\n      \"core_daily_return\": 0.0,\n      \"sidecar_daily_return\": 0.0,\n      \"combined_daily_return\": 0.0,\n      \"core_source\": \"legacy_oos_if_available_else_initial_capital\",\n      \"sidecar_source\": \"previous_positions_close_to_close_mtm_when_available\",\n      \"combined_source\": \"core_bridge_plus_sidecar_target_only\",\n      \"execution_status\": \"PAPER_TRACKING_NO_REAL_EXECUTION\",\n      \"equity_status\": \"OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER\",\n      \"update_mode\": \"UPDATED_EXISTING_DATE\"\n    }\n  ],\n  \"notes\": [\n    \"OOS-2B.2 adds sidecar close-to-close MTM tracking when previous positions are available.\",\n    \"Core equity bridges to existing legacy OOS equity when available.\",\n    \"Sidecar equity uses previous sidecar positions for close-to-close MTM to avoid lookahead.\",\n    \"No real orders are executed by this script.\",\n    \"OOS-2B.2 should add sidecar daily MTM and simulated/\n...TRUNCATED...",
+      "field_presence": {
+        "date_like": {
+          "generated_at": "2026-07-07T23:56:04.524822+00:00"
+        },
+        "performance_like": {},
+        "regime_like": {
+          "execution_status": "PAPER_TRACKING_NO_REAL_EXECUTION",
+          "equity_status": "OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER"
+        }
+      }
+    },
+    "exports/oos_e1r_v0_2_orders.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "exports/oos_e1r_v0_2_orders.json",
+        "size_bytes": 255,
+        "type": "dict",
+        "top_level_keys": [
+          "generated_at",
+          "phase",
+          "strategy_id",
+          "status_date",
+          "market_state",
+          "execution_status",
+          "orders"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"generated_at\": \"2026-07-07T23:56:04.521255+00:00\",\n  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"status_date\": \"2026-06-18\",\n  \"market_state\": \"UPTREND\",\n  \"execution_status\": \"NO_REAL_EXECUTION\",\n  \"orders\": []\n}",
+      "field_presence": {
+        "date_like": {
+          "status_date": "2026-06-18",
+          "generated_at": "2026-07-07T23:56:04.521255+00:00"
+        },
+        "performance_like": {},
+        "regime_like": {
+          "market_state": "UPTREND",
+          "execution_status": "NO_REAL_EXECUTION"
+        }
+      }
+    },
+    "exports/oos_e1r_v0_2_positions.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "exports/oos_e1r_v0_2_positions.json",
+        "size_bytes": 446,
+        "type": "dict",
+        "top_level_keys": [
+          "generated_at",
+          "phase",
+          "strategy_id",
+          "status_date",
+          "market_state",
+          "core",
+          "sidecar"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"generated_at\": \"2026-07-07T23:56:04.521255+00:00\",\n  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"status_date\": \"2026-06-18\",\n  \"market_state\": \"UPTREND\",\n  \"core\": {\n    \"active\": true,\n    \"strategy_id\": \"E1R_REGIME_AWARE_V0_1\",\n    \"positions_status\": \"NOT_CONNECTED_IN_OOS_1\"\n  },\n  \"sidecar\": {\n    \"active\": false,\n    \"positions_status\": \"TARGET_ONLY_NOT_EXECUTED\",\n    \"target_positions\": []\n  }\n}",
+      "field_presence": {
+        "date_like": {
+          "status_date": "2026-06-18",
+          "generated_at": "2026-07-07T23:56:04.521255+00:00"
+        },
+        "performance_like": {},
+        "regime_like": {
+          "market_state": "UPTREND"
+        }
+      }
+    },
+    "exports/oos_e1r_v0_2_sidecar.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "exports/oos_e1r_v0_2_sidecar.json",
+        "size_bytes": 507,
+        "type": "dict",
+        "top_level_keys": [
+          "generated_at",
+          "phase",
+          "strategy_id",
+          "status_date",
+          "market_state",
+          "regime",
+          "subclass",
+          "active",
+          "active_condition",
+          "gross_exposure",
+          "top_n",
+          "excluded_symbols",
+          "source_record_date",
+          "source_record_next_date",
+          "selected_count",
+          "selected"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"generated_at\": \"2026-07-07T23:56:04.521255+00:00\",\n  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"status_date\": \"2026-06-18\",\n  \"market_state\": \"UPTREND\",\n  \"regime\": \"UPTREND\",\n  \"subclass\": null,\n  \"active\": false,\n  \"active_condition\": \"SIDEWAYS_MA_CONFLICT\",\n  \"gross_exposure\": 0.25,\n  \"top_n\": 10,\n  \"excluded_symbols\": [\n    \"VIXY\"\n  ],\n  \"source_record_date\": \"2026-06-17\",\n  \"source_record_next_date\": \"2026-06-18\",\n  \"selected_count\": 0,\n  \"selected\": []\n}",
+      "field_presence": {
+        "date_like": {
+          "status_date": "2026-06-18",
+          "generated_at": "2026-07-07T23:56:04.521255+00:00"
+        },
+        "performance_like": {
+          "gross_exposure": 0.25
+        },
+        "regime_like": {
+          "market_state": "UPTREND",
+          "regime": "UPTREND",
+          "subclass": null
+        }
+      }
+    },
+    "exports/e1r_v0_2_status.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "exports/e1r_v0_2_status.json",
+        "size_bytes": 1580,
+        "type": "dict",
+        "top_level_keys": [
+          "generated_at",
+          "strategy_id",
+          "version",
+          "research_status",
+          "status_date",
+          "e1r_market_state",
+          "regime",
+          "subclass",
+          "mutually_exclusive_state_model",
+          "core",
+          "sidecar",
+          "legacy_market_state",
+          "source_files",
+          "notes"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"generated_at\": \"2026-07-07T23:56:04.506044+00:00\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"version\": \"E1R-v0.2-formal-sidecar-sleeve\",\n  \"research_status\": \"FORMAL_SIDECAR_SLEEVE_ENGINE\",\n  \"status_date\": \"2026-06-18\",\n  \"e1r_market_state\": \"UPTREND\",\n  \"regime\": \"UPTREND\",\n  \"subclass\": null,\n  \"mutually_exclusive_state_model\": true,\n  \"core\": {\n    \"strategy_id\": \"E1R_REGIME_AWARE_V0_1\",\n    \"active\": true,\n    \"active_condition\": \"UPTREND\"\n  },\n  \"sidecar\": {\n    \"active\": false,\n    \"active_condition\": \"SIDEWAYS_MA_CONFLICT\",\n    \"gross_exposure\": 0.25,\n    \"top_n\": 10,\n    \"excluded_symbols\": [\n      \"VIXY\"\n    ],\n    \"selected_count\": 0,\n    \"selected\": [],\n    \"source_record_date\": \"2026-06-17\",\n    \"source_record_next_date\": \"2026-06-18\"\n  },\n  \"legacy_market_state\": {\n    \"date\": \"2026-07-07\",\n    \"state\": \"Risk-On\",\n    \"state_zh\": \"风险偏好\",\n    \"market_score\": 60.0,\n    \"leadership_confirmed\": false,\n    \"leadership_label\": \"Leadership Unconfirmed ⚠️\"\n  },\n  \"source_files\": {\n    \"regime\": \"data/research/e1_5y/regimes/spx_regime_daily.json\",\n    \"stocks\": \"data/research/e1_5y/raw/stocks\",\n    \"spx\": \"data/research/e1_5y/raw/indices/SPX.json\",\n    \"legacy_market_state\": \"exports/market_state.json\"\n  },\n  \"notes\": [\n    \"E1R v0.2 uses mutually exclusive daily market states.\",\n    \"Core is active only in UPTREND under the current v0.2 state model.\",\n    \"Sidecar is active only in SIDEWAYS_MA_CONFLICT when holdings are available.\",\n    \"This status export is a lightweight bridge for Dashboard and future OOS integration.\"\n  ]\n}",
+      "field_presence": {
+        "date_like": {
+          "status_date": "2026-06-18",
+          "generated_at": "2026-07-07T23:56:04.506044+00:00"
+        },
+        "performance_like": {},
+        "regime_like": {
+          "regime": "UPTREND",
+          "subclass": null
+        }
+      }
+    },
+    "exports/e1r_v0_2_backtest_summary.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "exports/e1r_v0_2_backtest_summary.json",
+        "size_bytes": 941,
+        "type": "dict",
+        "top_level_keys": [
+          "strategy_id",
+          "total_return_pct",
+          "spx_return_pct",
+          "alpha_pct",
+          "max_drawdown_pct",
+          "profit_factor",
+          "sharpe_ratio",
+          "research_status",
+          "regime_aware_logic",
+          "sidecar_active_days",
+          "sidecar_active_by_regime",
+          "sidecar_active_by_subclass",
+          "composition_exists",
+          "row_count",
+          "variant",
+          "artifact_type",
+          "source_file",
+          "source_json_path",
+          "frozen_artifact",
+          "regeneration_note"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"total_return_pct\": 116.7435999134756,\n  \"spx_return_pct\": 76.844174428316,\n  \"alpha_pct\": 39.89942548515961,\n  \"max_drawdown_pct\": 25.904809362815108,\n  \"profit_factor\": 1.1919630955509348,\n  \"sharpe_ratio\": 0.7957270568329264,\n  \"research_status\": \"FORMAL_SIDECAR_SLEEVE_ENGINE\",\n  \"regime_aware_logic\": \"UPTREND_V0_1_CORE_PLUS_SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE\",\n  \"sidecar_active_days\": 135,\n  \"sidecar_active_by_regime\": {\n    \"SIDEWAYS\": 135\n  },\n  \"sidecar_active_by_subclass\": {\n    \"MA_CONFLICT\": 135\n  },\n  \"composition_exists\": true,\n  \"row_count\": 1258,\n  \"variant\": \"E1R_REGIME_AWARE_V0_2\",\n  \"artifact_type\": \"frozen_5y_backtest_summary\",\n  \"source_file\": \"exports/e1r_v0_2_backtest_summary.json\",\n  \"source_json_path\": \"$.v0_2\",\n  \"frozen_artifact\": true,\n  \"regeneration_note\": \"Copied from feature validation artifacts; not regenerated from main exports/backtest.json.\"\n}",
+      "field_presence": {
+        "date_like": {},
+        "performance_like": {
+          "total_return_pct": 116.7435999134756,
+          "profit_factor": 1.1919630955509348,
+          "max_drawdown_pct": 25.904809362815108
+        },
+        "regime_like": {}
+      }
+    },
+    "exports/e1r_v0_2_backtest_equity_curve.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "exports/e1r_v0_2_backtest_equity_curve.json",
+        "size_bytes": 16004713,
+        "type": "dict",
+        "top_level_keys": [
+          "variant",
+          "artifact_type",
+          "source_file",
+          "source_json_path",
+          "frozen_artifact",
+          "regeneration_note",
+          "row_count",
+          "rows",
+          "equity_curve"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"variant\": \"E1R_REGIME_AWARE_V0_2\",\n  \"artifact_type\": \"frozen_5y_backtest_equity_curve\",\n  \"source_file\": \"exports/e1r_candidates.json\",\n  \"source_json_path\": \"$.candidates\",\n  \"frozen_artifact\": true,\n  \"regeneration_note\": \"Copied/normalized from feature validation artifacts; not regenerated from main exports/backtest.json.\",\n  \"row_count\": 8819,\n  \"rows\": [\n    {\n      \"date\": \"2021-06-11\",\n      \"symbol\": \"ADBE\",\n      \"spx_regime\": \"UPTREND\",\n      \"e1r_entry_type\": \"E1R_UPTREND_EMERGING\",\n      \"e1r_uptrend_emerging_eligible\": true,\n      \"e1r_uptrend_confirmed_eligible\": false,\n      \"leader_rank\": 14,\n      \"leader_score\": 90.88,\n      \"rs_score\": 89.0,\n      \"rs_prev20\": 18.6,\n      \"rs_20d_improvement\": 70.4,\n      \"momentum_score\": 93.0,\n      \"momentum_acceleration\": 41.0,\n      \"trend_health\": 90.9,\n      \"close\": 541.26,\n      \"ma20\": 501.12,\n      \"ma50\": 501.37,\n      \"ma20_slope\": 0.002536,\n      \"ma50_slope\": 0.002011,\n      \"reasons\": [\n        \"rs_above_80\",\n        \"rs_20d_improvement_above_10\",\n        \"momentum_above_70\",\n        \"momentum_acceleration_positive\",\n        \"trend_health_above_65\",\n        \"close_above_ma20\",\n        \"ma20_structure_positive\",\n        \"leader_rank_top20\"\n      ],\n      \"diagnostic_only\": true,\n      \"equity\": 541.26\n    },\n    {\n      \"date\": \"2021-06-11\",\n      \"symbol\": \"ANET\",\n      \"spx_regime\": \"UPTREND\",\n      \"e1r_entry_type\": \"E1R_UPTREND_CONFIRMED\",\n      \"e1r_uptrend_emerging_eligible\": true,\n      \"e1r_uptrend_confirmed_eligible\": true,\n      \"leader_rank\": 1,\n      \"leader_score\": 95.83,\n      \"rs_score\": 96.2,\n      \"rs_prev20\": 27.1,\n      \"rs_20d_improvement\": 69.1,\n      \"momentum_score\": 96.0,\n      \"momentum_acceleration\": 14.7,\n      \"trend_health\": 95.0,\n      \"close\": 22.75,\n      \"ma20\": 21.32,\n      \"ma50\": 20.38,\n      \"ma20_slope\": 0.004557,\n      \"ma50_slope\": 0.003504,\n      \"reasons\": [\n        \"rs_above_90\",\n        \"leader_rank_top5\",\n        \"leader_score_above_75\",\n        \"momentum_above_75\",\n        \"trend_health_above_70\",\n        \"close_above_ma50\",\n        \"ma50_slope_non_negative\"\n      ],\n      \"diagnostic_only\": true,\n      \"equity\": 22.75\n    },\n    {\n      \"date\": \"2021-06-11\",\n      \"symbol\": \"BIIB\",\n      \"spx_regime\": \"UPTREND\",\n      \"e1r_entry_type\": \"E1R_UPTREND_EMERGING\",\n      \"e1r_uptrend_emerging_eligible\": true,\n      \"e1r_uptrend_confirmed_eligible\": false,\n      \"leader_rank\": 17,\n      \"leader_score\": 90.64,\n      \"rs_score\": 99.6,\n      \"rs_prev20\": 27.3,\n      \"rs_20d_improvement\": 72.3,\n      \"momentum_score\": 88.0,\n      \"momentum_accele\n...TRUNCATED...",
+      "field_presence": {
+        "date_like": {},
+        "performance_like": {},
+        "regime_like": {}
+      }
+    },
+    "data/oos/portfolio_state.json": {
+      "meta": {
+        "exists": true,
+        "valid_json": true,
+        "path": "data/oos/portfolio_state.json",
+        "size_bytes": 967,
+        "type": "dict",
+        "top_level_keys": [
+          "cash",
+          "holdings",
+          "holdings_value",
+          "equity",
+          "n_positions",
+          "pending_orders",
+          "closed_trades"
+        ],
+        "array_length": null
+      },
+      "preview": "{\n  \"cash\": 0.02,\n  \"holdings\": {\n    \"WDC\": {\n      \"units\": 45.4534,\n      \"cost_basis\": 33366.7024,\n      \"entry_date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"entry_price\": 733.3526,\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"execution_provenance\": \"LIVE_FORWARD\"\n    },\n    \"STX\": {\n      \"units\": 30.4224,\n      \"cost_basis\": 33349.9212,\n      \"entry_date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"entry_price\": 1095.134,\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"execution_provenance\": \"LIVE_FORWARD\"\n    },\n    \"BE\": {\n      \"units\": 96.0442,\n      \"cost_basis\": 33283.358367,\n      \"entry_date\": \"2026-06-22\",\n      \"signal_date\": \"2026-06-18\",\n      \"entry_price\": 346.1959,\n      \"signal_provenance\": \"BACKFILLED_PRELIVE\",\n      \"execution_provenance\": \"LIVE_FORWARD\"\n    }\n  },\n  \"holdings_value\": 75255.18,\n  \"equity\": 75255.2,\n  \"n_positions\": 3,\n  \"pending_orders\": [],\n  \"closed_trades\": []\n}",
+      "field_presence": {
+        "date_like": {},
+        "performance_like": {
+          "equity": 75255.2,
+          "cash": 0.02
+        },
+        "regime_like": {}
+      }
+    }
+  },
+  "decision": {
+    "e1_is_already_forward_testing": true,
+    "e1_forward_start_date": "2026-06-18",
+    "e1r_is_forward_testing_now": false,
+    "e1r_current_status": "Historical freeze + partial status scaffold only.",
+    "implementation_should_be": [
+      "Add or complete E1R paper portfolio state.",
+      "Add E1R daily mark-to-market equity curve.",
+      "Add E1R daily orders/positions exports.",
+      "Add E1R forward summary with performance fields.",
+      "Wire into daily update pipeline.",
+      "Then update dashboard mapping."
+    ]
+  }
+}
