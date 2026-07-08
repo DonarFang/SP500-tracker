@@ -486,6 +486,118 @@ function e2bV4RenderSummaryComparison(e1){
 // render dispatcher
 // ═══════════════════════════════════════════════════════
 
+
+function e1rForwardTradeLogHtml(ordersRaw, positionsRaw) {
+  const ordersDoc = ordersRaw || {};
+  const positionsDoc = positionsRaw || {};
+
+  const orders = Array.isArray(ordersDoc)
+    ? ordersDoc
+    : (ordersDoc.orders || ordersDoc.rows || ordersDoc.data || []);
+
+  const positions = Array.isArray(positionsDoc)
+    ? positionsDoc
+    : (positionsDoc.positions || positionsDoc.rows || positionsDoc.data || []);
+
+  const fmtPct = (v) => {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return '—';
+    return `${(n * 100).toFixed(1)}%`;
+  };
+
+  const fmtMoney = (v) => {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return '—';
+    return `$${Math.round(n).toLocaleString()}`;
+  };
+
+  const fmtText = (v) => {
+    if (v === null || v === undefined || v === '') return '—';
+    return String(v);
+  };
+
+  const positionBySymbol = new Map();
+  if (Array.isArray(positions)) {
+    positions.forEach((p) => {
+      if (p && p.symbol) positionBySymbol.set(String(p.symbol).toUpperCase(), p);
+    });
+  }
+
+  const rows = Array.isArray(orders)
+    ? orders
+        .filter((o) => o && o.symbol)
+        .map((o) => {
+          const sym = String(o.symbol).toUpperCase();
+          const pos = positionBySymbol.get(sym) || {};
+          return {
+            date: o.date || o.status_date || o.accepted_at || '—',
+            symbol: sym,
+            action: o.action || '—',
+            target_weight: o.target_weight,
+            previous_weight: o.previous_weight,
+            delta_weight: o.delta_weight,
+            status: o.status || o.execution_status || '—',
+            sleeve: o.core_or_sidecar || pos.core_or_sidecar || '—',
+            notional: o.notional,
+            position_weight: pos.weight,
+            position_status: pos.position_status,
+          };
+        })
+    : [];
+
+  if (!rows.length) {
+    return `
+      <div class="panel-card">
+        <h3>Trade Log — E1R Forward Paper</h3>
+        <p class="muted">No E1R forward paper orders available yet.</p>
+      </div>
+    `;
+  }
+
+  const body = rows.map((r) => `
+    <tr>
+      <td>${fmtText(r.date)}</td>
+      <td>${fmtText(r.symbol)}</td>
+      <td>${fmtText(r.action)}</td>
+      <td>${fmtPct(r.target_weight)}</td>
+      <td>${fmtPct(r.previous_weight)}</td>
+      <td>${fmtPct(r.delta_weight)}</td>
+      <td>${fmtMoney(r.notional)}</td>
+      <td>${fmtText(r.status)}</td>
+      <td>${fmtText(r.sleeve)}</td>
+    </tr>
+  `).join('');
+
+  return `
+    <div class="panel-card e1r-trade-log-panel">
+      <h3>Trade Log — E1R Forward Paper</h3>
+      <p class="muted">
+        Paper orders are read from daily E1R OOS exports. Current rows: ${rows.length}.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Symbol</th>
+              <th>Action</th>
+              <th>Target Wt</th>
+              <th>Prev Wt</th>
+              <th>Delta Wt</th>
+              <th>Notional</th>
+              <th>Status</th>
+              <th>Sleeve</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${body}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
 function e1rForwardVisiblePanelHtml(summaryRaw, equityRaw) {
   const s = summaryRaw || {};
   const eqRows = Array.isArray(equityRaw)
@@ -1017,7 +1129,7 @@ function render(tab) {
 
 
     if(eqCurve.length>1){
-      h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">${e1rForwardVisiblePanelHtml(DATA.e1rV02OosSummary, DATA.e1rV02OosEquityCurve)}
+      h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">
 Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
         <div class="cwrap" style="height:220px"><canvas id="cw-equity"></canvas></div>
         <div class="muted" style="font-size:12px;margin-top:.5rem">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</div>
@@ -1078,7 +1190,8 @@ Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
       nativeMarket.leaders_count ??
       '—';
 
-    h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">Market State</div><div class="card-body">
+    h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">${e1rForwardTradeLogHtml(DATA.e1rV02OosOrders, DATA.e1rV02OosPositions)}
+Market State</div><div class="card-body">
       <div class="grid-4">
         <div class="mc"><div class="mc-label">State</div><div class="mc-val">${nativeMarketState}</div></div>
         <div class="mc"><div class="mc-label">Data date</div><div class="mc-val">${nativeMarketDate}</div></div>

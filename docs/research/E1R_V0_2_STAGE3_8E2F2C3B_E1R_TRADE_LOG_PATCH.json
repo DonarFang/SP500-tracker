@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-07-08T08:46:16.991817+00:00",
+  "stage": "B_STAGE_3_8E2F2C3B_E1R_TRADE_LOG_PATCH",
+  "status": "IMPLEMENTED_DASHBOARD_PATCH",
+  "files_changed": [
+    "dashboard/app.js"
+  ],
+  "removed_bulky_visible_panel_call": true,
+  "added": "Trade Log — E1R Forward Paper",
+  "insertion_anchor": "Market State",
+  "data_sources": [
+    "exports/oos_e1r_v0_2_orders.json",
+    "exports/oos_e1r_v0_2_positions.json"
+  ],
+  "display_fields": [
+    "date",
+    "symbol",
+    "action",
+    "target_weight",
+    "previous_weight",
+    "delta_weight",
+    "notional",
+    "status",
+    "core_or_sidecar"
+  ],
+  "policy": {
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false
+  },
+  "next_stage": {
+    "stage": "browser_acceptance",
+    "purpose": "Confirm bulky E1R panel is gone and E1R Trade Log appears after E1 Trade Log."
+  }
+}
