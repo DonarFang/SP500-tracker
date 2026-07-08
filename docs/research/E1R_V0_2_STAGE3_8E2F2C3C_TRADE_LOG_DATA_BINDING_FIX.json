@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-07-08T09:06:34.619964+00:00",
+  "stage": "B_STAGE_3_8E2F2C3C_TRADE_LOG_DATA_BINDING_FIX",
+  "status": "IMPLEMENTED_DASHBOARD_PATCH",
+  "files_changed": [
+    "dashboard/app.js"
+  ],
+  "fix": "Use robust E1R orders/positions data resolver instead of a single alias.",
+  "expected_ui": {
+    "panel": "Trade Log — E1R Forward Paper",
+    "expected_rows": 10,
+    "expected_action": "BUY"
+  },
+  "policy": {
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false
+  }
+}

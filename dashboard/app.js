@@ -487,6 +487,31 @@ function e2bV4RenderSummaryComparison(e1){
 // ═══════════════════════════════════════════════════════
 
 
+
+function e1rForwardOrdersData() {
+  return (
+    DATA.e1rV02OosOrders ||
+    DATA.e1rV02Orders ||
+    DATA.oosE1rV02Orders ||
+    DATA.e1rForwardOrders ||
+    DATA.oos_e1r_v0_2_orders ||
+    DATA.e1rV02OosSummary?.orders ||
+    []
+  );
+}
+
+function e1rForwardPositionsData() {
+  return (
+    DATA.e1rV02OosPositions ||
+    DATA.e1rV02Positions ||
+    DATA.oosE1rV02Positions ||
+    DATA.e1rForwardPositions ||
+    DATA.oos_e1r_v0_2_positions ||
+    DATA.e1rV02OosSummary?.positions ||
+    []
+  );
+}
+
 function e1rForwardTradeLogHtml(ordersRaw, positionsRaw) {
   const ordersDoc = ordersRaw || {};
   const positionsDoc = positionsRaw || {};
@@ -1190,7 +1215,7 @@ Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
       nativeMarket.leaders_count ??
       '—';
 
-    h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">${e1rForwardTradeLogHtml(DATA.e1rV02OosOrders, DATA.e1rV02OosPositions)}
+    h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">${e1rForwardTradeLogHtml(e1rForwardOrdersData(), e1rForwardPositionsData())}
 Market State</div><div class="card-body">
       <div class="grid-4">
         <div class="mc"><div class="mc-label">State</div><div class="mc-val">${nativeMarketState}</div></div>
