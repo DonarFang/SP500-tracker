@@ -1,0 +1,239 @@
+{
+  "generated_at": "2026-07-08T11:50:00.237489+00:00",
+  "stage": "B_STAGE_3_8E2F2C4C9_CONTROLLED_LONG_EXPORT",
+  "status": "CONTROLLED_LONG_EXPORT_COMPLETE_CANONICAL_EXPORTS_NOT_READY",
+  "policy": {
+    "dashboard_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "frozen_strategy_files_unchanged": true,
+    "old_frozen_exports_restored": true,
+    "canonical_exports_written": []
+  },
+  "commands": [
+    {
+      "cmd": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "src/engine/backtest.py"
+      ],
+      "returncode": 1,
+      "ok": false,
+      "stdout_tail": "",
+      "stderr_tail": "Traceback (most recent call last):\n  File \"/Users/dongfang/Downloads/sp500-tracker-v13/src/engine/backtest.py\", line 19, in <module>\n    from ..features.rs import period_return, rs_percentile\nImportError: attempted relative import with no known parent package\n"
+    },
+    {
+      "cmd": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "scripts/export_e1r_v0_2_backtest_equity.py"
+      ],
+      "returncode": 1,
+      "ok": false,
+      "stdout_tail": "",
+      "stderr_tail": "Traceback (most recent call last):\n  File \"/Users/dongfang/Downloads/sp500-tracker-v13/scripts/export_e1r_v0_2_backtest_equity.py\", line 189, in <module>\n    main()\n  File \"/Users/dongfang/Downloads/sp500-tracker-v13/scripts/export_e1r_v0_2_backtest_equity.py\", line 88, in main\n    v1 = extract_variant(variants, \"E1R_REGIME_AWARE_V0_1\")\n  File \"/Users/dongfang/Downloads/sp500-tracker-v13/scripts/export_e1r_v0_2_backtest_equity.py\", line 69, in extract_variant\n    raise RuntimeError(\nRuntimeError: Missing variant: E1R_REGIME_AWARE_V0_1. Available variants: ['E1_AUDITED_G4_MINHOLD10', 'E2_DYNAMIC_EXIT_V2']. Run full 5Y backtest with E1R v0.2 engine first.\n"
+    }
+  ],
+  "baseline_strategy_hashes": {
+    "src/engine/backtest.py": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+    "src/engine/e1r_composer.py": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+    "src/engine/e1r_sidecar_sleeve.py": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995"
+  },
+  "post_strategy_hashes": {
+    "src/engine/backtest.py": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+    "src/engine/e1r_composer.py": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+    "src/engine/e1r_sidecar_sleeve.py": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995"
+  },
+  "baseline_export_hashes": {
+    "exports/backtest.json": "70b19b04362b227d4284d8318a3cb964ec8085c47d59d49b79beacb5a1ea31b9",
+    "exports/portfolio_backtest.json": "07c95881aa9c2adfdfa09d9f159fb9d43feb1293075a05bb31d2c115820ca6f6",
+    "exports/e1r_v0_2_backtest_equity_curve.json": "d43ac75bc56340079b98958d73a0b2c3acb8c7154c04f8a0c394e5e969246926",
+    "exports/e1r_v0_2_backtest_summary.json": "449a8ace55ce2335d174e17e2532d8793a3a9b99c021a935f8d7f2e531092114"
+  },
+  "generated_export_hashes_before_restore": {
+    "exports/backtest.json": "70b19b04362b227d4284d8318a3cb964ec8085c47d59d49b79beacb5a1ea31b9",
+    "exports/portfolio_backtest.json": "07c95881aa9c2adfdfa09d9f159fb9d43feb1293075a05bb31d2c115820ca6f6",
+    "exports/e1r_v0_2_backtest_equity_curve.json": "d43ac75bc56340079b98958d73a0b2c3acb8c7154c04f8a0c394e5e969246926",
+    "exports/e1r_v0_2_backtest_summary.json": "449a8ace55ce2335d174e17e2532d8793a3a9b99c021a935f8d7f2e531092114"
+  },
+  "e1_candidate_eval": {
+    "reason": "no 5Y one-row-per-date E1 daily_records",
+    "evaluated": [
+      {
+        "source": "daily_records",
+        "rows": 22,
+        "date_summary": {
+          "start": "2023-11-06",
+          "end": "2026-05-13",
+          "unique_dates": 22,
+          "max_rows_per_date": 1
+        },
+        "accepted": false
+      },
+      {
+        "source": "variant_results.E1_AUDITED_G4_MINHOLD10.daily_records",
+        "rows": 22,
+        "date_summary": {
+          "start": "2023-11-06",
+          "end": "2026-05-13",
+          "unique_dates": 22,
+          "max_rows_per_date": 1
+        },
+        "accepted": false
+      },
+      {
+        "source": "variant_results.E2_DYNAMIC_EXIT_V2.daily_records",
+        "rows": 22,
+        "date_summary": {
+          "start": "2023-11-06",
+          "end": "2026-05-13",
+          "unique_dates": 22,
+          "max_rows_per_date": 1
+        },
+        "accepted": false
+      }
+    ]
+  },
+  "e1r_candidate_eval": {
+    "reason": "E1R output is diagnostic/symbol-level, not portfolio-level",
+    "source_key": "rows",
+    "row_count": 8819,
+    "date_summary": {
+      "start": "2021-06-11",
+      "end": "2026-06-16",
+      "unique_dates": 859,
+      "max_rows_per_date": 19
+    },
+    "sample_keys": [
+      "close",
+      "date",
+      "diagnostic_only",
+      "e1r_entry_type",
+      "e1r_uptrend_confirmed_eligible",
+      "e1r_uptrend_emerging_eligible",
+      "equity",
+      "leader_rank",
+      "leader_score",
+      "ma20",
+      "ma20_slope",
+      "ma50",
+      "ma50_slope",
+      "momentum_acceleration",
+      "momentum_score",
+      "reasons",
+      "rs_20d_improvement",
+      "rs_prev20",
+      "rs_score",
+      "spx_regime",
+      "symbol",
+      "trend_health"
+    ]
+  },
+  "e1r_metric_validation": {
+    "ok": false,
+    "reason": "missing E1R candidate"
+  },
+  "canonical_written": [],
+  "canonical_skipped": [
+    {
+      "path": "exports/e1_5y_backtest_equity_curve.json",
+      "reason": {
+        "reason": "no 5Y one-row-per-date E1 daily_records",
+        "evaluated": [
+          {
+            "source": "daily_records",
+            "rows": 22,
+            "date_summary": {
+              "start": "2023-11-06",
+              "end": "2026-05-13",
+              "unique_dates": 22,
+              "max_rows_per_date": 1
+            },
+            "accepted": false
+          },
+          {
+            "source": "variant_results.E1_AUDITED_G4_MINHOLD10.daily_records",
+            "rows": 22,
+            "date_summary": {
+              "start": "2023-11-06",
+              "end": "2026-05-13",
+              "unique_dates": 22,
+              "max_rows_per_date": 1
+            },
+            "accepted": false
+          },
+          {
+            "source": "variant_results.E2_DYNAMIC_EXIT_V2.daily_records",
+            "rows": 22,
+            "date_summary": {
+              "start": "2023-11-06",
+              "end": "2026-05-13",
+              "unique_dates": 22,
+              "max_rows_per_date": 1
+            },
+            "accepted": false
+          }
+        ]
+      }
+    },
+    {
+      "path": "exports/e1r_v0_2_portfolio_backtest_equity_curve.json",
+      "reason": {
+        "reason": "E1R output is diagnostic/symbol-level, not portfolio-level",
+        "source_key": "rows",
+        "row_count": 8819,
+        "date_summary": {
+          "start": "2021-06-11",
+          "end": "2026-06-16",
+          "unique_dates": 859,
+          "max_rows_per_date": 19
+        },
+        "sample_keys": [
+          "close",
+          "date",
+          "diagnostic_only",
+          "e1r_entry_type",
+          "e1r_uptrend_confirmed_eligible",
+          "e1r_uptrend_emerging_eligible",
+          "equity",
+          "leader_rank",
+          "leader_score",
+          "ma20",
+          "ma20_slope",
+          "ma50",
+          "ma50_slope",
+          "momentum_acceleration",
+          "momentum_score",
+          "reasons",
+          "rs_20d_improvement",
+          "rs_prev20",
+          "rs_score",
+          "spx_regime",
+          "symbol",
+          "trend_health"
+        ]
+      },
+      "metric_validation": {
+        "ok": false,
+        "reason": "missing E1R candidate"
+      }
+    },
+    {
+      "path": "exports/e1_e1r_5y_equity_comparison.json",
+      "reason": "requires accepted E1 and validated E1R"
+    }
+  ],
+  "diagnosis": [
+    "Frozen strategy files unchanged: True.",
+    "Commands run: 2.",
+    "E1 candidate accepted: False.",
+    "E1R candidate accepted: False.",
+    "E1R metric validation passed: False.",
+    "Canonical exports written: 0.",
+    "Canonical comparison not ready. Existing frozen export path still does not produce one-row-per-date E1R portfolio equity.",
+    "Next step should call the frozen E1R sidecar/composer generation path directly, rather than reusing diagnostic rows."
+  ],
+  "next_stage": {
+    "name": "Stage 3.8E-2F-2C-4C-10",
+    "title": "Implement direct frozen E1R portfolio-equity generator",
+    "recommended_action": "Call e1r_sidecar_sleeve/e1r_composer generation directly to create 5Y sidecar_records and interval_records in memory, then export only after frozen metrics match."
+  }
+}
