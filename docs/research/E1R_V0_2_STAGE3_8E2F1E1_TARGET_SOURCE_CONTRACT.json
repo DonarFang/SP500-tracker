@@ -1,0 +1,841 @@
+{
+  "generated_at": "2026-07-08T06:59:01.254448+00:00",
+  "stage": "B_STAGE_3_8E2F1E1_E1R_TARGET_SOURCE_CONTRACT",
+  "status": "CONTRACT_SELECTED_NO_SOURCE_CHANGES",
+  "main": {
+    "branch": "main",
+    "head": "f72f9ac"
+  },
+  "policy": {
+    "source_changed": false,
+    "exports_changed": false,
+    "state_changed": false,
+    "dashboard_changed": false,
+    "strategy_logic_changed": false
+  },
+  "contract": {
+    "core_target_source": "exports/leaderboard.json",
+    "core_contract": {
+      "method": "Use current leaderboard rows as core target candidates.",
+      "initial_rule_for_next_stage": "Top N equal-weight target sleeve, gated by E1R status core_active.",
+      "requires_exact_fields_next": [
+        "symbol/ticker field",
+        "leader score/rank field",
+        "price field if available"
+      ]
+    },
+    "sidecar_target_source": "exports/oos_e1r_v0_2_sidecar.json",
+    "sidecar_contract": {
+      "has_symbol_level_targets_in_current_export": true,
+      "method": "Use exported sidecar selected symbols if present."
+    },
+    "status_source": "exports/e1r_v0_2_status.json",
+    "status_contract": {
+      "use_fields": [
+        "core_active",
+        "sidecar_active",
+        "market_state/regime/subclass",
+        "gross_exposure",
+        "sidecar_selected_count"
+      ],
+      "status_has_symbol_targets": true
+    },
+    "orders_contract": {
+      "rule": "orders = diff(previous E1R positions, new symbol-level target weights)",
+      "do_not_do": "Do not infer symbol-level orders from gross_exposure alone.",
+      "state_file": "data/oos/e1r_v0_2_portfolio_state.json"
+    },
+    "implementation_decision": "READY_FOR_CORE_AND_SIDECAR_TARGET_EXTRACTION"
+  },
+  "candidate_summary": {
+    "status_candidate_count": 1,
+    "sidecar_candidate_count": 1,
+    "leaderboard_candidate_count": 11,
+    "has_leaderboard_rows": true,
+    "has_sidecar_symbol_targets": true,
+    "has_status_symbol_targets": true
+  },
+  "candidate_details": {
+    "status": [
+      {
+        "path": "$.sidecar",
+        "keys": [
+          "selected_count",
+          "source_record_next_date",
+          "source_record_date",
+          "top_n",
+          "active_condition",
+          "gross_exposure",
+          "active",
+          "excluded_symbols",
+          "selected"
+        ],
+        "symbol_keys": [],
+        "list_symbol_keys": [
+          "selected"
+        ],
+        "weight_keys": [
+          "gross_exposure"
+        ],
+        "preview": "{\n  \"active\": false,\n  \"active_condition\": \"SIDEWAYS_MA_CONFLICT\",\n  \"gross_exposure\": 0.25,\n  \"top_n\": 10,\n  \"excluded_symbols\": [\n    \"VIXY\"\n  ],\n  \"selected_count\": 0,\n  \"selected\": [],\n  \"source_record_date\": \"2026-06-17\",\n  \"source_record_next_date\": \"2026-06-18\"\n}"
+      }
+    ],
+    "sidecar": [
+      {
+        "path": "$",
+        "keys": [
+          "source_record_next_date",
+          "selected_count",
+          "source_record_date",
+          "regime",
+          "subclass",
+          "top_n",
+          "active_condition",
+          "gross_exposure",
+          "market_state",
+          "generated_at",
+          "phase",
+          "status_date",
+          "active",
+          "strategy_id",
+          "excluded_symbols",
+          "selected"
+        ],
+        "symbol_keys": [],
+        "list_symbol_keys": [
+          "selected"
+        ],
+        "weight_keys": [
+          "gross_exposure"
+        ],
+        "preview": "{\n  \"generated_at\": \"2026-07-07T23:56:04.521255+00:00\",\n  \"phase\": \"OOS_STATUS_SIGNAL_ONLY\",\n  \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n  \"status_date\": \"2026-06-18\",\n  \"market_state\": \"UPTREND\",\n  \"regime\": \"UPTREND\",\n  \"subclass\": null,\n  \"active\": false,\n  \"active_condition\": \"SIDEWAYS_MA_CONFLICT\",\n  \"gross_exposure\": 0.25,\n  \"top_n\": 10,\n  \"excluded_symbols\": [\n    \"VIXY\"\n  ],\n  \"source_record_date\": \"2026-06-17\",\n  \"source_record_next_date\": \"2026-06-18\",\n  \"selected_count\": 0,\n  \"selected\": []\n}"
+      }
+    ],
+    "leaderboard": [
+      {
+        "path": "$.leaders",
+        "row_count": 10,
+        "sample_keys": [
+          "trend_state",
+          "ma50_slope_pct",
+          "ma50",
+          "ma20",
+          "ma50_slope_score",
+          "name",
+          "action_description",
+          "ma50_slope",
+          "symbol",
+          "drawdown_score",
+          "ret20_pct",
+          "rs_score",
+          "rank",
+          "volatility_pct",
+          "slope20",
+          "ret60_pct",
+          "ret20",
+          "rs_raw",
+          "above_ma20",
+          "sector",
+          "action_color",
+          "ma200",
+          "market_score",
+          "price",
+          "volatility_score",
+          "slope5",
+          "price_structure_score",
+          "ret60",
+          "drawdown_pct",
+          "momentum_score",
+          "above_ma50",
+          "action_label",
+          "above_ma200",
+          "leader_score",
+          "trend_health",
+          "ma20_slope",
+          "trade_action",
+          "slope10"
+        ],
+        "symbol_keys": [
+          "symbol"
+        ],
+        "weight_keys": [],
+        "first_row": "{\n  \"symbol\": \"AXON\",\n  \"name\": \"AXON\",\n  \"sector\": \"Technology\",\n  \"price\": 640.46,\n  \"ma20\": 485.92,\n  \"ma50\": 442.86,\n  \"ma200\": 532.28,\n  \"above_ma20\": true,\n  \"above_ma50\": true,\n  \"above_ma200\": true,\n  \"ma20_slope\": 0.008947,\n  \"ma50_slope\": 0.006909,\n  \"rs_score\": 97.3,\n  \"rs_raw\": 72.34,\n  \"ret60\": 82.3,\n  \"momentum_score\": 46.6,\n  \"ret20\": 31.75,\n  \"ret60_pct\": 38.6,\n  \"ret20_pct\": 44.3,\n  \"ma50_slope_pct\": 55.7,\n  \"slope5\": 0.031198,\n  \"slope10\": 0.048093,\n  \"slope20\": 0.019528,\n  \"trend_health\": 85.0,\n  \"drawdown_pct\": 0.0,\n  \"volatility_pct\": 65.86,\n  \"price_structure_score\": 30.0,\n  \"ma50_slope_score\": 25.0,\n  \"drawdown_score\": 25.0,\n  \"volatility_score\": 5.0,\n  \"leader_score\": 76.48,\n  \"trend_state\": \"Mature Trend\",\n  \"trade_action\": \"HOLD\",\n  \"action_label\": \"持有\",\n  \"action_color\": \"#BA7517\",\n  \"action_description\": \"趋势健康，维持仓位\",\n  \"rank\": 1,\n  \"market_score\": 60.0\n}",
+        "last_sample_row": "{\n  \"symbol\": \"MOH\",\n  \"name\": \"MOH\",\n  \"sector\": \"Healthcare\",\n  \"price\": 232.9,\n  \"ma20\": 210.41,\n  \"ma50\": 195.81,\n  \"ma200\": 170.32,\n  \"above_ma20\": true,\n  \"above_ma50\": true,\n  \"above_ma200\": true,\n  \"ma20_slope\": 0.011415,\n  \"ma50_slope\": 0.008064,\n  \"rs_score\": 95.7,\n  \"rs_raw\": 50.61,\n  \"ret60\": 60.57,\n  \"momentum_score\": 33.8,\n  \"ret20\": 22.03,\n  \"ret60_pct\": 34.5,\n  \"ret20_pct\": 31.2,\n  \"ma50_slope_pct\": 37.6,\n  \"slope5\": 0.001541,\n  \"slope10\": 0.01601,\n  \"slope20\": 0.010554,\n  \"trend_health\": 90.0,\n  \"drawdown_pct\": 0.0,\n  \"volatility_pct\": 42.12,\n  \"price_structure_score\": 30.0,\n  \"ma50_slope_score\": 25.0,\n  \"drawdown_score\": 25.0,\n  \"volatility_score\": 10.0,\n  \"leader_score\": 72.61,\n  \"trend_state\": \"Mature Trend\",\n  \"trade_action\": \"REDUCE\",\n  \"action_label\": \"减仓\",\n  \"action_color\": \"#D85A30\",\n  \"action_description\": \"趋势减弱，降低风险\",\n  \"rank\": 10,\n  \"market_score\": 60.0\n}"
+      },
+      {
+        "path": "$.leaders[0]",
+        "keys": [
+          "trend_state",
+          "ma50_slope_pct",
+          "ma50",
+          "ma20",
+          "ma50_slope_score",
+          "name",
+          "action_description",
+          "ma50_slope",
+          "symbol",
+          "drawdown_score",
+          "ret20_pct",
+          "rs_score",
+          "rank",
+          "volatility_pct",
+          "slope20",
+          "ret60_pct",
+          "ret20",
+          "rs_raw",
+          "above_ma20",
+          "sector",
+          "action_color",
+          "ma200",
+          "market_score",
+          "price",
+          "volatility_score",
+          "slope5",
+          "price_structure_score",
+          "ret60",
+          "drawdown_pct",
+          "momentum_score",
+          "above_ma50",
+          "action_label",
+          "above_ma200",
+          "leader_score",
+          "trend_health",
+          "ma20_slope",
+          "trade_action",
+          "slope10"
+        ],
+        "symbol_keys": [
+          "symbol"
+        ],
+        "list_symbol_keys": [],
+        "weight_keys": [],
+        "preview": "{\n  \"symbol\": \"AXON\",\n  \"name\": \"AXON\",\n  \"sector\": \"Technology\",\n  \"price\": 640.46,\n  \"ma20\": 485.92,\n  \"ma50\": 442.86,\n  \"ma200\": 532.28,\n  \"above_ma20\": true,\n  \"above_ma50\": true,\n  \"above_ma200\": true,\n  \"ma20_slope\": 0.008947,\n  \"ma50_slope\": 0.006909,\n  \"rs_score\": 97.3,\n  \"rs_raw\": 72.34,\n  \"ret60\": 82.3,\n  \"momentum_score\": 46.6,\n  \"ret20\": 31.75,\n  \"ret60_pct\": 38.6,\n  \"ret20_pct\": 44.3,\n  \"ma50_slope_pct\": 55.7,\n  \"slope5\": 0.031198,\n  \"slope10\": 0.048093,\n  \"slope20\": 0.019528,\n  \"trend_health\": 85.0,\n  \"drawdown_pct\": 0.0,\n  \"volatility_pct\": 65.86,\n  \"price_structure_score\": 30.0,\n  \"ma50_slope_score\": 25.0,\n  \"drawdown_score\": 25.0,\n  \"volatility_score\": 5.0,\n  \"leader_score\": 76.48,\n  \"trend_state\": \"Mature Trend\",\n  \"trade_action\": \"HOLD\",\n  \"action_label\": \"持有\",\n  \"action_color\": \"#BA7517\",\n  \"action_description\": \"趋势健康，维持仓位\",\n  \"rank\": 1,\n  \"market_score\": 60.0\n}"
+      },
+      {
+        "path": "$.leaders[1]",
+        "keys": [
+          "trend_state",
+          "ma50_slope_pct",
+          "ma50",
+          "ma20",
+          "ma50_slope_score",
+          "name",
+          "action_description",
+          "ma50_slope",
+          "symbol",
+          "drawdown_score",
+          "ret20_pct",
+          "rs_score",
+          "rank",
+          "volatility_pct",
+          "slope20",
+          "ret60_pct",
+          "ret20",
+          "rs_raw",
+          "above_ma20",
+          "sector",
+          "action_color",
+          "ma200",
+          "market_score",
+          "price",
+          "volatility_score",
+          "slope5",
+          "price_structure_score",
+          "ret60",
+          "drawdown_pct",
+          "momentum_score",
+          "above_ma50",
+          "action_label",
+          "above_ma200",
+          "leader_score",
+          "trend_health",
+          "ma20_slope",
+          "trade_action",
+          "slope10"
+        ],
+        "symbol_keys": [
+          "symbol"
+        ],
+        "list_symbol_keys": [],
+        "weight_keys": [],
+        "preview": "{\n  \"symbol\": \"DD\",\n  \"name\": \"DD\",\n  \"sector\": \"Chemicals\",\n  \"price\": 139.61,\n  \"ma20\": 88.23,\n  \"ma50\": 64.03,\n  \"ma200\": 46.95,\n  \"above_ma20\": true,\n  \"above_ma50\": true,\n  \"above_ma200\": true,\n  \"ma20_slope\": 0.066307,\n  \"ma50_slope\": 0.032792,\n  \"rs_score\": 99.6,\n  \"rs_raw\": 185.64,\n  \"ret60\": 195.6,\n  \"momentum_score\": 46.0,\n  \"ret20\": 197.99,\n  \"ret60_pct\": 70.8,\n  \"ret20_pct\": 33.7,\n  \"ma50_slope_pct\": 50.0,\n  \"slope5\": 0.007572,\n  \"slope10\": 0.04103,\n  \"slope20\": 0.077208,\n  \"trend_health\": 80.0,\n  \"drawdown_pct\": 1.02,\n  \"volatility_pct\": 692.74,\n  \"price_structure_score\": 30.0,\n  \"ma50_slope_score\": 25.0,\n  \"drawdown_score\": 25.0,\n  \"volatility_score\": 0.0,\n  \"leader_score\": 75.94,\n  \"trend_state\": \"Mature Trend\",\n  \"trade_action\": \"HOLD\",\n  \"action_label\": \"持有\",\n  \"action_color\": \"#BA7517\",\n  \"action_description\": \"趋势健康，维持仓位\",\n  \"rank\": 2,\n  \"market_score\": 60.0\n}"
+      },
+      {
+        "path": "$.leaders[2]",
+        "keys": [
+          "trend_state",
+          "ma50_slope_pct",
+          "ma50",
+          "ma20",
+          "ma50_slope_score",
+          "name",
+          "action_description",
+          "ma50_slope",
+          "symbol",
+          "drawdown_score",
+          "ret20_pct",
+          "rs_score",
+          "rank",
+          "volatility_pct",
+          "slope20",
+          "ret60_pct",
+          "ret20",
+          "rs_raw",
+          "above_ma20",
+          "sector",
+          "action_color",
+          "ma200",
+          "market_score",
+          "price",
+          "volatility_score",
+          "slope5",
+          "price_structure_score",
+          "ret60",
+          "drawdown_pct",
+          "momentum_score",
+          "above_ma50",
+          "action_label",
+          "above_ma200",
+          "leader_score",
+          "trend_health",
+          "ma20_slope",
+          "trade_action",
+          "slope10"
+        ],
+        "symbol_keys": [
+          "symbol"
+        ],
+        "list_symbol_keys": [],
+        "weight_keys": [],
+        "preview": "{\n  \"symbol\": \"DVA\",\n  \"name\": \"DVA\",\n  \"sector\": \"Healthcare\",\n  \"price\": 234.31,\n  \"ma20\": 213.89,\n  \"ma50\": 196.11,\n  \"ma200\": 147.19,\n  \"above_ma20\": true,\n  \"above_ma50\": true,\n  \"above_ma200\": true,\n  \"ma20_slope\": 0.007618,\n  \"ma50_slope\": 0.007949,\n  \"rs_score\": 95.1,\n  \"rs_raw\": 45.55,\n  \"ret60\": 55.5,\n  \"momentum_score\": 36.1,\n  \"ret20\": 21.93,\n  \"ret60_pct\": 34.1,\n  \"ret20_pct\": 36.5,\n  \"ma50_slope_pct\": 36.9,\n  \"slope5\": 0.013562,\n  \"slope10\": 0.013935,\n  \"slope20\": 0.009241,\n  \"trend_health\": 100.0,\n  \"drawdown_pct\": 0.59,\n  \"volatility_pct\": 19.32,\n  \"price_structure_score\": 30.0,\n  \"ma50_slope_score\": 25.0,\n  \"drawdown_score\": 25.0,\n  \"volatility_score\": 20.0,\n  \"leader_score\": 75.67,\n  \"trend_state\": \"Mature Trend\",\n  \"trade_action\": \"HOLD\",\n  \"action_label\": \"持有\",\n  \"action_color\": \"#BA7517\",\n  \"action_description\": \"趋势健康，维持仓位\",\n  \"rank\": 3,\n  \"market_score\": 60.0\n}"
+      },
+      {
+        "path": "$.leaders[3]",
+        "keys": [
+          "trend_state",
+          "ma50_slope_pct",
+          "ma50",
+          "ma20",
+          "ma50_slope_score",
+          "name",
+          "action_description",
+          "ma50_slope",
+          "symbol",
+          "drawdown_score",
+          "ret20_pct",
+          "rs_score",
+          "rank",
+          "volatility_pct",
+          "slope20",
+          "ret60_pct",
+          "ret20",
+          "rs_raw",
+          "above_ma20",
+          "sector",
+          "action_color",
+          "ma200",
+          "market_score",
+          "price",
+          "volatility_score",
+          "slope5",
+          "price_structure_score",
+          "ret60",
+          "drawdown_pct",
+          "momentum_score",
+          "above_ma50",
+          "action_label",
+          "above_ma200",
+          "leader_score",
+          "trend_health",
+          "ma20_slope",
+          "trade_action",
+          "slope10"
+        ],
+        "symbol_keys": [
+          "symbol"
+        ],
+        "list_symbol_keys": [],
+        "weight_keys": [],
+        "preview": "{\n  \"symbol\": \"MRNA\",\n  \"name\": \"MRNA\",\n  \"sector\": \"Biotech\",\n  \"price\": 79.77,\n  \"ma20\": 61.78,\n  \"ma50\": 53.71,\n  \"ma200\": 41.68,\n  \"above_ma20\": true,\n  \"above_ma50\": true,\n  \"above_ma200\": true,\n  \"ma20_slope\": 0.02139,\n  \"ma50_slope\": 0.006705,\n  \"rs_score\": 95.3,\n  \"rs_raw\": 45.61,\n  \"ret60\": 55.56,\n  \"momentum_score\": 46.9,\n  \"ret20\": 68.15,\n  \"ret60_pct\": 43.3,\n  \"ret20_pct\": 47.8,\n  \"ma50_slope_pct\": 47.8,\n  \"slope5\": 0.037488,\n  \"slope10\": 0.037526,\n  \"slope20\": 0.029667,\n  \"trend_health\": 80.0,\n  \"drawdown_pct\": 2.48,\n  \"volatility_pct\": 80.04,\n  \"price_structure_score\": 30.0,\n  \"ma50_slope_score\": 25.0,\n  \"drawdown_score\": 25.0,\n  \"volatility_score\": 0.0,\n  \"leader_score\": 74.53,\n  \"trend_state\": \"Mature Trend\",\n  \"trade_action\": \"REDUCE\",\n  \"action_label\": \"减仓\",\n  \"action_color\": \"#D85A30\",\n  \"action_description\": \"趋势减弱，降低风险\",\n  \"rank\": 4,\n  \"market_score\": 60.0\n}"
+      },
+      {
+        "path": "$.leaders[4]",
+        "keys": [
+          "trend_state",
+          "ma50_slope_pct",
+          "ma50",
+          "ma20",
+          "ma50_slope_score",
+          "name",
+          "action_description",
+          "ma50_slope",
+          "symbol",
+          "drawdown_score",
+          "ret20_pct",
+          "rs_score",
+          "rank",
+          "volatility_pct",
+          "slope20",
+          "ret60_pct",
+          "ret20",
+          "rs_raw",
+          "above_ma20",
+          "sector",
+          "action_color",
+          "ma200",
+          "market_score",
+          "price",
+          "volatility_score",
+          "slope5",
+          "price_structure_score",
+          "ret60",
+          "drawdown_pct",
+          "momentum_score",
+          "above_ma50",
+          "action_label",
+          "above_ma200",
+          "leader_score",
+          "trend_health",
+          "ma20_slope",
+          "trade_action",
+          "slope10"
+        ],
+        "symbol_keys": [
+          "symbol"
+        ],
+        "list_symbol_keys": [],
+        "weight_keys": [],
+        "preview": "{\n  \"symbol\": \"HUM\",\n  \"name\": \"HUM\",\n  \"sector\": \"Healthcare\",\n  \"price\": 394.62,\n  \"ma20\": 376.25,\n  \"ma50\": 321.29,\n  \"ma200\": 253.12,\n  \"above_ma20\": true,\n  \"above_ma50\": true,\n  \"above_ma200\": true,\n  \"ma20_slope\": 0.009735,\n  \"ma50_slope\": 0.012142,\n  \"rs_score\": 98.4,\n  \"rs_raw\": 90.04,\n  \"ret60\": 99.99,\n  \"momentum_score\": 31.5,\n  \"ret20\": 12.72,\n  \"ret60_pct\": 33.1,\n  \"ret20_pct\": 28.6,\n  \"ma50_slope_pct\": 35.3,\n  \"slope5\": -0.005465,\n  \"slope10\": 0.01141,\n  \"slope20\": 0.005396,\n  \"trend_health\": 95.0,\n  \"drawdown_pct\": 3.61,\n  \"volatility_pct\": 29.89,\n  \"price_structure_score\": 30.0,\n  \"ma50_slope_score\": 25.0,\n  \"drawdown_score\": 25.0,\n  \"volatility_score\": 15.0,\n  \"leader_score\": 74.14,\n  \"trend_state\": \"Mature Trend\",\n  \"trade_action\": \"REDUCE\",\n  \"action_label\": \"减仓\",\n  \"action_color\": \"#D85A30\",\n  \"action_description\": \"趋势减弱，降低风险\",\n  \"rank\": 5,\n  \"market_score\": 60.0\n}"
+      },
+      {
+        "path": "$.leaders[5]",
+        "keys": [
+          "trend_state",
+          "ma50_slope_pct",
+          "ma50",
+          "ma20",
+          "ma50_slope_score",
+          "name",
+          "action_description",
+          "ma50_slope",
+          "symbol",
+          "drawdown_score",
+          "ret20_pct",
+          "rs_score",
+          "rank",
+          "volatility_pct",
+          "slope20",
+          "ret60_pct",
+          "ret20",
+          "rs_raw",
+          "above_ma20",
+          "sector",
+          "action_color",
+          "ma200",
+          "market_score",
+          "price",
+          "volatility_score",
+          "slope5",
+          "price_structure_score",
+          "ret60",
+          "drawdown_pct",
+          "momentum_score",
+          "above_ma50",
+          "action_label",
+          "above_ma200",
+          "leader_score",
+          "trend_health",
+          "ma20_slope",
+          "trade_action",
+          "slope10"
+        ],
+        "symbol_keys": [
+          "symbol"
+        ],
+        "list_symbol_keys": [],
+        "weight_keys": [],
+        "preview": "{\n  \"symbol\": \"HOOD\",\n  \"name\": \"HOOD\",\n  \"sector\": \"Fintech\",\n  \"price\": 112.9,\n  \"ma20\": 100.05,\n  \"ma50\": 87.75,\n  \"ma200\": 102.34,\n  \"above_ma20\": true,\n  \"above_ma50\": true,\n  \"above_ma200\": true,\n  \"ma20_slope\": 0.009747,\n  \"ma50_slope\": 0.004232,\n  \"rs_score\": 95.9,\n  \"rs_raw\": 51.06,\n  \"ret60\": 61.01,\n  \"momentum_score\": 41.0,\n  \"ret20\": 36.9,\n  \"ret60_pct\": 36.5,\n  \"ret20_pct\": 44.3,\n  \"ma50_slope_pct\": 38.6,\n  \"slope5\": 0.030918,\n  \"slope10\": 0.0205,\n  \"slope20\": 0.013105,\n  \"trend_health\": 85.0,\n  \"drawdown_pct\": 3.96,\n  \"volatility_pct\": 67.82,\n  \"price_structure_score\": 30.0,\n  \"ma50_slope_score\": 25.0,\n  \"drawdown_score\": 25.0,\n  \"volatility_score\": 5.0,\n  \"leader_score\": 73.96,\n  \"trend_state\": \"Mature Trend\",\n  \"trade_action\": \"REDUCE\",\n  \"action_label\": \"减仓\",\n  \"action_color\": \"#D85A30\",\n  \"action_description\": \"趋势减弱，降低风险\",\n  \"rank\": 6,\n  \"market_score\": 60.0\n}"
+      },
+      {
+        "path": "$.leaders[6]",
+        "keys": [
+          "trend_state",
+          "ma50_slope_pct",
+          "ma50",
+          "ma20",
+          "ma50_slope_score",
+          "name",
+          "action_description",
+          "ma50_slope",
+          "symbol",
+          "drawdown_score",
+          "ret20_pct",
+          "rs_score",
+          "rank",
+          "volatility_pct",
+          "slope20",
+          "ret60_pct",
+          "ret20",
+          "rs_raw",
+          "above_ma20",
+          "sector",
+          "action_color",
+          "ma200",
+          "market_score",
+          "price",
+          "volatility_score",
+          "slope5",
+          "price_structure_score",
+          "ret60",
+          "drawdown_pct",
+          "momentum_score",
+          "above_ma50",
+          "action_label",
+          "above_ma200",
+          "leader_score",
+          "trend_health",
+          "ma20_slope",
+          "trade_action",
+          "slope10"
+        ],
+        "symbol_keys": [
+          "symbol"
+        ],
+        "list_symbol_keys": [],
+        "weight_keys": [],
+        "preview": "{\n  \"symbol\": \"FTNT\",\n  \"name\": \"FTNT\",\n  \"sector\": \"Cybersecurity\",\n  \"price\": 158.67,\n  \"ma20\": 149.11,\n  \"ma50\": 129.83,\n  \"ma200\": 93.96,\n  \"above_ma20\": true,\n  \"above_ma50\": true,\n  \"above_ma200\": true,\n  \"ma20_slope\": 0.004696,\n  \"ma50_slope\": 0.011809,\n  \"rs_score\": 98.0,\n  \"rs_raw\": 86.76,\n  \"ret60\": 96.71,\n  \"momentum_score\": 34.1,\n  \"ret20\": 9.67,\n  \"ret60_pct\": 33.3,\n  \"ret20_pct\": 34.1,\n  \"ma50_slope_pct\": 34.5,\n  \"slope5\": 0.008527,\n  \"slope10\": 0.010556,\n  \"slope20\": 0.006773,\n  \"trend_health\": 90.0,\n  \"drawdown_pct\": 2.27,\n  \"volatility_pct\": 36.14,\n  \"price_structure_score\": 30.0,\n  \"ma50_slope_score\": 25.0,\n  \"drawdown_score\": 25.0,\n  \"volatility_score\": 10.0,\n  \"leader_score\": 73.64,\n  \"trend_state\": \"Mature Trend\",\n  \"trade_action\": \"REDUCE\",\n  \"action_label\": \"减仓\",\n  \"action_color\": \"#D85A30\",\n  \"action_description\": \"趋势减弱，降低风险\",\n  \"rank\": 7,\n  \"market_score\": 60.0\n}"
+      },
+      {
+        "path": "$.leaders[7]",
+        "keys": [
+          "trend_state",
+          "ma50_slope_pct",
+          "ma50",
+          "ma20",
+          "ma50_slope_score",
+          "name",
+          "action_description",
+          "ma50_slope",
+          "symbol",
+          "drawdown_score",
+          "ret20_pct",
+          "rs_score",
+          "rank",
+          "volatility_pct",
+          "slope20",
+          "ret60_pct",
+          "ret20",
+          "rs_raw",
+          "above_ma20",
+          "sector",
+          "action_color",
+          "ma200",
+          "market_score",
+          "price",
+          "volatility_score",
+          "slope5",
+          "price_structure_score",
+          "ret60",
+          "drawdown_pct",
+          "momentum_score",
+          "above_ma50",
+          "action_label",
+          "above_ma200",
+          "leader_score",
+          "trend_health",
+          "ma20_slope",
+          "trade_action",
+          "slope10"
+        ],
+        "symbol_keys": [
+          "symbol"
+        ],
+        "list_symbol_keys": [],
+        "weight_keys": [],
+        "preview": "{\n  \"symbol\": \"GEN\",\n  \"name\": \"GEN\",\n  \"sector\": \"Technology\",\n  \"price\": 26.78,\n  \"ma20\": 24.72,\n  \"ma50\": 23.63,\n  \"ma200\": 24.22,\n  \"above_ma20\": true,\n  \"above_ma50\": true,\n  \"above_ma200\": true,\n  \"ma20_slope\": -0.001806,\n  \"ma50_slope\": 0.004897,\n  \"rs_score\": 94.5,\n  \"rs_raw\": 36.63,\n  \"ret60\": 46.58,\n  \"momentum_score\": 36.5,\n  \"ret20\": 1.9,\n  \"ret60_pct\": 31.4,\n  \"ret20_pct\": 37.6,\n  \"ma50_slope_pct\": 38.2,\n  \"slope5\": 0.016291,\n  \"slope10\": 0.018034,\n  \"slope20\": 0.003363,\n  \"trend_health\": 90.0,\n  \"drawdown_pct\": 3.53,\n  \"volatility_pct\": 39.64,\n  \"price_structure_score\": 30.0,\n  \"ma50_slope_score\": 25.0,\n  \"drawdown_score\": 25.0,\n  \"volatility_score\": 10.0,\n  \"leader_score\": 73.08,\n  \"trend_state\": \"Mature Trend\",\n  \"trade_action\": \"REDUCE\",\n  \"action_label\": \"减仓\",\n  \"action_color\": \"#D85A30\",\n  \"action_description\": \"趋势减弱，降低风险\",\n  \"rank\": 8,\n  \"market_score\": 60.0\n}"
+      },
+      {
+        "path": "$.leaders[8]",
+        "keys": [
+          "trend_state",
+          "ma50_slope_pct",
+          "ma50",
+          "ma20",
+          "ma50_slope_score",
+          "name",
+          "action_description",
+          "ma50_slope",
+          "symbol",
+          "drawdown_score",
+          "ret20_pct",
+          "rs_score",
+          "rank",
+          "volatility_pct",
+          "slope20",
+          "ret60_pct",
+          "ret20",
+          "rs_raw",
+          "above_ma20",
+          "sector",
+          "action_color",
+          "ma200",
+          "market_score",
+          "price",
+          "volatility_score",
+          "slope5",
+          "price_structure_score",
+          "ret60",
+          "drawdown_pct",
+          "momentum_score",
+          "above_ma50",
+          "action_label",
+          "above_ma200",
+          "leader_score",
+          "trend_health",
+          "ma20_slope",
+          "trade_action",
+          "slope10"
+        ],
+        "symbol_keys": [
+          "symbol"
+        ],
+        "list_symbol_keys": [],
+        "weight_keys": [],
+        "preview": "{\n  \"symbol\": \"SNOW\",\n  \"name\": \"SNOW\",\n  \"sector\": \"Technology\",\n  \"price\": 262.74,\n  \"ma20\": 242.52,\n  \"ma50\": 202.86,\n  \"ma200\": 206.96,\n  \"above_ma20\": true,\n  \"above_ma50\": true,\n  \"above_ma200\": true,\n  \"ma20_slope\": 0.00207,\n  \"ma50_slope\": 0.011017,\n  \"rs_score\": 98.2,\n  \"rs_raw\": 88.73,\n  \"ret60\": 98.68,\n  \"momentum_score\": 34.7,\n  \"ret20\": 10.27,\n  \"ret60_pct\": 33.1,\n  \"ret20_pct\": 33.3,\n  \"ma50_slope_pct\": 38.2,\n  \"slope5\": 0.006681,\n  \"slope10\": 0.018268,\n  \"slope20\": 0.005387,\n  \"trend_health\": 85.0,\n  \"drawdown_pct\": 6.22,\n  \"volatility_pct\": 42.74,\n  \"price_structure_score\": 30.0,\n  \"ma50_slope_score\": 25.0,\n  \"drawdown_score\": 20.0,\n  \"volatility_score\": 10.0,\n  \"leader_score\": 72.67,\n  \"trend_state\": \"Mature Trend\",\n  \"trade_action\": \"REDUCE\",\n  \"action_label\": \"减仓\",\n  \"action_color\": \"#D85A30\",\n  \"action_description\": \"趋势减弱，降低风险\",\n  \"rank\": 9,\n  \"market_score\": 60.0\n}"
+      },
+      {
+        "path": "$.leaders[9]",
+        "keys": [
+          "trend_state",
+          "ma50_slope_pct",
+          "ma50",
+          "ma20",
+          "ma50_slope_score",
+          "name",
+          "action_description",
+          "ma50_slope",
+          "symbol",
+          "drawdown_score",
+          "ret20_pct",
+          "rs_score",
+          "rank",
+          "volatility_pct",
+          "slope20",
+          "ret60_pct",
+          "ret20",
+          "rs_raw",
+          "above_ma20",
+          "sector",
+          "action_color",
+          "ma200",
+          "market_score",
+          "price",
+          "volatility_score",
+          "slope5",
+          "price_structure_score",
+          "ret60",
+          "drawdown_pct",
+          "momentum_score",
+          "above_ma50",
+          "action_label",
+          "above_ma200",
+          "leader_score",
+          "trend_health",
+          "ma20_slope",
+          "trade_action",
+          "slope10"
+        ],
+        "symbol_keys": [
+          "symbol"
+        ],
+        "list_symbol_keys": [],
+        "weight_keys": [],
+        "preview": "{\n  \"symbol\": \"MOH\",\n  \"name\": \"MOH\",\n  \"sector\": \"Healthcare\",\n  \"price\": 232.9,\n  \"ma20\": 210.41,\n  \"ma50\": 195.81,\n  \"ma200\": 170.32,\n  \"above_ma20\": true,\n  \"above_ma50\": true,\n  \"above_ma200\": true,\n  \"ma20_slope\": 0.011415,\n  \"ma50_slope\": 0.008064,\n  \"rs_score\": 95.7,\n  \"rs_raw\": 50.61,\n  \"ret60\": 60.57,\n  \"momentum_score\": 33.8,\n  \"ret20\": 22.03,\n  \"ret60_pct\": 34.5,\n  \"ret20_pct\": 31.2,\n  \"ma50_slope_pct\": 37.6,\n  \"slope5\": 0.001541,\n  \"slope10\": 0.01601,\n  \"slope20\": 0.010554,\n  \"trend_health\": 90.0,\n  \"drawdown_pct\": 0.0,\n  \"volatility_pct\": 42.12,\n  \"price_structure_score\": 30.0,\n  \"ma50_slope_score\": 25.0,\n  \"drawdown_score\": 25.0,\n  \"volatility_score\": 10.0,\n  \"leader_score\": 72.61,\n  \"trend_state\": \"Mature Trend\",\n  \"trade_action\": \"REDUCE\",\n  \"action_label\": \"减仓\",\n  \"action_color\": \"#D85A30\",\n  \"action_description\": \"趋势减弱，降低风险\",\n  \"rank\": 10,\n  \"market_score\": 60.0\n}"
+      }
+    ]
+  },
+  "source_segments": {
+    "runner": [
+      {
+        "hit_line": 43,
+        "term_line": "    core = status.get(\"core\", {}) or {}",
+        "start": 35,
+        "end": 51,
+        "segment": "   35: \n   36:     generated_at = datetime.now(timezone.utc).isoformat()\n   37:     status_date = status.get(\"status_date\")\n   38:     strategy_id = status.get(\"strategy_id\", \"E1R_REGIME_AWARE_V0_2\")\n   39:     market_state = status.get(\"e1r_market_state\", \"UNKNOWN\")\n   40:     regime = status.get(\"regime\")\n   41:     subclass = status.get(\"subclass\")\n   42: \n   43:     core = status.get(\"core\", {}) or {}\n   44:     sidecar = status.get(\"sidecar\", {}) or {}\n   45:     selected = sidecar.get(\"selected\", []) or []\n   46: \n   47:     core_active = bool(core.get(\"active\"))\n   48:     sidecar_active = bool(sidecar.get(\"active\"))\n   49: \n   50:     phase = \"OOS_STATUS_SIGNAL_ONLY\"\n   51: "
+      },
+      {
+        "hit_line": 63,
+        "term_line": "        \"core_active\": core_active,",
+        "start": 55,
+        "end": 71,
+        "segment": "   55:         \"strategy_id\": strategy_id,\n   56:         \"version\": status.get(\"version\"),\n   57:         \"research_status\": status.get(\"research_status\"),\n   58:         \"status_date\": status_date,\n   59:         \"market_state\": market_state,\n   60:         \"regime\": regime,\n   61:         \"subclass\": subclass,\n   62:         \"mutually_exclusive_state_model\": bool(status.get(\"mutually_exclusive_state_model\")),\n   63:         \"core_active\": core_active,\n   64:         \"sidecar_active\": sidecar_active,\n   65:         \"sidecar_selected_count\": len(selected),\n   66:         \"gross_exposure\": sidecar.get(\"gross_exposure\"),\n   67:         \"top_n\": sidecar.get(\"top_n\"),\n   68:         \"execution_status\": \"NO_REAL_EXECUTION\",\n   69:         \"equity_status\": \"NOT_YET_CONNECTED\",\n   70:         \"notes\": [\n   71:             \"OOS-1 exports daily E1R v0.2 state and sidecar target signals only.\","
+      },
+      {
+        "hit_line": 72,
+        "term_line": "            \"No real orders are executed by this script.\",",
+        "start": 64,
+        "end": 80,
+        "segment": "   64:         \"sidecar_active\": sidecar_active,\n   65:         \"sidecar_selected_count\": len(selected),\n   66:         \"gross_exposure\": sidecar.get(\"gross_exposure\"),\n   67:         \"top_n\": sidecar.get(\"top_n\"),\n   68:         \"execution_status\": \"NO_REAL_EXECUTION\",\n   69:         \"equity_status\": \"NOT_YET_CONNECTED\",\n   70:         \"notes\": [\n   71:             \"OOS-1 exports daily E1R v0.2 state and sidecar target signals only.\",\n   72:             \"No real orders are executed by this script.\",\n   73:             \"No E1R v0.2 OOS equity curve is updated by this script.\",\n   74:             \"This is the bridge layer for Dashboard and future OOS equity integration.\",\n   75:         ],\n   76:     }\n   77: \n   78:     sidecar_export = {\n   79:         \"generated_at\": generated_at,\n   80:         \"phase\": phase,"
+      },
+      {
+        "hit_line": 86,
+        "term_line": "        \"active\": sidecar_active,",
+        "start": 78,
+        "end": 94,
+        "segment": "   78:     sidecar_export = {\n   79:         \"generated_at\": generated_at,\n   80:         \"phase\": phase,\n   81:         \"strategy_id\": strategy_id,\n   82:         \"status_date\": status_date,\n   83:         \"market_state\": market_state,\n   84:         \"regime\": regime,\n   85:         \"subclass\": subclass,\n   86:         \"active\": sidecar_active,\n   87:         \"active_condition\": sidecar.get(\"active_condition\"),\n   88:         \"gross_exposure\": sidecar.get(\"gross_exposure\"),\n   89:         \"top_n\": sidecar.get(\"top_n\"),\n   90:         \"excluded_symbols\": sidecar.get(\"excluded_symbols\", []),\n   91:         \"source_record_date\": sidecar.get(\"source_record_date\"),\n   92:         \"source_record_next_date\": sidecar.get(\"source_record_next_date\"),\n   93:         \"selected_count\": len(selected),\n   94:         \"selected\": selected,"
+      },
+      {
+        "hit_line": 97,
+        "term_line": "    target_positions = []",
+        "start": 89,
+        "end": 105,
+        "segment": "   89:         \"top_n\": sidecar.get(\"top_n\"),\n   90:         \"excluded_symbols\": sidecar.get(\"excluded_symbols\", []),\n   91:         \"source_record_date\": sidecar.get(\"source_record_date\"),\n   92:         \"source_record_next_date\": sidecar.get(\"source_record_next_date\"),\n   93:         \"selected_count\": len(selected),\n   94:         \"selected\": selected,\n   95:     }\n   96: \n   97:     target_positions = []\n   98:     if sidecar_active:\n   99:         for h in selected:\n  100:             symbol = h.get(\"symbol\")\n  101:             if not symbol:\n  102:                 continue\n  103:             target_positions.append({\n  104:                 \"symbol\": symbol,\n  105:                 \"sleeve\": \"E1R_V0_2_SIDECAR\","
+      },
+      {
+        "hit_line": 106,
+        "term_line": "                \"target_weight\": h.get(\"weight\"),",
+        "start": 98,
+        "end": 114,
+        "segment": "   98:     if sidecar_active:\n   99:         for h in selected:\n  100:             symbol = h.get(\"symbol\")\n  101:             if not symbol:\n  102:                 continue\n  103:             target_positions.append({\n  104:                 \"symbol\": symbol,\n  105:                 \"sleeve\": \"E1R_V0_2_SIDECAR\",\n  106:                 \"target_weight\": h.get(\"weight\"),\n  107:                 \"score\": h.get(\"score\"),\n  108:                 \"source\": \"SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE\",\n  109:                 \"execution_status\": \"TARGET_ONLY_NOT_EXECUTED\",\n  110:             })\n  111: \n  112:     positions = {\n  113:         \"generated_at\": generated_at,\n  114:         \"phase\": phase,"
+      },
+      {
+        "hit_line": 118,
+        "term_line": "        \"core\": {",
+        "start": 110,
+        "end": 126,
+        "segment": "  110:             })\n  111: \n  112:     positions = {\n  113:         \"generated_at\": generated_at,\n  114:         \"phase\": phase,\n  115:         \"strategy_id\": strategy_id,\n  116:         \"status_date\": status_date,\n  117:         \"market_state\": market_state,\n  118:         \"core\": {\n  119:             \"active\": core_active,\n  120:             \"strategy_id\": core.get(\"strategy_id\", \"E1R_REGIME_AWARE_V0_1\"),\n  121:             \"positions_status\": \"NOT_CONNECTED_IN_OOS_1\",\n  122:         },\n  123:         \"sidecar\": {\n  124:             \"active\": sidecar_active,\n  125:             \"positions_status\": \"TARGET_ONLY_NOT_EXECUTED\",\n  126:             \"target_positions\": target_positions,"
+      },
+      {
+        "hit_line": 130,
+        "term_line": "    orders = {",
+        "start": 122,
+        "end": 138,
+        "segment": "  122:         },\n  123:         \"sidecar\": {\n  124:             \"active\": sidecar_active,\n  125:             \"positions_status\": \"TARGET_ONLY_NOT_EXECUTED\",\n  126:             \"target_positions\": target_positions,\n  127:         },\n  128:     }\n  129: \n  130:     orders = {\n  131:         \"generated_at\": generated_at,\n  132:         \"phase\": phase,\n  133:         \"strategy_id\": strategy_id,\n  134:         \"status_date\": status_date,\n  135:         \"market_state\": market_state,\n  136:         \"execution_status\": \"NO_REAL_EXECUTION\",\n  137:         \"orders\": [\n  138:             {"
+      },
+      {
+        "hit_line": 141,
+        "term_line": "                \"target_weight\": p[\"target_weight\"],",
+        "start": 133,
+        "end": 149,
+        "segment": "  133:         \"strategy_id\": strategy_id,\n  134:         \"status_date\": status_date,\n  135:         \"market_state\": market_state,\n  136:         \"execution_status\": \"NO_REAL_EXECUTION\",\n  137:         \"orders\": [\n  138:             {\n  139:                 \"symbol\": p[\"symbol\"],\n  140:                 \"sleeve\": p[\"sleeve\"],\n  141:                 \"target_weight\": p[\"target_weight\"],\n  142:                 \"side\": \"TARGET_HOLD\",\n  143:                 \"status\": \"SIGNAL_ONLY\",\n  144:                 \"reason\": \"E1R_V0_2_OOS_1_SIGNAL_EXPORT_ONLY\",\n  145:             }\n  146:             for p in target_positions\n  147:         ],\n  148:     }\n  149: "
+      },
+      {
+        "hit_line": 151,
+        "term_line": "    write_json(ROOT / \"exports/oos_e1r_v0_2_sidecar.json\", sidecar_export)",
+        "start": 143,
+        "end": 159,
+        "segment": "  143:                 \"status\": \"SIGNAL_ONLY\",\n  144:                 \"reason\": \"E1R_V0_2_OOS_1_SIGNAL_EXPORT_ONLY\",\n  145:             }\n  146:             for p in target_positions\n  147:         ],\n  148:     }\n  149: \n  150:     write_json(ROOT / \"exports/oos_e1r_v0_2_summary.json\", summary)\n  151:     write_json(ROOT / \"exports/oos_e1r_v0_2_sidecar.json\", sidecar_export)\n  152:     write_json(ROOT / \"exports/oos_e1r_v0_2_positions.json\", positions)\n  153:     write_json(ROOT / \"exports/oos_e1r_v0_2_orders.json\", orders)\n  154: \n  155:     print(\"E1R v0.2 OOS-1 export complete\")\n  156:     print(\"status_date:\", status_date)\n  157:     print(\"market_state:\", market_state)\n  158:     print(\"core_active:\", core_active)\n  159:     print(\"sidecar_active:\", sidecar_active)"
+      },
+      {
+        "hit_line": 160,
+        "term_line": "    print(\"sidecar_selected_count:\", len(selected))",
+        "start": 152,
+        "end": 168,
+        "segment": "  152:     write_json(ROOT / \"exports/oos_e1r_v0_2_positions.json\", positions)\n  153:     write_json(ROOT / \"exports/oos_e1r_v0_2_orders.json\", orders)\n  154: \n  155:     print(\"E1R v0.2 OOS-1 export complete\")\n  156:     print(\"status_date:\", status_date)\n  157:     print(\"market_state:\", market_state)\n  158:     print(\"core_active:\", core_active)\n  159:     print(\"sidecar_active:\", sidecar_active)\n  160:     print(\"sidecar_selected_count:\", len(selected))\n  161:     print(\"wrote:\")\n  162:     print(\"  exports/e1r_v0_2_status.json\")\n  163:     print(\"  exports/oos_e1r_v0_2_summary.json\")\n  164:     print(\"  exports/oos_e1r_v0_2_sidecar.json\")\n  165:     print(\"  exports/oos_e1r_v0_2_positions.json\")\n  166:     print(\"  exports/oos_e1r_v0_2_orders.json\")\n  167:     # Refresh forward/OOS equity curve after status and signal exports.\n  168:     equity_script = ROOT / \"scripts/run_e1r_v0_2_oos_equity.py\""
+      },
+      {
+        "hit_line": 172,
+        "term_line": "        lifecycle_script = ROOT / \"scripts/run_e1r_v0_2_sidecar_lifecycle.py\"",
+        "start": 164,
+        "end": 180,
+        "segment": "  164:     print(\"  exports/oos_e1r_v0_2_sidecar.json\")\n  165:     print(\"  exports/oos_e1r_v0_2_positions.json\")\n  166:     print(\"  exports/oos_e1r_v0_2_orders.json\")\n  167:     # Refresh forward/OOS equity curve after status and signal exports.\n  168:     equity_script = ROOT / \"scripts/run_e1r_v0_2_oos_equity.py\"\n  169:     if equity_script.exists():\n  170:         runpy.run_path(str(equity_script), run_name=\"__main__\")\n  171:         print(\"  exports/oos_e1r_v0_2_equity_curve.json\")\n  172:         lifecycle_script = ROOT / \"scripts/run_e1r_v0_2_sidecar_lifecycle.py\"\n  173:         if lifecycle_script.exists():\n  174:             runpy.run_path(str(lifecycle_script), run_name=\"__main__\")\n  175:             print(\"  exports/oos_e1r_v0_2_sidecar_lifecycle.json\")\n  176:             print(\"  exports/oos_e1r_v0_2_sidecar_turnover.json\")\n  177: \n  178: \n  179: if __name__ == \"__main__\":\n  180:     main()"
+      }
+    ],
+    "sidecar_engine": [
+      {
+        "hit_line": 10,
+        "term_line": "- Active only in SIDEWAYS:MA_CONFLICT.",
+        "start": 2,
+        "end": 18,
+        "segment": "    2: E1-R sidecar sleeve engine.\n    3: \n    4: Purpose\n    5: -------\n    6: Formal engine module for E1R_REGIME_AWARE_V0_2 sidecar sleeve.\n    7: \n    8: This module implements the same rule semantics that passed research validation:\n    9: \n   10: - Active only in SIDEWAYS:MA_CONFLICT.\n   11: - Top-N basket selection.\n   12: - Gross exposure sleeve, default 25%.\n   13: - Daily close-to-close rebalance.\n   14: - VIXY excluded by default.\n   15: - DOWNTREND / RECOVERY / DETERIORATION have zero sleeve exposure.\n   16: \n   17: Important\n   18: ---------"
+      },
+      {
+        "hit_line": 44,
+        "term_line": "    allowed_subclasses: tuple[str, ...] = (\"MA_CONFLICT\",)",
+        "start": 36,
+        "end": 52,
+        "segment": "   36: from statistics import mean, median, pstdev\n   37: from typing import Any, Iterable, Optional, Sequence\n   38: \n   39: \n   40: @dataclass(frozen=True)\n   41: class E1RSidecarConfig:\n   42:     start_date: str\n   43:     end_date: str\n   44:     allowed_subclasses: tuple[str, ...] = (\"MA_CONFLICT\",)\n   45:     top_n: int = 10\n   46:     gross_exposure: float = 0.25\n   47:     min_history_days: int = 200\n   48:     min_price: float = 5.0\n   49:     initial_equity: float = 100000.0\n   50:     excluded_symbols: tuple[str, ...] = (\"VIXY\",)\n   51: \n   52: "
+      },
+      {
+        "hit_line": 367,
+        "term_line": "        if regime_info.get(\"regime\") != \"SIDEWAYS\":",
+        "start": 359,
+        "end": 375,
+        "segment": "  359:     regimes: dict[str, dict[str, Any]],\n  360:     intervals: Sequence[tuple[str, str]],\n  361:     config: E1RSidecarConfig,\n  362: ) -> dict[str, dict[str, Any]]:\n  363:     rankings: dict[str, dict[str, Any]] = {}\n  364: \n  365:     for date, next_date in intervals:\n  366:         regime_info = regimes.get(date, {})\n  367:         if regime_info.get(\"regime\") != \"SIDEWAYS\":\n  368:             continue\n  369: \n  370:         candidates: list[dict[str, Any]] = []\n  371: \n  372:         for asset in stocks.values():\n  373:             if date not in asset[\"by_date\"] or next_date not in asset[\"by_date\"]:\n  374:                 continue\n  375: "
+      },
+      {
+        "hit_line": 385,
+        "term_line": "            candidates.append(candidate)",
+        "start": 377,
+        "end": 393,
+        "segment": "  377:             if candidate is None:\n  378:                 continue\n  379: \n  380:             one_day_return = close_to_close_return(asset, date, next_date)\n  381:             if one_day_return is None:\n  382:                 continue\n  383: \n  384:             candidate[\"one_day_return\"] = one_day_return\n  385:             candidates.append(candidate)\n  386: \n  387:         candidates.sort(key=lambda x: x[\"score\"], reverse=True)\n  388: \n  389:         rankings[date] = {\n  390:             \"date\": date,\n  391:             \"next_date\": next_date,\n  392:             \"regime\": \"SIDEWAYS\",\n  393:             \"subclass\": regime_info.get(\"subclass\") or \"NO_SUBCLASS\","
+      },
+      {
+        "hit_line": 394,
+        "term_line": "            \"candidate_count\": len(candidates),",
+        "start": 386,
+        "end": 402,
+        "segment": "  386: \n  387:         candidates.sort(key=lambda x: x[\"score\"], reverse=True)\n  388: \n  389:         rankings[date] = {\n  390:             \"date\": date,\n  391:             \"next_date\": next_date,\n  392:             \"regime\": \"SIDEWAYS\",\n  393:             \"subclass\": regime_info.get(\"subclass\") or \"NO_SUBCLASS\",\n  394:             \"candidate_count\": len(candidates),\n  395:             \"candidates\": candidates,\n  396:         }\n  397: \n  398:     return rankings\n  399: \n  400: \n  401: def run_daily_rebalanced_sidecar(\n  402:     rankings: dict[str, dict[str, Any]],"
+      },
+      {
+        "hit_line": 409,
+        "term_line": "    top_n = int(config.top_n)",
+        "start": 401,
+        "end": 417,
+        "segment": "  401: def run_daily_rebalanced_sidecar(\n  402:     rankings: dict[str, dict[str, Any]],\n  403:     spx: dict[str, Any],\n  404:     regimes: dict[str, dict[str, Any]],\n  405:     intervals: Sequence[tuple[str, str]],\n  406:     config: E1RSidecarConfig,\n  407: ) -> list[dict[str, Any]]:\n  408:     allowed_subclasses = set(config.allowed_subclasses)\n  409:     top_n = int(config.top_n)\n  410:     gross_exposure = float(config.gross_exposure)\n  411: \n  412:     records: list[dict[str, Any]] = []\n  413: \n  414:     for date, next_date in intervals:\n  415:         regime_info = regimes.get(date, {})\n  416:         regime = regime_info.get(\"regime\") or \"NO_REGIME\"\n  417:         subclass = regime_info.get(\"subclass\") or \"NO_SUBCLASS\""
+      },
+      {
+        "hit_line": 422,
+        "term_line": "        candidates = ranked.get(\"candidates\", [])",
+        "start": 414,
+        "end": 430,
+        "segment": "  414:     for date, next_date in intervals:\n  415:         regime_info = regimes.get(date, {})\n  416:         regime = regime_info.get(\"regime\") or \"NO_REGIME\"\n  417:         subclass = regime_info.get(\"subclass\") or \"NO_SUBCLASS\"\n  418: \n  419:         spx_return = close_to_close_return(spx, date, next_date) or 0.0\n  420: \n  421:         ranked = rankings.get(date, {})\n  422:         candidates = ranked.get(\"candidates\", [])\n  423: \n  424:         is_active = (\n  425:             regime == \"SIDEWAYS\"\n  426:             and subclass in allowed_subclasses\n  427:             and top_n > 0\n  428:             and gross_exposure > 0\n  429:             and bool(candidates)\n  430:         )"
+      },
+      {
+        "hit_line": 436,
+        "term_line": "            selected = candidates[:top_n]",
+        "start": 428,
+        "end": 444,
+        "segment": "  428:             and gross_exposure > 0\n  429:             and bool(candidates)\n  430:         )\n  431: \n  432:         holdings: list[dict[str, Any]] = []\n  433:         portfolio_return = 0.0\n  434: \n  435:         if is_active:\n  436:             selected = candidates[:top_n]\n  437:             weight = gross_exposure / len(selected)\n  438: \n  439:             for candidate in selected:\n  440:                 raw_return = candidate[\"one_day_return\"]\n  441:                 contribution = weight * raw_return\n  442:                 portfolio_return += contribution\n  443: \n  444:                 holdings.append({"
+      },
+      {
+        "hit_line": 447,
+        "term_line": "                    \"weight\": weight,",
+        "start": 439,
+        "end": 455,
+        "segment": "  439:             for candidate in selected:\n  440:                 raw_return = candidate[\"one_day_return\"]\n  441:                 contribution = weight * raw_return\n  442:                 portfolio_return += contribution\n  443: \n  444:                 holdings.append({\n  445:                     \"symbol\": candidate[\"symbol\"],\n  446:                     \"score\": candidate[\"score\"],\n  447:                     \"weight\": weight,\n  448:                     \"raw_return\": raw_return,\n  449:                     \"raw_return_pct\": pct_display(raw_return),\n  450:                     \"weighted_contribution\": contribution,\n  451:                     \"weighted_contribution_pct\": pct_display(contribution),\n  452:                 })\n  453: \n  454:         records.append({\n  455:             \"date\": date,"
+      },
+      {
+        "hit_line": 460,
+        "term_line": "            \"candidate_count\": len(candidates),",
+        "start": 452,
+        "end": 468,
+        "segment": "  452:                 })\n  453: \n  454:         records.append({\n  455:             \"date\": date,\n  456:             \"next_date\": next_date,\n  457:             \"regime\": regime,\n  458:             \"subclass\": subclass,\n  459:             \"is_active\": is_active,\n  460:             \"candidate_count\": len(candidates),\n  461:             \"selected_count\": len(holdings),\n  462:             \"gross_exposure\": gross_exposure if is_active else 0.0,\n  463:             \"portfolio_return\": portfolio_return,\n  464:             \"portfolio_return_pct\": pct_display(portfolio_return),\n  465:             \"spx_return\": spx_return,\n  466:             \"spx_return_pct\": pct_display(spx_return),\n  467:             \"holdings\": holdings,\n  468:         })"
+      },
+      {
+        "hit_line": 498,
+        "term_line": "        \"name\": \"E1R_SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE\",",
+        "start": 490,
+        "end": 506,
+        "segment": "  490:     full_spx_return = compound_return(r[\"spx_return\"] for r in records)\n  491:     active_strategy_return = compound_return(active_returns)\n  492:     active_spx_return = compound_return(active_spx_returns)\n  493: \n  494:     wins = [r for r in active_records if r[\"portfolio_return\"] > 0]\n  495:     losses = [r for r in active_records if r[\"portfolio_return\"] < 0]\n  496: \n  497:     return {\n  498:         \"name\": \"E1R_SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE\",\n  499:         \"allowed_subclasses\": list(config.allowed_subclasses),\n  500:         \"top_n\": config.top_n,\n  501:         \"gross_exposure\": config.gross_exposure,\n  502:         \"excluded_symbols\": list(config.excluded_symbols),\n  503: \n  504:         \"total_days\": len(records),\n  505:         \"active_days\": len(active_records),\n  506:         \"exposure_pct_full_period\": ("
+      },
+      {
+        "hit_line": 560,
+        "term_line": "        if regime == \"SIDEWAYS\":",
+        "start": 552,
+        "end": 568,
+        "segment": "  552: \n  553:     regime_counts: dict[str, int] = {}\n  554:     subclass_counts: dict[str, int] = {}\n  555: \n  556:     for record in records:\n  557:         regime = record[\"regime\"]\n  558:         subclass = record[\"subclass\"]\n  559:         regime_counts[regime] = regime_counts.get(regime, 0) + 1\n  560:         if regime == \"SIDEWAYS\":\n  561:             subclass_counts[subclass] = subclass_counts.get(subclass, 0) + 1\n  562: \n  563:     return {\n  564:         \"engine\": \"e1r_sidecar_sleeve\",\n  565:         \"version\": \"v0.2_formal_sleeve_engine\",\n  566:         \"config\": {\n  567:             \"start_date\": config.start_date,\n  568:             \"end_date\": config.end_date,"
+      }
+    ]
+  },
+  "next_stage": {
+    "stage": "3.8E-2F-1E-2",
+    "purpose": "Implement target extraction according to selected contract.",
+    "guardrails": [
+      "Start with core target extraction if sidecar symbol-level targets are unavailable.",
+      "Do not generate sidecar orders from gross_exposure alone.",
+      "Do not touch E1 state/export.",
+      "Do not modify frozen strategy rules."
+    ]
+  }
+}
