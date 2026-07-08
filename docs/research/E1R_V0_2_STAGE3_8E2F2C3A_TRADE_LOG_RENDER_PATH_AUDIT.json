@@ -1,0 +1,420 @@
+{
+  "generated_at": "2026-07-08T08:43:25.833649+00:00",
+  "stage": "B_STAGE_3_8E2F2C3A_TRADE_LOG_RENDER_PATH_AUDIT",
+  "status": "AUDIT_COMPLETE_NO_SOURCE_CHANGES",
+  "main": {
+    "branch": "main",
+    "head": "05f650a"
+  },
+  "policy": {
+    "source_changed": false,
+    "dashboard_changed": false,
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false
+  },
+  "readiness": {
+    "visible_tracking_panel_currently_present": true,
+    "e1_trade_log_anchor_present": true,
+    "e1r_orders_file_ready": true,
+    "e1r_positions_file_ready": true,
+    "dashboard_fetches_e1r_orders": true,
+    "dashboard_fetches_e1r_positions": true,
+    "ready_for_trade_log_patch": true
+  },
+  "app_report": {
+    "line_count": 1596,
+    "has_visible_panel_call": true,
+    "has_visible_panel_helper": true,
+    "has_e1_trade_log_title": true,
+    "fetches_e1r_orders": true,
+    "fetches_e1r_positions": true,
+    "mentions_e1r_orders_alias": false,
+    "mentions_e1r_positions_alias": false,
+    "term_hits": [
+      {
+        "line": 300,
+        "text": "        <h4>E1R Forward Equity Curve</h4>",
+        "terms": [
+          "E1R Forward Equity Curve"
+        ]
+      },
+      {
+        "line": 344,
+        "text": "      <h4>E1R Forward Equity Curve</h4>",
+        "terms": [
+          "E1R Forward Equity Curve"
+        ]
+      },
+      {
+        "line": 457,
+        "text": "    ['Trades',e2bV4Pick(e1,['number_of_trades','trades','trade_count']),e2bV4Pick(e1r,['number_of_trades','trades','trade_count'])],",
+        "terms": [
+          "trades"
+        ]
+      },
+      {
+        "line": 489,
+        "text": "function e1rForwardVisiblePanelHtml(summaryRaw, equityRaw) {",
+        "terms": [
+          "e1rForwardVisiblePanelHtml"
+        ]
+      },
+      {
+        "line": 521,
+        "text": "      <h3>E1R Forward Paper Tracking</h3>",
+        "terms": [
+          "E1R Forward Paper Tracking"
+        ]
+      },
+      {
+        "line": 534,
+        "text": "      <h4>E1R Forward Equity Curve</h4>",
+        "terms": [
+          "E1R Forward Equity Curve"
+        ]
+      },
+      {
+        "line": 859,
+        "text": "    const allTrades=e1.trades||[];",
+        "terms": [
+          "trades"
+        ]
+      },
+      {
+        "line": 939,
+        "text": "      h+=`<div class=\"card\"><div class=\"card-head\">Recent closed trades (last 5)</div><div class=\"card-body\">",
+        "terms": [
+          "trades"
+        ]
+      },
+      {
+        "line": 990,
+        "text": "    const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();",
+        "terms": [
+          "trades"
+        ]
+      },
+      {
+        "line": 991,
+        "text": "    const tradeRows=trades.map(t=>{",
+        "terms": [
+          "tradeRows",
+          "trades"
+        ]
+      },
+      {
+        "line": 1020,
+        "text": "      h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">${e1rForwardVisiblePanelHtml(DATA.e1rV02OosSummary, DATA.e1rV02OosEquityCurve)}",
+        "terms": [
+          "e1rForwardVisiblePanelHtml"
+        ]
+      },
+      {
+        "line": 1046,
+        "text": "    h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">Trade log — recent 20 trades</div><div class=\"card-body\">",
+        "terms": [
+          "trades"
+        ]
+      },
+      {
+        "line": 1049,
+        "text": "        <tbody>${tradeRows}</tbody>",
+        "terms": [
+          "tradeRows"
+        ]
+      },
+      {
+        "line": 1089,
+        "text": "        Stage 3.8E-1 cleanup: Trade Log is followed only by Market State. E1/E1R strategy logic is unchanged.",
+        "terms": [
+          "Trade Log"
+        ]
+      },
+      {
+        "line": 1268,
+        "text": "    positions: \"../exports/oos_e1r_v0_2_positions.json\",",
+        "terms": [
+          "oos_e1r_v0_2_positions"
+        ]
+      },
+      {
+        "line": 1269,
+        "text": "    orders: \"../exports/oos_e1r_v0_2_orders.json\",",
+        "terms": [
+          "oos_e1r_v0_2_orders"
+        ]
+      },
+      {
+        "line": 1318,
+        "text": "    for (const key of [\"records\", \"data\", \"items\", \"rows\", \"equity_curve\", \"curve\", \"positions\", \"orders\", \"trades\"]) {",
+        "terms": [
+          "trades"
+        ]
+      }
+    ]
+  },
+  "json_reports": {
+    "e1_orders": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "row_count": 6,
+      "top_level_keys": [
+        "generated_at",
+        "generated_at_display",
+        "orders",
+        "strategy_id"
+      ],
+      "sample_keys": [
+        "_written_at",
+        "action",
+        "date",
+        "event_id",
+        "event_type",
+        "execute_date",
+        "leader_score",
+        "rank",
+        "rs_score",
+        "source",
+        "symbol"
+      ],
+      "sample_row": {
+        "event_id": "2026-06-18_ORDER_BUY_WDC",
+        "event_type": "ORDER_GENERATED",
+        "date": "2026-06-18",
+        "symbol": "WDC",
+        "action": "BUY",
+        "rank": 1,
+        "leader_score": 81.54,
+        "rs_score": 98.2,
+        "execute_date": "T+1",
+        "source": "BACKFILLED_PRELIVE",
+        "_written_at": "2026-06-20T13:38:22.614690+00:00"
+      }
+    },
+    "e1_positions": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "row_count": 3,
+      "top_level_keys": [
+        "as_of",
+        "cash",
+        "generated_at",
+        "generated_at_display",
+        "pending_orders",
+        "positions",
+        "strategy_id"
+      ],
+      "sample_keys": [
+        "cost_basis",
+        "entry_date",
+        "entry_price",
+        "execution_provenance",
+        "mixed_provenance",
+        "signal_date",
+        "signal_provenance",
+        "symbol",
+        "units"
+      ],
+      "sample_row": {
+        "symbol": "WDC",
+        "entry_date": "2026-06-22",
+        "signal_date": "2026-06-18",
+        "entry_price": 733.3526,
+        "units": 45.4534,
+        "cost_basis": 33366.7,
+        "signal_provenance": "BACKFILLED_PRELIVE",
+        "execution_provenance": "LIVE_FORWARD",
+        "mixed_provenance": true
+      }
+    },
+    "e1r_orders": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "row_count": 10,
+      "top_level_keys": [
+        "counts",
+        "execution_status",
+        "generated_at",
+        "notes",
+        "official_kickoff_date",
+        "orders",
+        "preview",
+        "status_date",
+        "strategy_id",
+        "tracking_status",
+        "version"
+      ],
+      "sample_keys": [
+        "accepted_at",
+        "action",
+        "core_or_sidecar",
+        "date",
+        "date_rank",
+        "delta_weight",
+        "execution_status",
+        "notional",
+        "paper_price",
+        "preview",
+        "previous_weight",
+        "reason",
+        "shares",
+        "source",
+        "status",
+        "strategy_id",
+        "symbol",
+        "target_weight",
+        "version"
+      ],
+      "sample_row": {
+        "date": "2026-06-18",
+        "strategy_id": "E1R_REGIME_AWARE_V0_2",
+        "version": "v0.2",
+        "preview": false,
+        "symbol": "AXON",
+        "action": "BUY",
+        "reason": "TARGET_DIFF_PREVIEW",
+        "target_weight": 0.025,
+        "previous_weight": 0.0,
+        "delta_weight": 0.025,
+        "paper_price": 640.46,
+        "shares": null,
+        "notional": 2500.0,
+        "status": "PAPER_ACCEPTED_KICKOFF_PENDING",
+        "core_or_sidecar": "core",
+        "source": "exports/leaderboard.json",
+        "date_rank": 1,
+        "execution_status": "PAPER_ORDER_ACCEPTED_NOT_LIVE",
+        "accepted_at": "2026-07-08T07:10:22.015704+00:00"
+      }
+    },
+    "e1r_positions": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "row_count": 10,
+      "top_level_keys": [
+        "counts",
+        "execution_status",
+        "exposure",
+        "generated_at",
+        "notes",
+        "official_kickoff_date",
+        "positions",
+        "preview",
+        "status_date",
+        "strategy_id",
+        "tracking_status",
+        "version"
+      ],
+      "sample_keys": [
+        "accepted_at",
+        "core_or_sidecar",
+        "date",
+        "date_rank",
+        "entry_date",
+        "entry_price",
+        "last_price",
+        "market_value",
+        "position_status",
+        "preview",
+        "shares",
+        "source",
+        "strategy_id",
+        "symbol",
+        "unrealized_return_pct",
+        "version",
+        "weight"
+      ],
+      "sample_row": {
+        "date": "2026-06-18",
+        "strategy_id": "E1R_REGIME_AWARE_V0_2",
+        "version": "v0.2",
+        "preview": false,
+        "symbol": "AXON",
+        "weight": 0.025,
+        "shares": null,
+        "entry_date": "2026-06-18",
+        "entry_price": null,
+        "last_price": 640.46,
+        "market_value": 2500.0,
+        "unrealized_return_pct": 0.0,
+        "core_or_sidecar": "core",
+        "source": "exports/leaderboard.json",
+        "date_rank": 1,
+        "position_status": "PAPER_ACCEPTED_KICKOFF_PENDING",
+        "accepted_at": "2026-07-08T07:10:22.015859+00:00"
+      }
+    },
+    "e1r_summary": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "row_count": 0,
+      "top_level_keys": [
+        "alpha_pct",
+        "cash",
+        "core_active",
+        "core_exposure",
+        "equity",
+        "equity_status",
+        "executed_orders_count",
+        "execution_status",
+        "forward_day_count",
+        "forward_return_pct",
+        "forward_start_date",
+        "generated_at",
+        "generated_at_display",
+        "gross_exposure",
+        "market_state",
+        "market_value",
+        "max_drawdown_pct",
+        "net_exposure",
+        "notes",
+        "number_of_trades",
+        "official_kickoff_date",
+        "open_positions_count",
+        "paper_orders_count",
+        "phase",
+        "portfolio_value",
+        "preservation_guard",
+        "profit_factor",
+        "regime",
+        "research_status",
+        "sharpe_ratio",
+        "sidecar_active",
+        "sidecar_exposure",
+        "sidecar_selected_count",
+        "spx_forward_return_pct",
+        "status_date",
+        "strategy_id",
+        "subclass",
+        "tracking_status",
+        "version"
+      ],
+      "sample_keys": [],
+      "sample_row": {}
+    }
+  },
+  "recommended_patch": {
+    "remove_or_hide": "e1rForwardVisiblePanelHtml visible panel call",
+    "add": "E1R Trade Log after existing E1 Trade Log",
+    "display_fields": [
+      "date",
+      "symbol",
+      "action",
+      "target_weight",
+      "previous_weight",
+      "delta_weight",
+      "status",
+      "core_or_sidecar"
+    ]
+  },
+  "next_stage": {
+    "stage": "3.8E-2F-2C-3B",
+    "purpose": "Replace bulky E1R forward panel with E1R trade log after E1 trade log."
+  }
+}
