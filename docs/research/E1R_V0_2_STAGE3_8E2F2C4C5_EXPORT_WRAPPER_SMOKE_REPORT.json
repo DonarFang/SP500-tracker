@@ -1,0 +1,557 @@
+{
+  "generated_at": "2026-07-08T11:33:32.793379+00:00",
+  "stage": "B_STAGE_3_8E2F2C4C5_EXPORT_WRAPPER_SMOKE",
+  "status": "SMOKE_COMPLETE_NO_CANONICAL_EXPORTS_WRITTEN",
+  "policy": {
+    "dashboard_changed": false,
+    "exports_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "canonical_exports_written": false,
+    "long_backtest_run": false
+  },
+  "wrapper": {
+    "path": "scripts/export_canonical_5y_equity_curves.py",
+    "modes": [
+      "--inspect",
+      "--smoke",
+      "--write-report"
+    ],
+    "future_canonical_outputs": [
+      "exports/e1_5y_backtest_equity_curve.json",
+      "exports/e1r_v0_2_portfolio_backtest_equity_curve.json",
+      "exports/e1_e1r_5y_equity_comparison.json"
+    ]
+  },
+  "inspect": {
+    "composer": {
+      "ok": true,
+      "module": "src.engine.e1r_composer",
+      "functions": {
+        "build_equity_records_from_returns": {
+          "exists": true,
+          "signature": "(interval_records: 'Sequence[dict[str, Any]]', initial_equity: 'float') -> 'list[dict[str, Any]]'",
+          "source_head": "def build_equity_records_from_returns(\n    interval_records: Sequence[dict[str, Any]],\n    initial_equity: float,\n) -> list[dict[str, Any]]:\n    equity = initial_equity\n    peak = initial_equity\n    records: list[dict[str, Any]] = []\n\n    for row in interval_records:\n        r = safe_float(row.get(\"combined_return\")) or 0.0\n        equity *= 1.0 + r\n        peak = max(peak, equity)\n\n        drawdown = equity / peak - 1.0 if peak > 0 else 0.0\n\n        records.append({\n            \"date\": row[\"next_date\"],\n            \"interval_start_date\": row[\"date\"],\n            \"interval_end_date\": row[\"next_date\"],\n            \"total_equity\": equity,\n            \"equity\": equity,\n            \"daily_return\": r,\n            \"daily_return_pct\": pct_display(r),\n            \"drawdown\": drawdown,\n            \"drawdown_pct\": pct_display(drawdown),\n\n            \"core_return\": row[\"core_return\"],\n            \"core_return_pct\": row[\"core_return_pct\"],\n            \"sidecar_return\": row[\"sidecar_return\"],\n            \"sidecar_return_pct\": row[\"sidecar_return_pct\"],\n            \"spx_return\": row[\"spx_return\"],\n            \"spx_return_pct\": row[\"spx_return_pct\"],\n\n            \"spx_regime\": row.get(\"regime\"),\n            \"sideways_subclass\": row.get(\"subclass\"),\n            \"sidecar_active\": row.get(\"sidecar_active\"),\n            \"sidecar_selected_count\": row.get(\"sidecar_selected_count\"),\n            \"sidecar_gross_exposure\": row.get(\"sidecar_gross_exposure\"),\n        })\n"
+        },
+        "extract_core_interval_returns": {
+          "exists": true,
+          "signature": "(core_daily_equity_records: 'Sequence[dict[str, Any]]', sidecar_records: 'Sequence[dict[str, Any]]') -> 'list[dict[str, Any]]'",
+          "source_head": "def extract_core_interval_returns(\n    core_daily_equity_records: Sequence[dict[str, Any]],\n    sidecar_records: Sequence[dict[str, Any]],\n) -> list[dict[str, Any]]:\n    \"\"\"\n    Align core daily returns to sidecar intervals by next_date.\n\n    Returns one record per shared interval:\n    {\n      date,\n      next_date,\n      core_return,\n      sidecar_return,\n      spx_return,\n      ...\n    }\n    \"\"\"\n    core_by_end_date = {}\n\n    for row in core_daily_equity_records:\n        date = row.get(\"date\")\n        if not date:\n            continue\n\n        r = safe_float(row.get(\"daily_return\"))\n        if r is None:\n            # Some historical outputs may store pct instead of decimal.\n            rp = safe_float(row.get(\"daily_return_pct\"))\n            r = None if rp is None else rp / 100.0\n\n        if r is None:\n            continue\n\n        core_by_end_date[date] = row | {\"_normalized_daily_return\": r}\n\n    aligned: list[dict[str, Any]] = []\n\n    for sidecar in sidecar_records:\n        date = sidecar.get(\"date\")\n        next_date = sidecar.get(\"next_date\")"
+        },
+        "compound_return": {
+          "exists": true,
+          "signature": "(returns: 'Sequence[Optional[float]]') -> 'float'",
+          "source_head": "def compound_return(returns: Sequence[Optional[float]]) -> float:\n    value = 1.0\n    for r in returns:\n        if r is not None:\n            value *= 1.0 + r\n    return value - 1.0"
+        },
+        "max_drawdown": {
+          "exists": true,
+          "signature": "(equity_values: 'Sequence[float]') -> 'Optional[float]'",
+          "source_head": "def max_drawdown(equity_values: Sequence[float]) -> Optional[float]:\n    if not equity_values:\n        return None\n\n    peak = equity_values[0]\n    worst = 0.0\n\n    for value in equity_values:\n        peak = max(peak, value)\n        if peak > 0:\n            worst = min(worst, value / peak - 1.0)\n\n    return worst"
+        },
+        "sharpe_ratio": {
+          "exists": true,
+          "signature": "(daily_returns: 'Sequence[float]') -> 'Optional[float]'",
+          "source_head": "def sharpe_ratio(daily_returns: Sequence[float]) -> Optional[float]:\n    values = [x for x in daily_returns if x is not None]\n    if len(values) < 2:\n        return None\n\n    sigma = pstdev(values)\n    if sigma == 0:\n        return None\n\n    return mean(values) / sigma * math.sqrt(252)"
+        },
+        "profit_factor": {
+          "exists": true,
+          "signature": "(daily_returns: 'Sequence[float]') -> 'Optional[float]'",
+          "source_head": "def profit_factor(daily_returns: Sequence[float]) -> Optional[float]:\n    gains = sum(x for x in daily_returns if x is not None and x > 0)\n    losses = -sum(x for x in daily_returns if x is not None and x < 0)\n\n    if losses == 0:\n        if gains == 0:\n            return None\n        return float(\"inf\")\n\n    return gains / losses"
+        }
+      }
+    },
+    "source_files": [
+      {
+        "path": "data/research/e1r/e1r_formal_backtest_v0_1.json",
+        "exists": true,
+        "json_valid": true,
+        "type": "dict",
+        "top_keys": [
+          "comparison_base",
+          "e1_metrics",
+          "equity_curve",
+          "metrics",
+          "source",
+          "spx_curve",
+          "status",
+          "trades",
+          "variant_id"
+        ],
+        "lists": {
+          "equity_curve": {
+            "length": 131,
+            "last_type": "float",
+            "last_keys": null
+          },
+          "spx_curve": {
+            "length": 131,
+            "last_type": "float",
+            "last_keys": null
+          },
+          "trades": {
+            "length": 39,
+            "last_type": "dict",
+            "last_keys": [
+              "action_count",
+              "actions_during_trade",
+              "avg_cost",
+              "dominant_regime",
+              "effective_exit",
+              "entry_date",
+              "entry_price",
+              "entry_regime",
+              "entry_signal",
+              "entry_type",
+              "execution_model",
+              "exit_date",
+              "exit_price",
+              "exit_regime",
+              "exit_signal",
+              "exit_type",
+              "exit_warning_count",
+              "exit_warning_log",
+              "holding_days",
+              "is_sim_end",
+              "leader_score_entry",
+              "max_drawdown_in_trade",
+              "max_gain_pct",
+              "realized_pnl_before_exit",
+              "regime_day_weights",
+              "return_pct",
+              "size_units_at_exit",
+              "symbol",
+              "take_profit_exec_date",
+              "take_profit_triggered"
+            ]
+          }
+        },
+        "metrics": {
+          "variant_id": "E1R_REGIME_AWARE_V0_1"
+        }
+      },
+      {
+        "path": "exports/portfolio_backtest.json",
+        "exists": true,
+        "json_valid": true,
+        "type": "dict",
+        "top_keys": [
+          "alpha_pct",
+          "avg_execution_drag_pct",
+          "avg_holding_days",
+          "avg_loser_pct",
+          "avg_winner_pct",
+          "cagr_pct",
+          "comparison",
+          "daily_records",
+          "entry_top_n",
+          "executed_exit_reason_distribution",
+          "executed_reduce_reason_distribution",
+          "execution_model",
+          "exposure_pct",
+          "final_equity",
+          "generated_at",
+          "generated_at_display",
+          "initial_capital",
+          "invalid_trades",
+          "invalid_trades_count",
+          "layer",
+          "market_entry_gate",
+          "max_drawdown_pct",
+          "name",
+          "number_of_trades",
+          "p0_passed",
+          "partial_take_profit",
+          "pending_orders_executed",
+          "pending_orders_skipped",
+          "pending_signal_reason_distribution",
+          "period_comparison",
+          "portfolio_action_distribution",
+          "profit_factor",
+          "rank_based_exit",
+          "sample_validity",
+          "selected_variant",
+          "selection_policy",
+          "sharpe_ratio",
+          "skipped_orders_by_reason",
+          "spx_cagr_pct",
+          "spx_total_return_pct",
+          "status",
+          "strategy_controls",
+          "strategy_variant",
+          "total_return_pct",
+          "total_trades_all",
+          "variant_results",
+          "version",
+          "win_rate_pct"
+        ],
+        "lists": {
+          "invalid_trades": {
+            "length": 0,
+            "last_type": null,
+            "last_keys": null
+          },
+          "daily_records": {
+            "length": 22,
+            "last_type": "dict",
+            "last_keys": [
+              "cash",
+              "date",
+              "market_gate_state",
+              "n_holdings",
+              "pending_orders",
+              "position_value",
+              "spx_close",
+              "spx_day_return_pct",
+              "spx_ma50",
+              "total_equity"
+            ]
+          },
+          "comparison": {
+            "length": 2,
+            "last_type": "dict",
+            "last_keys": [
+              "alpha_pct",
+              "avg_loser_pct",
+              "avg_winner_pct",
+              "cagr_pct",
+              "candidate_top_n",
+              "entry_rs_min",
+              "exposure_pct",
+              "ls60_exit_mode",
+              "max_drawdown_pct",
+              "min_holding_days",
+              "number_of_trades",
+              "profit_factor",
+              "qualified_entry_enabled",
+              "qualified_states",
+              "relative_stop_enabled",
+              "relative_stop_stats",
+              "relative_stop_underperform_pct",
+              "selected",
+              "sharpe_ratio",
+              "skip_reasons",
+              "status",
+              "total_return_pct",
+              "variant",
+              "win_rate_pct"
+            ]
+          }
+        },
+        "metrics": {
+          "total_return_pct": 7.52,
+          "alpha_pct": -61.84,
+          "max_drawdown_pct": 38.1,
+          "profit_factor": 1.25,
+          "sharpe_ratio": 0.18,
+          "final_equity": 107519.31,
+          "initial_capital": 100000.0,
+          "sample_validity": {
+            "is_valid": true,
+            "sample_status": "VALID",
+            "simulation_start_date": "2023-11-06",
+            "simulation_end_date": "2026-06-11",
+            "simulation_days": 651,
+            "total_trades": 47,
+            "completed_trades": 44,
+            "sim_end_trades": 3,
+            "sim_end_ratio_pct": 6.4,
+            "invalid_trades": 0,
+            "minimum_required": {
+              "sim_days": 252,
+              "trades": 20,
+              "sim_end_ratio_pct": 50,
+              "invalid": 0
+            }
+          }
+        }
+      },
+      {
+        "path": "exports/e1r_v0_2_backtest_summary.json",
+        "exists": true,
+        "json_valid": true,
+        "type": "dict",
+        "top_keys": [
+          "alpha_pct",
+          "artifact_type",
+          "composition_exists",
+          "frozen_artifact",
+          "max_drawdown_pct",
+          "profit_factor",
+          "regeneration_note",
+          "regime_aware_logic",
+          "research_status",
+          "row_count",
+          "sharpe_ratio",
+          "sidecar_active_by_regime",
+          "sidecar_active_by_subclass",
+          "sidecar_active_days",
+          "source_file",
+          "source_json_path",
+          "spx_return_pct",
+          "strategy_id",
+          "total_return_pct",
+          "variant"
+        ],
+        "lists": {},
+        "metrics": {
+          "strategy_id": "E1R_REGIME_AWARE_V0_2",
+          "variant": "E1R_REGIME_AWARE_V0_2",
+          "total_return_pct": 116.7435999134756,
+          "spx_return_pct": 76.844174428316,
+          "alpha_pct": 39.89942548515961,
+          "max_drawdown_pct": 25.904809362815108,
+          "profit_factor": 1.1919630955509348,
+          "sharpe_ratio": 0.7957270568329264
+        }
+      },
+      {
+        "path": "exports/e1r_v0_2_backtest_equity_curve.json",
+        "exists": true,
+        "json_valid": true,
+        "type": "dict",
+        "top_keys": [
+          "artifact_type",
+          "equity_curve",
+          "frozen_artifact",
+          "regeneration_note",
+          "row_count",
+          "rows",
+          "source_file",
+          "source_json_path",
+          "variant"
+        ],
+        "lists": {
+          "rows": {
+            "length": 8819,
+            "last_type": "dict",
+            "last_keys": [
+              "close",
+              "date",
+              "diagnostic_only",
+              "e1r_entry_type",
+              "e1r_uptrend_confirmed_eligible",
+              "e1r_uptrend_emerging_eligible",
+              "equity",
+              "leader_rank",
+              "leader_score",
+              "ma20",
+              "ma20_slope",
+              "ma50",
+              "ma50_slope",
+              "momentum_acceleration",
+              "momentum_score",
+              "reasons",
+              "rs_20d_improvement",
+              "rs_prev20",
+              "rs_score",
+              "spx_regime",
+              "symbol",
+              "trend_health"
+            ]
+          },
+          "equity_curve": {
+            "length": 8819,
+            "last_type": "dict",
+            "last_keys": [
+              "close",
+              "date",
+              "diagnostic_only",
+              "e1r_entry_type",
+              "e1r_uptrend_confirmed_eligible",
+              "e1r_uptrend_emerging_eligible",
+              "equity",
+              "leader_rank",
+              "leader_score",
+              "ma20",
+              "ma20_slope",
+              "ma50",
+              "ma50_slope",
+              "momentum_acceleration",
+              "momentum_score",
+              "reasons",
+              "rs_20d_improvement",
+              "rs_prev20",
+              "rs_score",
+              "spx_regime",
+              "symbol",
+              "trend_health"
+            ]
+          }
+        },
+        "metrics": {
+          "variant": "E1R_REGIME_AWARE_V0_2"
+        }
+      },
+      {
+        "path": "exports/oos_e1r_v0_2_equity_curve.json",
+        "exists": true,
+        "json_valid": true,
+        "type": "list",
+        "length": 1,
+        "last_type": "dict",
+        "last_keys": [
+          "backfill_start_date",
+          "cash",
+          "core_exposure",
+          "date",
+          "drawdown_pct",
+          "equity",
+          "forward_return_pct",
+          "gross_exposure",
+          "market_state",
+          "market_value",
+          "official_kickoff_date",
+          "portfolio_value",
+          "regime",
+          "shadow_start_date",
+          "sidecar_exposure",
+          "strategy_id",
+          "strategy_indexed",
+          "subclass",
+          "tracking_status",
+          "version"
+        ]
+      },
+      {
+        "path": "exports/oos_equity_curve.json",
+        "exists": true,
+        "json_valid": true,
+        "type": "dict",
+        "top_keys": [
+          "curve",
+          "generated_at",
+          "generated_at_display",
+          "initial_capital",
+          "strategy_id"
+        ],
+        "lists": {
+          "curve": {
+            "length": 12,
+            "last_type": "dict",
+            "last_keys": [
+              "cash",
+              "date",
+              "equity",
+              "holdings_value",
+              "n_positions",
+              "source"
+            ]
+          }
+        },
+        "metrics": {
+          "strategy_id": "E1_AUDITED_G4_MINHOLD10",
+          "initial_capital": 100000
+        }
+      },
+      {
+        "path": "data/research/e1_5y/regimes/spx_regime_daily.json",
+        "exists": true,
+        "json_valid": true,
+        "type": "dict",
+        "top_keys": [
+          "daily_regime",
+          "generated_at",
+          "validation_window"
+        ],
+        "lists": {},
+        "metrics": {}
+      },
+      {
+        "path": "data/research/e1_5y/raw/indices/SPX.json",
+        "exists": true,
+        "json_valid": true,
+        "type": "dict",
+        "top_keys": [
+          "bars",
+          "data_end",
+          "data_start",
+          "dataset_mode",
+          "downloaded_at",
+          "requested_end",
+          "requested_start",
+          "schema_version",
+          "source",
+          "symbol",
+          "yahoo_ticker"
+        ],
+        "lists": {
+          "bars": {
+            "length": 1562,
+            "last_type": "dict",
+            "last_keys": [
+              "close",
+              "date",
+              "high",
+              "low",
+              "open",
+              "volume"
+            ]
+          }
+        },
+        "metrics": {}
+      }
+    ]
+  },
+  "smoke": {
+    "composer_import_ok": true,
+    "build_equity_records_from_returns": {
+      "ok": false,
+      "attempts": [
+        {
+          "name": "daily_return_pct",
+          "ok": false,
+          "error": "KeyError: 'next_date'"
+        },
+        {
+          "name": "daily_return_decimal",
+          "ok": false,
+          "error": "KeyError: 'next_date'"
+        },
+        {
+          "name": "return_pct",
+          "ok": false,
+          "error": "KeyError: 'next_date'"
+        },
+        {
+          "name": "interval_return",
+          "ok": false,
+          "error": "KeyError: 'next_date'"
+        },
+        {
+          "name": "strategy_return",
+          "ok": false,
+          "error": "KeyError: 'next_date'"
+        }
+      ]
+    },
+    "utility_functions": {
+      "compound_return": {
+        "ok": true,
+        "value": 0.0250490000000001
+      },
+      "max_drawdown": {
+        "ok": true,
+        "value": -0.03809523809523807
+      },
+      "sharpe_ratio": {
+        "ok": true,
+        "value": 12.875926129184283
+      },
+      "profit_factor": {
+        "ok": true,
+        "value": 6.0
+      }
+    }
+  },
+  "diagnosis": [
+    "Wrapper imports e1r_composer and inspects source JSONs without writing canonical exports.",
+    "build_equity_records_from_returns smoke success attempts: 0.",
+    "If zero attempts succeeded, next stage should inspect exact source code field names before export mode.",
+    "Long backtest remains allowed only after wrapper smoke validates call shape and export schema."
+  ],
+  "next_stage": {
+    "name": "Stage 3.8E-2F-2C-4C-6",
+    "title": "Implement canonical 5Y equity export mode or inspect exact composer field names",
+    "condition": "Proceed to export mode only if smoke identifies a valid interval record shape; otherwise inspect composer source lines."
+  }
+}
