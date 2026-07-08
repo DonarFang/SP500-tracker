@@ -1,0 +1,735 @@
+{
+  "generated_at": "2026-07-08T09:17:35.951569+00:00",
+  "stage": "B_STAGE_3_8E2F2C3EA_DATA_BINDING_AUDIT",
+  "status": "AUDIT_COMPLETE_NO_SOURCE_CHANGES",
+  "policy": {
+    "dashboard_changed": false,
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false
+  },
+  "local_data_validation": {
+    "orders_file_exists": true,
+    "positions_file_exists": true,
+    "orders_rows": 10,
+    "positions_rows": 10,
+    "buy_orders": 10,
+    "symbols": [
+      "AXON",
+      "DD",
+      "DVA",
+      "MRNA",
+      "HUM",
+      "HOOD",
+      "FTNT",
+      "GEN",
+      "SNOW",
+      "MOH"
+    ]
+  },
+  "static_app_audit": {
+    "app_line_count": 1734,
+    "orders_path_present": true,
+    "positions_path_present": true,
+    "orders_path_lines": [
+      {
+        "line": 1407,
+        "text": "orders: \"../exports/oos_e1r_v0_2_orders.json\","
+      }
+    ],
+    "positions_path_lines": [
+      {
+        "line": 1406,
+        "text": "positions: \"../exports/oos_e1r_v0_2_positions.json\","
+      }
+    ],
+    "trade_log_calls": [
+      {
+        "line": 515,
+        "text": "function e1rForwardTradeLogHtml(ordersRaw, positionsRaw) {"
+      },
+      {
+        "line": 1218,
+        "text": "h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">${e1rForwardTradeLogHtml(e1rForwardOrdersData(), e1rForwardPositionsData())}"
+      }
+    ],
+    "resolver_block_found": true,
+    "resolver_mentions_orders_alias": true,
+    "resolver_mentions_positions_alias": true,
+    "data_keys_containing_e1r": [
+      "e1rConfirmed",
+      "e1rFormal",
+      "e1rForwardOrders",
+      "e1rForwardPositions",
+      "e1rRegime",
+      "e1rSideways3i",
+      "e1rSideways3ir",
+      "e1rSideways3k",
+      "e1rV02BacktestSummary",
+      "e1rV02OosEquityCurve",
+      "e1rV02OosOrders",
+      "e1rV02OosPositions",
+      "e1rV02OosSummary",
+      "e1rV02Orders",
+      "e1rV02Positions",
+      "oosE1rV02Orders",
+      "oosE1rV02Positions",
+      "oos_e1r_v0_2_orders",
+      "oos_e1r_v0_2_positions"
+    ],
+    "data_keys_containing_order": [
+      "e1rForwardOrders",
+      "e1rV02OosOrders",
+      "e1rV02Orders",
+      "oosE1rV02Orders",
+      "oos_e1r_v0_2_orders"
+    ],
+    "data_keys_containing_position": [
+      "e1rForwardPositions",
+      "e1rV02OosPositions",
+      "e1rV02Positions",
+      "oosE1rV02Positions",
+      "oos_e1r_v0_2_positions"
+    ]
+  },
+  "contexts": {
+    "orders_path_context": [
+      {
+        "line": 1395,
+        "text": ""
+      },
+      {
+        "line": 1396,
+        "text": "loadAll();"
+      },
+      {
+        "line": 1397,
+        "text": ""
+      },
+      {
+        "line": 1398,
+        "text": "/* === E1R_V0_2_DASHBOARD_MODULE_STAGE_3_4_CLEAN_INTEGRATION === */"
+      },
+      {
+        "line": 1399,
+        "text": "(function () {"
+      },
+      {
+        "line": 1400,
+        "text": "  \"use strict\";"
+      },
+      {
+        "line": 1401,
+        "text": ""
+      },
+      {
+        "line": 1402,
+        "text": "  const E1R_V02_PATHS = {"
+      },
+      {
+        "line": 1403,
+        "text": "    status: \"../exports/e1r_v0_2_status.json\","
+      },
+      {
+        "line": 1404,
+        "text": "    oosSummary: \"../exports/oos_e1r_v0_2_summary.json\","
+      },
+      {
+        "line": 1405,
+        "text": "    sidecar: \"../exports/oos_e1r_v0_2_sidecar.json\","
+      },
+      {
+        "line": 1406,
+        "text": "    positions: \"../exports/oos_e1r_v0_2_positions.json\","
+      },
+      {
+        "line": 1407,
+        "text": "    orders: \"../exports/oos_e1r_v0_2_orders.json\","
+      },
+      {
+        "line": 1408,
+        "text": "    oosEquity: \"../exports/oos_e1r_v0_2_equity_curve.json\","
+      },
+      {
+        "line": 1409,
+        "text": "    lifecycle: \"../exports/oos_e1r_v0_2_sidecar_lifecycle.json\","
+      },
+      {
+        "line": 1410,
+        "text": "    turnover: \"../exports/oos_e1r_v0_2_sidecar_turnover.json\","
+      },
+      {
+        "line": 1411,
+        "text": "    backtestSummary: \"../exports/e1r_v0_2_backtest_summary.json\","
+      },
+      {
+        "line": 1412,
+        "text": "    backtestEquity: \"../exports/e1r_v0_2_backtest_equity_curve.json\""
+      },
+      {
+        "line": 1413,
+        "text": "  };"
+      },
+      {
+        "line": 1414,
+        "text": ""
+      },
+      {
+        "line": 1415,
+        "text": "  const E1R_V02_CLASSES = {"
+      },
+      {
+        "line": 1416,
+        "text": "    statusCard: \"e1r-oos-card\","
+      },
+      {
+        "line": 1417,
+        "text": "    equityCard: \"e1r-oos-equity-card\","
+      },
+      {
+        "line": 1418,
+        "text": "    backtestCard: \"e1r-backtest-card\","
+      },
+      {
+        "line": 1419,
+        "text": "    grid: \"e1r-oos-grid\""
+      }
+    ],
+    "positions_path_context": [
+      {
+        "line": 1394,
+        "text": "} // end render()"
+      },
+      {
+        "line": 1395,
+        "text": ""
+      },
+      {
+        "line": 1396,
+        "text": "loadAll();"
+      },
+      {
+        "line": 1397,
+        "text": ""
+      },
+      {
+        "line": 1398,
+        "text": "/* === E1R_V0_2_DASHBOARD_MODULE_STAGE_3_4_CLEAN_INTEGRATION === */"
+      },
+      {
+        "line": 1399,
+        "text": "(function () {"
+      },
+      {
+        "line": 1400,
+        "text": "  \"use strict\";"
+      },
+      {
+        "line": 1401,
+        "text": ""
+      },
+      {
+        "line": 1402,
+        "text": "  const E1R_V02_PATHS = {"
+      },
+      {
+        "line": 1403,
+        "text": "    status: \"../exports/e1r_v0_2_status.json\","
+      },
+      {
+        "line": 1404,
+        "text": "    oosSummary: \"../exports/oos_e1r_v0_2_summary.json\","
+      },
+      {
+        "line": 1405,
+        "text": "    sidecar: \"../exports/oos_e1r_v0_2_sidecar.json\","
+      },
+      {
+        "line": 1406,
+        "text": "    positions: \"../exports/oos_e1r_v0_2_positions.json\","
+      },
+      {
+        "line": 1407,
+        "text": "    orders: \"../exports/oos_e1r_v0_2_orders.json\","
+      },
+      {
+        "line": 1408,
+        "text": "    oosEquity: \"../exports/oos_e1r_v0_2_equity_curve.json\","
+      },
+      {
+        "line": 1409,
+        "text": "    lifecycle: \"../exports/oos_e1r_v0_2_sidecar_lifecycle.json\","
+      },
+      {
+        "line": 1410,
+        "text": "    turnover: \"../exports/oos_e1r_v0_2_sidecar_turnover.json\","
+      },
+      {
+        "line": 1411,
+        "text": "    backtestSummary: \"../exports/e1r_v0_2_backtest_summary.json\","
+      },
+      {
+        "line": 1412,
+        "text": "    backtestEquity: \"../exports/e1r_v0_2_backtest_equity_curve.json\""
+      },
+      {
+        "line": 1413,
+        "text": "  };"
+      },
+      {
+        "line": 1414,
+        "text": ""
+      },
+      {
+        "line": 1415,
+        "text": "  const E1R_V02_CLASSES = {"
+      },
+      {
+        "line": 1416,
+        "text": "    statusCard: \"e1r-oos-card\","
+      },
+      {
+        "line": 1417,
+        "text": "    equityCard: \"e1r-oos-equity-card\","
+      },
+      {
+        "line": 1418,
+        "text": "    backtestCard: \"e1r-backtest-card\","
+      }
+    ],
+    "resolver_block": "function e1rForwardOrdersData() {\n  return (\n    DATA.e1rV02OosOrders ||\n    DATA.e1rV02Orders ||\n    DATA.oosE1rV02Orders ||\n    DATA.e1rForwardOrders ||\n    DATA.oos_e1r_v0_2_orders ||\n    DATA.e1rV02OosSummary?.orders ||\n    []\n  );\n}\n\nfunction e1rForwardPositionsData() {\n  return (\n    DATA.e1rV02OosPositions ||\n    DATA.e1rV02Positions ||\n    DATA.oosE1rV02Positions ||\n    DATA.e1rForwardPositions ||\n    DATA.oos_e1r_v0_2_positions ||\n    DATA.e1rV02OosSummary?.positions ||\n    []\n  );\n}\n\n"
+  },
+  "hits": [
+    {
+      "line": 39,
+      "terms": [
+        "DATA."
+      ],
+      "text": "  const sc = DATA.stockCharts || {};"
+    },
+    {
+      "line": 129,
+      "terms": [
+        "fetch("
+      ],
+      "text": "  const r = await fetch(`${EXPORTS_BASE}/${name}.json?t=${Date.now()}`);"
+    },
+    {
+      "line": 135,
+      "terms": [
+        "fetch("
+      ],
+      "text": "  const r = await fetch(`${RESEARCH_BASE}/${name}.json?t=${Date.now()}`);"
+    },
+    {
+      "line": 142,
+      "terms": [
+        "DATA."
+      ],
+      "text": "  try { DATA.e1rV02BacktestSummary = await fetchJ('e1r_v0_2_backtest_summary'); } catch(e) { DATA.e1rV02BacktestSummary = {}; }"
+    },
+    {
+      "line": 143,
+      "terms": [
+        "DATA."
+      ],
+      "text": "  try { DATA.e1rV02OosSummary = await fetchJ('oos_e1r_v0_2_summary'); } catch(e) { DATA.e1rV02OosSummary = {}; }"
+    },
+    {
+      "line": 144,
+      "terms": [
+        "DATA."
+      ],
+      "text": "  try { DATA.oosSummaryNative = await fetchJ('oos_summary'); } catch(e) { DATA.oosSummaryNative = {}; }"
+    },
+    {
+      "line": 152,
+      "terms": [
+        "Promise.all"
+      ],
+      "text": "    const [mkt,lb] = await Promise.all(["
+    },
+    {
+      "line": 156,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.market=mkt.market; DATA.leaderboard=lb.leaders||[];"
+    },
+    {
+      "line": 160,
+      "terms": [
+        "Promise.all"
+      ],
+      "text": "    const [wl,lc,dh,bt,tlog,sc,oosEq,e1rReg,e1rConf,e1r3i,e1r3ir,e1r3k,e1rFormal] = await Promise.all(["
+    },
+    {
+      "line": 175,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.watchlist=wl.watchlist||[]; DATA.lifecycle=lc.regimes||{};"
+    },
+    {
+      "line": 176,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.health=dh; DATA.backtest=bt; DATA.tradelog=tlog;"
+    },
+    {
+      "line": 177,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.stockCharts=(sc&&sc.symbols)||{};"
+    },
+    {
+      "line": 178,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.oosEquity=oosEq;"
+    },
+    {
+      "line": 179,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.e1rRegime=e1rReg; DATA.e1rConfirmed=e1rConf;"
+    },
+    {
+      "line": 180,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.e1rSideways3i=e1r3i; DATA.e1rSideways3ir=e1r3ir; DATA.e1rSideways3k=e1r3k; DATA.e1rFormal=e1rFormal;"
+    },
+    {
+      "line": 247,
+      "terms": [
+        "DATA."
+      ],
+      "text": "  const raw = DATA.e1rV02BacktestSummary || DATA.e1rFormal || {};"
+    },
+    {
+      "line": 406,
+      "terms": [
+        "DATA."
+      ],
+      "text": "${e1rForwardDisplayRows(DATA.e1rV02OosSummary)}"
+    },
+    {
+      "line": 407,
+      "terms": [
+        "DATA."
+      ],
+      "text": "${e1rForwardEquityCurveHtml(DATA.e1rV02OosEquityCurve)}"
+    },
+    {
+      "line": 447,
+      "terms": [
+        "DATA."
+      ],
+      "text": "  const e1Oos=DATA.oosSummaryNative || DATA.oosSummary || {};"
+    },
+    {
+      "line": 448,
+      "terms": [
+        "DATA."
+      ],
+      "text": "  const e1rOos=DATA.e1rV02OosSummary || {};"
+    },
+    {
+      "line": 491,
+      "terms": [
+        "e1rForwardOrdersData"
+      ],
+      "text": "function e1rForwardOrdersData() {"
+    },
+    {
+      "line": 493,
+      "terms": [
+        "e1rV02OosOrders",
+        "DATA."
+      ],
+      "text": "    DATA.e1rV02OosOrders ||"
+    },
+    {
+      "line": 494,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.e1rV02Orders ||"
+    },
+    {
+      "line": 495,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.oosE1rV02Orders ||"
+    },
+    {
+      "line": 496,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.e1rForwardOrders ||"
+    },
+    {
+      "line": 497,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.oos_e1r_v0_2_orders ||"
+    },
+    {
+      "line": 498,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.e1rV02OosSummary?.orders ||"
+    },
+    {
+      "line": 503,
+      "terms": [
+        "e1rForwardPositionsData"
+      ],
+      "text": "function e1rForwardPositionsData() {"
+    },
+    {
+      "line": 505,
+      "terms": [
+        "e1rV02OosPositions",
+        "DATA."
+      ],
+      "text": "    DATA.e1rV02OosPositions ||"
+    },
+    {
+      "line": 506,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.e1rV02Positions ||"
+    },
+    {
+      "line": 507,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.oosE1rV02Positions ||"
+    },
+    {
+      "line": 508,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.e1rForwardPositions ||"
+    },
+    {
+      "line": 509,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.oos_e1r_v0_2_positions ||"
+    },
+    {
+      "line": 510,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    DATA.e1rV02OosSummary?.positions ||"
+    },
+    {
+      "line": 515,
+      "terms": [
+        "e1rForwardTradeLogHtml"
+      ],
+      "text": "function e1rForwardTradeLogHtml(ordersRaw, positionsRaw) {"
+    },
+    {
+      "line": 576,
+      "terms": [
+        "Paper Orders — E1R Forward"
+      ],
+      "text": "        <h3>Paper Orders — E1R Forward</h3>"
+    },
+    {
+      "line": 598,
+      "terms": [
+        "Paper Orders — E1R Forward"
+      ],
+      "text": "      <h3>Paper Orders — E1R Forward</h3>"
+    },
+    {
+      "line": 691,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    if (!DATA.market) return;"
+    },
+    {
+      "line": 692,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const m=DATA.market||{}, idx=m.indices||{}, sc=m.market_score||0, bd=m.score_breakdown||{};"
+    },
+    {
+      "line": 694,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const dh=DATA.health;"
+    },
+    {
+      "line": 827,
+      "terms": [
+        "DATA."
+      ],
+      "text": "      const secmap={}; (DATA.leaderboard||[]).forEach(s=>{const sec=s.sector||'Other';secmap[sec]=(secmap[sec]||0)+1;});"
+    },
+    {
+      "line": 839,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const leaders=DATA.leaderboard||[];"
+    },
+    {
+      "line": 867,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const lc=DATA.lifecycle||{};"
+    },
+    {
+      "line": 911,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const wl=DATA.watchlist||[];"
+    },
+    {
+      "line": 913,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const leaderSyms=new Set((DATA.leaderboard||[]).map(s=>s.symbol));"
+    },
+    {
+      "line": 982,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const bt=DATA.backtest;"
+    },
+    {
+      "line": 992,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const lbAsOf=DATA.market?.data_date||'—';              // leaderboard 数据日期"
+    },
+    {
+      "line": 999,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const leaders=DATA.leaderboard||[];"
+    },
+    {
+      "line": 1102,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const bt=DATA.backtest, tlog=DATA.tradelog;"
+    },
+    {
+      "line": 1142,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];"
+    },
+    {
+      "line": 1143,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const oosRowsForNote=(DATA.oosEquity?.curve||[]);"
+    },
+    {
+      "line": 1147,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];"
+    },
+    {
+      "line": 1191,
+      "terms": [
+        "DATA."
+      ],
+      "text": "    const nativeMarket = DATA.market || {};"
+    },
+    {
+      "line": 1218,
+      "terms": [
+        "e1rForwardOrdersData",
+        "e1rForwardPositionsData",
+        "e1rForwardTradeLogHtml"
+      ],
+      "text": "    h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">${e1rForwardTradeLogHtml(e1rForwardOrdersData(), e1rForwardPositionsData())}"
+    },
+    {
+      "line": 1273,
+      "terms": [
+        "DATA."
+      ],
+      "text": "        const oosRows = (DATA.oosEquity?.curve || [])"
+    },
+    {
+      "line": 1290,
+      "terms": [
+        "DATA."
+      ],
+      "text": "        const spxIx = DATA.market?.indices?.SPX || {};"
+    },
+    {
+      "line": 1406,
+      "terms": [
+        "oos_e1r_v0_2_positions.json"
+      ],
+      "text": "    positions: \"../exports/oos_e1r_v0_2_positions.json\","
+    },
+    {
+      "line": 1407,
+      "terms": [
+        "oos_e1r_v0_2_orders.json"
+      ],
+      "text": "    orders: \"../exports/oos_e1r_v0_2_orders.json\","
+    },
+    {
+      "line": 1474,
+      "terms": [
+        "fetch("
+      ],
+      "text": "      const response = await fetch(`${path}${sep}_=${Date.now()}`, { cache: \"no-store\" });"
+    },
+    {
+      "line": 1685,
+      "terms": [
+        "Promise.all"
+      ],
+      "text": "    ] = await Promise.all(["
+    }
+  ],
+  "diagnosis": [],
+  "next_patch_should": [
+    "Use the exact DATA key from load config if present.",
+    "If no load config exists for E1R orders/positions, add explicit fetch entries.",
+    "Avoid Object.values(DATA) blind scan unless no explicit mapping is possible."
+  ]
+}
