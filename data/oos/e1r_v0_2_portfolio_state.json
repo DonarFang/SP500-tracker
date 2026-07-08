@@ -3,7 +3,7 @@
   "version": "v0.2",
   "created_at": "2026-07-08T06:49:56.662242+00:00",
   "updated_at": "2026-07-08T06:49:56.662243+00:00",
-  "official_kickoff_date": "2026-06-18",
+  "official_kickoff_date": null,
   "status_date": "2026-06-18",
   "portfolio_value": 100000.0,
   "equity": 100000.0,
@@ -19,8 +19,8 @@
     "phase": "Stage 3.8E-2F-1D",
     "research_status": "FROZEN_RESEARCH_CANDIDATE",
     "tracking_status": "KICKOFF_READY",
-    "forward_start_date": "2026-06-18",
-    "official_kickoff_date": "2026-06-18",
+    "forward_start_date": null,
+    "official_kickoff_date": null,
     "forward_day_count": 1,
     "portfolio_value": 100000.0,
     "equity": 100000.0,
@@ -51,7 +51,20 @@
       "Stage 3.8E-2F-1D creates E1R-only forward performance fields.",
       "No E1 state/export is touched.",
       "Positions/orders remain empty until E1R target/action engine is wired.",
-      "Historical E1R backtest artifacts are not modified."
-    ]
-  }
+      "Historical E1R backtest artifacts are not modified.",
+      "2026-06-18 is treated as E1R shadow/backfill scaffold start, not official LIVE_FORWARD kickoff.",
+      "official_kickoff_date remains null until E1R target/action generation and daily pipeline integration are complete."
+    ],
+    "shadow_start_date": "2026-06-18",
+    "backfill_start_date": "2026-06-18",
+    "kickoff_semantics": {
+      "shadow_start_date": "2026-06-18",
+      "official_kickoff_date": null,
+      "meaning": "2026-06-18 is a shadow/backfill scaffold start, not the official E1R live forward test kickoff.",
+      "official_live_forward_policy": "Official E1R LIVE_FORWARD starts after target/action generation and daily pipeline integration succeed."
+    }
+  },
+  "shadow_start_date": "2026-06-18",
+  "backfill_start_date": "2026-06-18",
+  "tracking_status": "KICKOFF_READY"
 }

@@ -1,0 +1,27 @@
+{
+  "generated_at": "2026-07-08T06:53:32.954959+00:00",
+  "stage": "B_STAGE_3_8E2F1D1_E1R_KICKOFF_SEMANTICS_FIX",
+  "status": "IMPLEMENTED_KICKOFF_SEMANTICS_FIX",
+  "policy": {
+    "strategy_logic_changed": false,
+    "dashboard_changed": false,
+    "github_actions_changed": false,
+    "e1_state_changed": false,
+    "e1_exports_changed": false
+  },
+  "before": {
+    "official_kickoff_date": "2026-06-18"
+  },
+  "after": {
+    "shadow_start_date": "2026-06-18",
+    "backfill_start_date": "2026-06-18",
+    "official_kickoff_date": null,
+    "forward_start_date": null,
+    "tracking_status": "KICKOFF_READY"
+  },
+  "meaning": {
+    "shadow_start_date": "Historical scaffold/backfill start date.",
+    "official_kickoff_date": "Null until E1R target/action generation and daily pipeline integration are complete.",
+    "tracking_status": "KICKOFF_READY means not yet LIVE_FORWARD."
+  }
+}
