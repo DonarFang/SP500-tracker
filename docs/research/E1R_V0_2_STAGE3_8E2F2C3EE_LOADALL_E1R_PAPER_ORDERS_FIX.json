@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-07-08T09:34:47.392855+00:00",
+  "stage": "B_STAGE_3_8E2F2C3EE_LOADALL_E1R_PAPER_ORDERS_FIX",
+  "status": "IMPLEMENTED_DASHBOARD_PATCH",
+  "files_changed": [
+    "dashboard/app.js"
+  ],
+  "changes": {
+    "data_declaration_changed": true,
+    "promise_destructure_changed": true,
+    "fetches_added_to_existing_loadAll": true,
+    "data_assignment_added": true,
+    "removed_from_market_state_card_head": true,
+    "independent_card_added_before_market_state": true
+  },
+  "local_data_validation": {
+    "orders_rows": 10,
+    "positions_rows": 10,
+    "buy_orders": 10,
+    "symbols": [
+      "AXON",
+      "DD",
+      "DVA",
+      "MRNA",
+      "HUM",
+      "HOOD",
+      "FTNT",
+      "GEN",
+      "SNOW",
+      "MOH"
+    ]
+  },
+  "policy": {
+    "new_async_loader_added": false,
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false
+  }
+}
