@@ -138,10 +138,6 @@ async function fetchResearchJ(name) {
 }
 
 async function loadAll() {
-  // Stage 3.8E-2B: read-only daily summary exports for native summary comparison.
-  try { DATA.e1rV02BacktestSummary = await fetchJ('e1r_v0_2_backtest_summary'); } catch(e) { DATA.e1rV02BacktestSummary = {}; }
-  try { DATA.e1rV02OosSummary = await fetchJ('oos_e1r_v0_2_summary'); } catch(e) { DATA.e1rV02OosSummary = {}; }
-  try { DATA.oosSummaryNative = await fetchJ('oos_summary'); } catch(e) { DATA.oosSummaryNative = {}; }
   ['market','leader','watchlist','positions','research'].forEach(t=>{
     const el=$('s-'+t); if(el) el.innerHTML='<div class="loading"><span class="spin"></span>加载中...</div>';
   });
@@ -196,107 +192,69 @@ function go(name,btn){
 
 
 function renderE1RResearchPanel(vr){
-  // Stage 3.8E-2B: legacy standalone E1-R summary removed.
-  // Unified E1/E1R summary is rendered inside the native Research & Backtest flow.
-  return '';
-}
+  const reg=DATA.e1rRegime, conf=DATA.e1rConfirmed, s3i=DATA.e1rSideways3i, s3ir=DATA.e1rSideways3ir, s3k=DATA.e1rSideways3k;
+  const formal=DATA.e1rFormal||{}, fm=formal.metrics||{};
+  const e1r=vr?.E1R_REGIME_AWARE_V0_1;
+  if(!reg && !conf && !s3i && !s3ir && !s3k && !e1r && !formal.variant_id) return '';
 
+  const nfmt = (v,d=2) => (v===null||v===undefined||v==='') ? '—' : (Number(v)>=0?'+':'') + Number(v).toFixed(d) + '%';
+  const num  = (v,d=2) => (v===null||v===undefined||v==='') ? '—' : Number(v).toFixed(d);
 
+  const fullRet = fm.total_return_pct ?? e1r?.total_return_pct ?? reg?.summary?.e1r_full_return_pct ?? reg?.e1r_full_return_pct;
+  const maxDD   = fm.max_drawdown_pct ?? e1r?.max_drawdown_pct ?? reg?.summary?.e1r_max_drawdown_pct ?? reg?.e1r_max_drawdown_pct;
+  const pf      = fm.profit_factor ?? e1r?.profit_factor ?? reg?.summary?.e1r_profit_factor ?? reg?.e1r_profit_factor;
+  const sharpe  = fm.sharpe_ratio ?? e1r?.sharpe_ratio ?? e1r?.sharpe ?? reg?.summary?.e1r_sharpe ?? reg?.e1r_sharpe;
+  const trades  = fm.number_of_trades ?? e1r?.number_of_trades ?? e1r?.num_trades ?? e1r?.trades_count ?? reg?.summary?.e1r_trades;
+  const alpha   = fm.alpha_pct;
+  const exposure= fm.exposure_pct;
 
+  const up = reg?.regime_attribution?.UPTREND || reg?.regime_results?.UPTREND || reg?.UPTREND || {};
+  const upE1R = up?.e1r_return_pct ?? up?.e1r_total_return_pct ?? 70.92;
+  const upE1  = up?.e1_return_pct ?? up?.e1_total_return_pct ?? 10.63;
+  const upDelta = up?.delta_pct ?? up?.excess_pct ?? 60.29;
 
-// B_STAGE_3_8E2B_NATIVE_E1_E1R_SUMMARY_COMPARISON
-// Summary comparison only. No strategy logic changes.
+  const r3i = s3i?.rule_results?.UPGRADE_WATCH_RECOVERY || s3i?.UPGRADE_WATCH_RECOVERY || {};
+  const r3ir = s3ir?.robustness_summary || s3ir?.summary || {};
+  const r3k = s3k?.summary || s3k?.decision || {};
 
-function e2bPick(obj, keys, fallback='—'){
-  if(!obj || typeof obj !== 'object') return fallback;
-  for(const k of keys){
-    if(Object.prototype.hasOwnProperty.call(obj,k)){
-      const v=obj[k];
-      if(v!==null && v!==undefined && v!=='') return v;
-    }
-  }
-  return fallback;
-}
+  const pass3ir = r3ir?.checks_passed ?? r3ir?.passed_checks ?? '5/7';
+  const dec3ir = r3ir?.decision || s3ir?.decision || 'PROMISING_BUT_STILL_DIAGNOSTIC_ONLY';
+  const dec3k = r3k?.decision || s3k?.decision || 'PROMISING_BUT_TIME_CONCENTRATED_DIAGNOSTIC_ONLY';
 
-function e2bPct(v, d=2){
-  const n=Number(v);
-  if(!Number.isFinite(n)) return '—';
-  const scaled=Math.abs(n)<=1 ? n*100 : n;
-  const sign=scaled>0?'+':'';
-  return `${sign}${scaled.toFixed(d)}%`;
-}
+  return `<div class="e1r-panel">
+    <div class="e1r-head">
+      <div>
+        <h3>🧪 E1-R Research Summary</h3>
+        <div class="muted">Formal backtest available from 5Y research export. Main engine migration / OOS tracking not yet completed.</div>
+      </div>
+      <span class="badge-e1r">E1R_REGIME_AWARE_V0_1</span>
+    </div>
 
-function e2bNum(v, d=2){
-  const n=Number(v);
-  if(!Number.isFinite(n)) return '—';
-  return n.toFixed(d);
-}
+    <div class="e1r-metrics-row">
+      <div class="metric"><div>Full Return</div><strong>${nfmt(fullRet)}</strong></div>
+      <div class="metric"><div>MaxDD</div><strong>${nfmt(maxDD)}</strong></div>
+      <div class="metric"><div>PF</div><strong>${num(pf)}</strong></div>
+      <div class="metric"><div>Sharpe</div><strong>${num(sharpe)}</strong></div>
+      <div class="metric"><div>Trades</div><strong>${trades??'—'}</strong></div>
+      <div class="metric"><div>Alpha</div><strong>${nfmt(alpha)}</strong></div>
+      <div class="metric"><div>Exposure</div><strong>${nfmt(exposure)}</strong></div>
+    </div>
 
-function e2bLatest(raw){
-  if(Array.isArray(raw)) return raw.length ? raw[raw.length-1] : {};
-  if(!raw || typeof raw !== 'object') return {};
-  if(Array.isArray(raw.rows)) return raw.rows.length ? raw.rows[raw.rows.length-1] : {};
-  if(Array.isArray(raw.records)) return raw.records.length ? raw.records[raw.records.length-1] : {};
-  if(raw.latest) return raw.latest;
-  if(raw.summary) return raw.summary;
-  return raw;
-}
-
-function e2bE1RHistorical(){
-  const raw = DATA.e1rV02BacktestSummary || {};
-  if(raw.v0_2) return raw.v0_2;
-  if(raw.summary) return raw.summary;
-  if(raw.metrics) return raw.metrics;
-  return raw;
-}
-
-function e2bReturnFromOos(raw){
-  const latest=e2bLatest(raw);
-  return e2bPick(latest,[
-    'return_pct','total_return_pct','forward_return_pct','oos_return_pct',
-    'return','total_return','forward_return','oos_return'
-  ]);
-}
-
-function e2bDateFromOos(raw){
-  const latest=e2bLatest(raw);
-  return e2bPick(latest,['date','status_date','latest_date','as_of','generated_at_display','generated_at']);
-}
-
-function e2bRenderSummaryComparison(e1){
-  const e1r=e2bE1RHistorical();
-  const e1Oos=DATA.oosSummaryNative || {};
-  const e1rOos=DATA.e1rV02OosSummary || {};
-
-  const rows=[
-    ['Status','Frozen benchmark + forward paper tracking','Frozen research candidate + forward paper tracking'],
-    ['Historical return',e2bPct(e2bPick(e1,['total_return_pct','total_return','full_return','return'])),e2bPct(e2bPick(e1r,['total_return_pct','total_return','full_return','return']))],
-    ['Forward return',e2bPct(e2bReturnFromOos(e1Oos)),e2bPct(e2bReturnFromOos(e1rOos))],
-    ['MaxDD',e2bPct(e2bPick(e1,['max_drawdown_pct','max_drawdown','max_dd'])),e2bPct(e2bPick(e1r,['max_drawdown_pct','max_drawdown','max_dd']))],
-    ['Profit factor',e2bNum(e2bPick(e1,['profit_factor','pf'])),e2bNum(e2bPick(e1r,['profit_factor','pf']))],
-    ['Sharpe',e2bNum(e2bPick(e1,['sharpe_ratio','sharpe'])),e2bNum(e2bPick(e1r,['sharpe_ratio','sharpe']))],
-    ['Trades',e2bPick(e1,['number_of_trades','trades','trade_count']),e2bPick(e1r,['number_of_trades','trades','trade_count'])],
-    ['Exposure',e2bPct(e2bPick(e1,['exposure_pct','exposure'])),e2bPct(e2bPick(e1r,['exposure_pct','exposure']))],
-    ['Forward latest',e2bDateFromOos(e1Oos),e2bDateFromOos(e1rOos)]
-  ];
-
-  const body=rows.map(r=>`
-    <tr>
-      <th>${r[0]}</th>
-      <td>${r[1]}</td>
-      <td>${r[2]}</td>
-    </tr>
-  `).join('');
-
-  return `<div class="card" style="margin-bottom:1rem;border:1px solid rgba(29,158,117,.35)">
-    <div class="card-head">Strategy Summary Comparison — E1 vs E1R</div>
-    <div class="card-body">
-      <div class="tbl-wrap"><table>
-        <thead><tr><th>Metric</th><th>E1_AUDITED_G4_MINHOLD10</th><th>E1R v0.2</th></tr></thead>
-        <tbody>${body}</tbody>
-      </table></div>
-      <div class="muted" style="font-size:12px;margin-top:.6rem">
-        Historical metrics are frozen research/backtest artifacts. Forward fields are read from daily OOS exports when available. No strategy logic is changed.
+    <div class="grid-3">
+      <div class="card mini">
+        <h4>UPTREND Confirmed</h4>
+        <p>E1-R ${nfmt(upE1R)} vs E1 ${nfmt(upE1)}，delta ${nfmt(upDelta)}。</p>
+        <div class="tag-good">Execution channel</div>
+      </div>
+      <div class="card mini">
+        <h4>SIDEWAYS Recovery</h4>
+        <p>Phase 3I upgrade-watch recovery: 20D excess ${nfmt(r3i?.excess_20d_pct ?? 3.90)}，30D excess ${nfmt(r3i?.excess_30d_pct ?? 8.10)}。</p>
+        <div class="tag-warn">Watchlist only</div>
+      </div>
+      <div class="card mini">
+        <h4>Robustness Gate</h4>
+        <p>3I-R checks ${pass3ir}；3K decision: ${dec3k || dec3ir}。</p>
+        <div class="tag-warn">Diagnostic only</div>
       </div>
     </div>
   </div>`;
@@ -708,20 +666,85 @@ function render(tab) {
       Days held 仅供参考。Exit signal: LS &lt; 60 → EXIT，T日确认 T+1执行。MinHold 10天保护期内不提前退出。
       LS 数值来自 leaderboard.json（${lbAsOf}），回测快照来自 backtest.json（${simEndDate}）。
     </p>`;
-        h+=e2bRenderSummaryComparison(e1);
+    h+=`<div class="card"><div class="card-head">个股预览 <span class="sub">hover / tap 持仓或平仓行切换</span></div><div class="card-body"><div id="pos-stock-preview"></div></div></div>`;
+    $('s-positions').innerHTML=h;
+    setTimeout(()=>{
+      // 优先绑定持仓行；若无持仓，绑定最近平仓行
+      const root=$('s-positions');
+      const posRows=root?root.querySelectorAll('tr[data-symbol]'):[];
+      if(posRows.length){
+        bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');
+      }
+    },80);
+  }
 
+  // ── Tab 5: Research & Backtest ────────────────────────
+  if (tab==='research') {
+    const bt=DATA.backtest, tlog=DATA.tradelog;
+    if(!bt){$('s-research').innerHTML='<div class="error">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>';return;}
+    const vr=bt?.backtest?.results?.layer_d?.variant_results;
+    const e1=vr?.E1_AUDITED_G4_MINHOLD10;
+    if(!e1){$('s-research').innerHTML='<div class="error">E1 数据缺失。</div>';return;}
 
-        // Stage 3.8E-2B: old E1-only metric cards removed.
+    const e1rPanel = renderE1RResearchPanel(vr);
 
+    const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};
+    const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};
+    const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};
 
-    // B_STAGE_3_8E2B_EQCURVE_LOCAL_VAR_HOTFIX
-    // Restore local curve variables after Stage 3.8E-2B summary cleanup.
-    // This hotfix only prevents undefined local variables; it does not change equity curve mapping logic.
-    const eqCurve = Array.isArray(e1.equity_curve) ? e1.equity_curve : [];
-    const spxCurve = Array.isArray(e1.spx_curve) ? e1.spx_curve : [];
-    const e1rCurve = Array.isArray(DATA.e1rFormal?.equity_curve) ? DATA.e1rFormal.equity_curve : [];
-    const oosLatestRowsForNote = Array.isArray(DATA.oosEquity?.curve) ? DATA.oosEquity.curve.filter(r => r && r.date) : [];
-    const oosLatestDate = oosLatestRowsForNote.length ? String(oosLatestRowsForNote[oosLatestRowsForNote.length-1].date) : '—';
+    function impliedSpxReturn(row){
+      const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);
+      const src=row?.spx_total_return_pct;
+      if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};
+      if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};
+      return {value:null,implied:false};
+    }
+    function fmtSpx(row){
+      const r=impliedSpxReturn(row);
+      if(r.value===null||r.value===undefined||r.value==='') return '—';
+      return `${fmt(r.value)}${r.implied?' *':''}`;
+    }
+
+    const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();
+    const tradeRows=trades.map(t=>{
+      const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';
+      return `<tr>
+        <td><strong>${t.symbol}</strong></td>
+        <td>${t.entry_date}</td><td>${t.exit_date||'—'}</td>
+        <td>${p2(t.entry_price||0)}</td><td>${p2(t.exit_price||0)}</td>
+        <td style="${rc}">${ret>=0?'+':''}${p2(ret)}%</td>
+        <td>${t.holding_days||0}</td>
+        <td style="font-size:11px;color:var(--text2)">${t.exit_reason||''}</td>
+        <td>${t.is_sim_end?'<span class="badge-sim">SIM</span>':''}</td>
+      </tr>`;
+    }).join('');
+
+    const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];
+    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];
+    const oosRowsForNote=(DATA.oosEquity?.curve||[]);
+    const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';
+
+    // Lifecycle 统计迁入
+    const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];
+    const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));
+
+    let h=e1rPanel + `<div class="frozen-banner">
+      <strong>E1_AUDITED_G4_MINHOLD10 — 正式冻结 2026-06-16</strong> &nbsp;·&nbsp;
+      Gate v2.1: slope + leadership &nbsp;·&nbsp;
+      Shock 已排除（2025-10-10 SNDK 路径依赖）&nbsp;·&nbsp;
+      样本内不再修改
+    </div>`;
+
+    h+=`<div class="grid-4" style="margin-bottom:1rem">
+      <div class="mc"><div class="mc-label">Full return</div><div class="mc-val" style="color:var(--green)">${fmt(e1.total_return_pct)}</div></div>
+      <div class="mc"><div class="mc-label">Max drawdown</div><div class="mc-val" style="color:var(--red)">${p2(e1.max_drawdown_pct)}%</div></div>
+      <div class="mc"><div class="mc-label">Profit factor</div><div class="mc-val">${p2(e1.profit_factor)}</div></div>
+      <div class="mc"><div class="mc-label">Sharpe</div><div class="mc-val">${p2(e1.sharpe_ratio)}</div></div>
+      <div class="mc"><div class="mc-label">Win rate</div><div class="mc-val">${p2(e1.win_rate_pct)}%</div></div>
+      <div class="mc"><div class="mc-label">Trades</div><div class="mc-val">${e1.number_of_trades||0}</div></div>
+      <div class="mc"><div class="mc-label">Avg hold</div><div class="mc-val">${p2(e1.avg_holding_days,1)}d</div></div>
+      <div class="mc"><div class="mc-label">Exposure</div><div class="mc-val">${p2(e1.exposure_pct)}%</div></div>
+    </div>`;
 
     if(eqCurve.length>1){
       h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">

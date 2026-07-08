@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-07-08T06:01:23.328217+00:00",
+  "stage": "B_STAGE_3_8E2B_RECOVERY_RESTORE_STABLE_DASHBOARD_RENDER",
+  "status": "RESTORED_DASHBOARD_RENDER_FROM_C1A7E46",
+  "main": {
+    "branch": "main",
+    "head_before": "72e431f",
+    "stable_ref": "c1a7e46"
+  },
+  "policy": {
+    "strategy_logic_changed": false,
+    "exports_changed": false,
+    "recovered_dashboard_render_only": true,
+    "summary_integration_removed_temporarily": true
+  },
+  "validation": {
+    "node_check": {
+      "node_available": false,
+      "status": "BASIC_VALIDATION_ONLY"
+    },
+    "stage_3_8e1_marker_present": true,
+    "legacy_e1r_summary_restored": true,
+    "legacy_e1_summary_restored": true,
+    "equity_curve_present": true,
+    "trade_log_present": true,
+    "market_state_present": true,
+    "broken_summary_marker_absent": true,
+    "eqcurve_hotfix_marker_absent": true
+  },
+  "changed_files": [
+    "dashboard/app.js",
+    "dashboard/index.html"
+  ],
+  "next_stage": "Browser recovery acceptance first. Then reapply summary integration with variable-prep logic preserved."
+}
