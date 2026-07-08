@@ -1,0 +1,2016 @@
+{
+  "generated_at": "2026-07-08T13:07:55.802211+00:00",
+  "stage": "B_STAGE_3_8E2F2C4A2_SIDECAR_RANKINGS_ACTIVATION_PROBE",
+  "status": "SIDECAR_RANKINGS_ACTIVATION_PROBE_COMPLETE_NO_EXPORTS_WRITTEN",
+  "policy": {
+    "dashboard_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "sidecar_records_written": false,
+    "e1r_canonical_written": false,
+    "portfolio_equity_composed": false
+  },
+  "config": "E1RSidecarConfig(start_date='2021-06-11', end_date='2026-06-18', allowed_subclasses=('MA_CONFLICT',), top_n=10, gross_exposure=0.25, min_history_days=200, min_price=5.0, initial_equity=100000.0, excluded_symbols=('VIXY',))",
+  "input_summary": {
+    "stocks_loaded": 538,
+    "excluded_count": 1,
+    "interval_count": 1260,
+    "records_count": 1260,
+    "summary_type": "dict",
+    "summary": {
+      "name": "E1R_SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE",
+      "allowed_subclasses": [
+        "MA_CONFLICT"
+      ],
+      "top_n": 10,
+      "gross_exposure": 0.25,
+      "excluded_symbols": [
+        "VIXY"
+      ],
+      "total_days": 1260,
+      "active_days": 135,
+      "exposure_pct_full_period": 10.714285714285714,
+      "full_period_strategy_return_pct": 6.327413860021602,
+      "full_period_spx_return_pct": 76.59060945389366,
+      "full_period_excess_vs_spx_pct": -70.26319559387207,
+      "active_window_strategy_return_pct": 6.327413860021802,
+      "active_window_spx_return_pct": 3.441248071243952,
+      "active_window_excess_vs_spx_pct": 2.8861657887778502,
+      "max_drawdown_pct": -4.30474425235311,
+      "profit_factor": 1.324066375239395,
+      "sharpe": 0.5485318434970625,
+      "active_day_win_rate_pct": 57.03703703703704,
+      "winning_active_days": 77,
+      "losing_active_days": 58,
+      "avg_active_day_return_pct": 0.04641354379249446,
+      "median_active_day_return_pct": 0.03310061400735197,
+      "trade_count_approx": 1350,
+      "equity_start": 100000.0,
+      "equity_end": 106327.4138600216
+    }
+  },
+  "raw_record_keys": [
+    "candidate_count",
+    "date",
+    "gross_exposure",
+    "holdings",
+    "is_active",
+    "next_date",
+    "portfolio_return",
+    "portfolio_return_pct",
+    "regime",
+    "selected_count",
+    "spx_return",
+    "spx_return_pct",
+    "subclass"
+  ],
+  "subclass_counts": {
+    "NO_SUBCLASS": 1019,
+    "MA_CONFLICT": 135,
+    "DETERIORATION_TRANSITION": 63,
+    "RECOVERY_TRANSITION": 43
+  },
+  "active_by_subclass": {},
+  "selected_key_counter": {
+    "holdings": 1350
+  },
+  "ranking_stats": {
+    "rankings_summary": {
+      "type": "dict",
+      "len": 241,
+      "keys": [
+        "2022-01-24",
+        "2022-01-25",
+        "2022-01-26",
+        "2022-01-27",
+        "2022-01-28",
+        "2022-01-31",
+        "2022-02-01",
+        "2022-02-02",
+        "2022-02-03",
+        "2022-02-04",
+        "2022-02-14",
+        "2022-02-15",
+        "2022-02-16",
+        "2022-02-17",
+        "2022-02-18",
+        "2022-02-22",
+        "2022-02-23",
+        "2022-02-24",
+        "2022-02-25",
+        "2022-02-28",
+        "2022-03-01",
+        "2022-03-02",
+        "2022-03-03",
+        "2022-03-04",
+        "2022-03-07",
+        "2022-03-08",
+        "2022-03-09",
+        "2022-03-10",
+        "2022-03-11",
+        "2022-03-14",
+        "2022-03-15",
+        "2022-03-16",
+        "2022-03-17",
+        "2022-03-18",
+        "2022-03-21",
+        "2022-03-22",
+        "2022-03-23",
+        "2022-03-24",
+        "2022-03-25",
+        "2022-03-28",
+        "2022-03-29",
+        "2022-03-30",
+        "2022-03-31",
+        "2022-04-01",
+        "2022-04-04",
+        "2022-04-05",
+        "2022-04-06",
+        "2022-04-07",
+        "2022-04-08",
+        "2022-04-11",
+        "2022-04-12",
+        "2022-04-13",
+        "2022-04-14",
+        "2022-04-18",
+        "2022-04-19",
+        "2022-04-20",
+        "2022-04-21",
+        "2022-04-22",
+        "2022-04-25",
+        "2022-04-26",
+        "2022-04-27",
+        "2022-04-28",
+        "2022-04-29",
+        "2022-05-02",
+        "2022-05-03",
+        "2022-05-04",
+        "2022-05-05",
+        "2022-05-06",
+        "2022-05-09",
+        "2022-05-10",
+        "2022-05-11",
+        "2022-05-12",
+        "2022-05-13",
+        "2022-05-16",
+        "2022-05-17",
+        "2022-05-18",
+        "2022-05-19",
+        "2022-05-20",
+        "2022-12-05",
+        "2022-12-06"
+      ],
+      "sample": [
+        [
+          "2022-01-24",
+          {
+            "type": "dict",
+            "len": 6,
+            "keys": [
+              "candidate_count",
+              "candidates",
+              "date",
+              "next_date",
+              "regime",
+              "subclass"
+            ],
+            "sample": [
+              [
+                "date",
+                {
+                  "type": "str",
+                  "repr": "'2022-01-24'"
+                }
+              ]
+            ]
+          }
+        ],
+        [
+          "2022-01-25",
+          {
+            "type": "dict",
+            "len": 6,
+            "keys": [
+              "candidate_count",
+              "candidates",
+              "date",
+              "next_date",
+              "regime",
+              "subclass"
+            ],
+            "sample": [
+              [
+                "date",
+                {
+                  "type": "str",
+                  "repr": "'2022-01-25'"
+                }
+              ]
+            ]
+          }
+        ],
+        [
+          "2022-01-26",
+          {
+            "type": "dict",
+            "len": 6,
+            "keys": [
+              "candidate_count",
+              "candidates",
+              "date",
+              "next_date",
+              "regime",
+              "subclass"
+            ],
+            "sample": [
+              [
+                "date",
+                {
+                  "type": "str",
+                  "repr": "'2022-01-26'"
+                }
+              ]
+            ]
+          }
+        ]
+      ]
+    },
+    "ma_conflict_intervals": 135,
+    "ma_conflict_ranking_count_known": 0,
+    "ma_conflict_ranking_min": null,
+    "ma_conflict_ranking_max": null,
+    "ma_conflict_ranking_zero_count": 0,
+    "ma_conflict_ranking_unknown_count": 135
+  },
+  "ma_conflict_samples": [
+    {
+      "record": {
+        "date": "2022-01-24",
+        "next_date": "2022-01-25",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 526,
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.006639857390068424,
+        "portfolio_return_pct": 0.6639857390068423,
+        "spx_return": -0.012171906366504448,
+        "spx_return_pct": -1.2171906366504448,
+        "holdings": [
+          {
+            "symbol": "ATI",
+            "score": 116.16247415664218,
+            "weight": 0.025,
+            "raw_return": -0.03076152294503265,
+            "raw_return_pct": -3.076152294503265,
+            "weighted_contribution": -0.0007690380736258163,
+            "weighted_contribution_pct": -0.07690380736258162
+          },
+          {
+            "symbol": "HAL",
+            "score": 111.15001424870495,
+            "weight": 0.025,
+            "raw_return": 0.06995452837657856,
+            "raw_return_pct": 6.995452837657856,
+            "weighted_contribution": 0.001748863209414464,
+            "weighted_contribution_pct": 0.1748863209414464
+          },
+          {
+            "symbol": "SLB",
+            "score": 106.92388446720653,
+            "weight": 0.025,
+            "raw_return": 0.05983634830107065,
+            "raw_return_pct": 5.983634830107065,
+            "weighted_contribution": 0.0014959087075267663,
+            "weighted_contribution_pct": 0.14959087075267663
+          },
+          {
+            "symbol": "XOM",
+            "score": 100.24242388837584,
+            "weight": 0.025,
+            "raw_return": 0.029399762413809594,
+            "raw_return_pct": 2.9399762413809594,
+            "weighted_contribution": 0.0007349940603452399,
+            "weighted_contribution_pct": 0.07349940603452398
+          },
+          {
+            "symbol": "LVS",
+            "score": 91.50122657304557,
+            "weight": 0.025,
+            "raw_return": -0.0004454036697800756,
+            "raw_return_pct": -0.04454036697800756,
+            "weighted_contribution": -1.113509174450189e-05,
+            "weighted_contribution_pct": -0.001113509174450189
+          },
+          {
+            "symbol": "EOG",
+            "score": 86.66843612722552,
+            "weight": 0.025,
+            "raw_return": 0.04525474543965413,
+            "raw_return_pct": 4.525474543965413,
+            "weighted_contribution": 0.0011313686359913533,
+            "weighted_contribution_pct": 0.11313686359913533
+          },
+          {
+            "symbol": "KR",
+            "score": 86.03641665380985,
+            "weight": 0.025,
+            "raw_return": -0.055322651935767575,
+            "raw_return_pct": -5.532265193576757,
+            "weighted_contribution": -0.0013830662983941894,
+            "weighted_contribution_pct": -0.13830662983941894
+          },
+          {
+            "symbol": "DVN",
+            "score": 84.99916193288533,
+            "weight": 0.025,
+            "raw_return": 0.06062487833843444,
+            "raw_return_pct": 6.062487833843444,
+            "weighted_contribution": 0.001515621958460861,
+            "weighted_contribution_pct": 0.1515621958460861
+          },
+          {
+            "symbol": "COP",
+            "score": 84.69324527256238,
+            "weight": 0.025,
+            "raw_return": 0.04926508363551951,
+            "raw_return_pct": 4.926508363551951,
+            "weighted_contribution": 0.001231627090887988,
+            "weighted_contribution_pct": 0.1231627090887988
+          },
+          {
+            "symbol": "PSX",
+            "score": 79.62080082649405,
+            "weight": 0.025,
+            "raw_return": 0.03778852764825036,
+            "raw_return_pct": 3.778852764825036,
+            "weighted_contribution": 0.000944713191206259,
+            "weighted_contribution_pct": 0.0944713191206259
+          }
+        ]
+      },
+      "ranking_len_for_date_or_next_date": null,
+      "ranking_summary": {
+        "type": "dict",
+        "len": 6,
+        "keys": [
+          "candidate_count",
+          "candidates",
+          "date",
+          "next_date",
+          "regime",
+          "subclass"
+        ],
+        "sample": [
+          [
+            "date",
+            {
+              "type": "str",
+              "repr": "'2022-01-24'"
+            }
+          ],
+          [
+            "next_date",
+            {
+              "type": "str",
+              "repr": "'2022-01-25'"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "record": {
+        "date": "2022-01-25",
+        "next_date": "2022-01-26",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 526,
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.001170111266206414,
+        "portfolio_return_pct": 0.1170111266206414,
+        "spx_return": -0.001496635725913631,
+        "spx_return_pct": -0.1496635725913631,
+        "holdings": [
+          {
+            "symbol": "HAL",
+            "score": 151.45363429039952,
+            "weight": 0.025,
+            "raw_return": 0.006864893922020832,
+            "raw_return_pct": 0.6864893922020832,
+            "weighted_contribution": 0.0001716223480505208,
+            "weighted_contribution_pct": 0.01716223480505208
+          },
+          {
+            "symbol": "SLB",
+            "score": 139.37639311786864,
+            "weight": 0.025,
+            "raw_return": 0.026037581179024105,
+            "raw_return_pct": 2.6037581179024105,
+            "weighted_contribution": 0.0006509395294756027,
+            "weighted_contribution_pct": 0.06509395294756026
+          },
+          {
+            "symbol": "APA",
+            "score": 121.79645158380266,
+            "weight": 0.025,
+            "raw_return": 0.0012094774785773588,
+            "raw_return_pct": 0.12094774785773588,
+            "weighted_contribution": 3.023693696443397e-05,
+            "weighted_contribution_pct": 0.003023693696443397
+          },
+          {
+            "symbol": "DVN",
+            "score": 117.26115304831168,
+            "weight": 0.025,
+            "raw_return": 0.010339429921368382,
+            "raw_return_pct": 1.0339429921368382,
+            "weighted_contribution": 0.00025848574803420953,
+            "weighted_contribution_pct": 0.025848574803420954
+          },
+          {
+            "symbol": "XOM",
+            "score": 117.25739123090229,
+            "weight": 0.025,
+            "raw_return": -0.010142911282465361,
+            "raw_return_pct": -1.0142911282465361,
+            "weighted_contribution": -0.000253572782061634,
+            "weighted_contribution_pct": -0.025357278206163403
+          },
+          {
+            "symbol": "OXY",
+            "score": 115.31360347380125,
+            "weight": 0.025,
+            "raw_return": 0.007887026148316378,
+            "raw_return_pct": 0.7887026148316378,
+            "weighted_contribution": 0.00019717565370790948,
+            "weighted_contribution_pct": 0.01971756537079095
+          },
+          {
+            "symbol": "EOG",
+            "score": 113.90314776978222,
+            "weight": 0.025,
+            "raw_return": 0.005516989662422533,
+            "raw_return_pct": 0.5516989662422533,
+            "weighted_contribution": 0.00013792474156056335,
+            "weighted_contribution_pct": 0.013792474156056335
+          },
+          {
+            "symbol": "COP",
+            "score": 111.51896168451287,
+            "weight": 0.025,
+            "raw_return": -0.000573591138362417,
+            "raw_return_pct": -0.057359113836241704,
+            "weighted_contribution": -1.4339778459060427e-05,
+            "weighted_contribution_pct": -0.0014339778459060426
+          },
+          {
+            "symbol": "ATI",
+            "score": 109.39959091274764,
+            "weight": 0.025,
+            "raw_return": -0.003641987702496907,
+            "raw_return_pct": -0.3641987702496907,
+            "weighted_contribution": -9.104969256242268e-05,
+            "weighted_contribution_pct": -0.009104969256242268
+          },
+          {
+            "symbol": "FANG",
+            "score": 102.91623878730167,
+            "weight": 0.025,
+            "raw_return": 0.0033075424598516534,
+            "raw_return_pct": 0.33075424598516534,
+            "weighted_contribution": 8.268856149629134e-05,
+            "weighted_contribution_pct": 0.008268856149629134
+          }
+        ]
+      },
+      "ranking_len_for_date_or_next_date": null,
+      "ranking_summary": {
+        "type": "dict",
+        "len": 6,
+        "keys": [
+          "candidate_count",
+          "candidates",
+          "date",
+          "next_date",
+          "regime",
+          "subclass"
+        ],
+        "sample": [
+          [
+            "date",
+            {
+              "type": "str",
+              "repr": "'2022-01-25'"
+            }
+          ],
+          [
+            "next_date",
+            {
+              "type": "str",
+              "repr": "'2022-01-26'"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "record": {
+        "date": "2022-01-26",
+        "next_date": "2022-01-27",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 527,
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.0005712995435184164,
+        "portfolio_return_pct": 0.05712995435184164,
+        "spx_return": -0.005384088721519631,
+        "spx_return_pct": -0.5384088721519631,
+        "holdings": [
+          {
+            "symbol": "HAL",
+            "score": 153.663382743099,
+            "weight": 0.025,
+            "raw_return": 0.0009740431199891653,
+            "raw_return_pct": 0.09740431199891653,
+            "weighted_contribution": 2.4351077999729134e-05,
+            "weighted_contribution_pct": 0.002435107799972913
+          },
+          {
+            "symbol": "SLB",
+            "score": 149.8206298067245,
+            "weight": 0.025,
+            "raw_return": -0.02361818145681749,
+            "raw_return_pct": -2.361818145681749,
+            "weighted_contribution": -0.0005904545364204373,
+            "weighted_contribution_pct": -0.05904545364204373
+          },
+          {
+            "symbol": "APA",
+            "score": 117.82183153229215,
+            "weight": 0.025,
+            "raw_return": -0.004832447111308369,
+            "raw_return_pct": -0.4832447111308369,
+            "weighted_contribution": -0.00012081117778270923,
+            "weighted_contribution_pct": -0.012081117778270922
+          },
+          {
+            "symbol": "DVN",
+            "score": 117.24908488045658,
+            "weight": 0.025,
+            "raw_return": -0.0009652738498846514,
+            "raw_return_pct": -0.09652738498846514,
+            "weighted_contribution": -2.4131846247116286e-05,
+            "weighted_contribution_pct": -0.0024131846247116284
+          },
+          {
+            "symbol": "OXY",
+            "score": 116.97373046933191,
+            "weight": 0.025,
+            "raw_return": 0.005396268303159646,
+            "raw_return_pct": 0.5396268303159646,
+            "weighted_contribution": 0.00013490670757899115,
+            "weighted_contribution_pct": 0.013490670757899115
+          },
+          {
+            "symbol": "EOG",
+            "score": 116.84316316300695,
+            "weight": 0.025,
+            "raw_return": 0.020645559668631686,
+            "raw_return_pct": 2.0645559668631686,
+            "weighted_contribution": 0.0005161389917157921,
+            "weighted_contribution_pct": 0.051613899171579214
+          },
+          {
+            "symbol": "XOM",
+            "score": 113.39783397463201,
+            "weight": 0.025,
+            "raw_return": 0.012808551203940421,
+            "raw_return_pct": 1.2808551203940421,
+            "weighted_contribution": 0.00032021378009851055,
+            "weighted_contribution_pct": 0.032021378009851054
+          },
+          {
+            "symbol": "COP",
+            "score": 112.71257858494111,
+            "weight": 0.025,
+            "raw_return": 0.0298643853909617,
+            "raw_return_pct": 2.98643853909617,
+            "weighted_contribution": 0.0007466096347740425,
+            "weighted_contribution_pct": 0.07466096347740425
+          },
+          {
+            "symbol": "ATI",
+            "score": 105.19917172050665,
+            "weight": 0.025,
+            "raw_return": -0.02715409921671008,
+            "raw_return_pct": -2.715409921671008,
+            "weighted_contribution": -0.0006788524804177521,
+            "weighted_contribution_pct": -0.0678852480417752
+          },
+          {
+            "symbol": "FANG",
+            "score": 103.21173493250777,
+            "weight": 0.025,
+            "raw_return": 0.009733175688774631,
+            "raw_return_pct": 0.9733175688774631,
+            "weighted_contribution": 0.0002433293922193658,
+            "weighted_contribution_pct": 0.024332939221936578
+          }
+        ]
+      },
+      "ranking_len_for_date_or_next_date": null,
+      "ranking_summary": {
+        "type": "dict",
+        "len": 6,
+        "keys": [
+          "candidate_count",
+          "candidates",
+          "date",
+          "next_date",
+          "regime",
+          "subclass"
+        ],
+        "sample": [
+          [
+            "date",
+            {
+              "type": "str",
+              "repr": "'2022-01-26'"
+            }
+          ],
+          [
+            "next_date",
+            {
+              "type": "str",
+              "repr": "'2022-01-27'"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "record": {
+        "date": "2022-01-27",
+        "next_date": "2022-01-28",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.0002960625997241865,
+        "portfolio_return_pct": 0.02960625997241865,
+        "spx_return": 0.02434764687874269,
+        "spx_return_pct": 2.434764687874269,
+        "holdings": [
+          {
+            "symbol": "HAL",
+            "score": 159.2712159909222,
+            "weight": 0.025,
+            "raw_return": 0.017191030257081463,
+            "raw_return_pct": 1.7191030257081463,
+            "weighted_contribution": 0.0004297757564270366,
+            "weighted_contribution_pct": 0.04297757564270366
+          },
+          {
+            "symbol": "SLB",
+            "score": 137.7396523549379,
+            "weight": 0.025,
+            "raw_return": 0.021101362027854398,
+            "raw_return_pct": 2.11013620278544,
+            "weighted_contribution": 0.00052753405069636,
+            "weighted_contribution_pct": 0.052753405069635995
+          },
+          {
+            "symbol": "COP",
+            "score": 133.358611221586,
+            "weight": 0.025,
+            "raw_return": -0.0049075204567661235,
+            "raw_return_pct": -0.49075204567661235,
+            "weighted_contribution": -0.0001226880114191531,
+            "weighted_contribution_pct": -0.012268801141915309
+          },
+          {
+            "symbol": "EOG",
+            "score": 130.76771232181088,
+            "weight": 0.025,
+            "raw_return": -0.00045576549545711664,
+            "raw_return_pct": -0.045576549545711664,
+            "weighted_contribution": -1.1394137386427917e-05,
+            "weighted_contribution_pct": -0.0011394137386427918
+          },
+          {
+            "symbol": "OXY",
+            "score": 125.62783807270606,
+            "weight": 0.025,
+            "raw_return": 0.008320502497189963,
+            "raw_return_pct": 0.8320502497189963,
+            "weighted_contribution": 0.00020801256242974908,
+            "weighted_contribution_pct": 0.020801256242974908
+          },
+          {
+            "symbol": "APA",
+            "score": 125.47275274589161,
+            "weight": 0.025,
+            "raw_return": 0.006676701855573786,
+            "raw_return_pct": 0.6676701855573786,
+            "weighted_contribution": 0.00016691754638934465,
+            "weighted_contribution_pct": 0.016691754638934464
+          },
+          {
+            "symbol": "XOM",
+            "score": 124.23625821580293,
+            "weight": 0.025,
+            "raw_return": 0.0021296909589767488,
+            "raw_return_pct": 0.21296909589767488,
+            "weighted_contribution": 5.324227397441872e-05,
+            "weighted_contribution_pct": 0.005324227397441872
+          },
+          {
+            "symbol": "DVN",
+            "score": 121.67181237712464,
+            "weight": 0.025,
+            "raw_return": -0.003672396451885218,
+            "raw_return_pct": -0.3672396451885218,
+            "weighted_contribution": -9.180991129713046e-05,
+            "weighted_contribution_pct": -0.009180991129713047
+          },
+          {
+            "symbol": "FANG",
+            "score": 109.20647341820883,
+            "weight": 0.025,
+            "raw_return": 0.0006218312166403894,
+            "raw_return_pct": 0.06218312166403894,
+            "weighted_contribution": 1.5545780416009737e-05,
+            "weighted_contribution_pct": 0.0015545780416009738
+          },
+          {
+            "symbol": "CVX",
+            "score": 107.0591815922152,
+            "weight": 0.025,
+            "raw_return": -0.03516293242024082,
+            "raw_return_pct": -3.516293242024082,
+            "weighted_contribution": -0.0008790733105060206,
+            "weighted_contribution_pct": -0.08790733105060206
+          }
+        ]
+      },
+      "ranking_len_for_date_or_next_date": null,
+      "ranking_summary": {
+        "type": "dict",
+        "len": 6,
+        "keys": [
+          "candidate_count",
+          "candidates",
+          "date",
+          "next_date",
+          "regime",
+          "subclass"
+        ],
+        "sample": [
+          [
+            "date",
+            {
+              "type": "str",
+              "repr": "'2022-01-27'"
+            }
+          ],
+          [
+            "next_date",
+            {
+              "type": "str",
+              "repr": "'2022-01-28'"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "record": {
+        "date": "2022-01-28",
+        "next_date": "2022-01-31",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": -0.0011961999291116743,
+        "portfolio_return_pct": -0.11961999291116743,
+        "spx_return": 0.01888595172426344,
+        "spx_return_pct": 1.888595172426344,
+        "holdings": [
+          {
+            "symbol": "HAL",
+            "score": 163.62557477227205,
+            "weight": 0.025,
+            "raw_return": -0.01977040691587384,
+            "raw_return_pct": -1.977040691587384,
+            "weighted_contribution": -0.000494260172896846,
+            "weighted_contribution_pct": -0.0494260172896846
+          },
+          {
+            "symbol": "SLB",
+            "score": 141.12604099229782,
+            "weight": 0.025,
+            "raw_return": -0.015372781267682045,
+            "raw_return_pct": -1.5372781267682045,
+            "weighted_contribution": -0.00038431953169205116,
+            "weighted_contribution_pct": -0.03843195316920511
+          },
+          {
+            "symbol": "EOG",
+            "score": 128.3419757475321,
+            "weight": 0.025,
+            "raw_return": 0.016226324764806233,
+            "raw_return_pct": 1.6226324764806233,
+            "weighted_contribution": 0.00040565811912015584,
+            "weighted_contribution_pct": 0.04056581191201558
+          },
+          {
+            "symbol": "OXY",
+            "score": 124.71014720361767,
+            "weight": 0.025,
+            "raw_return": 0.00266139347743799,
+            "raw_return_pct": 0.266139347743799,
+            "weighted_contribution": 6.653483693594975e-05,
+            "weighted_contribution_pct": 0.006653483693594976
+          },
+          {
+            "symbol": "COP",
+            "score": 124.60327629851206,
+            "weight": 0.025,
+            "raw_return": -0.006724989345986754,
+            "raw_return_pct": -0.6724989345986754,
+            "weighted_contribution": -0.00016812473364966887,
+            "weighted_contribution_pct": -0.016812473364966888
+          },
+          {
+            "symbol": "APA",
+            "score": 122.16277934243318,
+            "weight": 0.025,
+            "raw_return": 0.001206039154524996,
+            "raw_return_pct": 0.1206039154524996,
+            "weighted_contribution": 3.0150978863124903e-05,
+            "weighted_contribution_pct": 0.0030150978863124904
+          },
+          {
+            "symbol": "XOM",
+            "score": 118.67381186747284,
+            "weight": 0.025,
+            "raw_return": 0.009033010424802868,
+            "raw_return_pct": 0.9033010424802868,
+            "weighted_contribution": 0.0002258252606200717,
+            "weighted_contribution_pct": 0.02258252606200717
+          },
+          {
+            "symbol": "DVN",
+            "score": 110.86805612919885,
+            "weight": 0.025,
+            "raw_return": -0.01901066136012497,
+            "raw_return_pct": -1.901066136012497,
+            "weighted_contribution": -0.0004752665340031243,
+            "weighted_contribution_pct": -0.04752665340031243
+          },
+          {
+            "symbol": "FANG",
+            "score": 104.76774648862371,
+            "weight": 0.025,
+            "raw_return": -0.019888096397638555,
+            "raw_return_pct": -1.9888096397638555,
+            "weighted_contribution": -0.0004972024099409639,
+            "weighted_contribution_pct": -0.04972024099409639
+          },
+          {
+            "symbol": "FICO",
+            "score": 100.72908675775446,
+            "weight": 0.025,
+            "raw_return": 0.003792170301267106,
+            "raw_return_pct": 0.3792170301267106,
+            "weighted_contribution": 9.480425753167766e-05,
+            "weighted_contribution_pct": 0.009480425753167767
+          }
+        ]
+      },
+      "ranking_len_for_date_or_next_date": null,
+      "ranking_summary": {
+        "type": "dict",
+        "len": 6,
+        "keys": [
+          "candidate_count",
+          "candidates",
+          "date",
+          "next_date",
+          "regime",
+          "subclass"
+        ],
+        "sample": [
+          [
+            "date",
+            {
+              "type": "str",
+              "repr": "'2022-01-28'"
+            }
+          ],
+          [
+            "next_date",
+            {
+              "type": "str",
+              "repr": "'2022-01-31'"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "record": {
+        "date": "2022-01-31",
+        "next_date": "2022-02-01",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.007193443870844679,
+        "portfolio_return_pct": 0.7193443870844679,
+        "spx_return": 0.00686300347428026,
+        "spx_return_pct": 0.686300347428026,
+        "holdings": [
+          {
+            "symbol": "HAL",
+            "score": 135.1894369240417,
+            "weight": 0.025,
+            "raw_return": 0.020494545436924083,
+            "raw_return_pct": 2.0494545436924083,
+            "weighted_contribution": 0.0005123636359231021,
+            "weighted_contribution_pct": 0.05123636359231021
+          },
+          {
+            "symbol": "EOG",
+            "score": 124.22347818821598,
+            "weight": 0.025,
+            "raw_return": 0.015249366134206355,
+            "raw_return_pct": 1.5249366134206355,
+            "weighted_contribution": 0.0003812341533551589,
+            "weighted_contribution_pct": 0.038123415335515894
+          },
+          {
+            "symbol": "SLB",
+            "score": 110.74079935900545,
+            "weight": 0.025,
+            "raw_return": 0.011517785286905058,
+            "raw_return_pct": 1.1517785286905058,
+            "weighted_contribution": 0.00028794463217262647,
+            "weighted_contribution_pct": 0.028794463217262648
+          },
+          {
+            "symbol": "COP",
+            "score": 109.84992045207325,
+            "weight": 0.025,
+            "raw_return": 0.032949616033934204,
+            "raw_return_pct": 3.2949616033934204,
+            "weighted_contribution": 0.0008237404008483552,
+            "weighted_contribution_pct": 0.08237404008483551
+          },
+          {
+            "symbol": "XOM",
+            "score": 106.49532767329957,
+            "weight": 0.025,
+            "raw_return": 0.06411272820017899,
+            "raw_return_pct": 6.411272820017899,
+            "weighted_contribution": 0.001602818205004475,
+            "weighted_contribution_pct": 0.1602818205004475
+          },
+          {
+            "symbol": "OXY",
+            "score": 100.99961960907478,
+            "weight": 0.025,
+            "raw_return": 0.043005188571246133,
+            "raw_return_pct": 4.300518857124613,
+            "weighted_contribution": 0.0010751297142811533,
+            "weighted_contribution_pct": 0.10751297142811533
+          },
+          {
+            "symbol": "APA",
+            "score": 98.56879552404689,
+            "weight": 0.025,
+            "raw_return": 0.04516707948413412,
+            "raw_return_pct": 4.516707948413412,
+            "weighted_contribution": 0.001129176987103353,
+            "weighted_contribution_pct": 0.1129176987103353
+          },
+          {
+            "symbol": "FICO",
+            "score": 93.10361050974194,
+            "weight": 0.025,
+            "raw_return": 0.005151657713320601,
+            "raw_return_pct": 0.5151657713320601,
+            "weighted_contribution": 0.00012879144283301503,
+            "weighted_contribution_pct": 0.012879144283301502
+          },
+          {
+            "symbol": "DVN",
+            "score": 87.26267745396318,
+            "weight": 0.025,
+            "raw_return": 0.03935125282467844,
+            "raw_return_pct": 3.935125282467844,
+            "weighted_contribution": 0.0009837813206169611,
+            "weighted_contribution_pct": 0.09837813206169611
+          },
+          {
+            "symbol": "VRTX",
+            "score": 84.72040591831392,
+            "weight": 0.025,
+            "raw_return": 0.010738535148259176,
+            "raw_return_pct": 1.0738535148259176,
+            "weighted_contribution": 0.0002684633787064794,
+            "weighted_contribution_pct": 0.02684633787064794
+          }
+        ]
+      },
+      "ranking_len_for_date_or_next_date": null,
+      "ranking_summary": {
+        "type": "dict",
+        "len": 6,
+        "keys": [
+          "candidate_count",
+          "candidates",
+          "date",
+          "next_date",
+          "regime",
+          "subclass"
+        ],
+        "sample": [
+          [
+            "date",
+            {
+              "type": "str",
+              "repr": "'2022-01-31'"
+            }
+          ],
+          [
+            "next_date",
+            {
+              "type": "str",
+              "repr": "'2022-02-01'"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "record": {
+        "date": "2022-02-01",
+        "next_date": "2022-02-02",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.0016610380180795917,
+        "portfolio_return_pct": 0.16610380180795917,
+        "spx_return": 0.009422515502452544,
+        "spx_return_pct": 0.9422515502452544,
+        "holdings": [
+          {
+            "symbol": "HAL",
+            "score": 124.04075137756482,
+            "weight": 0.025,
+            "raw_return": 0.001275056120206397,
+            "raw_return_pct": 0.1275056120206397,
+            "weighted_contribution": 3.187640300515993e-05,
+            "weighted_contribution_pct": 0.003187640300515993
+          },
+          {
+            "symbol": "XOM",
+            "score": 120.50199629055477,
+            "weight": 0.025,
+            "raw_return": -0.0025978472130999686,
+            "raw_return_pct": -0.25978472130999686,
+            "weighted_contribution": -6.494618032749921e-05,
+            "weighted_contribution_pct": -0.0064946180327499214
+          },
+          {
+            "symbol": "EOG",
+            "score": 108.75985224987724,
+            "weight": 0.025,
+            "raw_return": -0.0022975001040904663,
+            "raw_return_pct": -0.22975001040904663,
+            "weighted_contribution": -5.743750260226166e-05,
+            "weighted_contribution_pct": -0.005743750260226166
+          },
+          {
+            "symbol": "COP",
+            "score": 105.92097067701866,
+            "weight": 0.025,
+            "raw_return": 0.007319096935767044,
+            "raw_return_pct": 0.7319096935767044,
+            "weighted_contribution": 0.00018297742339417613,
+            "weighted_contribution_pct": 0.018297742339417614
+          },
+          {
+            "symbol": "SLB",
+            "score": 98.4754697204116,
+            "weight": 0.025,
+            "raw_return": -0.006831953877669772,
+            "raw_return_pct": -0.6831953877669772,
+            "weighted_contribution": -0.0001707988469417443,
+            "weighted_contribution_pct": -0.01707988469417443
+          },
+          {
+            "symbol": "APA",
+            "score": 97.88420991886221,
+            "weight": 0.025,
+            "raw_return": 0.0017286957036071193,
+            "raw_return_pct": 0.17286957036071193,
+            "weighted_contribution": 4.321739259017799e-05,
+            "weighted_contribution_pct": 0.004321739259017798
+          },
+          {
+            "symbol": "OXY",
+            "score": 97.78594610498719,
+            "weight": 0.025,
+            "raw_return": 0.008398763469926962,
+            "raw_return_pct": 0.8398763469926962,
+            "weighted_contribution": 0.00020996908674817406,
+            "weighted_contribution_pct": 0.020996908674817405
+          },
+          {
+            "symbol": "FICO",
+            "score": 93.0946424919689,
+            "weight": 0.025,
+            "raw_return": 0.014310396895137023,
+            "raw_return_pct": 1.4310396895137023,
+            "weighted_contribution": 0.0003577599223784256,
+            "weighted_contribution_pct": 0.035775992237842565
+          },
+          {
+            "symbol": "VRTX",
+            "score": 89.5684601187949,
+            "weight": 0.025,
+            "raw_return": 0.032198985879687614,
+            "raw_return_pct": 3.2198985879687614,
+            "weighted_contribution": 0.0008049746469921904,
+            "weighted_contribution_pct": 0.08049746469921903
+          },
+          {
+            "symbol": "DVN",
+            "score": 85.85336348657286,
+            "weight": 0.025,
+            "raw_return": 0.012937826913711703,
+            "raw_return_pct": 1.2937826913711703,
+            "weighted_contribution": 0.0003234456728427926,
+            "weighted_contribution_pct": 0.03234456728427926
+          }
+        ]
+      },
+      "ranking_len_for_date_or_next_date": null,
+      "ranking_summary": {
+        "type": "dict",
+        "len": 6,
+        "keys": [
+          "candidate_count",
+          "candidates",
+          "date",
+          "next_date",
+          "regime",
+          "subclass"
+        ],
+        "sample": [
+          [
+            "date",
+            {
+              "type": "str",
+              "repr": "'2022-02-01'"
+            }
+          ],
+          [
+            "next_date",
+            {
+              "type": "str",
+              "repr": "'2022-02-02'"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "record": {
+        "date": "2022-02-02",
+        "next_date": "2022-02-03",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": -0.0020282770303438726,
+        "portfolio_return_pct": -0.20282770303438727,
+        "spx_return": -0.024391082205822312,
+        "spx_return_pct": -2.439108220582231,
+        "holdings": [
+          {
+            "symbol": "ATI",
+            "score": 119.99900421864919,
+            "weight": 0.025,
+            "raw_return": 0.01998178928247052,
+            "raw_return_pct": 1.998178928247052,
+            "weighted_contribution": 0.000499544732061763,
+            "weighted_contribution_pct": 0.0499544732061763
+          },
+          {
+            "symbol": "HAL",
+            "score": 118.57584371771141,
+            "weight": 0.025,
+            "raw_return": -0.0060490306702700725,
+            "raw_return_pct": -0.6049030670270072,
+            "weighted_contribution": -0.00015122576675675182,
+            "weighted_contribution_pct": -0.015122576675675181
+          },
+          {
+            "symbol": "XOM",
+            "score": 107.41664944899746,
+            "weight": 0.025,
+            "raw_return": -0.011659807836842506,
+            "raw_return_pct": -1.1659807836842506,
+            "weighted_contribution": -0.00029149519592106264,
+            "weighted_contribution_pct": -0.029149519592106266
+          },
+          {
+            "symbol": "COP",
+            "score": 107.06805073041576,
+            "weight": 0.025,
+            "raw_return": -0.0145319487290827,
+            "raw_return_pct": -1.45319487290827,
+            "weighted_contribution": -0.0003632987182270675,
+            "weighted_contribution_pct": -0.03632987182270675
+          },
+          {
+            "symbol": "OXY",
+            "score": 105.97699639341131,
+            "weight": 0.025,
+            "raw_return": 0.009591264260603749,
+            "raw_return_pct": 0.9591264260603749,
+            "weighted_contribution": 0.00023978160651509374,
+            "weighted_contribution_pct": 0.023978160651509373
+          },
+          {
+            "symbol": "EOG",
+            "score": 103.90249402359188,
+            "weight": 0.025,
+            "raw_return": -0.010095503089637692,
+            "raw_return_pct": -1.0095503089637692,
+            "weighted_contribution": -0.0002523875772409423,
+            "weighted_contribution_pct": -0.02523875772409423
+          },
+          {
+            "symbol": "APA",
+            "score": 99.68614524657565,
+            "weight": 0.025,
+            "raw_return": -0.006614983465430879,
+            "raw_return_pct": -0.6614983465430879,
+            "weighted_contribution": -0.000165374586635772,
+            "weighted_contribution_pct": -0.0165374586635772
+          },
+          {
+            "symbol": "FICO",
+            "score": 98.78582349892642,
+            "weight": 0.025,
+            "raw_return": -0.018705669015133597,
+            "raw_return_pct": -1.8705669015133597,
+            "weighted_contribution": -0.00046764172537833994,
+            "weighted_contribution_pct": -0.04676417253783399
+          },
+          {
+            "symbol": "VRTX",
+            "score": 98.30719405452642,
+            "weight": 0.025,
+            "raw_return": -0.03872700528024198,
+            "raw_return_pct": -3.8727005280241977,
+            "weighted_contribution": -0.0009681751320060495,
+            "weighted_contribution_pct": -0.09681751320060494
+          },
+          {
+            "symbol": "DVN",
+            "score": 89.39505328130929,
+            "weight": 0.025,
+            "raw_return": -0.004320186670189741,
+            "raw_return_pct": -0.43201866701897407,
+            "weighted_contribution": -0.00010800466675474352,
+            "weighted_contribution_pct": -0.010800466675474352
+          }
+        ]
+      },
+      "ranking_len_for_date_or_next_date": null,
+      "ranking_summary": {
+        "type": "dict",
+        "len": 6,
+        "keys": [
+          "candidate_count",
+          "candidates",
+          "date",
+          "next_date",
+          "regime",
+          "subclass"
+        ],
+        "sample": [
+          [
+            "date",
+            {
+              "type": "str",
+              "repr": "'2022-02-02'"
+            }
+          ],
+          [
+            "next_date",
+            {
+              "type": "str",
+              "repr": "'2022-02-03'"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "record": {
+        "date": "2022-02-03",
+        "next_date": "2022-02-04",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.0026616628130022605,
+        "portfolio_return_pct": 0.26616628130022607,
+        "spx_return": 0.005156929920726805,
+        "spx_return_pct": 0.5156929920726805,
+        "holdings": [
+          {
+            "symbol": "ATI",
+            "score": 127.23780221586053,
+            "weight": 0.025,
+            "raw_return": 0.011130899872257238,
+            "raw_return_pct": 1.1130899872257238,
+            "weighted_contribution": 0.000278272496806431,
+            "weighted_contribution_pct": 0.0278272496806431
+          },
+          {
+            "symbol": "HAL",
+            "score": 117.29042939338436,
+            "weight": 0.025,
+            "raw_return": 0.02306219417858779,
+            "raw_return_pct": 2.306219417858779,
+            "weighted_contribution": 0.0005765548544646948,
+            "weighted_contribution_pct": 0.05765548544646948
+          },
+          {
+            "symbol": "OXY",
+            "score": 110.23621881645613,
+            "weight": 0.025,
+            "raw_return": 0.02000015082525497,
+            "raw_return_pct": 2.000015082525497,
+            "weighted_contribution": 0.0005000037706313743,
+            "weighted_contribution_pct": 0.05000037706313743
+          },
+          {
+            "symbol": "XOM",
+            "score": 100.13779126010938,
+            "weight": 0.025,
+            "raw_return": 0.02171197465226049,
+            "raw_return_pct": 2.171197465226049,
+            "weighted_contribution": 0.0005427993663065123,
+            "weighted_contribution_pct": 0.054279936630651233
+          },
+          {
+            "symbol": "EOG",
+            "score": 99.51614260102218,
+            "weight": 0.025,
+            "raw_return": 0.017176474275453657,
+            "raw_return_pct": 1.7176474275453657,
+            "weighted_contribution": 0.00042941185688634144,
+            "weighted_contribution_pct": 0.04294118568863414
+          },
+          {
+            "symbol": "COP",
+            "score": 96.25352666961989,
+            "weight": 0.025,
+            "raw_return": 0.01100477670270239,
+            "raw_return_pct": 1.100477670270239,
+            "weighted_contribution": 0.0002751194175675598,
+            "weighted_contribution_pct": 0.02751194175675598
+          },
+          {
+            "symbol": "APA",
+            "score": 93.69551466685948,
+            "weight": 0.025,
+            "raw_return": -0.0014475204443189504,
+            "raw_return_pct": -0.14475204443189504,
+            "weighted_contribution": -3.618801110797376e-05,
+            "weighted_contribution_pct": -0.003618801110797376
+          },
+          {
+            "symbol": "VRTX",
+            "score": 87.34505877059158,
+            "weight": 0.025,
+            "raw_return": -0.007343561025641043,
+            "raw_return_pct": -0.7343561025641043,
+            "weighted_contribution": -0.0001835890256410261,
+            "weighted_contribution_pct": -0.018358902564102608
+          },
+          {
+            "symbol": "DVN",
+            "score": 84.1430926768426,
+            "weight": 0.025,
+            "raw_return": -0.002640913563006997,
+            "raw_return_pct": -0.2640913563006997,
+            "weighted_contribution": -6.602283907517493e-05,
+            "weighted_contribution_pct": -0.006602283907517493
+          },
+          {
+            "symbol": "FICO",
+            "score": 82.82992899371101,
+            "weight": 0.025,
+            "raw_return": 0.013812037046540881,
+            "raw_return_pct": 1.3812037046540881,
+            "weighted_contribution": 0.00034530092616352206,
+            "weighted_contribution_pct": 0.034530092616352204
+          }
+        ]
+      },
+      "ranking_len_for_date_or_next_date": null,
+      "ranking_summary": {
+        "type": "dict",
+        "len": 6,
+        "keys": [
+          "candidate_count",
+          "candidates",
+          "date",
+          "next_date",
+          "regime",
+          "subclass"
+        ],
+        "sample": [
+          [
+            "date",
+            {
+              "type": "str",
+              "repr": "'2022-02-03'"
+            }
+          ],
+          [
+            "next_date",
+            {
+              "type": "str",
+              "repr": "'2022-02-04'"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "record": {
+        "date": "2022-02-04",
+        "next_date": "2022-02-07",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.00137752313993135,
+        "portfolio_return_pct": 0.137752313993135,
+        "spx_return": -0.003701712641814958,
+        "spx_return_pct": -0.3701712641814958,
+        "holdings": [
+          {
+            "symbol": "HAL",
+            "score": 128.4364950558466,
+            "weight": 0.025,
+            "raw_return": 0.017845862389697098,
+            "raw_return_pct": 1.7845862389697098,
+            "weighted_contribution": 0.00044614655974242745,
+            "weighted_contribution_pct": 0.044614655974242745
+          },
+          {
+            "symbol": "ATI",
+            "score": 123.08878255616204,
+            "weight": 0.025,
+            "raw_return": 0.010127785562650038,
+            "raw_return_pct": 1.0127785562650038,
+            "weighted_contribution": 0.00025319463906625097,
+            "weighted_contribution_pct": 0.0253194639066251
+          },
+          {
+            "symbol": "OXY",
+            "score": 121.1584968983751,
+            "weight": 0.025,
+            "raw_return": 0.004901898710033548,
+            "raw_return_pct": 0.49018987100335476,
+            "weighted_contribution": 0.0001225474677508387,
+            "weighted_contribution_pct": 0.012254746775083869
+          },
+          {
+            "symbol": "XOM",
+            "score": 107.70442402719718,
+            "weight": 0.025,
+            "raw_return": 0.012037908553549137,
+            "raw_return_pct": 1.2037908553549137,
+            "weighted_contribution": 0.00030094771383872845,
+            "weighted_contribution_pct": 0.030094771383872846
+          },
+          {
+            "symbol": "EOG",
+            "score": 100.77036452844237,
+            "weight": 0.025,
+            "raw_return": 0.00870716533303928,
+            "raw_return_pct": 0.870716533303928,
+            "weighted_contribution": 0.000217679133325982,
+            "weighted_contribution_pct": 0.021767913332598202
+          },
+          {
+            "symbol": "COP",
+            "score": 96.18303574112406,
+            "weight": 0.025,
+            "raw_return": 0.011646981341772555,
+            "raw_return_pct": 1.1646981341772555,
+            "weighted_contribution": 0.0002911745335443139,
+            "weighted_contribution_pct": 0.02911745335443139
+          },
+          {
+            "symbol": "APA",
+            "score": 95.91454425737919,
+            "weight": 0.025,
+            "raw_return": -0.011597749377179611,
+            "raw_return_pct": -1.1597749377179611,
+            "weighted_contribution": -0.0002899437344294903,
+            "weighted_contribution_pct": -0.02899437344294903
+          },
+          {
+            "symbol": "FICO",
+            "score": 94.31157584819118,
+            "weight": 0.025,
+            "raw_return": 0.0013544038615080911,
+            "raw_return_pct": 0.1354403861508091,
+            "weighted_contribution": 3.386009653770228e-05,
+            "weighted_contribution_pct": 0.003386009653770228
+          },
+          {
+            "symbol": "VRTX",
+            "score": 83.39410971343165,
+            "weight": 0.025,
+            "raw_return": 0.005372739140315996,
+            "raw_return_pct": 0.5372739140315996,
+            "weighted_contribution": 0.0001343184785078999,
+            "weighted_contribution_pct": 0.01343184785078999
+          },
+          {
+            "symbol": "DVN",
+            "score": 83.00652686463998,
+            "weight": 0.025,
+            "raw_return": -0.00529606991813214,
+            "raw_return_pct": -0.529606991813214,
+            "weighted_contribution": -0.00013240174795330352,
+            "weighted_contribution_pct": -0.013240174795330352
+          }
+        ]
+      },
+      "ranking_len_for_date_or_next_date": null,
+      "ranking_summary": {
+        "type": "dict",
+        "len": 6,
+        "keys": [
+          "candidate_count",
+          "candidates",
+          "date",
+          "next_date",
+          "regime",
+          "subclass"
+        ],
+        "sample": [
+          [
+            "date",
+            {
+              "type": "str",
+              "repr": "'2022-02-04'"
+            }
+          ],
+          [
+            "next_date",
+            {
+              "type": "str",
+              "repr": "'2022-02-07'"
+            }
+          ]
+        ]
+      }
+    }
+  ],
+  "active_samples": [],
+  "source_extract": {
+    "function_heads": {
+      "build_daily_rankings": {
+        "line": 356,
+        "end_line": 398,
+        "source": "def build_daily_rankings(\n    stocks: dict[str, dict[str, Any]],\n    spx: dict[str, Any],\n    regimes: dict[str, dict[str, Any]],\n    intervals: Sequence[tuple[str, str]],\n    config: E1RSidecarConfig,\n) -> dict[str, dict[str, Any]]:\n    rankings: dict[str, dict[str, Any]] = {}\n\n    for date, next_date in intervals:\n        regime_info = regimes.get(date, {})\n        if regime_info.get(\"regime\") != \"SIDEWAYS\":\n            continue\n\n        candidates: list[dict[str, Any]] = []\n\n        for asset in stocks.values():\n            if date not in asset[\"by_date\"] or next_date not in asset[\"by_date\"]:\n                continue\n\n            candidate = score_candidate(asset, spx, date, config)\n            if candidate is None:\n                continue\n\n            one_day_return = close_to_close_return(asset, date, next_date)\n            if one_day_return is None:\n                continue\n\n            candidate[\"one_day_return\"] = one_day_return\n            candidates.append(candidate)\n\n        candidates.sort(key=lambda x: x[\"score\"], reverse=True)\n\n        rankings[date] = {\n            \"date\": date,\n            \"next_date\": next_date,\n            \"regime\": \"SIDEWAYS\",\n            \"subclass\": regime_info.get(\"subclass\") or \"NO_SUBCLASS\",\n            \"candidate_count\": len(candidates),\n            \"candidates\": candidates,\n        }\n\n    return rankings"
+      },
+      "run_daily_rebalanced_sidecar": {
+        "line": 401,
+        "end_line": 470,
+        "source": "def run_daily_rebalanced_sidecar(\n    rankings: dict[str, dict[str, Any]],\n    spx: dict[str, Any],\n    regimes: dict[str, dict[str, Any]],\n    intervals: Sequence[tuple[str, str]],\n    config: E1RSidecarConfig,\n) -> list[dict[str, Any]]:\n    allowed_subclasses = set(config.allowed_subclasses)\n    top_n = int(config.top_n)\n    gross_exposure = float(config.gross_exposure)\n\n    records: list[dict[str, Any]] = []\n\n    for date, next_date in intervals:\n        regime_info = regimes.get(date, {})\n        regime = regime_info.get(\"regime\") or \"NO_REGIME\"\n        subclass = regime_info.get(\"subclass\") or \"NO_SUBCLASS\"\n\n        spx_return = close_to_close_return(spx, date, next_date) or 0.0\n\n        ranked = rankings.get(date, {})\n        candidates = ranked.get(\"candidates\", [])\n\n        is_active = (\n            regime == \"SIDEWAYS\"\n            and subclass in allowed_subclasses\n            and top_n > 0\n            and gross_exposure > 0\n            and bool(candidates)\n        )\n\n        holdings: list[dict[str, Any]] = []\n        portfolio_return = 0.0\n\n        if is_active:\n            selected = candidates[:top_n]\n            weight = gross_exposure / len(selected)\n\n            for candidate in selected:\n                raw_return = candidate[\"one_day_return\"]\n                contribution = weight * raw_return\n                portfolio_return += contribution\n\n                holdings.append({\n                    \"symbol\": candidate[\"symbol\"],\n                    \"score\": candidate[\"score\"],\n                    \"weight\": weight,\n                    \"raw_return\": raw_return,\n                    \"raw_return_pct\": pct_display(raw_return),\n                    \"weighted_contribution\": contribution,\n                    \"weighted_contribution_pct\": pct_display(contribution),\n                })\n\n        records.append({\n            \"date\": date,\n            \"next_date\": next_date,\n            \"regime\": regime,\n            \"subclass\": subclass,\n            \"is_active\": is_active,\n            \"candidate_count\": len(candidates),\n            \"selected_count\": len(holdings),\n            \"gross_exposure\": gross_exposure if is_active else 0.0,\n            \"portfolio_return\": portfolio_return,\n            \"portfolio_return_pct\": pct_display(portfolio_return),\n            \"spx_return\": spx_return,\n            \"spx_return_pct\": pct_display(spx_return),\n            \"holdings\": holdings,\n        })\n\n    return records"
+      },
+      "summarize_sidecar": {
+        "line": 473,
+        "end_line": 535,
+        "source": "def summarize_sidecar(\n    records: Sequence[dict[str, Any]],\n    config: E1RSidecarConfig,\n) -> dict[str, Any]:\n    equity = config.initial_equity\n    equity_curve = [equity]\n\n    daily_returns = [r[\"portfolio_return\"] for r in records]\n    active_records = [r for r in records if r[\"is_active\"]]\n    active_returns = [r[\"portfolio_return\"] for r in active_records]\n    active_spx_returns = [r[\"spx_return\"] for r in active_records]\n\n    for record in records:\n        equity *= 1.0 + record[\"portfolio_return\"]\n        equity_curve.append(equity)\n\n    full_strategy_return = equity_curve[-1] / config.initial_equity - 1.0\n    full_spx_return = compound_return(r[\"spx_return\"] for r in records)\n    active_strategy_return = compound_return(active_returns)\n    active_spx_return = compound_return(active_spx_returns)\n\n    wins = [r for r in active_records if r[\"portfolio_return\"] > 0]\n    losses = [r for r in active_records if r[\"portfolio_return\"] < 0]\n\n    return {\n        \"name\": \"E1R_SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE\",\n        \"allowed_subclasses\": list(config.allowed_subclasses),\n        \"top_n\": config.top_n,\n        \"gross_exposure\": config.gross_exposure,\n        \"excluded_symbols\": list(config.excluded_symbols),\n\n        \"total_days\": len(records),\n        \"active_days\": len(active_records),\n        \"exposure_pct_full_period\": (\n            100.0 * len(active_records) / len(records)\n            if records else None\n        ),\n\n        \"full_period_strategy_return_pct\": pct_display(full_strategy_return),\n        \"full_period_spx_return_pct\": pct_display(full_spx_return),\n        \"full_period_excess_vs_spx_pct\": pct_display(full_strategy_return - full_spx_return),\n\n        \"active_window_strategy_return_pct\": pct_display(active_strategy_return),\n        \"active_window_spx_return_pct\": pct_display(active_spx_return),\n        \"active_window_excess_vs_spx_pct\": pct_display(active_strategy_return - active_spx_return),\n\n        \"max_drawdown_pct\": pct_display(max_drawdown(equity_curve)),\n        \"profit_factor\": profit_factor(daily_returns),\n        \"sharpe\": sharpe_ratio(daily_returns),\n\n        \"active_day_win_rate_pct\": (\n            100.0 * len(wins) / len(active_records)\n            if active_records else None\n        ),\n        \"winning_active_days\": len(wins),\n        \"losing_active_days\": len(losses),\n        \"avg_active_day_return_pct\": pct_display(mean_or_none(active_returns)),\n        \"median_active_day_return_pct\": pct_display(median_or_none(active_returns)),\n\n        \"trade_count_approx\": sum(len(r[\"holdings\"]) for r in active_records),\n        \"equity_start\": config.initial_equity,\n        \"equity_end\": equity_curve[-1],\n    }"
+      },
+      "build_e1r_sidecar_sleeve": {
+        "line": 538,
+        "end_line": 594,
+        "source": "def build_e1r_sidecar_sleeve(\n    stock_dir: Path,\n    spx_path: Path,\n    regime_path: Path,\n    config: E1RSidecarConfig,\n) -> dict[str, Any]:\n    spx = load_asset(spx_path)\n    regimes = load_regimes(regime_path)\n    stocks, excluded_found = load_stock_universe(stock_dir, config)\n\n    intervals = build_backtest_intervals(spx, regimes, config)\n    rankings = build_daily_rankings(stocks, spx, regimes, intervals, config)\n    records = run_daily_rebalanced_sidecar(rankings, spx, regimes, intervals, config)\n    summary = summarize_sidecar(records, config)\n\n    regime_counts: dict[str, int] = {}\n    subclass_counts: dict[str, int] = {}\n\n    for record in records:\n        regime = record[\"regime\"]\n        subclass = record[\"subclass\"]\n        regime_counts[regime] = regime_counts.get(regime, 0) + 1\n        if regime == \"SIDEWAYS\":\n            subclass_counts[subclass] = subclass_counts.get(subclass, 0) + 1\n\n    return {\n        \"engine\": \"e1r_sidecar_sleeve\",\n        \"version\": \"v0.2_formal_sleeve_engine\",\n        \"config\": {\n            \"start_date\": config.start_date,\n            \"end_date\": config.end_date,\n            \"allowed_subclasses\": list(config.allowed_subclasses),\n            \"top_n\": config.top_n,\n            \"gross_exposure\": config.gross_exposure,\n            \"min_history_days\": config.min_history_days,\n            \"min_price\": config.min_price,\n            \"initial_equity\": config.initial_equity,\n            \"excluded_symbols\": list(config.excluded_symbols),\n        },\n        \"sample\": {\n            \"intervals\": len(intervals),\n            \"first_interval\": {\n                \"date\": intervals[0][0],\n                \"next_date\": intervals[0][1],\n            } if intervals else None,\n            \"last_interval\": {\n                \"date\": intervals[-1][0],\n                \"next_date\": intervals[-1][1],\n            } if intervals else None,\n            \"stock_universe_after_exclusions\": len(stocks),\n            \"excluded_symbols_found_in_raw_data\": excluded_found,\n            \"regime_counts\": regime_counts,\n            \"sideways_subclass_counts\": subclass_counts,\n        },\n        \"summary\": summary,\n        \"records\": records,\n    }"
+      }
+    },
+    "activation_lines": [
+      {
+        "line": 10,
+        "terms": [
+          "MA_CONFLICT"
+        ],
+        "text": "- Active only in SIDEWAYS:MA_CONFLICT."
+      },
+      {
+        "line": 44,
+        "terms": [
+          "allowed_subclasses",
+          "MA_CONFLICT",
+          "subclass"
+        ],
+        "text": "    allowed_subclasses: tuple[str, ...] = (\"MA_CONFLICT\",)"
+      },
+      {
+        "line": 45,
+        "terms": [
+          "top_n"
+        ],
+        "text": "    top_n: int = 10"
+      },
+      {
+        "line": 46,
+        "terms": [
+          "gross_exposure"
+        ],
+        "text": "    gross_exposure: float = 0.25"
+      },
+      {
+        "line": 47,
+        "terms": [
+          "min_history"
+        ],
+        "text": "    min_history_days: int = 200"
+      },
+      {
+        "line": 48,
+        "terms": [
+          "min_price"
+        ],
+        "text": "    min_price: float = 5.0"
+      },
+      {
+        "line": 134,
+        "terms": [
+          "continue"
+        ],
+        "text": "            continue"
+      },
+      {
+        "line": 172,
+        "terms": [
+          "continue"
+        ],
+        "text": "            continue"
+      },
+      {
+        "line": 174,
+        "terms": [
+          "min_history"
+        ],
+        "text": "        if len(asset[\"bars\"]) < config.min_history_days:"
+      },
+      {
+        "line": 175,
+        "terms": [
+          "continue"
+        ],
+        "text": "            continue"
+      },
+      {
+        "line": 275,
+        "terms": [
+          "min_price"
+        ],
+        "text": "    if close is None or close < config.min_price:"
+      },
+      {
+        "line": 356,
+        "terms": [
+          "rankings"
+        ],
+        "text": "def build_daily_rankings("
+      },
+      {
+        "line": 363,
+        "terms": [
+          "rankings"
+        ],
+        "text": "    rankings: dict[str, dict[str, Any]] = {}"
+      },
+      {
+        "line": 368,
+        "terms": [
+          "continue"
+        ],
+        "text": "            continue"
+      },
+      {
+        "line": 374,
+        "terms": [
+          "continue"
+        ],
+        "text": "                continue"
+      },
+      {
+        "line": 378,
+        "terms": [
+          "continue"
+        ],
+        "text": "                continue"
+      },
+      {
+        "line": 382,
+        "terms": [
+          "continue"
+        ],
+        "text": "                continue"
+      },
+      {
+        "line": 389,
+        "terms": [
+          "rankings"
+        ],
+        "text": "        rankings[date] = {"
+      },
+      {
+        "line": 393,
+        "terms": [
+          "subclass"
+        ],
+        "text": "            \"subclass\": regime_info.get(\"subclass\") or \"NO_SUBCLASS\","
+      },
+      {
+        "line": 398,
+        "terms": [
+          "rankings"
+        ],
+        "text": "    return rankings"
+      },
+      {
+        "line": 402,
+        "terms": [
+          "rankings"
+        ],
+        "text": "    rankings: dict[str, dict[str, Any]],"
+      },
+      {
+        "line": 408,
+        "terms": [
+          "allowed_subclasses",
+          "subclass"
+        ],
+        "text": "    allowed_subclasses = set(config.allowed_subclasses)"
+      },
+      {
+        "line": 409,
+        "terms": [
+          "top_n"
+        ],
+        "text": "    top_n = int(config.top_n)"
+      },
+      {
+        "line": 410,
+        "terms": [
+          "gross_exposure"
+        ],
+        "text": "    gross_exposure = float(config.gross_exposure)"
+      },
+      {
+        "line": 417,
+        "terms": [
+          "subclass"
+        ],
+        "text": "        subclass = regime_info.get(\"subclass\") or \"NO_SUBCLASS\""
+      },
+      {
+        "line": 421,
+        "terms": [
+          "rankings"
+        ],
+        "text": "        ranked = rankings.get(date, {})"
+      },
+      {
+        "line": 426,
+        "terms": [
+          "allowed_subclasses",
+          "subclass"
+        ],
+        "text": "            and subclass in allowed_subclasses"
+      },
+      {
+        "line": 427,
+        "terms": [
+          "top_n"
+        ],
+        "text": "            and top_n > 0"
+      },
+      {
+        "line": 428,
+        "terms": [
+          "gross_exposure"
+        ],
+        "text": "            and gross_exposure > 0"
+      },
+      {
+        "line": 436,
+        "terms": [
+          "selected",
+          "top_n"
+        ],
+        "text": "            selected = candidates[:top_n]"
+      },
+      {
+        "line": 437,
+        "terms": [
+          "selected",
+          "gross_exposure"
+        ],
+        "text": "            weight = gross_exposure / len(selected)"
+      },
+      {
+        "line": 439,
+        "terms": [
+          "selected"
+        ],
+        "text": "            for candidate in selected:"
+      },
+      {
+        "line": 458,
+        "terms": [
+          "subclass"
+        ],
+        "text": "            \"subclass\": subclass,"
+      },
+      {
+        "line": 461,
+        "terms": [
+          "selected"
+        ],
+        "text": "            \"selected_count\": len(holdings),"
+      },
+      {
+        "line": 462,
+        "terms": [
+          "gross_exposure"
+        ],
+        "text": "            \"gross_exposure\": gross_exposure if is_active else 0.0,"
+      },
+      {
+        "line": 498,
+        "terms": [
+          "MA_CONFLICT"
+        ],
+        "text": "        \"name\": \"E1R_SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE\","
+      },
+      {
+        "line": 499,
+        "terms": [
+          "allowed_subclasses",
+          "subclass"
+        ],
+        "text": "        \"allowed_subclasses\": list(config.allowed_subclasses),"
+      },
+      {
+        "line": 500,
+        "terms": [
+          "top_n"
+        ],
+        "text": "        \"top_n\": config.top_n,"
+      },
+      {
+        "line": 501,
+        "terms": [
+          "gross_exposure"
+        ],
+        "text": "        \"gross_exposure\": config.gross_exposure,"
+      },
+      {
+        "line": 549,
+        "terms": [
+          "rankings"
+        ],
+        "text": "    rankings = build_daily_rankings(stocks, spx, regimes, intervals, config)"
+      },
+      {
+        "line": 550,
+        "terms": [
+          "rankings"
+        ],
+        "text": "    records = run_daily_rebalanced_sidecar(rankings, spx, regimes, intervals, config)"
+      },
+      {
+        "line": 554,
+        "terms": [
+          "subclass"
+        ],
+        "text": "    subclass_counts: dict[str, int] = {}"
+      },
+      {
+        "line": 558,
+        "terms": [
+          "subclass"
+        ],
+        "text": "        subclass = record[\"subclass\"]"
+      },
+      {
+        "line": 561,
+        "terms": [
+          "subclass"
+        ],
+        "text": "            subclass_counts[subclass] = subclass_counts.get(subclass, 0) + 1"
+      },
+      {
+        "line": 569,
+        "terms": [
+          "allowed_subclasses",
+          "subclass"
+        ],
+        "text": "            \"allowed_subclasses\": list(config.allowed_subclasses),"
+      },
+      {
+        "line": 570,
+        "terms": [
+          "top_n"
+        ],
+        "text": "            \"top_n\": config.top_n,"
+      },
+      {
+        "line": 571,
+        "terms": [
+          "gross_exposure"
+        ],
+        "text": "            \"gross_exposure\": config.gross_exposure,"
+      },
+      {
+        "line": 572,
+        "terms": [
+          "min_history"
+        ],
+        "text": "            \"min_history_days\": config.min_history_days,"
+      },
+      {
+        "line": 573,
+        "terms": [
+          "min_price"
+        ],
+        "text": "            \"min_price\": config.min_price,"
+      },
+      {
+        "line": 590,
+        "terms": [
+          "subclass"
+        ],
+        "text": "            \"sideways_subclass_counts\": subclass_counts,"
+      }
+    ]
+  },
+  "strategy_files_unchanged": true,
+  "canonical_existence_unchanged": true,
+  "diagnosis": [
+    "records_count=1260; subclass_counts={'NO_SUBCLASS': 1019, 'MA_CONFLICT': 135, 'DETERIORATION_TRANSITION': 63, 'RECOVERY_TRANSITION': 43}; active_by_subclass={}.",
+    "raw_record_keys=['candidate_count', 'date', 'gross_exposure', 'holdings', 'is_active', 'next_date', 'portfolio_return', 'portfolio_return_pct', 'regime', 'selected_count', 'spx_return', 'spx_return_pct', 'subclass'].",
+    "selected_key_counter={'holdings': 1350}.",
+    "MA_CONFLICT ranking stats={'rankings_summary': {'type': 'dict', 'len': 241, 'keys': ['2022-01-24', '2022-01-25', '2022-01-26', '2022-01-27', '2022-01-28', '2022-01-31', '2022-02-01', '2022-02-02', '2022-02-03', '2022-02-04', '2022-02-14', '2022-02-15', '2022-02-16', '2022-02-17', '2022-02-18', '2022-02-22', '2022-02-23', '2022-02-24', '2022-02-25', '2022-02-28', '2022-03-01', '2022-03-02', '2022-03-03', '2022-03-04', '2022-03-07', '2022-03-08', '2022-03-09', '2022-03-10', '2022-03-11', '2022-03-14', '2022-03-15', '2022-03-16', '2022-03-17', '2022-03-18', '2022-03-21', '2022-03-22', '2022-03-23', '2022-03-24', '2022-03-25', '2022-03-28', '2022-03-29', '2022-03-30', '2022-03-31', '2022-04-01', '2022-04-04', '2022-04-05', '2022-04-06', '2022-04-07', '2022-04-08', '2022-04-11', '2022-04-12', '2022-04-13', '2022-04-14', '2022-04-18', '2022-04-19', '2022-04-20', '2022-04-21', '2022-04-22', '2022-04-25', '2022-04-26', '2022-04-27', '2022-04-28', '2022-04-29', '2022-05-02', '2022-05-03', '2022-05-04', '2022-05-05', '2022-05-06', '2022-05-09', '2022-05-10', '2022-05-11', '2022-05-12', '2022-05-13', '2022-05-16', '2022-05-17', '2022-05-18', '2022-05-19', '2022-05-20', '2022-12-05', '2022-12-06'], 'sample': [['2022-01-24', {'type': 'dict', 'len': 6, 'keys': ['candidate_count', 'candidates', 'date', 'next_date', 'regime', 'subclass'], 'sample': [['date', {'type': 'str', 'repr': \"'2022-01-24'\"}]]}], ['2022-01-25', {'type': 'dict', 'len': 6, 'keys': ['candidate_count', 'candidates', 'date', 'next_date', 'regime', 'subclass'], 'sample': [['date', {'type': 'str', 'repr': \"'2022-01-25'\"}]]}], ['2022-01-26', {'type': 'dict', 'len': 6, 'keys': ['candidate_count', 'candidates', 'date', 'next_date', 'regime', 'subclass'], 'sample': [['date', {'type': 'str', 'repr': \"'2022-01-26'\"}]]}]]}, 'ma_conflict_intervals': 135, 'ma_conflict_ranking_count_known': 0, 'ma_conflict_ranking_min': None, 'ma_conflict_ranking_max': None, 'ma_conflict_ranking_zero_count': 0, 'ma_conflict_ranking_unknown_count': 135}.",
+    "MA_CONFLICT rankings are empty/unknown; likely ranking construction or date key mismatch blocks sidecar selection."
+  ],
+  "next_stage": {
+    "name": "Stage 3.8E-2F-2C-4C-10F-4A-3",
+    "title": "Patch sidecar export wrapper based on activation contract",
+    "recommended_action": "Use this probe to determine whether the wrapper needs date-key adaptation, selected-field adaptation, or explicit config. Do not modify frozen sidecar logic."
+  }
+}
