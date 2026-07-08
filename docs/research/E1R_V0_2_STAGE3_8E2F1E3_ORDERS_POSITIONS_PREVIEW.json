@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-07-08T07:07:28.620070+00:00",
+  "stage": "B_STAGE_3_8E2F1E3_E1R_ORDERS_POSITIONS_PREVIEW",
+  "status": "IMPLEMENTED_ORDERS_POSITIONS_PREVIEW_ONLY",
+  "policy": {
+    "official_orders_overwritten": false,
+    "official_positions_overwritten": false,
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false,
+    "e1_state_changed": false,
+    "e1_exports_changed": false,
+    "strategy_logic_changed": false,
+    "dashboard_changed": false
+  },
+  "outputs": {
+    "orders_preview": "exports/oos_e1r_v0_2_orders_preview.json",
+    "positions_preview": "exports/oos_e1r_v0_2_positions_preview.json"
+  },
+  "snapshot": {
+    "status_date": "2026-06-18",
+    "orders": 10,
+    "positions": 10,
+    "buy_orders": 10,
+    "position_weight_sum": 0.24999999999999997,
+    "order_abs_delta_sum": 0.24999999999999997
+  },
+  "next_stage": {
+    "stage": "3.8E-2F-1E-4",
+    "purpose": "Promote accepted preview into official E1R paper orders/positions exports."
+  }
+}
