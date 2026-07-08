@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-08T08:46:16.991817+00:00",
+  "generated_at": "2026-07-08T09:01:53.856031+00:00",
   "stage": "B_STAGE_3_8E2F2C3B_E1R_TRADE_LOG_PATCH",
   "status": "IMPLEMENTED_DASHBOARD_PATCH",
   "files_changed": [
     "dashboard/app.js"
   ],
-  "removed_bulky_visible_panel_call": true,
+  "removed_bulky_visible_panel_call": false,
   "added": "Trade Log — E1R Forward Paper",
-  "insertion_anchor": "Market State",
+  "insertion_anchor": "existing_call",
   "data_sources": [
     "exports/oos_e1r_v0_2_orders.json",
     "exports/oos_e1r_v0_2_positions.json"

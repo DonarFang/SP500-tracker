@@ -1,6 +1,6 @@
 # Stage 3.8E-2F-2C-3B E1R Trade Log Patch
 
-Generated At: `2026-07-08T08:46:16.991817+00:00`
+Generated At: `2026-07-08T09:01:53.856031+00:00`
 
 ## Status
 
@@ -15,7 +15,7 @@ Generated At: `2026-07-08T08:46:16.991817+00:00`
 
 ## UI Change
 
-- Removed bulky visible panel call: `True`
+- Removed bulky visible panel call: `False`
 - Added `Trade Log — E1R Forward Paper`.
 
 ## Data Sources
