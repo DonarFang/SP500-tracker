@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-07-08T05:28:00.979737+00:00",
+  "stage": "B_STAGE_3_8E2B_NATIVE_SUMMARY_COMPARISON_INTEGRATION",
+  "status": "IMPLEMENTED_SUMMARY_INTEGRATION_ONLY",
+  "main": {
+    "branch": "main",
+    "head_before": "c1a7e46"
+  },
+  "policy": {
+    "strategy_logic_changed": false,
+    "exports_changed": false,
+    "equity_curve_changed": false,
+    "trade_log_changed": false,
+    "market_state_changed": false,
+    "native_render_path_only": true,
+    "global_runtime_module_added": false
+  },
+  "changes": {
+    "legacy_e1r_function_replaced_with_stub": true,
+    "old_e1_only_summary_cards_removed": true,
+    "unified_e1_e1r_summary_added": true,
+    "daily_oos_summary_fetches_added": true,
+    "cache_busted_index_assets": true
+  },
+  "data_sources": {
+    "e1_historical": "DATA.backtest -> E1_AUDITED_G4_MINHOLD10",
+    "e1_forward_daily": "exports/oos_summary.json via DATA.oosSummaryNative",
+    "e1r_historical": "exports/e1r_v0_2_backtest_summary.json via DATA.e1rV02BacktestSummary",
+    "e1r_forward_daily": "exports/oos_e1r_v0_2_summary.json via DATA.e1rV02OosSummary"
+  },
+  "untouched_blocks_validated": {
+    "equity_curve": true,
+    "trade_log": true,
+    "market_state": true
+  },
+  "removed_blocks": {
+    "legacy_e1r_function_chars": 3721,
+    "old_e1_header_chars": 3256,
+    "old_e1_cards_chars": 1051
+  },
+  "validation": {
+    "node_check": {
+      "node_available": false,
+      "status": "BASIC_PREWRITE_VALIDATION_ONLY"
+    },
+    "legacy_e1r_summary_absent": true,
+    "old_e1_freeze_banner_absent": true,
+    "unified_summary_present": true,
+    "trade_log_present": true,
+    "market_state_present": true,
+    "stage_3_8b_markers_absent": true
+  },
+  "acceptance_criteria": [
+    "Original 5 tabs remain visible.",
+    "Research & Backtest shows one unified E1 vs E1R summary comparison.",
+    "Legacy E1-R Research Summary block is gone.",
+    "Old standalone E1 metric cards are gone.",
+    "Equity curve remains as before in this stage.",
+    "Trade Log remains visible.",
+    "Market State remains below Trade Log."
+  ],
+  "next_stage": "Browser acceptance. If clean, Stage 3.8E-2C will fix equity curve mapping separately."
+}
