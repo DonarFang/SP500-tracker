@@ -1,0 +1,4126 @@
+{
+  "generated_at": "2026-07-08T10:33:11.881327+00:00",
+  "stage": "B_STAGE_3_8E2F2C4C4_GENERATOR_INTERNALS_EXPORT_WRAPPER_PROTOTYPE",
+  "status": "INSPECTION_COMPLETE_PROTOTYPE_PLAN_DEFINED_NO_SOURCE_CHANGES",
+  "policy": {
+    "dashboard_changed": false,
+    "exports_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "long_backtest_run": false
+  },
+  "inspection": {
+    "src/engine/e1r_composer.py": {
+      "exists": true,
+      "python": true,
+      "ast_valid": true,
+      "functions": [
+        {
+          "name": "safe_float",
+          "line": 31,
+          "args": [
+            "value"
+          ],
+          "returns": "Optional[float]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "pct_display",
+          "line": 43,
+          "args": [
+            "decimal_return"
+          ],
+          "returns": "Optional[float]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "compound_return",
+          "line": 47,
+          "args": [
+            "returns"
+          ],
+          "returns": "float",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "max_drawdown",
+          "line": 55,
+          "args": [
+            "equity_values"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "sharpe_ratio",
+          "line": 70,
+          "args": [
+            "daily_returns"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "profit_factor",
+          "line": 82,
+          "args": [
+            "daily_returns"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "extract_core_interval_returns",
+          "line": 94,
+          "args": [
+            "core_daily_equity_records",
+            "sidecar_records"
+          ],
+          "returns": "list[dict[str, Any]]",
+          "is_key": true,
+          "doc": "Align core daily returns to sidecar intervals by next_date.\n\nReturns one record per shared interval:\n{\n  date,\n  next_date,\n  core_return,\n  sidecar_return,\n  spx_return,\n  ...\n}"
+        },
+        {
+          "name": "build_equity_records_from_returns",
+          "line": 171,
+          "args": [
+            "interval_records",
+            "initial_equity"
+          ],
+          "returns": "list[dict[str, Any]]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "summarize_combined_variant",
+          "line": 214,
+          "args": [
+            "interval_records",
+            "equity_records",
+            "initial_equity"
+          ],
+          "returns": "dict[str, Any]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "compose_e1r_v0_2_variant",
+          "line": 283,
+          "args": [
+            "core_variant_result",
+            "sidecar_result",
+            "initial_equity"
+          ],
+          "returns": "dict[str, Any]",
+          "is_key": false,
+          "doc": null
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "line": 23,
+          "text": "from __future__ import annotations"
+        },
+        {
+          "line": 25,
+          "text": "import copy"
+        },
+        {
+          "line": 26,
+          "text": "import math"
+        },
+        {
+          "line": 27,
+          "text": "from statistics import mean, pstdev"
+        },
+        {
+          "line": 28,
+          "text": "from typing import Any, Optional, Sequence"
+        }
+      ],
+      "assignments": [
+        {
+          "line": 59,
+          "target": "peak",
+          "value": "equity_values[0]"
+        },
+        {
+          "line": 175,
+          "target": "equity",
+          "value": "initial_equity"
+        },
+        {
+          "line": 176,
+          "target": "peak",
+          "value": "initial_equity"
+        },
+        {
+          "line": 224,
+          "target": "equity_curve",
+          "value": "[initial_equity] + [safe_float(r.get('equity')) or initial_equity for r in equity_records]"
+        },
+        {
+          "line": 288,
+          "target": "core_records",
+          "value": "core_variant_result.get('daily_equity_records', [])"
+        },
+        {
+          "line": 292,
+          "target": "equity_records",
+          "value": "build_equity_records_from_returns(interval_records, initial_equity)"
+        },
+        {
+          "line": 293,
+          "target": "summary",
+          "value": "summarize_combined_variant(interval_records, equity_records, initial_equity)"
+        },
+        {
+          "line": 182,
+          "target": "peak",
+          "value": "max(peak, equity)"
+        },
+        {
+          "line": 184,
+          "target": "drawdown",
+          "value": "equity / peak - 1.0 if peak > 0 else 0.0"
+        }
+      ],
+      "term_hits": [
+        {
+          "line": 5,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_1"
+          ],
+          "text": "- E1R_REGIME_AWARE_V0_1 core daily equity records"
+        },
+        {
+          "line": 9,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_2"
+          ],
+          "text": "- E1R_REGIME_AWARE_V0_2 formal combined daily equity records"
+        },
+        {
+          "line": 94,
+          "terms": [
+            "extract_core_interval_returns"
+          ],
+          "text": "def extract_core_interval_returns("
+        },
+        {
+          "line": 95,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "    core_daily_equity_records: Sequence[dict[str, Any]],"
+        },
+        {
+          "line": 113,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "    for row in core_daily_equity_records:"
+        },
+        {
+          "line": 164,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "            \"sidecar_gross_exposure\": sidecar.get(\"gross_exposure\"),"
+        },
+        {
+          "line": 171,
+          "terms": [
+            "build_equity_records_from_returns"
+          ],
+          "text": "def build_equity_records_from_returns("
+        },
+        {
+          "line": 208,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "            \"sidecar_gross_exposure\": row.get(\"sidecar_gross_exposure\"),"
+        },
+        {
+          "line": 224,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "    equity_curve = [initial_equity] + ["
+        },
+        {
+          "line": 260,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "        \"max_drawdown_pct\": abs(pct_display(max_drawdown(equity_curve)) or 0.0),"
+        },
+        {
+          "line": 268,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "        \"daily_equity_record_count\": len(equity_records),"
+        },
+        {
+          "line": 288,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "    core_records = core_variant_result.get(\"daily_equity_records\", [])"
+        },
+        {
+          "line": 291,
+          "terms": [
+            "extract_core_interval_returns"
+          ],
+          "text": "    interval_records = extract_core_interval_returns(core_records, sidecar_records)"
+        },
+        {
+          "line": 292,
+          "terms": [
+            "build_equity_records_from_returns"
+          ],
+          "text": "    equity_records = build_equity_records_from_returns(interval_records, initial_equity)"
+        },
+        {
+          "line": 300,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_2"
+          ],
+          "text": "        \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\","
+        },
+        {
+          "line": 312,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_1"
+          ],
+          "text": "            \"core_variant\": \"E1R_REGIME_AWARE_V0_1\","
+        },
+        {
+          "line": 322,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "        \"daily_equity_records\": equity_records,"
+        },
+        {
+          "line": 323,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "        \"daily_equity_record_count\": len(equity_records),"
+        },
+        {
+          "line": 353,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_1"
+          ],
+          "text": "        \"e1r_v0_2_core_variant\": \"E1R_REGIME_AWARE_V0_1\","
+        },
+        {
+          "line": 356,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "        \"e1r_v0_2_sidecar_gross_exposure\": sidecar_result.get(\"config\", {}).get(\"gross_exposure\"),"
+        }
+      ],
+      "path_literals": [],
+      "key_functions": [
+        {
+          "name": "compound_return",
+          "line": 47,
+          "args": [
+            "returns"
+          ],
+          "returns": "float",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "max_drawdown",
+          "line": 55,
+          "args": [
+            "equity_values"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "sharpe_ratio",
+          "line": 70,
+          "args": [
+            "daily_returns"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "profit_factor",
+          "line": 82,
+          "args": [
+            "daily_returns"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "extract_core_interval_returns",
+          "line": 94,
+          "args": [
+            "core_daily_equity_records",
+            "sidecar_records"
+          ],
+          "returns": "list[dict[str, Any]]",
+          "is_key": true,
+          "doc": "Align core daily returns to sidecar intervals by next_date.\n\nReturns one record per shared interval:\n{\n  date,\n  next_date,\n  core_return,\n  sidecar_return,\n  spx_return,\n  ...\n}"
+        },
+        {
+          "name": "build_equity_records_from_returns",
+          "line": 171,
+          "args": [
+            "interval_records",
+            "initial_equity"
+          ],
+          "returns": "list[dict[str, Any]]",
+          "is_key": true,
+          "doc": null
+        }
+      ]
+    },
+    "src/engine/e1r_sidecar_sleeve.py": {
+      "exists": true,
+      "python": true,
+      "ast_valid": true,
+      "functions": [
+        {
+          "name": "safe_float",
+          "line": 53,
+          "args": [
+            "value"
+          ],
+          "returns": "Optional[float]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "pct_display",
+          "line": 65,
+          "args": [
+            "decimal_return"
+          ],
+          "returns": "Optional[float]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "compound_return",
+          "line": 69,
+          "args": [
+            "returns"
+          ],
+          "returns": "float",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "mean_or_none",
+          "line": 77,
+          "args": [
+            "values"
+          ],
+          "returns": "Optional[float]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "median_or_none",
+          "line": 82,
+          "args": [
+            "values"
+          ],
+          "returns": "Optional[float]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "max_drawdown",
+          "line": 87,
+          "args": [
+            "equity_values"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "sharpe_ratio",
+          "line": 102,
+          "args": [
+            "daily_returns"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "profit_factor",
+          "line": 114,
+          "args": [
+            "daily_returns"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "load_asset",
+          "line": 126,
+          "args": [
+            "path"
+          ],
+          "returns": "dict[str, Any]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "load_stock_universe",
+          "line": 158,
+          "args": [
+            "stock_dir",
+            "config"
+          ],
+          "returns": "tuple[dict[str, dict[str, Any]], list[str]]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "load_regimes",
+          "line": 182,
+          "args": [
+            "path"
+          ],
+          "returns": "dict[str, dict[str, Any]]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "history_closes",
+          "line": 192,
+          "args": [
+            "asset",
+            "date",
+            "length"
+          ],
+          "returns": "Optional[list[float]]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "moving_average",
+          "line": 199,
+          "args": [
+            "values",
+            "length"
+          ],
+          "returns": "Optional[float]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "slope_pct",
+          "line": 208,
+          "args": [
+            "values",
+            "periods"
+          ],
+          "returns": "Optional[float]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "drawdown_from_high_pct",
+          "line": 221,
+          "args": [
+            "values"
+          ],
+          "returns": "Optional[float]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "close_to_close_return",
+          "line": 234,
+          "args": [
+            "asset",
+            "date",
+            "next_date"
+          ],
+          "returns": "Optional[float]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "score_candidate",
+          "line": 254,
+          "args": [
+            "asset",
+            "spx",
+            "date",
+            "config"
+          ],
+          "returns": "Optional[dict[str, Any]]",
+          "is_key": false,
+          "doc": "Formal copy of the validated research S4 opportunity score.\n\nScore:\n  2.0 * RS20 vs SPX\n+ 1.0 * RS60 vs SPX\n+ 0.5 * 20d momentum\n+ 0.25 * 60d momentum\n+ 3.0 * trend_points\n+ 0.2 * 60d drawdown from high"
+        },
+        {
+          "name": "build_backtest_intervals",
+          "line": 342,
+          "args": [
+            "spx",
+            "regimes",
+            "config"
+          ],
+          "returns": "list[tuple[str, str]]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "build_daily_rankings",
+          "line": 356,
+          "args": [
+            "stocks",
+            "spx",
+            "regimes",
+            "intervals",
+            "config"
+          ],
+          "returns": "dict[str, dict[str, Any]]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "run_daily_rebalanced_sidecar",
+          "line": 401,
+          "args": [
+            "rankings",
+            "spx",
+            "regimes",
+            "intervals",
+            "config"
+          ],
+          "returns": "list[dict[str, Any]]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "summarize_sidecar",
+          "line": 473,
+          "args": [
+            "records",
+            "config"
+          ],
+          "returns": "dict[str, Any]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "build_e1r_sidecar_sleeve",
+          "line": 538,
+          "args": [
+            "stock_dir",
+            "spx_path",
+            "regime_path",
+            "config"
+          ],
+          "returns": "dict[str, Any]",
+          "is_key": false,
+          "doc": null
+        }
+      ],
+      "classes": [
+        {
+          "name": "E1RSidecarConfig",
+          "line": 41,
+          "bases": []
+        }
+      ],
+      "imports": [
+        {
+          "line": 30,
+          "text": "from __future__ import annotations"
+        },
+        {
+          "line": 32,
+          "text": "import json"
+        },
+        {
+          "line": 33,
+          "text": "import math"
+        },
+        {
+          "line": 34,
+          "text": "from dataclasses import dataclass"
+        },
+        {
+          "line": 35,
+          "text": "from pathlib import Path"
+        },
+        {
+          "line": 36,
+          "text": "from statistics import mean, median, pstdev"
+        },
+        {
+          "line": 37,
+          "text": "from typing import Any, Iterable, Optional, Sequence"
+        }
+      ],
+      "assignments": [
+        {
+          "line": 91,
+          "target": "peak",
+          "value": "equity_values[0]"
+        },
+        {
+          "line": 127,
+          "target": "raw",
+          "value": "json.loads(path.read_text())"
+        },
+        {
+          "line": 183,
+          "target": "raw",
+          "value": "json.loads(path.read_text())"
+        },
+        {
+          "line": 477,
+          "target": "equity",
+          "value": "config.initial_equity"
+        },
+        {
+          "line": 478,
+          "target": "equity_curve",
+          "value": "[equity]"
+        },
+        {
+          "line": 489,
+          "target": "full_strategy_return",
+          "value": "equity_curve[-1] / config.initial_equity - 1.0"
+        },
+        {
+          "line": 491,
+          "target": "active_strategy_return",
+          "value": "compound_return(active_returns)"
+        },
+        {
+          "line": 544,
+          "target": "spx",
+          "value": "load_asset(spx_path)"
+        },
+        {
+          "line": 545,
+          "target": "regimes",
+          "value": "load_regimes(regime_path)"
+        },
+        {
+          "line": 548,
+          "target": "intervals",
+          "value": "build_backtest_intervals(spx, regimes, config)"
+        },
+        {
+          "line": 167,
+          "target": "asset",
+          "value": "load_asset(path)"
+        }
+      ],
+      "term_hits": [
+        {
+          "line": 6,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_2"
+          ],
+          "text": "Formal engine module for E1R_REGIME_AWARE_V0_2 sidecar sleeve."
+        },
+        {
+          "line": 22,
+          "terms": [
+            "E1_AUDITED_G4_MINHOLD10"
+          ],
+          "text": "- E1_AUDITED_G4_MINHOLD10"
+        },
+        {
+          "line": 23,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_1"
+          ],
+          "text": "- E1R_REGIME_AWARE_V0_1 core"
+        },
+        {
+          "line": 46,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "    gross_exposure: float = 0.25"
+        },
+        {
+          "line": 410,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "    gross_exposure = float(config.gross_exposure)"
+        },
+        {
+          "line": 428,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "            and gross_exposure > 0"
+        },
+        {
+          "line": 437,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "            weight = gross_exposure / len(selected)"
+        },
+        {
+          "line": 462,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "            \"gross_exposure\": gross_exposure if is_active else 0.0,"
+        },
+        {
+          "line": 478,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "    equity_curve = [equity]"
+        },
+        {
+          "line": 487,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "        equity_curve.append(equity)"
+        },
+        {
+          "line": 489,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "    full_strategy_return = equity_curve[-1] / config.initial_equity - 1.0"
+        },
+        {
+          "line": 501,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "        \"gross_exposure\": config.gross_exposure,"
+        },
+        {
+          "line": 519,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "        \"max_drawdown_pct\": pct_display(max_drawdown(equity_curve)),"
+        },
+        {
+          "line": 534,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "        \"equity_end\": equity_curve[-1],"
+        },
+        {
+          "line": 571,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "            \"gross_exposure\": config.gross_exposure,"
+        }
+      ],
+      "path_literals": [
+        "*.json"
+      ],
+      "key_functions": [
+        {
+          "name": "compound_return",
+          "line": 69,
+          "args": [
+            "returns"
+          ],
+          "returns": "float",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "max_drawdown",
+          "line": 87,
+          "args": [
+            "equity_values"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "sharpe_ratio",
+          "line": 102,
+          "args": [
+            "daily_returns"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "profit_factor",
+          "line": 114,
+          "args": [
+            "daily_returns"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        }
+      ]
+    },
+    "src/engine/backtest.py": {
+      "exists": true,
+      "python": true,
+      "ast_valid": true,
+      "functions": [
+        {
+          "name": "is_broken_trend",
+          "line": 104,
+          "args": [
+            "trend_state"
+          ],
+          "returns": "bool",
+          "is_key": false,
+          "doc": "判断趋势状态是否为 Broken。\n防御性实现：兼容 trend_lifecycle() 返回值的细微变化。"
+        },
+        {
+          "name": "forward_return",
+          "line": 115,
+          "args": [
+            "prices",
+            "t",
+            "days"
+          ],
+          "returns": "float | None",
+          "is_key": false,
+          "doc": "计算 t 日后 days 天的收益率。"
+        },
+        {
+          "name": "_rebuild_leader_score",
+          "line": 124,
+          "args": [
+            "prices",
+            "spx_prices",
+            "all_stocks_prices",
+            "t"
+          ],
+          "returns": "dict | None",
+          "is_key": false,
+          "doc": "在时间点 t 重建该股票的所有指标（无前视偏差）。"
+        },
+        {
+          "name": "run_leader_engine_validation",
+          "line": 176,
+          "args": [
+            "symbols",
+            "prices_map",
+            "spx_prices",
+            "forward_days",
+            "step",
+            "min_history"
+          ],
+          "returns": "dict",
+          "is_key": false,
+          "doc": "Layer A: Leader Score Bucket Analysis\n\n对每个时间点 t，计算所有股票的 Leader Score，\n分5个桶，测量前向收益。"
+        },
+        {
+          "name": "run_trade_rule_validation",
+          "line": 313,
+          "args": [
+            "symbols",
+            "prices_map",
+            "spx_prices",
+            "forward_days",
+            "step",
+            "min_history",
+            "market_score_default"
+          ],
+          "returns": "dict",
+          "is_key": true,
+          "doc": "Layer C: Trade Rule Validation\n\n对每个 BUY/EXIT 信号，测量信号后的前向收益，\n并与 SPX 同期收益对比。"
+        },
+        {
+          "name": "run_promotion_engine_validation",
+          "line": 471,
+          "args": [
+            "symbols",
+            "prices_map",
+            "spx_prices",
+            "promotion_thresholds",
+            "track_days",
+            "step",
+            "min_history"
+          ],
+          "returns": "dict",
+          "is_key": false,
+          "doc": "Layer B: Promotion Engine Validation\n\n验证 Promotion Score 能否预测未来晋升 Top30。\n注意：需要历史排名数据，首次运行用 Leader Score 近似。"
+        },
+        {
+          "name": "run_action_forward_validation",
+          "line": 595,
+          "args": [
+            "symbols",
+            "prices_map",
+            "spx_prices",
+            "dates_map",
+            "spx_dates",
+            "forward_days",
+            "step",
+            "min_history",
+            "market_score_default"
+          ],
+          "returns": "dict",
+          "is_key": true,
+          "doc": "Layer C2: Action Forward Return Validation\n\n验证每种 Action 之后的前向收益：\n- BUY  → 买入后是否有正向期望？\n- ADD  → 加仓后是否继续超额？\n- HOLD → 继续持有是否比卖出更好？\n- REDUCE → 减仓后股票是否真的走弱？\n- EXIT → 退出后是否避免了进一步下跌？"
+        },
+        {
+          "name": "run_stateful_simulation",
+          "line": 763,
+          "args": [
+            "symbols",
+            "prices_map",
+            "dates_map",
+            "spx_prices",
+            "spx_dates",
+            "ohlc_map",
+            "assumptions",
+            "step",
+            "min_history",
+            "market_score_default",
+            "sim_start_date",
+            "sim_end_date",
+            "ndx_prices",
+            "ndx_dates",
+            "sox_prices",
+            "sox_dates",
+            "vix_prices",
+            "vix_dates"
+          ],
+          "returns": "dict",
+          "is_key": false,
+          "doc": "Layer D v1.6: Strict Top3 + RS threshold + MinHold + Relative SPX Stop\n\n修正项（相比 v3）：\n1. SPX master calendar — 时间轴以 SPX dates 为准\n2. Date-based alignment — 所有股票按日期查找，不用 index 直接对齐\n3. skipped_orders_by_reason — 跳过原因分类统计\n4. sample_validity 检查 — 样本不足时返回 INSUFFICIENT_SAMPLE"
+        },
+        {
+          "name": "run_strategy_variant_comparison",
+          "line": 2489,
+          "args": [
+            "symbols",
+            "prices_map",
+            "dates_map",
+            "spx_prices",
+            "spx_dates",
+            "ndx_prices",
+            "ndx_dates",
+            "sox_prices",
+            "sox_dates",
+            "vix_prices",
+            "vix_dates"
+          ],
+          "returns": "dict",
+          "is_key": false,
+          "doc": "Run four diagnostic portfolio variants using Strict Top3, no fixed TP.\n\nV0_BASE: current Strict Top3 baseline.\nV1_RS95: raise entry RS threshold from 90 to 95.\nV2_RS95_MINHOLD5: add minimum 5 trading-day hold for ordinary REDUCE/EXIT.\nV3_RS95_MINHOLD5_RELSTOP8: add relative SPX underperformance stop"
+        },
+        {
+          "name": "run_full_backtest",
+          "line": 2904,
+          "args": [
+            "symbols",
+            "prices_map",
+            "spx_prices",
+            "dates_map",
+            "spx_dates",
+            "run_layer_b",
+            "run_layer_d",
+            "ndx_prices",
+            "ndx_dates",
+            "sox_prices",
+            "sox_dates",
+            "vix_prices",
+            "vix_dates"
+          ],
+          "returns": "dict",
+          "is_key": false,
+          "doc": "运行完整4层回测验证（A → C → D → B）。\n返回汇总结果，供 export_json 写入 backtest.json。"
+        },
+        {
+          "name": "stats",
+          "line": 412,
+          "args": [
+            "rets"
+          ],
+          "returns": null,
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "stats",
+          "line": 688,
+          "args": [
+            "rets"
+          ],
+          "returns": null,
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "_e1r_regime_on",
+          "line": 808,
+          "args": [
+            "date"
+          ],
+          "returns": "str",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "_e1r_mode_for_regime",
+          "line": 818,
+          "args": [
+            "regime"
+          ],
+          "returns": "str",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "_e1r_risk_budget_for_regime",
+          "line": 829,
+          "args": [
+            "regime"
+          ],
+          "returns": "dict",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "_e1r_dominant_regime",
+          "line": 840,
+          "args": [
+            "weights"
+          ],
+          "returns": "str",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "_build_lookup",
+          "line": 867,
+          "args": [
+            "dates_list",
+            "prices_list"
+          ],
+          "returns": null,
+          "is_key": false,
+          "doc": "建立 date_str → price 映射"
+        },
+        {
+          "name": "_get_price_on",
+          "line": 879,
+          "args": [
+            "lookup",
+            "date",
+            "fallback"
+          ],
+          "returns": null,
+          "is_key": false,
+          "doc": "获取 date 当天价格，缺失时返回 fallback"
+        },
+        {
+          "name": "get_price_by_date",
+          "line": 986,
+          "args": [
+            "sym",
+            "date",
+            "field"
+          ],
+          "returns": "float",
+          "is_key": false,
+          "doc": "按日期安全获取价格，不存在返回0。"
+        },
+        {
+          "name": "get_close_series_by_date",
+          "line": 1002,
+          "args": [
+            "sym",
+            "up_to_date"
+          ],
+          "returns": "list[float]",
+          "is_key": false,
+          "doc": "获取某只股票截止 up_to_date 的历史收盘价序列（无前视）。"
+        },
+        {
+          "name": "_load_e1r_regime_daily",
+          "line": 2551,
+          "args": [],
+          "returns": "dict",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "selection_key",
+          "line": 2767,
+          "args": [
+            "item"
+          ],
+          "returns": null,
+          "is_key": false,
+          "doc": null
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "line": 15,
+          "text": "from __future__ import annotations"
+        },
+        {
+          "line": 16,
+          "text": "import math"
+        },
+        {
+          "line": 17,
+          "text": "import json"
+        },
+        {
+          "line": 18,
+          "text": "from pathlib import Path"
+        },
+        {
+          "line": 19,
+          "text": "from ..features.rs import period_return, rs_percentile"
+        },
+        {
+          "line": 20,
+          "text": "from ..features.momentum import momentum_score as calc_momentum, moving_average, linreg_slope, momentum_acceleration"
+        },
+        {
+          "line": 23,
+          "text": "from ..features.trend_health import trend_health_score as calc_trend_health"
+        },
+        {
+          "line": 24,
+          "text": "from ..engine.leader_ranking import leader_score as calc_leader_score"
+        },
+        {
+          "line": 25,
+          "text": "from ..engine.trade_decision import trade_action, trade_action_reason"
+        },
+        {
+          "line": 26,
+          "text": "from ..utils import logger"
+        },
+        {
+          "line": 884,
+          "text": "from collections import deque"
+        },
+        {
+          "line": 2607,
+          "text": "import os as _os"
+        },
+        {
+          "line": 975,
+          "text": "from ..data_ingestion.fetch_yahoo import get_price_series as _gps"
+        },
+        {
+          "line": 2704,
+          "text": "from src.engine.e1r_sidecar_sleeve import E1RSidecarConfig, build_e1r_sidecar_sleeve"
+        },
+        {
+          "line": 2708,
+          "text": "from src.engine.e1r_composer import compose_e1r_v0_2_variant"
+        },
+        {
+          "line": 378,
+          "text": "from ..features.trend_health import trend_lifecycle"
+        },
+        {
+          "line": 662,
+          "text": "from ..features.trend_health import trend_lifecycle"
+        },
+        {
+          "line": 1567,
+          "text": "from ..features.trend_health import trend_lifecycle"
+        }
+      ],
+      "assignments": [
+        {
+          "line": 33,
+          "target": "LAYER_D_ASSUMPTIONS",
+          "value": "{'initial_capital': 100000, 'max_positions': 3, 'buy_size': 1.0, 'add_size': 0.5, 'max_single_size': 1.0, 'transaction_cost': 0.0005, 'slippage': 0.0005, 'total_one_way': 0.001, 'total_round_trip': 0.002, 'execution_model': 'adverse_intraday', 'buy_price_field"
+        },
+        {
+          "line": 802,
+          "target": "strategy_variant",
+          "value": "a.get('strategy_variant', 'top3_entry_rs_minhold_relstop')"
+        },
+        {
+          "line": 1085,
+          "target": "daily_equity_peak",
+          "value": "init_cap"
+        },
+        {
+          "line": 2233,
+          "target": "final_equity",
+          "value": "cash"
+        },
+        {
+          "line": 2236,
+          "target": "sim_end_liquidation_record",
+          "value": "{'date': last_date, 'cash': round(cash, 2), 'positions_value': 0.0, 'total_equity': round(final_equity, 2), 'open_positions_count': 0, 'sim_end_trades': sim_end_count, 'spx_regime': _e1r_regime_on(last_date) if e1r_regime_wiring_enabled else None, 'e1r_active_"
+        },
+        {
+          "line": 2290,
+          "target": "total_return",
+          "value": "(final_equity - init_cap) / init_cap * 100"
+        },
+        {
+          "line": 2292,
+          "target": "cagr",
+          "value": "((final_equity / init_cap) ** (1 / years) - 1) * 100 if years > 0 and final_equity > 0 else 0"
+        },
+        {
+          "line": 2294,
+          "target": "peak",
+          "value": "equity_curve[0]"
+        },
+        {
+          "line": 2566,
+          "target": "variants",
+          "value": "{'E1_AUDITED_G4_MINHOLD10': {**base, **_gate_g4, 'strategy_variant': 'E1_audited_g4_minhold10', 'min_holding_days': 10, 'dynamic_exit_enabled': False, 'relative_stop_enabled': False, 'version': 'E1-audited-g4-minhold10'}, 'E1R_REGIME_AWARE_V0_1': {**base, **_g"
+        },
+        {
+          "line": 1361,
+          "target": "total_equity",
+          "value": "cash + position_value"
+        },
+        {
+          "line": 1497,
+          "target": "_prev_equity",
+          "value": "daily_equity_records[-1]['total_equity'] if daily_equity_records else init_cap"
+        },
+        {
+          "line": 1501,
+          "target": "_daily_return_pct",
+          "value": "(total_equity / _prev_equity - 1) * 100 if _prev_equity and _prev_equity > 0 else 0.0"
+        },
+        {
+          "line": 1505,
+          "target": "daily_equity_peak",
+          "value": "max(daily_equity_peak, total_equity)"
+        },
+        {
+          "line": 1506,
+          "target": "_drawdown_pct",
+          "value": "(daily_equity_peak - total_equity) / daily_equity_peak * 100 if daily_equity_peak and daily_equity_peak > 0 else 0.0"
+        },
+        {
+          "line": 2552,
+          "target": "regime_path",
+          "value": "Path('data/research/e1_5y/regimes/spx_regime_daily.json')"
+        },
+        {
+          "line": 2711,
+          "target": "_core_records",
+          "value": "(_core_e1r or {}).get('daily_equity_records', []) if _core_e1r else []"
+        },
+        {
+          "line": 2713,
+          "target": "_stock_dir",
+          "value": "Path('data/research/e1_5y/raw/stocks')"
+        },
+        {
+          "line": 2714,
+          "target": "_spx_path",
+          "value": "Path('data/research/e1_5y/raw/indices/SPX.json')"
+        },
+        {
+          "line": 2715,
+          "target": "_regime_path",
+          "value": "Path('data/research/e1_5y/regimes/spx_regime_daily.json')"
+        },
+        {
+          "line": 2781,
+          "target": "controls",
+          "value": "result.get('strategy_controls', {})"
+        },
+        {
+          "line": 2830,
+          "target": "ctrl",
+          "value": "res.get('strategy_controls', {})"
+        },
+        {
+          "line": 2949,
+          "target": "results['layer_d']",
+          "value": "run_strategy_variant_comparison(symbols, prices_map, dates_map, spx_prices, spx_dates, ndx_prices=ndx_prices or [], ndx_dates=ndx_dates or [], sox_prices=sox_prices or [], sox_dates=sox_dates or [], vix_prices=vix_prices or [], vix_dates=vix_dates or [])"
+        },
+        {
+          "line": 2557,
+          "target": "obj",
+          "value": "json.loads(regime_path.read_text())"
+        },
+        {
+          "line": 2718,
+          "target": "_sidecar_cfg",
+          "value": "E1RSidecarConfig(start_date=_core_records[0]['date'], end_date=_core_records[-1]['date'], allowed_subclasses=('MA_CONFLICT',), top_n=10, gross_exposure=0.25, min_history_days=200, min_price=5.0, initial_equity=float(base.get('initial_capital', 100000)), exclud"
+        },
+        {
+          "line": 2730,
+          "target": "_sidecar_result",
+          "value": "build_e1r_sidecar_sleeve(stock_dir=_stock_dir, spx_path=_spx_path, regime_path=_regime_path, config=_sidecar_cfg)"
+        },
+        {
+          "line": 2737,
+          "target": "variant_results['E1R_REGIME_AWARE_V0_2']",
+          "value": "compose_e1r_v0_2_variant(core_variant_result=_core_e1r, sidecar_result=_sidecar_result, initial_equity=float(base.get('initial_capital', 100000)))"
+        },
+        {
+          "line": 2663,
+          "target": "_result['strategy_id']",
+          "value": "variant_id"
+        },
+        {
+          "line": 2669,
+          "target": "_result.setdefault('strategy_controls', {})['e1r_shell_mode']",
+          "value": "True"
+        },
+        {
+          "line": 2670,
+          "target": "_result['strategy_controls']['e1r_regime_wiring_enabled']",
+          "value": "True"
+        },
+        {
+          "line": 2671,
+          "target": "_result['strategy_controls']['e1r_spec_ref']",
+          "value": "assumptions.get('e1r_spec_ref')"
+        },
+        {
+          "line": 2672,
+          "target": "_result['strategy_controls']['e1r_regime_source']",
+          "value": "assumptions.get('e1r_regime_source')"
+        },
+        {
+          "line": 2674,
+          "target": "_result['strategy_controls']['regime_aware_logic']",
+          "value": "'UPTREND_EXECUTION_V0_1_ENTRY_ONLY'"
+        },
+        {
+          "line": 2678,
+          "target": "_result['strategy_controls']['e1r_candidate_tagging_enabled']",
+          "value": "True"
+        },
+        {
+          "line": 2679,
+          "target": "_result['strategy_controls']['e1r_uptrend_execution_enabled']",
+          "value": "True"
+        },
+        {
+          "line": 2680,
+          "target": "_result['strategy_controls']['exit_reduce_logic']",
+          "value": "'LEGACY_E1_UNCHANGED'"
+        },
+        {
+          "line": 2682,
+          "target": "_result['strategy_controls']['regime_aware_logic']",
+          "value": "'NOT_IMPLEMENTED_PHASE_3A_CANDIDATE_TAGGING_ONLY'"
+        },
+        {
+          "line": 2685,
+          "target": "_result['strategy_controls']['e1r_candidate_tagging_enabled']",
+          "value": "True"
+        }
+      ],
+      "term_hits": [
+        {
+          "line": 51,
+          "terms": [
+            "cash"
+          ],
+          "text": "    \"cash_yield\":        0.0,"
+        },
+        {
+          "line": 1016,
+          "terms": [
+            "cash"
+          ],
+          "text": "    cash            = init_cap"
+        },
+        {
+          "line": 1025,
+          "terms": [
+            "cash"
+          ],
+          "text": "        \"cash_insufficient\":        0,"
+        },
+        {
+          "line": 1079,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "    equity_curve:  list[float] = []"
+        },
+        {
+          "line": 1080,
+          "terms": [
+            "spx_curve"
+          ],
+          "text": "    spx_curve:     list[float] = []"
+        },
+        {
+          "line": 1084,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "    daily_equity_records: list[dict] = []"
+        },
+        {
+          "line": 1085,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "    daily_equity_peak = init_cap"
+        },
+        {
+          "line": 1138,
+          "terms": [
+            "cash"
+          ],
+          "text": "                port_val = cash + sum("
+        },
+        {
+          "line": 1156,
+          "terms": [
+            "cash"
+          ],
+          "text": "                    if target > cash:"
+        },
+        {
+          "line": 1157,
+          "terms": [
+            "cash"
+          ],
+          "text": "                        if cash * 0.99 < 10:"
+        },
+        {
+          "line": 1158,
+          "terms": [
+            "cash"
+          ],
+          "text": "                            skip_reasons[\"cash_insufficient\"] += 1"
+        },
+        {
+          "line": 1160,
+          "terms": [
+            "cash"
+          ],
+          "text": "                        target = cash * 0.99"
+        },
+        {
+          "line": 1163,
+          "terms": [
+            "cash"
+          ],
+          "text": "                    cash  -= shares * exec_price"
+        },
+        {
+          "line": 1213,
+          "terms": [
+            "cash"
+          ],
+          "text": "                    if target_add > cash:"
+        },
+        {
+          "line": 1214,
+          "terms": [
+            "cash"
+          ],
+          "text": "                        if cash * 0.99 < 10:"
+        },
+        {
+          "line": 1215,
+          "terms": [
+            "cash"
+          ],
+          "text": "                            skip_reasons[\"cash_insufficient\"] += 1"
+        },
+        {
+          "line": 1217,
+          "terms": [
+            "cash"
+          ],
+          "text": "                        target_add = cash * 0.99"
+        },
+        {
+          "line": 1228,
+          "terms": [
+            "cash"
+          ],
+          "text": "                    cash -= target_add"
+        },
+        {
+          "line": 1264,
+          "terms": [
+            "cash"
+          ],
+          "text": "                    cash    += proceeds"
+        },
+        {
+          "line": 1321,
+          "terms": [
+            "cash"
+          ],
+          "text": "                    cash            += sell_shares * exec_price"
+        },
+        {
+          "line": 1361,
+          "terms": [
+            "cash"
+          ],
+          "text": "        total_equity = cash + position_value"
+        },
+        {
+          "line": 1364,
+          "terms": [
+            "cash"
+          ],
+          "text": "        if cash < -1.0:"
+        },
+        {
+          "line": 1365,
+          "terms": [
+            "cash"
+          ],
+          "text": "            logger.warn(f\"  {date_t}: negative cash={cash:.2f}\")"
+        },
+        {
+          "line": 1366,
+          "terms": [
+            "cash"
+          ],
+          "text": "            cash = 0.0"
+        },
+        {
+          "line": 1370,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "        equity_curve.append(total_equity)"
+        },
+        {
+          "line": 1374,
+          "terms": [
+            "spx_curve"
+          ],
+          "text": "        spx_curve.append(spx_prices[t] / spx_entry if spx_entry > 0 else 1.0)"
+        },
+        {
+          "line": 1462,
+          "terms": [
+            "cash"
+          ],
+          "text": "            _cash_mode = ("
+        },
+        {
+          "line": 1468,
+          "terms": [
+            "cash"
+          ],
+          "text": "            if _cash_mode:"
+        },
+        {
+          "line": 1498,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "            daily_equity_records[-1][\"total_equity\"]"
+        },
+        {
+          "line": 1499,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "            if daily_equity_records else init_cap"
+        },
+        {
+          "line": 1505,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "        daily_equity_peak = max(daily_equity_peak, total_equity)"
+        },
+        {
+          "line": 1507,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "            (daily_equity_peak - total_equity) / daily_equity_peak * 100"
+        },
+        {
+          "line": 1508,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "            if daily_equity_peak and daily_equity_peak > 0 else 0.0"
+        },
+        {
+          "line": 1515,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "        daily_equity_records.append({"
+        },
+        {
+          "line": 1517,
+          "terms": [
+            "cash"
+          ],
+          "text": "            \"cash\": round(cash, 2),"
+        },
+        {
+          "line": 1622,
+          "terms": [
+            "cash"
+          ],
+          "text": "        # This does not change buy_orders, management_orders, holdings, or cash."
+        },
+        {
+          "line": 2143,
+          "terms": [
+            "cash"
+          ],
+          "text": "                f\"day={spx_day_return*100:+.1f}% cash={cash:.0f} \""
+        },
+        {
+          "line": 2150,
+          "terms": [
+            "cash"
+          ],
+          "text": "                \"cash\":           round(cash, 2),"
+        },
+        {
+          "line": 2196,
+          "terms": [
+            "cash"
+          ],
+          "text": "        cash    += h[\"shares\"] * exec_price"
+        },
+        {
+          "line": 2233,
+          "terms": [
+            "cash"
+          ],
+          "text": "    final_equity = cash"
+        },
+        {
+          "line": 2234,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "    equity_curve.append(final_equity)"
+        },
+        {
+          "line": 2238,
+          "terms": [
+            "cash"
+          ],
+          "text": "        \"cash\": round(cash, 2),"
+        },
+        {
+          "line": 2294,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "    peak = equity_curve[0]; max_dd = 0.0"
+        },
+        {
+          "line": 2295,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "    for e in equity_curve:"
+        },
+        {
+          "line": 2309,
+          "terms": [
+            "spx_curve"
+          ],
+          "text": "    spx_total = round((spx_curve[-1]-1)*100, 2) if spx_curve else 0"
+        },
+        {
+          "line": 2310,
+          "terms": [
+            "spx_curve"
+          ],
+          "text": "    spx_cagr  = round((spx_curve[-1]**(1/years)-1)*100, 2) if years>0 and spx_curve else 0"
+        },
+        {
+          "line": 2402,
+          "terms": [
+            "cash"
+          ],
+          "text": "            \"note\": \"Partial reduction releases cash but does not free a Max3 symbol slot.\","
+        },
+        {
+          "line": 2474,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "        \"equity_curve\":      [round(e, 2) for e in equity_curve[::5]],"
+        },
+        {
+          "line": 2475,
+          "terms": [
+            "spx_curve"
+          ],
+          "text": "        \"spx_curve\":         [round(e * init_cap, 2) for e in spx_curve[::5]],"
+        },
+        {
+          "line": 2477,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "        \"daily_equity_records\": daily_equity_records,"
+        },
+        {
+          "line": 2478,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "        \"daily_equity_record_count\": len(daily_equity_records),"
+        },
+        {
+          "line": 2568,
+          "terms": [
+            "E1_AUDITED_G4_MINHOLD10"
+          ],
+          "text": "        \"E1_AUDITED_G4_MINHOLD10\": {"
+        },
+        {
+          "line": 2579,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_1"
+          ],
+          "text": "        \"E1R_REGIME_AWARE_V0_1\": {"
+        },
+        {
+          "line": 2612,
+          "terms": [
+            "2021-06-11"
+          ],
+          "text": "                \"sim_start_date\": \"2021-06-11\","
+        },
+        {
+          "line": 2613,
+          "terms": [
+            "2026-06-18"
+          ],
+          "text": "                \"sim_end_date\":   \"2026-06-18\","
+        },
+        {
+          "line": 2696,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_1"
+          ],
+          "text": "    # - Do not modify E1R_REGIME_AWARE_V0_1."
+        },
+        {
+          "line": 2710,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_1"
+          ],
+          "text": "        _core_e1r = variant_results.get(\"E1R_REGIME_AWARE_V0_1\")"
+        },
+        {
+          "line": 2711,
+          "terms": [
+            "daily_equity"
+          ],
+          "text": "        _core_records = (_core_e1r or {}).get(\"daily_equity_records\", []) if _core_e1r else []"
+        },
+        {
+          "line": 2723,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "                gross_exposure=0.25,"
+        },
+        {
+          "line": 2737,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_2"
+          ],
+          "text": "            variant_results[\"E1R_REGIME_AWARE_V0_2\"] = compose_e1r_v0_2_variant("
+        }
+      ],
+      "path_literals": [
+        "data/research/e1_5y/raw/indices/SPX.json",
+        "data/research/e1_5y/regimes/spx_regime_daily.json"
+      ],
+      "key_functions": [
+        {
+          "name": "run_trade_rule_validation",
+          "line": 313,
+          "args": [
+            "symbols",
+            "prices_map",
+            "spx_prices",
+            "forward_days",
+            "step",
+            "min_history",
+            "market_score_default"
+          ],
+          "returns": "dict",
+          "is_key": true,
+          "doc": "Layer C: Trade Rule Validation\n\n对每个 BUY/EXIT 信号，测量信号后的前向收益，\n并与 SPX 同期收益对比。"
+        },
+        {
+          "name": "run_action_forward_validation",
+          "line": 595,
+          "args": [
+            "symbols",
+            "prices_map",
+            "spx_prices",
+            "dates_map",
+            "spx_dates",
+            "forward_days",
+            "step",
+            "min_history",
+            "market_score_default"
+          ],
+          "returns": "dict",
+          "is_key": true,
+          "doc": "Layer C2: Action Forward Return Validation\n\n验证每种 Action 之后的前向收益：\n- BUY  → 买入后是否有正向期望？\n- ADD  → 加仓后是否继续超额？\n- HOLD → 继续持有是否比卖出更好？\n- REDUCE → 减仓后股票是否真的走弱？\n- EXIT → 退出后是否避免了进一步下跌？"
+        }
+      ]
+    },
+    "scripts/export_e1r_v0_2_backtest_equity.py": {
+      "exists": true,
+      "python": true,
+      "ast_valid": true,
+      "functions": [
+        {
+          "name": "read_json",
+          "line": 11,
+          "args": [
+            "path"
+          ],
+          "returns": "Any",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "write_json",
+          "line": 15,
+          "args": [
+            "path",
+            "obj"
+          ],
+          "returns": "None",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "first_present",
+          "line": 20,
+          "args": [
+            "d",
+            "keys",
+            "default"
+          ],
+          "returns": null,
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "normalize_curve",
+          "line": 27,
+          "args": [
+            "records"
+          ],
+          "returns": "list[dict[str, Any]]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "extract_variant",
+          "line": 66,
+          "args": [
+            "variants",
+            "strategy_id"
+          ],
+          "returns": "dict[str, Any]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "main",
+          "line": 77,
+          "args": [],
+          "returns": "None",
+          "is_key": true,
+          "doc": null
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "line": 1,
+          "text": "from __future__ import annotations"
+        },
+        {
+          "line": 3,
+          "text": "import json"
+        },
+        {
+          "line": 4,
+          "text": "from datetime import datetime, timezone"
+        },
+        {
+          "line": 5,
+          "text": "from pathlib import Path"
+        },
+        {
+          "line": 6,
+          "text": "from typing import Any"
+        }
+      ],
+      "assignments": [
+        {
+          "line": 8,
+          "target": "ROOT",
+          "value": "Path(__file__).resolve().parents[1]"
+        },
+        {
+          "line": 78,
+          "target": "bt_path",
+          "value": "ROOT / 'exports/backtest.json'"
+        },
+        {
+          "line": 82,
+          "target": "bt",
+          "value": "read_json(bt_path)"
+        },
+        {
+          "line": 83,
+          "target": "layer_d",
+          "value": "bt.get('backtest', {}).get('results', {}).get('layer_d', {})"
+        },
+        {
+          "line": 91,
+          "target": "v1_records",
+          "value": "v1.get('daily_equity_records') or v1.get('equity_curve') or []"
+        },
+        {
+          "line": 92,
+          "target": "v2_records",
+          "value": "v2.get('daily_equity_records') or v2.get('equity_curve') or []"
+        },
+        {
+          "line": 112,
+          "target": "summary",
+          "value": "{'generated_at': datetime.now(timezone.utc).isoformat(), 'source': 'exports/backtest.json', 'comparison_name': comparison_name, 'strategy_id': 'E1R_REGIME_AWARE_V0_2', 'version': v2.get('version'), 'research_status': v2.get('research_status'), 'curve_type': 'F"
+        },
+        {
+          "line": 159,
+          "target": "equity_export",
+          "value": "{'generated_at': datetime.now(timezone.utc).isoformat(), 'curve_type': 'FULL_5Y_BACKTEST_EQUITY', 'start_date': start_date, 'end_date': end_date, 'row_count': len(v2_curve), 'series': {'E1R_REGIME_AWARE_V0_1': v1_curve, 'E1R_REGIME_AWARE_V0_2': v2_curve}, 'sum"
+        },
+        {
+          "line": 35,
+          "target": "equity",
+          "value": "first_present(r, ['equity', 'total_equity', 'portfolio_value', 'value'])"
+        },
+        {
+          "line": 36,
+          "target": "spx_equity",
+          "value": "first_present(r, ['spx_equity', 'spx_value', 'benchmark_equity'])"
+        },
+        {
+          "line": 45,
+          "target": "row",
+          "value": "{'date': date, 'equity': equity}"
+        },
+        {
+          "line": 51,
+          "target": "row['spx_equity']",
+          "value": "spx_equity"
+        }
+      ],
+      "term_hits": [
+        {
+          "line": 17,
+          "terms": [
+            "json.dump",
+            "json.dumps",
+            "write_text"
+          ],
+          "text": "    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + \"\\n\")"
+        },
+        {
+          "line": 35,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "        equity = first_present(r, [\"equity\", \"total_equity\", \"portfolio_value\", \"value\"])"
+        },
+        {
+          "line": 88,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_1"
+          ],
+          "text": "    v1 = extract_variant(variants, \"E1R_REGIME_AWARE_V0_1\")"
+        },
+        {
+          "line": 89,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_2"
+          ],
+          "text": "    v2 = extract_variant(variants, \"E1R_REGIME_AWARE_V0_2\")"
+        },
+        {
+          "line": 91,
+          "terms": [
+            "daily_equity",
+            "equity_curve"
+          ],
+          "text": "    v1_records = v1.get(\"daily_equity_records\") or v1.get(\"equity_curve\") or []"
+        },
+        {
+          "line": 92,
+          "terms": [
+            "daily_equity",
+            "equity_curve"
+          ],
+          "text": "    v2_records = v2.get(\"daily_equity_records\") or v2.get(\"equity_curve\") or []"
+        },
+        {
+          "line": 116,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_2"
+          ],
+          "text": "        \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\","
+        },
+        {
+          "line": 124,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_1"
+          ],
+          "text": "            \"strategy_id\": \"E1R_REGIME_AWARE_V0_1\","
+        },
+        {
+          "line": 136,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_2"
+          ],
+          "text": "            \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\","
+        },
+        {
+          "line": 166,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_1"
+          ],
+          "text": "            \"E1R_REGIME_AWARE_V0_1\": v1_curve,"
+        },
+        {
+          "line": 167,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_2"
+          ],
+          "text": "            \"E1R_REGIME_AWARE_V0_2\": v2_curve,"
+        },
+        {
+          "line": 173,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "    write_json(ROOT / \"exports/e1r_v0_2_backtest_equity_curve.json\", equity_export)"
+        },
+        {
+          "line": 176,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "    print(\"Wrote exports/e1r_v0_2_backtest_equity_curve.json\")"
+        }
+      ],
+      "path_literals": [
+        "Missing exports/backtest.json",
+        "Wrote exports/e1r_v0_2_backtest_equity_curve.json",
+        "Wrote exports/e1r_v0_2_backtest_summary.json",
+        "exports/backtest.json",
+        "exports/e1r_v0_2_backtest_equity_curve.json",
+        "exports/e1r_v0_2_backtest_summary.json"
+      ],
+      "key_functions": [
+        {
+          "name": "normalize_curve",
+          "line": 27,
+          "args": [
+            "records"
+          ],
+          "returns": "list[dict[str, Any]]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "extract_variant",
+          "line": 66,
+          "args": [
+            "variants",
+            "strategy_id"
+          ],
+          "returns": "dict[str, Any]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "main",
+          "line": 77,
+          "args": [],
+          "returns": "None",
+          "is_key": true,
+          "doc": null
+        }
+      ]
+    },
+    "scripts/run_e1r_v0_2_oos_equity.py": {
+      "exists": true,
+      "python": true,
+      "ast_valid": true,
+      "functions": [
+        {
+          "name": "read_json",
+          "line": 11,
+          "args": [
+            "path",
+            "default"
+          ],
+          "returns": "Any",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "write_json",
+          "line": 17,
+          "args": [
+            "path",
+            "obj"
+          ],
+          "returns": "None",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "pick",
+          "line": 22,
+          "args": [
+            "obj",
+            "keys",
+            "default"
+          ],
+          "returns": "Any",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "safe_float",
+          "line": 32,
+          "args": [
+            "v",
+            "default"
+          ],
+          "returns": "float | None",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "extract_existing_oos_core_equity",
+          "line": 41,
+          "args": [],
+          "returns": "dict[str, Any]",
+          "is_key": false,
+          "doc": "Best-effort bridge to existing legacy OOS equity if present.\n\nThis function does not assume a fixed old schema.\nIt tries to find the latest equity value from:\n  - exports/oos_summary.json\n  - exports/oos_equity_curve.json\n\nIf nothing usable exists, it initializes at 100000."
+        },
+        {
+          "name": "compute_return",
+          "line": 94,
+          "args": [
+            "prev_equity",
+            "new_equity"
+          ],
+          "returns": "float",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "load_stock_price_map",
+          "line": 101,
+          "args": [],
+          "returns": "dict[str, dict[str, float]]",
+          "is_key": false,
+          "doc": "Load stock close prices from data/research/e1_5y/raw/stocks."
+        },
+        {
+          "name": "compute_sidecar_mtm_return",
+          "line": 152,
+          "args": [
+            "previous_record",
+            "current_date",
+            "price_map"
+          ],
+          "returns": "tuple[float, str, list[dict[str, Any]]]",
+          "is_key": false,
+          "doc": "Compute current sidecar MTM return using previous record's sidecar_positions.\nNo lookahead: previous positions are used to calculate previous_date -> current_date return."
+        },
+        {
+          "name": "normalize_current_sidecar_positions",
+          "line": 225,
+          "args": [
+            "sidecar"
+          ],
+          "returns": "list[dict[str, Any]]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "main",
+          "line": 248,
+          "args": [],
+          "returns": "None",
+          "is_key": true,
+          "doc": null
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "line": 1,
+          "text": "from __future__ import annotations"
+        },
+        {
+          "line": 3,
+          "text": "import json"
+        },
+        {
+          "line": 4,
+          "text": "from datetime import datetime, timezone"
+        },
+        {
+          "line": 5,
+          "text": "from pathlib import Path"
+        },
+        {
+          "line": 6,
+          "text": "from typing import Any"
+        }
+      ],
+      "assignments": [
+        {
+          "line": 8,
+          "target": "ROOT",
+          "value": "Path(__file__).resolve().parents[1]"
+        },
+        {
+          "line": 52,
+          "target": "summary",
+          "value": "read_json(ROOT / 'exports/oos_summary.json', {}) or {}"
+        },
+        {
+          "line": 53,
+          "target": "curve",
+          "value": "read_json(ROOT / 'exports/oos_equity_curve.json', {}) or {}"
+        },
+        {
+          "line": 55,
+          "target": "equity",
+          "value": "safe_float(pick(summary, ['equity', 'current_equity', 'portfolio_value', 'final_equity', 'total_equity']), None)"
+        },
+        {
+          "line": 105,
+          "target": "stock_dir",
+          "value": "ROOT / 'data/research/e1_5y/raw/stocks'"
+        },
+        {
+          "line": 249,
+          "target": "status",
+          "value": "read_json(ROOT / 'exports/e1r_v0_2_status.json', {}) or {}"
+        },
+        {
+          "line": 250,
+          "target": "summary",
+          "value": "read_json(ROOT / 'exports/oos_e1r_v0_2_summary.json', {}) or {}"
+        },
+        {
+          "line": 251,
+          "target": "sidecar",
+          "value": "read_json(ROOT / 'exports/oos_e1r_v0_2_sidecar.json', {}) or {}"
+        },
+        {
+          "line": 253,
+          "target": "out_path",
+          "value": "ROOT / 'exports/oos_e1r_v0_2_equity_curve.json'"
+        },
+        {
+          "line": 254,
+          "target": "existing",
+          "value": "read_json(out_path, {}) or {}"
+        },
+        {
+          "line": 280,
+          "target": "legacy_core",
+          "value": "extract_existing_oos_core_equity()"
+        },
+        {
+          "line": 337,
+          "target": "record",
+          "value": "{'date': status_date, 'generated_at': generated_at, 'market_state': market_state, 'core_active': core_active, 'sidecar_active': sidecar_active, 'sidecar_selected_count': selected_count, 'sidecar_positions': current_sidecar_positions if sidecar_active else [], "
+        },
+        {
+          "line": 370,
+          "target": "output",
+          "value": "{'generated_at': generated_at, 'strategy_id': 'E1R_REGIME_AWARE_V0_2', 'phase': 'OOS_2B_FORWARD_EQUITY_CURVE', 'equity_status': 'OOS_EQUITY_MTM_TRACKING_SIDECAR_PAPER', 'execution_status': 'PAPER_TRACKING_NO_REAL_EXECUTION', 'curve_type': 'FORWARD_OOS_EQUITY',"
+        },
+        {
+          "line": 85,
+          "target": "equity",
+          "value": "100000.0"
+        },
+        {
+          "line": 112,
+          "target": "symbol",
+          "value": "path.stem.upper()"
+        },
+        {
+          "line": 113,
+          "target": "raw",
+          "value": "read_json(path, None)"
+        },
+        {
+          "line": 293,
+          "target": "core_equity",
+          "value": "safe_float(previous.get('core_equity'), legacy_core['equity']) or initial_capital"
+        },
+        {
+          "line": 294,
+          "target": "sidecar_equity",
+          "value": "safe_float(previous.get('sidecar_equity'), initial_capital) or initial_capital"
+        },
+        {
+          "line": 295,
+          "target": "combined_equity",
+          "value": "safe_float(previous.get('combined_equity'), core_equity) or core_equity"
+        },
+        {
+          "line": 296,
+          "target": "prev_core_equity",
+          "value": "core_equity"
+        },
+        {
+          "line": 297,
+          "target": "prev_sidecar_equity",
+          "value": "sidecar_equity"
+        },
+        {
+          "line": 298,
+          "target": "prev_combined_equity",
+          "value": "combined_equity"
+        },
+        {
+          "line": 306,
+          "target": "prev_core_equity",
+          "value": "safe_float(previous.get('core_equity'), None) if previous else None"
+        },
+        {
+          "line": 307,
+          "target": "prev_sidecar_equity",
+          "value": "safe_float(previous.get('sidecar_equity'), None) if previous else None"
+        },
+        {
+          "line": 308,
+          "target": "prev_combined_equity",
+          "value": "safe_float(previous.get('combined_equity'), None) if previous else None"
+        },
+        {
+          "line": 320,
+          "target": "core_equity",
+          "value": "legacy_core['equity'] if core_active else prev_core_equity"
+        },
+        {
+          "line": 322,
+          "target": "daily_core_return",
+          "value": "compute_return(prev_core_equity, core_equity)"
+        },
+        {
+          "line": 329,
+          "target": "sidecar_equity",
+          "value": "prev_sidecar_equity * (1.0 + daily_sidecar_return)"
+        },
+        {
+          "line": 332,
+          "target": "combined_equity",
+          "value": "prev_combined_equity * (1.0 + combined_daily_return)"
+        },
+        {
+          "line": 66,
+          "target": "records",
+          "value": "curve.get('records') or curve.get('equity_curve') or curve.get('series') or curve.get('data')"
+        },
+        {
+          "line": 78,
+          "target": "equity",
+          "value": "safe_float(pick(last, ['equity', 'total_equity', 'portfolio_value', 'value']), equity)"
+        },
+        {
+          "line": 311,
+          "target": "prev_core_equity",
+          "value": "initial_capital"
+        },
+        {
+          "line": 313,
+          "target": "prev_sidecar_equity",
+          "value": "initial_capital"
+        },
+        {
+          "line": 315,
+          "target": "prev_combined_equity",
+          "value": "initial_capital"
+        }
+      ],
+      "term_hits": [
+        {
+          "line": 19,
+          "terms": [
+            "json.dump",
+            "json.dumps",
+            "write_text"
+          ],
+          "text": "    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + \"\\n\")"
+        },
+        {
+          "line": 48,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "      - exports/oos_equity_curve.json"
+        },
+        {
+          "line": 53,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "    curve = read_json(ROOT / \"exports/oos_equity_curve.json\", {}) or {}"
+        },
+        {
+          "line": 56,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "        pick(summary, [\"equity\", \"current_equity\", \"portfolio_value\", \"final_equity\", \"total_equity\"]),"
+        },
+        {
+          "line": 68,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "            or curve.get(\"equity_curve\")"
+        },
+        {
+          "line": 79,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "                pick(last, [\"equity\", \"total_equity\", \"portfolio_value\", \"value\"]),"
+        },
+        {
+          "line": 253,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "    out_path = ROOT / \"exports/oos_e1r_v0_2_equity_curve.json\""
+        },
+        {
+          "line": 372,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_2"
+          ],
+          "text": "        \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\","
+        }
+      ],
+      "path_literals": [
+        "*.json",
+        "exports/e1r_v0_2_status.json",
+        "exports/oos_e1r_v0_2_equity_curve.json",
+        "exports/oos_e1r_v0_2_sidecar.json",
+        "exports/oos_e1r_v0_2_summary.json",
+        "exports/oos_equity_curve.json",
+        "exports/oos_summary.json"
+      ],
+      "key_functions": [
+        {
+          "name": "main",
+          "line": 248,
+          "args": [],
+          "returns": "None",
+          "is_key": true,
+          "doc": null
+        }
+      ]
+    },
+    "scripts/run_e1r_v0_2_forward_performance_core.py": {
+      "exists": true,
+      "python": true,
+      "ast_valid": true,
+      "functions": [
+        {
+          "name": "utc_now_iso",
+          "line": 46,
+          "args": [],
+          "returns": "str",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "generated_at_display",
+          "line": 50,
+          "args": [],
+          "returns": "str",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "read_json",
+          "line": 55,
+          "args": [
+            "path",
+            "default"
+          ],
+          "returns": "Any",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "write_json",
+          "line": 64,
+          "args": [
+            "path",
+            "obj"
+          ],
+          "returns": "None",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "append_jsonl",
+          "line": 69,
+          "args": [
+            "path",
+            "obj"
+          ],
+          "returns": "None",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "to_float",
+          "line": 75,
+          "args": [
+            "v",
+            "default"
+          ],
+          "returns": "Optional[float]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "pct_return",
+          "line": 87,
+          "args": [
+            "current",
+            "base"
+          ],
+          "returns": "float",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "max_drawdown_pct",
+          "line": 93,
+          "args": [
+            "values"
+          ],
+          "returns": "float",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "daily_returns",
+          "line": 106,
+          "args": [
+            "values"
+          ],
+          "returns": "List[float]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "sharpe_ratio",
+          "line": 114,
+          "args": [
+            "values"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "first_existing",
+          "line": 126,
+          "args": [],
+          "returns": "Any",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "normalize_status_date",
+          "line": 133,
+          "args": [
+            "status",
+            "scaffold_summary",
+            "equity_rows"
+          ],
+          "returns": "str",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "normalize_equity_rows",
+          "line": 144,
+          "args": [
+            "raw"
+          ],
+          "returns": "List[Dict[str, Any]]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "infer_spx_forward_return_pct",
+          "line": 207,
+          "args": [],
+          "returns": "Optional[float]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "build_forward_outputs",
+          "line": 217,
+          "args": [],
+          "returns": "Tuple[Dict[str, Any], List[Dict[str, Any]], List[Dict[str, Any]], List[Dict[str, Any]], Dict[str, Any]]",
+          "is_key": false,
+          "doc": null
+        },
+        {
+          "name": "main",
+          "line": 382,
+          "args": [],
+          "returns": "int",
+          "is_key": true,
+          "doc": null
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "line": 13,
+          "text": "from __future__ import annotations"
+        },
+        {
+          "line": 15,
+          "text": "import json"
+        },
+        {
+          "line": 16,
+          "text": "import math"
+        },
+        {
+          "line": 17,
+          "text": "from dataclasses import dataclass, asdict"
+        },
+        {
+          "line": 18,
+          "text": "from datetime import datetime, timezone"
+        },
+        {
+          "line": 19,
+          "text": "from pathlib import Path"
+        },
+        {
+          "line": 20,
+          "text": "from typing import Any, Dict, List, Optional, Tuple"
+        }
+      ],
+      "assignments": [
+        {
+          "line": 23,
+          "target": "ROOT",
+          "value": "Path(__file__).resolve().parents[1]"
+        },
+        {
+          "line": 25,
+          "target": "STATE_DIR",
+          "value": "ROOT / 'data' / 'oos'"
+        },
+        {
+          "line": 26,
+          "target": "EXPORT_DIR",
+          "value": "ROOT / 'exports'"
+        },
+        {
+          "line": 28,
+          "target": "STATE_PATH",
+          "value": "STATE_DIR / 'e1r_v0_2_portfolio_state.json'"
+        },
+        {
+          "line": 29,
+          "target": "EVENTS_PATH",
+          "value": "STATE_DIR / 'e1r_v0_2_events.jsonl'"
+        },
+        {
+          "line": 30,
+          "target": "RUN_HISTORY_PATH",
+          "value": "STATE_DIR / 'e1r_v0_2_run_history.jsonl'"
+        },
+        {
+          "line": 32,
+          "target": "SUMMARY_PATH",
+          "value": "EXPORT_DIR / 'oos_e1r_v0_2_summary.json'"
+        },
+        {
+          "line": 33,
+          "target": "EQUITY_PATH",
+          "value": "EXPORT_DIR / 'oos_e1r_v0_2_equity_curve.json'"
+        },
+        {
+          "line": 34,
+          "target": "POSITIONS_PATH",
+          "value": "EXPORT_DIR / 'oos_e1r_v0_2_positions.json'"
+        },
+        {
+          "line": 35,
+          "target": "ORDERS_PATH",
+          "value": "EXPORT_DIR / 'oos_e1r_v0_2_orders.json'"
+        },
+        {
+          "line": 37,
+          "target": "STATUS_PATH",
+          "value": "EXPORT_DIR / 'e1r_v0_2_status.json'"
+        },
+        {
+          "line": 38,
+          "target": "SCAFFOLD_SUMMARY_PATH",
+          "value": "EXPORT_DIR / 'oos_e1r_v0_2_summary.json'"
+        },
+        {
+          "line": 39,
+          "target": "SCAFFOLD_EQUITY_PATH",
+          "value": "EXPORT_DIR / 'oos_e1r_v0_2_equity_curve.json'"
+        },
+        {
+          "line": 41,
+          "target": "STRATEGY_ID",
+          "value": "'E1R_REGIME_AWARE_V0_2'"
+        },
+        {
+          "line": 134,
+          "target": "latest_equity_date",
+          "value": "equity_rows[-1].get('date') if equity_rows else None"
+        },
+        {
+          "line": 209,
+          "target": "e1",
+          "value": "read_json(EXPORT_DIR / 'oos_summary.json', {})"
+        },
+        {
+          "line": 218,
+          "target": "status",
+          "value": "read_json(STATUS_PATH, {})"
+        },
+        {
+          "line": 219,
+          "target": "scaffold_summary",
+          "value": "read_json(SCAFFOLD_SUMMARY_PATH, {})"
+        },
+        {
+          "line": 220,
+          "target": "raw_equity",
+          "value": "read_json(SCAFFOLD_EQUITY_PATH, [])"
+        },
+        {
+          "line": 222,
+          "target": "equity_rows",
+          "value": "normalize_equity_rows(raw_equity)"
+        },
+        {
+          "line": 223,
+          "target": "status_date",
+          "value": "normalize_status_date(status, scaffold_summary, equity_rows)"
+        },
+        {
+          "line": 240,
+          "target": "equity_rows",
+          "value": "sorted(equity_rows, key=lambda r: r['date'])"
+        },
+        {
+          "line": 241,
+          "target": "first_date",
+          "value": "equity_rows[0]['date']"
+        },
+        {
+          "line": 248,
+          "target": "base_value",
+          "value": "to_float(equity_rows[0].get('portfolio_value'), INITIAL_CAPITAL) or INITIAL_CAPITAL"
+        },
+        {
+          "line": 249,
+          "target": "values",
+          "value": "[to_float(r.get('portfolio_value'), base_value) or base_value for r in equity_rows]"
+        },
+        {
+          "line": 286,
+          "target": "strategy_forward",
+          "value": "pct_return(current_value, base_value)"
+        },
+        {
+          "line": 287,
+          "target": "alpha",
+          "value": "strategy_forward - spx_forward if spx_forward is not None else None"
+        },
+        {
+          "line": 289,
+          "target": "enhanced_equity",
+          "value": "[]"
+        },
+        {
+          "line": 319,
+          "target": "summary",
+          "value": "{'generated_at': utc_now_iso(), 'generated_at_display': generated_at_display(), 'status_date': status_date, 'strategy_id': STRATEGY_ID, 'version': VERSION, 'phase': 'Stage 3.8E-2F-1D', 'research_status': 'FROZEN_RESEARCH_CANDIDATE', 'tracking_status': 'KICKOFF"
+        },
+        {
+          "line": 364,
+          "target": "state",
+          "value": "{'strategy_id': STRATEGY_ID, 'version': VERSION, 'created_at': utc_now_iso(), 'updated_at': utc_now_iso(), 'official_kickoff_date': official_kickoff_date, 'status_date': status_date, 'portfolio_value': current_value, 'equity': current_value, 'cash': current_va"
+        },
+        {
+          "line": 386,
+          "target": "(summary, equity, positions, orders, state)",
+          "value": "build_forward_outputs()"
+        },
+        {
+          "line": 167,
+          "target": "combined",
+          "value": "to_float(first_existing(row.get('combined_equity'), row.get('portfolio_value'), row.get('equity'), row.get('nav')), None)"
+        },
+        {
+          "line": 177,
+          "target": "core",
+          "value": "to_float(row.get('core_equity'), None)"
+        },
+        {
+          "line": 178,
+          "target": "sidecar",
+          "value": "to_float(row.get('sidecar_equity'), None)"
+        },
+        {
+          "line": 226,
+          "target": "equity_rows",
+          "value": "[{'date': status_date, 'portfolio_value': INITIAL_CAPITAL, 'equity': INITIAL_CAPITAL}]"
+        },
+        {
+          "line": 233,
+          "target": "last_value",
+          "value": "equity_rows[-1]['portfolio_value'] if equity_rows else INITIAL_CAPITAL"
+        },
+        {
+          "line": 153,
+          "target": "rows",
+          "value": "raw['equity_curve']"
+        }
+      ],
+      "term_hits": [
+        {
+          "line": 33,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "EQUITY_PATH = EXPORT_DIR / \"oos_e1r_v0_2_equity_curve.json\""
+        },
+        {
+          "line": 39,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "SCAFFOLD_EQUITY_PATH = EXPORT_DIR / \"oos_e1r_v0_2_equity_curve.json\""
+        },
+        {
+          "line": 41,
+          "terms": [
+            "E1R_REGIME_AWARE_V0_2"
+          ],
+          "text": "STRATEGY_ID = \"E1R_REGIME_AWARE_V0_2\""
+        },
+        {
+          "line": 66,
+          "terms": [
+            "json.dump",
+            "json.dumps",
+            "write_text"
+          ],
+          "text": "    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + \"\\n\")"
+        },
+        {
+          "line": 72,
+          "terms": [
+            "json.dump",
+            "json.dumps"
+          ],
+          "text": "        f.write(json.dumps(obj, ensure_ascii=False) + \"\\n\")"
+        },
+        {
+          "line": 152,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "        elif isinstance(raw.get(\"equity_curve\"), list):"
+        },
+        {
+          "line": 153,
+          "terms": [
+            "equity_curve"
+          ],
+          "text": "            rows = raw[\"equity_curve\"]"
+        },
+        {
+          "line": 170,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "                row.get(\"portfolio_value\"),"
+        },
+        {
+          "line": 196,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "            \"portfolio_value\": float(combined),"
+        },
+        {
+          "line": 228,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "            \"portfolio_value\": INITIAL_CAPITAL,"
+        },
+        {
+          "line": 233,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "        last_value = equity_rows[-1][\"portfolio_value\"] if equity_rows else INITIAL_CAPITAL"
+        },
+        {
+          "line": 236,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "            \"portfolio_value\": last_value,"
+        },
+        {
+          "line": 248,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "    base_value = to_float(equity_rows[0].get(\"portfolio_value\"), INITIAL_CAPITAL) or INITIAL_CAPITAL"
+        },
+        {
+          "line": 249,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "    values = [to_float(r.get(\"portfolio_value\"), base_value) or base_value for r in equity_rows]"
+        },
+        {
+          "line": 254,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "    gross_exposure = to_float(first_existing("
+        },
+        {
+          "line": 255,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "        status.get(\"gross_exposure\") if isinstance(status, dict) else None,"
+        },
+        {
+          "line": 256,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "        scaffold_summary.get(\"gross_exposure\") if isinstance(scaffold_summary, dict) else None,"
+        },
+        {
+          "line": 299,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "            \"portfolio_value\": value,"
+        },
+        {
+          "line": 301,
+          "terms": [
+            "cash"
+          ],
+          "text": "            \"cash\": to_float(row.get(\"cash\"), value) if row.get(\"cash\") is not None else value,"
+        },
+        {
+          "line": 302,
+          "terms": [
+            "market_value"
+          ],
+          "text": "            \"market_value\": to_float(row.get(\"market_value\"), 0.0) if row.get(\"market_value\") is not None else 0.0,"
+        },
+        {
+          "line": 303,
+          "terms": [
+            "strategy_indexed"
+          ],
+          "text": "            \"strategy_indexed\": 100.0 * value / base_value if base_value else 100.0,"
+        },
+        {
+          "line": 306,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "            \"gross_exposure\": gross_exposure,"
+        },
+        {
+          "line": 307,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "            \"core_exposure\": gross_exposure if core_active else 0.0,"
+        },
+        {
+          "line": 308,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "            \"sidecar_exposure\": gross_exposure if sidecar_active else 0.0,"
+        },
+        {
+          "line": 331,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "        \"portfolio_value\": current_value,"
+        },
+        {
+          "line": 333,
+          "terms": [
+            "cash"
+          ],
+          "text": "        \"cash\": current_value,"
+        },
+        {
+          "line": 334,
+          "terms": [
+            "market_value"
+          ],
+          "text": "        \"market_value\": 0.0,"
+        },
+        {
+          "line": 344,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "        \"gross_exposure\": gross_exposure,"
+        },
+        {
+          "line": 345,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "        \"net_exposure\": gross_exposure,"
+        },
+        {
+          "line": 346,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "        \"core_exposure\": gross_exposure if core_active else 0.0,"
+        },
+        {
+          "line": 347,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "        \"sidecar_exposure\": gross_exposure if sidecar_active else 0.0,"
+        },
+        {
+          "line": 371,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "        \"portfolio_value\": current_value,"
+        },
+        {
+          "line": 373,
+          "terms": [
+            "cash"
+          ],
+          "text": "        \"cash\": current_value,"
+        },
+        {
+          "line": 374,
+          "terms": [
+            "market_value"
+          ],
+          "text": "        \"market_value\": 0.0,"
+        },
+        {
+          "line": 399,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "        \"portfolio_value\": summary[\"portfolio_value\"],"
+        },
+        {
+          "line": 409,
+          "terms": [
+            "portfolio_value"
+          ],
+          "text": "    print(\"portfolio_value:\", summary[\"portfolio_value\"])"
+        },
+        {
+          "line": 413,
+          "terms": [
+            "gross_exposure"
+          ],
+          "text": "    print(\"gross_exposure:\", summary[\"gross_exposure\"])"
+        }
+      ],
+      "path_literals": [
+        "e1r_v0_2_portfolio_state.json",
+        "e1r_v0_2_status.json",
+        "oos_e1r_v0_2_equity_curve.json",
+        "oos_e1r_v0_2_orders.json",
+        "oos_e1r_v0_2_positions.json",
+        "oos_e1r_v0_2_summary.json",
+        "oos_summary.json"
+      ],
+      "key_functions": [
+        {
+          "name": "sharpe_ratio",
+          "line": 114,
+          "args": [
+            "values"
+          ],
+          "returns": "Optional[float]",
+          "is_key": true,
+          "doc": null
+        },
+        {
+          "name": "main",
+          "line": 382,
+          "args": [],
+          "returns": "int",
+          "is_key": true,
+          "doc": null
+        }
+      ]
+    },
+    "data/research/e1r/e1r_formal_backtest_v0_1.json": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_keys": [
+        "comparison_base",
+        "e1_metrics",
+        "equity_curve",
+        "metrics",
+        "source",
+        "spx_curve",
+        "status",
+        "trades",
+        "variant_id"
+      ],
+      "lists": {
+        "equity_curve": {
+          "length": 131,
+          "first_type": "float",
+          "last_type": "float",
+          "sample_keys": null,
+          "first_sample": 100000.0,
+          "last_sample": 170918.25
+        },
+        "spx_curve": {
+          "length": 131,
+          "first_type": "float",
+          "last_type": "float",
+          "sample_keys": null,
+          "first_sample": 100000.0,
+          "last_sample": 169361.75
+        },
+        "trades": {
+          "length": 39,
+          "first_type": "dict",
+          "last_type": "dict",
+          "sample_keys": [
+            "action_count",
+            "actions_during_trade",
+            "avg_cost",
+            "dominant_regime",
+            "effective_exit",
+            "entry_date",
+            "entry_price",
+            "entry_regime",
+            "entry_signal",
+            "entry_type",
+            "execution_model",
+            "exit_date",
+            "exit_price",
+            "exit_regime",
+            "exit_signal",
+            "exit_type",
+            "exit_warning_count",
+            "exit_warning_log",
+            "holding_days",
+            "is_sim_end",
+            "leader_score_entry",
+            "max_drawdown_in_trade",
+            "max_gain_pct",
+            "realized_pnl_before_exit",
+            "regime_day_weights",
+            "return_pct",
+            "size_units_at_exit",
+            "symbol",
+            "take_profit_exec_date",
+            "take_profit_triggered"
+          ],
+          "first_sample": {
+            "symbol": "MELI",
+            "entry_date": "2023-11-28",
+            "exit_date": "2024-01-04",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 1599.21,
+            "avg_cost": 1607.2,
+            "exit_price": 1500.0,
+            "effective_exit": 1482.16,
+            "return_pct": -4.73,
+            "max_gain_pct": 2.79,
+            "max_drawdown_in_trade": 9.2,
+            "holding_days": 26,
+            "size_units_at_exit": 0.5,
+            "leader_score_entry": 94.4,
+            "relative_stop_triggered": false,
+            "relative_stop_exec_date": null,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": -282.58,
+            "actions_during_trade": [
+              "BUY",
+              "ADD",
+              "ADD",
+              "BUY",
+              "ADD",
+              "ADD",
+              "BUY",
+              "ADD",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "EXIT"
+            ],
+            "action_count": 29,
+            "execution_model": "adverse_intraday_v1.0",
+            "entry_adverse_gap_pct": 0.5,
+            "exit_adverse_gap_pct": 1.19,
+            "total_execution_drag_pct": 1.689,
+            "is_sim_end": false,
+            "entry_regime": "UPTREND",
+            "exit_regime": "UPTREND",
+            "dominant_regime": "UPTREND",
+            "entry_type": "E1R_UPTREND_CONFIRMED",
+            "regime_day_weights": {
+              "UPTREND": 25
+            },
+            "exit_reason": "leader_score_below_60",
+            "exit_reasons": [
+              "leader_score_below_60"
+            ],
+            "exit_type": "NORMAL_EXIT",
+            "exit_warning_log": [],
+            "exit_warning_count": 0
+          },
+          "last_sample": {
+            "symbol": "DELL",
+            "entry_date": "2026-04-24",
+            "exit_date": "2026-06-11",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 212.14,
+            "avg_cost": 219.22,
+            "exit_price": 391.45,
+            "effective_exit": 366.59,
+            "return_pct": 37.57,
+            "max_gain_pct": 112.55,
+            "max_drawdown_in_trade": 0,
+            "holding_days": 34,
+            "size_units_at_exit": 0.5,
+            "leader_score_entry": 96.0,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": 1665.07,
+            "actions_during_trade": [
+              "BUY",
+              "BUY",
+              "BUY",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "HOLD",
+              "HOLD",
+              "ADD",
+              "ADD",
+              "BUY",
+              "BUY",
+              "BUY",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "HOLD",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE"
+            ],
+            "action_count": 37,
+            "execution_model": "adverse_intraday_v1.0",
+            "is_sim_end": true,
+            "entry_regime": "UPTREND",
+            "exit_regime": "UPTREND",
+            "dominant_regime": "UPTREND",
+            "entry_type": "E1R_UPTREND_CONFIRMED",
+            "regime_day_weights": {
+              "UPTREND": 34
+            },
+            "exit_type": "SIM_END",
+            "exit_warning_log": [],
+            "exit_warning_count": 0
+          }
+        }
+      },
+      "metrics": {
+        "variant_id": "E1R_REGIME_AWARE_V0_1"
+      }
+    },
+    "exports/portfolio_backtest.json": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_keys": [
+        "alpha_pct",
+        "avg_execution_drag_pct",
+        "avg_holding_days",
+        "avg_loser_pct",
+        "avg_winner_pct",
+        "cagr_pct",
+        "comparison",
+        "daily_records",
+        "entry_top_n",
+        "executed_exit_reason_distribution",
+        "executed_reduce_reason_distribution",
+        "execution_model",
+        "exposure_pct",
+        "final_equity",
+        "generated_at",
+        "generated_at_display",
+        "initial_capital",
+        "invalid_trades",
+        "invalid_trades_count",
+        "layer",
+        "market_entry_gate",
+        "max_drawdown_pct",
+        "name",
+        "number_of_trades",
+        "p0_passed",
+        "partial_take_profit",
+        "pending_orders_executed",
+        "pending_orders_skipped",
+        "pending_signal_reason_distribution",
+        "period_comparison",
+        "portfolio_action_distribution",
+        "profit_factor",
+        "rank_based_exit",
+        "sample_validity",
+        "selected_variant",
+        "selection_policy",
+        "sharpe_ratio",
+        "skipped_orders_by_reason",
+        "spx_cagr_pct",
+        "spx_total_return_pct",
+        "status",
+        "strategy_controls",
+        "strategy_variant",
+        "total_return_pct",
+        "total_trades_all",
+        "variant_results",
+        "version",
+        "win_rate_pct"
+      ],
+      "lists": {
+        "invalid_trades": {
+          "length": 0,
+          "first_type": null,
+          "last_type": null,
+          "sample_keys": null,
+          "first_sample": "<class 'NoneType'>",
+          "last_sample": "<class 'NoneType'>"
+        },
+        "daily_records": {
+          "length": 22,
+          "first_type": "dict",
+          "last_type": "dict",
+          "sample_keys": [
+            "cash",
+            "date",
+            "market_gate_state",
+            "n_holdings",
+            "pending_orders",
+            "position_value",
+            "spx_close",
+            "spx_day_return_pct",
+            "spx_ma50",
+            "total_equity"
+          ],
+          "first_sample": {
+            "date": "2023-11-06",
+            "cash": 100000.0,
+            "position_value": 0.0,
+            "total_equity": 100000.0,
+            "n_holdings": 0,
+            "pending_orders": 0,
+            "market_gate_state": "RISK_OFF",
+            "spx_close": 4365.98,
+            "spx_ma50": 4346.84,
+            "spx_day_return_pct": 0.18
+          },
+          "last_sample": {
+            "date": "2026-05-13",
+            "cash": 37067.35,
+            "position_value": 55620.57,
+            "total_equity": 92687.92,
+            "n_holdings": 3,
+            "pending_orders": 2,
+            "market_gate_state": "ALLOW",
+            "spx_close": 7444.25,
+            "spx_ma50": 6896.91,
+            "spx_day_return_pct": 0.58
+          }
+        },
+        "comparison": {
+          "length": 2,
+          "first_type": "dict",
+          "last_type": "dict",
+          "sample_keys": [
+            "alpha_pct",
+            "avg_loser_pct",
+            "avg_winner_pct",
+            "cagr_pct",
+            "candidate_top_n",
+            "entry_rs_min",
+            "exposure_pct",
+            "ls60_exit_mode",
+            "max_drawdown_pct",
+            "min_holding_days",
+            "number_of_trades",
+            "profit_factor",
+            "qualified_entry_enabled",
+            "qualified_states",
+            "relative_stop_enabled",
+            "relative_stop_stats",
+            "relative_stop_underperform_pct",
+            "selected",
+            "sharpe_ratio",
+            "skip_reasons",
+            "status",
+            "total_return_pct",
+            "variant",
+            "win_rate_pct"
+          ],
+          "first_sample": {
+            "variant": "E1_AUDITED_G4_MINHOLD10",
+            "selected": true,
+            "status": "PARTIAL",
+            "entry_rs_min": 90.0,
+            "ls60_exit_mode": "exit",
+            "min_holding_days": 10,
+            "relative_stop_enabled": false,
+            "relative_stop_underperform_pct": -8.0,
+            "total_return_pct": 7.52,
+            "alpha_pct": -61.84,
+            "cagr_pct": 2.85,
+            "max_drawdown_pct": 38.1,
+            "win_rate_pct": 36.2,
+            "profit_factor": 1.25,
+            "sharpe_ratio": 0.18,
+            "number_of_trades": 47,
+            "avg_winner_pct": 14.42,
+            "avg_loser_pct": -6.56,
+            "exposure_pct": 80.1,
+            "skip_reasons": {
+              "max_positions_reached": 32,
+              "cash_insufficient": 0,
+              "already_holding": 0,
+              "max_single_size_reached": 40,
+              "no_t1_price": 0,
+              "invalid_execution_price": 0,
+              "size_at_minimum": 231,
+              "not_holding": 0,
+              "not_in_entry_top_n": 4957,
+              "not_in_qualified_candidate_pool": 0,
+              "not_qualified_entry": 0,
+              "qualified_candidate_generated": 0,
+              "market_risk_off_block": 13,
+              "market_shock_block": 0,
+              "add_blocked_after_tp": 0,
+              "entry_rs_below_threshold": 0,
+              "min_hold_block": 60,
+              "dynamic_exit_warning": 0,
+              "dynamic_hard_exit_triggered": 0,
+              "dynamic_soft_exit_confirmed": 0,
+              "ls60_reduce_already_triggered": 0,
+              "action_reason_buy_add_mismatch": 0,
+              "fill_only_no_empty_slot": 0,
+              "gate_capacity_block": 1519,
+              "gate_add_blocked": 12
+            },
+            "qualified_entry_enabled": false,
+            "candidate_top_n": null,
+            "qualified_states": [
+              "Expansion"
+            ],
+            "relative_stop_stats": {
+              "signals": 0,
+              "executed": 0
+            }
+          },
+          "last_sample": {
+            "variant": "E2_DYNAMIC_EXIT_V2",
+            "selected": false,
+            "status": "FAIL",
+            "entry_rs_min": 90.0,
+            "ls60_exit_mode": "exit",
+            "min_holding_days": 0,
+            "relative_stop_enabled": false,
+            "relative_stop_underperform_pct": -8.0,
+            "total_return_pct": -21.95,
+            "alpha_pct": -91.31,
+            "cagr_pct": -9.15,
+            "max_drawdown_pct": 51.1,
+            "win_rate_pct": 29.3,
+            "profit_factor": 0.83,
+            "sharpe_ratio": -0.15,
+            "number_of_trades": 41,
+            "avg_winner_pct": 15.82,
+            "avg_loser_pct": -7.88,
+            "exposure_pct": 79.8,
+            "skip_reasons": {
+              "max_positions_reached": 28,
+              "cash_insufficient": 0,
+              "already_holding": 0,
+              "max_single_size_reached": 31,
+              "no_t1_price": 0,
+              "invalid_execution_price": 0,
+              "size_at_minimum": 313,
+              "not_holding": 0,
+              "not_in_entry_top_n": 4946,
+              "not_in_qualified_candidate_pool": 0,
+              "not_qualified_entry": 0,
+              "qualified_candidate_generated": 0,
+              "market_risk_off_block": 6,
+              "market_shock_block": 0,
+              "add_blocked_after_tp": 0,
+              "entry_rs_below_threshold": 0,
+              "min_hold_block": 0,
+              "dynamic_exit_warning": 27,
+              "dynamic_hard_exit_triggered": 0,
+              "dynamic_soft_exit_confirmed": 339,
+              "ls60_reduce_already_triggered": 0,
+              "action_reason_buy_add_mismatch": 0,
+              "fill_only_no_empty_slot": 0,
+              "gate_capacity_block": 1541,
+              "gate_add_blocked": 14
+            },
+            "qualified_entry_enabled": false,
+            "candidate_top_n": null,
+            "qualified_states": [
+              "Expansion"
+            ],
+            "relative_stop_stats": {
+              "signals": 0,
+              "executed": 0
+            }
+          }
+        }
+      },
+      "metrics": {
+        "version": "v1.6-ls60-mode-comparison",
+        "total_return_pct": 7.52,
+        "alpha_pct": -61.84,
+        "max_drawdown_pct": 38.1,
+        "profit_factor": 1.25,
+        "sharpe_ratio": 0.18,
+        "final_equity": 107519.31,
+        "initial_capital": 100000.0,
+        "sample_validity": {
+          "is_valid": true,
+          "sample_status": "VALID",
+          "simulation_start_date": "2023-11-06",
+          "simulation_end_date": "2026-06-11",
+          "simulation_days": 651,
+          "total_trades": 47,
+          "completed_trades": 44,
+          "sim_end_trades": 3,
+          "sim_end_ratio_pct": 6.4,
+          "invalid_trades": 0,
+          "minimum_required": {
+            "sim_days": 252,
+            "trades": 20,
+            "sim_end_ratio_pct": 50,
+            "invalid": 0
+          }
+        }
+      }
+    },
+    "exports/e1r_v0_2_backtest_summary.json": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_keys": [
+        "alpha_pct",
+        "artifact_type",
+        "composition_exists",
+        "frozen_artifact",
+        "max_drawdown_pct",
+        "profit_factor",
+        "regeneration_note",
+        "regime_aware_logic",
+        "research_status",
+        "row_count",
+        "sharpe_ratio",
+        "sidecar_active_by_regime",
+        "sidecar_active_by_subclass",
+        "sidecar_active_days",
+        "source_file",
+        "source_json_path",
+        "spx_return_pct",
+        "strategy_id",
+        "total_return_pct",
+        "variant"
+      ],
+      "lists": {},
+      "metrics": {
+        "strategy_id": "E1R_REGIME_AWARE_V0_2",
+        "variant": "E1R_REGIME_AWARE_V0_2",
+        "total_return_pct": 116.7435999134756,
+        "spx_return_pct": 76.844174428316,
+        "alpha_pct": 39.89942548515961,
+        "max_drawdown_pct": 25.904809362815108,
+        "profit_factor": 1.1919630955509348,
+        "sharpe_ratio": 0.7957270568329264
+      }
+    },
+    "exports/e1r_v0_2_backtest_equity_curve.json": {
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_keys": [
+        "artifact_type",
+        "equity_curve",
+        "frozen_artifact",
+        "regeneration_note",
+        "row_count",
+        "rows",
+        "source_file",
+        "source_json_path",
+        "variant"
+      ],
+      "lists": {
+        "rows": {
+          "length": 8819,
+          "first_type": "dict",
+          "last_type": "dict",
+          "sample_keys": [
+            "close",
+            "date",
+            "diagnostic_only",
+            "e1r_entry_type",
+            "e1r_uptrend_confirmed_eligible",
+            "e1r_uptrend_emerging_eligible",
+            "equity",
+            "leader_rank",
+            "leader_score",
+            "ma20",
+            "ma20_slope",
+            "ma50",
+            "ma50_slope",
+            "momentum_acceleration",
+            "momentum_score",
+            "reasons",
+            "rs_20d_improvement",
+            "rs_prev20",
+            "rs_score",
+            "spx_regime",
+            "symbol",
+            "trend_health"
+          ],
+          "first_sample": {
+            "date": "2021-06-11",
+            "symbol": "ADBE",
+            "spx_regime": "UPTREND",
+            "e1r_entry_type": "E1R_UPTREND_EMERGING",
+            "e1r_uptrend_emerging_eligible": true,
+            "e1r_uptrend_confirmed_eligible": false,
+            "leader_rank": 14,
+            "leader_score": 90.88,
+            "rs_score": 89.0,
+            "rs_prev20": 18.6,
+            "rs_20d_improvement": 70.4,
+            "momentum_score": 93.0,
+            "momentum_acceleration": 41.0,
+            "trend_health": 90.9,
+            "close": 541.26,
+            "ma20": 501.12,
+            "ma50": 501.37,
+            "ma20_slope": 0.002536,
+            "ma50_slope": 0.002011,
+            "reasons": [
+              "rs_above_80",
+              "rs_20d_improvement_above_10",
+              "momentum_above_70",
+              "momentum_acceleration_positive",
+              "trend_health_above_65",
+              "close_above_ma20",
+              "ma20_structure_positive",
+              "leader_rank_top20"
+            ],
+            "diagnostic_only": true,
+            "equity": 541.26
+          },
+          "last_sample": {
+            "date": "2026-06-16",
+            "symbol": "WSM",
+            "spx_regime": "UPTREND",
+            "e1r_entry_type": "E1R_UPTREND_EMERGING",
+            "e1r_uptrend_emerging_eligible": true,
+            "e1r_uptrend_confirmed_eligible": false,
+            "leader_rank": 19,
+            "leader_score": 91.06,
+            "rs_score": 83.9,
+            "rs_prev20": 10.8,
+            "rs_20d_improvement": 73.1,
+            "momentum_score": 100.0,
+            "momentum_acceleration": 27.9,
+            "trend_health": 90.0,
+            "close": 227.18,
+            "ma20": 204.43,
+            "ma50": 193.01,
+            "ma20_slope": 0.009685,
+            "ma50_slope": 0.00366,
+            "reasons": [
+              "rs_above_80",
+              "rs_20d_improvement_above_10",
+              "momentum_above_70",
+              "momentum_acceleration_positive",
+              "trend_health_above_65",
+              "close_above_ma20",
+              "ma20_structure_positive",
+              "leader_rank_top20"
+            ],
+            "diagnostic_only": true,
+            "equity": 227.18
+          }
+        },
+        "equity_curve": {
+          "length": 8819,
+          "first_type": "dict",
+          "last_type": "dict",
+          "sample_keys": [
+            "close",
+            "date",
+            "diagnostic_only",
+            "e1r_entry_type",
+            "e1r_uptrend_confirmed_eligible",
+            "e1r_uptrend_emerging_eligible",
+            "equity",
+            "leader_rank",
+            "leader_score",
+            "ma20",
+            "ma20_slope",
+            "ma50",
+            "ma50_slope",
+            "momentum_acceleration",
+            "momentum_score",
+            "reasons",
+            "rs_20d_improvement",
+            "rs_prev20",
+            "rs_score",
+            "spx_regime",
+            "symbol",
+            "trend_health"
+          ],
+          "first_sample": {
+            "date": "2021-06-11",
+            "symbol": "ADBE",
+            "spx_regime": "UPTREND",
+            "e1r_entry_type": "E1R_UPTREND_EMERGING",
+            "e1r_uptrend_emerging_eligible": true,
+            "e1r_uptrend_confirmed_eligible": false,
+            "leader_rank": 14,
+            "leader_score": 90.88,
+            "rs_score": 89.0,
+            "rs_prev20": 18.6,
+            "rs_20d_improvement": 70.4,
+            "momentum_score": 93.0,
+            "momentum_acceleration": 41.0,
+            "trend_health": 90.9,
+            "close": 541.26,
+            "ma20": 501.12,
+            "ma50": 501.37,
+            "ma20_slope": 0.002536,
+            "ma50_slope": 0.002011,
+            "reasons": [
+              "rs_above_80",
+              "rs_20d_improvement_above_10",
+              "momentum_above_70",
+              "momentum_acceleration_positive",
+              "trend_health_above_65",
+              "close_above_ma20",
+              "ma20_structure_positive",
+              "leader_rank_top20"
+            ],
+            "diagnostic_only": true,
+            "equity": 541.26
+          },
+          "last_sample": {
+            "date": "2026-06-16",
+            "symbol": "WSM",
+            "spx_regime": "UPTREND",
+            "e1r_entry_type": "E1R_UPTREND_EMERGING",
+            "e1r_uptrend_emerging_eligible": true,
+            "e1r_uptrend_confirmed_eligible": false,
+            "leader_rank": 19,
+            "leader_score": 91.06,
+            "rs_score": 83.9,
+            "rs_prev20": 10.8,
+            "rs_20d_improvement": 73.1,
+            "momentum_score": 100.0,
+            "momentum_acceleration": 27.9,
+            "trend_health": 90.0,
+            "close": 227.18,
+            "ma20": 204.43,
+            "ma50": 193.01,
+            "ma20_slope": 0.009685,
+            "ma50_slope": 0.00366,
+            "reasons": [
+              "rs_above_80",
+              "rs_20d_improvement_above_10",
+              "momentum_above_70",
+              "momentum_acceleration_positive",
+              "trend_health_above_65",
+              "close_above_ma20",
+              "ma20_structure_positive",
+              "leader_rank_top20"
+            ],
+            "diagnostic_only": true,
+            "equity": 227.18
+          }
+        }
+      },
+      "metrics": {
+        "variant": "E1R_REGIME_AWARE_V0_2"
+      }
+    }
+  },
+  "toy_probe": {
+    "status": "RUN",
+    "composer_import": null,
+    "function_probe": {
+      "has_build_equity_records_from_returns": true,
+      "has_extract_core_interval_returns": true,
+      "has_compound_return": true,
+      "has_max_drawdown": true,
+      "has_sharpe_ratio": true,
+      "has_profit_factor": true,
+      "build_equity_records_from_returns_signature": "(interval_records: 'Sequence[dict[str, Any]]', initial_equity: 'float') -> 'list[dict[str, Any]]'",
+      "toy_call_attempts": [
+        {
+          "name": "returns_only",
+          "ok": false,
+          "error": "TypeError: build_equity_records_from_returns() missing 1 required positional argument: 'initial_equity'"
+        },
+        {
+          "name": "dates_returns",
+          "ok": false,
+          "error": "AttributeError: 'str' object has no attribute 'get'"
+        },
+        {
+          "name": "keyword_returns_dates",
+          "ok": false,
+          "error": "TypeError: build_equity_records_from_returns() got an unexpected keyword argument 'returns'"
+        },
+        {
+          "name": "keyword_interval_returns",
+          "ok": false,
+          "error": "TypeError: build_equity_records_from_returns() got an unexpected keyword argument 'interval_returns'"
+        }
+      ]
+    },
+    "error": null,
+    "returncode": 0,
+    "stdout": "{\n  \"has_build_equity_records_from_returns\": true,\n  \"has_extract_core_interval_returns\": true,\n  \"has_compound_return\": true,\n  \"has_max_drawdown\": true,\n  \"has_sharpe_ratio\": true,\n  \"has_profit_factor\": true,\n  \"build_equity_records_from_returns_signature\": \"(interval_records: 'Sequence[dict[str, Any]]', initial_equity: 'float') -> 'list[dict[str, Any]]'\",\n  \"toy_call_attempts\": [\n    {\n      \"name\": \"returns_only\",\n      \"ok\": false,\n      \"error\": \"TypeError: build_equity_records_from_returns() missing 1 required positional argument: 'initial_equity'\"\n    },\n    {\n      \"name\": \"dates_returns\",\n      \"ok\": false,\n      \"error\": \"AttributeError: 'str' object has no attribute 'get'\"\n    },\n    {\n      \"name\": \"keyword_returns_dates\",\n      \"ok\": false,\n      \"error\": \"TypeError: build_equity_records_from_returns() got an unexpected keyword argument 'returns'\"\n    },\n    {\n      \"name\": \"keyword_interval_returns\",\n      \"ok\": false,\n      \"error\": \"TypeError: build_equity_records_from_returns() got an unexpected keyword argument 'interval_returns'\"\n    }\n  ]\n}\n",
+    "stderr": ""
+  },
+  "diagnosis": [
+    "e1r_composer.py contains build_equity_records_from_returns; this is the best first candidate for E1R portfolio-level equity construction.",
+    "e1r_composer.py contains extract_core_interval_returns; likely can rebuild core interval portfolio returns before composing equity.",
+    "export_e1r_v0_2_backtest_equity.py has normalize/extract functions but current output is diagnostic rows; likely needs replacement/export-only wrapper, not minor patch.",
+    "e1r_formal_backtest_v0_1.json has numeric equity_curve length=131; useful as reference, but too short for full 5Y daily canonical chart.",
+    "exports/portfolio_backtest.json sample window remains 2023-11-06 to 2026-06-11; not full 5Y.",
+    "Toy import probe for e1r_composer.py ran successfully; wrapper can likely import composer functions safely."
+  ],
+  "prototype_wrapper_plan": {
+    "status": "PROTOTYPE_PLAN_ONLY_NO_EXPORTS_WRITTEN",
+    "recommended_path": "scripts/export_canonical_5y_equity_curves.py",
+    "design": {
+      "mode": "export-only wrapper",
+      "do_not_modify": [
+        "src/engine/backtest.py",
+        "src/engine/e1r_composer.py",
+        "src/engine/e1r_sidecar_sleeve.py"
+      ],
+      "read_inputs": [
+        "data/research/e1_5y/raw/indices/SPX.json",
+        "data/research/e1_5y/raw/stocks/*.json",
+        "data/research/e1_5y/regimes/spx_regime_daily.json",
+        "existing frozen backtest/composer outputs where available"
+      ],
+      "write_outputs": [
+        "exports/e1_5y_backtest_equity_curve.json",
+        "exports/e1r_v0_2_portfolio_backtest_equity_curve.json",
+        "exports/e1_e1r_5y_equity_comparison.json"
+      ]
+    },
+    "preferred_implementation_path": [
+      {
+        "step": 1,
+        "action": "Use e1r_composer.extract_core_interval_returns and build_equity_records_from_returns if their signatures support existing E1R records.",
+        "reason": "Composer already contains portfolio-return-to-equity utilities."
+      },
+      {
+        "step": 2,
+        "action": "If E1 5Y daily returns are not exported, call frozen backtest engine in a wrapper and capture daily_equity/portfolio records without changing strategy logic.",
+        "reason": "Current exports/portfolio_backtest.json is only 2023-11 to 2026-06."
+      },
+      {
+        "step": 3,
+        "action": "Validate final E1R metrics against frozen values: total_return_pct≈116.74, spx_return_pct≈76.84, alpha_pct≈39.90, max_drawdown_pct≈25.9.",
+        "reason": "Prevents accidental schema-only exports with wrong accounting."
+      },
+      {
+        "step": 4,
+        "action": "Only after validation, patch dashboard main equity chart to use exports/e1_e1r_5y_equity_comparison.json.",
+        "reason": "Avoids another timeline-anchor bug."
+      }
+    ],
+    "long_backtest_policy": {
+      "allowed": true,
+      "when_reasonable": "Only if no existing portfolio daily curve can be recovered from composer/export artifacts.",
+      "guardrails": [
+        "Run as export-only wrapper.",
+        "Do not edit frozen strategy files.",
+        "Write canonical exports under new filenames.",
+        "Run smoke/import/signature checks before long run.",
+        "Compare final metrics to frozen references before dashboard consumption."
+      ]
+    },
+    "next_stage": {
+      "name": "Stage 3.8E-2F-2C-4C-5",
+      "title": "Build export-only canonical 5Y equity wrapper smoke test",
+      "goal": "Create wrapper with --dry-run / --inspect mode first; run short smoke before any long backtest."
+    }
+  }
+}
