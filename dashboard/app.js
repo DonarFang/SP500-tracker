@@ -137,6 +137,23 @@ async function fetchResearchJ(name) {
   return r.json();
 }
 
+
+async function loadE1rForwardPaperOrdersIntoMainData() {
+  try {
+    const [ordersResp, positionsResp] = await Promise.all([
+      fetch('../exports/oos_e1r_v0_2_orders.json', { cache: 'no-store' }),
+      fetch('../exports/oos_e1r_v0_2_positions.json', { cache: 'no-store' }),
+    ]);
+
+    DATA.e1rV02OosOrders = ordersResp.ok ? await ordersResp.json() : null;
+    DATA.e1rV02OosPositions = positionsResp.ok ? await positionsResp.json() : null;
+  } catch (err) {
+    console.warn('E1R forward paper orders load failed', err);
+    DATA.e1rV02OosOrders = null;
+    DATA.e1rV02OosPositions = null;
+  }
+}
+
 async function loadAll() {
   // Stage 3.8E-2B-v4: read-only daily summary exports for unified summary.
   try { DATA.e1rV02BacktestSummary = await fetchJ('e1r_v0_2_backtest_summary'); } catch(e) { DATA.e1rV02BacktestSummary = {}; }
@@ -179,7 +196,8 @@ async function loadAll() {
     DATA.e1rRegime=e1rReg; DATA.e1rConfirmed=e1rConf;
     DATA.e1rSideways3i=e1r3i; DATA.e1rSideways3ir=e1r3ir; DATA.e1rSideways3k=e1r3k; DATA.e1rFormal=e1rFormal;
 
-    ['market','leader','watchlist','positions','research'].forEach(t=>render(t));
+    ['market','leader','watchlist','positions','research'].forEach(t=>  await loadE1rForwardPaperOrdersIntoMainData();
+render(t));
   } catch(e) {
     // 只有核心数据失败才整页报错
     ['market','leader','watchlist','positions','research'].forEach(t=>{
@@ -1215,8 +1233,9 @@ Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
       nativeMarket.leaders_count ??
       '—';
 
-    h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">${e1rForwardTradeLogHtml(e1rForwardOrdersData(), e1rForwardPositionsData())}
-Market State</div><div class="card-body">
+        h+=`${e1rForwardTradeLogHtml(e1rForwardOrdersData(), e1rForwardPositionsData())}`;
+
+h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">Market State</div><div class="card-body">
       <div class="grid-4">
         <div class="mc"><div class="mc-label">State</div><div class="mc-val">${nativeMarketState}</div></div>
         <div class="mc"><div class="mc-label">Data date</div><div class="mc-val">${nativeMarketDate}</div></div>

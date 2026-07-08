@@ -1,0 +1,64 @@
+{
+  "generated_at": "2026-07-08T09:22:54.590044+00:00",
+  "stage": "B_STAGE_3_8E2F2C3EC_WIRE_E1R_PAPER_ORDERS_MAIN_DATA",
+  "status": "IMPLEMENTED_DASHBOARD_PATCH",
+  "files_changed": [
+    "dashboard/app.js"
+  ],
+  "changes": {
+    "added_loader_helper": true,
+    "added_loader_call": true,
+    "removed_bad_market_head_insertion": true,
+    "added_independent_trade_card": true,
+    "loader_assigns": [
+      "DATA.e1rV02OosOrders",
+      "DATA.e1rV02OosPositions"
+    ],
+    "paths": [
+      "../exports/oos_e1r_v0_2_orders.json",
+      "../exports/oos_e1r_v0_2_positions.json"
+    ]
+  },
+  "local_data_validation": {
+    "orders_rows": 10,
+    "positions_rows": 10,
+    "buy_orders": 10,
+    "symbols": [
+      "AXON",
+      "DD",
+      "DVA",
+      "MRNA",
+      "HUM",
+      "HOOD",
+      "FTNT",
+      "GEN",
+      "SNOW",
+      "MOH"
+    ]
+  },
+  "expected_ui": {
+    "panel": "Paper Orders — E1R Forward",
+    "expected_rows": 10,
+    "expected_symbols": [
+      "AXON",
+      "DD",
+      "DVA",
+      "MRNA",
+      "HUM",
+      "HOOD",
+      "FTNT",
+      "GEN",
+      "SNOW",
+      "MOH"
+    ],
+    "placement": "after E1 Trade Log and before Market State"
+  },
+  "policy": {
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false
+  }
+}
