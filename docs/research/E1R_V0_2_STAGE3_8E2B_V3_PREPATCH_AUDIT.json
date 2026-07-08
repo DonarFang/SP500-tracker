@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-07-08T05:23:10.762878+00:00",
+  "stage": "B_STAGE_3_8E2B_V3_PREPATCH_AUDIT",
+  "status": "AUDIT_COMPLETE_NO_SOURCE_CHANGES",
+  "main": {
+    "branch": "main",
+    "head": "4435fac"
+  },
+  "policy": {
+    "strategy_logic_changed": false,
+    "dashboard_source_changed": false,
+    "exports_changed": false
+  },
+  "targets": {
+    "legacy_e1r_function": {
+      "start_line": 194,
+      "end_line": 261,
+      "char_count": 3721,
+      "contains_legacy_summary": true,
+      "replacement_plan": "Replace entire function body with stub returning empty string.",
+      "context": "191: }\n192: \n193: \n194: function renderE1RResearchPanel(vr){\n195:   const reg=DATA.e1rRegime, conf=DATA.e1rConfirmed, s3i=DATA.e1rSideways3i, s3ir=DATA.e1rSideways3ir, s3k=DATA.e1rSideways3k;\n196:   const formal=DATA.e1rFormal||{}, fm=formal.metrics||{};\n197:   const e1r=vr?.E1R_REGIME_AWARE_V0_1;\n198:   if(!reg && !conf && !s3i && !s3ir && !s3k && !e1r && !formal.variant_id) return '';\n199: \n200:   const nfmt = (v,d=2) => (v===null||v===undefined||v==='') ? '—' : (Number(v)>=0?'+':'') + Number(v).toFixed(d) + '%';\n201:   const num  = (v,d=2) => (v===null||v===undefined||v==='') ? '—' : Number(v).toFixed(d);\n202: \n203:   const fullRet = fm.total_return_pct ?? e1r?.total_return_pct ?? reg?.summary?.e1r_full_return_pct ?? reg?.e1r_full_return_pct;\n204:   const maxDD   = fm.max_drawdown_pct ?? e1r?.max_drawdown_pct ?? reg?.summary?.e1r_max_drawdown_pct ?? reg?.e1r_max_drawdown_pct;\n205:   const pf      = fm.profit_factor ?? e1r?.profit_factor ?? reg?.summary?.e1r_profit_factor ?? reg?.e1r_profit_factor;\n206:   const sharpe  = fm.sharpe_ratio ?? e1r?.sharpe_ratio ?? e1r?.sharpe ?? reg?.summary?.e1r_sharpe ?? reg?.e1r_sharpe;\n207:   const trades  = fm.number_of_trades ?? e1r?.number_of_trades ?? e1r?.num_trades ?? e1r?.trades_count ?? reg?.summary?.e1r_trades;\n208:   const alpha   = fm.alpha_pct;\n209:   const exposure= fm.exposure_pct;\n210: \n211:   const up = reg?.regime_attribution?.UPTREND || reg?.regime_results?.UPTREND || reg?.UPTREND || {};\n212:   const upE1R = up?.e1r_return_pct ?? up?.e1r_total_return_pct ?? 70.92;\n213:   const upE1  = up?.e1_return_pct ?? up?.e1_total_return_pct ?? 10.63;\n214:   const upDelta = up?.delta_pct ?? up?.excess_pct ?? 60.29;\n215: \n216:   const r3i = s3i?.rule_results?.UPGRADE_WATCH_RECOVERY || s3i?.UPGRADE_WATCH_RECOVERY || {};\n217:   const r3ir = s3ir?.robustness_summary || s3ir?.summary || {};\n218:   const r3k = s3k?.summary || s3k?.decision || {};\n219: \n220:   const pass3ir = r3ir?.checks_passed ?? r3ir?.passed_checks ?? '5/7';\n221:   const dec3ir = r3ir?.decision || s3ir?.decision || 'PROMISING_BUT_STILL_DIAGNOSTIC_ONLY';\n222:   const dec3k = r3k?.decision || s3k?.decision || 'PROMISING_BUT_TIME_CONCENTRATED_DIAGNOSTIC_ONLY';\n223: \n224:   return `<div class=\"e1r-panel\">\n225:     <div class=\"e1r-head\">\n226:       <div>\n227:         <h3>🧪 E1-R Research Summary</h3>\n228:         <div class=\"muted\">Formal backtest available from 5Y research export. Main engine migration / OOS tracking not yet completed.</div>\n229:       </div>\n230:       <span class=\"badge-e1r\">E1R_REGIME_AWARE_V0_1</span>\n231:     </div>\n232: \n233:     <div class=\"e1r-metrics-row\">\n234:       <div class=\"metric\"><div>Full Return</div><strong>${nfmt(fullRet)}</strong></div>\n235:       <div class=\"metric\"><div>MaxDD</div><strong>${nfmt(maxDD)}</strong></div>\n236:       <div class=\"metric\"><div>PF</div><strong>${num(pf)}</strong></div>\n237:       <div class=\"metric\"><div>Sharpe</div><strong>${num(sharpe)}</strong></div>\n238:       <div class=\"metric\"><div>Trades</div><strong>${trades??'—'}</strong></div>\n239:       <div class=\"metric\"><div>Alpha</div><strong>${nfmt(alpha)}</strong></div>\n240:       <div class=\"metric\"><div>Exposure</div><strong>${nfmt(exposure)}</strong></div>\n241:     </div>\n242: \n243:     <div class=\"grid-3\">\n244:       <div class=\"card mini\">\n245:         <h4>UPTREND Confirmed</h4>\n246:         <p>E1-R ${nfmt(upE1R)} vs E1 ${nfmt(upE1)}，delta ${nfmt(upDelta)}。</p>\n247:         <div class=\"tag-good\">Execution channel</div>\n248:       </div>\n249:       <div class=\"card mini\">\n250:         <h4>SIDEWAYS Recovery</h4>\n251:         <p>Phase 3I upgrade-watch recovery: 20D excess ${nfmt(r3i?.excess_20d_pct ?? 3.90)}，30D excess ${nfmt(r3i?.excess_30d_pct ?? 8.10)}。</p>\n252:         <div class=\"tag-warn\">Watchlist only</div>\n253:       </div>\n254:       <div class=\"card mini\">\n255:         <h4>Robustness Gate</h4>\n256:         <p>3I-R checks ${pass3ir}；3K decision: ${dec3k || dec3ir}。</p>\n257:         <div class=\"tag-warn\">Diagnostic only</div>\n258:       </div>\n259:     </div>\n260:   </div>`;\n261: }\n262: \n263: \n264: // ═══════════════════════════════════════════════════════"
+    },
+    "old_e1_header_block": {
+      "start_line": 669,
+      "end_line": 736,
+      "char_count": 3256,
+      "replacement_plan": "Replace this block with h+=e2bRenderSummaryComparison(e1);",
+      "context": "666:       Days held 仅供参考。Exit signal: LS &lt; 60 → EXIT，T日确认 T+1执行。MinHold 10天保护期内不提前退出。\n667:       LS 数值来自 leaderboard.json（${lbAsOf}），回测快照来自 backtest.json（${simEndDate}）。\n668:     </p>`;\n669:     h+=`<div class=\"card\"><div class=\"card-head\">个股预览 <span class=\"sub\">hover / tap 持仓或平仓行切换</span></div><div class=\"card-body\"><div id=\"pos-stock-preview\"></div></div></div>`;\n670:     $('s-positions').innerHTML=h;\n671:     setTimeout(()=>{\n672:       // 优先绑定持仓行；若无持仓，绑定最近平仓行\n673:       const root=$('s-positions');\n674:       const posRows=root?root.querySelectorAll('tr[data-symbol]'):[];\n675:       if(posRows.length){\n676:         bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');\n677:       }\n678:     },80);\n679:   }\n680: \n681:   // ── Tab 5: Research & Backtest ────────────────────────\n682:   if (tab==='research') {\n683:     const bt=DATA.backtest, tlog=DATA.tradelog;\n684:     if(!bt){$('s-research').innerHTML='<div class=\"error\">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>';return;}\n685:     const vr=bt?.backtest?.results?.layer_d?.variant_results;\n686:     const e1=vr?.E1_AUDITED_G4_MINHOLD10;\n687:     if(!e1){$('s-research').innerHTML='<div class=\"error\">E1 数据缺失。</div>';return;}\n688: \n689:     const e1rPanel = renderE1RResearchPanel(vr);\n690: \n691:     const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};\n692:     const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n693:     const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n694: \n695:     function impliedSpxReturn(row){\n696:       const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);\n697:       const src=row?.spx_total_return_pct;\n698:       if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};\n699:       if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};\n700:       return {value:null,implied:false};\n701:     }\n702:     function fmtSpx(row){\n703:       const r=impliedSpxReturn(row);\n704:       if(r.value===null||r.value===undefined||r.value==='') return '—';\n705:       return `${fmt(r.value)}${r.implied?' *':''}`;\n706:     }\n707: \n708:     const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();\n709:     const tradeRows=trades.map(t=>{\n710:       const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';\n711:       return `<tr>\n712:         <td><strong>${t.symbol}</strong></td>\n713:         <td>${t.entry_date}</td><td>${t.exit_date||'—'}</td>\n714:         <td>${p2(t.entry_price||0)}</td><td>${p2(t.exit_price||0)}</td>\n715:         <td style=\"${rc}\">${ret>=0?'+':''}${p2(ret)}%</td>\n716:         <td>${t.holding_days||0}</td>\n717:         <td style=\"font-size:11px;color:var(--text2)\">${t.exit_reason||''}</td>\n718:         <td>${t.is_sim_end?'<span class=\"badge-sim\">SIM</span>':''}</td>\n719:       </tr>`;\n720:     }).join('');\n721: \n722:     const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];\n723:     const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];\n724:     const oosRowsForNote=(DATA.oosEquity?.curve||[]);\n725:     const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';\n726: \n727:     // Lifecycle 统计迁入\n728:     const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];\n729:     const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));\n730: \n731:     let h=e1rPanel + `<div class=\"frozen-banner\">\n732:       <strong>E1_AUDITED_G4_MINHOLD10 — 正式冻结 2026-06-16</strong> &nbsp;·&nbsp;\n733:       Gate v2.1: slope + leadership &nbsp;·&nbsp;\n734:       Shock 已排除（2025-10-10 SNDK 路径依赖）&nbsp;·&nbsp;\n735:       样本内不再修改\n736:     </div>`;\n737: \n738:     h+=`<div class=\"grid-4\" style=\"margin-bottom:1rem\">\n739:       <div class=\"mc\"><div class=\"mc-label\">Full return</div><div class=\"mc-val\" style=\"color:var(--green)\">${fmt(e1.total_return_pct)}</div></div>"
+    },
+    "old_e1_metric_cards_block": {
+      "start_line": 738,
+      "end_line": 747,
+      "char_count": 1051,
+      "replacement_plan": "Remove this old E1-only metric cards block.",
+      "context": "735:       样本内不再修改\n736:     </div>`;\n737: \n738:     h+=`<div class=\"grid-4\" style=\"margin-bottom:1rem\">\n739:       <div class=\"mc\"><div class=\"mc-label\">Full return</div><div class=\"mc-val\" style=\"color:var(--green)\">${fmt(e1.total_return_pct)}</div></div>\n740:       <div class=\"mc\"><div class=\"mc-label\">Max drawdown</div><div class=\"mc-val\" style=\"color:var(--red)\">${p2(e1.max_drawdown_pct)}%</div></div>\n741:       <div class=\"mc\"><div class=\"mc-label\">Profit factor</div><div class=\"mc-val\">${p2(e1.profit_factor)}</div></div>\n742:       <div class=\"mc\"><div class=\"mc-label\">Sharpe</div><div class=\"mc-val\">${p2(e1.sharpe_ratio)}</div></div>\n743:       <div class=\"mc\"><div class=\"mc-label\">Win rate</div><div class=\"mc-val\">${p2(e1.win_rate_pct)}%</div></div>\n744:       <div class=\"mc\"><div class=\"mc-label\">Trades</div><div class=\"mc-val\">${e1.number_of_trades||0}</div></div>\n745:       <div class=\"mc\"><div class=\"mc-label\">Avg hold</div><div class=\"mc-val\">${p2(e1.avg_holding_days,1)}d</div></div>\n746:       <div class=\"mc\"><div class=\"mc-label\">Exposure</div><div class=\"mc-val\">${p2(e1.exposure_pct)}%</div></div>\n747:     </div>`;\n748: \n749:     if(eqCurve.length>1){\n750:       h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class=\"card-body\">"
+    },
+    "trade_log_block": {
+      "start_line": 775,
+      "end_line": 780,
+      "should_remain_unchanged": true
+    },
+    "market_state_block": {
+      "start_line": 810,
+      "end_line": 820,
+      "should_remain_unchanged": true
+    }
+  },
+  "next_patch_rules": [
+    "Replace the entire renderE1RResearchPanel function, not just early return inside it.",
+    "Replace only the old E1 freeze header block with the unified summary call.",
+    "Remove only the old E1 metric cards block.",
+    "Do not change equity curve.",
+    "Do not change Trade Log.",
+    "Do not change Market State.",
+    "Do not change strategy logic or exports.",
+    "Cache-bust app.js/styles.css after patch."
+  ],
+  "next_stage": "Stage 3.8E-2B-v3 patch, using these exact ranges."
+}
