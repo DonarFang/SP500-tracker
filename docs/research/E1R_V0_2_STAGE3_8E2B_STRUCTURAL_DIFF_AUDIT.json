@@ -1,0 +1,1836 @@
+{
+  "generated_at": "2026-07-08T05:44:44.572052+00:00",
+  "stage": "B_STAGE_3_8E2B_STRUCTURAL_DIFF_AUDIT",
+  "status": "AUDIT_COMPLETE_NO_SOURCE_CHANGES",
+  "main": {
+    "branch": "main",
+    "current_head": "1de6bb2",
+    "base_commit": "c1a7e46"
+  },
+  "policy": {
+    "source_changed": false,
+    "strategy_logic_changed": false,
+    "exports_changed": false
+  },
+  "scope": {
+    "question": "What non-UI logic did Stage 3.8E-2B-v3 remove?",
+    "before_ref": "c1a7e46:dashboard/app.js",
+    "after_ref": "HEAD:dashboard/app.js"
+  },
+  "function_ranges": {
+    "before_render_tab": {
+      "start_line": 267,
+      "end_line": 985,
+      "char_count": 41765
+    },
+    "after_render_tab": {
+      "start_line": 309,
+      "end_line": 962,
+      "char_count": 38280
+    },
+    "before_renderE1RResearchPanel": {
+      "start_line": 194,
+      "end_line": 261,
+      "char_count": 3721
+    },
+    "after_renderE1RResearchPanel": {
+      "start_line": 198,
+      "end_line": 202,
+      "char_count": 195
+    }
+  },
+  "old_e1_header_block_analysis": {
+    "start_line": 669,
+    "end_line": 736,
+    "char_count": 3256,
+    "logic_line_count": 34,
+    "logic_lines": [
+      {
+        "line_no": 671,
+        "line": "    setTimeout(()=>{",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 673,
+        "line": "      const root=$('s-positions');",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 674,
+        "line": "      const posRows=root?root.querySelectorAll('tr[data-symbol]'):[];",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 675,
+        "line": "      if(posRows.length){",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 676,
+        "line": "        bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 682,
+        "line": "  if (tab==='research') {",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 683,
+        "line": "    const bt=DATA.backtest, tlog=DATA.tradelog;",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 685,
+        "line": "    const vr=bt?.backtest?.results?.layer_d?.variant_results;",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "vr"
+        ]
+      },
+      {
+        "line_no": 686,
+        "line": "    const e1=vr?.E1_AUDITED_G4_MINHOLD10;",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "vr",
+          "e1"
+        ]
+      },
+      {
+        "line_no": 687,
+        "line": "    if(!e1){$('s-research').innerHTML='<div class=\"error\">E1 数据缺失。</div>';return;}",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "e1"
+        ]
+      },
+      {
+        "line_no": 689,
+        "line": "    const e1rPanel = renderE1RResearchPanel(vr);",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "vr",
+          "e1",
+          "e1r"
+        ]
+      },
+      {
+        "line_no": 691,
+        "line": "    const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 692,
+        "line": "    const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 693,
+        "line": "    const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 695,
+        "line": "    function impliedSpxReturn(row){",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 696,
+        "line": "      const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "e1"
+        ]
+      },
+      {
+        "line_no": 697,
+        "line": "      const src=row?.spx_total_return_pct;",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 698,
+        "line": "      if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 699,
+        "line": "      if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "e1"
+        ]
+      },
+      {
+        "line_no": 700,
+        "line": "      return {value:null,implied:false};",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 702,
+        "line": "    function fmtSpx(row){",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 703,
+        "line": "      const r=impliedSpxReturn(row);",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 704,
+        "line": "      if(r.value===null||r.value===undefined||r.value==='') return '—';",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 705,
+        "line": "      return `${fmt(r.value)}${r.implied?' *':''}`;",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 708,
+        "line": "    const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "trades",
+          "e1"
+        ]
+      },
+      {
+        "line_no": 709,
+        "line": "    const tradeRows=trades.map(t=>{",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "trades"
+        ]
+      },
+      {
+        "line_no": 710,
+        "line": "      const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": []
+      },
+      {
+        "line_no": 722,
+        "line": "    const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "eqCurve",
+          "spxCurve",
+          "e1"
+        ]
+      },
+      {
+        "line_no": 723,
+        "line": "    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "e1rCurve",
+          "e1",
+          "e1r",
+          "e1rFormal",
+          "DATA.e1rFormal"
+        ]
+      },
+      {
+        "line_no": 724,
+        "line": "    const oosRowsForNote=(DATA.oosEquity?.curve||[]);",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "oosRows",
+          "DATA.oosEquity"
+        ]
+      },
+      {
+        "line_no": 725,
+        "line": "    const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "oosLatestDate",
+          "oosRows"
+        ]
+      },
+      {
+        "line_no": 728,
+        "line": "    const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "lc"
+        ]
+      },
+      {
+        "line_no": 729,
+        "line": "    const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "lcStats",
+          "lc",
+          "REG_META"
+        ]
+      },
+      {
+        "line_no": 731,
+        "line": "    let h=e1rPanel + `<div class=\"frozen-banner\">",
+        "classification": "likely_non_ui_logic",
+        "watch_symbols": [
+          "e1",
+          "e1r"
+        ]
+      }
+    ],
+    "preview": "h+=`<div class=\"card\"><div class=\"card-head\">个股预览 <span class=\"sub\">hover / tap 持仓或平仓行切换</span></div><div class=\"card-body\"><div id=\"pos-stock-preview\"></div></div></div>`;\n    $('s-positions').innerHTML=h;\n    setTimeout(()=>{\n      // 优先绑定持仓行；若无持仓，绑定最近平仓行\n      const root=$('s-positions');\n      const posRows=root?root.querySelectorAll('tr[data-symbol]'):[];\n      if(posRows.length){\n        bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');\n      }\n    },80);\n  }\n\n  // ── Tab 5: Research & Backtest ────────────────────────\n  if (tab==='research') {\n    const bt=DATA.backtest, tlog=DATA.tradelog;\n    if(!bt){$('s-research').innerHTML='<div class=\"error\">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>';return;}\n    const vr=bt?.backtest?.results?.layer_d?.variant_results;\n    const e1=vr?.E1_AUDITED_G4_MINHOLD10;\n    if(!e1){$('s-research').innerHTML='<div class=\"error\">E1 数据缺失。</div>';return;}\n\n    const e1rPanel = renderE1RResearchPanel(vr);\n\n    const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};\n    const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n    const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n\n    function impliedSpxReturn(row){\n      const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);\n      const src=row?.spx_total_return_pct;\n      if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};\n      if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};\n      return {value:null,implied:false};\n    }\n    function fmtSpx(row){\n      const r=impliedSpxReturn(row);\n      if(r.value===null||r.value===undefined||r.value==='') return '—';\n      return `${fmt(r.value)}${r.implied?' *':''}`;\n    }\n\n    const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();\n    const tradeRows=trades.map(t=>{\n      const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';\n      return `<tr>\n        <td><strong>${t.symbol}</strong></td>\n        <td>${t.entry_date}</td><td>${t.exit_date||'—'}</td>\n        <td>${p2(t.entry_price||0)}</td><td>${p2(t.exit_price||0)}</td>\n        <td style=\"${rc}\">${ret>=0?'+':''}${p2(ret)}%</td>\n        <td>${t.holding_days||0}</td>\n        <td style=\"font-size:11px;color:var(--text2)\">${t.exit_reason||''}</td>\n        <td>${t.is_sim_end?'<span class=\"badge-sim\">SIM</span>':''}</td>\n      </tr>`;\n    }).join('');\n\n    const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];\n    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];\n    const oosRowsForNote=(DATA.oosEquity?.curve||[]);\n    const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';\n\n    // Lifecycle 统计迁入\n    const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];\n    const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));\n\n    let h=e1rPanel + `<div class=\"frozen-banner\">\n      <strong>E1_AUDITED_G4_MINHOLD10 — 正式冻结 2026-06-16</strong> &nbsp;·&nbsp;\n      Gate v2.1: slope + leadership &nbsp;·&nbsp;\n      Shock 已排除（2025-10-10 SNDK 路径依赖）&nbsp;·&nbsp;\n      样本内不再修改\n    </div>`;"
+  },
+  "old_e1_cards_removed": {
+    "before_start_line": 738,
+    "before_end_line": 747,
+    "still_present_after": false
+  },
+  "after_summary_block": {
+    "present": false,
+    "start_line": null,
+    "end_line": null
+  },
+  "removed_line_summary": {
+    "render_tab_removed_total": 75,
+    "render_tab_removed_non_ui_candidates": 34,
+    "renderE1R_fn_removed_total": 66,
+    "renderE1R_fn_removed_non_ui_candidates": 22
+  },
+  "removed_non_ui_candidates_in_render_tab": [
+    {
+      "line": "    setTimeout(()=>{",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "      const root=$('s-positions');",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "      const posRows=root?root.querySelectorAll('tr[data-symbol]'):[];",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "      if(posRows.length){",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "        bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "  if (tab==='research') {",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "    const bt=DATA.backtest, tlog=DATA.tradelog;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "    const vr=bt?.backtest?.results?.layer_d?.variant_results;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "vr"
+      ]
+    },
+    {
+      "line": "    const e1=vr?.E1_AUDITED_G4_MINHOLD10;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "vr",
+        "e1"
+      ]
+    },
+    {
+      "line": "    if(!e1){$('s-research').innerHTML='<div class=\"error\">E1 数据缺失。</div>';return;}",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1"
+      ]
+    },
+    {
+      "line": "    const e1rPanel = renderE1RResearchPanel(vr);",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "vr",
+        "e1",
+        "e1r"
+      ]
+    },
+    {
+      "line": "    const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "    const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "    const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "    function impliedSpxReturn(row){",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "      const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1"
+      ]
+    },
+    {
+      "line": "      const src=row?.spx_total_return_pct;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "      if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "      if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1"
+      ]
+    },
+    {
+      "line": "      return {value:null,implied:false};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "    function fmtSpx(row){",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "      const r=impliedSpxReturn(row);",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "      if(r.value===null||r.value===undefined||r.value==='') return '—';",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "      return `${fmt(r.value)}${r.implied?' *':''}`;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "    const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "trades",
+        "e1"
+      ]
+    },
+    {
+      "line": "    const tradeRows=trades.map(t=>{",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "trades"
+      ]
+    },
+    {
+      "line": "      const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "    const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "eqCurve",
+        "spxCurve",
+        "e1"
+      ]
+    },
+    {
+      "line": "    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1rCurve",
+        "e1",
+        "e1r",
+        "e1rFormal",
+        "DATA.e1rFormal"
+      ]
+    },
+    {
+      "line": "    const oosRowsForNote=(DATA.oosEquity?.curve||[]);",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "oosRows",
+        "DATA.oosEquity"
+      ]
+    },
+    {
+      "line": "    const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "oosLatestDate",
+        "oosRows"
+      ]
+    },
+    {
+      "line": "    const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "lc"
+      ]
+    },
+    {
+      "line": "    const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "lcStats",
+        "lc",
+        "REG_META"
+      ]
+    },
+    {
+      "line": "    let h=e1rPanel + `<div class=\"frozen-banner\">",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1",
+        "e1r"
+      ]
+    }
+  ],
+  "removed_non_ui_candidates_in_renderE1RResearchPanel": [
+    {
+      "line": "  const reg=DATA.e1rRegime, conf=DATA.e1rConfirmed, s3i=DATA.e1rSideways3i, s3ir=DATA.e1rSideways3ir, s3k=DATA.e1rSideways3k;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1",
+        "e1r"
+      ]
+    },
+    {
+      "line": "  const formal=DATA.e1rFormal||{}, fm=formal.metrics||{};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1",
+        "e1r",
+        "e1rFormal",
+        "DATA.e1rFormal"
+      ]
+    },
+    {
+      "line": "  const e1r=vr?.E1R_REGIME_AWARE_V0_1;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "vr",
+        "e1",
+        "e1r"
+      ]
+    },
+    {
+      "line": "  if(!reg && !conf && !s3i && !s3ir && !s3k && !e1r && !formal.variant_id) return '';",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1",
+        "e1r"
+      ]
+    },
+    {
+      "line": "  const nfmt = (v,d=2) => (v===null||v===undefined||v==='') ? '—' : (Number(v)>=0?'+':'') + Number(v).toFixed(d) + '%';",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "  const num  = (v,d=2) => (v===null||v===undefined||v==='') ? '—' : Number(v).toFixed(d);",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "  const fullRet = fm.total_return_pct ?? e1r?.total_return_pct ?? reg?.summary?.e1r_full_return_pct ?? reg?.e1r_full_return_pct;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1",
+        "e1r"
+      ]
+    },
+    {
+      "line": "  const maxDD   = fm.max_drawdown_pct ?? e1r?.max_drawdown_pct ?? reg?.summary?.e1r_max_drawdown_pct ?? reg?.e1r_max_drawdown_pct;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1",
+        "e1r"
+      ]
+    },
+    {
+      "line": "  const pf      = fm.profit_factor ?? e1r?.profit_factor ?? reg?.summary?.e1r_profit_factor ?? reg?.e1r_profit_factor;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1",
+        "e1r"
+      ]
+    },
+    {
+      "line": "  const sharpe  = fm.sharpe_ratio ?? e1r?.sharpe_ratio ?? e1r?.sharpe ?? reg?.summary?.e1r_sharpe ?? reg?.e1r_sharpe;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1",
+        "e1r"
+      ]
+    },
+    {
+      "line": "  const trades  = fm.number_of_trades ?? e1r?.number_of_trades ?? e1r?.num_trades ?? e1r?.trades_count ?? reg?.summary?.e1r_trades;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "trades",
+        "e1",
+        "e1r"
+      ]
+    },
+    {
+      "line": "  const alpha   = fm.alpha_pct;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "  const exposure= fm.exposure_pct;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "  const up = reg?.regime_attribution?.UPTREND || reg?.regime_results?.UPTREND || reg?.UPTREND || {};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "  const upE1R = up?.e1r_return_pct ?? up?.e1r_total_return_pct ?? 70.92;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1",
+        "e1r"
+      ]
+    },
+    {
+      "line": "  const upE1  = up?.e1_return_pct ?? up?.e1_total_return_pct ?? 10.63;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1"
+      ]
+    },
+    {
+      "line": "  const upDelta = up?.delta_pct ?? up?.excess_pct ?? 60.29;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "  const r3i = s3i?.rule_results?.UPGRADE_WATCH_RECOVERY || s3i?.UPGRADE_WATCH_RECOVERY || {};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "  const pass3ir = r3ir?.checks_passed ?? r3ir?.passed_checks ?? '5/7';",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "  const dec3ir = r3ir?.decision || s3ir?.decision || 'PROMISING_BUT_STILL_DIAGNOSTIC_ONLY';",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "  const dec3k = r3k?.decision || s3k?.decision || 'PROMISING_BUT_TIME_CONCENTRATED_DIAGNOSTIC_ONLY';",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": []
+    },
+    {
+      "line": "  return `<div class=\"e1r-panel\">",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1",
+        "e1r"
+      ]
+    }
+  ],
+  "high_risk_removed_contexts": [
+    {
+      "line": "    setTimeout(()=>{",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        393,
+        473,
+        548,
+        671
+      ],
+      "context": "389:     );\n390:     h+='<p class=\"note\">数据来自 Yahoo Finance，每交易日 18:00 ET 自动更新。不构成投资建议。</p>';\n391:     $('s-market').innerHTML=h;\n392: \n393:     setTimeout(()=>{\n394:       const spxEl=$('cw-spx'), spxIdx=idx['SPX']||{};\n395:       if(spxEl&&spxIdx.chart_dates?.length){\n396:         if(charts.spx)charts.spx.destroy();\n397:         charts.spx=new Chart(spxEl,{type:'line',data:{labels:spxIdx.chart_dates.map(d=>d.slice(5)),datasets:["
+    },
+    {
+      "line": "      const root=$('s-positions');",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        673
+      ],
+      "context": "669:     h+=`<div class=\"card\"><div class=\"card-head\">个股预览 <span class=\"sub\">hover / tap 持仓或平仓行切换</span></div><div class=\"card-body\"><div id=\"pos-stock-preview\"></div></div></div>`;\n670:     $('s-positions').innerHTML=h;\n671:     setTimeout(()=>{\n672:       // 优先绑定持仓行；若无持仓，绑定最近平仓行\n673:       const root=$('s-positions');\n674:       const posRows=root?root.querySelectorAll('tr[data-symbol]'):[];\n675:       if(posRows.length){\n676:         bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');\n677:       }"
+    },
+    {
+      "line": "      const posRows=root?root.querySelectorAll('tr[data-symbol]'):[];",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        674
+      ],
+      "context": "670:     $('s-positions').innerHTML=h;\n671:     setTimeout(()=>{\n672:       // 优先绑定持仓行；若无持仓，绑定最近平仓行\n673:       const root=$('s-positions');\n674:       const posRows=root?root.querySelectorAll('tr[data-symbol]'):[];\n675:       if(posRows.length){\n676:         bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');\n677:       }\n678:     },80);"
+    },
+    {
+      "line": "      if(posRows.length){",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        675
+      ],
+      "context": "671:     setTimeout(()=>{\n672:       // 优先绑定持仓行；若无持仓，绑定最近平仓行\n673:       const root=$('s-positions');\n674:       const posRows=root?root.querySelectorAll('tr[data-symbol]'):[];\n675:       if(posRows.length){\n676:         bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');\n677:       }\n678:     },80);\n679:   }"
+    },
+    {
+      "line": "        bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        676
+      ],
+      "context": "672:       // 优先绑定持仓行；若无持仓，绑定最近平仓行\n673:       const root=$('s-positions');\n674:       const posRows=root?root.querySelectorAll('tr[data-symbol]'):[];\n675:       if(posRows.length){\n676:         bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');\n677:       }\n678:     },80);\n679:   }\n680: "
+    },
+    {
+      "line": "  if (tab==='research') {",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        682
+      ],
+      "context": "678:     },80);\n679:   }\n680: \n681:   // ── Tab 5: Research & Backtest ────────────────────────\n682:   if (tab==='research') {\n683:     const bt=DATA.backtest, tlog=DATA.tradelog;\n684:     if(!bt){$('s-research').innerHTML='<div class=\"error\">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>';return;}\n685:     const vr=bt?.backtest?.results?.layer_d?.variant_results;\n686:     const e1=vr?.E1_AUDITED_G4_MINHOLD10;"
+    },
+    {
+      "line": "    const bt=DATA.backtest, tlog=DATA.tradelog;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        683
+      ],
+      "context": "679:   }\n680: \n681:   // ── Tab 5: Research & Backtest ────────────────────────\n682:   if (tab==='research') {\n683:     const bt=DATA.backtest, tlog=DATA.tradelog;\n684:     if(!bt){$('s-research').innerHTML='<div class=\"error\">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>';return;}\n685:     const vr=bt?.backtest?.results?.layer_d?.variant_results;\n686:     const e1=vr?.E1_AUDITED_G4_MINHOLD10;\n687:     if(!e1){$('s-research').innerHTML='<div class=\"error\">E1 数据缺失。</div>';return;}"
+    },
+    {
+      "line": "    const vr=bt?.backtest?.results?.layer_d?.variant_results;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "vr"
+      ],
+      "before_line_candidates": [
+        565,
+        685
+      ],
+      "context": "561:   // ── Tab 4: Positions & Exit ───────────────────────────\n562:   if (tab==='positions') {\n563:     const bt=DATA.backtest;\n564:     if(!bt){$('s-positions').innerHTML='<div class=\"error\">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>';return;}\n565:     const vr=bt?.backtest?.results?.layer_d?.variant_results;\n566:     const e1=vr?.E1_AUDITED_G4_MINHOLD10;\n567:     if(!e1){$('s-positions').innerHTML='<div class=\"error\">E1 variant 数据缺失。</div>';return;}\n568: \n569:     // ── 日期元数据 ─────────────────────────────────────────"
+    },
+    {
+      "line": "    const e1=vr?.E1_AUDITED_G4_MINHOLD10;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "vr",
+        "e1"
+      ],
+      "before_line_candidates": [
+        566,
+        686
+      ],
+      "context": "562:   if (tab==='positions') {\n563:     const bt=DATA.backtest;\n564:     if(!bt){$('s-positions').innerHTML='<div class=\"error\">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>';return;}\n565:     const vr=bt?.backtest?.results?.layer_d?.variant_results;\n566:     const e1=vr?.E1_AUDITED_G4_MINHOLD10;\n567:     if(!e1){$('s-positions').innerHTML='<div class=\"error\">E1 variant 数据缺失。</div>';return;}\n568: \n569:     // ── 日期元数据 ─────────────────────────────────────────\n570:     const sv=e1.sample_validity||{};"
+    },
+    {
+      "line": "    if(!e1){$('s-research').innerHTML='<div class=\"error\">E1 数据缺失。</div>';return;}",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1"
+      ],
+      "before_line_candidates": [
+        687
+      ],
+      "context": "683:     const bt=DATA.backtest, tlog=DATA.tradelog;\n684:     if(!bt){$('s-research').innerHTML='<div class=\"error\">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>';return;}\n685:     const vr=bt?.backtest?.results?.layer_d?.variant_results;\n686:     const e1=vr?.E1_AUDITED_G4_MINHOLD10;\n687:     if(!e1){$('s-research').innerHTML='<div class=\"error\">E1 数据缺失。</div>';return;}\n688: \n689:     const e1rPanel = renderE1RResearchPanel(vr);\n690: \n691:     const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};"
+    },
+    {
+      "line": "    const e1rPanel = renderE1RResearchPanel(vr);",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "vr",
+        "e1",
+        "e1r"
+      ],
+      "before_line_candidates": [
+        689
+      ],
+      "context": "685:     const vr=bt?.backtest?.results?.layer_d?.variant_results;\n686:     const e1=vr?.E1_AUDITED_G4_MINHOLD10;\n687:     if(!e1){$('s-research').innerHTML='<div class=\"error\">E1 数据缺失。</div>';return;}\n688: \n689:     const e1rPanel = renderE1RResearchPanel(vr);\n690: \n691:     const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};\n692:     const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n693:     const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};"
+    },
+    {
+      "line": "    const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        691
+      ],
+      "context": "687:     if(!e1){$('s-research').innerHTML='<div class=\"error\">E1 数据缺失。</div>';return;}\n688: \n689:     const e1rPanel = renderE1RResearchPanel(vr);\n690: \n691:     const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};\n692:     const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n693:     const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n694: \n695:     function impliedSpxReturn(row){"
+    },
+    {
+      "line": "    const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        692
+      ],
+      "context": "688: \n689:     const e1rPanel = renderE1RResearchPanel(vr);\n690: \n691:     const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};\n692:     const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n693:     const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n694: \n695:     function impliedSpxReturn(row){\n696:       const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);"
+    },
+    {
+      "line": "    const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        693
+      ],
+      "context": "689:     const e1rPanel = renderE1RResearchPanel(vr);\n690: \n691:     const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};\n692:     const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n693:     const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n694: \n695:     function impliedSpxReturn(row){\n696:       const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);\n697:       const src=row?.spx_total_return_pct;"
+    },
+    {
+      "line": "    function impliedSpxReturn(row){",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        695
+      ],
+      "context": "691:     const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};\n692:     const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n693:     const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n694: \n695:     function impliedSpxReturn(row){\n696:       const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);\n697:       const src=row?.spx_total_return_pct;\n698:       if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};\n699:       if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};"
+    },
+    {
+      "line": "      const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1"
+      ],
+      "before_line_candidates": [
+        696
+      ],
+      "context": "692:     const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n693:     const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n694: \n695:     function impliedSpxReturn(row){\n696:       const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);\n697:       const src=row?.spx_total_return_pct;\n698:       if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};\n699:       if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};\n700:       return {value:null,implied:false};"
+    },
+    {
+      "line": "      const src=row?.spx_total_return_pct;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        697
+      ],
+      "context": "693:     const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};\n694: \n695:     function impliedSpxReturn(row){\n696:       const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);\n697:       const src=row?.spx_total_return_pct;\n698:       if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};\n699:       if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};\n700:       return {value:null,implied:false};\n701:     }"
+    },
+    {
+      "line": "      if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        698
+      ],
+      "context": "694: \n695:     function impliedSpxReturn(row){\n696:       const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);\n697:       const src=row?.spx_total_return_pct;\n698:       if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};\n699:       if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};\n700:       return {value:null,implied:false};\n701:     }\n702:     function fmtSpx(row){"
+    },
+    {
+      "line": "      if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1"
+      ],
+      "before_line_candidates": [
+        699
+      ],
+      "context": "695:     function impliedSpxReturn(row){\n696:       const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);\n697:       const src=row?.spx_total_return_pct;\n698:       if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};\n699:       if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};\n700:       return {value:null,implied:false};\n701:     }\n702:     function fmtSpx(row){\n703:       const r=impliedSpxReturn(row);"
+    },
+    {
+      "line": "      return {value:null,implied:false};",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        700
+      ],
+      "context": "696:       const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);\n697:       const src=row?.spx_total_return_pct;\n698:       if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};\n699:       if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};\n700:       return {value:null,implied:false};\n701:     }\n702:     function fmtSpx(row){\n703:       const r=impliedSpxReturn(row);\n704:       if(r.value===null||r.value===undefined||r.value==='') return '—';"
+    },
+    {
+      "line": "    function fmtSpx(row){",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        702
+      ],
+      "context": "698:       if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};\n699:       if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};\n700:       return {value:null,implied:false};\n701:     }\n702:     function fmtSpx(row){\n703:       const r=impliedSpxReturn(row);\n704:       if(r.value===null||r.value===undefined||r.value==='') return '—';\n705:       return `${fmt(r.value)}${r.implied?' *':''}`;\n706:     }"
+    },
+    {
+      "line": "      const r=impliedSpxReturn(row);",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        703
+      ],
+      "context": "699:       if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};\n700:       return {value:null,implied:false};\n701:     }\n702:     function fmtSpx(row){\n703:       const r=impliedSpxReturn(row);\n704:       if(r.value===null||r.value===undefined||r.value==='') return '—';\n705:       return `${fmt(r.value)}${r.implied?' *':''}`;\n706:     }\n707: "
+    },
+    {
+      "line": "      if(r.value===null||r.value===undefined||r.value==='') return '—';",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        704
+      ],
+      "context": "700:       return {value:null,implied:false};\n701:     }\n702:     function fmtSpx(row){\n703:       const r=impliedSpxReturn(row);\n704:       if(r.value===null||r.value===undefined||r.value==='') return '—';\n705:       return `${fmt(r.value)}${r.implied?' *':''}`;\n706:     }\n707: \n708:     const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();"
+    },
+    {
+      "line": "      return `${fmt(r.value)}${r.implied?' *':''}`;",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        705
+      ],
+      "context": "701:     }\n702:     function fmtSpx(row){\n703:       const r=impliedSpxReturn(row);\n704:       if(r.value===null||r.value===undefined||r.value==='') return '—';\n705:       return `${fmt(r.value)}${r.implied?' *':''}`;\n706:     }\n707: \n708:     const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();\n709:     const tradeRows=trades.map(t=>{"
+    },
+    {
+      "line": "    const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "trades",
+        "e1"
+      ],
+      "before_line_candidates": [
+        708
+      ],
+      "context": "704:       if(r.value===null||r.value===undefined||r.value==='') return '—';\n705:       return `${fmt(r.value)}${r.implied?' *':''}`;\n706:     }\n707: \n708:     const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();\n709:     const tradeRows=trades.map(t=>{\n710:       const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';\n711:       return `<tr>\n712:         <td><strong>${t.symbol}</strong></td>"
+    },
+    {
+      "line": "    const tradeRows=trades.map(t=>{",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "trades"
+      ],
+      "before_line_candidates": [
+        709
+      ],
+      "context": "705:       return `${fmt(r.value)}${r.implied?' *':''}`;\n706:     }\n707: \n708:     const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();\n709:     const tradeRows=trades.map(t=>{\n710:       const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';\n711:       return `<tr>\n712:         <td><strong>${t.symbol}</strong></td>\n713:         <td>${t.entry_date}</td><td>${t.exit_date||'—'}</td>"
+    },
+    {
+      "line": "      const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [],
+      "before_line_candidates": [
+        710
+      ],
+      "context": "706:     }\n707: \n708:     const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();\n709:     const tradeRows=trades.map(t=>{\n710:       const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';\n711:       return `<tr>\n712:         <td><strong>${t.symbol}</strong></td>\n713:         <td>${t.entry_date}</td><td>${t.exit_date||'—'}</td>\n714:         <td>${p2(t.entry_price||0)}</td><td>${p2(t.exit_price||0)}</td>"
+    },
+    {
+      "line": "    const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "eqCurve",
+        "spxCurve",
+        "e1"
+      ],
+      "before_line_candidates": [
+        722
+      ],
+      "context": "718:         <td>${t.is_sim_end?'<span class=\"badge-sim\">SIM</span>':''}</td>\n719:       </tr>`;\n720:     }).join('');\n721: \n722:     const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];\n723:     const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];\n724:     const oosRowsForNote=(DATA.oosEquity?.curve||[]);\n725:     const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';\n726: "
+    },
+    {
+      "line": "    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1rCurve",
+        "e1",
+        "e1r",
+        "e1rFormal",
+        "DATA.e1rFormal"
+      ],
+      "before_line_candidates": [
+        723
+      ],
+      "context": "719:       </tr>`;\n720:     }).join('');\n721: \n722:     const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];\n723:     const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];\n724:     const oosRowsForNote=(DATA.oosEquity?.curve||[]);\n725:     const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';\n726: \n727:     // Lifecycle 统计迁入"
+    },
+    {
+      "line": "    const oosRowsForNote=(DATA.oosEquity?.curve||[]);",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "oosRows",
+        "DATA.oosEquity"
+      ],
+      "before_line_candidates": [
+        724
+      ],
+      "context": "720:     }).join('');\n721: \n722:     const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];\n723:     const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];\n724:     const oosRowsForNote=(DATA.oosEquity?.curve||[]);\n725:     const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';\n726: \n727:     // Lifecycle 统计迁入\n728:     const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];"
+    },
+    {
+      "line": "    const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "oosLatestDate",
+        "oosRows"
+      ],
+      "before_line_candidates": [
+        725
+      ],
+      "context": "721: \n722:     const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];\n723:     const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];\n724:     const oosRowsForNote=(DATA.oosEquity?.curve||[]);\n725:     const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';\n726: \n727:     // Lifecycle 统计迁入\n728:     const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];\n729:     const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));"
+    },
+    {
+      "line": "    const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "lc"
+      ],
+      "before_line_candidates": [
+        728
+      ],
+      "context": "724:     const oosRowsForNote=(DATA.oosEquity?.curve||[]);\n725:     const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';\n726: \n727:     // Lifecycle 统计迁入\n728:     const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];\n729:     const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));\n730: \n731:     let h=e1rPanel + `<div class=\"frozen-banner\">\n732:       <strong>E1_AUDITED_G4_MINHOLD10 — 正式冻结 2026-06-16</strong> &nbsp;·&nbsp;"
+    },
+    {
+      "line": "    const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "lcStats",
+        "lc",
+        "REG_META"
+      ],
+      "before_line_candidates": [
+        729
+      ],
+      "context": "725:     const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';\n726: \n727:     // Lifecycle 统计迁入\n728:     const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];\n729:     const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));\n730: \n731:     let h=e1rPanel + `<div class=\"frozen-banner\">\n732:       <strong>E1_AUDITED_G4_MINHOLD10 — 正式冻结 2026-06-16</strong> &nbsp;·&nbsp;\n733:       Gate v2.1: slope + leadership &nbsp;·&nbsp;"
+    },
+    {
+      "line": "    let h=e1rPanel + `<div class=\"frozen-banner\">",
+      "classification": "likely_non_ui_logic",
+      "watch_symbols": [
+        "e1",
+        "e1r"
+      ],
+      "before_line_candidates": [
+        731
+      ],
+      "context": "727:     // Lifecycle 统计迁入\n728:     const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];\n729:     const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));\n730: \n731:     let h=e1rPanel + `<div class=\"frozen-banner\">\n732:       <strong>E1_AUDITED_G4_MINHOLD10 — 正式冻结 2026-06-16</strong> &nbsp;·&nbsp;\n733:       Gate v2.1: slope + leadership &nbsp;·&nbsp;\n734:       Shock 已排除（2025-10-10 SNDK 路径依赖）&nbsp;·&nbsp;\n735:       样本内不再修改"
+    }
+  ],
+  "symbol_report": [
+    {
+      "symbol": "eqCurve",
+      "before_count": 6,
+      "after_count": 6,
+      "delta": 0,
+      "before_lines": [
+        722,
+        749,
+        830,
+        835,
+        836,
+        862
+      ],
+      "after_lines": [
+        720,
+        726,
+        807,
+        812,
+        813,
+        839
+      ]
+    },
+    {
+      "symbol": "spxCurve",
+      "before_count": 3,
+      "after_count": 3,
+      "delta": 0,
+      "before_lines": [
+        722,
+        835,
+        837
+      ],
+      "after_lines": [
+        721,
+        812,
+        814
+      ]
+    },
+    {
+      "symbol": "e1rCurve",
+      "before_count": 3,
+      "after_count": 3,
+      "delta": 0,
+      "before_lines": [
+        723,
+        835,
+        838
+      ],
+      "after_lines": [
+        722,
+        812,
+        815
+      ]
+    },
+    {
+      "symbol": "oosLatestDate",
+      "before_count": 2,
+      "after_count": 2,
+      "delta": 0,
+      "before_lines": [
+        725,
+        752
+      ],
+      "after_lines": [
+        724,
+        729
+      ]
+    },
+    {
+      "symbol": "oosRows",
+      "before_count": 9,
+      "after_count": 7,
+      "delta": -2,
+      "before_lines": [
+        724,
+        725,
+        864,
+        867,
+        904,
+        907,
+        909,
+        927,
+        932
+      ],
+      "after_lines": [
+        841,
+        844,
+        881,
+        884,
+        886,
+        904,
+        909
+      ]
+    },
+    {
+      "symbol": "oosDates",
+      "before_count": 3,
+      "after_count": 3,
+      "delta": 0,
+      "before_lines": [
+        867,
+        868,
+        917
+      ],
+      "after_lines": [
+        844,
+        845,
+        894
+      ]
+    },
+    {
+      "symbol": "extraOosDates",
+      "before_count": 2,
+      "after_count": 2,
+      "delta": 0,
+      "before_lines": [
+        868,
+        869
+      ],
+      "after_lines": [
+        845,
+        846
+      ]
+    },
+    {
+      "symbol": "labels",
+      "before_count": 19,
+      "after_count": 19,
+      "delta": 0,
+      "before_lines": [
+        86,
+        90,
+        92,
+        397,
+        402,
+        413,
+        485,
+        554,
+        869,
+        871,
+        876,
+        884,
+        893,
+        905,
+        910,
+        918,
+        959,
+        963,
+        964
+      ],
+      "after_lines": [
+        86,
+        90,
+        92,
+        439,
+        444,
+        455,
+        527,
+        596,
+        846,
+        848,
+        853,
+        861,
+        870,
+        882,
+        887,
+        895,
+        936,
+        940,
+        941
+      ]
+    },
+    {
+      "symbol": "lcStats",
+      "before_count": 3,
+      "after_count": 2,
+      "delta": -1,
+      "before_lines": [
+        729,
+        758,
+        761
+      ],
+      "after_lines": [
+        735,
+        738
+      ]
+    },
+    {
+      "symbol": "lc",
+      "before_count": 10,
+      "after_count": 8,
+      "delta": -2,
+      "before_lines": [
+        156,
+        171,
+        448,
+        450,
+        453,
+        728,
+        729,
+        758,
+        761,
+        762
+      ],
+      "after_lines": [
+        160,
+        175,
+        490,
+        492,
+        495,
+        735,
+        738,
+        739
+      ]
+    },
+    {
+      "symbol": "REG_META",
+      "before_count": 4,
+      "after_count": 3,
+      "delta": -1,
+      "before_lines": [
+        11,
+        453,
+        729,
+        765
+      ],
+      "after_lines": [
+        11,
+        495,
+        742
+      ]
+    },
+    {
+      "symbol": "trades",
+      "before_count": 9,
+      "after_count": 5,
+      "delta": -4,
+      "before_lines": [
+        207,
+        238,
+        577,
+        657,
+        708,
+        709,
+        744,
+        775,
+        1047
+      ],
+      "after_lines": [
+        278,
+        619,
+        699,
+        752,
+        1024
+      ]
+    },
+    {
+      "symbol": "rows",
+      "before_count": 10,
+      "after_count": 13,
+      "delta": 3,
+      "before_lines": [
+        101,
+        102,
+        107,
+        117,
+        123,
+        1047,
+        1211,
+        1229,
+        1230,
+        1250
+      ],
+      "after_lines": [
+        101,
+        102,
+        107,
+        117,
+        123,
+        238,
+        271,
+        283,
+        1024,
+        1188,
+        1206,
+        1207,
+        1227
+      ]
+    },
+    {
+      "symbol": "vr",
+      "before_count": 7,
+      "after_count": 3,
+      "delta": -4,
+      "before_lines": [
+        194,
+        197,
+        565,
+        566,
+        685,
+        686,
+        689
+      ],
+      "after_lines": [
+        198,
+        607,
+        608
+      ]
+    },
+    {
+      "symbol": "e1",
+      "before_count": 187,
+      "after_count": 174,
+      "delta": -13,
+      "before_lines": [
+        7,
+        19,
+        156,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        175,
+        176,
+        195,
+        196,
+        197,
+        198,
+        203,
+        204,
+        205,
+        206,
+        207
+      ],
+      "after_lines": [
+        7,
+        19,
+        142,
+        143,
+        160,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        179,
+        180,
+        246,
+        266,
+        267,
+        268,
+        269,
+        273,
+        274
+      ]
+    },
+    {
+      "symbol": "lbAsOf",
+      "before_count": 4,
+      "after_count": 4,
+      "delta": 0,
+      "before_lines": [
+        573,
+        575,
+        595,
+        667
+      ],
+      "after_lines": [
+        615,
+        617,
+        637,
+        709
+      ]
+    },
+    {
+      "symbol": "simEndDate",
+      "before_count": 6,
+      "after_count": 6,
+      "delta": 0,
+      "before_lines": [
+        571,
+        575,
+        592,
+        604,
+        609,
+        667
+      ],
+      "after_lines": [
+        613,
+        617,
+        634,
+        646,
+        651,
+        709
+      ]
+    },
+    {
+      "symbol": "e1r",
+      "before_count": 154,
+      "after_count": 151,
+      "delta": -3,
+      "before_lines": [
+        7,
+        19,
+        156,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        175,
+        176,
+        195,
+        196,
+        197,
+        198,
+        203,
+        204,
+        205,
+        206,
+        207
+      ],
+      "after_lines": [
+        7,
+        19,
+        142,
+        143,
+        160,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        179,
+        180,
+        246,
+        267,
+        269,
+        273,
+        274,
+        275,
+        276
+      ]
+    },
+    {
+      "symbol": "e1rFormal",
+      "before_count": 5,
+      "after_count": 4,
+      "delta": -1,
+      "before_lines": [
+        19,
+        156,
+        176,
+        196,
+        723
+      ],
+      "after_lines": [
+        19,
+        160,
+        180,
+        722
+      ]
+    },
+    {
+      "symbol": "sample_validity",
+      "before_count": 4,
+      "after_count": 4,
+      "delta": 0,
+      "before_lines": [
+        570,
+        752,
+        841,
+        884
+      ],
+      "after_lines": [
+        612,
+        729,
+        818,
+        861
+      ]
+    },
+    {
+      "symbol": "DATA.oosEquity",
+      "before_count": 3,
+      "after_count": 3,
+      "delta": 0,
+      "before_lines": [
+        174,
+        724,
+        864
+      ],
+      "after_lines": [
+        178,
+        723,
+        841
+      ]
+    },
+    {
+      "symbol": "DATA.e1rFormal",
+      "before_count": 3,
+      "after_count": 2,
+      "delta": -1,
+      "before_lines": [
+        176,
+        196,
+        723
+      ],
+      "after_lines": [
+        180,
+        722
+      ]
+    }
+  ],
+  "symbol_drops": [
+    {
+      "symbol": "oosRows",
+      "before_count": 9,
+      "after_count": 7,
+      "delta": -2,
+      "before_lines": [
+        724,
+        725,
+        864,
+        867,
+        904,
+        907,
+        909,
+        927,
+        932
+      ],
+      "after_lines": [
+        841,
+        844,
+        881,
+        884,
+        886,
+        904,
+        909
+      ]
+    },
+    {
+      "symbol": "lcStats",
+      "before_count": 3,
+      "after_count": 2,
+      "delta": -1,
+      "before_lines": [
+        729,
+        758,
+        761
+      ],
+      "after_lines": [
+        735,
+        738
+      ]
+    },
+    {
+      "symbol": "lc",
+      "before_count": 10,
+      "after_count": 8,
+      "delta": -2,
+      "before_lines": [
+        156,
+        171,
+        448,
+        450,
+        453,
+        728,
+        729,
+        758,
+        761,
+        762
+      ],
+      "after_lines": [
+        160,
+        175,
+        490,
+        492,
+        495,
+        735,
+        738,
+        739
+      ]
+    },
+    {
+      "symbol": "REG_META",
+      "before_count": 4,
+      "after_count": 3,
+      "delta": -1,
+      "before_lines": [
+        11,
+        453,
+        729,
+        765
+      ],
+      "after_lines": [
+        11,
+        495,
+        742
+      ]
+    },
+    {
+      "symbol": "trades",
+      "before_count": 9,
+      "after_count": 5,
+      "delta": -4,
+      "before_lines": [
+        207,
+        238,
+        577,
+        657,
+        708,
+        709,
+        744,
+        775,
+        1047
+      ],
+      "after_lines": [
+        278,
+        619,
+        699,
+        752,
+        1024
+      ]
+    },
+    {
+      "symbol": "vr",
+      "before_count": 7,
+      "after_count": 3,
+      "delta": -4,
+      "before_lines": [
+        194,
+        197,
+        565,
+        566,
+        685,
+        686,
+        689
+      ],
+      "after_lines": [
+        198,
+        607,
+        608
+      ]
+    },
+    {
+      "symbol": "e1",
+      "before_count": 187,
+      "after_count": 174,
+      "delta": -13,
+      "before_lines": [
+        7,
+        19,
+        156,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        175,
+        176,
+        195,
+        196,
+        197,
+        198,
+        203,
+        204,
+        205,
+        206,
+        207
+      ],
+      "after_lines": [
+        7,
+        19,
+        142,
+        143,
+        160,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        179,
+        180,
+        246,
+        266,
+        267,
+        268,
+        269,
+        273,
+        274
+      ]
+    },
+    {
+      "symbol": "e1r",
+      "before_count": 154,
+      "after_count": 151,
+      "delta": -3,
+      "before_lines": [
+        7,
+        19,
+        156,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        175,
+        176,
+        195,
+        196,
+        197,
+        198,
+        203,
+        204,
+        205,
+        206,
+        207
+      ],
+      "after_lines": [
+        7,
+        19,
+        142,
+        143,
+        160,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        179,
+        180,
+        246,
+        267,
+        269,
+        273,
+        274,
+        275,
+        276
+      ]
+    },
+    {
+      "symbol": "e1rFormal",
+      "before_count": 5,
+      "after_count": 4,
+      "delta": -1,
+      "before_lines": [
+        19,
+        156,
+        176,
+        196,
+        723
+      ],
+      "after_lines": [
+        19,
+        160,
+        180,
+        722
+      ]
+    },
+    {
+      "symbol": "DATA.e1rFormal",
+      "before_count": 3,
+      "after_count": 2,
+      "delta": -1,
+      "before_lines": [
+        176,
+        196,
+        723
+      ],
+      "after_lines": [
+        180,
+        722
+      ]
+    }
+  ],
+  "interpretation": {
+    "most_likely_issue": "Stage 3.8E-2B replaced a broad old E1 header block. This removed not only old summary UI but also local variables used later by the equity chart or Research tab.",
+    "specific_risk": "Any removed const/let/derived variable referenced later can cause the Research tab to fail at runtime.",
+    "preferred_next_fix": "Reconstruct from the base commit by preserving non-UI local variable preparation and replacing only visible legacy summary markup."
+  },
+  "next_options": [
+    "Option A: surgical restore missing non-UI lines into current HEAD.",
+    "Option B: revert current summary patch to c1a7e46 and reapply a smaller patch that preserves all local variable setup."
+  ]
+}
