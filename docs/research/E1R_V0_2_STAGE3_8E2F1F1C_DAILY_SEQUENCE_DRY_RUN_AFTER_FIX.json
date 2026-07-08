@@ -1,0 +1,302 @@
+{
+  "generated_at": "2026-07-08T07:48:33.597096+00:00",
+  "stage": "B_STAGE_3_8E2F1F1C_DAILY_SEQUENCE_DRY_RUN_AFTER_FIX",
+  "status": "AUDIT_COMPLETE_RUNTIME_CHANGES_REVERTED",
+  "main": {
+    "branch": "main",
+    "head": "7af8880"
+  },
+  "policy": {
+    "source_changed": false,
+    "workflow_changed": false,
+    "dashboard_changed": false,
+    "runtime_changes_committed": false
+  },
+  "sequence": [
+    "scripts/export_e1r_v0_2_status.py",
+    "scripts/run_e1r_v0_2_oos.py",
+    "scripts/run_e1r_v0_2_oos_equity.py",
+    "scripts/export_e1r_v0_2_targets_preview.py",
+    "scripts/export_e1r_v0_2_orders_positions_preview.py",
+    "scripts/run_e1r_v0_2_forward_performance.py"
+  ],
+  "before_snapshot": {
+    "orders_count": 10,
+    "positions_count": 10,
+    "buy_orders": 10,
+    "position_weight_sum": 0.24999999999999997,
+    "summary_tracking_status": "KICKOFF_READY",
+    "summary_official_kickoff_date": null,
+    "summary_forward_start_date": null,
+    "summary_execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+    "summary_open_positions_count": 10,
+    "state_positions_count": 10
+  },
+  "after_snapshot": {
+    "orders_count": 0,
+    "positions_count": 0,
+    "buy_orders": 0,
+    "position_weight_sum": 0,
+    "summary_tracking_status": "KICKOFF_READY",
+    "summary_official_kickoff_date": "2026-06-18",
+    "summary_forward_start_date": "2026-06-18",
+    "summary_execution_status": "NO_ORDER_ENGINE_WIRED_YET",
+    "summary_open_positions_count": 0,
+    "state_positions_count": 0
+  },
+  "script_results": [
+    {
+      "script": "scripts/export_e1r_v0_2_status.py",
+      "cmd": [
+        "python3",
+        "scripts/export_e1r_v0_2_status.py"
+      ],
+      "returncode": 0,
+      "stdout": "Wrote /Users/dongfang/Downloads/sp500-tracker-v13/exports/e1r_v0_2_status.json\nstatus_date: 2026-06-18\ne1r_market_state: UPTREND\nregime: UPTREND\nsubclass: None\ncore.active: True\nsidecar.active: False\nsidecar.selected_count: 0\n",
+      "stderr": ""
+    },
+    {
+      "script": "scripts/run_e1r_v0_2_oos.py",
+      "cmd": [
+        "python3",
+        "scripts/run_e1r_v0_2_oos.py"
+      ],
+      "returncode": 0,
+      "stdout": "Wrote /Users/dongfang/Downloads/sp500-tracker-v13/exports/e1r_v0_2_status.json\nstatus_date: 2026-06-18\ne1r_market_state: UPTREND\nregime: UPTREND\nsubclass: None\ncore.active: True\nsidecar.active: False\nsidecar.selected_count: 0\nE1R v0.2 OOS-1 export complete\nstatus_date: 2026-06-18\nmarket_state: UPTREND\ncore_active: True\nsidecar_active: False\nsidecar_selected_count: 0\nwrote:\n  exports/e1r_v0_2_status.json\n  exports/oos_e1r_v0_2_summary.json\n  exports/oos_e1r_v0_2_sidecar.json\n  exports/oos_e1r_v0_2_positions.json\n  exports/oos_e1r_v0_2_orders.json\nE1R v0.2 OOS-2B equity export complete\nstatus_date: 2026-06-18\nmarket_state: UPTREND\ncore_active: True\nsidecar_active: False\nsidecar_selected_count: 0\ncore_equity: 75255.2\nsidecar_equity: 100000.0\ncombined_equity: 75255.2\nrow_count: 1\nupdate_mode: APPENDED_NEW_DATE\nwrote: exports/oos_e1r_v0_2_equity_curve.json\n  exports/oos_e1r_v0_2_equity_curve.json\nE1R v0.2 OOS-2B.3 sidecar lifecycle/turnover export complete\ndate: 2026-06-18\nprevious_date: None\nmarket_state: UPTREND\nsidecar_active: False\nlifecycle_status: NO_PREVIOUS_RECORD\nprevious_count: 0\ncurrent_count: 0\nentered_count: 0\nexited_count: 0\none_way_turnover: 0.0\nwrote: exports/oos_e1r_v0_2_sidecar_lifecycle.json\nwrote: exports/oos_e1r_v0_2_sidecar_turnover.json\n  exports/oos_e1r_v0_2_sidecar_lifecycle.json\n  exports/oos_e1r_v0_2_sidecar_turnover.json\n",
+      "stderr": ""
+    },
+    {
+      "script": "scripts/run_e1r_v0_2_oos_equity.py",
+      "cmd": [
+        "python3",
+        "scripts/run_e1r_v0_2_oos_equity.py"
+      ],
+      "returncode": 0,
+      "stdout": "E1R v0.2 OOS-2B equity export complete\nstatus_date: 2026-06-18\nmarket_state: UPTREND\ncore_active: True\nsidecar_active: False\nsidecar_selected_count: 0\ncore_equity: 75255.2\nsidecar_equity: 100000.0\ncombined_equity: 75255.2\nrow_count: 1\nupdate_mode: UPDATED_EXISTING_DATE\nwrote: exports/oos_e1r_v0_2_equity_curve.json\n",
+      "stderr": ""
+    },
+    {
+      "script": "scripts/export_e1r_v0_2_targets_preview.py",
+      "cmd": [
+        "python3",
+        "scripts/export_e1r_v0_2_targets_preview.py"
+      ],
+      "returncode": 0,
+      "stdout": "E1R target extraction preview complete\nstatus_date: 2026-06-18\ntracking_status: KICKOFF_READY\nofficial_kickoff_date: None\ncore_targets: 10\nsidecar_targets: 0\nall_targets: 10\ncore_weight_sum: 0.24999999999999997\nsidecar_weight_sum: 0\ntotal_weight_sum: 0.24999999999999997\nwrote: exports/oos_e1r_v0_2_targets.json\n",
+      "stderr": ""
+    },
+    {
+      "script": "scripts/export_e1r_v0_2_orders_positions_preview.py",
+      "cmd": [
+        "python3",
+        "scripts/export_e1r_v0_2_orders_positions_preview.py"
+      ],
+      "returncode": 0,
+      "stdout": "E1R orders/positions preview complete\nstatus_date: 2026-06-18\ntracking_status: KICKOFF_READY\nofficial_kickoff_date: None\ntargets: 10\norders: 10\npositions: 10\nbuy_orders: 0\nadd_orders: 0\nhold_orders: 10\nreduce_orders: 0\nexit_orders: 0\npositions_weight_sum: 0.24999999999999997\norders_abs_delta_weight_sum: 0.0\nwrote: exports/oos_e1r_v0_2_orders_preview.json\nwrote: exports/oos_e1r_v0_2_positions_preview.json\n",
+      "stderr": ""
+    },
+    {
+      "script": "scripts/run_e1r_v0_2_forward_performance.py",
+      "cmd": [
+        "python3",
+        "scripts/run_e1r_v0_2_forward_performance.py"
+      ],
+      "returncode": 0,
+      "stdout": "E1R v0.2 forward performance layer complete\nstatus_date: 2026-06-18\nofficial_kickoff_date: 2026-06-18\ntracking_status: KICKOFF_READY\nportfolio_value: 100000.0\nforward_return_pct: 0.0\nmax_drawdown_pct: 0.0\nsharpe_ratio: None\ngross_exposure: 0.25\nwrote: data/oos/e1r_v0_2_portfolio_state.json\nwrote: exports/oos_e1r_v0_2_summary.json\nwrote: exports/oos_e1r_v0_2_equity_curve.json\nwrote: exports/oos_e1r_v0_2_positions.json\nwrote: exports/oos_e1r_v0_2_orders.json\nE1R forward performance preservation guard not active\n",
+      "stderr": ""
+    }
+  ],
+  "changed_watch_files": [
+    {
+      "path": "data/oos/e1r_v0_2_portfolio_state.json",
+      "before": {
+        "exists": true,
+        "sha256": "f2b906230aa784605ab3de2f05482d184225b7d6e4791ff5c0a5d5823a476e1a",
+        "size_bytes": 8481
+      },
+      "after": {
+        "exists": true,
+        "sha256": "7489b775c98942d517a2eee4555be94617a07e188839ac6a7eaa0b3f8dd5a2d4",
+        "size_bytes": 1851
+      }
+    },
+    {
+      "path": "data/oos/e1r_v0_2_events.jsonl",
+      "before": {
+        "exists": true,
+        "sha256": "b16e3972a9ab917a08ba6ec66472ad5fed1c12577228aeba086c0d1d8909a957",
+        "size_bytes": 473
+      },
+      "after": {
+        "exists": true,
+        "sha256": "33b80c44edd1a7c93febf1b3ec25a2aa77640a1a9cbc8c2aa17a2345fd3cda6e",
+        "size_bytes": 683
+      }
+    },
+    {
+      "path": "data/oos/e1r_v0_2_run_history.jsonl",
+      "before": {
+        "exists": true,
+        "sha256": "b16e3972a9ab917a08ba6ec66472ad5fed1c12577228aeba086c0d1d8909a957",
+        "size_bytes": 473
+      },
+      "after": {
+        "exists": true,
+        "sha256": "33b80c44edd1a7c93febf1b3ec25a2aa77640a1a9cbc8c2aa17a2345fd3cda6e",
+        "size_bytes": 683
+      }
+    },
+    {
+      "path": "exports/e1r_v0_2_status.json",
+      "before": {
+        "exists": true,
+        "sha256": "f05d4346d7d59fe361f928bdff24c612eb8eff028d1ecc57f0b86cedd6784c72",
+        "size_bytes": 1580
+      },
+      "after": {
+        "exists": true,
+        "sha256": "b5e5184b996eecce1f5fa408ad0e2c8f9efa526ea1229df8996122175c87b7d1",
+        "size_bytes": 1580
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_summary.json",
+      "before": {
+        "exists": true,
+        "sha256": "5000819dbd34ced1308237f08cc3411a2af11d929fa0f30a74b5a2f9ade91807",
+        "size_bytes": 1862
+      },
+      "after": {
+        "exists": true,
+        "sha256": "5d3944f1919d52b1c884f0e667546f6b1b2b4d9ee7d1f098bb9c79f6ee11866d",
+        "size_bytes": 1389
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_equity_curve.json",
+      "before": {
+        "exists": true,
+        "sha256": "1d78d1520500fddbffcfb49fbc7296153da82a058e5d95babe8195b7ccb6d28a",
+        "size_bytes": 612
+      },
+      "after": {
+        "exists": true,
+        "sha256": "e4fd0c4d3b52209847261155aee42f7623da889cb24f5c1d1fa4e77d0836c8d6",
+        "size_bytes": 500
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_orders.json",
+      "before": {
+        "exists": true,
+        "sha256": "368db0a83317245d924bc5b331825ae4c9fe66058d8bfff7244baa24f1c65422",
+        "size_bytes": 7148
+      },
+      "after": {
+        "exists": true,
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "size_bytes": 3
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_positions.json",
+      "before": {
+        "exists": true,
+        "sha256": "fb967763abeda76be4599da702080f119064f92bcd6c765d3159232fa79b2bfd",
+        "size_bytes": 6497
+      },
+      "after": {
+        "exists": true,
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "size_bytes": 3
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_targets.json",
+      "before": {
+        "exists": true,
+        "sha256": "b73630c6760fdf001a0bebba5721d6cad6213d505d93298b1bf4fbc0108f76a0",
+        "size_bytes": 29493
+      },
+      "after": {
+        "exists": true,
+        "sha256": "741a60dce37ab1130cc1f02bc8825e7854a59ce517976a9846d1fd771bf1497f",
+        "size_bytes": 29485
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_orders_preview.json",
+      "before": {
+        "exists": true,
+        "sha256": "b71a80b3735a0c3d8dfa3ea22ccec7708c832cec30b74d6c03cc510266ae155d",
+        "size_bytes": 5671
+      },
+      "after": {
+        "exists": true,
+        "sha256": "fdfa67ad7f16e03002cecc014aa33c5649bdb048704fd24896ea8c39090fee5a",
+        "size_bytes": 5651
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_positions_preview.json",
+      "before": {
+        "exists": true,
+        "sha256": "20c489aed9606df3dc63dbc99766e2f7935a46bd06923d815c1d7cdf0109dacf",
+        "size_bytes": 5047
+      },
+      "after": {
+        "exists": true,
+        "sha256": "1076fcd05c499a49e72c37fabfd13c2c34caa0e7fb6318002d535d7d69e23911",
+        "size_bytes": 5031
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar.json",
+      "before": {
+        "exists": true,
+        "sha256": "a7f3f0204e7d207fcba3832921c5e6964be0df5109d70ad164a2ba8750a85799",
+        "size_bytes": 507
+      },
+      "after": {
+        "exists": true,
+        "sha256": "591a109cbda3274df813f7a4f6492b9634e9607d9569af52d9d883997ec634f4",
+        "size_bytes": 507
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar_lifecycle.json",
+      "before": {
+        "exists": true,
+        "sha256": "0a65e55c44c355d61a7e92f9ff603a1358678dcba0c28198c11abff27e2b87db",
+        "size_bytes": 2557
+      },
+      "after": {
+        "exists": true,
+        "sha256": "cf7aadcfe8b0f186cb3998636b7679a83aea92a35cecb65bca10a43c3ba004a1",
+        "size_bytes": 2575
+      }
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_sidecar_turnover.json",
+      "before": {
+        "exists": true,
+        "sha256": "3e07493e439d8ce422670f158ca7d31321bc53d72665cc5a173ff0673509a075",
+        "size_bytes": 1924
+      },
+      "after": {
+        "exists": true,
+        "sha256": "6bc462e521c1881c951d5181433dac7d7379cbab958ed74555c15abdc5e8d051",
+        "size_bytes": 1924
+      }
+    }
+  ],
+  "classification": {
+    "all_scripts_succeeded": true,
+    "touches_e1_files": [],
+    "official_orders_preserved": false,
+    "official_positions_preserved": false,
+    "kickoff_semantics_preserved": false,
+    "safe_to_integrate_workflow_as_is": false
+  },
+  "next_decision": "If safe_to_integrate_workflow_as_is=true, proceed to 1F-1D workflow integration; then map E1R forward fields into Summary; then equity curve."
+}
