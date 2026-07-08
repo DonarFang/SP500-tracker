@@ -38,7 +38,12 @@ jobs:
 
       - name: E1R v0.2 OOS exports
         run: |
+          python3 scripts/export_e1r_v0_2_status.py
           python3 scripts/run_e1r_v0_2_oos.py
+          python3 scripts/run_e1r_v0_2_oos_equity.py
+          python3 scripts/export_e1r_v0_2_targets_preview.py
+          python3 scripts/export_e1r_v0_2_orders_positions_preview.py
+          python3 scripts/run_e1r_v0_2_forward_performance.py
         continue-on-error: true  # E1R v0.2 OOS paper tracking 不阻塞主数据发布
       - name: 提交更新
         run: |

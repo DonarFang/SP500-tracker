@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-07-08T08:06:47.227383+00:00",
+  "stage": "B_STAGE_3_8E2F1F1G_WORKFLOW_INTEGRATION",
+  "status": "IMPLEMENTED_WORKFLOW_INTEGRATION",
+  "workflow": ".github/workflows/update.yml",
+  "changed": true,
+  "validated_sequence": [
+    "python3 scripts/export_e1r_v0_2_status.py",
+    "python3 scripts/run_e1r_v0_2_oos.py",
+    "python3 scripts/run_e1r_v0_2_oos_equity.py",
+    "python3 scripts/export_e1r_v0_2_targets_preview.py",
+    "python3 scripts/export_e1r_v0_2_orders_positions_preview.py",
+    "python3 scripts/run_e1r_v0_2_forward_performance.py"
+  ],
+  "policy": {
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false,
+    "dashboard_changed": false,
+    "e1_state_changed": false,
+    "e1_exports_changed": false,
+    "strategy_logic_changed": false
+  },
+  "validation_basis": {
+    "previous_stage": "3.8E-2F-1F-1F",
+    "safe_to_integrate_workflow_as_is": true,
+    "official_orders_preserved": true,
+    "official_positions_preserved": true,
+    "kickoff_semantics_preserved": true
+  },
+  "next_stage": {
+    "stage": "3.8E-2F-1G",
+    "purpose": "Map E1R forward fields into Summary.",
+    "after_that": "2C map E1R forward equity curve."
+  }
+}
