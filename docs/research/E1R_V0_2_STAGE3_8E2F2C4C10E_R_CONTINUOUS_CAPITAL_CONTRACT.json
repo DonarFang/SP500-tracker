@@ -1,0 +1,5066 @@
+{
+  "generated_at": "2026-07-08T12:15:23.961229+00:00",
+  "stage": "B_STAGE_3_8E2F2C4C10E_R_CONTINUOUS_CAPITAL_CONTRACT",
+  "status": "CONTINUOUS_CAPITAL_CONTRACT_AUDIT_COMPLETE_NO_EXPORTS_WRITTEN",
+  "policy": {
+    "dashboard_changed": false,
+    "exports_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "canonical_exports_written": false,
+    "long_backtest_run": false
+  },
+  "contract": {
+    "capital_model": "continuous_single_account",
+    "start_date": "2021-06-11",
+    "end_date": "2026-06-18",
+    "initial_capital": 100000.0,
+    "principles": [
+      "E1 5Y backtest must be one continuous portfolio-value curve across the full 5Y window.",
+      "E1R 5Y backtest must also be one continuous portfolio-value curve across the full 5Y window.",
+      "Market regime changes select strategy behavior; they do not create separate independent capital accounts.",
+      "Each interval starts from the prior interval's ending portfolio_value/equity.",
+      "Each interval has exactly one total portfolio_value/equity.",
+      "E1R combines core sleeve + conditional sidecar sleeve + cash into one total portfolio return.",
+      "Sidecar is regime-aware and should only be active in eligible regime/subclass intervals.",
+      "Sidecar inactive intervals must not create equity gaps; sidecar_return must be 0 or be filled as 0 by composer.",
+      "Final total_return, max_drawdown, Sharpe, and PF must be computed from the same continuous equity curve.",
+      "No dashboard integration is allowed until continuous-capital canonical exports pass metric validation."
+    ],
+    "expected_shapes": {
+      "e1_canonical": {
+        "artifact": "exports/e1_5y_backtest_equity_curve.json",
+        "required": true,
+        "one_row_per_interval": true,
+        "full_window": true,
+        "capital_continuity": true,
+        "required_fields": [
+          "date",
+          "equity",
+          "portfolio_value",
+          "strategy_indexed",
+          "cash",
+          "market_value"
+        ]
+      },
+      "e1r_canonical": {
+        "artifact": "exports/e1r_v0_2_portfolio_backtest_equity_curve.json",
+        "required": true,
+        "one_row_per_interval": true,
+        "full_window": true,
+        "capital_continuity": true,
+        "required_fields": [
+          "date",
+          "equity",
+          "portfolio_value",
+          "strategy_indexed",
+          "daily_return",
+          "core_return",
+          "sidecar_return",
+          "spx_return",
+          "spx_regime",
+          "sideways_subclass"
+        ]
+      },
+      "comparison": {
+        "artifact": "exports/e1_e1r_5y_equity_comparison.json",
+        "required_after_e1_and_e1r": true,
+        "must_not_mix_windows": true
+      }
+    },
+    "validation_thresholds": {
+      "full_interval_rows_approx": "about 1258-1261",
+      "sideways_days_approx": 241,
+      "ma_conflict_days_approx": 135,
+      "sidecar_active_days_approx": 135,
+      "one_row_per_date": true,
+      "no_symbol_level_rows_in_portfolio_equity": true
+    }
+  },
+  "json_reports": {
+    "exports/portfolio_backtest.json": {
+      "path": "exports/portfolio_backtest.json",
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_keys": [
+        "alpha_pct",
+        "avg_execution_drag_pct",
+        "avg_holding_days",
+        "avg_loser_pct",
+        "avg_winner_pct",
+        "cagr_pct",
+        "comparison",
+        "daily_records",
+        "entry_top_n",
+        "executed_exit_reason_distribution",
+        "executed_reduce_reason_distribution",
+        "execution_model",
+        "exposure_pct",
+        "final_equity",
+        "generated_at",
+        "generated_at_display",
+        "initial_capital",
+        "invalid_trades",
+        "invalid_trades_count",
+        "layer",
+        "market_entry_gate",
+        "max_drawdown_pct",
+        "name",
+        "number_of_trades",
+        "p0_passed",
+        "partial_take_profit",
+        "pending_orders_executed",
+        "pending_orders_skipped",
+        "pending_signal_reason_distribution",
+        "period_comparison",
+        "portfolio_action_distribution",
+        "profit_factor",
+        "rank_based_exit",
+        "sample_validity",
+        "selected_variant",
+        "selection_policy",
+        "sharpe_ratio",
+        "skipped_orders_by_reason",
+        "spx_cagr_pct",
+        "spx_total_return_pct",
+        "status",
+        "strategy_controls",
+        "strategy_variant",
+        "total_return_pct",
+        "total_trades_all",
+        "variant_results",
+        "version",
+        "win_rate_pct"
+      ],
+      "lists": [
+        {
+          "label": "root.strategy_controls.qualified_states",
+          "is_list": true,
+          "length": 1,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.market_entry_gate.blocked_actions",
+          "is_list": true,
+          "length": 2,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.market_entry_gate.unaffected_actions",
+          "is_list": true,
+          "length": 3,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.daily_records",
+          "is_list": true,
+          "length": 22,
+          "keys": [
+            "cash",
+            "date",
+            "market_gate_state",
+            "n_holdings",
+            "pending_orders",
+            "position_value",
+            "spx_close",
+            "spx_day_return_pct",
+            "spx_ma50",
+            "total_equity"
+          ],
+          "date_start": "2023-11-06",
+          "date_end": "2026-05-13",
+          "unique_dates": 22,
+          "max_rows_per_date": 1,
+          "one_row_per_date": true,
+          "has_equity_or_portfolio_value": true,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": true,
+          "first_sample": {
+            "date": "2023-11-06",
+            "cash": 100000.0,
+            "position_value": 0.0,
+            "total_equity": 100000.0,
+            "n_holdings": 0,
+            "pending_orders": 0,
+            "market_gate_state": "RISK_OFF",
+            "spx_close": 4365.98,
+            "spx_ma50": 4346.84,
+            "spx_day_return_pct": 0.18
+          },
+          "last_sample": {
+            "date": "2026-05-13",
+            "cash": 37067.35,
+            "position_value": 55620.57,
+            "total_equity": 92687.92,
+            "n_holdings": 3,
+            "pending_orders": 2,
+            "market_gate_state": "ALLOW",
+            "spx_close": 7444.25,
+            "spx_ma50": 6896.91,
+            "spx_day_return_pct": 0.58
+          }
+        },
+        {
+          "label": "root.comparison",
+          "is_list": true,
+          "length": 2,
+          "keys": [
+            "alpha_pct",
+            "avg_loser_pct",
+            "avg_winner_pct",
+            "cagr_pct",
+            "candidate_top_n",
+            "entry_rs_min",
+            "exposure_pct",
+            "ls60_exit_mode",
+            "max_drawdown_pct",
+            "min_holding_days",
+            "number_of_trades",
+            "profit_factor",
+            "qualified_entry_enabled",
+            "qualified_states",
+            "relative_stop_enabled",
+            "relative_stop_stats",
+            "relative_stop_underperform_pct",
+            "selected",
+            "sharpe_ratio",
+            "skip_reasons",
+            "status",
+            "total_return_pct",
+            "variant",
+            "win_rate_pct"
+          ],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": {
+            "variant": "E1_AUDITED_G4_MINHOLD10",
+            "selected": true,
+            "status": "PARTIAL",
+            "entry_rs_min": 90.0,
+            "ls60_exit_mode": "exit",
+            "min_holding_days": 10,
+            "relative_stop_enabled": false,
+            "relative_stop_underperform_pct": -8.0,
+            "total_return_pct": 7.52,
+            "alpha_pct": -61.84,
+            "cagr_pct": 2.85,
+            "max_drawdown_pct": 38.1,
+            "win_rate_pct": 36.2,
+            "profit_factor": 1.25,
+            "sharpe_ratio": 0.18,
+            "number_of_trades": 47,
+            "avg_winner_pct": 14.42,
+            "avg_loser_pct": -6.56,
+            "exposure_pct": 80.1,
+            "skip_reasons": {
+              "max_positions_reached": 32,
+              "cash_insufficient": 0,
+              "already_holding": 0,
+              "max_single_size_reached": 40,
+              "no_t1_price": 0,
+              "invalid_execution_price": 0,
+              "size_at_minimum": 231,
+              "not_holding": 0,
+              "not_in_entry_top_n": 4957,
+              "not_in_qualified_candidate_pool": 0,
+              "not_qualified_entry": 0,
+              "qualified_candidate_generated": 0,
+              "market_risk_off_block": 13,
+              "market_shock_block": 0,
+              "add_blocked_after_tp": 0,
+              "entry_rs_below_threshold": 0,
+              "min_hold_block": 60,
+              "dynamic_exit_warning": 0,
+              "dynamic_hard_exit_triggered": 0,
+              "dynamic_soft_exit_confirmed": 0,
+              "ls60_reduce_already_triggered": 0,
+              "action_reason_buy_add_mismatch": 0,
+              "fill_only_no_empty_slot": 0,
+              "gate_capacity_block": 1519,
+              "gate_add_blocked": 12
+            },
+            "qualified_entry_enabled": false,
+            "candidate_top_n": null,
+            "qualified_states": [
+              "Expansion"
+            ],
+            "relative_stop_stats": {
+              "signals": 0,
+              "executed": 0
+            }
+          },
+          "last_sample": {
+            "variant": "E2_DYNAMIC_EXIT_V2",
+            "selected": false,
+            "status": "FAIL",
+            "entry_rs_min": 90.0,
+            "ls60_exit_mode": "exit",
+            "min_holding_days": 0,
+            "relative_stop_enabled": false,
+            "relative_stop_underperform_pct": -8.0,
+            "total_return_pct": -21.95,
+            "alpha_pct": -91.31,
+            "cagr_pct": -9.15,
+            "max_drawdown_pct": 51.1,
+            "win_rate_pct": 29.3,
+            "profit_factor": 0.83,
+            "sharpe_ratio": -0.15,
+            "number_of_trades": 41,
+            "avg_winner_pct": 15.82,
+            "avg_loser_pct": -7.88,
+            "exposure_pct": 79.8,
+            "skip_reasons": {
+              "max_positions_reached": 28,
+              "cash_insufficient": 0,
+              "already_holding": 0,
+              "max_single_size_reached": 31,
+              "no_t1_price": 0,
+              "invalid_execution_price": 0,
+              "size_at_minimum": 313,
+              "not_holding": 0,
+              "not_in_entry_top_n": 4946,
+              "not_in_qualified_candidate_pool": 0,
+              "not_qualified_entry": 0,
+              "qualified_candidate_generated": 0,
+              "market_risk_off_block": 6,
+              "market_shock_block": 0,
+              "add_blocked_after_tp": 0,
+              "entry_rs_below_threshold": 0,
+              "min_hold_block": 0,
+              "dynamic_exit_warning": 27,
+              "dynamic_hard_exit_triggered": 0,
+              "dynamic_soft_exit_confirmed": 339,
+              "ls60_reduce_already_triggered": 0,
+              "action_reason_buy_add_mismatch": 0,
+              "fill_only_no_empty_slot": 0,
+              "gate_capacity_block": 1541,
+              "gate_add_blocked": 14
+            },
+            "qualified_entry_enabled": false,
+            "candidate_top_n": null,
+            "qualified_states": [
+              "Expansion"
+            ],
+            "relative_stop_stats": {
+              "signals": 0,
+              "executed": 0
+            }
+          }
+        },
+        {
+          "label": "root.variant_results.E1_AUDITED_G4_MINHOLD10.strategy_controls.qualified_states",
+          "is_list": true,
+          "length": 1,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.variant_results.E1_AUDITED_G4_MINHOLD10.market_entry_gate.blocked_actions",
+          "is_list": true,
+          "length": 2,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.variant_results.E1_AUDITED_G4_MINHOLD10.market_entry_gate.unaffected_actions",
+          "is_list": true,
+          "length": 3,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.variant_results.E1_AUDITED_G4_MINHOLD10.equity_curve",
+          "is_list": true,
+          "length": 131,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.variant_results.E1_AUDITED_G4_MINHOLD10.spx_curve",
+          "is_list": true,
+          "length": 131,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.variant_results.E1_AUDITED_G4_MINHOLD10.daily_records",
+          "is_list": true,
+          "length": 22,
+          "keys": [
+            "cash",
+            "date",
+            "market_gate_state",
+            "n_holdings",
+            "pending_orders",
+            "position_value",
+            "spx_close",
+            "spx_day_return_pct",
+            "spx_ma50",
+            "total_equity"
+          ],
+          "date_start": "2023-11-06",
+          "date_end": "2026-05-13",
+          "unique_dates": 22,
+          "max_rows_per_date": 1,
+          "one_row_per_date": true,
+          "has_equity_or_portfolio_value": true,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": true,
+          "first_sample": {
+            "date": "2023-11-06",
+            "cash": 100000.0,
+            "position_value": 0.0,
+            "total_equity": 100000.0,
+            "n_holdings": 0,
+            "pending_orders": 0,
+            "market_gate_state": "RISK_OFF",
+            "spx_close": 4365.98,
+            "spx_ma50": 4346.84,
+            "spx_day_return_pct": 0.18
+          },
+          "last_sample": {
+            "date": "2026-05-13",
+            "cash": 37067.35,
+            "position_value": 55620.57,
+            "total_equity": 92687.92,
+            "n_holdings": 3,
+            "pending_orders": 2,
+            "market_gate_state": "ALLOW",
+            "spx_close": 7444.25,
+            "spx_ma50": 6896.91,
+            "spx_day_return_pct": 0.58
+          }
+        },
+        {
+          "label": "root.variant_results.E1_AUDITED_G4_MINHOLD10.trades",
+          "is_list": true,
+          "length": 47,
+          "keys": [
+            "action_count",
+            "actions_during_trade",
+            "avg_cost",
+            "effective_exit",
+            "entry_adverse_gap_pct",
+            "entry_date",
+            "entry_price",
+            "entry_signal",
+            "execution_model",
+            "exit_adverse_gap_pct",
+            "exit_date",
+            "exit_price",
+            "exit_reason",
+            "exit_reasons",
+            "exit_signal",
+            "exit_type",
+            "exit_warning_count",
+            "exit_warning_log",
+            "holding_days",
+            "is_sim_end",
+            "leader_score_entry",
+            "max_drawdown_in_trade",
+            "max_gain_pct",
+            "realized_pnl_before_exit",
+            "relative_stop_exec_date",
+            "relative_stop_triggered",
+            "return_pct",
+            "size_units_at_exit",
+            "symbol",
+            "take_profit_exec_date",
+            "take_profit_triggered",
+            "total_execution_drag_pct"
+          ],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": true,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": {
+            "symbol": "COIN",
+            "entry_date": "2023-11-24",
+            "exit_date": "2024-01-05",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 109.25,
+            "avg_cost": 117.06,
+            "exit_price": 155.6,
+            "effective_exit": 150.94,
+            "return_pct": 25.97,
+            "max_gain_pct": 59.2,
+            "max_drawdown_in_trade": 41.38,
+            "holding_days": 29,
+            "size_units_at_exit": 0.5,
+            "leader_score_entry": 95.7,
+            "relative_stop_triggered": false,
+            "relative_stop_exec_date": null,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": 3831.32,
+            "actions_during_trade": [
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "HOLD",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "EXIT"
+            ],
+            "action_count": 30,
+            "execution_model": "adverse_intraday_v1.0",
+            "entry_adverse_gap_pct": 7.146,
+            "exit_adverse_gap_pct": 2.996,
+            "total_execution_drag_pct": 10.141,
+            "is_sim_end": false,
+            "exit_reason": "leader_score_below_60",
+            "exit_reasons": [
+              "leader_score_below_60"
+            ],
+            "exit_type": "NORMAL_EXIT",
+            "exit_warning_log": [],
+            "exit_warning_count": 0
+          },
+          "last_sample": {
+            "symbol": "ODFL",
+            "entry_date": "2026-06-10",
+            "exit_date": "2026-06-11",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 248.73,
+            "avg_cost": 239.81,
+            "exit_price": 247.76,
+            "effective_exit": 236.92,
+            "return_pct": -1.2,
+            "max_gain_pct": 3.72,
+            "max_drawdown_in_trade": 0,
+            "holding_days": 2,
+            "size_units_at_exit": 1.0,
+            "leader_score_entry": 95.5,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": 0.0,
+            "actions_during_trade": [
+              "BUY",
+              "HOLD",
+              "HOLD"
+            ],
+            "action_count": 3,
+            "execution_model": "adverse_intraday_v1.0",
+            "is_sim_end": true,
+            "exit_type": "SIM_END",
+            "exit_warning_log": [],
+            "exit_warning_count": 0
+          }
+        },
+        {
+          "label": "root.variant_results.E2_DYNAMIC_EXIT_V2.strategy_controls.qualified_states",
+          "is_list": true,
+          "length": 1,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.variant_results.E2_DYNAMIC_EXIT_V2.market_entry_gate.blocked_actions",
+          "is_list": true,
+          "length": 2,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.variant_results.E2_DYNAMIC_EXIT_V2.market_entry_gate.unaffected_actions",
+          "is_list": true,
+          "length": 3,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.variant_results.E2_DYNAMIC_EXIT_V2.equity_curve",
+          "is_list": true,
+          "length": 131,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.variant_results.E2_DYNAMIC_EXIT_V2.spx_curve",
+          "is_list": true,
+          "length": 131,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.variant_results.E2_DYNAMIC_EXIT_V2.daily_records",
+          "is_list": true,
+          "length": 22,
+          "keys": [
+            "cash",
+            "date",
+            "market_gate_state",
+            "n_holdings",
+            "pending_orders",
+            "position_value",
+            "spx_close",
+            "spx_day_return_pct",
+            "spx_ma50",
+            "total_equity"
+          ],
+          "date_start": "2023-11-06",
+          "date_end": "2026-05-13",
+          "unique_dates": 22,
+          "max_rows_per_date": 1,
+          "one_row_per_date": true,
+          "has_equity_or_portfolio_value": true,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": true,
+          "first_sample": {
+            "date": "2023-11-06",
+            "cash": 100000.0,
+            "position_value": 0.0,
+            "total_equity": 100000.0,
+            "n_holdings": 0,
+            "pending_orders": 0,
+            "market_gate_state": "RISK_OFF",
+            "spx_close": 4365.98,
+            "spx_ma50": 4346.84,
+            "spx_day_return_pct": 0.18
+          },
+          "last_sample": {
+            "date": "2026-05-13",
+            "cash": 26227.25,
+            "position_value": 40276.41,
+            "total_equity": 66503.66,
+            "n_holdings": 3,
+            "pending_orders": 2,
+            "market_gate_state": "ALLOW",
+            "spx_close": 7444.25,
+            "spx_ma50": 6896.91,
+            "spx_day_return_pct": 0.58
+          }
+        },
+        {
+          "label": "root.variant_results.E2_DYNAMIC_EXIT_V2.trades",
+          "is_list": true,
+          "length": 41,
+          "keys": [
+            "action_count",
+            "actions_during_trade",
+            "avg_cost",
+            "effective_exit",
+            "entry_adverse_gap_pct",
+            "entry_date",
+            "entry_price",
+            "entry_signal",
+            "execution_model",
+            "exit_adverse_gap_pct",
+            "exit_date",
+            "exit_price",
+            "exit_reason",
+            "exit_reasons",
+            "exit_signal",
+            "exit_type",
+            "exit_warning_count",
+            "exit_warning_log",
+            "holding_days",
+            "is_sim_end",
+            "leader_score_entry",
+            "max_drawdown_in_trade",
+            "max_gain_pct",
+            "realized_pnl_before_exit",
+            "relative_stop_exec_date",
+            "relative_stop_triggered",
+            "return_pct",
+            "size_units_at_exit",
+            "symbol",
+            "take_profit_exec_date",
+            "take_profit_triggered",
+            "total_execution_drag_pct"
+          ],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": true,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": {
+            "symbol": "COIN",
+            "entry_date": "2023-11-24",
+            "exit_date": "2024-01-16",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 109.25,
+            "avg_cost": 117.06,
+            "exit_price": 130.78,
+            "effective_exit": 126.75,
+            "return_pct": 15.64,
+            "max_gain_pct": 59.2,
+            "max_drawdown_in_trade": 41.38,
+            "holding_days": 35,
+            "size_units_at_exit": 0.5,
+            "leader_score_entry": 95.7,
+            "relative_stop_triggered": false,
+            "relative_stop_exec_date": null,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": 3831.32,
+            "actions_during_trade": [
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "HOLD",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "EXIT",
+              "EXIT",
+              "REDUCE",
+              "REDUCE",
+              "EXIT",
+              "EXIT",
+              "EXIT"
+            ],
+            "action_count": 36,
+            "execution_model": "adverse_intraday_v1.0",
+            "entry_adverse_gap_pct": 7.146,
+            "exit_adverse_gap_pct": 3.079,
+            "total_execution_drag_pct": 10.225,
+            "is_sim_end": false,
+            "exit_reason": "leader_score_below_60",
+            "exit_reasons": [
+              "leader_score_below_60"
+            ],
+            "exit_type": "SOFT_EXIT_CONFIRMED",
+            "exit_warning_log": [
+              {
+                "date": "2024-01-04",
+                "ls": 58.62,
+                "price": 155.6,
+                "ma50": 122.68,
+                "price_vs_ma50_pct": 26.84,
+                "ma50_slope": 0.0169,
+                "market_state": "FULL_ON",
+                "warning_day": true,
+                "last_consecutive_date": "2024-01-05"
+              },
+              {
+                "date": "2024-01-10",
+                "ls": 58.03,
+                "price": 151.29,
+                "ma50": 128.91,
+                "price_vs_ma50_pct": 17.36,
+                "ma50_slope": 0.0135,
+                "market_state": "FULL_ON",
+                "warning_day": true,
+                "last_consecutive_date": "2024-01-11"
+              }
+            ],
+            "exit_warning_count": 2
+          },
+          "last_sample": {
+            "symbol": "IRM",
+            "entry_date": "2026-04-22",
+            "exit_date": "2026-06-11",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 117.83,
+            "avg_cost": 123.84,
+            "exit_price": 125.17,
+            "effective_exit": 122.6,
+            "return_pct": -3.38,
+            "max_gain_pct": 6.63,
+            "max_drawdown_in_trade": 0,
+            "holding_days": 36,
+            "size_units_at_exit": 0.5,
+            "leader_score_entry": 96.0,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": -962.63,
+            "actions_during_trade": [
+              "BUY",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "ADD",
+              "ADD",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "HOLD",
+              "REDUCE",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "EXIT",
+              "REDUCE",
+              "EXIT",
+              "REDUCE"
+            ],
+            "action_count": 40,
+            "execution_model": "adverse_intraday_v1.0",
+            "is_sim_end": true,
+            "exit_type": "SOFT_EXIT_CONFIRMED",
+            "exit_warning_log": [
+              {
+                "date": "2026-06-08",
+                "ls": 58.1,
+                "price": 123.5,
+                "ma50": 119.48,
+                "price_vs_ma50_pct": 3.36,
+                "ma50_slope": 0.0042,
+                "market_state": "FULL_ON",
+                "warning_day": true
+              },
+              {
+                "date": "2026-06-10",
+                "ls": 57.57,
+                "price": 123.36,
+                "ma50": 120.55,
+                "price_vs_ma50_pct": 2.33,
+                "ma50_slope": 0.0044,
+                "market_state": "FULL_ON",
+                "warning_day": true
+              }
+            ],
+            "exit_warning_count": 2
+          }
+        }
+      ]
+    },
+    "exports/backtest.json": {
+      "path": "exports/backtest.json",
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_keys": [
+        "backtest",
+        "generated_at",
+        "generated_at_display"
+      ],
+      "lists": [
+        {
+          "label": "root.backtest.results.layer_c.buy_vs_spx",
+          "is_list": true,
+          "length": 4,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.strategy_controls.qualified_states",
+          "is_list": true,
+          "length": 1,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.market_entry_gate.blocked_actions",
+          "is_list": true,
+          "length": 2,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.market_entry_gate.unaffected_actions",
+          "is_list": true,
+          "length": 3,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.equity_curve",
+          "is_list": true,
+          "length": 131,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.spx_curve",
+          "is_list": true,
+          "length": 131,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.daily_records",
+          "is_list": true,
+          "length": 22,
+          "keys": [
+            "cash",
+            "date",
+            "market_gate_state",
+            "n_holdings",
+            "pending_orders",
+            "position_value",
+            "spx_close",
+            "spx_day_return_pct",
+            "spx_ma50",
+            "total_equity"
+          ],
+          "date_start": "2023-11-06",
+          "date_end": "2026-05-13",
+          "unique_dates": 22,
+          "max_rows_per_date": 1,
+          "one_row_per_date": true,
+          "has_equity_or_portfolio_value": true,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": true,
+          "first_sample": {
+            "date": "2023-11-06",
+            "cash": 100000.0,
+            "position_value": 0.0,
+            "total_equity": 100000.0,
+            "n_holdings": 0,
+            "pending_orders": 0,
+            "market_gate_state": "RISK_OFF",
+            "spx_close": 4365.98,
+            "spx_ma50": 4346.84,
+            "spx_day_return_pct": 0.18
+          },
+          "last_sample": {
+            "date": "2026-05-13",
+            "cash": 37067.35,
+            "position_value": 55620.57,
+            "total_equity": 92687.92,
+            "n_holdings": 3,
+            "pending_orders": 2,
+            "market_gate_state": "ALLOW",
+            "spx_close": 7444.25,
+            "spx_ma50": 6896.91,
+            "spx_day_return_pct": 0.58
+          }
+        },
+        {
+          "label": "root.backtest.results.layer_d.trades",
+          "is_list": true,
+          "length": 47,
+          "keys": [
+            "action_count",
+            "actions_during_trade",
+            "avg_cost",
+            "effective_exit",
+            "entry_adverse_gap_pct",
+            "entry_date",
+            "entry_price",
+            "entry_signal",
+            "execution_model",
+            "exit_adverse_gap_pct",
+            "exit_date",
+            "exit_price",
+            "exit_reason",
+            "exit_reasons",
+            "exit_signal",
+            "exit_type",
+            "exit_warning_count",
+            "exit_warning_log",
+            "holding_days",
+            "is_sim_end",
+            "leader_score_entry",
+            "max_drawdown_in_trade",
+            "max_gain_pct",
+            "realized_pnl_before_exit",
+            "relative_stop_exec_date",
+            "relative_stop_triggered",
+            "return_pct",
+            "size_units_at_exit",
+            "symbol",
+            "take_profit_exec_date",
+            "take_profit_triggered",
+            "total_execution_drag_pct"
+          ],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": true,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": {
+            "symbol": "COIN",
+            "entry_date": "2023-11-24",
+            "exit_date": "2024-01-05",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 109.25,
+            "avg_cost": 117.06,
+            "exit_price": 155.6,
+            "effective_exit": 150.94,
+            "return_pct": 25.97,
+            "max_gain_pct": 59.2,
+            "max_drawdown_in_trade": 41.38,
+            "holding_days": 29,
+            "size_units_at_exit": 0.5,
+            "leader_score_entry": 95.7,
+            "relative_stop_triggered": false,
+            "relative_stop_exec_date": null,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": 3831.32,
+            "actions_during_trade": [
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "HOLD",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "EXIT"
+            ],
+            "action_count": 30,
+            "execution_model": "adverse_intraday_v1.0",
+            "entry_adverse_gap_pct": 7.146,
+            "exit_adverse_gap_pct": 2.996,
+            "total_execution_drag_pct": 10.141,
+            "is_sim_end": false,
+            "exit_reason": "leader_score_below_60",
+            "exit_reasons": [
+              "leader_score_below_60"
+            ],
+            "exit_type": "NORMAL_EXIT",
+            "exit_warning_log": [],
+            "exit_warning_count": 0
+          },
+          "last_sample": {
+            "symbol": "ODFL",
+            "entry_date": "2026-06-10",
+            "exit_date": "2026-06-11",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 248.73,
+            "avg_cost": 239.81,
+            "exit_price": 247.76,
+            "effective_exit": 236.92,
+            "return_pct": -1.2,
+            "max_gain_pct": 3.72,
+            "max_drawdown_in_trade": 0,
+            "holding_days": 2,
+            "size_units_at_exit": 1.0,
+            "leader_score_entry": 95.5,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": 0.0,
+            "actions_during_trade": [
+              "BUY",
+              "HOLD",
+              "HOLD"
+            ],
+            "action_count": 3,
+            "execution_model": "adverse_intraday_v1.0",
+            "is_sim_end": true,
+            "exit_type": "SIM_END",
+            "exit_warning_log": [],
+            "exit_warning_count": 0
+          }
+        },
+        {
+          "label": "root.backtest.results.layer_d.comparison",
+          "is_list": true,
+          "length": 2,
+          "keys": [
+            "alpha_pct",
+            "avg_loser_pct",
+            "avg_winner_pct",
+            "cagr_pct",
+            "candidate_top_n",
+            "entry_rs_min",
+            "exposure_pct",
+            "ls60_exit_mode",
+            "max_drawdown_pct",
+            "min_holding_days",
+            "number_of_trades",
+            "profit_factor",
+            "qualified_entry_enabled",
+            "qualified_states",
+            "relative_stop_enabled",
+            "relative_stop_stats",
+            "relative_stop_underperform_pct",
+            "selected",
+            "sharpe_ratio",
+            "skip_reasons",
+            "status",
+            "total_return_pct",
+            "variant",
+            "win_rate_pct"
+          ],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": {
+            "variant": "E1_AUDITED_G4_MINHOLD10",
+            "selected": true,
+            "status": "PARTIAL",
+            "entry_rs_min": 90.0,
+            "ls60_exit_mode": "exit",
+            "min_holding_days": 10,
+            "relative_stop_enabled": false,
+            "relative_stop_underperform_pct": -8.0,
+            "total_return_pct": 7.52,
+            "alpha_pct": -61.84,
+            "cagr_pct": 2.85,
+            "max_drawdown_pct": 38.1,
+            "win_rate_pct": 36.2,
+            "profit_factor": 1.25,
+            "sharpe_ratio": 0.18,
+            "number_of_trades": 47,
+            "avg_winner_pct": 14.42,
+            "avg_loser_pct": -6.56,
+            "exposure_pct": 80.1,
+            "skip_reasons": {
+              "max_positions_reached": 32,
+              "cash_insufficient": 0,
+              "already_holding": 0,
+              "max_single_size_reached": 40,
+              "no_t1_price": 0,
+              "invalid_execution_price": 0,
+              "size_at_minimum": 231,
+              "not_holding": 0,
+              "not_in_entry_top_n": 4957,
+              "not_in_qualified_candidate_pool": 0,
+              "not_qualified_entry": 0,
+              "qualified_candidate_generated": 0,
+              "market_risk_off_block": 13,
+              "market_shock_block": 0,
+              "add_blocked_after_tp": 0,
+              "entry_rs_below_threshold": 0,
+              "min_hold_block": 60,
+              "dynamic_exit_warning": 0,
+              "dynamic_hard_exit_triggered": 0,
+              "dynamic_soft_exit_confirmed": 0,
+              "ls60_reduce_already_triggered": 0,
+              "action_reason_buy_add_mismatch": 0,
+              "fill_only_no_empty_slot": 0,
+              "gate_capacity_block": 1519,
+              "gate_add_blocked": 12
+            },
+            "qualified_entry_enabled": false,
+            "candidate_top_n": null,
+            "qualified_states": [
+              "Expansion"
+            ],
+            "relative_stop_stats": {
+              "signals": 0,
+              "executed": 0
+            }
+          },
+          "last_sample": {
+            "variant": "E2_DYNAMIC_EXIT_V2",
+            "selected": false,
+            "status": "FAIL",
+            "entry_rs_min": 90.0,
+            "ls60_exit_mode": "exit",
+            "min_holding_days": 0,
+            "relative_stop_enabled": false,
+            "relative_stop_underperform_pct": -8.0,
+            "total_return_pct": -21.95,
+            "alpha_pct": -91.31,
+            "cagr_pct": -9.15,
+            "max_drawdown_pct": 51.1,
+            "win_rate_pct": 29.3,
+            "profit_factor": 0.83,
+            "sharpe_ratio": -0.15,
+            "number_of_trades": 41,
+            "avg_winner_pct": 15.82,
+            "avg_loser_pct": -7.88,
+            "exposure_pct": 79.8,
+            "skip_reasons": {
+              "max_positions_reached": 28,
+              "cash_insufficient": 0,
+              "already_holding": 0,
+              "max_single_size_reached": 31,
+              "no_t1_price": 0,
+              "invalid_execution_price": 0,
+              "size_at_minimum": 313,
+              "not_holding": 0,
+              "not_in_entry_top_n": 4946,
+              "not_in_qualified_candidate_pool": 0,
+              "not_qualified_entry": 0,
+              "qualified_candidate_generated": 0,
+              "market_risk_off_block": 6,
+              "market_shock_block": 0,
+              "add_blocked_after_tp": 0,
+              "entry_rs_below_threshold": 0,
+              "min_hold_block": 0,
+              "dynamic_exit_warning": 27,
+              "dynamic_hard_exit_triggered": 0,
+              "dynamic_soft_exit_confirmed": 339,
+              "ls60_reduce_already_triggered": 0,
+              "action_reason_buy_add_mismatch": 0,
+              "fill_only_no_empty_slot": 0,
+              "gate_capacity_block": 1541,
+              "gate_add_blocked": 14
+            },
+            "qualified_entry_enabled": false,
+            "candidate_top_n": null,
+            "qualified_states": [
+              "Expansion"
+            ],
+            "relative_stop_stats": {
+              "signals": 0,
+              "executed": 0
+            }
+          }
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E1_AUDITED_G4_MINHOLD10.strategy_controls.qualified_states",
+          "is_list": true,
+          "length": 1,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E1_AUDITED_G4_MINHOLD10.market_entry_gate.blocked_actions",
+          "is_list": true,
+          "length": 2,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E1_AUDITED_G4_MINHOLD10.market_entry_gate.unaffected_actions",
+          "is_list": true,
+          "length": 3,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E1_AUDITED_G4_MINHOLD10.equity_curve",
+          "is_list": true,
+          "length": 131,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E1_AUDITED_G4_MINHOLD10.spx_curve",
+          "is_list": true,
+          "length": 131,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E1_AUDITED_G4_MINHOLD10.daily_records",
+          "is_list": true,
+          "length": 22,
+          "keys": [
+            "cash",
+            "date",
+            "market_gate_state",
+            "n_holdings",
+            "pending_orders",
+            "position_value",
+            "spx_close",
+            "spx_day_return_pct",
+            "spx_ma50",
+            "total_equity"
+          ],
+          "date_start": "2023-11-06",
+          "date_end": "2026-05-13",
+          "unique_dates": 22,
+          "max_rows_per_date": 1,
+          "one_row_per_date": true,
+          "has_equity_or_portfolio_value": true,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": true,
+          "first_sample": {
+            "date": "2023-11-06",
+            "cash": 100000.0,
+            "position_value": 0.0,
+            "total_equity": 100000.0,
+            "n_holdings": 0,
+            "pending_orders": 0,
+            "market_gate_state": "RISK_OFF",
+            "spx_close": 4365.98,
+            "spx_ma50": 4346.84,
+            "spx_day_return_pct": 0.18
+          },
+          "last_sample": {
+            "date": "2026-05-13",
+            "cash": 37067.35,
+            "position_value": 55620.57,
+            "total_equity": 92687.92,
+            "n_holdings": 3,
+            "pending_orders": 2,
+            "market_gate_state": "ALLOW",
+            "spx_close": 7444.25,
+            "spx_ma50": 6896.91,
+            "spx_day_return_pct": 0.58
+          }
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E1_AUDITED_G4_MINHOLD10.trades",
+          "is_list": true,
+          "length": 47,
+          "keys": [
+            "action_count",
+            "actions_during_trade",
+            "avg_cost",
+            "effective_exit",
+            "entry_adverse_gap_pct",
+            "entry_date",
+            "entry_price",
+            "entry_signal",
+            "execution_model",
+            "exit_adverse_gap_pct",
+            "exit_date",
+            "exit_price",
+            "exit_reason",
+            "exit_reasons",
+            "exit_signal",
+            "exit_type",
+            "exit_warning_count",
+            "exit_warning_log",
+            "holding_days",
+            "is_sim_end",
+            "leader_score_entry",
+            "max_drawdown_in_trade",
+            "max_gain_pct",
+            "realized_pnl_before_exit",
+            "relative_stop_exec_date",
+            "relative_stop_triggered",
+            "return_pct",
+            "size_units_at_exit",
+            "symbol",
+            "take_profit_exec_date",
+            "take_profit_triggered",
+            "total_execution_drag_pct"
+          ],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": true,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": {
+            "symbol": "COIN",
+            "entry_date": "2023-11-24",
+            "exit_date": "2024-01-05",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 109.25,
+            "avg_cost": 117.06,
+            "exit_price": 155.6,
+            "effective_exit": 150.94,
+            "return_pct": 25.97,
+            "max_gain_pct": 59.2,
+            "max_drawdown_in_trade": 41.38,
+            "holding_days": 29,
+            "size_units_at_exit": 0.5,
+            "leader_score_entry": 95.7,
+            "relative_stop_triggered": false,
+            "relative_stop_exec_date": null,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": 3831.32,
+            "actions_during_trade": [
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "HOLD",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "EXIT"
+            ],
+            "action_count": 30,
+            "execution_model": "adverse_intraday_v1.0",
+            "entry_adverse_gap_pct": 7.146,
+            "exit_adverse_gap_pct": 2.996,
+            "total_execution_drag_pct": 10.141,
+            "is_sim_end": false,
+            "exit_reason": "leader_score_below_60",
+            "exit_reasons": [
+              "leader_score_below_60"
+            ],
+            "exit_type": "NORMAL_EXIT",
+            "exit_warning_log": [],
+            "exit_warning_count": 0
+          },
+          "last_sample": {
+            "symbol": "ODFL",
+            "entry_date": "2026-06-10",
+            "exit_date": "2026-06-11",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 248.73,
+            "avg_cost": 239.81,
+            "exit_price": 247.76,
+            "effective_exit": 236.92,
+            "return_pct": -1.2,
+            "max_gain_pct": 3.72,
+            "max_drawdown_in_trade": 0,
+            "holding_days": 2,
+            "size_units_at_exit": 1.0,
+            "leader_score_entry": 95.5,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": 0.0,
+            "actions_during_trade": [
+              "BUY",
+              "HOLD",
+              "HOLD"
+            ],
+            "action_count": 3,
+            "execution_model": "adverse_intraday_v1.0",
+            "is_sim_end": true,
+            "exit_type": "SIM_END",
+            "exit_warning_log": [],
+            "exit_warning_count": 0
+          }
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E2_DYNAMIC_EXIT_V2.strategy_controls.qualified_states",
+          "is_list": true,
+          "length": 1,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E2_DYNAMIC_EXIT_V2.market_entry_gate.blocked_actions",
+          "is_list": true,
+          "length": 2,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E2_DYNAMIC_EXIT_V2.market_entry_gate.unaffected_actions",
+          "is_list": true,
+          "length": 3,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E2_DYNAMIC_EXIT_V2.equity_curve",
+          "is_list": true,
+          "length": 131,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E2_DYNAMIC_EXIT_V2.spx_curve",
+          "is_list": true,
+          "length": 131,
+          "keys": [],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": null,
+          "last_sample": null
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E2_DYNAMIC_EXIT_V2.daily_records",
+          "is_list": true,
+          "length": 22,
+          "keys": [
+            "cash",
+            "date",
+            "market_gate_state",
+            "n_holdings",
+            "pending_orders",
+            "position_value",
+            "spx_close",
+            "spx_day_return_pct",
+            "spx_ma50",
+            "total_equity"
+          ],
+          "date_start": "2023-11-06",
+          "date_end": "2026-05-13",
+          "unique_dates": 22,
+          "max_rows_per_date": 1,
+          "one_row_per_date": true,
+          "has_equity_or_portfolio_value": true,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": true,
+          "first_sample": {
+            "date": "2023-11-06",
+            "cash": 100000.0,
+            "position_value": 0.0,
+            "total_equity": 100000.0,
+            "n_holdings": 0,
+            "pending_orders": 0,
+            "market_gate_state": "RISK_OFF",
+            "spx_close": 4365.98,
+            "spx_ma50": 4346.84,
+            "spx_day_return_pct": 0.18
+          },
+          "last_sample": {
+            "date": "2026-05-13",
+            "cash": 26227.25,
+            "position_value": 40276.41,
+            "total_equity": 66503.66,
+            "n_holdings": 3,
+            "pending_orders": 2,
+            "market_gate_state": "ALLOW",
+            "spx_close": 7444.25,
+            "spx_ma50": 6896.91,
+            "spx_day_return_pct": 0.58
+          }
+        },
+        {
+          "label": "root.backtest.results.layer_d.variant_results.E2_DYNAMIC_EXIT_V2.trades",
+          "is_list": true,
+          "length": 41,
+          "keys": [
+            "action_count",
+            "actions_during_trade",
+            "avg_cost",
+            "effective_exit",
+            "entry_adverse_gap_pct",
+            "entry_date",
+            "entry_price",
+            "entry_signal",
+            "execution_model",
+            "exit_adverse_gap_pct",
+            "exit_date",
+            "exit_price",
+            "exit_reason",
+            "exit_reasons",
+            "exit_signal",
+            "exit_type",
+            "exit_warning_count",
+            "exit_warning_log",
+            "holding_days",
+            "is_sim_end",
+            "leader_score_entry",
+            "max_drawdown_in_trade",
+            "max_gain_pct",
+            "realized_pnl_before_exit",
+            "relative_stop_exec_date",
+            "relative_stop_triggered",
+            "return_pct",
+            "size_units_at_exit",
+            "symbol",
+            "take_profit_exec_date",
+            "take_profit_triggered",
+            "total_execution_drag_pct"
+          ],
+          "date_start": null,
+          "date_end": null,
+          "unique_dates": 0,
+          "max_rows_per_date": null,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": false,
+          "has_symbol_level_rows": true,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": {
+            "symbol": "COIN",
+            "entry_date": "2023-11-24",
+            "exit_date": "2024-01-16",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 109.25,
+            "avg_cost": 117.06,
+            "exit_price": 130.78,
+            "effective_exit": 126.75,
+            "return_pct": 15.64,
+            "max_gain_pct": 59.2,
+            "max_drawdown_in_trade": 41.38,
+            "holding_days": 35,
+            "size_units_at_exit": 0.5,
+            "leader_score_entry": 95.7,
+            "relative_stop_triggered": false,
+            "relative_stop_exec_date": null,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": 3831.32,
+            "actions_during_trade": [
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "HOLD",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "EXIT",
+              "EXIT",
+              "REDUCE",
+              "REDUCE",
+              "EXIT",
+              "EXIT",
+              "EXIT"
+            ],
+            "action_count": 36,
+            "execution_model": "adverse_intraday_v1.0",
+            "entry_adverse_gap_pct": 7.146,
+            "exit_adverse_gap_pct": 3.079,
+            "total_execution_drag_pct": 10.225,
+            "is_sim_end": false,
+            "exit_reason": "leader_score_below_60",
+            "exit_reasons": [
+              "leader_score_below_60"
+            ],
+            "exit_type": "SOFT_EXIT_CONFIRMED",
+            "exit_warning_log": [
+              {
+                "date": "2024-01-04",
+                "ls": 58.62,
+                "price": 155.6,
+                "ma50": 122.68,
+                "price_vs_ma50_pct": 26.84,
+                "ma50_slope": 0.0169,
+                "market_state": "FULL_ON",
+                "warning_day": true,
+                "last_consecutive_date": "2024-01-05"
+              },
+              {
+                "date": "2024-01-10",
+                "ls": 58.03,
+                "price": 151.29,
+                "ma50": 128.91,
+                "price_vs_ma50_pct": 17.36,
+                "ma50_slope": 0.0135,
+                "market_state": "FULL_ON",
+                "warning_day": true,
+                "last_consecutive_date": "2024-01-11"
+              }
+            ],
+            "exit_warning_count": 2
+          },
+          "last_sample": {
+            "symbol": "IRM",
+            "entry_date": "2026-04-22",
+            "exit_date": "2026-06-11",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 117.83,
+            "avg_cost": 123.84,
+            "exit_price": 125.17,
+            "effective_exit": 122.6,
+            "return_pct": -3.38,
+            "max_gain_pct": 6.63,
+            "max_drawdown_in_trade": 0,
+            "holding_days": 36,
+            "size_units_at_exit": 0.5,
+            "leader_score_entry": 96.0,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": -962.63,
+            "actions_during_trade": [
+              "BUY",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "ADD",
+              "ADD",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "HOLD",
+              "REDUCE",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "EXIT",
+              "REDUCE",
+              "EXIT",
+              "REDUCE"
+            ],
+            "action_count": 40,
+            "execution_model": "adverse_intraday_v1.0",
+            "is_sim_end": true,
+            "exit_type": "SOFT_EXIT_CONFIRMED",
+            "exit_warning_log": [
+              {
+                "date": "2026-06-08",
+                "ls": 58.1,
+                "price": 123.5,
+                "ma50": 119.48,
+                "price_vs_ma50_pct": 3.36,
+                "ma50_slope": 0.0042,
+                "market_state": "FULL_ON",
+                "warning_day": true
+              },
+              {
+                "date": "2026-06-10",
+                "ls": 57.57,
+                "price": 123.36,
+                "ma50": 120.55,
+                "price_vs_ma50_pct": 2.33,
+                "ma50_slope": 0.0044,
+                "market_state": "FULL_ON",
+                "warning_day": true
+              }
+            ],
+            "exit_warning_count": 2
+          }
+        }
+      ]
+    },
+    "exports/e1r_v0_2_backtest_summary.json": {
+      "path": "exports/e1r_v0_2_backtest_summary.json",
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_keys": [
+        "alpha_pct",
+        "artifact_type",
+        "composition_exists",
+        "frozen_artifact",
+        "max_drawdown_pct",
+        "profit_factor",
+        "regeneration_note",
+        "regime_aware_logic",
+        "research_status",
+        "row_count",
+        "sharpe_ratio",
+        "sidecar_active_by_regime",
+        "sidecar_active_by_subclass",
+        "sidecar_active_days",
+        "source_file",
+        "source_json_path",
+        "spx_return_pct",
+        "strategy_id",
+        "total_return_pct",
+        "variant"
+      ],
+      "lists": []
+    },
+    "exports/e1r_v0_2_backtest_equity_curve.json": {
+      "path": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_keys": [
+        "artifact_type",
+        "equity_curve",
+        "frozen_artifact",
+        "regeneration_note",
+        "row_count",
+        "rows",
+        "source_file",
+        "source_json_path",
+        "variant"
+      ],
+      "lists": [
+        {
+          "label": "root.rows",
+          "is_list": true,
+          "length": 8819,
+          "keys": [
+            "close",
+            "date",
+            "diagnostic_only",
+            "e1r_entry_type",
+            "e1r_uptrend_confirmed_eligible",
+            "e1r_uptrend_emerging_eligible",
+            "equity",
+            "leader_rank",
+            "leader_score",
+            "ma20",
+            "ma20_slope",
+            "ma50",
+            "ma50_slope",
+            "momentum_acceleration",
+            "momentum_score",
+            "reasons",
+            "rs_20d_improvement",
+            "rs_prev20",
+            "rs_score",
+            "spx_regime",
+            "symbol",
+            "trend_health"
+          ],
+          "date_start": "2021-06-11",
+          "date_end": "2026-06-16",
+          "unique_dates": 859,
+          "max_rows_per_date": 19,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": true,
+          "has_symbol_level_rows": true,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": {
+            "date": "2021-06-11",
+            "symbol": "ADBE",
+            "spx_regime": "UPTREND",
+            "e1r_entry_type": "E1R_UPTREND_EMERGING",
+            "e1r_uptrend_emerging_eligible": true,
+            "e1r_uptrend_confirmed_eligible": false,
+            "leader_rank": 14,
+            "leader_score": 90.88,
+            "rs_score": 89.0,
+            "rs_prev20": 18.6,
+            "rs_20d_improvement": 70.4,
+            "momentum_score": 93.0,
+            "momentum_acceleration": 41.0,
+            "trend_health": 90.9,
+            "close": 541.26,
+            "ma20": 501.12,
+            "ma50": 501.37,
+            "ma20_slope": 0.002536,
+            "ma50_slope": 0.002011,
+            "reasons": [
+              "rs_above_80",
+              "rs_20d_improvement_above_10",
+              "momentum_above_70",
+              "momentum_acceleration_positive",
+              "trend_health_above_65",
+              "close_above_ma20",
+              "ma20_structure_positive",
+              "leader_rank_top20"
+            ],
+            "diagnostic_only": true,
+            "equity": 541.26
+          },
+          "last_sample": {
+            "date": "2026-06-16",
+            "symbol": "WSM",
+            "spx_regime": "UPTREND",
+            "e1r_entry_type": "E1R_UPTREND_EMERGING",
+            "e1r_uptrend_emerging_eligible": true,
+            "e1r_uptrend_confirmed_eligible": false,
+            "leader_rank": 19,
+            "leader_score": 91.06,
+            "rs_score": 83.9,
+            "rs_prev20": 10.8,
+            "rs_20d_improvement": 73.1,
+            "momentum_score": 100.0,
+            "momentum_acceleration": 27.9,
+            "trend_health": 90.0,
+            "close": 227.18,
+            "ma20": 204.43,
+            "ma50": 193.01,
+            "ma20_slope": 0.009685,
+            "ma50_slope": 0.00366,
+            "reasons": [
+              "rs_above_80",
+              "rs_20d_improvement_above_10",
+              "momentum_above_70",
+              "momentum_acceleration_positive",
+              "trend_health_above_65",
+              "close_above_ma20",
+              "ma20_structure_positive",
+              "leader_rank_top20"
+            ],
+            "diagnostic_only": true,
+            "equity": 227.18
+          }
+        },
+        {
+          "label": "root.equity_curve",
+          "is_list": true,
+          "length": 8819,
+          "keys": [
+            "close",
+            "date",
+            "diagnostic_only",
+            "e1r_entry_type",
+            "e1r_uptrend_confirmed_eligible",
+            "e1r_uptrend_emerging_eligible",
+            "equity",
+            "leader_rank",
+            "leader_score",
+            "ma20",
+            "ma20_slope",
+            "ma50",
+            "ma50_slope",
+            "momentum_acceleration",
+            "momentum_score",
+            "reasons",
+            "rs_20d_improvement",
+            "rs_prev20",
+            "rs_score",
+            "spx_regime",
+            "symbol",
+            "trend_health"
+          ],
+          "date_start": "2021-06-11",
+          "date_end": "2026-06-16",
+          "unique_dates": 859,
+          "max_rows_per_date": 19,
+          "one_row_per_date": false,
+          "has_equity_or_portfolio_value": true,
+          "has_symbol_level_rows": true,
+          "continuous_portfolio_curve_candidate": false,
+          "first_sample": {
+            "date": "2021-06-11",
+            "symbol": "ADBE",
+            "spx_regime": "UPTREND",
+            "e1r_entry_type": "E1R_UPTREND_EMERGING",
+            "e1r_uptrend_emerging_eligible": true,
+            "e1r_uptrend_confirmed_eligible": false,
+            "leader_rank": 14,
+            "leader_score": 90.88,
+            "rs_score": 89.0,
+            "rs_prev20": 18.6,
+            "rs_20d_improvement": 70.4,
+            "momentum_score": 93.0,
+            "momentum_acceleration": 41.0,
+            "trend_health": 90.9,
+            "close": 541.26,
+            "ma20": 501.12,
+            "ma50": 501.37,
+            "ma20_slope": 0.002536,
+            "ma50_slope": 0.002011,
+            "reasons": [
+              "rs_above_80",
+              "rs_20d_improvement_above_10",
+              "momentum_above_70",
+              "momentum_acceleration_positive",
+              "trend_health_above_65",
+              "close_above_ma20",
+              "ma20_structure_positive",
+              "leader_rank_top20"
+            ],
+            "diagnostic_only": true,
+            "equity": 541.26
+          },
+          "last_sample": {
+            "date": "2026-06-16",
+            "symbol": "WSM",
+            "spx_regime": "UPTREND",
+            "e1r_entry_type": "E1R_UPTREND_EMERGING",
+            "e1r_uptrend_emerging_eligible": true,
+            "e1r_uptrend_confirmed_eligible": false,
+            "leader_rank": 19,
+            "leader_score": 91.06,
+            "rs_score": 83.9,
+            "rs_prev20": 10.8,
+            "rs_20d_improvement": 73.1,
+            "momentum_score": 100.0,
+            "momentum_acceleration": 27.9,
+            "trend_health": 90.0,
+            "close": 227.18,
+            "ma20": 204.43,
+            "ma50": 193.01,
+            "ma20_slope": 0.009685,
+            "ma50_slope": 0.00366,
+            "reasons": [
+              "rs_above_80",
+              "rs_20d_improvement_above_10",
+              "momentum_above_70",
+              "momentum_acceleration_positive",
+              "trend_health_above_65",
+              "close_above_ma20",
+              "ma20_structure_positive",
+              "leader_rank_top20"
+            ],
+            "diagnostic_only": true,
+            "equity": 227.18
+          }
+        }
+      ]
+    },
+    "exports/oos_equity_curve.json": {
+      "path": "exports/oos_equity_curve.json",
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_keys": [
+        "curve",
+        "generated_at",
+        "generated_at_display",
+        "initial_capital",
+        "strategy_id"
+      ],
+      "lists": [
+        {
+          "label": "root.curve",
+          "is_list": true,
+          "length": 12,
+          "keys": [
+            "cash",
+            "date",
+            "equity",
+            "holdings_value",
+            "n_positions",
+            "source"
+          ],
+          "date_start": "2026-06-18",
+          "date_end": "2026-07-07",
+          "unique_dates": 12,
+          "max_rows_per_date": 1,
+          "one_row_per_date": true,
+          "has_equity_or_portfolio_value": true,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": true,
+          "first_sample": {
+            "date": "2026-06-18",
+            "equity": 100000.0,
+            "cash": 100000.0,
+            "holdings_value": 0,
+            "n_positions": 0,
+            "source": "BACKFILLED_PRELIVE"
+          },
+          "last_sample": {
+            "date": "2026-07-07",
+            "equity": 75255.2,
+            "cash": 0.02,
+            "holdings_value": 75255.18,
+            "n_positions": 3,
+            "source": "LIVE_FORWARD"
+          }
+        }
+      ]
+    },
+    "exports/oos_e1r_v0_2_equity_curve.json": {
+      "path": "exports/oos_e1r_v0_2_equity_curve.json",
+      "exists": true,
+      "json_valid": true,
+      "type": "list",
+      "lists": [
+        {
+          "label": "root",
+          "is_list": true,
+          "length": 1,
+          "keys": [
+            "backfill_start_date",
+            "cash",
+            "core_exposure",
+            "date",
+            "drawdown_pct",
+            "equity",
+            "forward_return_pct",
+            "gross_exposure",
+            "market_state",
+            "market_value",
+            "official_kickoff_date",
+            "portfolio_value",
+            "regime",
+            "shadow_start_date",
+            "sidecar_exposure",
+            "strategy_id",
+            "strategy_indexed",
+            "subclass",
+            "tracking_status",
+            "version"
+          ],
+          "date_start": "2026-06-18",
+          "date_end": "2026-06-18",
+          "unique_dates": 1,
+          "max_rows_per_date": 1,
+          "one_row_per_date": true,
+          "has_equity_or_portfolio_value": true,
+          "has_symbol_level_rows": false,
+          "continuous_portfolio_curve_candidate": true,
+          "first_sample": {
+            "date": "2026-06-18",
+            "portfolio_value": 100000.0,
+            "equity": 100000.0,
+            "strategy_id": "E1R_REGIME_AWARE_V0_2",
+            "version": "v0.2",
+            "cash": 100000.0,
+            "market_value": 0.0,
+            "strategy_indexed": 100.0,
+            "forward_return_pct": 0.0,
+            "drawdown_pct": 0.0,
+            "gross_exposure": 0.25,
+            "core_exposure": 0.25,
+            "sidecar_exposure": 0.0,
+            "market_state": "UPTREND",
+            "regime": "UPTREND",
+            "subclass": null,
+            "official_kickoff_date": null,
+            "shadow_start_date": "2026-06-18",
+            "backfill_start_date": "2026-06-18",
+            "tracking_status": "KICKOFF_READY"
+          },
+          "last_sample": {
+            "date": "2026-06-18",
+            "portfolio_value": 100000.0,
+            "equity": 100000.0,
+            "strategy_id": "E1R_REGIME_AWARE_V0_2",
+            "version": "v0.2",
+            "cash": 100000.0,
+            "market_value": 0.0,
+            "strategy_indexed": 100.0,
+            "forward_return_pct": 0.0,
+            "drawdown_pct": 0.0,
+            "gross_exposure": 0.25,
+            "core_exposure": 0.25,
+            "sidecar_exposure": 0.0,
+            "market_state": "UPTREND",
+            "regime": "UPTREND",
+            "subclass": null,
+            "official_kickoff_date": null,
+            "shadow_start_date": "2026-06-18",
+            "backfill_start_date": "2026-06-18",
+            "tracking_status": "KICKOFF_READY"
+          }
+        }
+      ]
+    },
+    "data/research/e1_5y/regimes/spx_regime_daily.json": {
+      "path": "data/research/e1_5y/regimes/spx_regime_daily.json",
+      "exists": true,
+      "json_valid": true,
+      "type": "dict",
+      "top_keys": [
+        "daily_regime",
+        "generated_at",
+        "validation_window"
+      ],
+      "lists": []
+    }
+  },
+  "source_reports": {
+    "src/engine/backtest.py": {
+      "exists": true,
+      "term_hits": [
+        {
+          "line": 35,
+          "terms": [
+            "positions"
+          ],
+          "text": "    \"max_positions\":      3,"
+        },
+        {
+          "line": 51,
+          "terms": [
+            "cash"
+          ],
+          "text": "    \"cash_yield\":        0.0,"
+        },
+        {
+          "line": 62,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "    \"market_shock_daily_return\": -0.02,"
+        },
+        {
+          "line": 83,
+          "terms": [
+            "positions"
+          ],
+          "text": "    # max_positions：组合最大持仓数"
+        },
+        {
+          "line": 796,
+          "terms": [
+            "positions"
+          ],
+          "text": "    max_pos  = a[\"max_positions\"]"
+        },
+        {
+          "line": 804,
+          "terms": [
+            "regime"
+          ],
+          "text": "    e1r_regime_wiring_enabled = bool(a.get(\"e1r_regime_wiring_enabled\", False))"
+        },
+        {
+          "line": 806,
+          "terms": [
+            "regime"
+          ],
+          "text": "    e1r_regime_daily = a.get(\"e1r_regime_daily\", {}) or {}"
+        },
+        {
+          "line": 808,
+          "terms": [
+            "regime"
+          ],
+          "text": "    def _e1r_regime_on(date: str) -> str:"
+        },
+        {
+          "line": 809,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if not e1r_regime_wiring_enabled or not date:"
+        },
+        {
+          "line": 811,
+          "terms": [
+            "regime"
+          ],
+          "text": "        rec = e1r_regime_daily.get(date, {})"
+        },
+        {
+          "line": 813,
+          "terms": [
+            "regime"
+          ],
+          "text": "            return rec.get(\"regime\") or rec.get(\"spx_regime\") or rec.get(\"weekly_regime\") or \"UNCLASSIFIED\""
+        },
+        {
+          "line": 818,
+          "terms": [
+            "regime"
+          ],
+          "text": "    def _e1r_mode_for_regime(regime: str) -> str:"
+        },
+        {
+          "line": 819,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if regime == \"UPTREND\":"
+        },
+        {
+          "line": 821,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if regime == \"SIDEWAYS\":"
+        },
+        {
+          "line": 823,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if regime == \"DOWNTREND\":"
+        },
+        {
+          "line": 825,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if regime == \"N/A\":"
+        },
+        {
+          "line": 829,
+          "terms": [
+            "regime"
+          ],
+          "text": "    def _e1r_risk_budget_for_regime(regime: str) -> dict:"
+        },
+        {
+          "line": 830,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if regime == \"UPTREND\":"
+        },
+        {
+          "line": 831,
+          "terms": [
+            "positions"
+          ],
+          "text": "            return {\"mode\": \"UPTREND_RISK_ON\", \"max_positions\": 3, \"max_total_exposure_pct\": 100.0}"
+        },
+        {
+          "line": 832,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if regime == \"SIDEWAYS\":"
+        },
+        {
+          "line": 833,
+          "terms": [
+            "positions"
+          ],
+          "text": "            return {\"mode\": \"SIDEWAYS_LIMITED\", \"max_positions\": 2, \"max_total_exposure_pct\": 33.3}"
+        },
+        {
+          "line": 834,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if regime == \"DOWNTREND\":"
+        },
+        {
+          "line": 835,
+          "terms": [
+            "positions"
+          ],
+          "text": "            return {\"mode\": \"DOWNTREND_DEFENSIVE\", \"max_positions\": 1, \"max_total_exposure_pct\": 10.0}"
+        },
+        {
+          "line": 836,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if regime == \"N/A\":"
+        },
+        {
+          "line": 837,
+          "terms": [
+            "positions"
+          ],
+          "text": "            return {\"mode\": \"N/A\", \"max_positions\": None, \"max_total_exposure_pct\": None}"
+        },
+        {
+          "line": 838,
+          "terms": [
+            "positions"
+          ],
+          "text": "        return {\"mode\": \"UNCLASSIFIED_DEFENSIVE\", \"max_positions\": 0, \"max_total_exposure_pct\": 0.0}"
+        },
+        {
+          "line": 840,
+          "terms": [
+            "regime"
+          ],
+          "text": "    def _e1r_dominant_regime(weights: dict) -> str:"
+        },
+        {
+          "line": 842,
+          "terms": [
+            "regime"
+          ],
+          "text": "            return \"UNCLASSIFIED\" if e1r_regime_wiring_enabled else \"N/A\""
+        },
+        {
+          "line": 897,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))"
+        },
+        {
+          "line": 930,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "                f\"| Shock<={market_shock_daily_return*100:.1f}%:{market_shock_gate_enabled}\")"
+        },
+        {
+          "line": 1016,
+          "terms": [
+            "cash"
+          ],
+          "text": "    cash            = init_cap"
+        },
+        {
+          "line": 1024,
+          "terms": [
+            "positions"
+          ],
+          "text": "        \"max_positions_reached\":    0,"
+        },
+        {
+          "line": 1025,
+          "terms": [
+            "cash"
+          ],
+          "text": "        \"cash_insufficient\":        0,"
+        },
+        {
+          "line": 1079,
+          "terms": [
+            "equity"
+          ],
+          "text": "    equity_curve:  list[float] = []"
+        },
+        {
+          "line": 1081,
+          "terms": [
+            "daily_records"
+          ],
+          "text": "    daily_records: list[dict]  = []"
+        },
+        {
+          "line": 1082,
+          "terms": [
+            "equity"
+          ],
+          "text": "    # Continuous observer-only daily equity records."
+        },
+        {
+          "line": 1083,
+          "terms": [
+            "equity",
+            "regime"
+          ],
+          "text": "    # Read-only telemetry for regime/equity attribution."
+        },
+        {
+          "line": 1084,
+          "terms": [
+            "equity"
+          ],
+          "text": "    daily_equity_records: list[dict] = []"
+        },
+        {
+          "line": 1085,
+          "terms": [
+            "equity"
+          ],
+          "text": "    daily_equity_peak = init_cap"
+        },
+        {
+          "line": 1138,
+          "terms": [
+            "cash"
+          ],
+          "text": "                port_val = cash + sum("
+        },
+        {
+          "line": 1148,
+          "terms": [
+            "positions"
+          ],
+          "text": "                        skip_reasons[\"max_positions_reached\"] += 1"
+        },
+        {
+          "line": 1156,
+          "terms": [
+            "cash"
+          ],
+          "text": "                    if target > cash:"
+        },
+        {
+          "line": 1157,
+          "terms": [
+            "cash"
+          ],
+          "text": "                        if cash * 0.99 < 10:"
+        },
+        {
+          "line": 1158,
+          "terms": [
+            "cash"
+          ],
+          "text": "                            skip_reasons[\"cash_insufficient\"] += 1"
+        },
+        {
+          "line": 1160,
+          "terms": [
+            "cash"
+          ],
+          "text": "                        target = cash * 0.99"
+        },
+        {
+          "line": 1163,
+          "terms": [
+            "cash"
+          ],
+          "text": "                    cash  -= shares * exec_price"
+        },
+        {
+          "line": 1189,
+          "terms": [
+            "regime"
+          ],
+          "text": "                        # E1-R Phase 2 regime wiring telemetry. Observer-only."
+        },
+        {
+          "line": 1190,
+          "terms": [
+            "regime"
+          ],
+          "text": "                        \"entry_regime\": _e1r_regime_on(exec_date),"
+        },
+        {
+          "line": 1191,
+          "terms": [
+            "regime"
+          ],
+          "text": "                        \"entry_type\": order.get(\"e1r_entry_type\") or (\"E1R_PLACEHOLDER_LEGACY_ENTRY\" if e1r_regime_wiring_enabled else None),"
+        },
+        {
+          "line": 1192,
+          "terms": [
+            "regime"
+          ],
+          "text": "                        \"regime_day_weights\": {},"
+        },
+        {
+          "line": 1213,
+          "terms": [
+            "cash"
+          ],
+          "text": "                    if target_add > cash:"
+        },
+        {
+          "line": 1214,
+          "terms": [
+            "cash"
+          ],
+          "text": "                        if cash * 0.99 < 10:"
+        },
+        {
+          "line": 1215,
+          "terms": [
+            "cash"
+          ],
+          "text": "                            skip_reasons[\"cash_insufficient\"] += 1"
+        },
+        {
+          "line": 1217,
+          "terms": [
+            "cash"
+          ],
+          "text": "                        target_add = cash * 0.99"
+        },
+        {
+          "line": 1228,
+          "terms": [
+            "cash"
+          ],
+          "text": "                    cash -= target_add"
+        },
+        {
+          "line": 1264,
+          "terms": [
+            "cash"
+          ],
+          "text": "                    cash    += proceeds"
+        },
+        {
+          "line": 1302,
+          "terms": [
+            "regime"
+          ],
+          "text": "                        \"entry_regime\":         h.get(\"entry_regime\", _e1r_regime_on(entry_date)),"
+        },
+        {
+          "line": 1303,
+          "terms": [
+            "regime"
+          ],
+          "text": "                        \"exit_regime\":          _e1r_regime_on(exec_date),"
+        },
+        {
+          "line": 1304,
+          "terms": [
+            "regime"
+          ],
+          "text": "                        \"dominant_regime\":      _e1r_dominant_regime(h.get(\"regime_day_weights\", {})),"
+        },
+        {
+          "line": 1306,
+          "terms": [
+            "regime"
+          ],
+          "text": "                        \"regime_day_weights\":   h.get(\"regime_day_weights\", {}),"
+        },
+        {
+          "line": 1321,
+          "terms": [
+            "cash"
+          ],
+          "text": "                    cash            += sell_shares * exec_price"
+        },
+        {
+          "line": 1355,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if e1r_regime_wiring_enabled:"
+        },
+        {
+          "line": 1356,
+          "terms": [
+            "positions",
+            "regime"
+          ],
+          "text": "            _today_regime_for_positions = _e1r_regime_on(date_t)"
+        },
+        {
+          "line": 1358,
+          "terms": [
+            "regime"
+          ],
+          "text": "                _weights = _h.setdefault(\"regime_day_weights\", {})"
+        },
+        {
+          "line": 1359,
+          "terms": [
+            "positions",
+            "regime"
+          ],
+          "text": "                _weights[_today_regime_for_positions] = _weights.get(_today_regime_for_positions, 0) + 1"
+        },
+        {
+          "line": 1361,
+          "terms": [
+            "cash",
+            "total_equity",
+            "equity"
+          ],
+          "text": "        total_equity = cash + position_value"
+        },
+        {
+          "line": 1364,
+          "terms": [
+            "cash"
+          ],
+          "text": "        if cash < -1.0:"
+        },
+        {
+          "line": 1365,
+          "terms": [
+            "cash"
+          ],
+          "text": "            logger.warn(f\"  {date_t}: negative cash={cash:.2f}\")"
+        },
+        {
+          "line": 1366,
+          "terms": [
+            "cash"
+          ],
+          "text": "            cash = 0.0"
+        },
+        {
+          "line": 1367,
+          "terms": [
+            "total_equity",
+            "equity"
+          ],
+          "text": "        if position_value > total_equity * 1.02:"
+        },
+        {
+          "line": 1370,
+          "terms": [
+            "total_equity",
+            "equity"
+          ],
+          "text": "        equity_curve.append(total_equity)"
+        },
+        {
+          "line": 1395,
+          "terms": [
+            "market_state"
+          ],
+          "text": "            market_state     = \"FULL_ON\""
+        },
+        {
+          "line": 1450,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "                and spx_day_return <= market_shock_daily_return"
+        },
+        {
+          "line": 1462,
+          "terms": [
+            "cash"
+          ],
+          "text": "            _cash_mode = ("
+        },
+        {
+          "line": 1468,
+          "terms": [
+            "cash"
+          ],
+          "text": "            if _cash_mode:"
+        },
+        {
+          "line": 1469,
+          "terms": [
+            "market_state"
+          ],
+          "text": "                market_state   = \"CASH_MODE\""
+        },
+        {
+          "line": 1477,
+          "terms": [
+            "market_state"
+          ],
+          "text": "                market_state   = \"FULL_ON\""
+        },
+        {
+          "line": 1480,
+          "terms": [
+            "market_state"
+          ],
+          "text": "                market_state   = \"CAUTIOUS_ON\""
+        },
+        {
+          "line": 1483,
+          "terms": [
+            "market_state"
+          ],
+          "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+        },
+        {
+          "line": 1496,
+          "terms": [
+            "equity"
+          ],
+          "text": "        # ── Continuous daily equity observer record ─────────────────────"
+        },
+        {
+          "line": 1497,
+          "terms": [
+            "equity"
+          ],
+          "text": "        _prev_equity = ("
+        },
+        {
+          "line": 1498,
+          "terms": [
+            "total_equity",
+            "equity"
+          ],
+          "text": "            daily_equity_records[-1][\"total_equity\"]"
+        },
+        {
+          "line": 1499,
+          "terms": [
+            "equity"
+          ],
+          "text": "            if daily_equity_records else init_cap"
+        },
+        {
+          "line": 1501,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "        _daily_return_pct = ("
+        },
+        {
+          "line": 1502,
+          "terms": [
+            "total_equity",
+            "equity"
+          ],
+          "text": "            (total_equity / _prev_equity - 1) * 100"
+        },
+        {
+          "line": 1503,
+          "terms": [
+            "equity"
+          ],
+          "text": "            if _prev_equity and _prev_equity > 0 else 0.0"
+        },
+        {
+          "line": 1505,
+          "terms": [
+            "total_equity",
+            "equity"
+          ],
+          "text": "        daily_equity_peak = max(daily_equity_peak, total_equity)"
+        },
+        {
+          "line": 1507,
+          "terms": [
+            "total_equity",
+            "equity"
+          ],
+          "text": "            (daily_equity_peak - total_equity) / daily_equity_peak * 100"
+        },
+        {
+          "line": 1508,
+          "terms": [
+            "equity"
+          ],
+          "text": "            if daily_equity_peak and daily_equity_peak > 0 else 0.0"
+        },
+        {
+          "line": 1515,
+          "terms": [
+            "equity"
+          ],
+          "text": "        daily_equity_records.append({"
+        },
+        {
+          "line": 1517,
+          "terms": [
+            "cash"
+          ],
+          "text": "            \"cash\": round(cash, 2),"
+        },
+        {
+          "line": 1518,
+          "terms": [
+            "positions"
+          ],
+          "text": "            \"positions_value\": round(position_value, 2),"
+        },
+        {
+          "line": 1519,
+          "terms": [
+            "total_equity",
+            "equity"
+          ],
+          "text": "            \"total_equity\": round(total_equity, 2),"
+        },
+        {
+          "line": 1520,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "            \"daily_return_pct\": round(_daily_return_pct, 4),"
+        },
+        {
+          "line": 1522,
+          "terms": [
+            "total_equity",
+            "equity"
+          ],
+          "text": "            \"exposure_pct\": round(position_value / total_equity * 100, 2) if total_equity > 0 else 0.0,"
+        },
+        {
+          "line": 1523,
+          "terms": [
+            "positions"
+          ],
+          "text": "            \"open_positions_count\": len(holdings),"
+        },
+        {
+          "line": 1526,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"spx_regime\": _e1r_regime_on(date_t) if e1r_regime_wiring_enabled else None,"
+        },
+        {
+          "line": 1527,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"e1r_active_mode\": _e1r_mode_for_regime(_e1r_regime_on(date_t)) if e1r_regime_wiring_enabled else None,"
+        },
+        {
+          "line": 1528,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"risk_budget_mode\": _e1r_risk_budget_for_regime(_e1r_regime_on(date_t))[\"mode\"] if e1r_regime_wiring_enabled else None,"
+        },
+        {
+          "line": 1529,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"risk_budget\": _e1r_risk_budget_for_regime(_e1r_regime_on(date_t)) if e1r_regime_wiring_enabled else None,"
+        },
+        {
+          "line": 1622,
+          "terms": [
+            "cash"
+          ],
+          "text": "        # This does not change buy_orders, management_orders, holdings, or cash."
+        },
+        {
+          "line": 1623,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if e1r_shell_mode and e1r_regime_wiring_enabled and _e1r_regime_on(date_t) == \"UPTREND\":"
+        },
+        {
+          "line": 1674,
+          "terms": [
+            "regime"
+          ],
+          "text": "                        \"spx_regime\": \"UPTREND\","
+        },
+        {
+          "line": 1698,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if e1r_uptrend_execution_enabled and _e1r_regime_on(date_t) == \"UPTREND\":"
+        },
+        {
+          "line": 1871,
+          "terms": [
+            "positions"
+          ],
+          "text": "                    # Gate OFF 时依赖 STEP 1 执行层的 max_positions_reached 检查"
+        },
+        {
+          "line": 1920,
+          "terms": [
+            "market_state"
+          ],
+          "text": "                            if market_state == \"FULL_ON\":"
+        },
+        {
+          "line": 1943,
+          "terms": [
+            "market_state"
+          ],
+          "text": "                                            \"market_state\": market_state,"
+        },
+        {
+          "line": 1997,
+          "terms": [
+            "market_state"
+          ],
+          "text": "                if action == \"ADD\" and market_gate_enabled and market_state in (\"CAUTIOUS_ON\", \"CASH_MODE\"):"
+        },
+        {
+          "line": 2028,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if e1r_uptrend_execution_enabled and _e1r_regime_on(date_t) == \"UPTREND\":"
+        },
+        {
+          "line": 2143,
+          "terms": [
+            "cash"
+          ],
+          "text": "                f\"day={spx_day_return*100:+.1f}% cash={cash:.0f} \""
+        },
+        {
+          "line": 2148,
+          "terms": [
+            "daily_records"
+          ],
+          "text": "            daily_records.append({"
+        },
+        {
+          "line": 2150,
+          "terms": [
+            "cash"
+          ],
+          "text": "                \"cash\":           round(cash, 2),"
+        },
+        {
+          "line": 2152,
+          "terms": [
+            "total_equity",
+            "equity"
+          ],
+          "text": "                \"total_equity\":   round(total_equity, 2),"
+        },
+        {
+          "line": 2196,
+          "terms": [
+            "cash"
+          ],
+          "text": "        cash    += h[\"shares\"] * exec_price"
+        },
+        {
+          "line": 2221,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"entry_regime\":         h.get(\"entry_regime\", _e1r_regime_on(entry_date)),"
+        },
+        {
+          "line": 2222,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"exit_regime\":          _e1r_regime_on(last_date),"
+        },
+        {
+          "line": 2223,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"dominant_regime\":      _e1r_dominant_regime(h.get(\"regime_day_weights\", {})),"
+        },
+        {
+          "line": 2225,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"regime_day_weights\":   h.get(\"regime_day_weights\", {}),"
+        },
+        {
+          "line": 2232,
+          "terms": [
+            "equity"
+          ],
+          "text": "    # 修正3: 强制平仓后更新 final_equity"
+        },
+        {
+          "line": 2233,
+          "terms": [
+            "cash",
+            "equity"
+          ],
+          "text": "    final_equity = cash"
+        },
+        {
+          "line": 2234,
+          "terms": [
+            "equity"
+          ],
+          "text": "    equity_curve.append(final_equity)"
+        },
+        {
+          "line": 2238,
+          "terms": [
+            "cash"
+          ],
+          "text": "        \"cash\": round(cash, 2),"
+        },
+        {
+          "line": 2239,
+          "terms": [
+            "positions"
+          ],
+          "text": "        \"positions_value\": 0.0,"
+        },
+        {
+          "line": 2240,
+          "terms": [
+            "total_equity",
+            "equity"
+          ],
+          "text": "        \"total_equity\": round(final_equity, 2),"
+        },
+        {
+          "line": 2241,
+          "terms": [
+            "positions"
+          ],
+          "text": "        \"open_positions_count\": 0,"
+        },
+        {
+          "line": 2243,
+          "terms": [
+            "regime"
+          ],
+          "text": "        \"spx_regime\": _e1r_regime_on(last_date) if e1r_regime_wiring_enabled else None,"
+        },
+        {
+          "line": 2244,
+          "terms": [
+            "regime"
+          ],
+          "text": "        \"e1r_active_mode\": _e1r_mode_for_regime(_e1r_regime_on(last_date)) if e1r_regime_wiring_enabled else None,"
+        },
+        {
+          "line": 2245,
+          "terms": [
+            "regime"
+          ],
+          "text": "        \"risk_budget_mode\": _e1r_risk_budget_for_regime(_e1r_regime_on(last_date))[\"mode\"] if e1r_regime_wiring_enabled else None,"
+        },
+        {
+          "line": 2290,
+          "terms": [
+            "equity"
+          ],
+          "text": "    total_return = (final_equity - init_cap) / init_cap * 100"
+        },
+        {
+          "line": 2292,
+          "terms": [
+            "equity"
+          ],
+          "text": "    cagr = ((final_equity / init_cap) ** (1/years) - 1) * 100 if years > 0 and final_equity > 0 else 0"
+        },
+        {
+          "line": 2294,
+          "terms": [
+            "equity"
+          ],
+          "text": "    peak = equity_curve[0]; max_dd = 0.0"
+        },
+        {
+          "line": 2295,
+          "terms": [
+            "equity"
+          ],
+          "text": "    for e in equity_curve:"
+        },
+        {
+          "line": 2349,
+          "terms": [
+            "equity"
+          ],
+          "text": "    logger.info(f\"  ${init_cap:,.0f}→${final_equity:,.2f} ({total_return:+.2f}%) \""
+        },
+        {
+          "line": 2383,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"e1r_regime_wiring_enabled\": e1r_regime_wiring_enabled,"
+        },
+        {
+          "line": 2384,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"e1r_regime_source\": a.get(\"e1r_regime_source\") if e1r_regime_wiring_enabled else None,"
+        },
+        {
+          "line": 2402,
+          "terms": [
+            "cash"
+          ],
+          "text": "            \"note\": \"Partial reduction releases cash but does not free a Max3 symbol slot.\","
+        },
+        {
+          "line": 2409,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "                f\"SPX daily return <= {market_shock_daily_return*100:.1f}%\""
+        },
+        {
+          "line": 2439,
+          "terms": [
+            "equity"
+          ],
+          "text": "        \"final_equity\":      round(final_equity, 2),"
+        },
+        {
+          "line": 2474,
+          "terms": [
+            "equity"
+          ],
+          "text": "        \"equity_curve\":      [round(e, 2) for e in equity_curve[::5]],"
+        },
+        {
+          "line": 2476,
+          "terms": [
+            "daily_records"
+          ],
+          "text": "        \"daily_records\":     daily_records,"
+        },
+        {
+          "line": 2477,
+          "terms": [
+            "equity"
+          ],
+          "text": "        \"daily_equity_records\": daily_equity_records,"
+        },
+        {
+          "line": 2478,
+          "terms": [
+            "equity"
+          ],
+          "text": "        \"daily_equity_record_count\": len(daily_equity_records),"
+        },
+        {
+          "line": 2529,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "        \"market_shock_daily_return\": -0.02,"
+        },
+        {
+          "line": 2540,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "        \"market_shock_daily_return\": -0.02,"
+        },
+        {
+          "line": 2551,
+          "terms": [
+            "regime"
+          ],
+          "text": "    def _load_e1r_regime_daily() -> dict:"
+        },
+        {
+          "line": 2552,
+          "terms": [
+            "regime"
+          ],
+          "text": "        regime_path = Path(\"data/research/e1_5y/regimes/spx_regime_daily.json\")"
+        },
+        {
+          "line": 2553,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if not regime_path.exists():"
+        },
+        {
+          "line": 2554,
+          "terms": [
+            "regime"
+          ],
+          "text": "            logger.warn(f\"  E1-R regime wiring: missing {regime_path}\")"
+        },
+        {
+          "line": 2557,
+          "terms": [
+            "regime"
+          ],
+          "text": "            obj = json.loads(regime_path.read_text())"
+        },
+        {
+          "line": 2559,
+          "terms": [
+            "regime"
+          ],
+          "text": "            logger.warn(f\"  E1-R regime wiring: failed to load {regime_path}: {exc}\")"
+        },
+        {
+          "line": 2561,
+          "terms": [
+            "regime"
+          ],
+          "text": "        daily = obj.get(\"daily_regime\", obj) if isinstance(obj, dict) else {}"
+        },
+        {
+          "line": 2564,
+          "terms": [
+            "regime"
+          ],
+          "text": "    _e1r_regime_daily = _load_e1r_regime_daily()"
+        },
+        {
+          "line": 2581,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"strategy_variant\":      \"E1R_regime_aware_v0_1_shell\","
+        },
+        {
+          "line": 2588,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"e1r_regime_wiring_enabled\": True,"
+        },
+        {
+          "line": 2589,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"e1r_regime_daily\":      _e1r_regime_daily,"
+        },
+        {
+          "line": 2590,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"e1r_regime_source\":     \"data/research/e1_5y/regimes/spx_regime_daily.json\","
+        },
+        {
+          "line": 2666,
+          "terms": [
+            "regime"
+          ],
+          "text": "                _result[\"e1r_regime_wiring_enabled\"] = True"
+        },
+        {
+          "line": 2668,
+          "terms": [
+            "regime"
+          ],
+          "text": "                _result[\"e1r_regime_source\"] = assumptions.get(\"e1r_regime_source\")"
+        },
+        {
+          "line": 2670,
+          "terms": [
+            "regime"
+          ],
+          "text": "                _result[\"strategy_controls\"][\"e1r_regime_wiring_enabled\"] = True"
+        },
+        {
+          "line": 2672,
+          "terms": [
+            "regime"
+          ],
+          "text": "                _result[\"strategy_controls\"][\"e1r_regime_source\"] = assumptions.get(\"e1r_regime_source\")"
+        },
+        {
+          "line": 2674,
+          "terms": [
+            "regime"
+          ],
+          "text": "                    _result[\"strategy_controls\"][\"regime_aware_logic\"] = \"UPTREND_EXECUTION_V0_1_ENTRY_ONLY\""
+        },
+        {
+          "line": 2682,
+          "terms": [
+            "regime"
+          ],
+          "text": "                    _result[\"strategy_controls\"][\"regime_aware_logic\"] = \"NOT_IMPLEMENTED_PHASE_3A_CANDIDATE_TAGGING_ONLY\""
+        },
+        {
+          "line": 2708,
+          "terms": [
+            "compose_e1r_v0_2_variant"
+          ],
+          "text": "        from src.engine.e1r_composer import compose_e1r_v0_2_variant"
+        },
+        {
+          "line": 2711,
+          "terms": [
+            "equity"
+          ],
+          "text": "        _core_records = (_core_e1r or {}).get(\"daily_equity_records\", []) if _core_e1r else []"
+        },
+        {
+          "line": 2715,
+          "terms": [
+            "regime"
+          ],
+          "text": "        _regime_path = Path(\"data/research/e1_5y/regimes/spx_regime_daily.json\")"
+        },
+        {
+          "line": 2717,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if _core_e1r and _core_records and _stock_dir.exists() and _spx_path.exists() and _regime_path.exists():"
+        },
+        {
+          "line": 2726,
+          "terms": [
+            "equity"
+          ],
+          "text": "                initial_equity=float(base.get(\"initial_capital\", 100000)),"
+        },
+        {
+          "line": 2733,
+          "terms": [
+            "regime"
+          ],
+          "text": "                regime_path=_regime_path,"
+        },
+        {
+          "line": 2737,
+          "terms": [
+            "compose_e1r_v0_2_variant"
+          ],
+          "text": "            variant_results[\"E1R_REGIME_AWARE_V0_2\"] = compose_e1r_v0_2_variant("
+        },
+        {
+          "line": 2740,
+          "terms": [
+            "equity"
+          ],
+          "text": "                initial_equity=float(base.get(\"initial_capital\", 100000)),"
+        },
+        {
+          "line": 2808,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"e1r_regime_wiring_enabled\": controls.get(\"e1r_regime_wiring_enabled\", False),"
+        }
+      ]
+    },
+    "src/engine/e1r_composer.py": {
+      "exists": true,
+      "term_hits": [
+        {
+          "line": 5,
+          "terms": [
+            "equity"
+          ],
+          "text": "- E1R_REGIME_AWARE_V0_1 core daily equity records"
+        },
+        {
+          "line": 9,
+          "terms": [
+            "equity"
+          ],
+          "text": "- E1R_REGIME_AWARE_V0_2 formal combined daily equity records"
+        },
+        {
+          "line": 13,
+          "terms": [
+            "equity"
+          ],
+          "text": "Core daily equity record date means:"
+        },
+        {
+          "line": 55,
+          "terms": [
+            "equity"
+          ],
+          "text": "def max_drawdown(equity_values: Sequence[float]) -> Optional[float]:"
+        },
+        {
+          "line": 56,
+          "terms": [
+            "equity"
+          ],
+          "text": "    if not equity_values:"
+        },
+        {
+          "line": 59,
+          "terms": [
+            "equity"
+          ],
+          "text": "    peak = equity_values[0]"
+        },
+        {
+          "line": 62,
+          "terms": [
+            "equity"
+          ],
+          "text": "    for value in equity_values:"
+        },
+        {
+          "line": 70,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "def sharpe_ratio(daily_returns: Sequence[float]) -> Optional[float]:"
+        },
+        {
+          "line": 71,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "    values = [x for x in daily_returns if x is not None]"
+        },
+        {
+          "line": 82,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "def profit_factor(daily_returns: Sequence[float]) -> Optional[float]:"
+        },
+        {
+          "line": 83,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "    gains = sum(x for x in daily_returns if x is not None and x > 0)"
+        },
+        {
+          "line": 84,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "    losses = -sum(x for x in daily_returns if x is not None and x < 0)"
+        },
+        {
+          "line": 94,
+          "terms": [
+            "extract_core_interval_returns"
+          ],
+          "text": "def extract_core_interval_returns("
+        },
+        {
+          "line": 95,
+          "terms": [
+            "equity"
+          ],
+          "text": "    core_daily_equity_records: Sequence[dict[str, Any]],"
+        },
+        {
+          "line": 105,
+          "terms": [
+            "core_return"
+          ],
+          "text": "      core_return,"
+        },
+        {
+          "line": 106,
+          "terms": [
+            "sidecar_return"
+          ],
+          "text": "      sidecar_return,"
+        },
+        {
+          "line": 113,
+          "terms": [
+            "equity"
+          ],
+          "text": "    for row in core_daily_equity_records:"
+        },
+        {
+          "line": 118,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "        r = safe_float(row.get(\"daily_return\"))"
+        },
+        {
+          "line": 121,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "            rp = safe_float(row.get(\"daily_return_pct\"))"
+        },
+        {
+          "line": 127,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "        core_by_end_date[date] = row | {\"_normalized_daily_return\": r}"
+        },
+        {
+          "line": 142,
+          "terms": [
+            "daily_return",
+            "core_return"
+          ],
+          "text": "        core_return = safe_float(core.get(\"_normalized_daily_return\")) or 0.0"
+        },
+        {
+          "line": 143,
+          "terms": [
+            "sidecar_return"
+          ],
+          "text": "        sidecar_return = safe_float(sidecar.get(\"portfolio_return\")) or 0.0"
+        },
+        {
+          "line": 146,
+          "terms": [
+            "combined_return",
+            "core_return",
+            "sidecar_return"
+          ],
+          "text": "        combined_return = (1.0 + core_return) * (1.0 + sidecar_return) - 1.0"
+        },
+        {
+          "line": 152,
+          "terms": [
+            "core_return"
+          ],
+          "text": "            \"core_return\": core_return,"
+        },
+        {
+          "line": 153,
+          "terms": [
+            "core_return"
+          ],
+          "text": "            \"core_return_pct\": pct_display(core_return),"
+        },
+        {
+          "line": 154,
+          "terms": [
+            "sidecar_return"
+          ],
+          "text": "            \"sidecar_return\": sidecar_return,"
+        },
+        {
+          "line": 155,
+          "terms": [
+            "sidecar_return"
+          ],
+          "text": "            \"sidecar_return_pct\": pct_display(sidecar_return),"
+        },
+        {
+          "line": 156,
+          "terms": [
+            "combined_return"
+          ],
+          "text": "            \"combined_return\": combined_return,"
+        },
+        {
+          "line": 157,
+          "terms": [
+            "combined_return"
+          ],
+          "text": "            \"combined_return_pct\": pct_display(combined_return),"
+        },
+        {
+          "line": 160,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"regime\": sidecar.get(\"regime\"),"
+        },
+        {
+          "line": 162,
+          "terms": [
+            "sidecar_active"
+          ],
+          "text": "            \"sidecar_active\": bool(sidecar.get(\"is_active\")),"
+        },
+        {
+          "line": 171,
+          "terms": [
+            "equity",
+            "build_equity_records_from_returns"
+          ],
+          "text": "def build_equity_records_from_returns("
+        },
+        {
+          "line": 173,
+          "terms": [
+            "equity"
+          ],
+          "text": "    initial_equity: float,"
+        },
+        {
+          "line": 175,
+          "terms": [
+            "equity"
+          ],
+          "text": "    equity = initial_equity"
+        },
+        {
+          "line": 176,
+          "terms": [
+            "equity"
+          ],
+          "text": "    peak = initial_equity"
+        },
+        {
+          "line": 180,
+          "terms": [
+            "combined_return"
+          ],
+          "text": "        r = safe_float(row.get(\"combined_return\")) or 0.0"
+        },
+        {
+          "line": 181,
+          "terms": [
+            "equity"
+          ],
+          "text": "        equity *= 1.0 + r"
+        },
+        {
+          "line": 182,
+          "terms": [
+            "equity"
+          ],
+          "text": "        peak = max(peak, equity)"
+        },
+        {
+          "line": 184,
+          "terms": [
+            "equity"
+          ],
+          "text": "        drawdown = equity / peak - 1.0 if peak > 0 else 0.0"
+        },
+        {
+          "line": 190,
+          "terms": [
+            "total_equity",
+            "equity"
+          ],
+          "text": "            \"total_equity\": equity,"
+        },
+        {
+          "line": 191,
+          "terms": [
+            "equity"
+          ],
+          "text": "            \"equity\": equity,"
+        },
+        {
+          "line": 192,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "            \"daily_return\": r,"
+        },
+        {
+          "line": 193,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "            \"daily_return_pct\": pct_display(r),"
+        },
+        {
+          "line": 197,
+          "terms": [
+            "core_return"
+          ],
+          "text": "            \"core_return\": row[\"core_return\"],"
+        },
+        {
+          "line": 198,
+          "terms": [
+            "core_return"
+          ],
+          "text": "            \"core_return_pct\": row[\"core_return_pct\"],"
+        },
+        {
+          "line": 199,
+          "terms": [
+            "sidecar_return"
+          ],
+          "text": "            \"sidecar_return\": row[\"sidecar_return\"],"
+        },
+        {
+          "line": 200,
+          "terms": [
+            "sidecar_return"
+          ],
+          "text": "            \"sidecar_return_pct\": row[\"sidecar_return_pct\"],"
+        },
+        {
+          "line": 204,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"spx_regime\": row.get(\"regime\"),"
+        },
+        {
+          "line": 206,
+          "terms": [
+            "sidecar_active"
+          ],
+          "text": "            \"sidecar_active\": row.get(\"sidecar_active\"),"
+        },
+        {
+          "line": 216,
+          "terms": [
+            "equity"
+          ],
+          "text": "    equity_records: Sequence[dict[str, Any]],"
+        },
+        {
+          "line": 217,
+          "terms": [
+            "equity"
+          ],
+          "text": "    initial_equity: float,"
+        },
+        {
+          "line": 219,
+          "terms": [
+            "combined_return"
+          ],
+          "text": "    combined_returns = [safe_float(r.get(\"combined_return\")) or 0.0 for r in interval_records]"
+        },
+        {
+          "line": 220,
+          "terms": [
+            "core_return"
+          ],
+          "text": "    core_returns = [safe_float(r.get(\"core_return\")) or 0.0 for r in interval_records]"
+        },
+        {
+          "line": 221,
+          "terms": [
+            "sidecar_return"
+          ],
+          "text": "    sidecar_returns = [safe_float(r.get(\"sidecar_return\")) or 0.0 for r in interval_records]"
+        },
+        {
+          "line": 224,
+          "terms": [
+            "equity"
+          ],
+          "text": "    equity_curve = [initial_equity] + ["
+        },
+        {
+          "line": 225,
+          "terms": [
+            "equity"
+          ],
+          "text": "        safe_float(r.get(\"equity\")) or initial_equity for r in equity_records"
+        },
+        {
+          "line": 228,
+          "terms": [
+            "combined_return"
+          ],
+          "text": "    total_return = compound_return(combined_returns)"
+        },
+        {
+          "line": 229,
+          "terms": [
+            "core_return"
+          ],
+          "text": "    core_return = compound_return(core_returns)"
+        },
+        {
+          "line": 230,
+          "terms": [
+            "sidecar_return"
+          ],
+          "text": "    sidecar_return = compound_return(sidecar_returns)"
+        },
+        {
+          "line": 233,
+          "terms": [
+            "sidecar_active"
+          ],
+          "text": "    active_records = [r for r in interval_records if r.get(\"sidecar_active\")]"
+        },
+        {
+          "line": 235,
+          "terms": [
+            "regime"
+          ],
+          "text": "    active_by_regime: dict[str, int] = {}"
+        },
+        {
+          "line": 237,
+          "terms": [
+            "regime"
+          ],
+          "text": "    contribution_by_regime: dict[str, float] = {}"
+        },
+        {
+          "line": 241,
+          "terms": [
+            "regime"
+          ],
+          "text": "        regime = row.get(\"regime\") or \"NO_REGIME\""
+        },
+        {
+          "line": 243,
+          "terms": [
+            "sidecar_return"
+          ],
+          "text": "        sidecar_return_row = safe_float(row.get(\"sidecar_return\")) or 0.0"
+        },
+        {
+          "line": 245,
+          "terms": [
+            "sidecar_return",
+            "regime"
+          ],
+          "text": "        contribution_by_regime[regime] = contribution_by_regime.get(regime, 0.0) + sidecar_return_row"
+        },
+        {
+          "line": 246,
+          "terms": [
+            "sidecar_return"
+          ],
+          "text": "        contribution_by_subclass[subclass] = contribution_by_subclass.get(subclass, 0.0) + sidecar_return_row"
+        },
+        {
+          "line": 248,
+          "terms": [
+            "sidecar_active"
+          ],
+          "text": "        if row.get(\"sidecar_active\"):"
+        },
+        {
+          "line": 249,
+          "terms": [
+            "regime"
+          ],
+          "text": "            active_by_regime[regime] = active_by_regime.get(regime, 0) + 1"
+        },
+        {
+          "line": 254,
+          "terms": [
+            "core_return"
+          ],
+          "text": "        \"core_return_pct\": pct_display(core_return),"
+        },
+        {
+          "line": 255,
+          "terms": [
+            "sidecar_return"
+          ],
+          "text": "        \"sidecar_return_pct\": pct_display(sidecar_return),"
+        },
+        {
+          "line": 260,
+          "terms": [
+            "equity"
+          ],
+          "text": "        \"max_drawdown_pct\": abs(pct_display(max_drawdown(equity_curve)) or 0.0),"
+        },
+        {
+          "line": 261,
+          "terms": [
+            "combined_return"
+          ],
+          "text": "        \"profit_factor\": profit_factor(combined_returns),"
+        },
+        {
+          "line": 262,
+          "terms": [
+            "combined_return"
+          ],
+          "text": "        \"sharpe_ratio\": sharpe_ratio(combined_returns),"
+        },
+        {
+          "line": 264,
+          "terms": [
+            "combined_return"
+          ],
+          "text": "            100.0 * sum(1 for r in combined_returns if r > 0) / len(combined_returns)"
+        },
+        {
+          "line": 265,
+          "terms": [
+            "combined_return"
+          ],
+          "text": "            if combined_returns else None"
+        },
+        {
+          "line": 268,
+          "terms": [
+            "equity"
+          ],
+          "text": "        \"daily_equity_record_count\": len(equity_records),"
+        },
+        {
+          "line": 269,
+          "terms": [
+            "sidecar_active"
+          ],
+          "text": "        \"sidecar_active_days\": len(active_records),"
+        },
+        {
+          "line": 270,
+          "terms": [
+            "sidecar_active",
+            "regime"
+          ],
+          "text": "        \"sidecar_active_by_regime\": active_by_regime,"
+        },
+        {
+          "line": 271,
+          "terms": [
+            "sidecar_active"
+          ],
+          "text": "        \"sidecar_active_by_subclass\": active_by_subclass,"
+        },
+        {
+          "line": 272,
+          "terms": [
+            "regime"
+          ],
+          "text": "        \"sidecar_simple_contribution_by_regime_pct\": {"
+        },
+        {
+          "line": 274,
+          "terms": [
+            "regime"
+          ],
+          "text": "            for k, v in contribution_by_regime.items()"
+        },
+        {
+          "line": 283,
+          "terms": [
+            "compose_e1r_v0_2_variant"
+          ],
+          "text": "def compose_e1r_v0_2_variant("
+        },
+        {
+          "line": 286,
+          "terms": [
+            "equity"
+          ],
+          "text": "    initial_equity: float = 100000.0,"
+        },
+        {
+          "line": 288,
+          "terms": [
+            "equity"
+          ],
+          "text": "    core_records = core_variant_result.get(\"daily_equity_records\", [])"
+        },
+        {
+          "line": 291,
+          "terms": [
+            "extract_core_interval_returns"
+          ],
+          "text": "    interval_records = extract_core_interval_returns(core_records, sidecar_records)"
+        },
+        {
+          "line": 292,
+          "terms": [
+            "equity",
+            "build_equity_records_from_returns"
+          ],
+          "text": "    equity_records = build_equity_records_from_returns(interval_records, initial_equity)"
+        },
+        {
+          "line": 293,
+          "terms": [
+            "equity"
+          ],
+          "text": "    summary = summarize_combined_variant(interval_records, equity_records, initial_equity)"
+        },
+        {
+          "line": 301,
+          "terms": [
+            "regime"
+          ],
+          "text": "        \"strategy_variant\": \"E1R_regime_aware_v0_2_formal_sidecar_sleeve\","
+        },
+        {
+          "line": 316,
+          "terms": [
+            "core_return",
+            "sidecar_return"
+          ],
+          "text": "            \"composition_formula\": \"(1 + core_return) * (1 + sidecar_return) - 1\","
+        },
+        {
+          "line": 322,
+          "terms": [
+            "equity"
+          ],
+          "text": "        \"daily_equity_records\": equity_records,"
+        },
+        {
+          "line": 323,
+          "terms": [
+            "equity"
+          ],
+          "text": "        \"daily_equity_record_count\": len(equity_records),"
+        },
+        {
+          "line": 343,
+          "terms": [
+            "sidecar_active"
+          ],
+          "text": "    result[\"sidecar_active_days\"] = summary[\"sidecar_active_days\"]"
+        },
+        {
+          "line": 344,
+          "terms": [
+            "sidecar_active",
+            "regime"
+          ],
+          "text": "    result[\"sidecar_active_by_regime\"] = summary[\"sidecar_active_by_regime\"]"
+        },
+        {
+          "line": 345,
+          "terms": [
+            "sidecar_active"
+          ],
+          "text": "    result[\"sidecar_active_by_subclass\"] = summary[\"sidecar_active_by_subclass\"]"
+        },
+        {
+          "line": 346,
+          "terms": [
+            "regime"
+          ],
+          "text": "    result[\"sidecar_simple_contribution_by_regime_pct\"] = summary[\"sidecar_simple_contribution_by_regime_pct\"]"
+        },
+        {
+          "line": 351,
+          "terms": [
+            "regime"
+          ],
+          "text": "        \"regime_aware_logic\": \"UPTREND_V0_1_CORE_PLUS_SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE\","
+        }
+      ]
+    },
+    "src/engine/e1r_sidecar_sleeve.py": {
+      "exists": true,
+      "term_hits": [
+        {
+          "line": 49,
+          "terms": [
+            "equity"
+          ],
+          "text": "    initial_equity: float = 100000.0"
+        },
+        {
+          "line": 87,
+          "terms": [
+            "equity"
+          ],
+          "text": "def max_drawdown(equity_values: Sequence[float]) -> Optional[float]:"
+        },
+        {
+          "line": 88,
+          "terms": [
+            "equity"
+          ],
+          "text": "    if not equity_values:"
+        },
+        {
+          "line": 91,
+          "terms": [
+            "equity"
+          ],
+          "text": "    peak = equity_values[0]"
+        },
+        {
+          "line": 94,
+          "terms": [
+            "equity"
+          ],
+          "text": "    for value in equity_values:"
+        },
+        {
+          "line": 102,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "def sharpe_ratio(daily_returns: Sequence[float]) -> Optional[float]:"
+        },
+        {
+          "line": 103,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "    values = [x for x in daily_returns if x is not None]"
+        },
+        {
+          "line": 114,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "def profit_factor(daily_returns: Sequence[float]) -> Optional[float]:"
+        },
+        {
+          "line": 115,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "    gains = sum(x for x in daily_returns if x is not None and x > 0)"
+        },
+        {
+          "line": 116,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "    losses = -sum(x for x in daily_returns if x is not None and x < 0)"
+        },
+        {
+          "line": 182,
+          "terms": [
+            "regime"
+          ],
+          "text": "def load_regimes(path: Path) -> dict[str, dict[str, Any]]:"
+        },
+        {
+          "line": 184,
+          "terms": [
+            "regime"
+          ],
+          "text": "    daily = raw.get(\"daily_regime\", raw)"
+        },
+        {
+          "line": 344,
+          "terms": [
+            "regime"
+          ],
+          "text": "    regimes: dict[str, dict[str, Any]],"
+        },
+        {
+          "line": 350,
+          "terms": [
+            "regime"
+          ],
+          "text": "        and d in regimes"
+        },
+        {
+          "line": 359,
+          "terms": [
+            "regime"
+          ],
+          "text": "    regimes: dict[str, dict[str, Any]],"
+        },
+        {
+          "line": 366,
+          "terms": [
+            "regime"
+          ],
+          "text": "        regime_info = regimes.get(date, {})"
+        },
+        {
+          "line": 367,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if regime_info.get(\"regime\") != \"SIDEWAYS\":"
+        },
+        {
+          "line": 392,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"regime\": \"SIDEWAYS\","
+        },
+        {
+          "line": 393,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"subclass\": regime_info.get(\"subclass\") or \"NO_SUBCLASS\","
+        },
+        {
+          "line": 404,
+          "terms": [
+            "regime"
+          ],
+          "text": "    regimes: dict[str, dict[str, Any]],"
+        },
+        {
+          "line": 415,
+          "terms": [
+            "regime"
+          ],
+          "text": "        regime_info = regimes.get(date, {})"
+        },
+        {
+          "line": 416,
+          "terms": [
+            "regime"
+          ],
+          "text": "        regime = regime_info.get(\"regime\") or \"NO_REGIME\""
+        },
+        {
+          "line": 417,
+          "terms": [
+            "regime"
+          ],
+          "text": "        subclass = regime_info.get(\"subclass\") or \"NO_SUBCLASS\""
+        },
+        {
+          "line": 425,
+          "terms": [
+            "regime"
+          ],
+          "text": "            regime == \"SIDEWAYS\""
+        },
+        {
+          "line": 457,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"regime\": regime,"
+        },
+        {
+          "line": 477,
+          "terms": [
+            "equity"
+          ],
+          "text": "    equity = config.initial_equity"
+        },
+        {
+          "line": 478,
+          "terms": [
+            "equity"
+          ],
+          "text": "    equity_curve = [equity]"
+        },
+        {
+          "line": 480,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "    daily_returns = [r[\"portfolio_return\"] for r in records]"
+        },
+        {
+          "line": 486,
+          "terms": [
+            "equity"
+          ],
+          "text": "        equity *= 1.0 + record[\"portfolio_return\"]"
+        },
+        {
+          "line": 487,
+          "terms": [
+            "equity"
+          ],
+          "text": "        equity_curve.append(equity)"
+        },
+        {
+          "line": 489,
+          "terms": [
+            "equity"
+          ],
+          "text": "    full_strategy_return = equity_curve[-1] / config.initial_equity - 1.0"
+        },
+        {
+          "line": 519,
+          "terms": [
+            "equity"
+          ],
+          "text": "        \"max_drawdown_pct\": pct_display(max_drawdown(equity_curve)),"
+        },
+        {
+          "line": 520,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "        \"profit_factor\": profit_factor(daily_returns),"
+        },
+        {
+          "line": 521,
+          "terms": [
+            "daily_return"
+          ],
+          "text": "        \"sharpe\": sharpe_ratio(daily_returns),"
+        },
+        {
+          "line": 533,
+          "terms": [
+            "equity"
+          ],
+          "text": "        \"equity_start\": config.initial_equity,"
+        },
+        {
+          "line": 534,
+          "terms": [
+            "equity"
+          ],
+          "text": "        \"equity_end\": equity_curve[-1],"
+        },
+        {
+          "line": 541,
+          "terms": [
+            "regime"
+          ],
+          "text": "    regime_path: Path,"
+        },
+        {
+          "line": 545,
+          "terms": [
+            "regime"
+          ],
+          "text": "    regimes = load_regimes(regime_path)"
+        },
+        {
+          "line": 548,
+          "terms": [
+            "regime"
+          ],
+          "text": "    intervals = build_backtest_intervals(spx, regimes, config)"
+        },
+        {
+          "line": 549,
+          "terms": [
+            "regime"
+          ],
+          "text": "    rankings = build_daily_rankings(stocks, spx, regimes, intervals, config)"
+        },
+        {
+          "line": 550,
+          "terms": [
+            "regime"
+          ],
+          "text": "    records = run_daily_rebalanced_sidecar(rankings, spx, regimes, intervals, config)"
+        },
+        {
+          "line": 553,
+          "terms": [
+            "regime"
+          ],
+          "text": "    regime_counts: dict[str, int] = {}"
+        },
+        {
+          "line": 557,
+          "terms": [
+            "regime"
+          ],
+          "text": "        regime = record[\"regime\"]"
+        },
+        {
+          "line": 559,
+          "terms": [
+            "regime"
+          ],
+          "text": "        regime_counts[regime] = regime_counts.get(regime, 0) + 1"
+        },
+        {
+          "line": 560,
+          "terms": [
+            "regime"
+          ],
+          "text": "        if regime == \"SIDEWAYS\":"
+        },
+        {
+          "line": 574,
+          "terms": [
+            "equity"
+          ],
+          "text": "            \"initial_equity\": config.initial_equity,"
+        },
+        {
+          "line": 589,
+          "terms": [
+            "regime"
+          ],
+          "text": "            \"regime_counts\": regime_counts,"
+        }
+      ]
+    }
+  },
+  "source_function_heads": {
+    "src/engine/e1r_composer.py": {
+      "extract_core_interval_returns": {
+        "start_line": 94,
+        "end_line": 168,
+        "source_head": "def extract_core_interval_returns(\n    core_daily_equity_records: Sequence[dict[str, Any]],\n    sidecar_records: Sequence[dict[str, Any]],\n) -> list[dict[str, Any]]:\n    \"\"\"\n    Align core daily returns to sidecar intervals by next_date.\n\n    Returns one record per shared interval:\n    {\n      date,\n      next_date,\n      core_return,\n      sidecar_return,\n      spx_return,\n      ...\n    }\n    \"\"\"\n    core_by_end_date = {}\n\n    for row in core_daily_equity_records:\n        date = row.get(\"date\")\n        if not date:\n            continue\n\n        r = safe_float(row.get(\"daily_return\"))\n        if r is None:\n            # Some historical outputs may store pct instead of decimal.\n            rp = safe_float(row.get(\"daily_return_pct\"))\n            r = None if rp is None else rp / 100.0\n\n        if r is None:\n            continue\n\n        core_by_end_date[date] = row | {\"_normalized_daily_return\": r}\n\n    aligned: list[dict[str, Any]] = []\n\n    for sidecar in sidecar_records:\n        date = sidecar.get(\"date\")\n        next_date = sidecar.get(\"next_date\")\n\n        if not date or not next_date:\n            continue\n\n        core = core_by_end_date.get(next_date)\n        if core is None:\n            continue\n\n        core_return = safe_float(core.get(\"_normalized_daily_return\")) or 0.0\n        sidecar_return = safe_float(sidecar.get(\"portfolio_return\")) or 0.0\n        spx_return = safe_float(sidecar.get(\"spx_return\")) or 0.0\n\n        combined_return = (1.0 + core_return) * (1.0 + sidecar_return) - 1.0\n\n        aligned.append({\n            \"date\": date,\n            \"next_date\": next_date,\n            \"core_end_date\": next_date,\n            \"core_return\": core_return,\n            \"core_return_pct\": pct_display(core_return),\n            \"sidecar_return\": sidecar_return,\n            \"sidecar_return_pct\": pct_display(sidecar_return),\n            \"combined_return\": combined_return,\n            \"combined_return_pct\": pct_display(combined_return),\n            \"spx_return\": spx_return,\n            \"spx_return_pct\": pct_display(spx_return),\n            \"regime\": sidecar.get(\"regime\"),\n            \"subclass\": sidecar.get(\"subclass\"),\n            \"sidecar_active\": bool(sidecar.get(\"is_active\")),\n            \"sidecar_selected_count\": sidecar.get(\"selected_count\"),\n            \"sidecar_gross_exposure\": sidecar.get(\"gross_exposure\"),\n            \"sidecar_holdings\": sidecar.get(\"holdings\", []),\n        })\n\n    return aligned"
+      },
+      "build_equity_records_from_returns": {
+        "start_line": 171,
+        "end_line": 211,
+        "source_head": "def build_equity_records_from_returns(\n    interval_records: Sequence[dict[str, Any]],\n    initial_equity: float,\n) -> list[dict[str, Any]]:\n    equity = initial_equity\n    peak = initial_equity\n    records: list[dict[str, Any]] = []\n\n    for row in interval_records:\n        r = safe_float(row.get(\"combined_return\")) or 0.0\n        equity *= 1.0 + r\n        peak = max(peak, equity)\n\n        drawdown = equity / peak - 1.0 if peak > 0 else 0.0\n\n        records.append({\n            \"date\": row[\"next_date\"],\n            \"interval_start_date\": row[\"date\"],\n            \"interval_end_date\": row[\"next_date\"],\n            \"total_equity\": equity,\n            \"equity\": equity,\n            \"daily_return\": r,\n            \"daily_return_pct\": pct_display(r),\n            \"drawdown\": drawdown,\n            \"drawdown_pct\": pct_display(drawdown),\n\n            \"core_return\": row[\"core_return\"],\n            \"core_return_pct\": row[\"core_return_pct\"],\n            \"sidecar_return\": row[\"sidecar_return\"],\n            \"sidecar_return_pct\": row[\"sidecar_return_pct\"],\n            \"spx_return\": row[\"spx_return\"],\n            \"spx_return_pct\": row[\"spx_return_pct\"],\n\n            \"spx_regime\": row.get(\"regime\"),\n            \"sideways_subclass\": row.get(\"subclass\"),\n            \"sidecar_active\": row.get(\"sidecar_active\"),\n            \"sidecar_selected_count\": row.get(\"sidecar_selected_count\"),\n            \"sidecar_gross_exposure\": row.get(\"sidecar_gross_exposure\"),\n        })\n\n    return records"
+      },
+      "summarize_combined_variant": {
+        "start_line": 214,
+        "end_line": 280,
+        "source_head": "def summarize_combined_variant(\n    interval_records: Sequence[dict[str, Any]],\n    equity_records: Sequence[dict[str, Any]],\n    initial_equity: float,\n) -> dict[str, Any]:\n    combined_returns = [safe_float(r.get(\"combined_return\")) or 0.0 for r in interval_records]\n    core_returns = [safe_float(r.get(\"core_return\")) or 0.0 for r in interval_records]\n    sidecar_returns = [safe_float(r.get(\"sidecar_return\")) or 0.0 for r in interval_records]\n    spx_returns = [safe_float(r.get(\"spx_return\")) or 0.0 for r in interval_records]\n\n    equity_curve = [initial_equity] + [\n        safe_float(r.get(\"equity\")) or initial_equity for r in equity_records\n    ]\n\n    total_return = compound_return(combined_returns)\n    core_return = compound_return(core_returns)\n    sidecar_return = compound_return(sidecar_returns)\n    spx_return = compound_return(spx_returns)\n\n    active_records = [r for r in interval_records if r.get(\"sidecar_active\")]\n\n    active_by_regime: dict[str, int] = {}\n    active_by_subclass: dict[str, int] = {}\n    contribution_by_regime: dict[str, float] = {}\n    contribution_by_subclass: dict[str, float] = {}\n\n    for row in interval_records:\n        regime = row.get(\"regime\") or \"NO_REGIME\"\n        subclass = row.get(\"subclass\") or \"NO_SUBCLASS\"\n        sidecar_return_row = safe_float(row.get(\"sidecar_return\")) or 0.0\n\n        contribution_by_regime[regime] = contribution_by_regime.get(regime, 0.0) + sidecar_return_row\n        contribution_by_subclass[subclass] = contribution_by_subclass.get(subclass, 0.0) + sidecar_return_row\n\n        if row.get(\"sidecar_active\"):\n            active_by_regime[regime] = active_by_regime.get(regime, 0) + 1\n            active_by_subclass[subclass] = active_by_subclass.get(subclass, 0) + 1\n\n    return {\n        \"total_return_pct\": pct_display(total_return),\n        \"core_return_pct\": pct_display(core_return),\n        \"sidecar_return_pct\": pct_display(sidecar_return),\n        \"spx_return_pct\": pct_display(spx_return),\n        \"alpha_pct\": pct_display(total_return - spx_return),\n        # Match legacy engine convention:\n        # max_drawdown_pct is reported as positive magnitude, e.g. 25.90 not -25.90.\n        \"max_drawdown_pct\": abs(pct_display(max_drawdown(equity_curve)) or 0.0),\n        \"profit_factor\": profit_factor(combined_returns),\n        \"sharpe_ratio\": sharpe_ratio(combined_returns),\n        \"daily_win_rate_pct\": (\n            100.0 * sum(1 for r in combined_returns if r > 0) / len(combined_returns)\n            if combined_returns else None\n        ),\n        \"total_days\": len(interval_records),\n        \"daily_equity_record_count\": len(equity_records),\n        \"sidecar_active_days\": len(active_records),\n        \"sidecar_active_by_regime\": active_by_regime,\n        \"sidecar_active_by_subclass\": active_by_subclass,\n        \"sidecar_simple_contribution_by_regime_pct\": {\n            k: pct_display(v)\n            for k, v in contribution_by_regime.items()\n        },\n        \"sidecar_simple_contribution_by_subclass_pct\": {\n            k: pct_display(v)\n            for k, v in contribution_by_subclass.items()\n        },\n    }"
+      },
+      "compose_e1r_v0_2_variant": {
+        "start_line": 283,
+        "end_line": 360,
+        "source_head": "def compose_e1r_v0_2_variant(\n    core_variant_result: dict[str, Any],\n    sidecar_result: dict[str, Any],\n    initial_equity: float = 100000.0,\n) -> dict[str, Any]:\n    core_records = core_variant_result.get(\"daily_equity_records\", [])\n    sidecar_records = sidecar_result.get(\"records\", [])\n\n    interval_records = extract_core_interval_returns(core_records, sidecar_records)\n    equity_records = build_equity_records_from_returns(interval_records, initial_equity)\n    summary = summarize_combined_variant(interval_records, equity_records, initial_equity)\n\n    result = copy.deepcopy(core_variant_result)\n\n    sidecar_summary = sidecar_result.get(\"summary\", {}) or {}\n\n    result.update({\n        \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n        \"strategy_variant\": \"E1R_regime_aware_v0_2_formal_sidecar_sleeve\",\n        \"version\": \"E1R-v0.2-formal-sidecar-sleeve\",\n        \"research_status\": \"FORMAL_SIDECAR_SLEEVE_ENGINE\",\n        \"core_total_trades\": core_variant_result.get(\"total_trades\"),\n        \"sidecar_trade_count_approx\": sidecar_summary.get(\"trade_count_approx\"),\n        \"combined_trade_count_note\": (\n            \"total_trades remains inherited from E1R v0.1 core; \"\n            \"sidecar_trade_count_approx counts daily basket holdings and is not \"\n            \"stateful round-trip trade count.\"\n        ),\n        \"e1r_v0_2_composition\": {\n            \"core_variant\": \"E1R_REGIME_AWARE_V0_1\",\n            \"sidecar_engine\": sidecar_result.get(\"engine\"),\n            \"sidecar_version\": sidecar_result.get(\"version\"),\n            \"alignment\": \"core daily return ending at next_date aligned to sidecar date->next_date interval\",\n            \"composition_formula\": \"(1 + core_return) * (1 + sidecar_return) - 1\",\n            \"sidecar_config\": sidecar_result.get(\"config\", {}),\n            \"sidecar_sample\": sidecar_result.get(\"sample\", {}),\n            \"sidecar_summary\": sidecar_result.get(\"summary\", {}),\n            \"combined_summary\": summary,\n        },\n        \"daily_equity_records\": equity_records,\n        \"daily_equity_record_count\": len(equity_records),\n        \"e1r_v0_2_interval_records_sample\": {\n            \"first_5\": interval_records[:5],\n            \"last_5\": interval_records[-5:],\n        },\n    })\n\n    # Override summary-level fields with formal combined values.\n    for key in (\n        \"total_return_pct\",\n        \"spx_return_pct\",\n        \"alpha_pct\",\n        \"max_drawdown_pct\",\n        \"profit_factor\",\n        \"sharpe_ratio\",\n    ):\n        if key in summary:\n            result[key] = summary[key]\n\n    result[\"total_days\"] = summary[\"total_days\"]\n    result[\"sidecar_active_days\"] = summary[\"sidecar_active_days\"]\n    result[\"sidecar_active_by_regime\"] = summary[\"sidecar_active_by_regime\"]\n    result[\"sidecar_active_by_subclass\"] = summary[\"sidecar_active_by_subclass\"]\n    result[\"sidecar_simple_contribution_by_regime_pct\"] = summary[\"sidecar_simple_contribution_by_regime_pct\"]\n    result[\"sidecar_simple_contribution_by_subclass_pct\"] = summary[\"sidecar_simple_contribution_by_subclass_pct\"]\n\n    result.setdefault(\"strategy_controls\", {})\n    result[\"strategy_controls\"].update({\n        \"regime_aware_logic\": \"UPTREND_V0_1_CORE_PLUS_SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE\",\n        \"e1r_v0_2_formal_sidecar_sleeve\": True,\n        \"e1r_v0_2_core_variant\": \"E1R_REGIME_AWARE_V0_1\",\n        \"e1r_v0_2_sidecar_allowed_subclasses\": sidecar_result.get(\"config\", {}).get(\"allowed_subclasses\"),\n        \"e1r_v0_2_sidecar_top_n\": sidecar_result.get(\"config\", {}).get(\"top_n\"),\n        \"e1r_v0_2_sidecar_gross_exposure\": sidecar_result.get(\"config\", {}).get(\"gross_exposure\"),\n        \"e1r_v0_2_excluded_symbols\": sidecar_result.get(\"config\", {}).get(\"excluded_symbols\"),\n    })\n\n    return result"
+      }
+    },
+    "src/engine/backtest.py": {
+      "run_trade_rule_validation": {
+        "start_line": 313,
+        "end_line": 464,
+        "source_head": "def run_trade_rule_validation(\n    symbols: list[str],\n    prices_map: dict[str, list[float]],\n    spx_prices: list[float],\n    forward_days: list[int] = [5, 10, 20, 30],\n    step: int = 5,\n    min_history: int = 120,\n    market_score_default: float = 60.0,\n) -> dict:\n    \"\"\"\n    Layer C: Trade Rule Validation\n\n    对每个 BUY/EXIT 信号，测量信号后的前向收益，\n    并与 SPX 同期收益对比。\n    \"\"\"\n    logger.info(\"[Backtest Layer C] Trade Rule Validation...\")\n\n    signal_returns = {\n        \"BUY\":  {d: [] for d in forward_days},\n        \"ADD\":  {d: [] for d in forward_days},\n        \"EXIT\": {d: [] for d in forward_days},\n        \"HOLD\": {d: [] for d in forward_days},\n    }\n    spx_returns = {d: [] for d in forward_days}\n\n    # 去重：记录每只股票的上次信号日期（避免连续多天重复计算）\n    last_signal_day: dict[str, int] = {}\n    signal_counts = {\"BUY\": 0, \"ADD\": 0, \"HOLD\": 0, \"REDUCE\": 0, \"EXIT\": 0}\n    dedup_gap = 5  # 同一股票同一信号至少间隔5天才重新计入\n\n    # 用 SPX 长度作为时间轴，避免被个股短数据截断\n    n_days = len(spx_prices)\n    processed = 0\n\n    for t in range(min_history, n_days - max(forward_days), step):\n        # SPX 前向收益（用于基准比较）\n        for days in forward_days:\n            spx_ret = forward_return(spx_prices, t, days)\n            if spx_ret is not None:\n                spx_returns[days].append(spx_ret * 100)\n\n        # 每只股票生成信号\n        all_ret60 = []\n        for sym in symbols:\n            if sym in prices_map:\n                r = period_return(prices_map[sym][:t+1], 60)\n                if r is not None:\n                    all_ret60.append(r)\n\n        for sym in symbols:\n            if sym not in prices_map:\n                continue\n            p = prices_map[sym][:t+1]\n            if len(p) < 60:\n                continue\n\n            ret60 = period_return(p, 60) or 0.0\n            rs = rs_percentile(ret60, all_ret60)\n            mom_dict = calc_momentum(p)\n            mom = mom_dict[\"momentum_score\"]\n            th_dict = calc_trend_health(p)\n            th = th_dict[\"trend_health\"]\n            ls = calc_leader_score(rs, mom, th)\n\n            # Trend State\n            from ..features.trend_health import trend_lifecycle\n            state = trend_lifecycle(th, mom, rs)\n\n            ma50s = moving_average(p, 50)\n            ma50_val = ma50s[-1] if ma50s else p[-1]\n            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0\n\n            action = trade_action(\n                state, mom, rs, p[-1], ma50_val,\n                ma50_sl, ls, th, market_score_default\n            )\n\n            if action not in signal_returns:\n                continue\n\n            signal_counts[action] = signal_counts.get(action, 0) + 1\n\n            # 去重：同一股票同一信号至少间隔 dedup_gap 天\n            key = f\"{sym}_{action}\"\n            if key in last_signal_day and t - last_signal_day[key] < dedup_gap:\n                continue\n            last_signal_day[key] = t\n\n            p_full = prices_map[sym]\n            for days in forward_days:\n                ret = forward_return(p_full, t, days)\n                if ret is not None:\n                    signal_returns[action][days].append(ret * 100)\n\n        processed += 1\n        if processed % 20 == 0:\n            logger.info(f\"  Layer C: {t}/{n_days} 天已处理...\")\n\n    # 汇总\n    def stats(rets):\n        if not rets:\n            return {\"n\": 0}\n        avg = sum(rets) / len(rets)\n        med = sorted(rets)[len(rets)//2]\n        std = math.sqrt(sum((r-avg)**2 for r in rets)/len(rets)) if len(rets)>1 else 0\n        wins = [r for r in rets if r > 0]\n        losses = [r for r in rets if r <= 0]\n        pf = abs(sum(wins)/sum(losses)) if losses and sum(losses) != 0 else 0\n        sh = avg/std * math.sqrt(252/20) if std > 0 else 0\n        return {\n            \"n\":          len(rets),\n            \"avg_ret\":    round(avg, 3),\n            \"med_ret\":    round(med, 3),\n            \"win_rate\":   round(len(wins)/len(rets)*100, 1),\n            \"vol\":        round(std, 3),\n            \"profit_factor\": round(pf, 2),\n            \"sharpe\":     round(sh, 2),\n        }\n\n    summary = {}\n    for sig in signal_returns:\n        summary[sig] = {f\"fwd{d}d\": stats(signal_returns[sig][d]) for d in forward_days}\n\n    spx_summary = {f\"fwd{d}d\": stats(spx_returns[d]) for d in forward_days}\n\n    # 判断 PASS/FAIL\n    buy_vs_spx = []\n    for days in forward_days:\n        k = f\"fwd{days}d\"\n        buy_avg = summary[\"BUY\"].get(k, {}).get(\"avg_ret\", 0)\n        spx_avg = spx_summary.get(k, {}).get(\"avg_ret\", 0)\n        buy_vs_spx.append(buy_avg > spx_avg)\n\n    pass_count = sum(buy_vs_spx)\n    status = \"PASS\" if pass_count >= 3 else \"PARTIAL\" if pass_count >= 2 else \"FAIL\"\n\n    # 有效 BUY 信号数量（去重后）\n    buy_n = summary.get(\"BUY\",{}).get(\"fwd20d\",{}).get(\"n\", 0)\n\n    logger.info(f\"  Layer C: {status} (BUY跑赢SPX {pass_count}/4, BUY信号数={buy_n})\")\n    logger.info(f\"  全市场 Action 分布(market_wide, 去重前): {signal_counts}\")\n    return {\n        \"layer\":          \"C\",\n        \"name\":           \"Trade Rule Validation\",\n        \"status\":         status,\n        \"buy_vs_spx\":     buy_vs_spx,\n        \"buy_signal_count\": buy_n,\n        \"signal_counts_raw\": signal_counts,\n        \"signal_summary\": summary,\n        \"spx_benchmark\":  spx_summary,\n        \"dedup_gap_days\": dedup_gap,\n    }"
+      },
+      "run_action_forward_validation": {
+        "start_line": 595,
+        "end_line": 756,
+        "source_head": "def run_action_forward_validation(\n    symbols:       list[str],\n    prices_map:    dict[str, list[float]],\n    spx_prices:    list[float],\n    dates_map:     dict[str, list[str]] | None = None,\n    spx_dates:     list[str] | None = None,\n    forward_days:  list[int] = [5, 10, 20, 30],\n    step:          int = 5,\n    min_history:   int = 120,\n    market_score_default: float = 60.0,\n) -> dict:\n    \"\"\"\n    Layer C2: Action Forward Return Validation\n\n    验证每种 Action 之后的前向收益：\n    - BUY  → 买入后是否有正向期望？\n    - ADD  → 加仓后是否继续超额？\n    - HOLD → 继续持有是否比卖出更好？\n    - REDUCE → 减仓后股票是否真的走弱？\n    - EXIT → 退出后是否避免了进一步下跌？\n    \"\"\"\n    logger.info(\"[Backtest Layer C2] Action Forward Return Validation...\")\n    dates_map = dates_map or {}\n    spx_dates = spx_dates or []\n    action_returns = {\n        a: {d: [] for d in forward_days}\n        for a in [\"BUY\",\"ADD\",\"HOLD\",\"REDUCE\",\"EXIT\"]\n    }\n    spx_returns = {d: [] for d in forward_days}\n\n    # 用 SPX 长度作为时间轴基准（不被个股短数据截断）\n    # 个股在信号计算时独立检查是否有足够历史\n    n_days = len(spx_prices)\n    logger.info(f\"  回测时间轴：{n_days} bars（基于 SPX）\")\n    if spx_dates:\n        logger.info(f\"  回测期间：{spx_dates[min_history] if len(spx_dates)>min_history else '?'} → {spx_dates[-1]}\")\n\n    # 去重：同一股票同一信号至少间隔 5 天\n    last_action_day: dict[str, int] = {}\n    dedup_gap = 5\n\n    for t in range(min_history, n_days - max(forward_days), step):\n        for d in forward_days:\n            r = forward_return(spx_prices, t, d)\n            if r is not None:\n                spx_returns[d].append(r * 100)\n\n        all_ret60 = [\n            (period_return(prices_map[s][:t+1], 60) or 0.0)\n            for s in symbols if s in prices_map and len(prices_map[s]) > t+1\n        ]\n\n        for sym in symbols:\n            if sym not in prices_map:\n                continue\n            p = prices_map[sym][:t+1]\n            if len(p) < 60:\n                continue\n\n            ret60 = period_return(p, 60) or 0.0\n            rs    = rs_percentile(ret60, all_ret60)\n            mom_d = calc_momentum(p)\n            mom   = mom_d[\"momentum_score\"]\n            th_d  = calc_trend_health(p)\n            th    = th_d[\"trend_health\"]\n            ls    = calc_leader_score(rs, mom, th)\n\n            from ..features.trend_health import trend_lifecycle\n            state    = trend_lifecycle(th, mom, rs)\n            ma50s    = moving_average(p, 50)\n            ma50_v   = ma50s[-1] if ma50s else p[-1]\n            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0\n\n            action = trade_action(\n                state, mom, rs, p[-1], ma50_v,\n                ma50_sl, ls, th, market_score_default\n            )\n\n            if action not in action_returns:\n                continue\n\n            key = f\"{sym}_{action}\"\n            if key in last_action_day and t - last_action_day[key] < dedup_gap:\n                continue\n            last_action_day[key] = t\n\n            p_full = prices_map[sym]\n            for d in forward_days:\n                r = forward_return(p_full, t, d)\n                if r is not None:\n                    action_returns[action][d].append(r * 100)\n\n    # 统计\n    def stats(rets):\n        if not rets: return {\"n\": 0}\n        avg = sum(rets)/len(rets)\n        med = sorted(rets)[len(rets)//2]\n        std = math.sqrt(sum((r-avg)**2 for r in rets)/len(rets)) if len(rets)>1 else 0\n        wins = [r for r in rets if r > 0]\n        return {\n            \"n\":         len(rets),\n            \"avg_ret\":   round(avg, 3),\n            \"med_ret\":   round(med, 3),\n            \"win_rate\":  round(len(wins)/len(rets)*100, 1),\n            \"vol\":       round(std, 3),\n        }\n\n    summary   = {a: {f\"fwd{d}d\": stats(action_returns[a][d]) for d in forward_days} for a in action_returns}\n    spx_summ  = {f\"fwd{d}d\": stats(spx_returns[d]) for d in forward_days}\n\n    # 关键验证\n    # 1. HOLD 后收益是否为正（持有有效）\n    hold_positive = sum(\n        1 for d in forward_days\n        if summary[\"HOLD\"].get(f\"fwd{d}d\",{}).get(\"avg_ret\",0) > 0\n    )\n    # 2. REDUCE/EXIT 后收益是否低于 HOLD（减仓/退出有保护作用）\n    reduce_lower = sum(\n        1 for d in forward_days\n        if summary[\"REDUCE\"].get(f\"fwd{d}d\",{}).get(\"avg_ret\",999) <\n           summary[\"HOLD\"].get(f\"fwd{d}d\",{}).get(\"avg_ret\",0)\n    )\n    exit_lower = sum(\n        1 for d in forward_days\n        if summary[\"EXIT\"].get(f\"fwd{d}d\",{}).get(\"avg_ret\",999) <\n           summary[\"HOLD\"].get(f\"fwd{d}d\",{}).get(\"avg_ret\",0)\n    )\n\n    status = \"PASS\" if hold_positive >= 3 and (reduce_lower + exit_lower) >= 4 else              \"PARTIAL\" if hold_positive >= 2 else \"FAIL\"\n\n    # 日志输出\n    for d in forward_days:\n        k = f\"fwd{d}d\"\n        row = {a: summary[a].get(k,{}).get(\"avg_ret\",\"—\") for a in [\"BUY\",\"ADD\",\"HOLD\",\"REDUCE\",\"EXIT\"]}\n        spx = spx_summ.get(k,{}).get(\"avg_ret\",\"—\")\n        logger.info(\n            f\"  C2 {d:2d}日: \"\n            f\"BUY={row['BUY']:+.2f}% \"\n            f\"ADD={row['ADD']:+.2f}% \"\n            f\"HOLD={row['HOLD']:+.2f}% \"\n            f\"REDUCE={row['REDUCE']:+.2f}% \"\n            f\"EXIT={row['EXIT']:+.2f}% \"\n            f\"SPX={spx:+.2f}%\"\n            if isinstance(row[\"BUY\"], float) else f\"  C2 {d}日: 无数据\"\n        )\n    logger.info(f\"  Layer C2: {status} (HOLD正收益 {hold_positive}/4, REDUCE低于HOLD {reduce_lower}/4, EXIT低于HOLD {exit_lower}/4)\")\n\n    return {\n        \"layer\":   \"C2\",\n        \"name\":    \"Action Forward Return Validation\",\n        \"status\":  status,\n        \"hold_positive_count\":  hold_positive,\n        \"reduce_lower_count\":   reduce_lower,\n        \"exit_lower_count\":     exit_lower,\n        \"action_summary\":       summary,\n        \"spx_benchmark\":        spx_summ,\n        \"interpretation\": {\n            \"HOLD\":   \"持有有效\" if hold_positive >= 3 else \"持有期望偏低，需检查\",\n            \"REDUCE\": f\"减仓有保护 ({reduce_lower}/4)\" if reduce_lower >= 3 else \"减仓保护不足\",\n            \"EXIT\":   f\"退出有保护 ({exit_lower}/4)\" if exit_lower >= 3 else \"退出可能过早\",\n        },\n    }"
+      }
+    },
+    "src/engine/e1r_sidecar_sleeve.py": {
+      "run_daily_rebalanced_sidecar": {
+        "start_line": 401,
+        "end_line": 470,
+        "source_head": "def run_daily_rebalanced_sidecar(\n    rankings: dict[str, dict[str, Any]],\n    spx: dict[str, Any],\n    regimes: dict[str, dict[str, Any]],\n    intervals: Sequence[tuple[str, str]],\n    config: E1RSidecarConfig,\n) -> list[dict[str, Any]]:\n    allowed_subclasses = set(config.allowed_subclasses)\n    top_n = int(config.top_n)\n    gross_exposure = float(config.gross_exposure)\n\n    records: list[dict[str, Any]] = []\n\n    for date, next_date in intervals:\n        regime_info = regimes.get(date, {})\n        regime = regime_info.get(\"regime\") or \"NO_REGIME\"\n        subclass = regime_info.get(\"subclass\") or \"NO_SUBCLASS\"\n\n        spx_return = close_to_close_return(spx, date, next_date) or 0.0\n\n        ranked = rankings.get(date, {})\n        candidates = ranked.get(\"candidates\", [])\n\n        is_active = (\n            regime == \"SIDEWAYS\"\n            and subclass in allowed_subclasses\n            and top_n > 0\n            and gross_exposure > 0\n            and bool(candidates)\n        )\n\n        holdings: list[dict[str, Any]] = []\n        portfolio_return = 0.0\n\n        if is_active:\n            selected = candidates[:top_n]\n            weight = gross_exposure / len(selected)\n\n            for candidate in selected:\n                raw_return = candidate[\"one_day_return\"]\n                contribution = weight * raw_return\n                portfolio_return += contribution\n\n                holdings.append({\n                    \"symbol\": candidate[\"symbol\"],\n                    \"score\": candidate[\"score\"],\n                    \"weight\": weight,\n                    \"raw_return\": raw_return,\n                    \"raw_return_pct\": pct_display(raw_return),\n                    \"weighted_contribution\": contribution,\n                    \"weighted_contribution_pct\": pct_display(contribution),\n                })\n\n        records.append({\n            \"date\": date,\n            \"next_date\": next_date,\n            \"regime\": regime,\n            \"subclass\": subclass,\n            \"is_active\": is_active,\n            \"candidate_count\": len(candidates),\n            \"selected_count\": len(holdings),\n            \"gross_exposure\": gross_exposure if is_active else 0.0,\n            \"portfolio_return\": portfolio_return,\n            \"portfolio_return_pct\": pct_display(portfolio_return),\n            \"spx_return\": spx_return,\n            \"spx_return_pct\": pct_display(spx_return),\n            \"holdings\": holdings,\n        })\n\n    return records"
+      },
+      "summarize_sidecar": {
+        "start_line": 473,
+        "end_line": 535,
+        "source_head": "def summarize_sidecar(\n    records: Sequence[dict[str, Any]],\n    config: E1RSidecarConfig,\n) -> dict[str, Any]:\n    equity = config.initial_equity\n    equity_curve = [equity]\n\n    daily_returns = [r[\"portfolio_return\"] for r in records]\n    active_records = [r for r in records if r[\"is_active\"]]\n    active_returns = [r[\"portfolio_return\"] for r in active_records]\n    active_spx_returns = [r[\"spx_return\"] for r in active_records]\n\n    for record in records:\n        equity *= 1.0 + record[\"portfolio_return\"]\n        equity_curve.append(equity)\n\n    full_strategy_return = equity_curve[-1] / config.initial_equity - 1.0\n    full_spx_return = compound_return(r[\"spx_return\"] for r in records)\n    active_strategy_return = compound_return(active_returns)\n    active_spx_return = compound_return(active_spx_returns)\n\n    wins = [r for r in active_records if r[\"portfolio_return\"] > 0]\n    losses = [r for r in active_records if r[\"portfolio_return\"] < 0]\n\n    return {\n        \"name\": \"E1R_SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE\",\n        \"allowed_subclasses\": list(config.allowed_subclasses),\n        \"top_n\": config.top_n,\n        \"gross_exposure\": config.gross_exposure,\n        \"excluded_symbols\": list(config.excluded_symbols),\n\n        \"total_days\": len(records),\n        \"active_days\": len(active_records),\n        \"exposure_pct_full_period\": (\n            100.0 * len(active_records) / len(records)\n            if records else None\n        ),\n\n        \"full_period_strategy_return_pct\": pct_display(full_strategy_return),\n        \"full_period_spx_return_pct\": pct_display(full_spx_return),\n        \"full_period_excess_vs_spx_pct\": pct_display(full_strategy_return - full_spx_return),\n\n        \"active_window_strategy_return_pct\": pct_display(active_strategy_return),\n        \"active_window_spx_return_pct\": pct_display(active_spx_return),\n        \"active_window_excess_vs_spx_pct\": pct_display(active_strategy_return - active_spx_return),\n\n        \"max_drawdown_pct\": pct_display(max_drawdown(equity_curve)),\n        \"profit_factor\": profit_factor(daily_returns),\n        \"sharpe\": sharpe_ratio(daily_returns),\n\n        \"active_day_win_rate_pct\": (\n            100.0 * len(wins) / len(active_records)\n            if active_records else None\n        ),\n        \"winning_active_days\": len(wins),\n        \"losing_active_days\": len(losses),\n        \"avg_active_day_return_pct\": pct_display(mean_or_none(active_returns)),\n        \"median_active_day_return_pct\": pct_display(median_or_none(active_returns)),\n\n        \"trade_count_approx\": sum(len(r[\"holdings\"]) for r in active_records),\n        \"equity_start\": config.initial_equity,\n        \"equity_end\": equity_curve[-1],\n    }"
+      },
+      "build_e1r_sidecar_sleeve": {
+        "start_line": 538,
+        "end_line": 594,
+        "source_head": "def build_e1r_sidecar_sleeve(\n    stock_dir: Path,\n    spx_path: Path,\n    regime_path: Path,\n    config: E1RSidecarConfig,\n) -> dict[str, Any]:\n    spx = load_asset(spx_path)\n    regimes = load_regimes(regime_path)\n    stocks, excluded_found = load_stock_universe(stock_dir, config)\n\n    intervals = build_backtest_intervals(spx, regimes, config)\n    rankings = build_daily_rankings(stocks, spx, regimes, intervals, config)\n    records = run_daily_rebalanced_sidecar(rankings, spx, regimes, intervals, config)\n    summary = summarize_sidecar(records, config)\n\n    regime_counts: dict[str, int] = {}\n    subclass_counts: dict[str, int] = {}\n\n    for record in records:\n        regime = record[\"regime\"]\n        subclass = record[\"subclass\"]\n        regime_counts[regime] = regime_counts.get(regime, 0) + 1\n        if regime == \"SIDEWAYS\":\n            subclass_counts[subclass] = subclass_counts.get(subclass, 0) + 1\n\n    return {\n        \"engine\": \"e1r_sidecar_sleeve\",\n        \"version\": \"v0.2_formal_sleeve_engine\",\n        \"config\": {\n            \"start_date\": config.start_date,\n            \"end_date\": config.end_date,\n            \"allowed_subclasses\": list(config.allowed_subclasses),\n            \"top_n\": config.top_n,\n            \"gross_exposure\": config.gross_exposure,\n            \"min_history_days\": config.min_history_days,\n            \"min_price\": config.min_price,\n            \"initial_equity\": config.initial_equity,\n            \"excluded_symbols\": list(config.excluded_symbols),\n        },\n        \"sample\": {\n            \"intervals\": len(intervals),\n            \"first_interval\": {\n                \"date\": intervals[0][0],\n                \"next_date\": intervals[0][1],\n            } if intervals else None,\n            \"last_interval\": {\n                \"date\": intervals[-1][0],\n                \"next_date\": intervals[-1][1],\n            } if intervals else None,\n            \"stock_universe_after_exclusions\": len(stocks),\n            \"excluded_symbols_found_in_raw_data\": excluded_found,\n            \"regime_counts\": regime_counts,\n            \"sideways_subclass_counts\": subclass_counts,\n        },\n        \"summary\": summary,\n        \"records\": records,\n    }"
+      }
+    }
+  },
+  "portfolio_curve_candidates": [
+    {
+      "path": "exports/portfolio_backtest.json",
+      "list": "root.daily_records",
+      "length": 22,
+      "date_start": "2023-11-06",
+      "date_end": "2026-05-13",
+      "unique_dates": 22,
+      "keys": [
+        "cash",
+        "date",
+        "market_gate_state",
+        "n_holdings",
+        "pending_orders",
+        "position_value",
+        "spx_close",
+        "spx_day_return_pct",
+        "spx_ma50",
+        "total_equity"
+      ]
+    },
+    {
+      "path": "exports/portfolio_backtest.json",
+      "list": "root.variant_results.E1_AUDITED_G4_MINHOLD10.daily_records",
+      "length": 22,
+      "date_start": "2023-11-06",
+      "date_end": "2026-05-13",
+      "unique_dates": 22,
+      "keys": [
+        "cash",
+        "date",
+        "market_gate_state",
+        "n_holdings",
+        "pending_orders",
+        "position_value",
+        "spx_close",
+        "spx_day_return_pct",
+        "spx_ma50",
+        "total_equity"
+      ]
+    },
+    {
+      "path": "exports/portfolio_backtest.json",
+      "list": "root.variant_results.E2_DYNAMIC_EXIT_V2.daily_records",
+      "length": 22,
+      "date_start": "2023-11-06",
+      "date_end": "2026-05-13",
+      "unique_dates": 22,
+      "keys": [
+        "cash",
+        "date",
+        "market_gate_state",
+        "n_holdings",
+        "pending_orders",
+        "position_value",
+        "spx_close",
+        "spx_day_return_pct",
+        "spx_ma50",
+        "total_equity"
+      ]
+    },
+    {
+      "path": "exports/backtest.json",
+      "list": "root.backtest.results.layer_d.daily_records",
+      "length": 22,
+      "date_start": "2023-11-06",
+      "date_end": "2026-05-13",
+      "unique_dates": 22,
+      "keys": [
+        "cash",
+        "date",
+        "market_gate_state",
+        "n_holdings",
+        "pending_orders",
+        "position_value",
+        "spx_close",
+        "spx_day_return_pct",
+        "spx_ma50",
+        "total_equity"
+      ]
+    },
+    {
+      "path": "exports/backtest.json",
+      "list": "root.backtest.results.layer_d.variant_results.E1_AUDITED_G4_MINHOLD10.daily_records",
+      "length": 22,
+      "date_start": "2023-11-06",
+      "date_end": "2026-05-13",
+      "unique_dates": 22,
+      "keys": [
+        "cash",
+        "date",
+        "market_gate_state",
+        "n_holdings",
+        "pending_orders",
+        "position_value",
+        "spx_close",
+        "spx_day_return_pct",
+        "spx_ma50",
+        "total_equity"
+      ]
+    },
+    {
+      "path": "exports/backtest.json",
+      "list": "root.backtest.results.layer_d.variant_results.E2_DYNAMIC_EXIT_V2.daily_records",
+      "length": 22,
+      "date_start": "2023-11-06",
+      "date_end": "2026-05-13",
+      "unique_dates": 22,
+      "keys": [
+        "cash",
+        "date",
+        "market_gate_state",
+        "n_holdings",
+        "pending_orders",
+        "position_value",
+        "spx_close",
+        "spx_day_return_pct",
+        "spx_ma50",
+        "total_equity"
+      ]
+    },
+    {
+      "path": "exports/oos_equity_curve.json",
+      "list": "root.curve",
+      "length": 12,
+      "date_start": "2026-06-18",
+      "date_end": "2026-07-07",
+      "unique_dates": 12,
+      "keys": [
+        "cash",
+        "date",
+        "equity",
+        "holdings_value",
+        "n_positions",
+        "source"
+      ]
+    },
+    {
+      "path": "exports/oos_e1r_v0_2_equity_curve.json",
+      "list": "root",
+      "length": 1,
+      "date_start": "2026-06-18",
+      "date_end": "2026-06-18",
+      "unique_dates": 1,
+      "keys": [
+        "backfill_start_date",
+        "cash",
+        "core_exposure",
+        "date",
+        "drawdown_pct",
+        "equity",
+        "forward_return_pct",
+        "gross_exposure",
+        "market_state",
+        "market_value",
+        "official_kickoff_date",
+        "portfolio_value",
+        "regime",
+        "shadow_start_date",
+        "sidecar_exposure",
+        "strategy_id",
+        "strategy_indexed",
+        "subclass",
+        "tracking_status",
+        "version"
+      ]
+    }
+  ],
+  "full_5y_portfolio_candidates": [],
+  "symbol_level_rejections": [
+    {
+      "path": "exports/portfolio_backtest.json",
+      "list": "root.variant_results.E1_AUDITED_G4_MINHOLD10.trades",
+      "length": 47,
+      "date_start": null,
+      "date_end": null,
+      "unique_dates": 0,
+      "reason": "symbol-level rows cannot be used as portfolio equity"
+    },
+    {
+      "path": "exports/portfolio_backtest.json",
+      "list": "root.variant_results.E2_DYNAMIC_EXIT_V2.trades",
+      "length": 41,
+      "date_start": null,
+      "date_end": null,
+      "unique_dates": 0,
+      "reason": "symbol-level rows cannot be used as portfolio equity"
+    },
+    {
+      "path": "exports/backtest.json",
+      "list": "root.backtest.results.layer_d.trades",
+      "length": 47,
+      "date_start": null,
+      "date_end": null,
+      "unique_dates": 0,
+      "reason": "symbol-level rows cannot be used as portfolio equity"
+    },
+    {
+      "path": "exports/backtest.json",
+      "list": "root.backtest.results.layer_d.variant_results.E1_AUDITED_G4_MINHOLD10.trades",
+      "length": 47,
+      "date_start": null,
+      "date_end": null,
+      "unique_dates": 0,
+      "reason": "symbol-level rows cannot be used as portfolio equity"
+    },
+    {
+      "path": "exports/backtest.json",
+      "list": "root.backtest.results.layer_d.variant_results.E2_DYNAMIC_EXIT_V2.trades",
+      "length": 41,
+      "date_start": null,
+      "date_end": null,
+      "unique_dates": 0,
+      "reason": "symbol-level rows cannot be used as portfolio equity"
+    },
+    {
+      "path": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "list": "root.rows",
+      "length": 8819,
+      "date_start": "2021-06-11",
+      "date_end": "2026-06-16",
+      "unique_dates": 859,
+      "reason": "symbol-level rows cannot be used as portfolio equity"
+    },
+    {
+      "path": "exports/e1r_v0_2_backtest_equity_curve.json",
+      "list": "root.equity_curve",
+      "length": 8819,
+      "date_start": "2021-06-11",
+      "date_end": "2026-06-16",
+      "unique_dates": 859,
+      "reason": "symbol-level rows cannot be used as portfolio equity"
+    }
+  ],
+  "strategy_files_unchanged": true,
+  "canonical_existence_unchanged": true,
+  "diagnosis": [
+    "Continuous-capital contract defined for both E1 and E1R.",
+    "E1 and E1R must each be one continuous full-window portfolio curve; regimes select behavior but do not reset capital.",
+    "Sidecar active count must be validated separately from full interval/equity count.",
+    "Current continuous portfolio candidates found: 8.",
+    "Current full-window portfolio candidates found: 0.",
+    "Symbol-level / non-portfolio rows rejected: 7.",
+    "No existing full-window continuous-capital portfolio curve is currently ready for canonical export.",
+    "Next stage should generate/recover continuous 5Y E1 core daily equity first, then compose E1R using regime-aware sidecar records."
+  ],
+  "next_stage": {
+    "name": "Stage 3.8E-2F-2C-4C-10F",
+    "title": "Generate continuous 5Y E1 core equity and compose continuous E1R equity",
+    "recommended_action": "Run/extend export-only wrapper to create continuous E1 5Y core_daily_equity_records. Then compose E1R through e1r_composer with regime-aware sidecar records. Only write canonical exports after continuity and frozen metric validation pass."
+  }
+}
