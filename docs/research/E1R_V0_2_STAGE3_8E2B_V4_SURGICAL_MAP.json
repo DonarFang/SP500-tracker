@@ -1,0 +1,1481 @@
+{
+  "generated_at": "2026-07-08T06:03:44.322617+00:00",
+  "stage": "B_STAGE_3_8E2B_V4_SURGICAL_MAP",
+  "status": "AUDIT_COMPLETE_NO_SOURCE_CHANGES",
+  "main": {
+    "branch": "main",
+    "head": "171b252"
+  },
+  "policy": {
+    "source_changed": false,
+    "strategy_logic_changed": false,
+    "exports_changed": false
+  },
+  "section_range": {
+    "start_line": 640,
+    "end_line": 760
+  },
+  "summary": {
+    "keep_logic_line_count": 36,
+    "replaceable_ui_candidate_line_count": 45,
+    "template_block_count": 8
+  },
+  "template_blocks": [
+    {
+      "start_line": 639,
+      "end_line": 641,
+      "line_count": 3,
+      "contains_old_e1_header": false,
+      "contains_old_e1_cards": false,
+      "contains_equity_curve": false,
+      "contains_trade_log": false,
+      "contains_market_state": false,
+      "preview": "      h+=`<div style=\"padding:20px;color:var(--text2);text-align:center\">\n        模拟期内无未平仓仓位。OOS 阶段持仓将在此显示。\n      </div>`;"
+    },
+    {
+      "start_line": 643,
+      "end_line": 643,
+      "line_count": 1,
+      "contains_old_e1_header": false,
+      "contains_old_e1_cards": false,
+      "contains_equity_curve": false,
+      "contains_trade_log": false,
+      "contains_market_state": false,
+      "preview": "    h+=`</div></div>`;"
+    },
+    {
+      "start_line": 657,
+      "end_line": 662,
+      "line_count": 6,
+      "contains_old_e1_header": false,
+      "contains_old_e1_cards": false,
+      "contains_equity_curve": false,
+      "contains_trade_log": false,
+      "contains_market_state": false,
+      "preview": "      h+=`<div class=\"card\"><div class=\"card-head\">Recent closed trades (last 5)</div><div class=\"card-body\">\n        <div class=\"tbl-wrap\"><table>\n          <thead><tr><th>Symbol</th><th>Entry</th><th>Exit</th><th>Return</th><th>Days</th><th>Exit reason</th></tr></thead>\n          <tbody>${recentRows}</tbody>\n        </table></div>\n      </div></div>`;"
+    },
+    {
+      "start_line": 665,
+      "end_line": 668,
+      "line_count": 4,
+      "contains_old_e1_header": false,
+      "contains_old_e1_cards": false,
+      "contains_equity_curve": false,
+      "contains_trade_log": false,
+      "contains_market_state": false,
+      "preview": "    h+=`<p class=\"note\" style=\"margin-top:8px\">\n      Days held 仅供参考。Exit signal: LS &lt; 60 → EXIT，T日确认 T+1执行。MinHold 10天保护期内不提前退出。\n      LS 数值来自 leaderboard.json（${lbAsOf}），回测快照来自 backtest.json（${simEndDate}）。\n    </p>`;"
+    },
+    {
+      "start_line": 669,
+      "end_line": 669,
+      "line_count": 1,
+      "contains_old_e1_header": false,
+      "contains_old_e1_cards": false,
+      "contains_equity_curve": false,
+      "contains_trade_log": false,
+      "contains_market_state": false,
+      "preview": "    h+=`<div class=\"card\"><div class=\"card-head\">个股预览 <span class=\"sub\">hover / tap 持仓或平仓行切换</span></div><div class=\"card-body\"><div id=\"pos-stock-preview\"></div></div></div>`;"
+    },
+    {
+      "start_line": 738,
+      "end_line": 747,
+      "line_count": 10,
+      "contains_old_e1_header": false,
+      "contains_old_e1_cards": true,
+      "contains_equity_curve": false,
+      "contains_trade_log": false,
+      "contains_market_state": false,
+      "preview": "    h+=`<div class=\"grid-4\" style=\"margin-bottom:1rem\">\n      <div class=\"mc\"><div class=\"mc-label\">Full return</div><div class=\"mc-val\" style=\"color:var(--green)\">${fmt(e1.total_return_pct)}</div></div>\n      <div class=\"mc\"><div class=\"mc-label\">Max drawdown</div><div class=\"mc-val\" style=\"color:var(--red)\">${p2(e1.max_drawdown_pct)}%</div></div>\n      <div class=\"mc\"><div class=\"mc-label\">Profit factor</div><div class=\"mc-val\">${p2(e1.profit_factor)}</div></div>\n      <div class=\"mc\"><div class=\"mc-label\">Sharpe</div><div class=\"mc-val\">${p2(e1.sharpe_ratio)}</div></div>\n      <div class=\"mc\"><div class=\"mc-label\">Win rate</div><div class=\"mc-val\">${p2(e1.win_rate_pct)}%</div></div>\n      <div class=\"mc\"><div class=\"mc-label\">Trades</div><div class=\"mc-val\">${e1.number_of_trades||0}</div></div>\n      <div class=\"mc\"><div class=\"mc-label\">Avg hold</div><div class=\"mc-val\">${p2(e1.avg_holding_days,1)}d</div></div>\n      <div class=\"mc\"><div class=\"mc-label\">Exposure</div><div class=\"mc-val\">${p2(e1.exposure_pct)}%</div></div>\n    </div>`;"
+    },
+    {
+      "start_line": 750,
+      "end_line": 753,
+      "line_count": 4,
+      "contains_old_e1_header": false,
+      "contains_old_e1_cards": false,
+      "contains_equity_curve": true,
+      "contains_trade_log": false,
+      "contains_market_state": false,
+      "preview": "      h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class=\"card-body\">\n        <div class=\"cwrap\" style=\"height:220px\"><canvas id=\"cw-equity\"></canvas></div>\n        <div class=\"muted\" style=\"font-size:12px;margin-top:.5rem\">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</div>\n      </div></div>`;"
+    },
+    {
+      "start_line": 759,
+      "end_line": 760,
+      "line_count": 2,
+      "contains_old_e1_header": false,
+      "contains_old_e1_cards": false,
+      "contains_equity_curve": false,
+      "contains_trade_log": false,
+      "contains_market_state": false,
+      "preview": "      h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">个股趋势生命周期分布 <span class=\"sub\">Top50 当前象限</span></div><div class=\"card-body\">\n        <div class=\"regime-grid\">`;"
+    }
+  ],
+  "keep_logic_lines": [
+    {
+      "line_no": 646,
+      "text": "    if(recentClosed.length>0){",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 647,
+      "text": "      const recentRows=recentClosed.map(t=>{",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 648,
+      "text": "        const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 667,
+      "text": "      LS 数值来自 leaderboard.json（${lbAsOf}），回测快照来自 backtest.json（${simEndDate}）。",
+      "classification": "KEEP_POSSIBLE_LOGIC",
+      "watch_terms": [
+        "lbAsOf",
+        "simEndDate"
+      ]
+    },
+    {
+      "line_no": 671,
+      "text": "    setTimeout(()=>{",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 673,
+      "text": "      const root=$('s-positions');",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 674,
+      "text": "      const posRows=root?root.querySelectorAll('tr[data-symbol]'):[];",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 675,
+      "text": "      if(posRows.length){",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 676,
+      "text": "        bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 682,
+      "text": "  if (tab==='research') {",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 683,
+      "text": "    const bt=DATA.backtest, tlog=DATA.tradelog;",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 685,
+      "text": "    const vr=bt?.backtest?.results?.layer_d?.variant_results;",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "vr"
+      ]
+    },
+    {
+      "line_no": 686,
+      "text": "    const e1=vr?.E1_AUDITED_G4_MINHOLD10;",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "vr",
+        "e1"
+      ]
+    },
+    {
+      "line_no": 687,
+      "text": "    if(!e1){$('s-research').innerHTML='<div class=\"error\">E1 数据缺失。</div>';return;}",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 689,
+      "text": "    const e1rPanel = renderE1RResearchPanel(vr);",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "vr",
+        "e1"
+      ]
+    },
+    {
+      "line_no": 691,
+      "text": "    const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 696,
+      "text": "      const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 697,
+      "text": "      const src=row?.spx_total_return_pct;",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 698,
+      "text": "      if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 699,
+      "text": "      if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 700,
+      "text": "      return {value:null,implied:false};",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 703,
+      "text": "      const r=impliedSpxReturn(row);",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 704,
+      "text": "      if(r.value===null||r.value===undefined||r.value==='') return '—';",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 705,
+      "text": "      return `${fmt(r.value)}${r.implied?' *':''}`;",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 708,
+      "text": "    const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "trades",
+        "e1"
+      ]
+    },
+    {
+      "line_no": 709,
+      "text": "    const tradeRows=trades.map(t=>{",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "trades"
+      ]
+    },
+    {
+      "line_no": 710,
+      "text": "      const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 722,
+      "text": "    const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "eqCurve",
+        "spxCurve",
+        "e1"
+      ]
+    },
+    {
+      "line_no": 723,
+      "text": "    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "e1rCurve",
+        "e1",
+        "DATA.e1rFormal"
+      ]
+    },
+    {
+      "line_no": 724,
+      "text": "    const oosRowsForNote=(DATA.oosEquity?.curve||[]);",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "oosRows",
+        "DATA.oosEquity"
+      ]
+    },
+    {
+      "line_no": 725,
+      "text": "    const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "oosLatestDate",
+        "oosRows"
+      ]
+    },
+    {
+      "line_no": 728,
+      "text": "    const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "lc"
+      ]
+    },
+    {
+      "line_no": 729,
+      "text": "    const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "lcStats",
+        "lc",
+        "REG_META"
+      ]
+    },
+    {
+      "line_no": 731,
+      "text": "    let h=e1rPanel + `<div class=\"frozen-banner\">",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 749,
+      "text": "    if(eqCurve.length>1){",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "eqCurve"
+      ]
+    },
+    {
+      "line_no": 758,
+      "text": "    if(lcStats.some(r=>r.n>0)){",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "lcStats",
+        "lc"
+      ]
+    }
+  ],
+  "replaceable_ui_candidate_lines": [
+    {
+      "line_no": 641,
+      "text": "      </div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 643,
+      "text": "    h+=`</div></div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 649,
+      "text": "        return `<tr data-symbol=\"${t.symbol}\">",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 650,
+      "text": "          <td><strong>${t.symbol}</strong></td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 651,
+      "text": "          <td>${t.entry_date}</td><td>${t.exit_date||'—'}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 652,
+      "text": "          <td style=\"${rc}\">${ret>=0?'+':''}${p2(ret)}%</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 653,
+      "text": "          <td>${t.holding_days||0}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 654,
+      "text": "          <td style=\"font-size:11px;color:var(--text2)\">${t.exit_reason||''}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 657,
+      "text": "      h+=`<div class=\"card\"><div class=\"card-head\">Recent closed trades (last 5)</div><div class=\"card-body\">",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "trades"
+      ]
+    },
+    {
+      "line_no": 658,
+      "text": "        <div class=\"tbl-wrap\"><table>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 659,
+      "text": "          <thead><tr><th>Symbol</th><th>Entry</th><th>Exit</th><th>Return</th><th>Days</th><th>Exit reason</th></tr></thead>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 660,
+      "text": "          <tbody>${recentRows}</tbody>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 661,
+      "text": "        </table></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 662,
+      "text": "      </div></div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 665,
+      "text": "    h+=`<p class=\"note\" style=\"margin-top:8px\">",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 669,
+      "text": "    h+=`<div class=\"card\"><div class=\"card-head\">个股预览 <span class=\"sub\">hover / tap 持仓或平仓行切换</span></div><div class=\"card-body\"><div id=\"pos-stock-preview\"></div></div></div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 684,
+      "text": "    if(!bt){$('s-research').innerHTML='<div class=\"error\">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>';return;}",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 692,
+      "text": "    const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 693,
+      "text": "    const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 711,
+      "text": "      return `<tr>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 712,
+      "text": "        <td><strong>${t.symbol}</strong></td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 713,
+      "text": "        <td>${t.entry_date}</td><td>${t.exit_date||'—'}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 714,
+      "text": "        <td>${p2(t.entry_price||0)}</td><td>${p2(t.exit_price||0)}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 715,
+      "text": "        <td style=\"${rc}\">${ret>=0?'+':''}${p2(ret)}%</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 716,
+      "text": "        <td>${t.holding_days||0}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 717,
+      "text": "        <td style=\"font-size:11px;color:var(--text2)\">${t.exit_reason||''}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 718,
+      "text": "        <td>${t.is_sim_end?'<span class=\"badge-sim\">SIM</span>':''}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 732,
+      "text": "      <strong>E1_AUDITED_G4_MINHOLD10 — 正式冻结 2026-06-16</strong> &nbsp;·&nbsp;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 736,
+      "text": "    </div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 738,
+      "text": "    h+=`<div class=\"grid-4\" style=\"margin-bottom:1rem\">",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 739,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Full return</div><div class=\"mc-val\" style=\"color:var(--green)\">${fmt(e1.total_return_pct)}</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 740,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Max drawdown</div><div class=\"mc-val\" style=\"color:var(--red)\">${p2(e1.max_drawdown_pct)}%</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 741,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Profit factor</div><div class=\"mc-val\">${p2(e1.profit_factor)}</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 742,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Sharpe</div><div class=\"mc-val\">${p2(e1.sharpe_ratio)}</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 743,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Win rate</div><div class=\"mc-val\">${p2(e1.win_rate_pct)}%</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 744,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Trades</div><div class=\"mc-val\">${e1.number_of_trades||0}</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "trades",
+        "e1"
+      ]
+    },
+    {
+      "line_no": 745,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Avg hold</div><div class=\"mc-val\">${p2(e1.avg_holding_days,1)}d</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 746,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Exposure</div><div class=\"mc-val\">${p2(e1.exposure_pct)}%</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 747,
+      "text": "    </div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 750,
+      "text": "      h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class=\"card-body\">",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 751,
+      "text": "        <div class=\"cwrap\" style=\"height:220px\"><canvas id=\"cw-equity\"></canvas></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 752,
+      "text": "        <div class=\"muted\" style=\"font-size:12px;margin-top:.5rem\">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "oosLatestDate",
+        "e1"
+      ]
+    },
+    {
+      "line_no": 753,
+      "text": "      </div></div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 759,
+      "text": "      h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">个股趋势生命周期分布 <span class=\"sub\">Top50 当前象限</span></div><div class=\"card-body\">",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 760,
+      "text": "        <div class=\"regime-grid\">`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    }
+  ],
+  "section": [
+    {
+      "line_no": 640,
+      "text": "        模拟期内无未平仓仓位。OOS 阶段持仓将在此显示。",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 641,
+      "text": "      </div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 642,
+      "text": "    }",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 643,
+      "text": "    h+=`</div></div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 644,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 645,
+      "text": "    // ── 最近平仓 ───────────────────────────────────────────",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 646,
+      "text": "    if(recentClosed.length>0){",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 647,
+      "text": "      const recentRows=recentClosed.map(t=>{",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 648,
+      "text": "        const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 649,
+      "text": "        return `<tr data-symbol=\"${t.symbol}\">",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 650,
+      "text": "          <td><strong>${t.symbol}</strong></td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 651,
+      "text": "          <td>${t.entry_date}</td><td>${t.exit_date||'—'}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 652,
+      "text": "          <td style=\"${rc}\">${ret>=0?'+':''}${p2(ret)}%</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 653,
+      "text": "          <td>${t.holding_days||0}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 654,
+      "text": "          <td style=\"font-size:11px;color:var(--text2)\">${t.exit_reason||''}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 655,
+      "text": "        </tr>`;",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 656,
+      "text": "      }).join('');",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 657,
+      "text": "      h+=`<div class=\"card\"><div class=\"card-head\">Recent closed trades (last 5)</div><div class=\"card-body\">",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "trades"
+      ]
+    },
+    {
+      "line_no": 658,
+      "text": "        <div class=\"tbl-wrap\"><table>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 659,
+      "text": "          <thead><tr><th>Symbol</th><th>Entry</th><th>Exit</th><th>Return</th><th>Days</th><th>Exit reason</th></tr></thead>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 660,
+      "text": "          <tbody>${recentRows}</tbody>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 661,
+      "text": "        </table></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 662,
+      "text": "      </div></div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 663,
+      "text": "    }",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 664,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 665,
+      "text": "    h+=`<p class=\"note\" style=\"margin-top:8px\">",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 666,
+      "text": "      Days held 仅供参考。Exit signal: LS &lt; 60 → EXIT，T日确认 T+1执行。MinHold 10天保护期内不提前退出。",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 667,
+      "text": "      LS 数值来自 leaderboard.json（${lbAsOf}），回测快照来自 backtest.json（${simEndDate}）。",
+      "classification": "KEEP_POSSIBLE_LOGIC",
+      "watch_terms": [
+        "lbAsOf",
+        "simEndDate"
+      ]
+    },
+    {
+      "line_no": 668,
+      "text": "    </p>`;",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 669,
+      "text": "    h+=`<div class=\"card\"><div class=\"card-head\">个股预览 <span class=\"sub\">hover / tap 持仓或平仓行切换</span></div><div class=\"card-body\"><div id=\"pos-stock-preview\"></div></div></div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 670,
+      "text": "    $('s-positions').innerHTML=h;",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 671,
+      "text": "    setTimeout(()=>{",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 672,
+      "text": "      // 优先绑定持仓行；若无持仓，绑定最近平仓行",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 673,
+      "text": "      const root=$('s-positions');",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 674,
+      "text": "      const posRows=root?root.querySelectorAll('tr[data-symbol]'):[];",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 675,
+      "text": "      if(posRows.length){",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 676,
+      "text": "        bindStockPreviewRows('#s-positions','tr[data-symbol]',r=>r.getAttribute('data-symbol'),'pos-stock-preview');",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 677,
+      "text": "      }",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 678,
+      "text": "    },80);",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 679,
+      "text": "  }",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 680,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 681,
+      "text": "  // ── Tab 5: Research & Backtest ────────────────────────",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 682,
+      "text": "  if (tab==='research') {",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 683,
+      "text": "    const bt=DATA.backtest, tlog=DATA.tradelog;",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 684,
+      "text": "    if(!bt){$('s-research').innerHTML='<div class=\"error\">backtest.json 未加载，请刷新或检查 GitHub Actions。</div>';return;}",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 685,
+      "text": "    const vr=bt?.backtest?.results?.layer_d?.variant_results;",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "vr"
+      ]
+    },
+    {
+      "line_no": 686,
+      "text": "    const e1=vr?.E1_AUDITED_G4_MINHOLD10;",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "vr",
+        "e1"
+      ]
+    },
+    {
+      "line_no": 687,
+      "text": "    if(!e1){$('s-research').innerHTML='<div class=\"error\">E1 数据缺失。</div>';return;}",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 688,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 689,
+      "text": "    const e1rPanel = renderE1RResearchPanel(vr);",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "vr",
+        "e1"
+      ]
+    },
+    {
+      "line_no": 690,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 691,
+      "text": "    const pc=bt?.backtest?.results?.layer_d?.period_comparison||{};",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 692,
+      "text": "    const pA=pc['A_2023_11_TO_2024_12']?.variants?.E1_AUDITED_G4_MINHOLD10||{};",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 693,
+      "text": "    const pB=pc['B_2024_12_TO_2026_06']?.variants?.E1_AUDITED_G4_MINHOLD10||{};",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 694,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 695,
+      "text": "    function impliedSpxReturn(row){",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 696,
+      "text": "      const e1Ret=Number(row?.total_return_pct), alpha=Number(row?.alpha_pct);",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 697,
+      "text": "      const src=row?.spx_total_return_pct;",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 698,
+      "text": "      if(src!==null&&src!==undefined&&src!=='') return {value:src,implied:false};",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 699,
+      "text": "      if(Number.isFinite(e1Ret)&&Number.isFinite(alpha)) return {value:e1Ret-alpha,implied:true};",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 700,
+      "text": "      return {value:null,implied:false};",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 701,
+      "text": "    }",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 702,
+      "text": "    function fmtSpx(row){",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 703,
+      "text": "      const r=impliedSpxReturn(row);",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 704,
+      "text": "      if(r.value===null||r.value===undefined||r.value==='') return '—';",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 705,
+      "text": "      return `${fmt(r.value)}${r.implied?' *':''}`;",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 706,
+      "text": "    }",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 707,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 708,
+      "text": "    const trades=(tlog?.trades||e1.trades||[]).slice(-20).reverse();",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "trades",
+        "e1"
+      ]
+    },
+    {
+      "line_no": 709,
+      "text": "    const tradeRows=trades.map(t=>{",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "trades"
+      ]
+    },
+    {
+      "line_no": 710,
+      "text": "      const ret=t.return_pct||0, rc=ret>=0?'color:var(--green)':'color:var(--red)';",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": []
+    },
+    {
+      "line_no": 711,
+      "text": "      return `<tr>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 712,
+      "text": "        <td><strong>${t.symbol}</strong></td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 713,
+      "text": "        <td>${t.entry_date}</td><td>${t.exit_date||'—'}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 714,
+      "text": "        <td>${p2(t.entry_price||0)}</td><td>${p2(t.exit_price||0)}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 715,
+      "text": "        <td style=\"${rc}\">${ret>=0?'+':''}${p2(ret)}%</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 716,
+      "text": "        <td>${t.holding_days||0}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 717,
+      "text": "        <td style=\"font-size:11px;color:var(--text2)\">${t.exit_reason||''}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 718,
+      "text": "        <td>${t.is_sim_end?'<span class=\"badge-sim\">SIM</span>':''}</td>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 719,
+      "text": "      </tr>`;",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 720,
+      "text": "    }).join('');",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 721,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 722,
+      "text": "    const eqCurve=e1.equity_curve||[], spxCurve=e1.spx_curve||[];",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "eqCurve",
+        "spxCurve",
+        "e1"
+      ]
+    },
+    {
+      "line_no": 723,
+      "text": "    const e1rFormal=DATA.e1rFormal||{}, e1rCurve=e1rFormal.equity_curve||[];",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "e1rCurve",
+        "e1",
+        "DATA.e1rFormal"
+      ]
+    },
+    {
+      "line_no": 724,
+      "text": "    const oosRowsForNote=(DATA.oosEquity?.curve||[]);",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "oosRows",
+        "DATA.oosEquity"
+      ]
+    },
+    {
+      "line_no": 725,
+      "text": "    const oosLatestDate=oosRowsForNote.length ? (oosRowsForNote[oosRowsForNote.length-1].date||'—') : '—';",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "oosLatestDate",
+        "oosRows"
+      ]
+    },
+    {
+      "line_no": 726,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 727,
+      "text": "    // Lifecycle 统计迁入",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 728,
+      "text": "    const lc=DATA.lifecycle||{}, regOrder=['Expansion','Mature','Speculative','Broken'];",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "lc"
+      ]
+    },
+    {
+      "line_no": 729,
+      "text": "    const lcStats=regOrder.map(r=>({reg:r,n:(lc[r]||[]).length,zh:REG_META[r]?.zh||r}));",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "lcStats",
+        "lc",
+        "REG_META"
+      ]
+    },
+    {
+      "line_no": 730,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 731,
+      "text": "    let h=e1rPanel + `<div class=\"frozen-banner\">",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 732,
+      "text": "      <strong>E1_AUDITED_G4_MINHOLD10 — 正式冻结 2026-06-16</strong> &nbsp;·&nbsp;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 733,
+      "text": "      Gate v2.1: slope + leadership &nbsp;·&nbsp;",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 734,
+      "text": "      Shock 已排除（2025-10-10 SNDK 路径依赖）&nbsp;·&nbsp;",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 735,
+      "text": "      样本内不再修改",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 736,
+      "text": "    </div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 737,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 738,
+      "text": "    h+=`<div class=\"grid-4\" style=\"margin-bottom:1rem\">",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 739,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Full return</div><div class=\"mc-val\" style=\"color:var(--green)\">${fmt(e1.total_return_pct)}</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 740,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Max drawdown</div><div class=\"mc-val\" style=\"color:var(--red)\">${p2(e1.max_drawdown_pct)}%</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 741,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Profit factor</div><div class=\"mc-val\">${p2(e1.profit_factor)}</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 742,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Sharpe</div><div class=\"mc-val\">${p2(e1.sharpe_ratio)}</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 743,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Win rate</div><div class=\"mc-val\">${p2(e1.win_rate_pct)}%</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 744,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Trades</div><div class=\"mc-val\">${e1.number_of_trades||0}</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "trades",
+        "e1"
+      ]
+    },
+    {
+      "line_no": 745,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Avg hold</div><div class=\"mc-val\">${p2(e1.avg_holding_days,1)}d</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 746,
+      "text": "      <div class=\"mc\"><div class=\"mc-label\">Exposure</div><div class=\"mc-val\">${p2(e1.exposure_pct)}%</div></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "e1"
+      ]
+    },
+    {
+      "line_no": 747,
+      "text": "    </div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 748,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 749,
+      "text": "    if(eqCurve.length>1){",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "eqCurve"
+      ]
+    },
+    {
+      "line_no": 750,
+      "text": "      h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class=\"card-body\">",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 751,
+      "text": "        <div class=\"cwrap\" style=\"height:220px\"><canvas id=\"cw-equity\"></canvas></div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 752,
+      "text": "        <div class=\"muted\" style=\"font-size:12px;margin-top:.5rem\">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</div>",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": [
+        "oosLatestDate",
+        "e1"
+      ]
+    },
+    {
+      "line_no": 753,
+      "text": "      </div></div>`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 754,
+      "text": "    }",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 755,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 756,
+      "text": "    // Stage 3.8E-1: removed old period table from this tab.",
+      "classification": "UNKNOWN",
+      "watch_terms": []
+    },
+    {
+      "line_no": 757,
+      "text": "",
+      "classification": "blank",
+      "watch_terms": []
+    },
+    {
+      "line_no": 758,
+      "text": "    if(lcStats.some(r=>r.n>0)){",
+      "classification": "KEEP_LOGIC",
+      "watch_terms": [
+        "lcStats",
+        "lc"
+      ]
+    },
+    {
+      "line_no": 759,
+      "text": "      h+=`<div class=\"card\" style=\"margin-bottom:1rem\"><div class=\"card-head\">个股趋势生命周期分布 <span class=\"sub\">Top50 当前象限</span></div><div class=\"card-body\">",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    },
+    {
+      "line_no": 760,
+      "text": "        <div class=\"regime-grid\">`;",
+      "classification": "REPLACEABLE_UI_CANDIDATE",
+      "watch_terms": []
+    }
+  ],
+  "recommended_patch_rule": [
+    "Do not delete the full old E1 header block.",
+    "Preserve all KEEP_LOGIC and KEEP_POSSIBLE_LOGIC lines.",
+    "Replace only the template block that visibly renders old E1 summary/card UI.",
+    "Do not touch the equity curve template block.",
+    "Do not touch Trade Log.",
+    "Do not touch Market State."
+  ]
+}
