@@ -12,8 +12,8 @@
   "forward_day_count": 1,
   "portfolio_value": 100000.0,
   "equity": 100000.0,
-  "cash": 100000.0,
-  "market_value": 0.0,
+  "cash": 75000.0,
+  "market_value": 24999.999999999996,
   "forward_return_pct": 0.0,
   "spx_forward_return_pct": null,
   "alpha_pct": null,
@@ -22,10 +22,10 @@
   "profit_factor": null,
   "number_of_trades": 0,
   "executed_orders_count": 0,
-  "open_positions_count": 0,
-  "gross_exposure": 0.25,
-  "net_exposure": 0.25,
-  "core_exposure": 0.25,
+  "open_positions_count": 10,
+  "gross_exposure": 0.24999999999999997,
+  "net_exposure": 0.24999999999999997,
+  "core_exposure": 0.24999999999999997,
   "sidecar_exposure": 0.0,
   "market_state": "UPTREND",
   "regime": "UPTREND",
@@ -34,14 +34,16 @@
   "sidecar_active": false,
   "sidecar_selected_count": 0,
   "equity_status": "FORWARD_PERFORMANCE_LAYER_ACTIVE",
-  "execution_status": "NO_ORDER_ENGINE_WIRED_YET",
+  "execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
   "notes": [
     "Stage 3.8E-2F-1D creates E1R-only forward performance fields.",
     "No E1 state/export is touched.",
     "Positions/orders remain empty until E1R target/action engine is wired.",
     "Historical E1R backtest artifacts are not modified.",
     "2026-06-18 is treated as E1R shadow/backfill scaffold start, not official LIVE_FORWARD kickoff.",
-    "official_kickoff_date remains null until E1R target/action generation and daily pipeline integration are complete."
+    "official_kickoff_date remains null until E1R target/action generation and daily pipeline integration are complete.",
+    "Stage 3.8E-2F-1E-4 promoted accepted preview targets into E1R official paper orders/positions, still KICKOFF_READY.",
+    "LIVE_FORWARD remains disabled until daily pipeline integration succeeds."
   ],
   "shadow_start_date": "2026-06-18",
   "backfill_start_date": "2026-06-18",
@@ -50,5 +52,6 @@
     "official_kickoff_date": null,
     "meaning": "2026-06-18 is a shadow/backfill scaffold start, not the official E1R live forward test kickoff.",
     "official_live_forward_policy": "Official E1R LIVE_FORWARD starts after target/action generation and daily pipeline integration succeed."
-  }
+  },
+  "paper_orders_count": 10
 }

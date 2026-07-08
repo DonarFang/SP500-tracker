@@ -1,0 +1,51 @@
+{
+  "generated_at": "2026-07-08T07:10:22.016960+00:00",
+  "stage": "B_STAGE_3_8E2F1E4_PROMOTE_E1R_PAPER_POSITIONS",
+  "status": "IMPLEMENTED_PROMOTION_KICKOFF_PENDING",
+  "policy": {
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false,
+    "github_actions_changed": false,
+    "dashboard_changed": false,
+    "e1_state_changed": false,
+    "e1_exports_changed": false,
+    "strategy_logic_changed": false
+  },
+  "before": {
+    "tracking_status": "KICKOFF_READY",
+    "official_kickoff_date": null,
+    "execution_status": "NO_ORDER_ENGINE_WIRED_YET",
+    "open_positions_count": 0,
+    "paper_orders_count": null
+  },
+  "after": {
+    "tracking_status": "KICKOFF_READY",
+    "official_kickoff_date": null,
+    "execution_status": "PAPER_POSITIONS_READY_KICKOFF_PENDING",
+    "open_positions_count": 10,
+    "paper_orders_count": 10,
+    "gross_exposure": 0.24999999999999997,
+    "cash": 75000.0,
+    "market_value": 24999.999999999996,
+    "portfolio_value": 100000.0
+  },
+  "outputs": {
+    "orders": "exports/oos_e1r_v0_2_orders.json",
+    "positions": "exports/oos_e1r_v0_2_positions.json",
+    "summary": "exports/oos_e1r_v0_2_summary.json",
+    "state": "data/oos/e1r_v0_2_portfolio_state.json"
+  },
+  "snapshot": {
+    "orders": 10,
+    "positions": 10,
+    "buy_orders": 10,
+    "position_weight_sum": 0.24999999999999997,
+    "cash": 75000.0,
+    "market_value": 24999.999999999996,
+    "portfolio_value": 100000.0
+  },
+  "next_stage": {
+    "stage": "3.8E-2F-1F",
+    "purpose": "Integrate E1R runner sequence into daily pipeline, then switch to LIVE_FORWARD after first successful daily run."
+  }
+}
