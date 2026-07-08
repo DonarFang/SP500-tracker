@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-07-08T07:55:40.836406+00:00",
+  "stage": "B_STAGE_3_8E2F1F1E_PATCH_OOS_RUNNER_PRESERVATION",
+  "status": "IMPLEMENTED_SOURCE_FIX",
+  "core_status": "created_core_from_existing_oos_runner",
+  "source_changes": {
+    "wrapper": "scripts/run_e1r_v0_2_oos.py",
+    "core": "scripts/run_e1r_v0_2_oos_core.py"
+  },
+  "policy": {
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false,
+    "workflow_changed": false,
+    "dashboard_changed": false,
+    "e1_state_changed": false,
+    "e1_exports_changed": false
+  },
+  "guard_effect": [
+    "Preserve accepted official paper orders.",
+    "Preserve accepted official paper positions.",
+    "Preserve KICKOFF_READY summary/state semantics.",
+    "Allow sidecar/status/lifecycle exports from core runner to refresh."
+  ],
+  "next_stage": {
+    "stage": "3.8E-2F-1F-1F",
+    "purpose": "Rerun full E1R daily sequence dry-run and require safe_to_integrate_workflow_as_is=true."
+  }
+}

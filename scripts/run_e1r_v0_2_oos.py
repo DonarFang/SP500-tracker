@@ -1,16 +1,51 @@
+#!/usr/bin/env python3
+"""
+E1R v0.2 OOS runner with KICKOFF_READY paper-state preservation guard.
+
+This wrapper protects accepted E1R paper orders / positions created by
+Stage 3.8E-2F-1E-4.
+
+The previous implementation is kept in:
+scripts/run_e1r_v0_2_oos_core.py
+
+Guard behavior:
+- Let the core script run so it can refresh status/sidecar/lifecycle outputs.
+- If accepted paper orders/positions existed before the run and E1R is still
+  KICKOFF_READY with no official_kickoff_date, restore official paper
+  orders/positions and summary/state kickoff semantics afterward.
+"""
+
 from __future__ import annotations
 
 import json
 import runpy
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List
+
 
 ROOT = Path(__file__).resolve().parents[1]
+CORE_SCRIPT = ROOT / "scripts" / "run_e1r_v0_2_oos_core.py"
+
+ORDERS = ROOT / "exports" / "oos_e1r_v0_2_orders.json"
+POSITIONS = ROOT / "exports" / "oos_e1r_v0_2_positions.json"
+SUMMARY = ROOT / "exports" / "oos_e1r_v0_2_summary.json"
+STATE = ROOT / "data" / "oos" / "e1r_v0_2_portfolio_state.json"
+
+STRATEGY_ID = "E1R_REGIME_AWARE_V0_2"
 
 
-def read_json(path: Path) -> Any:
-    return json.loads(path.read_text())
+def now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def read_json(path: Path, default: Any) -> Any:
+    if not path.exists():
+        return default
+    try:
+        return json.loads(path.read_text())
+    except Exception:
+        return default
 
 
 def write_json(path: Path, obj: Any) -> None:
@@ -18,163 +53,185 @@ def write_json(path: Path, obj: Any) -> None:
     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + "\n")
 
 
-def main() -> None:
-    status_script = ROOT / "scripts/export_e1r_v0_2_status.py"
-    status_path = ROOT / "exports/e1r_v0_2_status.json"
+def to_float(v: Any, default: float = 0.0) -> float:
+    try:
+        if v is None or v == "":
+            return default
+        return float(v)
+    except Exception:
+        return default
 
-    if not status_script.exists():
-        raise RuntimeError("Missing scripts/export_e1r_v0_2_status.py")
 
-    # Refresh the lightweight v0.2 status first.
-    runpy.run_path(str(status_script), run_name="__main__")
+def get_orders(doc: Any) -> List[Dict[str, Any]]:
+    if isinstance(doc, dict) and isinstance(doc.get("orders"), list):
+        return [x for x in doc["orders"] if isinstance(x, dict)]
+    if isinstance(doc, list):
+        return [x for x in doc if isinstance(x, dict)]
+    return []
 
-    if not status_path.exists():
-        raise RuntimeError("exports/e1r_v0_2_status.json was not generated")
 
-    status = read_json(status_path)
+def get_positions(doc: Any) -> List[Dict[str, Any]]:
+    if isinstance(doc, dict) and isinstance(doc.get("positions"), list):
+        return [x for x in doc["positions"] if isinstance(x, dict)]
+    if isinstance(doc, list):
+        return [x for x in doc if isinstance(x, dict)]
+    return []
 
-    generated_at = datetime.now(timezone.utc).isoformat()
-    status_date = status.get("status_date")
-    strategy_id = status.get("strategy_id", "E1R_REGIME_AWARE_V0_2")
-    market_state = status.get("e1r_market_state", "UNKNOWN")
-    regime = status.get("regime")
-    subclass = status.get("subclass")
 
-    core = status.get("core", {}) or {}
-    sidecar = status.get("sidecar", {}) or {}
-    selected = sidecar.get("selected", []) or []
-
-    core_active = bool(core.get("active"))
-    sidecar_active = bool(sidecar.get("active"))
-
-    phase = "OOS_STATUS_SIGNAL_ONLY"
-
-    summary = {
-        "generated_at": generated_at,
-        "phase": phase,
-        "strategy_id": strategy_id,
-        "version": status.get("version"),
-        "research_status": status.get("research_status"),
-        "status_date": status_date,
-        "market_state": market_state,
-        "regime": regime,
-        "subclass": subclass,
-        "mutually_exclusive_state_model": bool(status.get("mutually_exclusive_state_model")),
-        "core_active": core_active,
-        "sidecar_active": sidecar_active,
-        "sidecar_selected_count": len(selected),
-        "gross_exposure": sidecar.get("gross_exposure"),
-        "top_n": sidecar.get("top_n"),
-        "execution_status": "NO_REAL_EXECUTION",
-        "equity_status": "NOT_YET_CONNECTED",
-        "notes": [
-            "OOS-1 exports daily E1R v0.2 state and sidecar target signals only.",
-            "No real orders are executed by this script.",
-            "No E1R v0.2 OOS equity curve is updated by this script.",
-            "This is the bridge layer for Dashboard and future OOS equity integration.",
-        ],
+def snapshot() -> Dict[str, Any]:
+    return {
+        "orders_doc": read_json(ORDERS, {}),
+        "positions_doc": read_json(POSITIONS, {}),
+        "summary": read_json(SUMMARY, {}),
+        "state": read_json(STATE, {}),
     }
 
-    sidecar_export = {
-        "generated_at": generated_at,
-        "phase": phase,
-        "strategy_id": strategy_id,
-        "status_date": status_date,
-        "market_state": market_state,
-        "regime": regime,
-        "subclass": subclass,
-        "active": sidecar_active,
-        "active_condition": sidecar.get("active_condition"),
-        "gross_exposure": sidecar.get("gross_exposure"),
-        "top_n": sidecar.get("top_n"),
-        "excluded_symbols": sidecar.get("excluded_symbols", []),
-        "source_record_date": sidecar.get("source_record_date"),
-        "source_record_next_date": sidecar.get("source_record_next_date"),
-        "selected_count": len(selected),
-        "selected": selected,
-    }
 
-    target_positions = []
-    if sidecar_active:
-        for h in selected:
-            symbol = h.get("symbol")
-            if not symbol:
-                continue
-            target_positions.append({
-                "symbol": symbol,
-                "sleeve": "E1R_V0_2_SIDECAR",
-                "target_weight": h.get("weight"),
-                "score": h.get("score"),
-                "source": "SIDEWAYS_MA_CONFLICT_TOP10_25PCT_SLEEVE",
-                "execution_status": "TARGET_ONLY_NOT_EXECUTED",
-            })
+def should_preserve(before: Dict[str, Any]) -> bool:
+    summary = before["summary"]
+    state = before["state"]
+    orders = get_orders(before["orders_doc"])
+    positions = get_positions(before["positions_doc"])
 
-    positions = {
-        "generated_at": generated_at,
-        "phase": phase,
-        "strategy_id": strategy_id,
-        "status_date": status_date,
-        "market_state": market_state,
-        "core": {
-            "active": core_active,
-            "strategy_id": core.get("strategy_id", "E1R_REGIME_AWARE_V0_1"),
-            "positions_status": "NOT_CONNECTED_IN_OOS_1",
+    if not isinstance(summary, dict) or not isinstance(state, dict):
+        return False
+
+    return (
+        summary.get("strategy_id") == STRATEGY_ID
+        and summary.get("tracking_status") == "KICKOFF_READY"
+        and summary.get("official_kickoff_date") is None
+        and state.get("official_kickoff_date") is None
+        and len(orders) > 0
+        and len(positions) > 0
+    )
+
+
+def restore_paper_state(before: Dict[str, Any]) -> Dict[str, Any]:
+    before_orders_doc = before["orders_doc"]
+    before_positions_doc = before["positions_doc"]
+    before_summary = before["summary"] if isinstance(before["summary"], dict) else {}
+    before_state = before["state"] if isinstance(before["state"], dict) else {}
+
+    after_summary = read_json(SUMMARY, {})
+    after_state = read_json(STATE, {})
+
+    if not isinstance(after_summary, dict):
+        after_summary = {}
+    if not isinstance(after_state, dict):
+        after_state = {}
+
+    orders = get_orders(before_orders_doc)
+    positions = get_positions(before_positions_doc)
+
+    position_weight_sum = sum(to_float(p.get("weight")) for p in positions)
+    portfolio_value = to_float(
+        before_summary.get("portfolio_value")
+        or before_state.get("portfolio_value")
+        or after_summary.get("portfolio_value"),
+        100000.0,
+    )
+    market_value = portfolio_value * position_weight_sum
+    cash = portfolio_value - market_value
+
+    # Restore official paper exports exactly.
+    write_json(ORDERS, before_orders_doc)
+    write_json(POSITIONS, before_positions_doc)
+
+    # Merge non-paper fields from the core output, but preserve paper-state semantics.
+    preserved_summary = {
+        **after_summary,
+        "strategy_id": STRATEGY_ID,
+        "tracking_status": "KICKOFF_READY",
+        "official_kickoff_date": None,
+        "forward_start_date": None,
+        "execution_status": before_summary.get("execution_status", "PAPER_POSITIONS_READY_KICKOFF_PENDING"),
+        "open_positions_count": len(positions),
+        "paper_orders_count": len(orders),
+        "executed_orders_count": before_summary.get("executed_orders_count", 0),
+        "number_of_trades": before_summary.get("number_of_trades", 0),
+        "gross_exposure": position_weight_sum,
+        "net_exposure": position_weight_sum,
+        "core_exposure": before_summary.get("core_exposure", position_weight_sum),
+        "sidecar_exposure": before_summary.get("sidecar_exposure", 0.0),
+        "cash": cash,
+        "market_value": market_value,
+        "portfolio_value": portfolio_value,
+        "equity": portfolio_value,
+        "preservation_guard": {
+            "active": True,
+            "guarded_script": "scripts/run_e1r_v0_2_oos.py",
+            "core_script": str(CORE_SCRIPT.relative_to(ROOT)),
+            "reason": "Preserve accepted paper orders/positions before LIVE_FORWARD.",
+            "preserved_at": now_iso(),
         },
-        "sidecar": {
-            "active": sidecar_active,
-            "positions_status": "TARGET_ONLY_NOT_EXECUTED",
-            "target_positions": target_positions,
-        },
     }
 
-    orders = {
-        "generated_at": generated_at,
-        "phase": phase,
-        "strategy_id": strategy_id,
-        "status_date": status_date,
-        "market_state": market_state,
-        "execution_status": "NO_REAL_EXECUTION",
-        "orders": [
-            {
-                "symbol": p["symbol"],
-                "sleeve": p["sleeve"],
-                "target_weight": p["target_weight"],
-                "side": "TARGET_HOLD",
-                "status": "SIGNAL_ONLY",
-                "reason": "E1R_V0_2_OOS_1_SIGNAL_EXPORT_ONLY",
-            }
-            for p in target_positions
-        ],
+    notes = preserved_summary.get("notes")
+    if not isinstance(notes, list):
+        notes = []
+    notes.append("Stage 3.8E-2F-1F-1E preservation guard restored accepted paper orders/positions after E1R OOS runner.")
+    preserved_summary["notes"] = notes
+
+    preserved_state = {
+        **after_state,
+        "strategy_id": STRATEGY_ID,
+        "tracking_status": "KICKOFF_READY",
+        "official_kickoff_date": None,
+        "forward_start_date": None,
+        "execution_status": preserved_summary["execution_status"],
+        "positions": positions,
+        "cash": cash,
+        "market_value": market_value,
+        "portfolio_value": portfolio_value,
+        "equity": portfolio_value,
+        "last_summary": preserved_summary,
+        "updated_at": now_iso(),
+        "preservation_guard": preserved_summary["preservation_guard"],
     }
 
-    write_json(ROOT / "exports/oos_e1r_v0_2_summary.json", summary)
-    write_json(ROOT / "exports/oos_e1r_v0_2_sidecar.json", sidecar_export)
-    write_json(ROOT / "exports/oos_e1r_v0_2_positions.json", positions)
-    write_json(ROOT / "exports/oos_e1r_v0_2_orders.json", orders)
+    write_json(SUMMARY, preserved_summary)
+    write_json(STATE, preserved_state)
 
-    print("E1R v0.2 OOS-1 export complete")
-    print("status_date:", status_date)
-    print("market_state:", market_state)
-    print("core_active:", core_active)
-    print("sidecar_active:", sidecar_active)
-    print("sidecar_selected_count:", len(selected))
-    print("wrote:")
-    print("  exports/e1r_v0_2_status.json")
-    print("  exports/oos_e1r_v0_2_summary.json")
-    print("  exports/oos_e1r_v0_2_sidecar.json")
-    print("  exports/oos_e1r_v0_2_positions.json")
-    print("  exports/oos_e1r_v0_2_orders.json")
-    # Refresh forward/OOS equity curve after status and signal exports.
-    equity_script = ROOT / "scripts/run_e1r_v0_2_oos_equity.py"
-    if equity_script.exists():
-        runpy.run_path(str(equity_script), run_name="__main__")
-        print("  exports/oos_e1r_v0_2_equity_curve.json")
-        lifecycle_script = ROOT / "scripts/run_e1r_v0_2_sidecar_lifecycle.py"
-        if lifecycle_script.exists():
-            runpy.run_path(str(lifecycle_script), run_name="__main__")
-            print("  exports/oos_e1r_v0_2_sidecar_lifecycle.json")
-            print("  exports/oos_e1r_v0_2_sidecar_turnover.json")
+    return {
+        "orders_count": len(orders),
+        "positions_count": len(positions),
+        "buy_orders": sum(1 for o in orders if o.get("action") == "BUY"),
+        "position_weight_sum": position_weight_sum,
+        "tracking_status": preserved_summary.get("tracking_status"),
+        "official_kickoff_date": preserved_summary.get("official_kickoff_date"),
+        "execution_status": preserved_summary.get("execution_status"),
+    }
+
+
+def main() -> int:
+    if not CORE_SCRIPT.exists():
+        raise SystemExit(f"missing core script: {CORE_SCRIPT}")
+
+    before = snapshot()
+    preserve = should_preserve(before)
+
+    try:
+        runpy.run_path(str(CORE_SCRIPT), run_name="__main__")
+    except SystemExit as exc:
+        code = exc.code
+        if code not in (0, None):
+            raise
+
+    if preserve:
+        result = restore_paper_state(before)
+        print("E1R OOS runner preservation guard applied")
+        print("orders_count:", result["orders_count"])
+        print("positions_count:", result["positions_count"])
+        print("buy_orders:", result["buy_orders"])
+        print("position_weight_sum:", result["position_weight_sum"])
+        print("tracking_status:", result["tracking_status"])
+        print("official_kickoff_date:", result["official_kickoff_date"])
+        print("execution_status:", result["execution_status"])
+    else:
+        print("E1R OOS runner preservation guard not active")
+
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
