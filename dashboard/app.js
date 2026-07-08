@@ -573,7 +573,7 @@ function e1rForwardTradeLogHtml(ordersRaw, positionsRaw) {
   if (!rows.length) {
     return `
       <div class="panel-card">
-        <h3>Trade Log — E1R Forward Paper</h3>
+        <h3>Paper Orders — E1R Forward</h3>
         <p class="muted">No E1R forward paper orders available yet.</p>
       </div>
     `;
@@ -595,9 +595,9 @@ function e1rForwardTradeLogHtml(ordersRaw, positionsRaw) {
 
   return `
     <div class="panel-card e1r-trade-log-panel">
-      <h3>Trade Log — E1R Forward Paper</h3>
+      <h3>Paper Orders — E1R Forward</h3>
       <p class="muted">
-        Paper orders are read from daily E1R OOS exports. Current rows: ${rows.length}.
+        Initial paper orders generated from E1R target weights. These are not completed round-trip trades. Current rows: ${rows.length}.
       </p>
       <div class="table-wrap">
         <table>

@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-07-08T09:12:04.810392+00:00",
+  "stage": "B_STAGE_3_8E2F2C3D_RENAME_E1R_PAPER_ORDERS",
+  "status": "IMPLEMENTED_DASHBOARD_TEXT_PATCH",
+  "files_changed": [
+    "dashboard/app.js"
+  ],
+  "changes": {
+    "old_title": "Trade Log — E1R Forward Paper",
+    "new_title": "Paper Orders — E1R Forward",
+    "description": "Initial paper orders generated from E1R target weights. These are not completed round-trip trades. Current rows:"
+  },
+  "policy": {
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false
+  }
+}
