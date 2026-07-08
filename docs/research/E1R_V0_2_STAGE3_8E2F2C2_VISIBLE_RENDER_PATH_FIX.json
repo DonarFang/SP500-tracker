@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-07-08T08:37:47.841706+00:00",
+  "stage": "B_STAGE_3_8E2F2C2_VISIBLE_RENDER_PATH_FIX",
+  "status": "IMPLEMENTED_DASHBOARD_RENDER_PATH_FIX",
+  "files_changed": [
+    "dashboard/app.js"
+  ],
+  "visible_ui_added": [
+    "E1R Forward Paper Tracking",
+    "E1R Forward Status",
+    "Execution Status",
+    "Gross Exposure",
+    "Open Positions",
+    "Paper Orders",
+    "E1R Forward Equity Curve"
+  ],
+  "insertion_target": "before visible Research & Backtest main equity curve card",
+  "policy": {
+    "exports_changed": false,
+    "state_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "tracking_status_changed_to_live": false,
+    "official_kickoff_date_set": false
+  },
+  "next_stage": {
+    "stage": "browser_acceptance",
+    "purpose": "Confirm E1R Forward Paper Tracking and E1R Forward Equity Curve are visible in Research & Backtest."
+  }
+}

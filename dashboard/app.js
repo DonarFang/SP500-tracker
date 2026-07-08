@@ -485,6 +485,67 @@ function e2bV4RenderSummaryComparison(e1){
 // ═══════════════════════════════════════════════════════
 // render dispatcher
 // ═══════════════════════════════════════════════════════
+
+function e1rForwardVisiblePanelHtml(summaryRaw, equityRaw) {
+  const s = summaryRaw || {};
+  const eqRows = Array.isArray(equityRaw)
+    ? equityRaw
+    : (equityRaw?.equity_curve || equityRaw?.rows || equityRaw?.data || equityRaw?.curve || []);
+
+  const fmtText = (v) => (v === null || v === undefined || v === '') ? '—' : String(v);
+  const fmtPct = (v) => {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return '—';
+    return `${(n * 100).toFixed(1)}%`;
+  };
+  const fmtMoney = (v) => {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return '—';
+    return `$${Math.round(n).toLocaleString()}`;
+  };
+
+  const rows = Array.isArray(eqRows)
+    ? eqRows.map((r) => ({
+        date: r.date || r.status_date,
+        equity: Number(r.equity ?? r.portfolio_value ?? r.combined_equity ?? r.value),
+        indexed: Number(r.strategy_indexed ?? NaN),
+        forward_return_pct: Number(r.forward_return_pct ?? 0),
+        gross_exposure: Number(r.gross_exposure ?? 0)
+      })).filter((r) => r.date && Number.isFinite(r.equity))
+    : [];
+
+  const latest = rows.length ? rows[rows.length - 1] : null;
+
+  return `
+    <div class="panel-card e1r-forward-visible-panel">
+      <h3>E1R Forward Paper Tracking</h3>
+      <div class="metric-grid compact">
+        <div class="mini-metric"><span class="mini-label">E1R Forward Status</span><span class="mini-value">${fmtText(s.tracking_status)}</span></div>
+        <div class="mini-metric"><span class="mini-label">Execution Status</span><span class="mini-value">${fmtText(s.execution_status)}</span></div>
+        <div class="mini-metric"><span class="mini-label">Kickoff Date</span><span class="mini-value">${s.official_kickoff_date || 'Pending'}</span></div>
+        <div class="mini-metric"><span class="mini-label">Forward Start</span><span class="mini-value">${s.forward_start_date || 'Pending'}</span></div>
+        <div class="mini-metric"><span class="mini-label">Portfolio Value</span><span class="mini-value">${fmtMoney(s.portfolio_value ?? s.equity)}</span></div>
+        <div class="mini-metric"><span class="mini-label">Forward Return</span><span class="mini-value">${fmtPct(s.forward_return_pct ?? 0)}</span></div>
+        <div class="mini-metric"><span class="mini-label">Gross Exposure</span><span class="mini-value">${fmtPct(s.gross_exposure)}</span></div>
+        <div class="mini-metric"><span class="mini-label">Open Positions</span><span class="mini-value">${fmtText(s.open_positions_count)}</span></div>
+        <div class="mini-metric"><span class="mini-label">Paper Orders</span><span class="mini-value">${fmtText(s.paper_orders_count)}</span></div>
+      </div>
+
+      <h4>E1R Forward Equity Curve</h4>
+      <div class="metric-grid compact">
+        <div class="mini-metric"><span class="mini-label">Rows</span><span class="mini-value">${rows.length}</span></div>
+        <div class="mini-metric"><span class="mini-label">Latest Date</span><span class="mini-value">${latest ? latest.date : '—'}</span></div>
+        <div class="mini-metric"><span class="mini-label">Latest Equity</span><span class="mini-value">${latest ? fmtMoney(latest.equity) : '—'}</span></div>
+      </div>
+      <p class="muted">
+        ${rows.length <= 1
+          ? 'Only one forward row is available. The curve will form after additional daily pipeline runs.'
+          : `Forward curve rows: ${rows.length}.`}
+      </p>
+    </div>
+  `;
+}
+
 function render(tab) {
   // B_STAGE_3_8E1_NATIVE_RESEARCH_BACKTEST_CLEANUP: native tab cleanup only; no strategy logic changes.
 
@@ -956,7 +1017,8 @@ function render(tab) {
 
 
     if(eqCurve.length>1){
-      h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
+      h+=`<div class="card" style="margin-bottom:1rem"><div class="card-head">${e1rForwardVisiblePanelHtml(DATA.e1rV02OosSummary, DATA.e1rV02OosEquityCurve)}
+Equity curve — E1 vs E1-R vs SPX (indexed to 100)</div><div class="card-body">
         <div class="cwrap" style="height:220px"><canvas id="cw-equity"></canvas></div>
         <div class="muted" style="font-size:12px;margin-top:.5rem">Equity includes SIM_END open positions marked to market. Backtest ends: ${e1.sample_validity?.simulation_end_date||'—'} · OOS latest: ${oosLatestDate} · E1-R OOS tracking: not yet completed.</div>
       </div></div>`;
