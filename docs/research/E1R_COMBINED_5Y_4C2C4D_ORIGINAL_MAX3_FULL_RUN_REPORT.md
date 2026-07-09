@@ -1,0 +1,73 @@
+# E1R Combined 5Y — 4C-2C-4D Original Max3 Full Run
+
+Generated At: `2026-07-09T13:16:29.053451+00:00`
+Elapsed Seconds: `6.191849`
+
+## Contract
+```json
+{
+  "strategy_id": "E1R_COMBINED_5Y_ORIGINAL_MAX3",
+  "strategy_logic_changed": false,
+  "uptrend": "Use previously validated UPTREND/core strategy result; do not replace logic.",
+  "sideways_ma_conflict": "Call original build_e1r_sidecar_sleeve with original defaults: allowed_subclasses=('MA_CONFLICT',), top_n=10, gross_exposure=0.25.",
+  "sideways_top10_interpretation": "Top10 is candidate/sidecar ranking pool, not live account holdings.",
+  "sideways_live_account_adapter": "Use original sidecar ordering; account-level live holdings are capped to first 3 candidates. No new score/ranking rule is introduced.",
+  "deterioration_recovery": "cash/defensive unless original sidecar strict active, which prior strict audit showed false.",
+  "downtrend": "cash/defensive.",
+  "global_account_position_cap": 3,
+  "metric_source": "adapter daily total_equity; not engine reported final_equity when inconsistent."
+}
+```
+
+## Metrics
+```json
+{
+  "row_count": 1259,
+  "first_date": "2021-06-11",
+  "last_date": "2026-06-16",
+  "first_equity": 100000.0,
+  "final_equity": 148901.70011473398,
+  "total_return_pct": 48.901700114733984,
+  "cagr_pct": 8.294748607300061,
+  "max_drawdown_pct": 41.06978999999992,
+  "sharpe_ratio": 0.47338246180914334,
+  "annualized_vol_pct": 21.98459643407046,
+  "spx_total_return_pct": 74.37928789564872,
+  "alpha_pct": -25.47758778091473
+}
+```
+
+## Regime / Active Mode Counts
+```json
+{
+  "regime_counts": {
+    "UPTREND": 860,
+    "SIDEWAYS": 241,
+    "DOWNTREND": 158
+  },
+  "active_mode_counts": {
+    "UPTREND_ORIGINAL_CORE": 860,
+    "SIDEWAYS_MA_CONFLICT_ORIGINAL_SIDECAR_MAX3_ADAPTER": 135,
+    "CASH_DEFENSIVE": 264
+  }
+}
+```
+
+## Validations
+```json
+{
+  "strategy_files_unchanged": true,
+  "row_count_ge_1000": true,
+  "one_row_per_date": true,
+  "max_open_positions_le_3": true,
+  "position_count_violations_zero": true,
+  "sideways_ma_conflict_active_present": true,
+  "deterioration_recovery_cash_defensive": true,
+  "downtrend_cash_defensive": true,
+  "uptrend_core_present": true
+}
+```
+
+## Conclusion
+- `E1R_COMBINED_5Y_ORIGINAL_MAX3_FULL_RUN_VALIDATED`
+- Recommended: Review metrics. If accepted, build dashboard bundle from this validated curve.

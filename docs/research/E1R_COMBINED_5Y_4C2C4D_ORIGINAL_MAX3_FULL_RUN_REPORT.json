@@ -1,0 +1,69 @@
+{
+  "generated_at": "2026-07-09T13:16:29.053451+00:00",
+  "elapsed_seconds": 6.191849,
+  "stage": "E1R_COMBINED_5Y_4C2C4D_ORIGINAL_MAX3_FULL_RUN",
+  "status": "FULL_RUN_COMPLETE",
+  "policy": {
+    "strategy_logic_changed": false,
+    "strategy_files_changed": false,
+    "dashboard_changed": false,
+    "official_result_generated": true,
+    "adapter_purpose": "Combine original UPTREND/core result and original SIDEWAYS sidecar while enforcing account-level max3 holdings."
+  },
+  "contract": {
+    "strategy_id": "E1R_COMBINED_5Y_ORIGINAL_MAX3",
+    "strategy_logic_changed": false,
+    "uptrend": "Use previously validated UPTREND/core strategy result; do not replace logic.",
+    "sideways_ma_conflict": "Call original build_e1r_sidecar_sleeve with original defaults: allowed_subclasses=('MA_CONFLICT',), top_n=10, gross_exposure=0.25.",
+    "sideways_top10_interpretation": "Top10 is candidate/sidecar ranking pool, not live account holdings.",
+    "sideways_live_account_adapter": "Use original sidecar ordering; account-level live holdings are capped to first 3 candidates. No new score/ranking rule is introduced.",
+    "deterioration_recovery": "cash/defensive unless original sidecar strict active, which prior strict audit showed false.",
+    "downtrend": "cash/defensive.",
+    "global_account_position_cap": 3,
+    "metric_source": "adapter daily total_equity; not engine reported final_equity when inconsistent."
+  },
+  "outputs": {
+    "result": "exports/e1r_combined_5y_original_max3_result.json",
+    "curve": "exports/e1r_combined_5y_original_max3_equity_curve.json",
+    "summary": "exports/e1r_combined_5y_original_max3_summary.json"
+  },
+  "source_core_result": "exports/e1r_unified_5y_full_account_v1_result.json",
+  "metrics": {
+    "row_count": 1259,
+    "first_date": "2021-06-11",
+    "last_date": "2026-06-16",
+    "first_equity": 100000.0,
+    "final_equity": 148901.70011473398,
+    "total_return_pct": 48.901700114733984,
+    "cagr_pct": 8.294748607300061,
+    "max_drawdown_pct": 41.06978999999992,
+    "sharpe_ratio": 0.47338246180914334,
+    "annualized_vol_pct": 21.98459643407046,
+    "spx_total_return_pct": 74.37928789564872,
+    "alpha_pct": -25.47758778091473
+  },
+  "regime_counts": {
+    "UPTREND": 860,
+    "SIDEWAYS": 241,
+    "DOWNTREND": 158
+  },
+  "active_mode_counts": {
+    "UPTREND_ORIGINAL_CORE": 860,
+    "SIDEWAYS_MA_CONFLICT_ORIGINAL_SIDECAR_MAX3_ADAPTER": 135,
+    "CASH_DEFENSIVE": 264
+  },
+  "validations": {
+    "strategy_files_unchanged": true,
+    "row_count_ge_1000": true,
+    "one_row_per_date": true,
+    "max_open_positions_le_3": true,
+    "position_count_violations_zero": true,
+    "sideways_ma_conflict_active_present": true,
+    "deterioration_recovery_cash_defensive": true,
+    "downtrend_cash_defensive": true,
+    "uptrend_core_present": true
+  },
+  "position_count_violations": [],
+  "conclusion": "E1R_COMBINED_5Y_ORIGINAL_MAX3_FULL_RUN_VALIDATED",
+  "recommended_next_action": "Review metrics. If accepted, build dashboard bundle from this validated curve."
+}
