@@ -1,0 +1,74 @@
+{
+  "strategy_id": "E1R_UNIFIED_5Y_FULL_ACCOUNT_V1",
+  "purpose": "Run a single continuous 5Y full-account backtest that organically connects UPTREND, SIDEWAYS, and DOWNTREND regimes in one capital account.",
+  "window": {
+    "target_start": "2021-06-11",
+    "target_end": "latest available aligned 5Y date before forward start",
+    "expected_min_rows": 1000
+  },
+  "capital_account": {
+    "initial_capital": 100000.0,
+    "single_account": true,
+    "daily_mark_to_market": true,
+    "fields_required_per_day": [
+      "date",
+      "cash",
+      "market_value",
+      "portfolio_value",
+      "daily_return",
+      "drawdown",
+      "n_positions",
+      "gross_exposure",
+      "regime",
+      "subclass",
+      "actions"
+    ]
+  },
+  "regime_rules_high_level": {
+    "UPTREND": "Use E1R uptrend/core stateful position rules in the same account.",
+    "SIDEWAYS_MA_CONFLICT": "Allow sidecar sleeve behavior, e.g. 25% gross exposure, inside the same account.",
+    "SIDEWAYS_DETERIORATION_TRANSITION": "Defensive/risk-off or explicitly defined reduced exposure; no untracked external sleeve.",
+    "SIDEWAYS_RECOVERY_TRANSITION": "Defensive/recovery transition rule; must be explicit in output attribution.",
+    "DOWNTREND": "Cash/risk-off unless a separately approved defensive rule exists."
+  },
+  "required_outputs": {
+    "official_backtest_curve": "exports/e1r_unified_5y_full_account_v1_equity_curve.json",
+    "official_summary": "exports/e1r_unified_5y_full_account_v1_summary.json",
+    "comparison_bundle": "exports/e1_e1r_unified_5y_full_account_v1_comparison.json",
+    "audit_report": "docs/research/E1R_UNIFIED_5Y_FULL_ACCOUNT_V1_4C2_RUN_REPORT.json"
+  },
+  "required_metrics": [
+    "total_return_pct",
+    "CAGR",
+    "max_drawdown_pct",
+    "sharpe_ratio",
+    "profit_factor",
+    "win_rate_pct",
+    "number_of_trades",
+    "exposure_pct",
+    "avg_holding_days",
+    "regime_attribution",
+    "sidecar_attribution",
+    "cash_continuity",
+    "market_value_continuity"
+  ],
+  "acceptance_tests": {
+    "one_row_per_date": true,
+    "no_symbol_level_rows": true,
+    "no_diagnostic_only_rows": true,
+    "cash_plus_market_value_equals_portfolio_value": "tolerance <= 0.01%",
+    "no_negative_cash_unless_margin_explicitly_enabled": true,
+    "regime_coverage_required": [
+      "UPTREND",
+      "SIDEWAYS",
+      "DOWNTREND"
+    ],
+    "single_account_no_stitching": true,
+    "forward_connection_ready": "last backtest equity can seed OOS indexed curve without resetting label ambiguity"
+  },
+  "non_goals": [
+    "Do not stitch separate UPTREND and SIDEWAYS result curves.",
+    "Do not reuse frozen E1R +116.74% summary as if it were a daily equity curve.",
+    "Do not label any candidate artifact as official unless it passes full account validations."
+  ]
+}
