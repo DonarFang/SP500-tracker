@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-07-09T12:28:51.249392+00:00",
+  "stage": "E1R_UNIFIED_5Y_FULL_ACCOUNT_V1_4C2D0_DASHBOARD_RESEARCH_BUNDLE",
+  "status": "DASHBOARD_RESEARCH_BUNDLE_READY_NO_UI_CHANGE",
+  "outputs": {
+    "bundle": "exports/e1r_unified_5y_dashboard_research_bundle.json"
+  },
+  "metrics": {
+    "first_date": "2021-06-11",
+    "last_date": "2026-06-16",
+    "row_count": 1259,
+    "total_return_pct": 65.71578,
+    "spx_total_return_pct": 76.84,
+    "alpha_pct": -11.124220000000008,
+    "cagr_pct": 10.638841693504443,
+    "max_drawdown_pct": 52.18893,
+    "sharpe_ratio": 0.5017379738002563,
+    "annualized_vol_pct": 28.012222610626974,
+    "final_equity": 165715.78,
+    "initial_equity": 100000.0,
+    "final_exposure_pct": 100.0
+  },
+  "regime_summary": {
+    "regime_counts": {
+      "UPTREND": 860,
+      "SIDEWAYS": 241,
+      "DOWNTREND": 158
+    },
+    "active_mode_counts": {
+      "UPTREND_EMERGING_CONFIRMED_ENABLED": 860,
+      "SIDEWAYS_QUALITY_BREAKOUT_ONLY": 241,
+      "DOWNTREND_EXCEPTION_ONLY": 158
+    },
+    "risk_budget_mode_counts": {
+      "UPTREND_RISK_ON": 860,
+      "SIDEWAYS_LIMITED": 241,
+      "DOWNTREND_DEFENSIVE": 158
+    }
+  },
+  "validation": {
+    "bundle_status_ready": true,
+    "row_count_ge_1000": true,
+    "has_curve_rows": true,
+    "uses_row_derived_metrics": true,
+    "engine_metrics_rejected": true,
+    "trade_metrics_rejected": true,
+    "covers_uptrend": true,
+    "covers_sideways": true,
+    "covers_downtrend": true
+  },
+  "warnings": [
+    "Account-level row-derived equity curve is usable for research display.",
+    "Trade metrics are not validated and must not be shown as official performance.",
+    "Engine-reported result/summary metrics are rejected for official use.",
+    "This bundle should not overwrite frozen E1 metrics."
+  ],
+  "conclusion": "E1R_ROW_DERIVED_ACCOUNT_CURVE_READY_FOR_RESEARCH_DASHBOARD_WIRING",
+  "recommended_next_action": "Proceed to 4C-2D-1: wire this bundle into Research & Backtest tab with explicit Account-level only / Trade metrics not validated labels."
+}
