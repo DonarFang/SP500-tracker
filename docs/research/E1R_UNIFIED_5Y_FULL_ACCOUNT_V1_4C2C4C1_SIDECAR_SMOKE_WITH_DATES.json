@@ -1,0 +1,370 @@
+{
+  "generated_at": "2026-07-09T13:06:25.144300+00:00",
+  "elapsed_seconds": 6.123591,
+  "stage": "E1R_COMBINED_5Y_4C2C4C1_SIDECAR_SMOKE_WITH_DATES",
+  "status": "SIDECAR_SMOKE_WITH_DATES_COMPLETE",
+  "policy": {
+    "strategy_logic_changed": false,
+    "backtest_engine_run": false,
+    "dashboard_changed": false,
+    "official_result_generated": false,
+    "parameter_change": "Only required start_date/end_date supplied to instantiate original sidecar config."
+  },
+  "paths": {
+    "stock_dir": "data/research/e1_5y/raw/stocks",
+    "spx_path": "data/research/e1_5y/raw/indices/SPX.json",
+    "regime_path": "data/research/e1_5y/regimes/spx_regime_daily.json"
+  },
+  "function_report": {
+    "module": "src.engine.e1r_sidecar_sleeve",
+    "config_signature": "(start_date: 'str', end_date: 'str', allowed_subclasses: 'tuple[str, ...]' = ('MA_CONFLICT',), top_n: 'int' = 10, gross_exposure: 'float' = 0.25, min_history_days: 'int' = 200, min_price: 'float' = 5.0, initial_equity: 'float' = 100000.0, excluded_symbols: 'tuple[str, ...]' = ('VIXY',)) -> None",
+    "function_signature": "(stock_dir: 'Path', spx_path: 'Path', regime_path: 'Path', config: 'E1RSidecarConfig') -> 'dict[str, Any]'"
+  },
+  "config_report": {
+    "start_date": "2021-06-11",
+    "end_date": "2026-06-18",
+    "config_repr": "E1RSidecarConfig(start_date='2021-06-11', end_date='2026-06-18', allowed_subclasses=('MA_CONFLICT',), top_n=10, gross_exposure=0.25, min_history_days=200, min_price=5.0, initial_equity=100000.0, excluded_symbols=('VIXY',))",
+    "config_dict": {
+      "start_date": "2021-06-11",
+      "end_date": "2026-06-18",
+      "allowed_subclasses": [
+        "MA_CONFLICT"
+      ],
+      "top_n": 10,
+      "gross_exposure": 0.25,
+      "min_history_days": 200,
+      "min_price": 5.0,
+      "initial_equity": 100000.0,
+      "excluded_symbols": [
+        "VIXY"
+      ]
+    },
+    "note": "Only required date fields are supplied; all other sidecar parameters stay at original defaults."
+  },
+  "sidecar_run": {
+    "attempted": true,
+    "ok": true,
+    "error": null
+  },
+  "sidecar_summary": {
+    "result_top_keys": [
+      "config",
+      "engine",
+      "records",
+      "sample",
+      "summary",
+      "version"
+    ],
+    "has_records": true,
+    "record_key": "records",
+    "record_count": 1260,
+    "regime_counts": {
+      "UPTREND": 861,
+      "SIDEWAYS": 241,
+      "DOWNTREND": 158
+    },
+    "subclass_counts": {
+      "NO_SUBCLASS": 1019,
+      "MA_CONFLICT": 135,
+      "DETERIORATION_TRANSITION": 63,
+      "RECOVERY_TRANSITION": 43
+    },
+    "active_regime_counts": {
+      "SIDEWAYS": 241
+    },
+    "active_subclass_counts": {
+      "MA_CONFLICT": 135,
+      "DETERIORATION_TRANSITION": 63,
+      "RECOVERY_TRANSITION": 43
+    },
+    "selected_count_max": 537,
+    "gross_exposure_max": 0.25,
+    "active_samples": [
+      {
+        "date": "2022-01-24",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-01-25",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-01-26",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-01-27",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-01-28",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-01-31",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-02-01",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-02-02",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-02-03",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-02-04",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-02-14",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-02-15",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "selected_count": 10,
+        "gross_exposure": 0.25,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      }
+    ],
+    "sidecar_active_only_sideways": true,
+    "sidecar_active_only_ma_conflict": false,
+    "deterioration_recovery_active": true,
+    "top10_candidate_pool_observed": true,
+    "interpretation": "selected_count/top_n is sidecar candidate/selection pool; combined account live holdings must still be capped at <=3."
+  },
+  "validations": {
+    "strategy_files_unchanged": true,
+    "backtest_engine_run": false,
+    "dashboard_changed": false,
+    "official_result_generated": false,
+    "sidecar_function_called": true,
+    "sidecar_function_ok": true,
+    "sidecar_has_records": true,
+    "sidecar_active_only_sideways": true,
+    "sidecar_active_only_ma_conflict": false,
+    "deterioration_recovery_not_active": false,
+    "top10_candidate_pool_observed": true,
+    "gross_exposure_cap_25pct": true
+  },
+  "conclusion": "ORIGINAL_SIDECAR_ENTRYPOINT_NOT_CONFIRMED",
+  "recommended_next_action": "Do not run full 5Y. Review failed validations."
+}
