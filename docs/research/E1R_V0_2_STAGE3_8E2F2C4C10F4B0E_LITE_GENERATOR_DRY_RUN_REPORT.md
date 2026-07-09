@@ -1,0 +1,1242 @@
+# Stage 3.8E-2F-2C-4C-10F-4B-0E-lite E1R Generator Dry-run Report
+
+Generated At: `2026-07-09T10:03:55.693277+00:00`
+
+## Status
+
+- Status: `E1R_GENERATOR_DRY_RUN_LITE_COMPLETE_OUTPUTS_RESTORED`
+- Strategy files unchanged: `True`
+- Canonical existence unchanged after restore: `True`
+- E1R canonical written: `False`
+
+## Selected Candidate
+
+```json
+{
+  "path": "scripts/export_canonical_5y_equity_curves.py",
+  "generator_score": 99,
+  "base_score": 31,
+  "matched_terms": [
+    "build_equity_records_from_returns",
+    "daily_equity_records",
+    "daily_records",
+    "e1r_v0_2",
+    "e1r_v0_2_backtest_equity_curve.json",
+    "e1r_v0_2_backtest_summary.json",
+    "equity_curve",
+    "export",
+    "extract_core_interval_returns",
+    "variant_results",
+    "write_json"
+  ],
+  "hits": [
+    {
+      "line": 8,
+      "matched": [
+        "export"
+      ],
+      "context": [
+        {
+          "line": 6,
+          "text": "- inspect mode: inspect available composer/backtest utilities and source artifacts"
+        },
+        {
+          "line": 7,
+          "text": "- smoke mode: run tiny in-memory tests only"
+        },
+        {
+          "line": 8,
+          "text": "- no final exports are written unless a future stage explicitly enables export mode"
+        },
+        {
+          "line": 9,
+          "text": ""
+        },
+        {
+          "line": 10,
+          "text": "This script must not modify frozen strategy files."
+        }
+      ]
+    },
+    {
+      "line": 50,
+      "matched": [
+        "write_json"
+      ],
+      "context": [
+        {
+          "line": 48,
+          "text": ""
+        },
+        {
+          "line": 49,
+          "text": ""
+        },
+        {
+          "line": 50,
+          "text": "def write_json(path: Path, obj: Any) -> None:"
+        },
+        {
+          "line": 51,
+          "text": "    path.parent.mkdir(parents=True, exist_ok=True)"
+        },
+        {
+          "line": 52,
+          "text": "    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + \"\\n\")"
+        }
+      ]
+    },
+    {
+      "line": 128,
+      "matched": [
+        "build_equity_records_from_returns"
+      ],
+      "context": [
+        {
+          "line": 126,
+          "text": "        result[\"functions\"] = {}"
+        },
+        {
+          "line": 127,
+          "text": "        for name in ["
+        },
+        {
+          "line": 128,
+          "text": "            \"build_equity_records_from_returns\","
+        },
+        {
+          "line": 129,
+          "text": "            \"extract_core_interval_returns\","
+        },
+        {
+          "line": 130,
+          "text": "            \"compound_return\","
+        }
+      ]
+    },
+    {
+      "line": 129,
+      "matched": [
+        "extract_core_interval_returns"
+      ],
+      "context": [
+        {
+          "line": 127,
+          "text": "        for name in ["
+        },
+        {
+          "line": 128,
+          "text": "            \"build_equity_records_from_returns\","
+        },
+        {
+          "line": 129,
+          "text": "            \"extract_core_interval_returns\","
+        },
+        {
+          "line": 130,
+          "text": "            \"compound_return\","
+        },
+        {
+          "line": 131,
+          "text": "            \"max_drawdown\","
+        }
+      ]
+    },
+    {
+      "line": 152,
+      "matched": [
+        "build_equity_records_from_returns"
+      ],
+      "context": [
+        {
+          "line": 150,
+          "text": ""
+        },
+        {
+          "line": 151,
+          "text": "def run_build_equity_smoke(composer: Any) -> Dict[str, Any]:"
+        },
+        {
+          "line": 152,
+          "text": "    fn = getattr(composer, \"build_equity_records_from_returns\", None)"
+        },
+        {
+          "line": 153,
+          "text": "    if fn is None:"
+        },
+        {
+          "line": 154,
+          "text": "        return {\"ok\": False, \"error\": \"build_equity_records_from_returns not found\"}"
+        }
+      ]
+    },
+    {
+      "line": 154,
+      "matched": [
+        "build_equity_records_from_returns"
+      ],
+      "context": [
+        {
+          "line": 152,
+          "text": "    fn = getattr(composer, \"build_equity_records_from_returns\", None)"
+        },
+        {
+          "line": 153,
+          "text": "    if fn is None:"
+        },
+        {
+          "line": 154,
+          "text": "        return {\"ok\": False, \"error\": \"build_equity_records_from_returns not found\"}"
+        },
+        {
+          "line": 155,
+          "text": ""
+        },
+        {
+          "line": 156,
+          "text": "    attempts = []"
+        }
+      ]
+    },
+    {
+      "line": 229,
+      "matched": [
+        "export"
+      ],
+      "context": [
+        {
+          "line": 227,
+          "text": "    source_files = ["
+        },
+        {
+          "line": 228,
+          "text": "        ROOT / \"data/research/e1r/e1r_formal_backtest_v0_1.json\","
+        },
+        {
+          "line": 229,
+          "text": "        ROOT / \"exports/portfolio_backtest.json\","
+        },
+        {
+          "line": 230,
+          "text": "        ROOT / \"exports/e1r_v0_2_backtest_summary.json\","
+        },
+        {
+          "line": 231,
+          "text": "        ROOT / \"exports/e1r_v0_2_backtest_equity_curve.json\","
+        }
+      ]
+    },
+    {
+      "line": 230,
+      "matched": [
+        "e1r_v0_2_backtest_summary.json",
+        "e1r_v0_2",
+        "export"
+      ],
+      "context": [
+        {
+          "line": 228,
+          "text": "        ROOT / \"data/research/e1r/e1r_formal_backtest_v0_1.json\","
+        },
+        {
+          "line": 229,
+          "text": "        ROOT / \"exports/portfolio_backtest.json\","
+        },
+        {
+          "line": 230,
+          "text": "        ROOT / \"exports/e1r_v0_2_backtest_summary.json\","
+        },
+        {
+          "line": 231,
+          "text": "        ROOT / \"exports/e1r_v0_2_backtest_equity_curve.json\","
+        },
+        {
+          "line": 232,
+          "text": "        ROOT / \"exports/oos_e1r_v0_2_equity_curve.json\","
+        }
+      ]
+    },
+    {
+      "line": 231,
+      "matched": [
+        "e1r_v0_2_backtest_equity_curve.json",
+        "e1r_v0_2",
+        "equity_curve",
+        "export"
+      ],
+      "context": [
+        {
+          "line": 229,
+          "text": "        ROOT / \"exports/portfolio_backtest.json\","
+        },
+        {
+          "line": 230,
+          "text": "        ROOT / \"exports/e1r_v0_2_backtest_summary.json\","
+        },
+        {
+          "line": 231,
+          "text": "        ROOT / \"exports/e1r_v0_2_backtest_equity_curve.json\","
+        },
+        {
+          "line": 232,
+          "text": "        ROOT / \"exports/oos_e1r_v0_2_equity_curve.json\","
+        },
+        {
+          "line": 233,
+          "text": "        ROOT / \"exports/oos_equity_curve.json\","
+        }
+      ]
+    },
+    {
+      "line": 232,
+      "matched": [
+        "e1r_v0_2",
+        "equity_curve",
+        "export"
+      ],
+      "context": [
+        {
+          "line": 230,
+          "text": "        ROOT / \"exports/e1r_v0_2_backtest_summary.json\","
+        },
+        {
+          "line": 231,
+          "text": "        ROOT / \"exports/e1r_v0_2_backtest_equity_curve.json\","
+        },
+        {
+          "line": 232,
+          "text": "        ROOT / \"exports/oos_e1r_v0_2_equity_curve.json\","
+        },
+        {
+          "line": 233,
+          "text": "        ROOT / \"exports/oos_equity_curve.json\","
+        },
+        {
+          "line": 234,
+          "text": "        ROOT / \"data/research/e1_5y/regimes/spx_regime_daily.json\","
+        }
+      ]
+    },
+    {
+      "line": 233,
+      "matched": [
+        "equity_curve",
+        "export"
+      ],
+      "context": [
+        {
+          "line": 231,
+          "text": "        ROOT / \"exports/e1r_v0_2_backtest_equity_curve.json\","
+        },
+        {
+          "line": 232,
+          "text": "        ROOT / \"exports/oos_e1r_v0_2_equity_curve.json\","
+        },
+        {
+          "line": 233,
+          "text": "        ROOT / \"exports/oos_equity_curve.json\","
+        },
+        {
+          "line": 234,
+          "text": "        ROOT / \"data/research/e1_5y/regimes/spx_regime_daily.json\","
+        },
+        {
+          "line": 235,
+          "text": "        ROOT / \"data/research/e1_5y/raw/indices/SPX.json\","
+        }
+      ]
+    },
+    {
+      "line": 278,
+      "matched": [
+        "build_equity_records_from_returns"
+      ],
+      "context": [
+        {
+          "line": 276,
+          "text": "    return {"
+        },
+        {
+          "line": 277,
+          "text": "        \"composer_import_ok\": True,"
+        },
+        {
+          "line": 278,
+          "text": "        \"build_equity_records_from_returns\": build_smoke,"
+        },
+        {
+          "line": 279,
+          "text": "        \"utility_functions\": utility_smoke,"
+        },
+        {
+          "line": 280,
+          "text": "    }"
+        }
+      ]
+    },
+    {
+      "line": 288,
+      "matched": [
+        "export"
+      ],
+      "context": [
+        {
+          "line": 286,
+          "text": "    Dry-run only."
+        },
+        {
+          "line": 287,
+          "text": ""
+        },
+        {
+          "line": 288,
+          "text": "    This function intentionally does not write canonical exports."
+        },
+        {
+          "line": 289,
+          "text": "    It inspects whether the current repository has enough persisted inputs"
+        },
+        {
+          "line": 290,
+          "text": "    to generate E1R 5Y interval records:"
+        }
+      ]
+    },
+    {
+      "line": 291,
+      "matched": [
+        "daily_equity_records"
+      ],
+      "context": [
+        {
+          "line": 289,
+          "text": "    It inspects whether the current repository has enough persisted inputs"
+        },
+        {
+          "line": 290,
+          "text": "    to generate E1R 5Y interval records:"
+        },
+        {
+          "line": 291,
+          "text": "      core_daily_equity_records + sidecar_records"
+        },
+        {
+          "line": 292,
+          "text": "      -> extract_core_interval_returns(...)"
+        },
+        {
+          "line": 293,
+          "text": "      -> build_equity_records_from_returns(...)"
+        }
+      ]
+    },
+    {
+      "line": 292,
+      "matched": [
+        "extract_core_interval_returns"
+      ],
+      "context": [
+        {
+          "line": 290,
+          "text": "    to generate E1R 5Y interval records:"
+        },
+        {
+          "line": 291,
+          "text": "      core_daily_equity_records + sidecar_records"
+        },
+        {
+          "line": 292,
+          "text": "      -> extract_core_interval_returns(...)"
+        },
+        {
+          "line": 293,
+          "text": "      -> build_equity_records_from_returns(...)"
+        },
+        {
+          "line": 294,
+          "text": "    \"\"\""
+        }
+      ]
+    },
+    {
+      "line": 293,
+      "matched": [
+        "build_equity_records_from_returns"
+      ],
+      "context": [
+        {
+          "line": 291,
+          "text": "      core_daily_equity_records + sidecar_records"
+        },
+        {
+          "line": 292,
+          "text": "      -> extract_core_interval_returns(...)"
+        },
+        {
+          "line": 293,
+          "text": "      -> build_equity_records_from_returns(...)"
+        },
+        {
+          "line": 294,
+          "text": "    \"\"\""
+        },
+        {
+          "line": 295,
+          "text": "    from src.engine import e1r_composer as composer  # type: ignore"
+        }
+      ]
+    },
+    {
+      "line": 343,
+      "matched": [
+        "export"
+      ],
+      "context": [
+        {
+          "line": 341,
+          "text": "            source_summary[bucket].append(shape)"
+        },
+        {
+          "line": 342,
+          "text": ""
+        },
+        {
+          "line": 343,
+          "text": "    portfolio = read_json(ROOT / \"exports/portfolio_backtest.json\", default={})"
+        },
+        {
+          "line": 344,
+          "text": "    append_if_list(\"core_sources\", \"exports/portfolio_backtest.json.daily_records\", portfolio.get(\"daily_records\"))"
+        },
+        {
+          "line": 345,
+        
+```
+
+## Run Report
+
+```json
+{
+  "attempted": true,
+  "ok": true,
+  "returncode": 0,
+  "elapsed_seconds": 0.0973198413848877,
+  "cmd": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "/Users/dongfang/Downloads/sp500-tracker-v13/scripts/export_canonical_5y_equity_curves.py"
+  ],
+  "stdout_tail": "       \"regime_day_weights\",\n              \"return_pct\",\n              \"size_units_at_exit\",\n              \"symbol\",\n              \"take_profit_exec_date\",\n              \"take_profit_triggered\"\n            ]\n          }\n        },\n        \"metrics\": {\n          \"variant_id\": \"E1R_REGIME_AWARE_V0_1\"\n        }\n      },\n      {\n        \"path\": \"exports/portfolio_backtest.json\",\n        \"exists\": true,\n        \"json_valid\": true,\n        \"type\": \"dict\",\n        \"top_keys\": [\n          \"alpha_pct\",\n          \"avg_execution_drag_pct\",\n          \"avg_holding_days\",\n          \"avg_loser_pct\",\n          \"avg_winner_pct\",\n          \"cagr_pct\",\n          \"comparison\",\n          \"daily_records\",\n          \"entry_top_n\",\n          \"executed_exit_reason_distribution\",\n          \"executed_reduce_reason_distribution\",\n          \"execution_model\",\n          \"exposure_pct\",\n          \"final_equity\",\n          \"generated_at\",\n          \"generated_at_display\",\n          \"initial_capital\",\n          \"invalid_trades\",\n          \"invalid_trades_count\",\n          \"layer\",\n          \"market_entry_gate\",\n          \"max_drawdown_pct\",\n          \"name\",\n          \"number_of_trades\",\n          \"p0_passed\",\n          \"partial_take_profit\",\n          \"pending_orders_executed\",\n          \"pending_orders_skipped\",\n          \"pending_signal_reason_distribution\",\n          \"period_comparison\",\n          \"portfolio_action_distribution\",\n          \"profit_factor\",\n          \"rank_based_exit\",\n          \"sample_validity\",\n          \"selected_variant\",\n          \"selection_policy\",\n          \"sharpe_ratio\",\n          \"skipped_orders_by_reason\",\n          \"spx_cagr_pct\",\n          \"spx_total_return_pct\",\n          \"status\",\n          \"strategy_controls\",\n          \"strategy_variant\",\n          \"total_return_pct\",\n          \"total_trades_all\",\n          \"variant_results\",\n          \"version\",\n          \"win_rate_pct\"\n        ],\n        \"lists\": {\n          \"invalid_trades\": {\n            \"length\": 0,\n            \"last_type\": null,\n            \"last_keys\": null\n          },\n          \"daily_records\": {\n            \"length\": 22,\n            \"last_type\": \"dict\",\n            \"last_keys\": [\n              \"cash\",\n              \"date\",\n              \"market_gate_state\",\n              \"n_holdings\",\n              \"pending_orders\",\n              \"position_value\",\n              \"spx_close\",\n              \"spx_day_return_pct\",\n              \"spx_ma50\",\n              \"total_equity\"\n            ]\n          },\n          \"comparison\": {\n            \"length\": 2,\n            \"last_type\": \"dict\",\n            \"last_keys\": [\n              \"alpha_pct\",\n              \"avg_loser_pct\",\n              \"avg_winner_pct\",\n              \"cagr_pct\",\n              \"candidate_top_n\",\n              \"entry_rs_min\",\n              \"exposure_pct\",\n              \"ls60_exit_mode\",\n              \"max_drawdown_pct\",\n              \"min_holding_days\",\n              \"number_of_trades\",\n              \"profit_factor\",\n              \"qualified_entry_enabled\",\n              \"qualified_states\",\n              \"relative_stop_enabled\",\n              \"relative_stop_stats\",\n              \"relative_stop_underperform_pct\",\n              \"selected\",\n              \"sharpe_ratio\",\n              \"skip_reasons\",\n              \"status\",\n              \"total_return_pct\",\n              \"variant\",\n              \"win_rate_pct\"\n            ]\n          }\n        },\n        \"metrics\": {\n          \"total_return_pct\": 7.52,\n          \"alpha_pct\": -61.84,\n          \"max_drawdown_pct\": 38.1,\n          \"profit_factor\": 1.25,\n          \"sharpe_ratio\": 0.18,\n          \"final_equity\": 107519.31,\n          \"initial_capital\": 100000.0,\n          \"sample_validity\": {\n            \"is_valid\": true,\n            \"sample_status\": \"VALID\",\n            \"simulation_start_date\": \"2023-11-06\",\n            \"simulation_end_date\": \"2026-06-11\",\n            \"simulation_days\": 651,\n            \"total_trades\": 47,\n            \"completed_trades\": 44,\n            \"sim_end_trades\": 3,\n            \"sim_end_ratio_pct\": 6.4,\n            \"invalid_trades\": 0,\n            \"minimum_required\": {\n              \"sim_days\": 252,\n              \"trades\": 20,\n              \"sim_end_ratio_pct\": 50,\n              \"invalid\": 0\n            }\n          }\n        }\n      },\n      {\n        \"path\": \"exports/e1r_v0_2_backtest_summary.json\",\n        \"exists\": true,\n        \"json_valid\": true,\n        \"type\": \"dict\",\n        \"top_keys\": [\n          \"alpha_pct\",\n          \"artifact_type\",\n          \"composition_exists\",\n          \"frozen_artifact\",\n          \"max_drawdown_pct\",\n          \"profit_factor\",\n          \"regeneration_note\",\n          \"regime_aware_logic\",\n          \"research_status\",\n          \"row_count\",\n          \"sharpe_ratio\",\n          \"sidecar_active_by_regime\",\n          \"sidecar_active_by_subclass\",\n          \"sidecar_active_days\",\n          \"source_file\",\n          \"source_json_path\",\n          \"spx_return_pct\",\n          \"strategy_id\",\n          \"total_return_pct\",\n          \"variant\"\n        ],\n        \"lists\": {},\n        \"metrics\": {\n          \"strategy_id\": \"E1R_REGIME_AWARE_V0_2\",\n          \"variant\": \"E1R_REGIME_AWARE_V0_2\",\n          \"total_return_pct\": 116.7435999134756,\n          \"spx_return_pct\": 76.844174428316,\n          \"alpha_pct\": 39.89942548515961,\n          \"max_drawdown_pct\": 25.904809362815108,\n          \"profit_factor\": 1.1919630955509348,\n          \"sharpe_ratio\": 0.7957270568329264\n        }\n      },\n      {\n        \"path\": \"exports/e1r_v0_2_backtest_equity_curve.json\",\n        \"exists\": true,\n        \"json_valid\": true,\n        \"type\": \"dict\",\n        \"top_keys\": [\n          \"artifact_type\",\n          \"equity_curve\",\n          \"frozen_artifact\",\n          \"regeneration_note\",\n          \"row_count\",\n          \"rows\",\n          \"source_file\",\n          \"source_json_path\",\n          \"variant\"\n        ],\n        \"lists\": {\n          \"rows\": {\n            \"length\": 8819,\n            \"last_type\": \"dict\",\n            \"last_keys\": [\n              \"close\",\n              \"date\",\n              \"diagnostic_only\",\n              \"e1r_entry_type\",\n              \"e1r_uptrend_confirmed_eligible\",\n              \"e1r_uptrend_emerging_eligible\",\n              \"equity\",\n              \"leader_rank\",\n              \"leader_score\",\n              \"ma20\",\n              \"ma20_slope\",\n              \"ma50\",\n              \"ma50_slope\",\n              \"momentum_acceleration\",\n              \"momentum_score\",\n              \"reasons\",\n              \"rs_20d_improvement\",\n              \"rs_prev20\",\n              \"rs_score\",\n              \"spx_regime\",\n              \"symbol\",\n              \"trend_health\"\n            ]\n          },\n          \"equity_curve\": {\n            \"length\": 8819,\n            \"last_type\": \"dict\",\n            \"last_keys\": [\n              \"close\",\n              \"date\",\n              \"diagnostic_only\",\n              \"e1r_entry_type\",\n              \"e1r_uptrend_confirmed_eligible\",\n              \"e1r_uptrend_emerging_eligible\",\n              \"equity\",\n              \"leader_rank\",\n              \"leader_score\",\n              \"ma20\",\n              \"ma20_slope\",\n              \"ma50\",\n              \"ma50_slope\",\n              \"momentum_acceleration\",\n              \"momentum_score\",\n              \"reasons\",\n              \"rs_20d_improvement\",\n              \"rs_prev20\",\n              \"rs_score\",\n              \"spx_regime\",\n              \"symbol\",\n              \"trend_health\"\n            ]\n          }\n        },\n        \"metrics\": {\n          \"variant\": \"E1R_REGIME_AWARE_V0_2\"\n        }\n      },\n      {\n        \"path\": \"exports/oos_e1r_v0_2_equity_curve.json\",\n        \"exists\": true,\n        \"json_valid\": true,\n        \"type\": \"list\",\n        \"length\": 1,\n        \"last_type\": \"dict\",\n        \"last_keys\": [\n          \"cash\",\n          \"core_exposure\",\n          \"date\",\n          \"drawdown_pct\",\n          \"equity\",\n          \"forward_return_pct\",\n          \"gross_exposure\",\n          \"market_state\",\n          \"market_value\",\n          \"official_kickoff_date\",\n          \"portfolio_value\",\n          \"regime\",\n          \"sidecar_exposure\",\n          \"strategy_id\",\n          \"strategy_indexed\",\n          \"subclass\",\n          \"version\"\n        ]\n      },\n      {\n        \"path\": \"exports/oos_equity_curve.json\",\n        \"exists\": true,\n        \"json_valid\": true,\n        \"type\": \"dict\",\n        \"top_keys\": [\n          \"curve\",\n          \"generated_at\",\n          \"generated_at_display\",\n          \"initial_capital\",\n          \"strategy_id\"\n        ],\n        \"lists\": {\n          \"curve\": {\n            \"length\": 13,\n            \"last_type\": \"dict\",\n            \"last_keys\": [\n              \"cash\",\n              \"date\",\n              \"equity\",\n              \"holdings_value\",\n              \"n_positions\",\n              \"source\"\n            ]\n          }\n        },\n        \"metrics\": {\n          \"strategy_id\": \"E1_AUDITED_G4_MINHOLD10\",\n          \"initial_capital\": 100000\n        }\n      },\n      {\n        \"path\": \"data/research/e1_5y/regimes/spx_regime_daily.json\",\n        \"exists\": true,\n        \"json_valid\": true,\n        \"type\": \"dict\",\n        \"top_keys\": [\n          \"daily_regime\",\n          \"generated_at\",\n          \"validation_window\"\n        ],\n        \"lists\": {},\n        \"metrics\": {}\n      },\n      {\n        \"path\": \"data/research/e1_5y/raw/indices/SPX.json\",\n        \"exists\": true,\n        \"json_valid\": true,\n        \"type\": \"dict\",\n        \"top_keys\": [\n          \"bars\",\n          \"data_end\",\n          \"data_start\",\n          \"dataset_mode\",\n          \"downloaded_at\",\n          \"requested_end\",\n          \"requested_start\",\n          \"schema_version\",\n          \"source\",\n          \"symbol\",\n          \"yahoo_ticker\"\n        ],\n        \"lists\": {\n          \"bars\": {\n            \"length\": 1562,\n            \"last_type\": \"dict\",\n            \"last_keys\": [\n              \"close\",\n              \"date\",\n              \"high\",\n              \"low\",\n              \"open\",\n              \"volume\"\n            ]\n          }\n        },\n        \"metrics\": {}\n      }\n    ]\n  },\n  \"smoke\": {\n    \"composer_import_ok\": true,\n    \"build_equity_records_from_returns\": {\n      \"ok\": false,\n      \"attempts\": [\n        {\n          \"name\": \"daily_return_pct\",\n          \"ok\": false,\n          \"error\": \"KeyError: 'next_date'\"\n        },\n        {\n          \"name\": \"daily_return_decimal\",\n          \"ok\": false,\n          \"error\": \"KeyError: 'next_date'\"\n        },\n        {\n          \"name\": \"return_pct\",\n          \"ok\": false,\n          \"error\": \"KeyError: 'next_date'\"\n        },\n        {\n          \"name\": \"interval_return\",\n          \"ok\": false,\n          \"error\": \"KeyError: 'next_date'\"\n        },\n        {\n          \"name\": \"strategy_return\",\n          \"ok\": false,\n          \"error\": \"KeyError: 'next_date'\"\n        }\n      ]\n    },\n    \"utility_functions\": {\n      \"compound_return\": {\n        \"ok\": true,\n        \"value\": 0.0250490000000001\n      },\n      \"max_drawdown\": {\n        \"ok\": true,\n        \"value\": -0.03809523809523807\n      },\n      \"sharpe_ratio\": {\n        \"ok\": true,\n        \"value\": 12.875926129184283\n      },\n      \"profit_factor\": {\n        \"ok\": true,\n        \"value\": 6.0\n      }\n    }\n  },\n  \"diagnosis\": [\n    \"Wrapper imports e1r_composer and inspects source JSONs without writing canonical exports.\",\n    \"build_equity_records_from_returns smoke success attempts: 0.\",\n    \"dry_run_generate_intervals decision: None.\",\n    \"If persisted inputs are insufficient, next stage should call frozen generator path or controlled long backtest export.\",\n    \"Long backtest remains allowed only after dry-run validates call shape and export schema.\"\n  ],\n  \"next_stage\": {\n    \"name\": \"Stage 3.8E-2F-2C-4C-6\",\n    \"title\": \"Implement canonical 5Y equity export mode or inspect exact composer field names\",\n    \"condition\": \"Proceed to export mode only if smoke identifies a valid interval record shape; otherwise inspect composer source lines.\"\n  }\n}\n",
+  "stderr_tail": ""
+}
+```
+
+## Recovery Counts
+
+```json
+{
+  "exact_metric_node_count": 1,
+  "daily_like_node_count": 1,
+  "core_variant_node_count": 0,
+  "sidecar_node_count": 0
+}
+```
+
+## Conclusion
+
+- `DRY_RUN_RECOVERED_METRICS_AND_DAILY_LIKE_OUTPUT`
+- Recommended: Next step can extract candidate daily equity into a non-canonical artifact and validate full-window portfolio-level contract.
+
+## Generated Inspection Compact
+
+```json
+{
+  "exports/e1r_v0_2_backtest_summary.json": {
+    "exists_after_run": true,
+    "size_after_run": 941,
+    "node_count": 1,
+    "exact_metric_node_count": 1,
+    "daily_like_node_count": 0,
+    "core_variant_node_count": 0,
+    "sidecar_node_count": 0,
+    "top_summary": {
+      "type": "dict",
+      "len": 20,
+      "keys": [
+        "alpha_pct",
+        "artifact_type",
+        "composition_exists",
+        "frozen_artifact",
+        "max_drawdown_pct",
+        "profit_factor",
+        "regeneration_note",
+        "regime_aware_logic",
+        "research_status",
+        "row_count",
+        "sharpe_ratio",
+        "sidecar_active_by_regime",
+        "sidecar_active_by_subclass",
+        "sidecar_active_days",
+        "source_file",
+        "source_json_path",
+        "spx_return_pct",
+        "strategy_id",
+        "total_return_pct",
+        "variant"
+      ],
+      "metric_like_values": {
+        "strategy_id": "E1R_REGIME_AWARE_V0_2",
+        "total_return_pct": 116.7435999134756,
+        "spx_return_pct": 76.844174428316,
+        "alpha_pct": 39.89942548515961,
+        "max_drawdown_pct": 25.904809362815108,
+        "profit_factor": 1.1919630955509348,
+        "sharpe_ratio": 0.7957270568329264
+      },
+      "sidecar_active_by_regime_dict_keys": [
+        "SIDEWAYS"
+      ],
+      "sidecar_active_by_subclass_dict_keys": [
+        "MA_CONFLICT"
+      ]
+    },
+    "exact_metric_nodes": [
+      {
+        "path": "$",
+        "matched_keys": [],
+        "matched_metrics": {
+          "total_return_pct": 116.7435999134756,
+          "spx_return_pct": 76.844174428316,
+          "alpha_pct": 39.89942548515961,
+          "max_drawdown_pct": 25.904809362815108,
+          "profit_factor": 1.1919630955509348,
+          "sharpe_ratio": 0.7957270568329264
+        },
+        "target_diffs_abs": {
+          "total_return_pct": 0.0,
+          "spx_return_pct": 0.0,
+          "alpha_pct": 0.0,
+          "max_drawdown_pct": 0.0,
+          "profit_factor": 0.0,
+          "sharpe_ratio": 0.0
+        },
+        "summary": {
+          "type": "dict",
+          "len": 20,
+          "keys": [
+            "alpha_pct",
+            "artifact_type",
+            "composition_exists",
+            "frozen_artifact",
+            "max_drawdown_pct",
+            "profit_factor",
+            "regeneration_note",
+            "regime_aware_logic",
+            "research_status",
+            "row_count",
+            "sharpe_ratio",
+            "sidecar_active_by_regime",
+            "sidecar_active_by_subclass",
+            "sidecar_active_days",
+            "source_file",
+            "source_json_path",
+            "spx_return_pct",
+            "strategy_id",
+            "total_return_pct",
+            "variant"
+          ],
+          "metric_like_values": {
+            "strategy_id": "E1R_REGIME_AWARE_V0_2",
+            "total_return_pct": 116.7435999134756,
+            "spx_return_pct": 76.844174428316,
+            "alpha_pct": 39.89942548515961,
+            "max_drawdown_pct": 25.904809362815108,
+            "profit_factor": 1.1919630955509348,
+            "sharpe_ratio": 0.7957270568329264
+          },
+          "sidecar_active_by_regime_dict_keys": [
+            "SIDEWAYS"
+          ],
+          "sidecar_active_by_subclass_dict_keys": [
+            "MA_CONFLICT"
+          ]
+        }
+      }
+    ],
+    "daily_like_nodes": []
+  },
+  "exports/e1r_v0_2_backtest_equity_curve.json": {
+    "exists_after_run": true,
+    "size_after_run": 16004713,
+    "node_count": null,
+    "exact_metric_node_count": null,
+    "daily_like_node_count": null,
+    "core_variant_node_count": null,
+    "sidecar_node_count": null,
+    "top_summary": null,
+    "exact_metric_nodes": null,
+    "daily_like_nodes": null
+  },
+  "exports/e1r_v0_2_portfolio_backtest_equity_curve.json": {
+    "exists_after_run": false,
+    "size_after_run": 0,
+    "node_count": null,
+    "exact_metric_node_count": null,
+    "daily_like_node_count": null,
+    "core_variant_node_count": null,
+    "sidecar_node_count": null,
+    "top_summary": null,
+    "exact_metric_nodes": null,
+    "daily_like_nodes": null
+  },
+  "exports/e1_e1r_5y_equity_comparison.json": {
+    "exists_after_run": false,
+    "size_after_run": 0,
+    "node_count": null,
+    "exact_metric_node_count": null,
+    "daily_like_node_count": null,
+    "core_variant_node_count": null,
+    "sidecar_node_count": null,
+    "top_summary": null,
+    "exact_metric_nodes": null,
+    "daily_like_nodes": null
+  },
+  "data/research/e1r/e1r_formal_backtest_v0_1.json": {
+    "exists_after_run": true,
+    "size_after_run": 81365,
+    "node_count": 3,
+    "exact_metric_node_count": 0,
+    "daily_like_node_count": 1,
+    "core_variant_node_count": 0,
+    "sidecar_node_count": 0,
+    "top_summary": {
+      "type": "dict",
+      "len": 9,
+      "keys": [
+        "comparison_base",
+        "e1_metrics",
+        "equity_curve",
+        "metrics",
+        "source",
+        "spx_curve",
+        "status",
+        "trades",
+        "variant_id"
+      ],
+      "metric_like_values": {
+        "status": "FORMAL_BACKTEST_AVAILABLE_RESEARCH_EXPORT"
+      },
+      "metrics_dict_keys": [
+        "alpha_pct",
+        "avg_holding_days",
+        "exposure_pct",
+        "max_drawdown_pct",
+        "number_of_trades",
+        "profit_factor",
+        "sharpe_ratio",
+        "spx_total_return_pct",
+        "total_return_pct",
+        "win_rate_pct"
+      ],
+      "metrics_dict_metric_like_values": {
+        "total_return_pct": 65.71,
+        "alpha_pct": -3.65,
+        "max_drawdown_pct": 32.35,
+        "profit_factor": 1.97,
+        "sharpe_ratio": 0.58,
+        "number_of_trades": 39
+      },
+      "e1_metrics_dict_keys": [
+        "max_drawdown_pct",
+        "number_of_trades",
+        "profit_factor",
+        "sharpe_ratio",
+        "total_return_pct"
+      ],
+      "e1_metrics_dict_metric_like_values": {
+        "total_return_pct": 7.52,
+        "max_drawdown_pct": 38.1,
+        "profit_factor": 1.25,
+        "sharpe_ratio": 0.18,
+        "number_of_trades": 47
+      },
+      "equity_curve_len": 131,
+      "spx_curve_len": 131,
+      "trades_len": 39,
+      "trades_first_keys": [
+        "action_count",
+        "actions_during_trade",
+        "avg_cost",
+        "dominant_regime",
+        "effective_exit",
+        "entry_adverse_gap_pct",
+        "entry_date",
+        "entry_price",
+        "entry_regime",
+        "entry_signal",
+        "entry_type",
+        "execution_model",
+        "exit_adverse_gap_pct",
+        "exit_date",
+        "exit_price",
+        "exit_reason",
+        "exit_reasons",
+        "exit_regime",
+        "exit_signal",
+        "exit_type",
+        "exit_warning_count",
+        "exit_warning_log",
+        "holding_days",
+        "is_sim_end",
+        "leader_score_entry",
+        "max_drawdown_in_trade",
+        "max_gain_pct",
+        "realized_pnl_before_exit",
+        "regime_day_weights",
+        "relative_stop_exec_date",
+        "relative_stop_triggered",
+        "return_pct",
+        "size_units_at_exit",
+        "symbol",
+        "take_profit_exec_date",
+        "take_profit_triggered",
+        "total_execution_drag_pct"
+      ],
+      "trades_first": {
+        "symbol": "MELI",
+        "entry_date": "2023-11-28",
+        "exit_date": "2024-01-04",
+        "entry_signal": "BUY",
+        "exit_signal": "EXIT",
+        "entry_price": 1599.21,
+        "avg_cost": 1607.2,
+        "exit_price": 1500.0,
+        "effective_exit": 1482.16,
+        "return_pct": -4.73,
+        "max_gain_pct": 2.79,
+        "max_drawdown_in_trade": 9.2,
+        "holding_days": 26,
+        "size_units_at_exit": 0.5,
+        "leader_score_entry": 94.4,
+        "relative_stop_triggered": false,
+        "relative_stop_exec_date": null,
+        "take_profit_triggered": false,
+        "take_profit_exec_date": null,
+        "realized_pnl_before_exit": -282.58,
+        "actions_during_trade": [
+          "BUY",
+          "ADD",
+          "ADD",
+          "BUY",
+          "ADD",
+          "ADD",
+          "BUY",
+          "ADD",
+          "HOLD",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE",
+          "HOLD",
+          "HOLD",
+          "HOLD",
+          "HOLD",
+          "HOLD",
+          "HOLD",
+          "HOLD",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE",
+          "EXIT"
+        ],
+        "action_count": 29,
+        "execution_model": "adverse_intraday_v1.0",
+        "entry_adverse_gap_pct": 0.5,
+        "exit_adverse_gap_pct": 1.19,
+        "total_execution_drag_pct": 1.689,
+        "is_sim_end": false,
+        "entry_regime": "UPTREND",
+        "exit_regime": "UPTREND",
+        "dominant_regime": "UPTREND",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "regime_day_weights": {
+          "UPTREND": 25
+        },
+        "exit_reason": "leader_score_below_60",
+        "exit_reasons": [
+          "leader_score_below_60"
+        ],
+        "exit_type": "NORMAL_EXIT",
+        "exit_warning_log": [],
+        "exit_warning_count": 0
+      },
+      "trades_last": {
+        "symbol": "DELL",
+        "entry_date": "2026-04-24",
+        "exit_date": "2026-06-11",
+        "entry_signal": "BUY",
+        "exit_signal": "SIM_END",
+        "entry_price": 212.14,
+        "avg_cost": 219.22,
+        "exit_price": 391.45,
+        "effective_exit": 366.59,
+        "return_pct": 37.57,
+        "max_gain_pct": 112.55,
+        "max_drawdown_in_trade": 0,
+        "holding_days": 34,
+        "size_units_at_exit": 0.5,
+        "leader_score_entry": 96.0,
+        "take_profit_triggered": false,
+        "take_profit_exec_date": null,
+        "realized_pnl_before_exit": 1665.07,
+        "actions_during_trade": [
+          "BUY",
+          "BUY",
+          "BUY",
+          "HOLD",
+          "HOLD",
+          "REDUCE",
+          "HOLD",
+          "HOLD",
+          "ADD",
+          "ADD",
+          "BUY",
+          "BUY",
+          "BUY",
+          "HOLD",
+          "REDUCE",
+          "REDUCE",
+          "HOLD",
+          "HOLD",
+          "HOLD",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE",
+          "HOLD",
+          "BUY",
+          "BUY",
+          "BUY",
+          "BUY",
+          "BUY",
+          "BUY",
+          "HOLD",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE",
+          "REDUCE"
+        ],
+        "action_count": 37,
+        "execution_model": "adverse_intraday_v1.0",
+        "is_sim_end": true,
+        "entry_regime": "UPTREND",
+        "exit_regime": "UPTREND",
+        "dominant_regime": "UPTREND",
+        "entry_type": "E1R_UPTREND_CONFIRMED",
+        "regime_day_weights": {
+          "UPTREND": 34
+        },
+        "exit_type": "SIM_END",
+        "exit_warning_log": [],
+        "exit_warning_count": 0
+      }
+    },
+    "exact_metric_nodes": [],
+    "daily_like_nodes": [
+      {
+        "path": "$",
+        "matched_keys": [
+          "equity_curve",
+          "metrics",
+          "trades"
+        ],
+        "matched_metrics": {},
+        "target_diffs_abs": {},
+        "summary": {
+          "type": "dict",
+          "len": 9,
+          "keys": [
+            "comparison_base",
+            "e1_metrics",
+            "equity_curve",
+            "metrics",
+            "source",
+            "spx_curve",
+            "status",
+            "trades",
+            "variant_id"
+          ],
+          "metric_like_values": {
+            "status": "FORMAL_BACKTEST_AVAILABLE_RESEARCH_EXPORT"
+          },
+          "metrics_dict_keys": [
+            "alpha_pct",
+            "avg_holding_days",
+            "exposure_pct",
+            "max_drawdown_pct",
+            "number_of_trades",
+            "profit_factor",
+            "sharpe_ratio",
+            "spx_total_return_pct",
+            "total_return_pct",
+            "win_rate_pct"
+          ],
+          "metrics_dict_metric_like_values": {
+            "total_return_pct": 65.71,
+            "alpha_pct": -3.65,
+            "max_drawdown_pct": 32.35,
+            "profit_factor": 1.97,
+            "sharpe_ratio": 0.58,
+            "number_of_trades": 39
+          },
+          "e1_metrics_dict_keys": [
+            "max_drawdown_pct",
+            "number_of_trades",
+            "profit_factor",
+            "sharpe_ratio",
+            "total_return_pct"
+          ],
+          "e1_metrics_dict_metric_like_values": {
+            "total_return_pct": 7.52,
+            "max_drawdown_pct": 38.1,
+            "profit_factor": 1.25,
+            "sharpe_ratio": 0.18,
+            "number_of_trades": 47
+          },
+          "equity_curve_len": 131,
+          "spx_curve_len": 131,
+          "trades_len": 39,
+          "trades_first_keys": [
+            "action_count",
+            "actions_during_trade",
+            "avg_cost",
+            "dominant_regime",
+            "effective_exit",
+            "entry_adverse_gap_pct",
+            "entry_date",
+            "entry_price",
+            "entry_regime",
+            "entry_signal",
+            "entry_type",
+            "execution_model",
+            "exit_adverse_gap_pct",
+            "exit_date",
+            "exit_price",
+            "exit_reason",
+            "exit_reasons",
+            "exit_regime",
+            "exit_signal",
+            "exit_type",
+            "exit_warning_count",
+            "exit_warning_log",
+            "holding_days",
+            "is_sim_end",
+            "leader_score_entry",
+            "max_drawdown_in_trade",
+            "max_gain_pct",
+            "realized_pnl_before_exit",
+            "regime_day_weights",
+            "relative_stop_exec_date",
+            "relative_stop_triggered",
+            "return_pct",
+            "size_units_at_exit",
+            "symbol",
+            "take_profit_exec_date",
+            "take_profit_triggered",
+            "total_execution_drag_pct"
+          ],
+          "trades_first": {
+            "symbol": "MELI",
+            "entry_date": "2023-11-28",
+            "exit_date": "2024-01-04",
+            "entry_signal": "BUY",
+            "exit_signal": "EXIT",
+            "entry_price": 1599.21,
+            "avg_cost": 1607.2,
+            "exit_price": 1500.0,
+            "effective_exit": 1482.16,
+            "return_pct": -4.73,
+            "max_gain_pct": 2.79,
+            "max_drawdown_in_trade": 9.2,
+            "holding_days": 26,
+            "size_units_at_exit": 0.5,
+            "leader_score_entry": 94.4,
+            "relative_stop_triggered": false,
+            "relative_stop_exec_date": null,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": -282.58,
+            "actions_during_trade": [
+              "BUY",
+              "ADD",
+              "ADD",
+              "BUY",
+              "ADD",
+              "ADD",
+              "BUY",
+              "ADD",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "EXIT"
+            ],
+            "action_count": 29,
+            "execution_model": "adverse_intraday_v1.0",
+            "entry_adverse_gap_pct": 0.5,
+            "exit_adverse_gap_pct": 1.19,
+            "total_execution_drag_pct": 1.689,
+            "is_sim_end": false,
+            "entry_regime": "UPTREND",
+            "exit_regime": "UPTREND",
+            "dominant_regime": "UPTREND",
+            "entry_type": "E1R_UPTREND_CONFIRMED",
+            "regime_day_weights": {
+              "UPTREND": 25
+            },
+            "exit_reason": "leader_score_below_60",
+            "exit_reasons": [
+              "leader_score_below_60"
+            ],
+            "exit_type": "NORMAL_EXIT",
+            "exit_warning_log": [],
+            "exit_warning_count": 0
+          },
+          "trades_last": {
+            "symbol": "DELL",
+            "entry_date": "2026-04-24",
+            "exit_date": "2026-06-11",
+            "entry_signal": "BUY",
+            "exit_signal": "SIM_END",
+            "entry_price": 212.14,
+            "avg_cost": 219.22,
+            "exit_price": 391.45,
+            "effective_exit": 366.59,
+            "return_pct": 37.57,
+            "max_gain_pct": 112.55,
+            "max_drawdown_in_trade": 0,
+            "holding_days": 34,
+            "size_units_at_exit": 0.5,
+            "leader_score_entry": 96.0,
+            "take_profit_triggered": false,
+            "take_profit_exec_date": null,
+            "realized_pnl_before_exit": 1665.07,
+            "actions_during_trade": [
+              "BUY",
+              "BUY",
+              "BUY",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "HOLD",
+              "HOLD",
+              "ADD",
+              "ADD",
+              "BUY",
+              "BUY",
+              "BUY",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "HOLD",
+              "HOLD",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "HOLD",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "BUY",
+              "HOLD",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE",
+              "REDUCE"
+            ],
+            "action_count": 37,
+            "execution_model": "adverse_intraday_v1.0",
+            "is_sim_end": true,
+            "entry_regime": "UPTREND",
+            "exit_regime": "UPTREND",
+            "dominant_regime": "UPTREND",
+            "entry_type": "E1R_UPTREND_CONFIRMED",
+            "regime_day_weights": {
+              "UPTREND": 34
+            },
+            "exit_type": "SIM_END",
+            "exit_warning_log": [],
+            "exit_warning_count": 0
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+## Restore Report
+
+```json
+{
+  "exports/e1r_v0_2_backtest_summary.json": {
+    "action": "restored",
+    "hash_after_restore": "449a8ace55ce2335d174e17e2532d8793a3a9b99c021a935f8d7f2e531092114",
+    "matches_before": true
+  },
+  "exports/e1r_v0_2_backtest_equity_curve.json": {
+    "action": "restored",
+    "hash_after_restore": "d43ac75bc56340079b98958d73a0b2c3acb8c7154c04f8a0c394e5e969246926",
+    "matches_before": true
+  },
+  "exports/e1r_v0_2_portfolio_backtest_equity_curve.json": {
+    "action": "no_action_absent",
+    "hash_after_restore": null,
+    "matches_before": true
+  },
+  "exports/e1_e1r_5y_equity_comparison.json": {
+    "action": "no_action_absent",
+    "hash_after_restore": null,
+    "matches_before": true
+  },
+  "data/research/e1r/e1r_formal_backtest_v0_1.json": {
+    "action": "restored",
+    "hash_after_restore": "a42c6496d407f833ab117307a7677d7c4d251482ae02495271eea0e060202dad",
+    "matches_before": true
+  }
+}
+```
+
+## Next Stage
+
+- `Stage 3.8E-2F-2C-4C-10F-4B-0F`: Expose exact in-memory E1R composition result or select next generator
+- Recommended action: Next step can extract candidate daily equity into a non-canonical artifact and validate full-window portfolio-level contract.
+
