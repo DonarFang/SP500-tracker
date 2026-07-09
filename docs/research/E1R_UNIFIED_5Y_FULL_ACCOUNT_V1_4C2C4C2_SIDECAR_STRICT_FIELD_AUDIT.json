@@ -1,0 +1,2650 @@
+{
+  "generated_at": "2026-07-09T13:09:23.698123+00:00",
+  "elapsed_seconds": 6.28507,
+  "stage": "E1R_COMBINED_5Y_4C2C4C2_SIDECAR_STRICT_FIELD_AUDIT",
+  "status": "SIDECAR_STRICT_FIELD_AUDIT_COMPLETE",
+  "policy": {
+    "strategy_logic_changed": false,
+    "backtest_engine_run": false,
+    "dashboard_changed": false,
+    "official_result_generated": false,
+    "audit_fix": "Do not treat candidate_count as selected_count or live holdings."
+  },
+  "function_report": {
+    "module": "src.engine.e1r_sidecar_sleeve",
+    "config_signature": "(start_date: 'str', end_date: 'str', allowed_subclasses: 'tuple[str, ...]' = ('MA_CONFLICT',), top_n: 'int' = 10, gross_exposure: 'float' = 0.25, min_history_days: 'int' = 200, min_price: 'float' = 5.0, initial_equity: 'float' = 100000.0, excluded_symbols: 'tuple[str, ...]' = ('VIXY',)) -> None",
+    "function_signature": "(stock_dir: 'Path', spx_path: 'Path', regime_path: 'Path', config: 'E1RSidecarConfig') -> 'dict[str, Any]'"
+  },
+  "config_report": {
+    "start_date": "2021-06-11",
+    "end_date": "2026-06-18",
+    "config_repr": "E1RSidecarConfig(start_date='2021-06-11', end_date='2026-06-18', allowed_subclasses=('MA_CONFLICT',), top_n=10, gross_exposure=0.25, min_history_days=200, min_price=5.0, initial_equity=100000.0, excluded_symbols=('VIXY',))",
+    "config_dict": {
+      "start_date": "2021-06-11",
+      "end_date": "2026-06-18",
+      "allowed_subclasses": [
+        "MA_CONFLICT"
+      ],
+      "top_n": 10,
+      "gross_exposure": 0.25,
+      "min_history_days": 200,
+      "min_price": 5.0,
+      "initial_equity": 100000.0,
+      "excluded_symbols": [
+        "VIXY"
+      ]
+    },
+    "note": "Only required date fields supplied; all sidecar trading parameters remain original defaults."
+  },
+  "sidecar_run": {
+    "attempted": true,
+    "ok": true,
+    "error": null
+  },
+  "sidecar_strict_summary": {
+    "has_records": true,
+    "record_count": 1260,
+    "result_top_keys": [
+      "config",
+      "engine",
+      "records",
+      "sample",
+      "summary",
+      "version"
+    ],
+    "all_regime_counts": {
+      "UPTREND": 861,
+      "SIDEWAYS": 241,
+      "DOWNTREND": 158
+    },
+    "all_subclass_counts": {
+      "NO_SUBCLASS": 1019,
+      "MA_CONFLICT": 135,
+      "DETERIORATION_TRANSITION": 63,
+      "RECOVERY_TRANSITION": 43
+    },
+    "is_active_true_regime_counts": {
+      "SIDEWAYS": 135
+    },
+    "is_active_true_subclass_counts": {
+      "MA_CONFLICT": 135
+    },
+    "gross_positive_regime_counts": {
+      "SIDEWAYS": 135
+    },
+    "gross_positive_subclass_counts": {
+      "MA_CONFLICT": 135
+    },
+    "selected_positive_regime_counts": {
+      "SIDEWAYS": 135
+    },
+    "selected_positive_subclass_counts": {
+      "MA_CONFLICT": 135
+    },
+    "holdings_positive_regime_counts": {
+      "SIDEWAYS": 135
+    },
+    "holdings_positive_subclass_counts": {
+      "MA_CONFLICT": 135
+    },
+    "strict_active_regime_counts": {
+      "SIDEWAYS": 135
+    },
+    "strict_active_subclass_counts": {
+      "MA_CONFLICT": 135
+    },
+    "candidate_count_max": 538,
+    "selected_count_max": 10,
+    "holdings_len_max": 10,
+    "gross_exposure_max": 0.25,
+    "strict_active_samples": [
+      {
+        "date": "2022-01-24",
+        "next_date": "2022-01-25",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 526,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.006639857390068424,
+        "portfolio_return_pct": 0.6639857390068423,
+        "spx_return": -0.012171906366504448,
+        "spx_return_pct": -1.2171906366504448,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "ATI",
+            "score": 116.16247415664218,
+            "weight": 0.025,
+            "raw_return": -0.03076152294503265,
+            "raw_return_pct": -3.076152294503265,
+            "weighted_contribution": -0.0007690380736258163,
+            "weighted_contribution_pct": -0.07690380736258162
+          },
+          {
+            "symbol": "HAL",
+            "score": 111.15001424870495,
+            "weight": 0.025,
+            "raw_return": 0.06995452837657856,
+            "raw_return_pct": 6.995452837657856,
+            "weighted_contribution": 0.001748863209414464,
+            "weighted_contribution_pct": 0.1748863209414464
+          },
+          {
+            "symbol": "SLB",
+            "score": 106.92388446720653,
+            "weight": 0.025,
+            "raw_return": 0.05983634830107065,
+            "raw_return_pct": 5.983634830107065,
+            "weighted_contribution": 0.0014959087075267663,
+            "weighted_contribution_pct": 0.14959087075267663
+          },
+          {
+            "symbol": "XOM",
+            "score": 100.24242388837584,
+            "weight": 0.025,
+            "raw_return": 0.029399762413809594,
+            "raw_return_pct": 2.9399762413809594,
+            "weighted_contribution": 0.0007349940603452399,
+            "weighted_contribution_pct": 0.07349940603452398
+          },
+          {
+            "symbol": "LVS",
+            "score": 91.50122657304557,
+            "weight": 0.025,
+            "raw_return": -0.0004454036697800756,
+            "raw_return_pct": -0.04454036697800756,
+            "weighted_contribution": -1.113509174450189e-05,
+            "weighted_contribution_pct": -0.001113509174450189
+          }
+        ]
+      },
+      {
+        "date": "2022-01-25",
+        "next_date": "2022-01-26",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 526,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.001170111266206414,
+        "portfolio_return_pct": 0.1170111266206414,
+        "spx_return": -0.001496635725913631,
+        "spx_return_pct": -0.1496635725913631,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "HAL",
+            "score": 151.45363429039952,
+            "weight": 0.025,
+            "raw_return": 0.006864893922020832,
+            "raw_return_pct": 0.6864893922020832,
+            "weighted_contribution": 0.0001716223480505208,
+            "weighted_contribution_pct": 0.01716223480505208
+          },
+          {
+            "symbol": "SLB",
+            "score": 139.37639311786864,
+            "weight": 0.025,
+            "raw_return": 0.026037581179024105,
+            "raw_return_pct": 2.6037581179024105,
+            "weighted_contribution": 0.0006509395294756027,
+            "weighted_contribution_pct": 0.06509395294756026
+          },
+          {
+            "symbol": "APA",
+            "score": 121.79645158380266,
+            "weight": 0.025,
+            "raw_return": 0.0012094774785773588,
+            "raw_return_pct": 0.12094774785773588,
+            "weighted_contribution": 3.023693696443397e-05,
+            "weighted_contribution_pct": 0.003023693696443397
+          },
+          {
+            "symbol": "DVN",
+            "score": 117.26115304831168,
+            "weight": 0.025,
+            "raw_return": 0.010339429921368382,
+            "raw_return_pct": 1.0339429921368382,
+            "weighted_contribution": 0.00025848574803420953,
+            "weighted_contribution_pct": 0.025848574803420954
+          },
+          {
+            "symbol": "XOM",
+            "score": 117.25739123090229,
+            "weight": 0.025,
+            "raw_return": -0.010142911282465361,
+            "raw_return_pct": -1.0142911282465361,
+            "weighted_contribution": -0.000253572782061634,
+            "weighted_contribution_pct": -0.025357278206163403
+          }
+        ]
+      },
+      {
+        "date": "2022-01-26",
+        "next_date": "2022-01-27",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 527,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.0005712995435184164,
+        "portfolio_return_pct": 0.05712995435184164,
+        "spx_return": -0.005384088721519631,
+        "spx_return_pct": -0.5384088721519631,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "HAL",
+            "score": 153.663382743099,
+            "weight": 0.025,
+            "raw_return": 0.0009740431199891653,
+            "raw_return_pct": 0.09740431199891653,
+            "weighted_contribution": 2.4351077999729134e-05,
+            "weighted_contribution_pct": 0.002435107799972913
+          },
+          {
+            "symbol": "SLB",
+            "score": 149.8206298067245,
+            "weight": 0.025,
+            "raw_return": -0.02361818145681749,
+            "raw_return_pct": -2.361818145681749,
+            "weighted_contribution": -0.0005904545364204373,
+            "weighted_contribution_pct": -0.05904545364204373
+          },
+          {
+            "symbol": "APA",
+            "score": 117.82183153229215,
+            "weight": 0.025,
+            "raw_return": -0.004832447111308369,
+            "raw_return_pct": -0.4832447111308369,
+            "weighted_contribution": -0.00012081117778270923,
+            "weighted_contribution_pct": -0.012081117778270922
+          },
+          {
+            "symbol": "DVN",
+            "score": 117.24908488045658,
+            "weight": 0.025,
+            "raw_return": -0.0009652738498846514,
+            "raw_return_pct": -0.09652738498846514,
+            "weighted_contribution": -2.4131846247116286e-05,
+            "weighted_contribution_pct": -0.0024131846247116284
+          },
+          {
+            "symbol": "OXY",
+            "score": 116.97373046933191,
+            "weight": 0.025,
+            "raw_return": 0.005396268303159646,
+            "raw_return_pct": 0.5396268303159646,
+            "weighted_contribution": 0.00013490670757899115,
+            "weighted_contribution_pct": 0.013490670757899115
+          }
+        ]
+      },
+      {
+        "date": "2022-01-27",
+        "next_date": "2022-01-28",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.0002960625997241865,
+        "portfolio_return_pct": 0.02960625997241865,
+        "spx_return": 0.02434764687874269,
+        "spx_return_pct": 2.434764687874269,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "HAL",
+            "score": 159.2712159909222,
+            "weight": 0.025,
+            "raw_return": 0.017191030257081463,
+            "raw_return_pct": 1.7191030257081463,
+            "weighted_contribution": 0.0004297757564270366,
+            "weighted_contribution_pct": 0.04297757564270366
+          },
+          {
+            "symbol": "SLB",
+            "score": 137.7396523549379,
+            "weight": 0.025,
+            "raw_return": 0.021101362027854398,
+            "raw_return_pct": 2.11013620278544,
+            "weighted_contribution": 0.00052753405069636,
+            "weighted_contribution_pct": 0.052753405069635995
+          },
+          {
+            "symbol": "COP",
+            "score": 133.358611221586,
+            "weight": 0.025,
+            "raw_return": -0.0049075204567661235,
+            "raw_return_pct": -0.49075204567661235,
+            "weighted_contribution": -0.0001226880114191531,
+            "weighted_contribution_pct": -0.012268801141915309
+          },
+          {
+            "symbol": "EOG",
+            "score": 130.76771232181088,
+            "weight": 0.025,
+            "raw_return": -0.00045576549545711664,
+            "raw_return_pct": -0.045576549545711664,
+            "weighted_contribution": -1.1394137386427917e-05,
+            "weighted_contribution_pct": -0.0011394137386427918
+          },
+          {
+            "symbol": "OXY",
+            "score": 125.62783807270606,
+            "weight": 0.025,
+            "raw_return": 0.008320502497189963,
+            "raw_return_pct": 0.8320502497189963,
+            "weighted_contribution": 0.00020801256242974908,
+            "weighted_contribution_pct": 0.020801256242974908
+          }
+        ]
+      },
+      {
+        "date": "2022-01-28",
+        "next_date": "2022-01-31",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": -0.0011961999291116743,
+        "portfolio_return_pct": -0.11961999291116743,
+        "spx_return": 0.01888595172426344,
+        "spx_return_pct": 1.888595172426344,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "HAL",
+            "score": 163.62557477227205,
+            "weight": 0.025,
+            "raw_return": -0.01977040691587384,
+            "raw_return_pct": -1.977040691587384,
+            "weighted_contribution": -0.000494260172896846,
+            "weighted_contribution_pct": -0.0494260172896846
+          },
+          {
+            "symbol": "SLB",
+            "score": 141.12604099229782,
+            "weight": 0.025,
+            "raw_return": -0.015372781267682045,
+            "raw_return_pct": -1.5372781267682045,
+            "weighted_contribution": -0.00038431953169205116,
+            "weighted_contribution_pct": -0.03843195316920511
+          },
+          {
+            "symbol": "EOG",
+            "score": 128.3419757475321,
+            "weight": 0.025,
+            "raw_return": 0.016226324764806233,
+            "raw_return_pct": 1.6226324764806233,
+            "weighted_contribution": 0.00040565811912015584,
+            "weighted_contribution_pct": 0.04056581191201558
+          },
+          {
+            "symbol": "OXY",
+            "score": 124.71014720361767,
+            "weight": 0.025,
+            "raw_return": 0.00266139347743799,
+            "raw_return_pct": 0.266139347743799,
+            "weighted_contribution": 6.653483693594975e-05,
+            "weighted_contribution_pct": 0.006653483693594976
+          },
+          {
+            "symbol": "COP",
+            "score": 124.60327629851206,
+            "weight": 0.025,
+            "raw_return": -0.006724989345986754,
+            "raw_return_pct": -0.6724989345986754,
+            "weighted_contribution": -0.00016812473364966887,
+            "weighted_contribution_pct": -0.016812473364966888
+          }
+        ]
+      },
+      {
+        "date": "2022-01-31",
+        "next_date": "2022-02-01",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.007193443870844679,
+        "portfolio_return_pct": 0.7193443870844679,
+        "spx_return": 0.00686300347428026,
+        "spx_return_pct": 0.686300347428026,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "HAL",
+            "score": 135.1894369240417,
+            "weight": 0.025,
+            "raw_return": 0.020494545436924083,
+            "raw_return_pct": 2.0494545436924083,
+            "weighted_contribution": 0.0005123636359231021,
+            "weighted_contribution_pct": 0.05123636359231021
+          },
+          {
+            "symbol": "EOG",
+            "score": 124.22347818821598,
+            "weight": 0.025,
+            "raw_return": 0.015249366134206355,
+            "raw_return_pct": 1.5249366134206355,
+            "weighted_contribution": 0.0003812341533551589,
+            "weighted_contribution_pct": 0.038123415335515894
+          },
+          {
+            "symbol": "SLB",
+            "score": 110.74079935900545,
+            "weight": 0.025,
+            "raw_return": 0.011517785286905058,
+            "raw_return_pct": 1.1517785286905058,
+            "weighted_contribution": 0.00028794463217262647,
+            "weighted_contribution_pct": 0.028794463217262648
+          },
+          {
+            "symbol": "COP",
+            "score": 109.84992045207325,
+            "weight": 0.025,
+            "raw_return": 0.032949616033934204,
+            "raw_return_pct": 3.2949616033934204,
+            "weighted_contribution": 0.0008237404008483552,
+            "weighted_contribution_pct": 0.08237404008483551
+          },
+          {
+            "symbol": "XOM",
+            "score": 106.49532767329957,
+            "weight": 0.025,
+            "raw_return": 0.06411272820017899,
+            "raw_return_pct": 6.411272820017899,
+            "weighted_contribution": 0.001602818205004475,
+            "weighted_contribution_pct": 0.1602818205004475
+          }
+        ]
+      },
+      {
+        "date": "2022-02-01",
+        "next_date": "2022-02-02",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.0016610380180795917,
+        "portfolio_return_pct": 0.16610380180795917,
+        "spx_return": 0.009422515502452544,
+        "spx_return_pct": 0.9422515502452544,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "HAL",
+            "score": 124.04075137756482,
+            "weight": 0.025,
+            "raw_return": 0.001275056120206397,
+            "raw_return_pct": 0.1275056120206397,
+            "weighted_contribution": 3.187640300515993e-05,
+            "weighted_contribution_pct": 0.003187640300515993
+          },
+          {
+            "symbol": "XOM",
+            "score": 120.50199629055477,
+            "weight": 0.025,
+            "raw_return": -0.0025978472130999686,
+            "raw_return_pct": -0.25978472130999686,
+            "weighted_contribution": -6.494618032749921e-05,
+            "weighted_contribution_pct": -0.0064946180327499214
+          },
+          {
+            "symbol": "EOG",
+            "score": 108.75985224987724,
+            "weight": 0.025,
+            "raw_return": -0.0022975001040904663,
+            "raw_return_pct": -0.22975001040904663,
+            "weighted_contribution": -5.743750260226166e-05,
+            "weighted_contribution_pct": -0.005743750260226166
+          },
+          {
+            "symbol": "COP",
+            "score": 105.92097067701866,
+            "weight": 0.025,
+            "raw_return": 0.007319096935767044,
+            "raw_return_pct": 0.7319096935767044,
+            "weighted_contribution": 0.00018297742339417613,
+            "weighted_contribution_pct": 0.018297742339417614
+          },
+          {
+            "symbol": "SLB",
+            "score": 98.4754697204116,
+            "weight": 0.025,
+            "raw_return": -0.006831953877669772,
+            "raw_return_pct": -0.6831953877669772,
+            "weighted_contribution": -0.0001707988469417443,
+            "weighted_contribution_pct": -0.01707988469417443
+          }
+        ]
+      },
+      {
+        "date": "2022-02-02",
+        "next_date": "2022-02-03",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": -0.0020282770303438726,
+        "portfolio_return_pct": -0.20282770303438727,
+        "spx_return": -0.024391082205822312,
+        "spx_return_pct": -2.439108220582231,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "ATI",
+            "score": 119.99900421864919,
+            "weight": 0.025,
+            "raw_return": 0.01998178928247052,
+            "raw_return_pct": 1.998178928247052,
+            "weighted_contribution": 0.000499544732061763,
+            "weighted_contribution_pct": 0.0499544732061763
+          },
+          {
+            "symbol": "HAL",
+            "score": 118.57584371771141,
+            "weight": 0.025,
+            "raw_return": -0.0060490306702700725,
+            "raw_return_pct": -0.6049030670270072,
+            "weighted_contribution": -0.00015122576675675182,
+            "weighted_contribution_pct": -0.015122576675675181
+          },
+          {
+            "symbol": "XOM",
+            "score": 107.41664944899746,
+            "weight": 0.025,
+            "raw_return": -0.011659807836842506,
+            "raw_return_pct": -1.1659807836842506,
+            "weighted_contribution": -0.00029149519592106264,
+            "weighted_contribution_pct": -0.029149519592106266
+          },
+          {
+            "symbol": "COP",
+            "score": 107.06805073041576,
+            "weight": 0.025,
+            "raw_return": -0.0145319487290827,
+            "raw_return_pct": -1.45319487290827,
+            "weighted_contribution": -0.0003632987182270675,
+            "weighted_contribution_pct": -0.03632987182270675
+          },
+          {
+            "symbol": "OXY",
+            "score": 105.97699639341131,
+            "weight": 0.025,
+            "raw_return": 0.009591264260603749,
+            "raw_return_pct": 0.9591264260603749,
+            "weighted_contribution": 0.00023978160651509374,
+            "weighted_contribution_pct": 0.023978160651509373
+          }
+        ]
+      },
+      {
+        "date": "2022-02-03",
+        "next_date": "2022-02-04",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.0026616628130022605,
+        "portfolio_return_pct": 0.26616628130022607,
+        "spx_return": 0.005156929920726805,
+        "spx_return_pct": 0.5156929920726805,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "ATI",
+            "score": 127.23780221586053,
+            "weight": 0.025,
+            "raw_return": 0.011130899872257238,
+            "raw_return_pct": 1.1130899872257238,
+            "weighted_contribution": 0.000278272496806431,
+            "weighted_contribution_pct": 0.0278272496806431
+          },
+          {
+            "symbol": "HAL",
+            "score": 117.29042939338436,
+            "weight": 0.025,
+            "raw_return": 0.02306219417858779,
+            "raw_return_pct": 2.306219417858779,
+            "weighted_contribution": 0.0005765548544646948,
+            "weighted_contribution_pct": 0.05765548544646948
+          },
+          {
+            "symbol": "OXY",
+            "score": 110.23621881645613,
+            "weight": 0.025,
+            "raw_return": 0.02000015082525497,
+            "raw_return_pct": 2.000015082525497,
+            "weighted_contribution": 0.0005000037706313743,
+            "weighted_contribution_pct": 0.05000037706313743
+          },
+          {
+            "symbol": "XOM",
+            "score": 100.13779126010938,
+            "weight": 0.025,
+            "raw_return": 0.02171197465226049,
+            "raw_return_pct": 2.171197465226049,
+            "weighted_contribution": 0.0005427993663065123,
+            "weighted_contribution_pct": 0.054279936630651233
+          },
+          {
+            "symbol": "EOG",
+            "score": 99.51614260102218,
+            "weight": 0.025,
+            "raw_return": 0.017176474275453657,
+            "raw_return_pct": 1.7176474275453657,
+            "weighted_contribution": 0.00042941185688634144,
+            "weighted_contribution_pct": 0.04294118568863414
+          }
+        ]
+      },
+      {
+        "date": "2022-02-04",
+        "next_date": "2022-02-07",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.00137752313993135,
+        "portfolio_return_pct": 0.137752313993135,
+        "spx_return": -0.003701712641814958,
+        "spx_return_pct": -0.3701712641814958,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "HAL",
+            "score": 128.4364950558466,
+            "weight": 0.025,
+            "raw_return": 0.017845862389697098,
+            "raw_return_pct": 1.7845862389697098,
+            "weighted_contribution": 0.00044614655974242745,
+            "weighted_contribution_pct": 0.044614655974242745
+          },
+          {
+            "symbol": "ATI",
+            "score": 123.08878255616204,
+            "weight": 0.025,
+            "raw_return": 0.010127785562650038,
+            "raw_return_pct": 1.0127785562650038,
+            "weighted_contribution": 0.00025319463906625097,
+            "weighted_contribution_pct": 0.0253194639066251
+          },
+          {
+            "symbol": "OXY",
+            "score": 121.1584968983751,
+            "weight": 0.025,
+            "raw_return": 0.004901898710033548,
+            "raw_return_pct": 0.49018987100335476,
+            "weighted_contribution": 0.0001225474677508387,
+            "weighted_contribution_pct": 0.012254746775083869
+          },
+          {
+            "symbol": "XOM",
+            "score": 107.70442402719718,
+            "weight": 0.025,
+            "raw_return": 0.012037908553549137,
+            "raw_return_pct": 1.2037908553549137,
+            "weighted_contribution": 0.00030094771383872845,
+            "weighted_contribution_pct": 0.030094771383872846
+          },
+          {
+            "symbol": "EOG",
+            "score": 100.77036452844237,
+            "weight": 0.025,
+            "raw_return": 0.00870716533303928,
+            "raw_return_pct": 0.870716533303928,
+            "weighted_contribution": 0.000217679133325982,
+            "weighted_contribution_pct": 0.021767913332598202
+          }
+        ]
+      },
+      {
+        "date": "2022-02-14",
+        "next_date": "2022-02-15",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": -0.00037472306619342204,
+        "portfolio_return_pct": -0.037472306619342206,
+        "spx_return": 0.01576672109217747,
+        "spx_return_pct": 1.5766721092177471,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "ATI",
+            "score": 129.7226006578185,
+            "weight": 0.025,
+            "raw_return": 0.0016743826569436404,
+            "raw_return_pct": 0.16743826569436404,
+            "weighted_contribution": 4.1859566423591014e-05,
+            "weighted_contribution_pct": 0.004185956642359101
+          },
+          {
+            "symbol": "FICO",
+            "score": 129.0983449731868,
+            "weight": 0.025,
+            "raw_return": 0.010792288721672483,
+            "raw_return_pct": 1.0792288721672483,
+            "weighted_contribution": 0.0002698072180418121,
+            "weighted_contribution_pct": 0.02698072180418121
+          },
+          {
+            "symbol": "HAL",
+            "score": 117.34517621384842,
+            "weight": 0.025,
+            "raw_return": 0.00494466672003302,
+            "raw_return_pct": 0.49446667200330197,
+            "weighted_contribution": 0.0001236166680008255,
+            "weighted_contribution_pct": 0.012361666800082551
+          },
+          {
+            "symbol": "OXY",
+            "score": 110.62855449228059,
+            "weight": 0.025,
+            "raw_return": -0.03347078870366493,
+            "raw_return_pct": -3.3470788703664933,
+            "weighted_contribution": -0.0008367697175916234,
+            "weighted_contribution_pct": -0.08367697175916233
+          },
+          {
+            "symbol": "EOG",
+            "score": 87.89244436156827,
+            "weight": 0.025,
+            "raw_return": -0.022132008776909906,
+            "raw_return_pct": -2.2132008776909906,
+            "weighted_contribution": -0.0005533002194227477,
+            "weighted_contribution_pct": -0.05533002194227477
+          }
+        ]
+      },
+      {
+        "date": "2022-02-15",
+        "next_date": "2022-02-16",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.0013879437527072797,
+        "portfolio_return_pct": 0.13879437527072797,
+        "spx_return": 0.0008812078887363572,
+        "spx_return_pct": 0.08812078887363572,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "ATI",
+            "score": 125.79169886328587,
+            "weight": 0.025,
+            "raw_return": 0.011282950271625625,
+            "raw_return_pct": 1.1282950271625625,
+            "weighted_contribution": 0.0002820737567906406,
+            "weighted_contribution_pct": 0.028207375679064062
+          },
+          {
+            "symbol": "FICO",
+            "score": 123.51387133177597,
+            "weight": 0.025,
+            "raw_return": -0.012298949831237027,
+            "raw_return_pct": -1.2298949831237027,
+            "weighted_contribution": -0.0003074737457809257,
+            "weighted_contribution_pct": -0.030747374578092568
+          },
+          {
+            "symbol": "HAL",
+            "score": 121.21697316912184,
+            "weight": 0.025,
+            "raw_return": 0.03228774734432105,
+            "raw_return_pct": 3.228774734432105,
+            "weighted_contribution": 0.0008071936836080263,
+            "weighted_contribution_pct": 0.08071936836080262
+          },
+          {
+            "symbol": "AXP",
+            "score": 100.19283310284771,
+            "weight": 0.025,
+            "raw_return": 0.002020420610885143,
+            "raw_return_pct": 0.2020420610885143,
+            "weighted_contribution": 5.051051527212858e-05,
+            "weighted_contribution_pct": 0.0050510515272128576
+          },
+          {
+            "symbol": "EXPE",
+            "score": 99.04399265437458,
+            "weight": 0.025,
+            "raw_return": 0.008823677528943197,
+            "raw_return_pct": 0.8823677528943197,
+            "weighted_contribution": 0.00022059193822357993,
+            "weighted_contribution_pct": 0.022059193822357992
+          }
+        ]
+      },
+      {
+        "date": "2022-02-16",
+        "next_date": "2022-02-17",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": -0.002682905270215521,
+        "portfolio_return_pct": -0.2682905270215521,
+        "spx_return": -0.021173138150420767,
+        "spx_return_pct": -2.1173138150420767,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "HAL",
+            "score": 134.64533688675658,
+            "weight": 0.025,
+            "raw_return": -0.017873023189891035,
+            "raw_return_pct": -1.7873023189891035,
+            "weighted_contribution": -0.0004468255797472759,
+            "weighted_contribution_pct": -0.04468255797472759
+          },
+          {
+            "symbol": "ATI",
+            "score": 131.23642857897448,
+            "weight": 0.025,
+            "raw_return": 0.020661156171026596,
+            "raw_return_pct": 2.0661156171026596,
+            "weighted_contribution": 0.0005165289042756649,
+            "weighted_contribution_pct": 0.05165289042756649
+          },
+          {
+            "symbol": "FICO",
+            "score": 121.62404507105583,
+            "weight": 0.025,
+            "raw_return": -0.0051411467086602824,
+            "raw_return_pct": -0.5141146708660282,
+            "weighted_contribution": -0.00012852866771650707,
+            "weighted_contribution_pct": -0.012852866771650708
+          },
+          {
+            "symbol": "DDOG",
+            "score": 101.45600867960238,
+            "weight": 0.025,
+            "raw_return": -0.046630635310839774,
+            "raw_return_pct": -4.663063531083978,
+            "weighted_contribution": -0.0011657658827709944,
+            "weighted_contribution_pct": -0.11657658827709944
+          },
+          {
+            "symbol": "AXP",
+            "score": 101.44484708240165,
+            "weight": 0.025,
+            "raw_return": -0.013458814445799105,
+            "raw_return_pct": -1.3458814445799105,
+            "weighted_contribution": -0.00033647036114497765,
+            "weighted_contribution_pct": -0.033647036114497764
+          }
+        ]
+      },
+      {
+        "date": "2022-02-17",
+        "next_date": "2022-02-18",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": -0.004024986859409213,
+        "portfolio_return_pct": -0.40249868594092136,
+        "spx_return": -0.007166161523946446,
+        "spx_return_pct": -0.7166161523946446,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "ATI",
+            "score": 148.18095834290213,
+            "weight": 0.025,
+            "raw_return": -0.029554735645557217,
+            "raw_return_pct": -2.9554735645557217,
+            "weighted_contribution": -0.0007388683911389304,
+            "weighted_contribution_pct": -0.07388683911389304
+          },
+          {
+            "symbol": "HAL",
+            "score": 129.12123957883531,
+            "weight": 0.025,
+            "raw_return": -0.02153477263476622,
+            "raw_return_pct": -2.153477263476622,
+            "weighted_contribution": -0.0005383693158691555,
+            "weighted_contribution_pct": -0.05383693158691555
+          },
+          {
+            "symbol": "FICO",
+            "score": 126.61271624003051,
+            "weight": 0.025,
+            "raw_return": -0.02108341254707702,
+            "raw_return_pct": -2.108341254707702,
+            "weighted_contribution": -0.0005270853136769255,
+            "weighted_contribution_pct": -0.05270853136769255
+          },
+          {
+            "symbol": "DVN",
+            "score": 111.92662700817732,
+            "weight": 0.025,
+            "raw_return": -0.008506778277896698,
+            "raw_return_pct": -0.8506778277896698,
+            "weighted_contribution": -0.00021266945694741748,
+            "weighted_contribution_pct": -0.02126694569474175
+          },
+          {
+            "symbol": "NUE",
+            "score": 102.25189633960078,
+            "weight": 0.025,
+            "raw_return": 0.016454566063287768,
+            "raw_return_pct": 1.6454566063287768,
+            "weighted_contribution": 0.0004113641515821942,
+            "weighted_contribution_pct": 0.04113641515821942
+          }
+        ]
+      },
+      {
+        "date": "2022-02-18",
+        "next_date": "2022-02-22",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": -0.00627717079628112,
+        "portfolio_return_pct": -0.6277170796281121,
+        "spx_return": -0.010142945135926285,
+        "spx_return_pct": -1.0142945135926285,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "ATI",
+            "score": 138.44626583305651,
+            "weight": 0.025,
+            "raw_return": -0.0037546935233497836,
+            "raw_return_pct": -0.37546935233497836,
+            "weighted_contribution": -9.38673380837446e-05,
+            "weighted_contribution_pct": -0.009386733808374459
+          },
+          {
+            "symbol": "NUE",
+            "score": 109.01355131070284,
+            "weight": 0.025,
+            "raw_return": -0.03432854080640868,
+            "raw_return_pct": -3.432854080640868,
+            "weighted_contribution": -0.000858213520160217,
+            "weighted_contribution_pct": -0.0858213520160217
+          },
+          {
+            "symbol": "FICO",
+            "score": 108.96787332023595,
+            "weight": 0.025,
+            "raw_return": -0.026174242645341406,
+            "raw_return_pct": -2.6174242645341406,
+            "weighted_contribution": -0.0006543560661335352,
+            "weighted_contribution_pct": -0.06543560661335351
+          },
+          {
+            "symbol": "HAL",
+            "score": 108.58846137249904,
+            "weight": 0.025,
+            "raw_return": -0.02479864097426998,
+            "raw_return_pct": -2.479864097426998,
+            "weighted_contribution": -0.0006199660243567496,
+            "weighted_contribution_pct": -0.06199660243567496
+          },
+          {
+            "symbol": "EXPE",
+            "score": 103.12788188589282,
+            "weight": 0.025,
+            "raw_return": -0.021465908135814282,
+            "raw_return_pct": -2.1465908135814282,
+            "weighted_contribution": -0.0005366477033953571,
+            "weighted_contribution_pct": -0.053664770339535706
+          }
+        ]
+      },
+      {
+        "date": "2022-02-22",
+        "next_date": "2022-02-23",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": -0.0032454940254484066,
+        "portfolio_return_pct": -0.32454940254484066,
+        "spx_return": -0.01841212293099659,
+        "spx_return_pct": -1.8412122930996588,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "ATI",
+            "score": 155.53144858076908,
+            "weight": 0.025,
+            "raw_return": -0.008375167854906551,
+            "raw_return_pct": -0.8375167854906551,
+            "weighted_contribution": -0.00020937919637266378,
+            "weighted_contribution_pct": -0.020937919637266378
+          },
+          {
+            "symbol": "FICO",
+            "score": 110.71058200842158,
+            "weight": 0.025,
+            "raw_return": -0.06257732655142778,
+            "raw_return_pct": -6.257732655142778,
+            "weighted_contribution": -0.0015644331637856947,
+            "weighted_contribution_pct": -0.15644331637856948
+          },
+          {
+            "symbol": "EXPE",
+            "score": 104.67777542992013,
+            "weight": 0.025,
+            "raw_return": -0.02955826207463297,
+            "raw_return_pct": -2.955826207463297,
+            "weighted_contribution": -0.0007389565518658242,
+            "weighted_contribution_pct": -0.07389565518658242
+          },
+          {
+            "symbol": "NUE",
+            "score": 96.83279007388776,
+            "weight": 0.025,
+            "raw_return": -0.006149276666892689,
+            "raw_return_pct": -0.6149276666892689,
+            "weighted_contribution": -0.00015373191667231723,
+            "weighted_contribution_pct": -0.015373191667231723
+          },
+          {
+            "symbol": "HAL",
+            "score": 86.5244751288441,
+            "weight": 0.025,
+            "raw_return": 0.006993165247296096,
+            "raw_return_pct": 0.6993165247296096,
+            "weighted_contribution": 0.00017482913118240241,
+            "weighted_contribution_pct": 0.01748291311824024
+          }
+        ]
+      },
+      {
+        "date": "2022-02-23",
+        "next_date": "2022-02-24",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.0002281749423514195,
+        "portfolio_return_pct": 0.022817494235141948,
+        "spx_return": 0.014956855993373708,
+        "spx_return_pct": 1.4956855993373708,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "ATI",
+            "score": 167.2626353954015,
+            "weight": 0.025,
+            "raw_return": 0.0038006756756756577,
+            "raw_return_pct": 0.38006756756756577,
+            "weighted_contribution": 9.501689189189145e-05,
+            "weighted_contribution_pct": 0.009501689189189144
+          },
+          {
+            "symbol": "NUE",
+            "score": 106.32890400257544,
+            "weight": 0.025,
+            "raw_return": 0.024749793719729407,
+            "raw_return_pct": 2.4749793719729407,
+            "weighted_contribution": 0.0006187448429932352,
+            "weighted_contribution_pct": 0.06187448429932352
+          },
+          {
+            "symbol": "MOS",
+            "score": 97.81983229288305,
+            "weight": 0.025,
+            "raw_return": 0.0033181977554210818,
+            "raw_return_pct": 0.3318197755421082,
+            "weighted_contribution": 8.295494388552705e-05,
+            "weighted_contribution_pct": 0.008295494388552704
+          },
+          {
+            "symbol": "RL",
+            "score": 93.17525041882904,
+            "weight": 0.025,
+            "raw_return": -0.0013169455146618825,
+            "raw_return_pct": -0.13169455146618825,
+            "weighted_contribution": -3.292363786654706e-05,
+            "weighted_contribution_pct": -0.003292363786654706
+          },
+          {
+            "symbol": "TKO",
+            "score": 90.13048686956132,
+            "weight": 0.025,
+            "raw_return": 0.012330629684426109,
+            "raw_return_pct": 1.2330629684426109,
+            "weighted_contribution": 0.0003082657421106527,
+            "weighted_contribution_pct": 0.030826574211065272
+          }
+        ]
+      },
+      {
+        "date": "2022-02-24",
+        "next_date": "2022-02-25",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.008914818036256598,
+        "portfolio_return_pct": 0.8914818036256598,
+        "spx_return": 0.02237267764994688,
+        "spx_return_pct": 2.237267764994688,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "ATI",
+            "score": 174.7184692699766,
+            "weight": 0.025,
+            "raw_return": 0.07109798064787554,
+            "raw_return_pct": 7.109798064787554,
+            "weighted_contribution": 0.0017774495161968886,
+            "weighted_contribution_pct": 0.17774495161968887
+          },
+          {
+            "symbol": "NUE",
+            "score": 105.7902148270138,
+            "weight": 0.025,
+            "raw_return": 0.0756824753608707,
+            "raw_return_pct": 7.568247536087069,
+            "weighted_contribution": 0.0018920618840217675,
+            "weighted_contribution_pct": 0.18920618840217673
+          },
+          {
+            "symbol": "MOS",
+            "score": 103.310765971702,
+            "weight": 0.025,
+            "raw_return": 0.09217224403816049,
+            "raw_return_pct": 9.217224403816049,
+            "weighted_contribution": 0.0023043061009540124,
+            "weighted_contribution_pct": 0.23043061009540125
+          },
+          {
+            "symbol": "LYV",
+            "score": 102.59112908092554,
+            "weight": 0.025,
+            "raw_return": 0.013264748076732502,
+            "raw_return_pct": 1.3264748076732502,
+            "weighted_contribution": 0.0003316187019183126,
+            "weighted_contribution_pct": 0.033161870191831255
+          },
+          {
+            "symbol": "CF",
+            "score": 101.89632584274521,
+            "weight": 0.025,
+            "raw_return": 0.011965134324549265,
+            "raw_return_pct": 1.1965134324549265,
+            "weighted_contribution": 0.00029912835811373166,
+            "weighted_contribution_pct": 0.029912835811373165
+          }
+        ]
+      },
+      {
+        "date": "2022-02-25",
+        "next_date": "2022-02-28",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.006531342216499218,
+        "portfolio_return_pct": 0.6531342216499217,
+        "spx_return": -0.002442603455093506,
+        "spx_return_pct": -0.2442603455093506,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "ATI",
+            "score": 217.0622570340281,
+            "weight": 0.025,
+            "raw_return": 0.010997683071393594,
+            "raw_return_pct": 1.0997683071393594,
+            "weighted_contribution": 0.00027494207678483985,
+            "weighted_contribution_pct": 0.027494207678483984
+          },
+          {
+            "symbol": "MOS",
+            "score": 143.48157580211625,
+            "weight": 0.025,
+            "raw_return": 0.058550234782199784,
+            "raw_return_pct": 5.855023478219978,
+            "weighted_contribution": 0.0014637558695549946,
+            "weighted_contribution_pct": 0.14637558695549946
+          },
+          {
+            "symbol": "NUE",
+            "score": 129.74275762459015,
+            "weight": 0.025,
+            "raw_return": 0.012072186379565863,
+            "raw_return_pct": 1.2072186379565863,
+            "weighted_contribution": 0.0003018046594891466,
+            "weighted_contribution_pct": 0.03018046594891466
+          },
+          {
+            "symbol": "FCX",
+            "score": 126.83757910313965,
+            "weight": 0.025,
+            "raw_return": 0.01316345303142552,
+            "raw_return_pct": 1.316345303142552,
+            "weighted_contribution": 0.000329086325785638,
+            "weighted_contribution_pct": 0.0329086325785638
+          },
+          {
+            "symbol": "STLD",
+            "score": 105.70971039965856,
+            "weight": 0.025,
+            "raw_return": 0.022750137306219775,
+            "raw_return_pct": 2.2750137306219775,
+            "weighted_contribution": 0.0005687534326554944,
+            "weighted_contribution_pct": 0.05687534326554944
+          }
+        ]
+      },
+      {
+        "date": "2022-02-28",
+        "next_date": "2022-03-01",
+        "regime": "SIDEWAYS",
+        "subclass": "MA_CONFLICT",
+        "is_active": true,
+        "candidate_count": 528,
+        "selected_count": 10,
+        "holdings_len": 10,
+        "gross_exposure": 0.25,
+        "portfolio_return": 0.0009421665493280747,
+        "portfolio_return_pct": 0.09421665493280747,
+        "spx_return": -0.015473503503234176,
+        "spx_return_pct": -1.5473503503234176,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ],
+        "holdings_sample": [
+          {
+            "symbol": "ATI",
+            "score": 223.22131517247595,
+            "weight": 0.025,
+            "raw_return": -0.010878049728049621,
+            "raw_return_pct": -1.0878049728049621,
+            "weighted_contribution": -0.00027195124320124054,
+            "weighted_contribution_pct": -0.027195124320124053
+          },
+          {
+            "symbol": "MOS",
+            "score": 171.00438474487768,
+            "weight": 0.025,
+            "raw_return": -0.01068107008575725,
+            "raw_return_pct": -1.068107008575725,
+            "weighted_contribution": -0.00026702675214393124,
+            "weighted_contribution_pct": -0.026702675214393123
+          },
+          {
+            "symbol": "NUE",
+            "score": 131.8472956518332,
+            "weight": 0.025,
+            "raw_return": -0.004710568830061601,
+            "raw_return_pct": -0.4710568830061601,
+            "weighted_contribution": -0.00011776422075154003,
+            "weighted_contribution_pct": -0.011776422075154003
+          },
+          {
+            "symbol": "DVN",
+            "score": 130.49539353911393,
+            "weight": 0.025,
+            "raw_return": -0.0050375942282693265,
+            "raw_return_pct": -0.5037594228269326,
+            "weighted_contribution": -0.00012593985570673316,
+            "weighted_contribution_pct": -0.012593985570673316
+          },
+          {
+            "symbol": "OXY",
+            "score": 128.34753595476212,
+            "weight": 0.025,
+            "raw_return": 0.06997490074126089,
+            "raw_return_pct": 6.997490074126089,
+            "weighted_contribution": 0.0017493725185315223,
+            "weighted_contribution_pct": 0.17493725185315223
+          }
+        ]
+      }
+    ],
+    "inactive_with_candidate_samples": [
+      {
+        "date": "2022-03-14",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-03-15",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-03-16",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-03-17",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-03-18",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-03-21",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-03-22",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-03-23",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-03-24",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-03-25",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-04-11",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-04-12",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-04-13",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-04-14",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-04-18",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-04-19",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-04-20",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-04-21",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-04-22",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      },
+      {
+        "date": "2022-04-25",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0
+      }
+    ],
+    "deterioration_recovery_samples": [
+      {
+        "date": "2022-03-14",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-03-15",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-03-16",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-03-17",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-03-18",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-03-21",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-03-22",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-03-23",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-03-24",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-03-25",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-11",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-12",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-13",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-14",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-18",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-19",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-20",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-21",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-22",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-25",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-26",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-27",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-28",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-04-29",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-05-02",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-05-03",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-05-04",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 529,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-05-05",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 529,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-05-06",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 529,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      },
+      {
+        "date": "2022-05-09",
+        "regime": "SIDEWAYS",
+        "subclass": "DETERIORATION_TRANSITION",
+        "is_active": false,
+        "candidate_count": 528,
+        "selected_count": 0,
+        "holdings_len": 0,
+        "gross_exposure": 0.0,
+        "strict_active": false,
+        "keys": [
+          "candidate_count",
+          "date",
+          "gross_exposure",
+          "holdings",
+          "is_active",
+          "next_date",
+          "portfolio_return",
+          "portfolio_return_pct",
+          "regime",
+          "selected_count",
+          "spx_return",
+          "spx_return_pct",
+          "subclass"
+        ]
+      }
+    ],
+    "field_interpretation": {
+      "candidate_count": "candidate/universe count only; must not be treated as live selected positions.",
+      "selected_count": "sidecar selected basket count; Top10 candidate/selection pool, not full-account live holdings.",
+      "holdings": "sidecar holdings basket used to compute sleeve return.",
+      "gross_exposure": "sidecar sleeve gross exposure, expected cap 0.25.",
+      "is_active": "sidecar activation flag from original sidecar function."
+    }
+  },
+  "validations": {
+    "strategy_files_unchanged": true,
+    "backtest_engine_run": false,
+    "dashboard_changed": false,
+    "official_result_generated": false,
+    "sidecar_called_ok": true,
+    "records_exist": true,
+    "strict_active_only_sideways": true,
+    "strict_active_only_ma_conflict": true,
+    "deterioration_recovery_not_strict_active": true,
+    "selected_count_max_eq_10": true,
+    "gross_exposure_max_eq_025": true,
+    "candidate_count_not_used_as_live_holdings": true
+  },
+  "conclusion": "ORIGINAL_SIDECAR_STRICT_AUDIT_FAILED",
+  "recommended_next_action": "Do not run full 5Y. Review failed validations."
+}
