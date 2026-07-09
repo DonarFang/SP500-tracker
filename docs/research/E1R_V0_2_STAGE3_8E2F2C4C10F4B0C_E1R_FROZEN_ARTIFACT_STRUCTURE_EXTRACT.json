@@ -1,0 +1,227 @@
+{
+  "generated_at": "2026-07-09T09:29:04.817400+00:00",
+  "stage": "B_STAGE_3_8E2F2C4C10F4B0C_E1R_FROZEN_ARTIFACT_STRUCTURE_EXTRACT",
+  "status": "E1R_FROZEN_ARTIFACT_STRUCTURE_EXTRACT_COMPLETE_NO_EXPORTS_WRITTEN",
+  "policy": {
+    "dashboard_changed": false,
+    "workflow_changed": false,
+    "strategy_logic_changed": false,
+    "e1r_canonical_written": false,
+    "portfolio_equity_composed": false,
+    "full_backtest_rerun": false
+  },
+  "source": {
+    "path": "docs/research/E1R_V0_2_STAGE3_8E2F2C4C4_GENERATOR_INTERNALS_EXPORT_WRAPPER_PROTOTYPE.json",
+    "target_path": "$.inspection.exports/e1r_v0_2_backtest_summary.json",
+    "source_exists": true,
+    "target_node_type": "dict"
+  },
+  "classification": {
+    "exists": true,
+    "direct_summary": {
+      "type": "dict",
+      "len": 6,
+      "keys": [
+        "exists",
+        "json_valid",
+        "lists",
+        "metrics",
+        "top_keys",
+        "type"
+      ],
+      "metric_like_values": {},
+      "top_keys_list_len": 20,
+      "top_keys_first_type": "str",
+      "lists_dict_keys": [],
+      "lists_dict_metric_like_values": {},
+      "metrics_dict_keys": [
+        "alpha_pct",
+        "max_drawdown_pct",
+        "profit_factor",
+        "sharpe_ratio",
+        "spx_return_pct",
+        "strategy_id",
+        "total_return_pct",
+        "variant"
+      ],
+      "metrics_dict_metric_like_values": {
+        "strategy_id": "E1R_REGIME_AWARE_V0_2",
+        "total_return_pct": 116.7435999134756,
+        "spx_return_pct": 76.844174428316,
+        "alpha_pct": 39.89942548515961,
+        "max_drawdown_pct": 25.904809362815108,
+        "profit_factor": 1.1919630955509348,
+        "sharpe_ratio": 0.7957270568329264
+      }
+    },
+    "direct_child_summaries": {
+      "top_keys": {
+        "type": "list",
+        "len": 20,
+        "first_type": "str",
+        "first_keys": null,
+        "first": [
+          "alpha_pct",
+          "artifact_type",
+          "composition_exists"
+        ],
+        "last": [
+          "strategy_id",
+          "total_return_pct",
+          "variant"
+        ]
+      },
+      "lists": {
+        "type": "dict",
+        "len": 0,
+        "keys": [],
+        "metric_like_values": {}
+      },
+      "metrics": {
+        "type": "dict",
+        "len": 8,
+        "keys": [
+          "alpha_pct",
+          "max_drawdown_pct",
+          "profit_factor",
+          "sharpe_ratio",
+          "spx_return_pct",
+          "strategy_id",
+          "total_return_pct",
+          "variant"
+        ],
+        "metric_like_values": {
+          "strategy_id": "E1R_REGIME_AWARE_V0_2",
+          "total_return_pct": 116.7435999134756,
+          "spx_return_pct": 76.844174428316,
+          "alpha_pct": 39.89942548515961,
+          "max_drawdown_pct": 25.904809362815108,
+          "profit_factor": 1.1919630955509348,
+          "sharpe_ratio": 0.7957270568329264
+        }
+      }
+    },
+    "key_nodes": [
+      {
+        "path": "$.inspection.exports/e1r_v0_2_backtest_summary.json",
+        "matched_keys": [
+          "metrics"
+        ],
+        "summary": {
+          "type": "dict",
+          "len": 6,
+          "keys": [
+            "exists",
+            "json_valid",
+            "lists",
+            "metrics",
+            "top_keys",
+            "type"
+          ],
+          "metric_like_values": {},
+          "top_keys_list_len": 20,
+          "top_keys_first_type": "str",
+          "lists_dict_keys": [],
+          "lists_dict_metric_like_values": {},
+          "metrics_dict_keys": [
+            "alpha_pct",
+            "max_drawdown_pct",
+            "profit_factor",
+            "sharpe_ratio",
+            "spx_return_pct",
+            "strategy_id",
+            "total_return_pct",
+            "variant"
+          ],
+          "metrics_dict_metric_like_values": {
+            "strategy_id": "E1R_REGIME_AWARE_V0_2",
+            "total_return_pct": 116.7435999134756,
+            "spx_return_pct": 76.844174428316,
+            "alpha_pct": 39.89942548515961,
+            "max_drawdown_pct": 25.904809362815108,
+            "profit_factor": 1.1919630955509348,
+            "sharpe_ratio": 0.7957270568329264
+          }
+        }
+      }
+    ],
+    "metric_matches": [
+      {
+        "path": "$.inspection.exports/e1r_v0_2_backtest_summary.json.metrics",
+        "score": 60,
+        "matched": {
+          "total_return_pct": {
+            "value": 116.7435999134756,
+            "target": 116.7435999134756
+          },
+          "spx_return_pct": {
+            "value": 76.844174428316,
+            "target": 76.844174428316
+          },
+          "alpha_pct": {
+            "value": 39.89942548515961,
+            "target": 39.89942548515961
+          },
+          "max_drawdown_pct": {
+            "value": 25.904809362815108,
+            "target": 25.904809362815108
+          },
+          "profit_factor": {
+            "value": 1.1919630955509348,
+            "target": 1.1919630955509348
+          },
+          "sharpe_ratio": {
+            "value": 0.7957270568329264,
+            "target": 0.7957270568329264
+          }
+        },
+        "diffs": {
+          "total_return_pct": 0.0,
+          "spx_return_pct": 0.0,
+          "alpha_pct": 0.0,
+          "max_drawdown_pct": 0.0,
+          "profit_factor": 0.0,
+          "sharpe_ratio": 0.0
+        },
+        "summary": {
+          "type": "dict",
+          "len": 8,
+          "keys": [
+            "alpha_pct",
+            "max_drawdown_pct",
+            "profit_factor",
+            "sharpe_ratio",
+            "spx_return_pct",
+            "strategy_id",
+            "total_return_pct",
+            "variant"
+          ],
+          "metric_like_values": {
+            "strategy_id": "E1R_REGIME_AWARE_V0_2",
+            "total_return_pct": 116.7435999134756,
+            "spx_return_pct": 76.844174428316,
+            "alpha_pct": 39.89942548515961,
+            "max_drawdown_pct": 25.904809362815108,
+            "profit_factor": 1.1919630955509348,
+            "sharpe_ratio": 0.7957270568329264
+          }
+        }
+      }
+    ],
+    "presence": {
+      "has_core_variant_result": false,
+      "has_sidecar_result": false,
+      "has_daily_equity_like_node": false,
+      "metric_match_count": 1
+    }
+  },
+  "conclusion": "FROZEN_METRICS_PRESENT_BUT_DAILY_EQUITY_NOT_PERSISTED_IN_THIS_ARTIFACT",
+  "recommended_next_action": "Use the artifact to identify generator/export path; recover exact daily equity from related files or rerun targeted export wrapper.",
+  "strategy_files_unchanged": true,
+  "canonical_existence_unchanged": true,
+  "next_stage": {
+    "name": "Stage 3.8E-2F-2C-4C-10F-4B-0D",
+    "title": "Extract exact E1R daily equity candidate or recover generator path",
+    "recommended_action": "Use the artifact to identify generator/export path; recover exact daily equity from related files or rerun targeted export wrapper."
+  }
+}
