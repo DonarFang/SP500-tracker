@@ -176,19 +176,33 @@ def interval_stats(intervals: list[Any]) -> dict[str, Any]:
 def normalize_sidecar_record(r: dict[str, Any]) -> dict[str, Any]:
     date = normalize_date(r.get("date"))
     next_date = normalize_date(r.get("next_date"))
+
+    # Frozen sidecar generator raw contract:
+    #   is_active            -> sidecar_active
+    #   portfolio_return     -> sidecar_return
+    #   portfolio_return_pct -> sidecar_return_pct
+    #   gross_exposure       -> sidecar_gross_exposure
+    #   selected_count       -> sidecar_selected_count
+    #   holdings             -> sidecar_holdings
+    active_raw = r.get("sidecar_active")
+    if active_raw is None:
+        active_raw = r.get("is_active")
+
     return {
         "date": date,
         "next_date": next_date,
         "regime": r.get("regime") or r.get("spx_regime"),
         "subclass": r.get("subclass") or r.get("sideways_subclass"),
-        "sidecar_active": bool(r.get("sidecar_active")),
-        "sidecar_return": as_float(r.get("sidecar_return"), 0.0),
-        "sidecar_return_pct": r.get("sidecar_return_pct"),
+        "sidecar_active": bool(active_raw),
+        "sidecar_return": as_float(r.get("sidecar_return", r.get("portfolio_return")), 0.0),
+        "sidecar_return_pct": r.get("sidecar_return_pct", r.get("portfolio_return_pct")),
         "spx_return": r.get("spx_return"),
         "spx_return_pct": r.get("spx_return_pct"),
-        "sidecar_gross_exposure": r.get("sidecar_gross_exposure"),
-        "sidecar_selected_count": r.get("sidecar_selected_count"),
-        "sidecar_holdings": r.get("sidecar_holdings"),
+        "sidecar_gross_exposure": r.get("sidecar_gross_exposure", r.get("gross_exposure")),
+        "sidecar_selected_count": r.get("sidecar_selected_count", r.get("selected_count")),
+        "sidecar_holdings": r.get("sidecar_holdings", r.get("holdings")),
+        "candidate_count": r.get("candidate_count"),
+        "raw_contract": "is_active/portfolio_return/gross_exposure/selected_count/holdings",
     }
 
 def main() -> int:
