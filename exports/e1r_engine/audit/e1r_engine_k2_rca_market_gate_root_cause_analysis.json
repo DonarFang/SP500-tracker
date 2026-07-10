@@ -1,0 +1,947 @@
+{
+  "generated_at": "2026-07-10T12:05:43.181844+00:00",
+  "elapsed_seconds": 0.001703,
+  "stage": "4C-2C-4E-ENGINE-K2-RCA",
+  "status": "MARKET_GATE_ROOT_CAUSE_ANALYSIS_COMPLETE",
+  "purpose": "Stop implementation and document root cause analysis after repeated market gate extraction failures.",
+  "policy": {
+    "strategy_logic_changed": false,
+    "audit_only": true,
+    "implementation_paused": true,
+    "formula_not_patched": true,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "frozen_strategy_files_changed": false
+  },
+  "evidence": {
+    "k2_r1_formula_audit": {
+      "status": "MARKET_GATE_FORMULA_AUDIT_COMPLETE",
+      "expected_summary": {
+        "distribution": {
+          "ALLOW": 53,
+          "RISK_OFF": 8,
+          "SHOCK": 1
+        },
+        "examples": {
+          "ALLOW": [
+            {
+              "date": "2021-04-05",
+              "spx_close": 4077.91,
+              "spx_ma50": 3892.47,
+              "spx_day_return_pct": 1.4438,
+              "market_gate_state": "ALLOW"
+            },
+            {
+              "date": "2021-04-06",
+              "spx_close": 4073.94,
+              "spx_ma50": 3897.12,
+              "spx_day_return_pct": -0.0974,
+              "market_gate_state": "ALLOW"
+            },
+            {
+              "date": "2021-04-07",
+              "spx_close": 4079.95,
+              "spx_ma50": 3901.61,
+              "spx_day_return_pct": 0.1475,
+              "market_gate_state": "ALLOW"
+            },
+            {
+              "date": "2021-04-08",
+              "spx_close": 4097.17,
+              "spx_ma50": 3906.56,
+              "spx_day_return_pct": 0.4221,
+              "market_gate_state": "ALLOW"
+            },
+            {
+              "date": "2021-04-09",
+              "spx_close": 4128.8,
+              "spx_ma50": 3914.12,
+              "spx_day_return_pct": 0.772,
+              "market_gate_state": "ALLOW"
+            },
+            {
+              "date": "2021-04-12",
+              "spx_close": 4127.99,
+              "spx_ma50": 3920.94,
+              "spx_day_return_pct": -0.0196,
+              "market_gate_state": "ALLOW"
+            },
+            {
+              "date": "2021-04-13",
+              "spx_close": 4141.59,
+              "spx_ma50": 3929.48,
+              "spx_day_return_pct": 0.3294,
+              "market_gate_state": "ALLOW"
+            },
+            {
+              "date": "2021-04-14",
+              "spx_close": 4124.66,
+              "spx_ma50": 3936.5,
+              "spx_day_return_pct": -0.4088,
+              "market_gate_state": "ALLOW"
+            },
+            {
+              "date": "2021-04-15",
+              "spx_close": 4170.42,
+              "spx_ma50": 3943.38,
+              "spx_day_return_pct": 1.1094,
+              "market_gate_state": "ALLOW"
+            },
+            {
+              "date": "2021-04-16",
+              "spx_close": 4185.47,
+              "spx_ma50": 3950.49,
+              "spx_day_return_pct": 0.3609,
+              "market_gate_state": "ALLOW"
+            }
+          ],
+          "RISK_OFF": [
+            {
+              "date": "2021-05-10",
+              "spx_close": 4188.43,
+              "spx_ma50": 4041.08,
+              "spx_day_return_pct": -1.0436,
+              "market_gate_state": "RISK_OFF"
+            },
+            {
+              "date": "2021-05-11",
+              "spx_close": 4152.1,
+              "spx_ma50": 4046.08,
+              "spx_day_return_pct": -0.8674,
+              "market_gate_state": "RISK_OFF"
+            },
+            {
+              "date": "2021-05-13",
+              "spx_close": 4112.5,
+              "spx_ma50": 4055.8,
+              "spx_day_return_pct": 1.2173,
+              "market_gate_state": "RISK_OFF"
+            },
+            {
+              "date": "2021-05-14",
+              "spx_close": 4173.85,
+              "spx_ma50": 4063.9,
+              "spx_day_return_pct": 1.4918,
+              "market_gate_state": "RISK_OFF"
+            },
+            {
+              "date": "2021-05-17",
+              "spx_close": 4163.29,
+              "spx_ma50": 4070.33,
+              "spx_day_return_pct": -0.253,
+              "market_gate_state": "RISK_OFF"
+            },
+            {
+              "date": "2021-05-18",
+              "spx_close": 4127.83,
+              "spx_ma50": 4076.46,
+              "spx_day_return_pct": -0.8517,
+              "market_gate_state": "RISK_OFF"
+            },
+            {
+              "date": "2021-05-19",
+              "spx_close": 4115.68,
+              "spx_ma50": 4081.26,
+              "spx_day_return_pct": -0.2943,
+              "market_gate_state": "RISK_OFF"
+            },
+            {
+              "date": "2021-05-21",
+              "spx_close": 4155.86,
+              "spx_ma50": 4090.8,
+              "spx_day_return_pct": -0.0784,
+              "market_gate_state": "RISK_OFF"
+            }
+          ],
+          "SHOCK": [
+            {
+              "date": "2021-05-12",
+              "spx_close": 4063.04,
+              "spx_ma50": 4049.94,
+              "spx_day_return_pct": -2.1449,
+              "market_gate_state": "SHOCK"
+            }
+          ]
+        }
+      },
+      "basic_formula_mismatch_count": 9,
+      "exact_formula_candidates": [],
+      "requires_source_formula_patch": true,
+      "source": "docs/research/E1R_4C2C4E_ENGINE_K2_R1_MARKET_GATE_FORMULA_AUDIT.json"
+    },
+    "k2_r2_source_trace": {
+      "status": "MARKET_GATE_SOURCE_TRACE_COMPLETE",
+      "source": {
+        "backtest_path": "src/engine/backtest.py",
+        "backtest_sha256": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+        "function_bounds": {
+          "name": "run_stateful_simulation",
+          "start_line": 763,
+          "end_line": 2486,
+          "line_count": 1724
+        }
+      },
+      "hit_summary": {
+        "hit_count": 117,
+        "by_keyword": {
+          "D3_RISK_OFF_PLUS_SHOCK_GATE": 1,
+          "RiskOff": 1,
+          "SPX<MA50": 1,
+          "Shock": 1,
+          "gate=": 2,
+          "gate_state": 5,
+          "ma50": 59,
+          "market_entry_gate": 1,
+          "market_gate": 25,
+          "market_gate_state": 2,
+          "risk_off": 13,
+          "shock": 27,
+          "spx_ma50": 14
+        },
+        "by_regex": {
+          "D3_RISK_OFF_PLUS_SHOCK_GATE": 1,
+          "SPX<MA50": 1,
+          "gate_state\\s*=": 2,
+          "market_gate": 25,
+          "risk_off\\s*=": 3,
+          "shock\\s*=": 3,
+          "spx_ma50\\s*=": 1
+        },
+        "hit_lines": [
+          847,
+          848,
+          858,
+          859,
+          885,
+          891,
+          896,
+          897,
+          911,
+          912,
+          913,
+          914,
+          927,
+          928,
+          929,
+          930,
+          938,
+          1037,
+          1038,
+          1072,
+          1074,
+          1075,
+          1386,
+          1393,
+          1397,
+          1398,
+          1400,
+          1404,
+          1405,
+          1407,
+          1413,
+          1414,
+          1421,
+          1428,
+          1434,
+          1435,
+          1436,
+          1437,
+          1438,
+          1447,
+          1448,
+          1449,
+          1450,
+          1459,
+          1464,
+          1466,
+          1475,
+          1483,
+          1484,
+          1487,
+          1488,
+          1489,
+          1490,
+          1492,
+          1494,
+          1510,
+          1512,
+          1525,
+          1531,
+          1572,
+          1573,
+          1574,
+          1584,
+          1601,
+          1602,
+          1634,
+          1644,
+          1653,
+          1654,
+          1661,
+          1662,
+          1688,
+          1690,
+          1739,
+          1740,
+          1768,
+          1769,
+          1820,
+          1824,
+          1833,
+          1834,
+          1872,
+          1876,
+          1904,
+          1905,
+          1906,
+          1912,
+          1922,
+          1938,
+          1939,
+          1940,
+          1941,
+          1942,
+          1972,
+          1977,
+          1992,
+          1997,
+          2137,
+          2138,
+          2142,
+          2155,
+          2157,
+          2160,
+          2330,
+          2331,
+          2332,
+          2333,
+          2373,
+          2374,
+          2404,
+          2405,
+          2406,
+          2407,
+          2408,
+          2409,
+          2410,
+          2414
+        ]
+      },
+      "critical_cluster_count": 9,
+      "best_diagnostic_hypotheses": [
+        {
+          "name": "trigger_dayret_None_cooldown_5_include_ma50_False",
+          "ok": false,
+          "mismatch_count": 3,
+          "distribution": {
+            "ALLOW": 56,
+            "SHOCK": 1,
+            "RISK_OFF": 5
+          },
+          "mismatches": [
+            {
+              "date": "2021-05-10",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -1.0436,
+              "close": 4188.43,
+              "ma50": 4041.08
+            },
+            {
+              "date": "2021-05-11",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -0.8674,
+              "close": 4152.1,
+              "ma50": 4046.08
+            },
+            {
+              "date": "2021-05-21",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -0.0784,
+              "close": 4155.86,
+              "ma50": 4090.8
+            }
+          ]
+        },
+        {
+          "name": "trigger_dayret_None_cooldown_7_include_ma50_False",
+          "ok": false,
+          "mismatch_count": 3,
+          "distribution": {
+            "ALLOW": 54,
+            "SHOCK": 1,
+            "RISK_OFF": 7
+          },
+          "mismatches": [
+            {
+              "date": "2021-05-10",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -1.0436,
+              "close": 4188.43,
+              "ma50": 4041.08
+            },
+            {
+              "date": "2021-05-11",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -0.8674,
+              "close": 4152.1,
+              "ma50": 4046.08
+            },
+            {
+              "date": "2021-05-20",
+              "expected": "ALLOW",
+              "actual": "RISK_OFF",
+              "day_ret": 1.0555,
+              "close": 4159.12,
+              "ma50": 4086.47
+            }
+          ]
+        },
+        {
+          "name": "trigger_dayret_-1.5_cooldown_5_include_ma50_False",
+          "ok": false,
+          "mismatch_count": 3,
+          "distribution": {
+            "ALLOW": 56,
+            "SHOCK": 1,
+            "RISK_OFF": 5
+          },
+          "mismatches": [
+            {
+              "date": "2021-05-10",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -1.0436,
+              "close": 4188.43,
+              "ma50": 4041.08
+            },
+            {
+              "date": "2021-05-11",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -0.8674,
+              "close": 4152.1,
+              "ma50": 4046.08
+            },
+            {
+              "date": "2021-05-21",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -0.0784,
+              "close": 4155.86,
+              "ma50": 4090.8
+            }
+          ]
+        },
+        {
+          "name": "trigger_dayret_-1.5_cooldown_7_include_ma50_False",
+          "ok": false,
+          "mismatch_count": 3,
+          "distribution": {
+            "ALLOW": 54,
+            "SHOCK": 1,
+            "RISK_OFF": 7
+          },
+          "mismatches": [
+            {
+              "date": "2021-05-10",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -1.0436,
+              "close": 4188.43,
+              "ma50": 4041.08
+            },
+            {
+              "date": "2021-05-11",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -0.8674,
+              "close": 4152.1,
+              "ma50": 4046.08
+            },
+            {
+              "date": "2021-05-20",
+              "expected": "ALLOW",
+              "actual": "RISK_OFF",
+              "day_ret": 1.0555,
+              "close": 4159.12,
+              "ma50": 4086.47
+            }
+          ]
+        },
+        {
+          "name": "trigger_dayret_None_cooldown_4_include_ma50_False",
+          "ok": false,
+          "mismatch_count": 4,
+          "distribution": {
+            "ALLOW": 57,
+            "SHOCK": 1,
+            "RISK_OFF": 4
+          },
+          "mismatches": [
+            {
+              "date": "2021-05-10",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -1.0436,
+              "close": 4188.43,
+              "ma50": 4041.08
+            },
+            {
+              "date": "2021-05-11",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -0.8674,
+              "close": 4152.1,
+              "ma50": 4046.08
+            },
+            {
+              "date": "2021-05-19",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -0.2943,
+              "close": 4115.68,
+              "ma50": 4081.26
+            },
+            {
+              "date": "2021-05-21",
+              "expected": "RISK_OFF",
+              "actual": "ALLOW",
+              "day_ret": -0.0784,
+              "close": 4155.86,
+              "ma50": 4090.8
+            }
+          ]
+        }
+      ],
+      "source_file": "docs/research/E1R_4C2C4E_ENGINE_K2_R2_MARKET_GATE_SOURCE_TRACE.json"
+    },
+    "k2_r3_source_line_drilldown": {
+      "status": "MARKET_GATE_SOURCE_LINE_DRILLDOWN_COMPLETE",
+      "important_line_numbers": [
+        914,
+        929,
+        1525,
+        2137,
+        2142,
+        2155
+      ],
+      "assignment_lines": [
+        {
+          "line": 2137,
+          "indent": 12,
+          "text": "            gate_state = \"ALLOW\" if market_entry_allowed else (",
+          "matched_any": [
+            "\\bgate_state\\b"
+          ],
+          "matched_assign": [
+            "\\bgate_state\\s*="
+          ],
+          "matched_control": []
+        },
+        {
+          "line": 2332,
+          "indent": 16,
+          "text": "                f\"risk_off={market_gate_days['risk_off']} \"",
+          "matched_any": [
+            "\\brisk_off\\b"
+          ],
+          "matched_assign": [
+            "\\brisk_off\\s*="
+          ],
+          "matched_control": []
+        },
+        {
+          "line": 2333,
+          "indent": 16,
+          "text": "                f\"shock={market_gate_days['market_shock']}\")",
+          "matched_any": [
+            "\\bshock\\b"
+          ],
+          "matched_assign": [
+            "\\bshock\\s*="
+          ],
+          "matched_control": []
+        }
+      ],
+      "control_lines": [
+        {
+          "line": 912,
+          "indent": 8,
+          "text": "        \"D1_NO_MARKET_GATE\" if not market_gate_enabled else",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*market_gate"
+          ]
+        },
+        {
+          "line": 913,
+          "indent": 8,
+          "text": "        \"D2_RISK_OFF_GATE\" if not market_shock_gate_enabled else",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*shock"
+          ]
+        },
+        {
+          "line": 1393,
+          "indent": 8,
+          "text": "        if not market_gate_enabled:",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*market_gate"
+          ]
+        },
+        {
+          "line": 1487,
+          "indent": 12,
+          "text": "            if market_risk_off:",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*risk_off"
+          ]
+        },
+        {
+          "line": 1489,
+          "indent": 12,
+          "text": "            if market_shock:",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*shock"
+          ]
+        },
+        {
+          "line": 1512,
+          "indent": 12,
+          "text": "            \"SHOCK\" if market_shock else \"RISK_OFF\"",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*shock"
+          ]
+        },
+        {
+          "line": 1820,
+          "indent": 20,
+          "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*market_gate"
+          ]
+        },
+        {
+          "line": 1824,
+          "indent": 24,
+          "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\"",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*risk_off",
+            "\\bif\\b.*shock"
+          ]
+        },
+        {
+          "line": 1872,
+          "indent": 20,
+          "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*market_gate"
+          ]
+        },
+        {
+          "line": 1876,
+          "indent": 24,
+          "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\"",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*risk_off",
+            "\\bif\\b.*shock"
+          ]
+        },
+        {
+          "line": 1972,
+          "indent": 20,
+          "text": "                    reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\"",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*risk_off",
+            "\\bif\\b.*shock"
+          ]
+        },
+        {
+          "line": 1997,
+          "indent": 16,
+          "text": "                if action == \"ADD\" and market_gate_enabled and market_state in (\"CAUTIOUS_ON\", \"CASH_MODE\"):",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*market_gate"
+          ]
+        },
+        {
+          "line": 2138,
+          "indent": 16,
+          "text": "                \"SHOCK\" if market_shock else \"RISK_OFF\"",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*shock"
+          ]
+        },
+        {
+          "line": 2157,
+          "indent": 20,
+          "text": "                    \"SHOCK\" if market_shock else \"RISK_OFF\"",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*shock"
+          ]
+        },
+        {
+          "line": 2407,
+          "indent": 12,
+          "text": "            \"risk_off_rule\": \"SPX close < SPX MA50\" if risk_off_below_spx_ma50 else \"disabled\",",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*risk_off"
+          ]
+        },
+        {
+          "line": 2410,
+          "indent": 16,
+          "text": "                if market_shock_gate_enabled else \"disabled\"",
+          "matched_any": [],
+          "matched_assign": [],
+          "matched_control": [
+            "\\bif\\b.*shock"
+          ]
+        }
+      ],
+      "source_file": "docs/research/E1R_4C2C4E_ENGINE_K2_R3_MARKET_GATE_SOURCE_LINE_DRILLDOWN.json"
+    }
+  },
+  "confirmed_findings": [
+    {
+      "id": "F1",
+      "finding": "The simplified K2 market gate formula is not equivalent to legacy output.",
+      "evidence": {
+        "expected_distribution": {
+          "ALLOW": 53,
+          "RISK_OFF": 8,
+          "SHOCK": 1
+        },
+        "basic_formula_mismatch_count": 9,
+        "exact_formula_candidates": []
+      },
+      "impact": "Standalone market gate cannot proceed to candidate extraction until fixed."
+    },
+    {
+      "id": "F2",
+      "finding": "The legacy RISK_OFF days in the golden master are not explained by same-day SPX close < same-day SPX MA50.",
+      "evidence": [
+        {
+          "date": "2021-05-10",
+          "spx_close": 4188.43,
+          "spx_ma50": 4041.08,
+          "spx_day_return_pct": -1.0436,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-11",
+          "spx_close": 4152.1,
+          "spx_ma50": 4046.08,
+          "spx_day_return_pct": -0.8674,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-13",
+          "spx_close": 4112.5,
+          "spx_ma50": 4055.8,
+          "spx_day_return_pct": 1.2173,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-14",
+          "spx_close": 4173.85,
+          "spx_ma50": 4063.9,
+          "spx_day_return_pct": 1.4918,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-17",
+          "spx_close": 4163.29,
+          "spx_ma50": 4070.33,
+          "spx_day_return_pct": -0.253,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-18",
+          "spx_close": 4127.83,
+          "spx_ma50": 4076.46,
+          "spx_day_return_pct": -0.8517,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-19",
+          "spx_close": 4115.68,
+          "spx_ma50": 4081.26,
+          "spx_day_return_pct": -0.2943,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-21",
+          "spx_close": 4155.86,
+          "spx_ma50": 4090.8,
+          "spx_day_return_pct": -0.0784,
+          "market_gate_state": "RISK_OFF"
+        }
+      ],
+      "impact": "Formula must be traced from source variables, not inferred from rounded daily output fields."
+    },
+    {
+      "id": "F3",
+      "finding": "daily_equity_records.market_gate_state stores `_gate_state`; logging/daily_records use a separate local expression based on market_entry_allowed / market_shock.",
+      "evidence": {
+        "daily_equity_record_line": "L1525: \"market_gate_state\": _gate_state",
+        "logging_gate_lines": [
+          "L2137: gate_state = \"ALLOW\" if market_entry_allowed else (",
+          "L2138:     \"SHOCK\" if market_shock else \"RISK_OFF\"",
+          "L2155-L2158: daily_records market_gate_state uses market_entry_allowed / market_shock"
+        ],
+        "source": "docs/research/E1R_4C2C4E_ENGINE_K2_R3_MARKET_GATE_SOURCE_LINE_DRILLDOWN.json"
+      },
+      "impact": "The extraction target must be explicitly chosen: daily_equity_records._gate_state, not logger gate_state unless proven identical."
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "U1",
+      "unknown": "Exact assignment location and computation chain for `_gate_state` before line 1525.",
+      "required_evidence": "Source lines showing `_gate_state = ...` and all variables feeding that assignment.",
+      "blocking": true
+    },
+    {
+      "id": "U2",
+      "unknown": "Exact computation chain for `market_entry_allowed`, `market_risk_off`, and `market_shock` on every day.",
+      "required_evidence": "Source lines for assignments and updates, plus row-level replay trace.",
+      "blocking": true
+    },
+    {
+      "id": "U3",
+      "unknown": "Whether `_gate_state` is based on current-day values, previous-day values, execution-day alignment, or rounded/unrounded source arrays.",
+      "required_evidence": "Variable-level trace for dates 2021-05-03 through 2021-05-24 and 2021-06-18.",
+      "blocking": true
+    }
+  ],
+  "root_causes": [
+    {
+      "id": "RC1",
+      "category": "Evidence discipline",
+      "root_cause": "Implementation was attempted from an inferred formula before the exact source assignment chain was located.",
+      "corrective_action": "No extraction implementation until source assignment line and dependencies are identified."
+    },
+    {
+      "id": "RC2",
+      "category": "Field identity",
+      "root_cause": "Different gate-related fields were treated as equivalent: `_gate_state`, `gate_state`, and market_entry_allowed-derived state.",
+      "corrective_action": "Define a field identity table before patching: source field, assignment line, consumer, and equivalence target."
+    },
+    {
+      "id": "RC3",
+      "category": "Process control",
+      "root_cause": "After the first mismatch, the process continued into multiple audit stages without an explicit RCA gate.",
+      "corrective_action": "Introduce a three-strike stop rule and RCA requirement for repeated failures around the same issue."
+    },
+    {
+      "id": "RC4",
+      "category": "Trace quality",
+      "root_cause": "Existing golden master trace lacks variable-level market gate internals, so formula reconstruction from output rows alone is underdetermined.",
+      "corrective_action": "Add an audit-only variable trace script that reads source/output and reports exact dependencies before any patch."
+    }
+  ],
+  "recovery_plan": {
+    "stage": "4C-2C-4E-ENGINE-K2-RCA",
+    "status": "STOP_IMPLEMENTATION_UNTIL_RCA_ACCEPTED",
+    "do_not_do_next": [
+      "Do not patch compute_market_gate_state yet.",
+      "Do not proceed to candidate/ranking extraction.",
+      "Do not run full 5Y.",
+      "Do not generate official/dashboard result.",
+      "Do not infer a formula from output rows alone."
+    ],
+    "required_next_stage": "4C-2C-4E-ENGINE-K2-R4-SOURCE_DEPENDENCY_TRACE",
+    "required_next_stage_scope": [
+      "Search explicitly for `_gate_state` assignment in src/engine/backtest.py.",
+      "Search explicitly for `market_entry_allowed`, `market_risk_off`, and `market_shock` assignments.",
+      "Build a variable dependency table with line numbers.",
+      "Generate focused source snippets around each assignment.",
+      "Extract row-level values for the mismatch window from the legacy run if available.",
+      "Only after this dependency trace passes, write K2-R5 formula patch."
+    ],
+    "acceptance_criteria_before_formula_patch": [
+      "`_gate_state` assignment line is found.",
+      "Every variable used by `_gate_state` is traced to a source line.",
+      "Extraction target is explicitly confirmed as `daily_equity_records.market_gate_state`.",
+      "No unresolved unknowns U1-U3 remain.",
+      "Patch proposal cites exact source lines."
+    ],
+    "process_rule_added": {
+      "three_strike_rule": "If the same issue fails or is corrected incorrectly around three times, stop implementation and perform RCA before continuing.",
+      "evidence_rule": "No source-code extraction patch may be implemented from assumption. The patch must cite source lines, logs, or test evidence."
+    }
+  },
+  "validations": {
+    "rca_complete": true,
+    "implementation_paused": true,
+    "strategy_logic_changed": false,
+    "audit_only": true,
+    "formula_not_patched": true,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "strategy_files_unchanged": true,
+    "k2_r1_loaded": true,
+    "k2_r2_loaded": true,
+    "k2_r3_loaded": true,
+    "confirmed_findings_documented": true,
+    "unknowns_documented": true,
+    "root_causes_documented": true,
+    "recovery_plan_defined": true,
+    "three_strike_rule_added": true,
+    "evidence_rule_added": true
+  },
+  "decision": {
+    "k2_rca_passed": true,
+    "implementation_may_resume": false,
+    "formula_patch_allowed_now": false,
+    "candidate_extraction_allowed_now": false,
+    "required_next_stage": "4C-2C-4E-ENGINE-K2-R4-SOURCE_DEPENDENCY_TRACE",
+    "conclusion": "K2_RCA_PASS_IMPLEMENTATION_PAUSED_READY_FOR_SOURCE_DEPENDENCY_TRACE",
+    "recommended_next_action": "Run K2-R4 source dependency trace to find `_gate_state` and all upstream variables before any formula patch."
+  }
+}
