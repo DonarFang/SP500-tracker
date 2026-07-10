@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "checked_assertions": [
+    "daily_account_date_sequence",
+    "daily_total_equity_cash_positions",
+    "daily_open_positions_count",
+    "daily_market_gate_state",
+    "daily_spx_regime",
+    "trade_lifecycle_symbol_dates",
+    "trade_signals_and_reasons"
+  ],
+  "mismatch_count": 0,
+  "mismatches": [],
+  "summary": {
+    "expected_daily_rows": 62,
+    "actual_daily_rows": 62,
+    "expected_trades": 3,
+    "actual_trades": 3,
+    "money_abs_tol": 0.01,
+    "pct_abs_tol": 0.01
+  }
+}

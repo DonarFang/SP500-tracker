@@ -1,0 +1,616 @@
+{
+  "source": "ENGINE_J_UPTREND_CORE_GOLDEN_MASTER_REPLAY_SKELETON",
+  "window": {
+    "start": "2021-04-05",
+    "end": "2021-06-30",
+    "spx_trading_days": 62,
+    "max_window_days_allowed": 90
+  },
+  "daily_account": [
+    {
+      "date": "2021-04-05",
+      "cash": 100000.0,
+      "positions_value": 0.0,
+      "total_equity": 100000.0,
+      "open_positions_count": 0,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-06",
+      "cash": 80647.72,
+      "positions_value": 9676.14,
+      "total_equity": 90323.86,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-07",
+      "cash": 80647.72,
+      "positions_value": 9578.94,
+      "total_equity": 90226.66,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-08",
+      "cash": 77640.16,
+      "positions_value": 11075.77,
+      "total_equity": 88715.94,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-09",
+      "cash": 77640.16,
+      "positions_value": 11253.34,
+      "total_equity": 88893.5,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-12",
+      "cash": 77640.16,
+      "positions_value": 11181.83,
+      "total_equity": 88822.0,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-13",
+      "cash": 77640.16,
+      "positions_value": 11127.91,
+      "total_equity": 88768.07,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-14",
+      "cash": 77640.16,
+      "positions_value": 11074.52,
+      "total_equity": 88714.69,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-15",
+      "cash": 77640.16,
+      "positions_value": 11086.66,
+      "total_equity": 88726.83,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-16",
+      "cash": 77640.16,
+      "positions_value": 11255.52,
+      "total_equity": 88895.69,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-19",
+      "cash": 77640.16,
+      "positions_value": 11050.1,
+      "total_equity": 88690.27,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-20",
+      "cash": 77640.16,
+      "positions_value": 10777.34,
+      "total_equity": 88417.5,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-21",
+      "cash": 77640.16,
+      "positions_value": 11097.06,
+      "total_equity": 88737.22,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-22",
+      "cash": 77640.16,
+      "positions_value": 11026.44,
+      "total_equity": 88666.6,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-23",
+      "cash": 77640.16,
+      "positions_value": 11309.19,
+      "total_equity": 88949.35,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-26",
+      "cash": 77640.16,
+      "positions_value": 11520.62,
+      "total_equity": 89160.79,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-27",
+      "cash": 77640.16,
+      "positions_value": 11552.9,
+      "total_equity": 89193.06,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-28",
+      "cash": 74667.06,
+      "positions_value": 12972.09,
+      "total_equity": 87639.15,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-29",
+      "cash": 74667.06,
+      "positions_value": 13169.94,
+      "total_equity": 87837.0,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-04-30",
+      "cash": 74667.06,
+      "positions_value": 12775.49,
+      "total_equity": 87442.56,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-03",
+      "cash": 74667.06,
+      "positions_value": 13268.98,
+      "total_equity": 87936.05,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-04",
+      "cash": 74667.06,
+      "positions_value": 13182.0,
+      "total_equity": 87849.07,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-05",
+      "cash": 74667.06,
+      "positions_value": 13327.39,
+      "total_equity": 87994.45,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-06",
+      "cash": 74667.06,
+      "positions_value": 13365.37,
+      "total_equity": 88032.43,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-07",
+      "cash": 74667.06,
+      "positions_value": 13633.77,
+      "total_equity": 88300.83,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-10",
+      "cash": 74667.06,
+      "positions_value": 13387.42,
+      "total_equity": 88054.48,
+      "open_positions_count": 3,
+      "market_gate_state": "RISK_OFF",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-11",
+      "cash": 74667.06,
+      "positions_value": 12959.79,
+      "total_equity": 87626.85,
+      "open_positions_count": 3,
+      "market_gate_state": "RISK_OFF",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-12",
+      "cash": 74667.06,
+      "positions_value": 12165.93,
+      "total_equity": 86833.0,
+      "open_positions_count": 3,
+      "market_gate_state": "SHOCK",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-13",
+      "cash": 74667.06,
+      "positions_value": 12637.26,
+      "total_equity": 87304.32,
+      "open_positions_count": 3,
+      "market_gate_state": "RISK_OFF",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-14",
+      "cash": 74667.06,
+      "positions_value": 12821.49,
+      "total_equity": 87488.55,
+      "open_positions_count": 3,
+      "market_gate_state": "RISK_OFF",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-17",
+      "cash": 74667.06,
+      "positions_value": 12740.32,
+      "total_equity": 87407.39,
+      "open_positions_count": 3,
+      "market_gate_state": "RISK_OFF",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-18",
+      "cash": 74667.06,
+      "positions_value": 12449.13,
+      "total_equity": 87116.19,
+      "open_positions_count": 3,
+      "market_gate_state": "RISK_OFF",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-19",
+      "cash": 74667.06,
+      "positions_value": 12314.04,
+      "total_equity": 86981.11,
+      "open_positions_count": 3,
+      "market_gate_state": "RISK_OFF",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-20",
+      "cash": 74667.06,
+      "positions_value": 12457.71,
+      "total_equity": 87124.77,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-21",
+      "cash": 74667.06,
+      "positions_value": 12353.15,
+      "total_equity": 87020.21,
+      "open_positions_count": 3,
+      "market_gate_state": "RISK_OFF",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-24",
+      "cash": 74667.06,
+      "positions_value": 12547.44,
+      "total_equity": 87214.51,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-25",
+      "cash": 74667.06,
+      "positions_value": 12697.03,
+      "total_equity": 87364.09,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-26",
+      "cash": 74667.06,
+      "positions_value": 12775.44,
+      "total_equity": 87442.5,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-27",
+      "cash": 74667.06,
+      "positions_value": 12958.47,
+      "total_equity": 87625.53,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-05-28",
+      "cash": 71746.21,
+      "positions_value": 14357.9,
+      "total_equity": 86104.11,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-01",
+      "cash": 71746.21,
+      "positions_value": 14206.45,
+      "total_equity": 85952.66,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-02",
+      "cash": 71746.21,
+      "positions_value": 14088.48,
+      "total_equity": 85834.69,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-03",
+      "cash": 71746.21,
+      "positions_value": 13899.02,
+      "total_equity": 85645.23,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-04",
+      "cash": 71746.21,
+      "positions_value": 14066.92,
+      "total_equity": 85813.13,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-07",
+      "cash": 71746.21,
+      "positions_value": 14020.68,
+      "total_equity": 85766.89,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-08",
+      "cash": 71746.21,
+      "positions_value": 13985.16,
+      "total_equity": 85731.37,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-09",
+      "cash": 71746.21,
+      "positions_value": 13724.41,
+      "total_equity": 85470.62,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-10",
+      "cash": 71746.21,
+      "positions_value": 13497.2,
+      "total_equity": 85243.42,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-11",
+      "cash": 71746.21,
+      "positions_value": 13580.32,
+      "total_equity": 85326.53,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-14",
+      "cash": 71746.21,
+      "positions_value": 13504.65,
+      "total_equity": 85250.86,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-15",
+      "cash": 71746.21,
+      "positions_value": 13556.72,
+      "total_equity": 85302.93,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-16",
+      "cash": 71746.21,
+      "positions_value": 13363.69,
+      "total_equity": 85109.9,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-17",
+      "cash": 71746.21,
+      "positions_value": 13385.6,
+      "total_equity": 85131.81,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-18",
+      "cash": 71746.21,
+      "positions_value": 13151.09,
+      "total_equity": 84897.31,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-21",
+      "cash": 71746.21,
+      "positions_value": 13398.06,
+      "total_equity": 85144.27,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-22",
+      "cash": 71746.21,
+      "positions_value": 13499.71,
+      "total_equity": 85245.92,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-23",
+      "cash": 71746.21,
+      "positions_value": 13466.02,
+      "total_equity": 85212.23,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-24",
+      "cash": 71746.21,
+      "positions_value": 13589.73,
+      "total_equity": 85335.94,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-25",
+      "cash": 71746.21,
+      "positions_value": 13625.64,
+      "total_equity": 85371.85,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-28",
+      "cash": 71746.21,
+      "positions_value": 13688.69,
+      "total_equity": 85434.91,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-29",
+      "cash": 71746.21,
+      "positions_value": 13776.65,
+      "total_equity": 85522.87,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    },
+    {
+      "date": "2021-06-30",
+      "cash": 71746.21,
+      "positions_value": 13829.95,
+      "total_equity": 85576.16,
+      "open_positions_count": 3,
+      "market_gate_state": "ALLOW",
+      "spx_regime": null
+    }
+  ],
+  "trades": [
+    {
+      "symbol": "AMAT",
+      "entry_date": "2021-04-06",
+      "entry_price": 136.91,
+      "exit_date": "2021-06-30",
+      "exit_price": 136.53,
+      "entry_signal": "BUY",
+      "exit_signal": "SIM_END",
+      "entry_regime": "N/A",
+      "exit_regime": "N/A",
+      "return_pct": -100.0,
+      "holding_days": 61
+    },
+    {
+      "symbol": "MHK",
+      "entry_date": "2021-04-06",
+      "entry_price": 201.19,
+      "exit_date": "2021-06-30",
+      "exit_price": 192.19,
+      "entry_signal": "BUY",
+      "exit_signal": "SIM_END",
+      "entry_regime": "N/A",
+      "exit_regime": "N/A",
+      "return_pct": -100.0,
+      "holding_days": 61
+    },
+    {
+      "symbol": "DHI",
+      "entry_date": "2021-04-06",
+      "entry_price": 87.84,
+      "exit_date": "2021-06-30",
+      "exit_price": 85.86,
+      "entry_signal": "BUY",
+      "exit_signal": "SIM_END",
+      "entry_regime": "N/A",
+      "exit_regime": "N/A",
+      "return_pct": -100.0,
+      "holding_days": 61
+    }
+  ],
+  "metadata": {
+    "mode": "golden_master_replay_skeleton",
+    "actual_strategy_logic_extracted": false,
+    "strategy_decisions_generated": false,
+    "purpose": "lock comparable interface and equivalence checker before real extraction"
+  }
+}
