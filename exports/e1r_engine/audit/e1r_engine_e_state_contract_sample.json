@@ -1,0 +1,189 @@
+{
+  "schema": "E1REngineStateContractSampleV1",
+  "generated_at": "2026-07-10T05:57:12.655914+00:00",
+  "contract_only": true,
+  "account_0": {
+    "date": "2026-06-15",
+    "cash": 100000.0,
+    "positions": {},
+    "total_equity": 100000.0,
+    "positions_value": 0.0,
+    "open_positions_count": 0,
+    "metadata": {
+      "initial_cash": 100000.0
+    }
+  },
+  "order_1": {
+    "date": "2026-06-16",
+    "symbol": "AAPL",
+    "intent_type": "BUY",
+    "side": "BUY",
+    "target_quantity": 10.0,
+    "quantity_delta": 10.0,
+    "reason": "contract_smoke_buy_example",
+    "branch": "UPTREND",
+    "metadata": {
+      "contract_only": true
+    }
+  },
+  "fill_1": {
+    "date": "2026-06-16",
+    "symbol": "AAPL",
+    "side": "BUY",
+    "quantity": 10.0,
+    "price": 200.0,
+    "gross_amount": 2000.0,
+    "status": "FILLED",
+    "reason": "contract_smoke_fill_example",
+    "metadata": {}
+  },
+  "account_1": {
+    "date": "2026-06-16",
+    "cash": 98000.0,
+    "positions": {
+      "AAPL": {
+        "symbol": "AAPL",
+        "quantity": 10.0,
+        "avg_cost": 200.0,
+        "last_price": 200.0,
+        "market_value": 2000.0,
+        "unrealized_pnl": 0.0,
+        "entry_date": "2026-06-16",
+        "last_update_date": "2026-06-16",
+        "metadata": {}
+      }
+    },
+    "total_equity": 100000.0,
+    "positions_value": 2000.0,
+    "open_positions_count": 1,
+    "metadata": {
+      "initial_cash": 100000.0
+    }
+  },
+  "account_1_mtm": {
+    "date": "2026-06-17",
+    "cash": 98000.0,
+    "positions": {
+      "AAPL": {
+        "symbol": "AAPL",
+        "quantity": 10.0,
+        "avg_cost": 200.0,
+        "last_price": 205.0,
+        "market_value": 2050.0,
+        "unrealized_pnl": 50.0,
+        "entry_date": "2026-06-16",
+        "last_update_date": "2026-06-17",
+        "metadata": {}
+      }
+    },
+    "total_equity": 100050.0,
+    "positions_value": 2050.0,
+    "open_positions_count": 1,
+    "metadata": {
+      "initial_cash": 100000.0
+    }
+  },
+  "decision_trace": {
+    "date": "2026-06-17",
+    "branch": "UPTREND",
+    "market_regime": "UPTREND",
+    "regime_subclass": "NO_SUBCLASS",
+    "inputs": {
+      "contract_only": true,
+      "no_strategy_logic": true,
+      "no_market_gate": true,
+      "no_sizing_logic": true
+    },
+    "candidate_count": 0,
+    "selected_symbols": [],
+    "order_intents": [
+      {
+        "date": "2026-06-17",
+        "symbol": "AAPL",
+        "intent_type": "HOLD",
+        "side": null,
+        "target_quantity": 10.0,
+        "quantity_delta": 0.0,
+        "reason": "contract_smoke_hold_example",
+        "branch": "UPTREND",
+        "metadata": {
+          "contract_only": true
+        }
+      }
+    ],
+    "reasons": [
+      "contract_smoke_state_trace"
+    ],
+    "metadata": {
+      "purpose": "validate state/order/fill/trace shapes only"
+    }
+  },
+  "daily_engine_result": {
+    "date": "2026-06-17",
+    "account_before": {
+      "date": "2026-06-16",
+      "cash": 98000.0,
+      "positions": {
+        "AAPL": {
+          "symbol": "AAPL",
+          "quantity": 10.0,
+          "avg_cost": 200.0,
+          "last_price": 200.0,
+          "market_value": 2000.0,
+          "unrealized_pnl": 0.0,
+          "entry_date": "2026-06-16",
+          "last_update_date": "2026-06-16",
+          "metadata": {}
+        }
+      },
+      "total_equity": 100000.0,
+      "positions_value": 2000.0,
+      "open_positions_count": 1,
+      "metadata": {
+        "initial_cash": 100000.0
+      }
+    },
+    "account_after": {
+      "date": "2026-06-17",
+      "cash": 98000.0,
+      "positions": {
+        "AAPL": {
+          "symbol": "AAPL",
+          "quantity": 10.0,
+          "avg_cost": 200.0,
+          "last_price": 205.0,
+          "market_value": 2050.0,
+          "unrealized_pnl": 50.0,
+          "entry_date": "2026-06-16",
+          "last_update_date": "2026-06-17",
+          "metadata": {}
+        }
+      },
+      "total_equity": 100050.0,
+      "positions_value": 2050.0,
+      "open_positions_count": 1,
+      "metadata": {
+        "initial_cash": 100000.0
+      }
+    },
+    "order_intents": [
+      {
+        "date": "2026-06-17",
+        "symbol": "AAPL",
+        "intent_type": "HOLD",
+        "side": null,
+        "target_quantity": 10.0,
+        "quantity_delta": 0.0,
+        "reason": "contract_smoke_hold_example",
+        "branch": "UPTREND",
+        "metadata": {
+          "contract_only": true
+        }
+      }
+    ],
+    "fills": [],
+    "metadata": {
+      "contract_only": true
+    }
+  }
+}
