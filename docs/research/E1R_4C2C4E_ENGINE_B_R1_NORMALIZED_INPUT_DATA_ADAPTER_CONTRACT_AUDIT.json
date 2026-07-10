@@ -1,0 +1,3890 @@
+{
+  "generated_at": "2026-07-10T05:16:43.030360+00:00",
+  "elapsed_seconds": 0.201504,
+  "stage": "4C-2C-4E-ENGINE-B-R1",
+  "status": "NORMALIZED_INPUT_DATA_ADAPTER_CONTRACT_AUDIT_COMPLETE",
+  "purpose": "Audit data/input schemas and define normalized input/data adapter contract for standalone E1R engine.",
+  "policy": {
+    "strategy_logic_changed": false,
+    "contract_audit_only": true,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "provider_extraction_run": false,
+    "adapter_implementation_run": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "frozen_strategy_files_changed": false,
+    "invalid_artifacts_used_as_source": false,
+    "composer_used": false,
+    "return_curve_stitching_used": false
+  },
+  "top_level_error": null,
+  "data_inventory": {
+    "research_stocks": {
+      "path": "data/research/e1_5y/raw/stocks",
+      "exists": true,
+      "json_count": 542,
+      "sample_files": [
+        "A.json",
+        "AAL.json",
+        "AAPL.json",
+        "ABBV.json",
+        "ABNB.json",
+        "ABT.json",
+        "ACGL.json",
+        "ACN.json",
+        "ADBE.json",
+        "ADI.json",
+        "ADM.json",
+        "ADP.json",
+        "ADSK.json",
+        "AEE.json",
+        "AEP.json",
+        "AES.json",
+        "AFL.json",
+        "AIG.json",
+        "AIZ.json",
+        "AJG.json"
+      ],
+      "sample_shapes": [
+        {
+          "path": "data/research/e1_5y/raw/stocks/A.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "bars",
+            "data_end",
+            "data_start",
+            "dataset_mode",
+            "downloaded_at",
+            "formal_pass_fail_allowed",
+            "price_adjustment",
+            "requested_end",
+            "requested_start",
+            "schema_version",
+            "source",
+            "survivorship_bias",
+            "symbol",
+            "yahoo_ticker"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": [],
+          "has_symbol": true
+        },
+        {
+          "path": "data/research/e1_5y/raw/stocks/AAL.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "bars",
+            "data_end",
+            "data_start",
+            "dataset_mode",
+            "downloaded_at",
+            "formal_pass_fail_allowed",
+            "price_adjustment",
+            "requested_end",
+            "requested_start",
+            "schema_version",
+            "source",
+            "survivorship_bias",
+            "symbol",
+            "yahoo_ticker"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": [],
+          "has_symbol": true
+        },
+        {
+          "path": "data/research/e1_5y/raw/stocks/AAPL.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "bars",
+            "data_end",
+            "data_start",
+            "dataset_mode",
+            "downloaded_at",
+            "formal_pass_fail_allowed",
+            "price_adjustment",
+            "requested_end",
+            "requested_start",
+            "schema_version",
+            "source",
+            "survivorship_bias",
+            "symbol",
+            "yahoo_ticker"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": [],
+          "has_symbol": true
+        },
+        {
+          "path": "data/research/e1_5y/raw/stocks/ABBV.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "bars",
+            "data_end",
+            "data_start",
+            "dataset_mode",
+            "downloaded_at",
+            "formal_pass_fail_allowed",
+            "price_adjustment",
+            "requested_end",
+            "requested_start",
+            "schema_version",
+            "source",
+            "survivorship_bias",
+            "symbol",
+            "yahoo_ticker"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": [],
+          "has_symbol": true
+        },
+        {
+          "path": "data/research/e1_5y/raw/stocks/ABNB.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "bars",
+            "data_end",
+            "data_start",
+            "dataset_mode",
+            "downloaded_at",
+            "formal_pass_fail_allowed",
+            "price_adjustment",
+            "requested_end",
+            "requested_start",
+            "schema_version",
+            "source",
+            "survivorship_bias",
+            "symbol",
+            "yahoo_ticker"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": [],
+          "has_symbol": true
+        },
+        {
+          "path": "data/research/e1_5y/raw/stocks/ABT.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "bars",
+            "data_end",
+            "data_start",
+            "dataset_mode",
+            "downloaded_at",
+            "formal_pass_fail_allowed",
+            "price_adjustment",
+            "requested_end",
+            "requested_start",
+            "schema_version",
+            "source",
+            "survivorship_bias",
+            "symbol",
+            "yahoo_ticker"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": [],
+          "has_symbol": true
+        },
+        {
+          "path": "data/research/e1_5y/raw/stocks/ACGL.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "bars",
+            "data_end",
+            "data_start",
+            "dataset_mode",
+            "downloaded_at",
+            "formal_pass_fail_allowed",
+            "price_adjustment",
+            "requested_end",
+            "requested_start",
+            "schema_version",
+            "source",
+            "survivorship_bias",
+            "symbol",
+            "yahoo_ticker"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": [],
+          "has_symbol": true
+        },
+        {
+          "path": "data/research/e1_5y/raw/stocks/ACN.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "bars",
+            "data_end",
+            "data_start",
+            "dataset_mode",
+            "downloaded_at",
+            "formal_pass_fail_allowed",
+            "price_adjustment",
+            "requested_end",
+            "requested_start",
+            "schema_version",
+            "source",
+            "survivorship_bias",
+            "symbol",
+            "yahoo_ticker"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": [],
+          "has_symbol": true
+        }
+      ]
+    },
+    "research_indices": {
+      "path": "data/research/e1_5y/raw/indices",
+      "exists": true,
+      "json_count": 3,
+      "sample_files": [
+        "NDX.json",
+        "SOX.json",
+        "SPX.json"
+      ],
+      "sample_shapes": [
+        {
+          "path": "data/research/e1_5y/raw/indices/NDX.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "bars",
+            "data_end",
+            "data_start",
+            "dataset_mode",
+            "downloaded_at",
+            "requested_end",
+            "requested_start",
+            "schema_version",
+            "source",
+            "symbol",
+            "yahoo_ticker"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": [],
+          "has_symbol": true
+        },
+        {
+          "path": "data/research/e1_5y/raw/indices/SOX.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "bars",
+            "data_end",
+            "data_start",
+            "dataset_mode",
+            "downloaded_at",
+            "requested_end",
+            "requested_start",
+            "schema_version",
+            "source",
+            "symbol",
+            "yahoo_ticker"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": [],
+          "has_symbol": true
+        },
+        {
+          "path": "data/research/e1_5y/raw/indices/SPX.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "bars",
+            "data_end",
+            "data_start",
+            "dataset_mode",
+            "downloaded_at",
+            "requested_end",
+            "requested_start",
+            "schema_version",
+            "source",
+            "symbol",
+            "yahoo_ticker"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": [],
+          "has_symbol": true
+        }
+      ]
+    },
+    "research_regimes": {
+      "path": "data/research/e1_5y/regimes",
+      "exists": true,
+      "json_count": 6,
+      "sample_files": [
+        "e1_equity_regime_attribution.json",
+        "e1_regime_attribution.json",
+        "regime_summary.json",
+        "spx_regime_daily.json",
+        "spx_regime_episodes.json",
+        "spx_weekly_regimes.json"
+      ],
+      "sample_shapes": [
+        {
+          "path": "data/research/e1_5y/regimes/e1_equity_regime_attribution.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "by_regime",
+            "daily_equity_record_count",
+            "input",
+            "record_count",
+            "sim_end_liquidation_included",
+            "status",
+            "strategy_id",
+            "total_pnl_usd",
+            "total_return_pct_of_initial"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": []
+        },
+        {
+          "path": "data/research/e1_5y/regimes/e1_regime_attribution.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "attribution_by_dominant_regime",
+            "attribution_by_entry_regime",
+            "cross_regime_count",
+            "dataset_note",
+            "generated_at",
+            "method",
+            "tagged_trades",
+            "trade_count"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": []
+        },
+        {
+          "path": "data/research/e1_5y/regimes/regime_summary.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "episode_count_by_regime",
+            "generated_at",
+            "note",
+            "pass_checks",
+            "regime_days",
+            "regime_pct",
+            "spec_version",
+            "subclass_days",
+            "total_episodes",
+            "total_trading_days",
+            "unclassified_days",
+            "validation_window"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": []
+        },
+        {
+          "path": "data/research/e1_5y/regimes/spx_regime_daily.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "daily_regime",
+            "generated_at",
+            "validation_window"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": []
+        },
+        {
+          "path": "data/research/e1_5y/regimes/spx_regime_episodes.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "episodes",
+            "generated_at",
+            "total_episodes",
+            "validation_window"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": []
+        },
+        {
+          "path": "data/research/e1_5y/regimes/spx_weekly_regimes.json",
+          "exists": true,
+          "type": "dict",
+          "top_level_keys": [
+            "generated_at",
+            "independence",
+            "spec_version",
+            "validation_window",
+            "weekly_regimes"
+          ],
+          "date_keyed_dict": false,
+          "date_key_sample": []
+        }
+      ]
+    },
+    "prod_prices": {
+      "path": "data/prices",
+      "exists": true,
+      "json_count": 498,
+      "sample_files": [
+        "A.json",
+        "AAL.json",
+        "AAPL.json",
+        "ABBV.json",
+        "ABNB.json",
+        "ABT.json",
+        "ACGL.json",
+        "ACN.json",
+        "ADBE.json",
+        "ADI.json",
+        "ADM.json",
+        "ADP.json",
+        "ADSK.json",
+        "AEE.json",
+        "AEP.json",
+        "AES.json",
+        "AFL.json",
+        "AIG.json",
+        "AIZ.json",
+        "AJG.json"
+      ],
+      "sample_shapes": [
+        {
+          "path": "data/prices/A.json",
+          "exists": true,
+          "type": "list",
+          "list_len": 789,
+          "sample": [
+            {
+              "date": "2023-05-16",
+              "open": 124.1,
+              "high": 124.53,
+              "low": 122.95,
+              "close": 123.44,
+              "volume": 1190000.0
+            }
+          ],
+          "sample_keys": [
+            "close",
+            "date",
+            "high",
+            "low",
+            "open",
+            "volume"
+          ],
+          "sample_key_frequency": {
+            "date": 100,
+            "open": 100,
+            "high": 100,
+            "low": 100,
+            "close": 100,
+            "volume": 100
+          }
+        },
+        {
+          "path": "data/prices/AAL.json",
+          "exists": true,
+          "type": "list",
+          "list_len": 789,
+          "sample": [
+            {
+              "date": "2023-05-16",
+              "open": 14.21,
+              "high": 14.45,
+              "low": 13.97,
+              "close": 14.2,
+              "volume": 20303200.0
+            }
+          ],
+          "sample_keys": [
+            "close",
+            "date",
+            "high",
+            "low",
+            "open",
+            "volume"
+          ],
+          "sample_key_frequency": {
+            "date": 100,
+            "open": 100,
+            "high": 100,
+            "low": 100,
+            "close": 100,
+            "volume": 100
+          }
+        },
+        {
+          "path": "data/prices/AAPL.json",
+          "exists": true,
+          "type": "list",
+          "list_len": 789,
+          "sample": [
+            {
+              "date": "2023-05-16",
+              "open": 169.61,
+              "high": 170.75,
+              "low": 169.42,
+              "close": 169.69,
+              "volume": 42110300.0
+            }
+          ],
+          "sample_keys": [
+            "close",
+            "date",
+            "high",
+            "low",
+            "open",
+            "volume"
+          ],
+          "sample_key_frequency": {
+            "date": 100,
+            "open": 100,
+            "high": 100,
+            "low": 100,
+            "close": 100,
+            "volume": 100
+          }
+        },
+        {
+          "path": "data/prices/ABBV.json",
+          "exists": true,
+          "type": "list",
+          "list_len": 789,
+          "sample": [
+            {
+              "date": "2023-05-16",
+              "open": 130.99,
+              "high": 131.96,
+              "low": 128.63,
+              "close": 128.68,
+              "volume": 4685400.0
+            }
+          ],
+          "sample_keys": [
+            "close",
+            "date",
+            "high",
+            "low",
+            "open",
+            "volume"
+          ],
+          "sample_key_frequency": {
+            "date": 100,
+            "open": 100,
+            "high": 100,
+            "low": 100,
+            "close": 100,
+            "volume": 100
+          }
+        },
+        {
+          "path": "data/prices/ABNB.json",
+          "exists": true,
+          "type": "list",
+          "list_len": 789,
+          "sample": [
+            {
+              "date": "2023-05-16",
+              "open": 105.72,
+              "high": 107.58,
+              "low": 104.3,
+              "close": 105.41,
+              "volume": 5585300.0
+            }
+          ],
+          "sample_keys": [
+            "close",
+            "date",
+            "high",
+            "low",
+            "open",
+            "volume"
+          ],
+          "sample_key_frequency": {
+            "date": 100,
+            "open": 100,
+            "high": 100,
+            "low": 100,
+            "close": 100,
+            "volume": 100
+          }
+        },
+        {
+          "path": "data/prices/ABT.json",
+          "exists": true,
+          "type": "list",
+          "list_len": 789,
+          "sample": [
+            {
+              "date": "2023-05-16",
+              "open": 103.15,
+              "high": 104.01,
+              "low": 102.88,
+              "close": 103.0,
+              "volume": 3393800.0
+            }
+          ],
+          "sample_keys": [
+            "close",
+            "date",
+            "high",
+            "low",
+            "open",
+            "volume"
+          ],
+          "sample_key_frequency": {
+            "date": 100,
+            "open": 100,
+            "high": 100,
+            "low": 100,
+            "close": 100,
+            "volume": 100
+          }
+        },
+        {
+          "path": "data/prices/ACGL.json",
+          "exists": true,
+          "type": "list",
+          "list_len": 789,
+          "sample": [
+            {
+              "date": "2023-05-16",
+              "open": 71.17,
+              "high": 71.45,
+              "low": 70.56,
+              "close": 70.86,
+              "volume": 1952400.0
+            }
+          ],
+          "sample_keys": [
+            "close",
+            "date",
+            "high",
+            "low",
+            "open",
+            "volume"
+          ],
+          "sample_key_frequency": {
+            "date": 100,
+            "open": 100,
+            "high": 100,
+            "low": 100,
+            "close": 100,
+            "volume": 100
+          }
+        },
+        {
+          "path": "data/prices/ACN.json",
+          "exists": true,
+          "type": "list",
+          "list_len": 789,
+          "sample": [
+            {
+              "date": "2023-05-16",
+              "open": 264.55,
+              "high": 267.99,
+              "low": 263.85,
+              "close": 266.55,
+              "volume": 2079000.0
+            }
+          ],
+          "sample_keys": [
+            "close",
+            "date",
+            "high",
+            "low",
+            "open",
+            "volume"
+          ],
+          "sample_key_frequency": {
+            "date": 100,
+            "open": 100,
+            "high": 100,
+            "low": 100,
+            "close": 100,
+            "volume": 100
+          }
+        }
+      ]
+    }
+  },
+  "loader_scan": {
+    "file_hits": [
+      {
+        "path": "src/data_ingestion/fetch_yahoo.py",
+        "hit_terms": [
+          "read_json",
+          "load_price",
+          "load_prices"
+        ]
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "prices_map",
+          "dates_map",
+          "data/research/e1_5y",
+          "SPX.json",
+          "spx_regime_daily",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "src/engine/e1r_sidecar_sleeve.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "load_stock"
+        ]
+      },
+      {
+        "path": "src/engine/index_analysis.py",
+        "hit_terms": [
+          "prices_map",
+          "dates_map"
+        ]
+      },
+      {
+        "path": "src/engine/rank_history.py",
+        "hit_terms": [
+          "read_json"
+        ]
+      },
+      {
+        "path": "src/engine/validation.py",
+        "hit_terms": [
+          "read_json"
+        ]
+      },
+      {
+        "path": "src/export/export_json.py",
+        "hit_terms": [
+          "read_json"
+        ]
+      },
+      {
+        "path": "src/oos/event_store.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads"
+        ]
+      },
+      {
+        "path": "src/oos/validation.py",
+        "hit_terms": [
+          "json.load"
+        ]
+      },
+      {
+        "path": "src/pipeline/update_pipeline.py",
+        "hit_terms": [
+          "read_json",
+          "prices_map",
+          "dates_map"
+        ]
+      },
+      {
+        "path": "src/utils/helpers.py",
+        "hit_terms": [
+          "json.load",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/audit_e1r_original_contract_4c2c4a.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "data/research/e1_5y",
+          "spx_regime_daily"
+        ]
+      },
+      {
+        "path": "scripts/audit_e1r_unified_5y_metric_consistency_4c2c1.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/audit_e1r_v0_2_daily_like_candidates_v2.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/build_e1_e1r_research_curve_bundle_4b0n.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/build_e1r_unified_dashboard_research_bundle_4c2d0.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/direct_compose_e1r_candidate_4b0l.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/dry_run_e1r_v0_2_generator_candidate.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads"
+        ]
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_smoke_4c2c4e_b3.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "load_stock",
+          "prices_map",
+          "dates_map",
+          "data/research/e1_5y",
+          "data/prices",
+          "SPX.json",
+          "_VIX.json",
+          "spx_regime_daily",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/e1r_no_strategy_change_adapter_smoke_4c2c4c.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "data/research/e1_5y",
+          "SPX.json",
+          "spx_regime_daily",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/e1r_normalized_input_data_adapter_contract_4c2c4e_engine_b_r1.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "load_price",
+          "load_prices",
+          "load_stock",
+          "load_universe",
+          "prices_map",
+          "dates_map",
+          "data/research/e1_5y",
+          "data/prices",
+          "SPX.json",
+          "_VIX.json",
+          "spx_regime_daily",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/e1r_real_uptrend_provider_filter_audit_4c2c4e_d2b.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/e1r_sidecar_smoke_with_dates_4c2c4c1.py",
+        "hit_terms": [
+          "data/research/e1_5y",
+          "SPX.json",
+          "spx_regime_daily",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/e1r_sidecar_strict_field_audit_4c2c4c2.py",
+        "hit_terms": [
+          "data/research/e1_5y",
+          "SPX.json",
+          "spx_regime_daily",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/e1r_standalone_engine_architecture_contract_4c2c4e_engine_a.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/e1r_unified_5y_full_account_preflight_4c1.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "data/research/e1_5y",
+          "SPX.json",
+          "spx_regime_daily",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_diagnostic_4c2c4e_d4b_r1.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "load_price",
+          "load_stock",
+          "load_universe",
+          "prices_map",
+          "dates_map",
+          "data/research/e1_5y",
+          "data/prices",
+          "SPX.json",
+          "_VIX.json",
+          "spx_regime_daily",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_trace_contract_4c2c4e_d4a.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_provider_candidate_verification_4c2c4e_d2.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "prices_map",
+          "dates_map"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_provider_entrypoint_audit_4c2c4e_d1.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_runtime_equivalence_audit_4c2c4e_d3.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "prices_map"
+        ]
+      },
+      {
+        "path": "scripts/export_canonical_5y_equity_curves.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "data/research/e1_5y",
+          "SPX.json",
+          "spx_regime_daily",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/export_e1_5y_core_equity.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "load_stock",
+          "prices_map",
+          "dates_map",
+          "data/research/e1_5y",
+          "data/prices",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/export_e1r_v0_2_backtest_equity.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/export_e1r_v0_2_orders_positions_preview.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/export_e1r_v0_2_sidecar_records_5y.py",
+        "hit_terms": [
+          "load_stock",
+          "data/research/e1_5y",
+          "SPX.json",
+          "spx_regime_daily",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/export_e1r_v0_2_status.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "data/research/e1_5y",
+          "SPX.json",
+          "spx_regime_daily",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/export_e1r_v0_2_targets_preview.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/instrument_e1r_composer_callsite_4b0j.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads"
+        ]
+      },
+      {
+        "path": "scripts/locate_e1r_dashboard_wiring_targets_4c2d1a.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads"
+        ]
+      },
+      {
+        "path": "scripts/lock_e1r_original_entrypoints_4c2c4b.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads"
+        ]
+      },
+      {
+        "path": "scripts/recompute_e1r_unified_5y_row_metrics_4c2c2.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/resolve_e1r_composer_input_candidates_4b0i.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/run_e1r_combined_5y_original_max3_4c2c4d.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "data/research/e1_5y",
+          "SPX.json",
+          "spx_regime_daily",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/run_e1r_unified_5y_full_account_4c2c.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "prices_map",
+          "dates_map",
+          "data/research/e1_5y",
+          "data/prices",
+          "SPX.json",
+          "spx_regime_daily",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/run_e1r_v0_2_forward_performance.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/run_e1r_v0_2_forward_performance_core.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/run_e1r_v0_2_oos.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/run_e1r_v0_2_oos_core.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/run_e1r_v0_2_oos_equity.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "load_stock",
+          "data/research/e1_5y",
+          "raw/stocks"
+        ]
+      },
+      {
+        "path": "scripts/run_e1r_v0_2_sidecar_lifecycle.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "prices_map",
+          "dates_map",
+          "data/research/e1_5y",
+          "data/prices",
+          "SPX.json",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b1.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "prices_map",
+          "dates_map",
+          "data/research/e1_5y",
+          "data/prices",
+          "SPX.json",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b2.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "prices_map",
+          "dates_map",
+          "data/research/e1_5y",
+          "data/prices",
+          "SPX.json",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b3.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "prices_map",
+          "dates_map",
+          "data/research/e1_5y",
+          "data/prices",
+          "SPX.json",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_regime_wiring_4c2b4.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "prices_map",
+          "dates_map",
+          "data/research/e1_5y",
+          "data/prices",
+          "SPX.json",
+          "spx_regime_daily",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_regime_wiring_trade_window_4c2b5.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json",
+          "prices_map",
+          "dates_map",
+          "data/research/e1_5y",
+          "data/prices",
+          "SPX.json",
+          "spx_regime_daily",
+          "raw/stocks",
+          "raw/indices"
+        ]
+      },
+      {
+        "path": "scripts/validate_e1r_direct_composed_candidate_4b0m.py",
+        "hit_terms": [
+          "json.load",
+          "json.loads",
+          "read_json"
+        ]
+      }
+    ],
+    "candidate_count": 287,
+    "top_candidates": [
+      {
+        "path": "src/engine/backtest.py",
+        "name": "run_strategy_variant_comparison",
+        "start_line": 2489,
+        "end_line": 2895,
+        "line_count": 407,
+        "args": [
+          "symbols",
+          "prices_map",
+          "dates_map",
+          "spx_prices",
+          "spx_dates",
+          "ndx_prices",
+          "ndx_dates",
+          "sox_prices",
+          "sox_dates",
+          "vix_prices",
+          "vix_dates"
+        ],
+        "score": 23,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:prices_map",
+          "contains:dates_map",
+          "contains:data/research/e1_5y",
+          "contains:SPX.json",
+          "contains:spx_regime_daily",
+          "contains:raw/stocks",
+          "contains:raw/indices",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_research_5y_data",
+          "uses_regime"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_smoke_4c2c4e_b3.py",
+        "name": "call_backtest_engine",
+        "start_line": 371,
+        "end_line": 423,
+        "line_count": 53,
+        "args": [
+          "stock_dir",
+          "regime_daily"
+        ],
+        "score": 16,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:load_stock",
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "name": "run_stateful_simulation",
+        "start_line": 763,
+        "end_line": 2486,
+        "line_count": 1724,
+        "args": [
+          "symbols",
+          "prices_map",
+          "dates_map",
+          "spx_prices",
+          "spx_dates",
+          "ohlc_map",
+          "assumptions",
+          "step",
+          "min_history",
+          "market_score_default",
+          "sim_start_date",
+          "sim_end_date",
+          "ndx_prices",
+          "ndx_dates",
+          "sox_prices",
+          "sox_dates",
+          "vix_prices",
+          "vix_dates"
+        ],
+        "score": 15,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/export_e1_5y_core_equity.py",
+        "name": "main",
+        "start_line": 295,
+        "end_line": 514,
+        "line_count": 220,
+        "args": [],
+        "score": 15,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:load_stock",
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/run_e1r_unified_5y_full_account_4c2c.py",
+        "name": "main",
+        "start_line": 679,
+        "end_line": 890,
+        "line_count": 212,
+        "args": [],
+        "score": 15,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_regime_wiring_4c2b4.py",
+        "name": "main",
+        "start_line": 497,
+        "end_line": 703,
+        "line_count": 207,
+        "args": [],
+        "score": 15,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_regime_wiring_trade_window_4c2b5.py",
+        "name": "main",
+        "start_line": 514,
+        "end_line": 707,
+        "line_count": 194,
+        "args": [],
+        "score": 15,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b.py",
+        "name": "main",
+        "start_line": 219,
+        "end_line": 384,
+        "line_count": 166,
+        "args": [],
+        "score": 14,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b1.py",
+        "name": "main",
+        "start_line": 319,
+        "end_line": 481,
+        "line_count": 163,
+        "args": [],
+        "score": 14,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b2.py",
+        "name": "main",
+        "start_line": 375,
+        "end_line": 542,
+        "line_count": 168,
+        "args": [],
+        "score": 14,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b3.py",
+        "name": "main",
+        "start_line": 385,
+        "end_line": 569,
+        "line_count": 185,
+        "args": [],
+        "score": 14,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/e1r_uptrend_provider_candidate_verification_4c2c4e_d2.py",
+        "name": "classify_function",
+        "start_line": 216,
+        "end_line": 302,
+        "line_count": 87,
+        "args": [
+          "src"
+        ],
+        "score": 13,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_regime"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "name": "_load_e1r_regime_daily",
+        "start_line": 2551,
+        "end_line": 2562,
+        "line_count": 12,
+        "args": [],
+        "score": 7,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:data/research/e1_5y",
+          "contains:spx_regime_daily",
+          "uses_research_5y_data",
+          "uses_regime"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/data_ingestion/fetch_yahoo.py",
+        "name": "load_prices",
+        "start_line": 250,
+        "end_line": 251,
+        "line_count": 2,
+        "args": [
+          "sym"
+        ],
+        "score": 3,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:read_json",
+          "contains:load_price",
+          "contains:load_prices"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/data_ingestion/fetch_yahoo.py",
+        "name": "load_prices",
+        "start_line": 569,
+        "end_line": 570,
+        "line_count": 2,
+        "args": [
+          "sym"
+        ],
+        "score": 3,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:read_json",
+          "contains:load_price",
+          "contains:load_prices"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/engine/e1r_sidecar_sleeve.py",
+        "name": "load_regimes",
+        "start_line": 182,
+        "end_line": 189,
+        "line_count": 8,
+        "args": [
+          "path"
+        ],
+        "score": 3,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "uses_regime"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/engine/e1r_sidecar_sleeve.py",
+        "name": "load_asset",
+        "start_line": 126,
+        "end_line": 155,
+        "line_count": 30,
+        "args": [
+          "path"
+        ],
+        "score": 2,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/engine/e1r_sidecar_sleeve.py",
+        "name": "load_stock_universe",
+        "start_line": 158,
+        "end_line": 179,
+        "line_count": 22,
+        "args": [
+          "stock_dir",
+          "config"
+        ],
+        "score": 2,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:load_stock",
+          "uses_symbols"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/oos/event_store.py",
+        "name": "load_all_events",
+        "start_line": 67,
+        "end_line": 80,
+        "line_count": 14,
+        "args": [],
+        "score": 2,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/pipeline/update_pipeline.py",
+        "name": "load_members_map",
+        "start_line": 83,
+        "end_line": 96,
+        "line_count": 14,
+        "args": [
+          "symbols"
+        ],
+        "score": 2,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:read_json",
+          "uses_symbols"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/utils/helpers.py",
+        "name": "read_json",
+        "start_line": 6,
+        "end_line": 10,
+        "line_count": 5,
+        "args": [
+          "path"
+        ],
+        "score": 2,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:json.load",
+          "contains:read_json"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/data_ingestion/fetch_yahoo.py",
+        "name": "fetch_members",
+        "start_line": 121,
+        "end_line": 137,
+        "line_count": 17,
+        "args": [],
+        "score": 1,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:read_json"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/data_ingestion/fetch_yahoo.py",
+        "name": "download_bulk",
+        "start_line": 167,
+        "end_line": 196,
+        "line_count": 30,
+        "args": [
+          "symbols",
+          "start",
+          "end",
+          "batch_size",
+          "sleep"
+        ],
+        "score": 1,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "uses_symbols"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/data_ingestion/fetch_yahoo.py",
+        "name": "fetch_members",
+        "start_line": 440,
+        "end_line": 456,
+        "line_count": 17,
+        "args": [],
+        "score": 1,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:read_json"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/data_ingestion/fetch_yahoo.py",
+        "name": "download_bulk",
+        "start_line": 486,
+        "end_line": 515,
+        "line_count": 30,
+        "args": [
+          "symbols",
+          "start",
+          "end",
+          "batch_size",
+          "sleep"
+        ],
+        "score": 1,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "uses_symbols"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/engine/rank_history.py",
+        "name": "load_snapshot",
+        "start_line": 38,
+        "end_line": 42,
+        "line_count": 5,
+        "args": [
+          "date"
+        ],
+        "score": 1,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:read_json"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/oos/validation.py",
+        "name": "load_manifest",
+        "start_line": 13,
+        "end_line": 15,
+        "line_count": 3,
+        "args": [],
+        "score": 1,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:json.load"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/pipeline/update_pipeline.py",
+        "name": "load_constituents",
+        "start_line": 69,
+        "end_line": 80,
+        "line_count": 12,
+        "args": [],
+        "score": 1,
+        "classification": "RUNTIME_LOADER_CANDIDATE",
+        "classification_rank": 90,
+        "reasons": [
+          "contains:read_json"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/pipeline/update_pipeline.py",
+        "name": "run_daily_update",
+        "start_line": 114,
+        "end_line": 304,
+        "line_count": 191,
+        "args": [
+          "force_full"
+        ],
+        "score": 12,
+        "classification": "DATA_NORMALIZATION_CANDIDATE",
+        "classification_rank": 80,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "uses_regime"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/run_e1r_unified_5y_full_account_4c2c.py",
+        "name": "build_inputs",
+        "start_line": 407,
+        "end_line": 461,
+        "line_count": 55,
+        "args": [],
+        "score": 12,
+        "classification": "DATA_NORMALIZATION_CANDIDATE",
+        "classification_rank": 80,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b.py",
+        "name": "build_inputs",
+        "start_line": 106,
+        "end_line": 183,
+        "line_count": 78,
+        "args": [
+          "smoke_symbols_limit"
+        ],
+        "score": 12,
+        "classification": "DATA_NORMALIZATION_CANDIDATE",
+        "classification_rank": 80,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b1.py",
+        "name": "build_inputs",
+        "start_line": 236,
+        "end_line": 282,
+        "line_count": 47,
+        "args": [
+          "smoke_symbols_limit"
+        ],
+        "score": 12,
+        "classification": "DATA_NORMALIZATION_CANDIDATE",
+        "classification_rank": 80,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b2.py",
+        "name": "build_inputs",
+        "start_line": 295,
+        "end_line": 338,
+        "line_count": 44,
+        "args": [
+          "smoke_symbols_limit"
+        ],
+        "score": 12,
+        "classification": "DATA_NORMALIZATION_CANDIDATE",
+        "classification_rank": 80,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b3.py",
+        "name": "build_inputs",
+        "start_line": 305,
+        "end_line": 348,
+        "line_count": 44,
+        "args": [
+          "smoke_symbols_limit"
+        ],
+        "score": 12,
+        "classification": "DATA_NORMALIZATION_CANDIDATE",
+        "classification_rank": 80,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_regime_wiring_4c2b4.py",
+        "name": "build_inputs",
+        "start_line": 398,
+        "end_line": 444,
+        "line_count": 47,
+        "args": [
+          "smoke_symbols_limit"
+        ],
+        "score": 12,
+        "classification": "DATA_NORMALIZATION_CANDIDATE",
+        "classification_rank": 80,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_regime_wiring_trade_window_4c2b5.py",
+        "name": "build_inputs",
+        "start_line": 397,
+        "end_line": 442,
+        "line_count": 46,
+        "args": [
+          "smoke_symbols_limit"
+        ],
+        "score": 12,
+        "classification": "DATA_NORMALIZATION_CANDIDATE",
+        "classification_rank": 80,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "name": "run_action_forward_validation",
+        "start_line": 595,
+        "end_line": 756,
+        "line_count": 162,
+        "args": [
+          "symbols",
+          "prices_map",
+          "spx_prices",
+          "dates_map",
+          "spx_dates",
+          "forward_days",
+          "step",
+          "min_history",
+          "market_score_default"
+        ],
+        "score": 11,
+        "classification": "DATA_NORMALIZATION_CANDIDATE",
+        "classification_rank": 80,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "name": "run_full_backtest",
+        "start_line": 2904,
+        "end_line": 2978,
+        "line_count": 75,
+        "args": [
+          "symbols",
+          "prices_map",
+          "spx_prices",
+          "dates_map",
+          "spx_dates",
+          "run_layer_b",
+          "run_layer_d",
+          "ndx_prices",
+          "ndx_dates",
+          "sox_prices",
+          "sox_dates",
+          "vix_prices",
+          "vix_dates"
+        ],
+        "score": 11,
+        "classification": "DATA_NORMALIZATION_CANDIDATE",
+        "classification_rank": 80,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_smoke_4c2c4e_b3.py",
+        "name": "load_stock_inputs",
+        "start_line": 151,
+        "end_line": 182,
+        "line_count": 32,
+        "args": [
+          "stock_dir"
+        ],
+        "score": 11,
+        "classification": "DATA_NORMALIZATION_CANDIDATE",
+        "classification_rank": 80,
+        "reasons": [
+          "contains:load_stock",
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/export_e1_5y_core_equity.py",
+        "name": "load_stocks",
+        "start_line": 162,
+        "end_line": 190,
+        "line_count": 29,
+        "args": [],
+        "score": 11,
+        "classification": "DATA_NORMALIZATION_CANDIDATE",
+        "classification_rank": 80,
+        "reasons": [
+          "contains:load_stock",
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/engine/index_analysis.py",
+        "name": "analyze_all_indices",
+        "start_line": 141,
+        "end_line": 170,
+        "line_count": 30,
+        "args": [
+          "prices_map",
+          "dates_map"
+        ],
+        "score": 10,
+        "classification": "DATA_NORMALIZATION_CANDIDATE",
+        "classification_rank": 80,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_spx_series"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/export_e1r_v0_2_status.py",
+        "name": "main",
+        "start_line": 105,
+        "end_line": 213,
+        "line_count": 109,
+        "args": [],
+        "score": 10,
+        "classification": "DATA_PATH_HELPER_CANDIDATE",
+        "classification_rank": 70,
+        "reasons": [
+          "contains:read_json",
+          "contains:data/research/e1_5y",
+          "contains:SPX.json",
+          "contains:spx_regime_daily",
+          "contains:raw/stocks",
+          "contains:raw/indices",
+          "uses_symbols",
+          "uses_research_5y_data",
+          "uses_regime"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_smoke_4c2c4e_b3.py",
+        "name": "choose_index_path",
+        "start_line": 118,
+        "end_line": 138,
+        "line_count": 21,
+        "args": [
+          "kind"
+        ],
+        "score": 8,
+        "classification": "DATA_PATH_HELPER_CANDIDATE",
+        "classification_rank": 70,
+        "reasons": [
+          "contains:data/research/e1_5y",
+          "contains:data/prices",
+          "contains:SPX.json",
+          "contains:_VIX.json",
+          "contains:raw/indices",
+          "uses_research_5y_data",
+          "uses_prod_prices"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/export_canonical_5y_equity_curves.py",
+        "name": "inspect_mode",
+        "start_line": 223,
+        "end_line": 241,
+        "line_count": 19,
+        "args": [],
+        "score": 7,
+        "classification": "DATA_PATH_HELPER_CANDIDATE",
+        "classification_rank": 70,
+        "reasons": [
+          "contains:data/research/e1_5y",
+          "contains:SPX.json",
+          "contains:spx_regime_daily",
+          "contains:raw/indices",
+          "uses_research_5y_data",
+          "uses_regime"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_smoke_4c2c4e_b3.py",
+        "name": "choose_stock_dir",
+        "start_line": 108,
+        "end_line": 116,
+        "line_count": 9,
+        "args": [],
+        "score": 6,
+        "classification": "DATA_PATH_HELPER_CANDIDATE",
+        "classification_rank": 70,
+        "reasons": [
+          "contains:data/research/e1_5y",
+          "contains:data/prices",
+          "contains:raw/stocks",
+          "uses_research_5y_data",
+          "uses_prod_prices"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/run_e1r_v0_2_oos_equity.py",
+        "name": "load_stock_price_map",
+        "start_line": 101,
+        "end_line": 149,
+        "line_count": 49,
+        "args": [],
+        "score": 6,
+        "classification": "DATA_PATH_HELPER_CANDIDATE",
+        "classification_rank": 70,
+        "reasons": [
+          "contains:read_json",
+          "contains:load_stock",
+          "contains:data/research/e1_5y",
+          "contains:raw/stocks",
+          "uses_research_5y_data"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_smoke_4c2c4e_b3.py",
+        "name": "choose_regime_path",
+        "start_line": 140,
+        "end_line": 149,
+        "line_count": 10,
+        "args": [],
+        "score": 5,
+        "classification": "DATA_PATH_HELPER_CANDIDATE",
+        "classification_rank": 70,
+        "reasons": [
+          "contains:data/research/e1_5y",
+          "contains:spx_regime_daily",
+          "uses_research_5y_data",
+          "uses_regime"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/export_e1_5y_core_equity.py",
+        "name": "load_index",
+        "start_line": 137,
+        "end_line": 151,
+        "line_count": 15,
+        "args": [
+          "symbol"
+        ],
+        "score": 2,
+        "classification": "DATA_PATH_HELPER_CANDIDATE",
+        "classification_rank": 70,
+        "reasons": [
+          "contains:data/prices",
+          "uses_prod_prices"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "name": "run_leader_engine_validation",
+        "start_line": 176,
+        "end_line": 306,
+        "line_count": 131,
+        "args": [
+          "symbols",
+          "prices_map",
+          "spx_prices",
+          "forward_days",
+          "step",
+          "min_history"
+        ],
+        "score": 7,
+        "classification": "GENERAL_LOADER_CANDIDATE",
+        "classification_rank": 60,
+        "reasons": [
+          "contains:prices_map",
+          "uses_prices_map",
+          "uses_symbols",
+          "uses_spx_series"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "name": "run_trade_rule_validation",
+        "start_line": 313,
+        "end_line": 464,
+        "line_count": 152,
+        "args": [
+          "symbols",
+          "prices_map",
+          "spx_prices",
+          "forward_days",
+          "step",
+          "min_history",
+          "market_score_default"
+        ],
+        "score": 7,
+        "classification": "GENERAL_LOADER_CANDIDATE",
+        "classification_rank": 60,
+        "reasons": [
+          "contains:prices_map",
+          "uses_prices_map",
+          "uses_symbols",
+          "uses_spx_series"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "name": "run_promotion_engine_validation",
+        "start_line": 471,
+        "end_line": 588,
+        "line_count": 118,
+        "args": [
+          "symbols",
+          "prices_map",
+          "spx_prices",
+          "promotion_thresholds",
+          "track_days",
+          "step",
+          "min_history"
+        ],
+        "score": 7,
+        "classification": "GENERAL_LOADER_CANDIDATE",
+        "classification_rank": 60,
+        "reasons": [
+          "contains:prices_map",
+          "uses_prices_map",
+          "uses_symbols",
+          "uses_spx_series"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/e1r_normalized_input_data_adapter_contract_4c2c4e_engine_b_r1.py",
+        "name": "scan_loader_candidates",
+        "start_line": 209,
+        "end_line": 322,
+        "line_count": 114,
+        "args": [],
+        "score": 20,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "contains:data/research/e1_5y",
+          "contains:data/prices",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_research_5y_data",
+          "uses_prod_prices",
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_diagnostic_4c2c4e_d4b_r1.py",
+        "name": "attempt_window",
+        "start_line": 400,
+        "end_line": 511,
+        "line_count": 112,
+        "args": [
+          "window"
+        ],
+        "score": 18,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:load_price",
+          "contains:load_stock",
+          "contains:load_universe",
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_normalized_input_data_adapter_contract_4c2c4e_engine_b_r1.py",
+        "name": "classify_loader_candidate",
+        "start_line": 186,
+        "end_line": 207,
+        "line_count": 22,
+        "args": [
+          "path_s",
+          "name",
+          "src",
+          "risks",
+          "score"
+        ],
+        "score": 15,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "contains:data/research/e1_5y",
+          "contains:data/prices",
+          "uses_prices_map",
+          "uses_dates_map",
+          "feeds_run_stateful_simulation",
+          "uses_research_5y_data",
+          "uses_prod_prices"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_normalized_input_data_adapter_contract_4c2c4e_engine_b_r1.py",
+        "name": "audit_backtest_input_signature",
+        "start_line": 324,
+        "end_line": 359,
+        "line_count": 36,
+        "args": [],
+        "score": 14,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_ohlc"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_diagnostic_4c2c4e_d4b_r1.py",
+        "name": "load_stock_universe",
+        "start_line": 195,
+        "end_line": 237,
+        "line_count": 43,
+        "args": [
+          "max_symbols"
+        ],
+        "score": 11,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:load_price",
+          "contains:load_stock",
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_runtime_equivalence_audit_4c2c4e_d3.py",
+        "name": "static_features",
+        "start_line": 164,
+        "end_line": 200,
+        "line_count": 37,
+        "args": [
+          "fn"
+        ],
+        "score": 6,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:prices_map",
+          "uses_prices_map",
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/audit_e1r_original_contract_4c2c4a.py",
+        "name": "inspect_known_artifacts",
+        "start_line": 201,
+        "end_line": 315,
+        "line_count": 115,
+        "args": [],
+        "score": 6,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:read_json",
+          "contains:data/research/e1_5y",
+          "contains:spx_regime_daily",
+          "uses_research_5y_data",
+          "uses_regime"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader",
+          "references_invalid_artifact"
+        ]
+      },
+      {
+        "path": "scripts/e1r_standalone_engine_architecture_contract_4c2c4e_engine_a.py",
+        "name": "build_engine_contract",
+        "start_line": 145,
+        "end_line": 488,
+        "line_count": 344,
+        "args": [],
+        "score": 4,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation",
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_runtime_equivalence_audit_4c2c4e_d3.py",
+        "name": "compare_equivalence_dimensions",
+        "start_line": 251,
+        "end_line": 369,
+        "line_count": 119,
+        "args": [
+          "baseline_features",
+          "candidate_features",
+          "baseline_actions",
+          "candidate_actions"
+        ],
+        "score": 4,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:prices_map",
+          "uses_prices_map"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/audit_e1r_original_contract_4c2c4a.py",
+        "name": "read_json_if_exists",
+        "start_line": 193,
+        "end_line": 199,
+        "line_count": 7,
+        "args": [
+          "path"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:read_json"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/audit_e1r_unified_5y_metric_consistency_4c2c1.py",
+        "name": "read_json",
+        "start_line": 24,
+        "end_line": 25,
+        "line_count": 2,
+        "args": [
+          "p"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:read_json"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/audit_e1r_v0_2_daily_like_candidates_v2.py",
+        "name": "read_json",
+        "start_line": 73,
+        "end_line": 74,
+        "line_count": 2,
+        "args": [
+          "p"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:read_json"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+        "name": "read_json",
+        "start_line": 69,
+        "end_line": 70,
+        "line_count": 2,
+        "args": [
+          "p"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:read_json"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+        "name": "find_e1r_regime_usage_in_engine",
+        "start_line": 116,
+        "end_line": 188,
+        "line_count": 73,
+        "args": [],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation",
+          "uses_regime"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+        "name": "derive_decision",
+        "start_line": 343,
+        "end_line": 377,
+        "line_count": 35,
+        "args": [
+          "engine_usage",
+          "b3_behavior"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation",
+          "uses_regime"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+        "name": "main",
+        "start_line": 379,
+        "end_line": 520,
+        "line_count": 142,
+        "args": [],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation",
+          "uses_regime"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+        "name": "audit_backtest_engine",
+        "start_line": 161,
+        "end_line": 209,
+        "line_count": 49,
+        "args": [],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation",
+          "uses_regime"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+        "name": "derive_decision",
+        "start_line": 343,
+        "end_line": 392,
+        "line_count": 50,
+        "args": [
+          "backtest",
+          "sidecar"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation",
+          "uses_regime"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_normalized_input_data_adapter_contract_4c2c4e_engine_b_r1.py",
+        "name": "read_json",
+        "start_line": 100,
+        "end_line": 101,
+        "line_count": 2,
+        "args": [
+          "path"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:read_json"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_real_uptrend_provider_filter_audit_4c2c4e_d2b.py",
+        "name": "read_json",
+        "start_line": 83,
+        "end_line": 84,
+        "line_count": 2,
+        "args": [
+          "path"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:read_json"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_real_uptrend_provider_filter_audit_4c2c4e_d2b.py",
+        "name": "audit_run_oos_day",
+        "start_line": 369,
+        "end_line": 422,
+        "line_count": 54,
+        "args": [],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "uses_symbols",
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_standalone_engine_architecture_contract_4c2c4e_engine_a.py",
+        "name": "read_json",
+        "start_line": 57,
+        "end_line": 58,
+        "line_count": 2,
+        "args": [
+          "path"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:read_json"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_diagnostic_4c2c4e_d4b_r1.py",
+        "name": "read_json",
+        "start_line": 80,
+        "end_line": 81,
+        "line_count": 2,
+        "args": [
+          "path"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:read_json"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_trace_contract_4c2c4e_d4a.py",
+        "name": "read_json",
+        "start_line": 129,
+        "end_line": 130,
+        "line_count": 2,
+        "args": [
+          "path"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:read_json"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_trace_contract_4c2c4e_d4a.py",
+        "name": "build_golden_master_contract",
+        "start_line": 341,
+        "end_line": 379,
+        "line_count": 39,
+        "args": [
+          "trace_capability"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation",
+          "uses_regime"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_provider_entrypoint_audit_4c2c4e_d1.py",
+        "name": "read_json",
+        "start_line": 87,
+        "end_line": 88,
+        "line_count": 2,
+        "args": [
+          "path"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:read_json"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_runtime_equivalence_audit_4c2c4e_d3.py",
+        "name": "read_json",
+        "start_line": 77,
+        "end_line": 78,
+        "line_count": 2,
+        "args": [
+          "path"
+        ],
+        "score": 3,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:read_json"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/audit_e1r_unified_5y_metric_consistency_4c2c1.py",
+        "name": "audit",
+        "start_line": 51,
+        "end_line": 210,
+        "line_count": 160,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:read_json",
+          "uses_regime"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+        "name": "get_run_stateful_source",
+        "start_line": 76,
+        "end_line": 95,
+        "line_count": 20,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+        "name": "analyze_b3_transition_behavior",
+        "start_line": 190,
+        "end_line": 308,
+        "line_count": 119,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:read_json",
+          "uses_regime"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+        "name": "audit_invalid_artifacts",
+        "start_line": 306,
+        "end_line": 341,
+        "line_count": 36,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_normalized_input_data_adapter_contract_4c2c4e_engine_b_r1.py",
+        "name": "describe_json_shape",
+        "start_line": 107,
+        "end_line": 163,
+        "line_count": 57,
+        "args": [
+          "path",
+          "max_sample"
+        ],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:read_json",
+          "uses_ohlc"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_normalized_input_data_adapter_contract_4c2c4e_engine_b_r1.py",
+        "name": "infer_schema_contract",
+        "start_line": 361,
+        "end_line": 450,
+        "line_count": 90,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_real_uptrend_provider_filter_audit_4c2c4e_d2b.py",
+        "name": "classify_runtime_function",
+        "start_line": 207,
+        "end_line": 293,
+        "line_count": 87,
+        "args": [
+          "fn"
+        ],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_real_uptrend_provider_filter_audit_4c2c4e_d2b.py",
+        "name": "audit_baseline_run_stateful",
+        "start_line": 488,
+        "end_line": 506,
+        "line_count": 19,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_real_uptrend_provider_filter_audit_4c2c4e_d2b.py",
+        "name": "derive_decision",
+        "start_line": 508,
+        "end_line": 561,
+        "line_count": 54,
+        "args": [
+          "false_positive_audit",
+          "run_oos",
+          "runtime_candidates",
+          "baseline"
+        ],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_standalone_engine_architecture_contract_4c2c4e_engine_a.py",
+        "name": "main",
+        "start_line": 521,
+        "end_line": 690,
+        "line_count": 170,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_diagnostic_4c2c4e_d4b_r1.py",
+        "name": "load_price_series",
+        "start_line": 135,
+        "end_line": 170,
+        "line_count": 36,
+        "args": [
+          "path"
+        ],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:read_json",
+          "contains:load_price"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_diagnostic_4c2c4e_d4b_r1.py",
+        "name": "load_regime_daily",
+        "start_line": 239,
+        "end_line": 262,
+        "line_count": 24,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:read_json",
+          "uses_regime"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_diagnostic_4c2c4e_d4b_r1.py",
+        "name": "build_assumptions",
+        "start_line": 264,
+        "end_line": 305,
+        "line_count": 42,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:read_json",
+          "uses_regime"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_diagnostic_4c2c4e_d4b_r1.py",
+        "name": "inspect_backtest_signature",
+        "start_line": 307,
+        "end_line": 321,
+        "line_count": 15,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_diagnostic_4c2c4e_d4b_r1.py",
+        "name": "main",
+        "start_line": 593,
+        "end_line": 730,
+        "line_count": 138,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "contains:read_json",
+          "uses_regime"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_trace_contract_4c2c4e_d4a.py",
+        "name": "audit_current_trace_capability",
+        "start_line": 233,
+        "end_line": 314,
+        "line_count": 82,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_trace_contract_4c2c4e_d4a.py",
+        "name": "derive_decision",
+        "start_line": 416,
+        "end_line": 443,
+        "line_count": 28,
+        "args": [
+          "trace_capability",
+          "instrumentation"
+        ],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_golden_master_trace_contract_4c2c4e_d4a.py",
+        "name": "main",
+        "start_line": 445,
+        "end_line": 579,
+        "line_count": 135,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_provider_entrypoint_audit_4c2c4e_d1.py",
+        "name": "audit_run_stateful_uptrend_logic",
+        "start_line": 178,
+        "end_line": 260,
+        "line_count": 83,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_provider_entrypoint_audit_4c2c4e_d1.py",
+        "name": "locate_external_provider_candidates",
+        "start_line": 329,
+        "end_line": 377,
+        "line_count": 49,
+        "args": [
+          "functions"
+        ],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_provider_entrypoint_audit_4c2c4e_d1.py",
+        "name": "audit_action_dict_shapes",
+        "start_line": 379,
+        "end_line": 416,
+        "line_count": 38,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      },
+      {
+        "path": "scripts/e1r_uptrend_provider_entrypoint_audit_4c2c4e_d1.py",
+        "name": "audit_repo_references",
+        "start_line": 418,
+        "end_line": 434,
+        "line_count": 17,
+        "args": [],
+        "score": 2,
+        "classification": "AUDIT_OR_CONTRACT_SCRIPT_NOT_RUNTIME_LOADER",
+        "classification_rank": 20,
+        "reasons": [
+          "feeds_run_stateful_simulation"
+        ],
+        "risks": [
+          "audit_or_contract_script_not_runtime_loader"
+        ]
+      }
+    ]
+  },
+  "backtest_input_signature": {
+    "import_ok": true,
+    "signature": "(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', dates_map: 'dict[str, list[str]]', spx_prices: 'list[float]', spx_dates: 'list[str]', ohlc_map: 'dict' = None, assumptions: 'dict' = None, step: 'int' = 1, min_history: 'int' = 120, market_score_default: 'float' = 60.0, sim_start_date: 'str' = None, sim_end_date: 'str' = None, ndx_prices: 'list' = None, ndx_dates: 'list' = None, sox_prices: 'list' = None, sox_dates: 'list' = None, vix_prices: 'list' = None, vix_dates: 'list' = None) -> 'dict'",
+    "parameters": [
+      "symbols",
+      "prices_map",
+      "dates_map",
+      "spx_prices",
+      "spx_dates",
+      "ohlc_map",
+      "assumptions",
+      "step",
+      "min_history",
+      "market_score_default",
+      "sim_start_date",
+      "sim_end_date",
+      "ndx_prices",
+      "ndx_dates",
+      "sox_prices",
+      "sox_dates",
+      "vix_prices",
+      "vix_dates"
+    ],
+    "required_core_inputs": [
+      "symbols",
+      "prices_map",
+      "dates_map",
+      "spx_prices",
+      "spx_dates",
+      "ohlc_map",
+      "assumptions",
+      "sim_start_date",
+      "sim_end_date",
+      "ndx_prices",
+      "ndx_dates",
+      "sox_prices",
+      "sox_dates",
+      "vix_prices",
+      "vix_dates"
+    ]
+  },
+  "normalized_input_contract": {
+    "contract_name": "E1R_NORMALIZED_INPUT_DATA_ADAPTER_CONTRACT_V1",
+    "reason": "Standalone E1R Engine requires one normalized input boundary shared by historical backtest, forward paper tracking, and future live trading. D4B-R1 showed ad hoc JSON parsing is unsafe.",
+    "normalized_market_snapshot": {
+      "date": "YYYY-MM-DD",
+      "universe": "list[str]",
+      "prices_by_symbol": {
+        "symbol": {
+          "close": "float",
+          "history": "list[DailyBar]",
+          "ohlc_optional": "open/high/low/close/volume if available"
+        }
+      },
+      "indices": {
+        "SPX": "required",
+        "NDX": "required if available",
+        "SOX": "required if available",
+        "VIX": "explicit optional / fallback path"
+      },
+      "regime": {
+        "spx_regime": "UPTREND | SIDEWAYS | DOWNTREND",
+        "subclass": "MA_CONFLICT | DETERIORATION_TRANSITION | RECOVERY_TRANSITION | NO_SUBCLASS"
+      },
+      "features": {
+        "leader_features_by_symbol": [
+          "leader_rank",
+          "leader_score",
+          "rs_score",
+          "momentum_score",
+          "trend_health",
+          "ma20",
+          "ma50",
+          "ma20_slope",
+          "ma50_slope"
+        ]
+      }
+    },
+    "adapter_contract": {
+      "HistoricalDataAdapter": {
+        "purpose": "Load 5Y historical data and provide normalized MarketSnapshot sequence.",
+        "may_do": [
+          "read JSON files",
+          "normalize schema",
+          "align dates",
+          "provide rolling history",
+          "provide index/regime snapshots"
+        ],
+        "must_not_do": [
+          "decide trading actions",
+          "change entry/exit/sizing/market gate",
+          "silently use invalid artifacts",
+          "silently fork logic from forward adapter"
+        ]
+      },
+      "ForwardDataAdapter": {
+        "purpose": "Load latest daily data and provide the same MarketSnapshot schema.",
+        "may_do": [
+          "read latest production data",
+          "normalize schema",
+          "provide rolling history",
+          "provide current regime snapshot"
+        ],
+        "must_not_do": [
+          "own trading logic",
+          "use run_oos_day as a separate decision engine",
+          "override E1R Core decisions"
+        ]
+      },
+      "LiveDataAdapter_future": {
+        "purpose": "Future live-data normalization only, disabled until explicit approval.",
+        "must_not_do": [
+          "bypass E1R Core Engine",
+          "introduce broker-specific trading rules"
+        ]
+      }
+    },
+    "acceptance_criteria_for_next_stage": [
+      "Identify a reusable runtime loader or explicitly conclude none is safe.",
+      "Lock real JSON schema for stock/index/regime files.",
+      "Define canonical parser behavior for HistoricalDataAdapter.",
+      "Confirm ForwardDataAdapter can use the same MarketSnapshot schema.",
+      "No strategy logic changes.",
+      "No full 5Y run.",
+      "No official result."
+    ]
+  },
+  "validations": {
+    "fail_safe_report_written": true,
+    "contract_audit_only": true,
+    "strategy_logic_changed": false,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "provider_extraction_run": false,
+    "adapter_implementation_run": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "strategy_files_unchanged": true,
+    "invalid_artifacts_not_used_as_source": true,
+    "composer_not_used": true,
+    "return_curve_stitching_not_used": true,
+    "engine_a_loaded": true,
+    "data_inventory_completed": true,
+    "loader_candidates_scanned": true,
+    "backtest_signature_audited": true,
+    "normalized_market_snapshot_contract_defined": true,
+    "historical_data_adapter_contract_defined": true,
+    "forward_data_adapter_contract_defined": true,
+    "future_live_data_adapter_boundary_defined": true,
+    "selected_loader_not_locked_yet": true,
+    "adapter_implementation_not_allowed_yet": true,
+    "strategy_core_extraction_not_allowed_yet": true,
+    "decision_generated": true
+  },
+  "decision": {
+    "normalized_input_contract_defined": true,
+    "loader_candidates_found": 287,
+    "reusable_runtime_loader_candidate_count": 41,
+    "audit_only_candidate_count": 49,
+    "selected_loader_locked": false,
+    "historical_adapter_implementation_allowed_now": false,
+    "forward_adapter_implementation_allowed_now": false,
+    "strategy_core_extraction_allowed_now": false,
+    "full_5y_backtest_allowed_now": false,
+    "conclusion": "NORMALIZED_INPUT_CONTRACT_READY_REUSABLE_LOADER_CANDIDATES_FOUND",
+    "recommended_next_action": "Proceed to 4C-2C-4E-ENGINE-C: verify top reusable loader candidates with a no-strategy data-harness smoke. Do not implement trading core yet.",
+    "engineering_rule": "Backtest, forward test, and future live trading must share one normalized MarketSnapshot/DataBundle input contract. Data adapters normalize inputs; they do not own trading logic.",
+    "top_reusable_candidates": [
+      {
+        "path": "src/engine/backtest.py",
+        "name": "run_strategy_variant_comparison",
+        "start_line": 2489,
+        "end_line": 2895,
+        "line_count": 407,
+        "args": [
+          "symbols",
+          "prices_map",
+          "dates_map",
+          "spx_prices",
+          "spx_dates",
+          "ndx_prices",
+          "ndx_dates",
+          "sox_prices",
+          "sox_dates",
+          "vix_prices",
+          "vix_dates"
+        ],
+        "score": 23,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:json.load",
+          "contains:json.loads",
+          "contains:prices_map",
+          "contains:dates_map",
+          "contains:data/research/e1_5y",
+          "contains:SPX.json",
+          "contains:spx_regime_daily",
+          "contains:raw/stocks",
+          "contains:raw/indices",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_research_5y_data",
+          "uses_regime"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_smoke_4c2c4e_b3.py",
+        "name": "call_backtest_engine",
+        "start_line": 371,
+        "end_line": 423,
+        "line_count": 53,
+        "args": [
+          "stock_dir",
+          "regime_daily"
+        ],
+        "score": 16,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:load_stock",
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "name": "run_stateful_simulation",
+        "start_line": 763,
+        "end_line": 2486,
+        "line_count": 1724,
+        "args": [
+          "symbols",
+          "prices_map",
+          "dates_map",
+          "spx_prices",
+          "spx_dates",
+          "ohlc_map",
+          "assumptions",
+          "step",
+          "min_history",
+          "market_score_default",
+          "sim_start_date",
+          "sim_end_date",
+          "ndx_prices",
+          "ndx_dates",
+          "sox_prices",
+          "sox_dates",
+          "vix_prices",
+          "vix_dates"
+        ],
+        "score": 15,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/export_e1_5y_core_equity.py",
+        "name": "main",
+        "start_line": 295,
+        "end_line": 514,
+        "line_count": 220,
+        "args": [],
+        "score": 15,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:load_stock",
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/run_e1r_unified_5y_full_account_4c2c.py",
+        "name": "main",
+        "start_line": 679,
+        "end_line": 890,
+        "line_count": 212,
+        "args": [],
+        "score": 15,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_regime_wiring_4c2b4.py",
+        "name": "main",
+        "start_line": 497,
+        "end_line": 703,
+        "line_count": 207,
+        "args": [],
+        "score": 15,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_regime_wiring_trade_window_4c2b5.py",
+        "name": "main",
+        "start_line": 514,
+        "end_line": 707,
+        "line_count": 194,
+        "args": [],
+        "score": 15,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_regime",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b.py",
+        "name": "main",
+        "start_line": 219,
+        "end_line": 384,
+        "line_count": 166,
+        "args": [],
+        "score": 14,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b1.py",
+        "name": "main",
+        "start_line": 319,
+        "end_line": 481,
+        "line_count": 163,
+        "args": [],
+        "score": 14,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_ohlc"
+        ],
+        "risks": []
+      },
+      {
+        "path": "scripts/smoke_invoke_unified_engine_4c2b2.py",
+        "name": "main",
+        "start_line": 375,
+        "end_line": 542,
+        "line_count": 168,
+        "args": [],
+        "score": 14,
+        "classification": "BACKTEST_HARNESS_CANDIDATE",
+        "classification_rank": 100,
+        "reasons": [
+          "contains:prices_map",
+          "contains:dates_map",
+          "uses_prices_map",
+          "uses_dates_map",
+          "uses_symbols",
+          "uses_spx_series",
+          "feeds_run_stateful_simulation",
+          "uses_ohlc"
+        ],
+        "risks": []
+      }
+    ]
+  }
+}
