@@ -1,0 +1,725 @@
+{
+  "generated_at": "2026-07-10T05:02:54.322235+00:00",
+  "elapsed_seconds": 0.020342,
+  "stage": "4C-2C-4E-ENGINE-A",
+  "status": "STANDALONE_E1R_ENGINE_ARCHITECTURE_CONTRACT_COMPLETE",
+  "purpose": "Define a standalone E1R engine architecture callable by 5Y backtest, forward test, and future live trading.",
+  "policy": {
+    "strategy_logic_changed": false,
+    "architecture_contract_only": true,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "provider_extraction_run": false,
+    "adapter_implementation_run": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "frozen_strategy_files_changed": false,
+    "invalid_artifacts_used_as_source": false,
+    "composer_used": false,
+    "return_curve_stitching_used": false
+  },
+  "prior_reports": {
+    "D3": {
+      "exists": true,
+      "path": "docs/research/E1R_4C2C4E_D3_UPTREND_RUNTIME_EQUIVALENCE_AUDIT.json",
+      "status": "UPTREND_RUNTIME_EQUIVALENCE_AUDIT_COMPLETE",
+      "decision": {
+        "uptrend_provider_locked": false,
+        "implementation_allowed_now": false,
+        "run_oos_day_equivalence_passed": false,
+        "hard_fail_reasons": [
+          "candidate_generation",
+          "candidate_lacks_hold_logic",
+          "candidate_lacks_max_positions_guard",
+          "candidate_lacks_reduce_logic",
+          "candidate_lacks_same_market_gate",
+          "candidate_requires_precomputed_leaders",
+          "historical_replay_compatibility",
+          "hold_rule",
+          "market_gate",
+          "max_positions",
+          "position_sizing",
+          "reduce_rule"
+        ],
+        "conclusion": "RUN_OOS_DAY_NOT_EQUIVALENT_USE_RUN_STATEFUL_EXTRACTION_PLAN",
+        "recommended_next_action": "Proceed to 4C-2C-4E-D4: no-strategy-change UPTREND provider extraction design from src/engine/backtest.py::run_stateful_simulation. Do not use run_oos_day as adapter provider.",
+        "engineering_rule": "Correct trading logic has priority over code reuse. A helper that lacks candidate generation, market gate, max-position guard, sizing equivalence, or historical replay compatibility cannot be used as the official UPTREND provider."
+      },
+      "policy": {
+        "strategy_logic_changed": false,
+        "backtest_engine_full_run": false,
+        "candidate_runtime_execution_run": false,
+        "full_5y_backtest_run": false,
+        "official_result_generated": false,
+        "dashboard_changed": false,
+        "frozen_strategy_files_changed": false,
+        "invalid_artifacts_used_as_source": false,
+        "composer_used": false,
+        "return_curve_stitching_used": false
+      }
+    },
+    "D4A": {
+      "exists": true,
+      "path": "docs/research/E1R_4C2C4E_D4A_UPTREND_GOLDEN_MASTER_TRACE_CONTRACT.json",
+      "status": "UPTREND_GOLDEN_MASTER_TRACE_CONTRACT_COMPLETE",
+      "decision": {
+        "golden_master_contract_defined": true,
+        "current_outputs_sufficient_for_minimal_golden_master": true,
+        "instrumentation_required": false,
+        "strategy_logic_change_required": false,
+        "provider_extraction_allowed_now": false,
+        "adapter_implementation_allowed_now": false,
+        "conclusion": "GOLDEN_MASTER_TRACE_CONTRACT_READY_FOR_SHORT_WINDOW_BASELINE_EXPORT",
+        "recommended_next_action": "Proceed to 4C-2C-4E-D4B: export a short-window UPTREND golden master trace from current run_stateful_simulation outputs. No provider extraction yet.",
+        "engineering_rule": "Golden master must be established before provider extraction. Any missing trace fields may only be added as output instrumentation after approval and must not affect ranking, orders, sizing, market gate, or account state."
+      },
+      "policy": {
+        "strategy_logic_changed": false,
+        "backtest_engine_run": false,
+        "full_5y_backtest_run": false,
+        "provider_extraction_run": false,
+        "adapter_implementation_run": false,
+        "official_result_generated": false,
+        "dashboard_changed": false,
+        "frozen_strategy_files_changed": false,
+        "invalid_artifacts_used_as_source": false,
+        "composer_used": false,
+        "return_curve_stitching_used": false
+      }
+    },
+    "D4B_R1": {
+      "exists": true,
+      "path": "docs/research/E1R_4C2C4E_D4B_R1_UPTREND_GOLDEN_MASTER_DIAGNOSTIC.json",
+      "status": "UPTREND_GOLDEN_MASTER_FAILSAFE_DIAGNOSTIC_COMPLETE",
+      "decision": {
+        "attempt_count": 8,
+        "ok_attempt_count": 0,
+        "all_attempts_failed": true,
+        "errors_by_phase": {
+          "load_universe": 8
+        },
+        "errors_by_type": {
+          "RuntimeError": 8
+        },
+        "provider_extraction_allowed_now": false,
+        "adapter_implementation_allowed_now": false,
+        "conclusion": "D4B_R1_ENGINE_CALL_DIAGNOSTIC_FAILED_REVIEW_FAILURE_PHASE",
+        "recommended_next_action": "Review diagnostic report phases/errors first. Do not continue to extraction. Fix the engine harness/input contract before exporting golden master.",
+        "engineering_rule": "The final E1R engine must support both 5Y backtest and ongoing forward test with one shared core logic. This diagnostic step must not introduce a backtest-only or forward-only shortcut."
+      },
+      "policy": {
+        "strategy_logic_changed": false,
+        "short_window_diagnostic_attempted": true,
+        "full_5y_backtest_run": false,
+        "provider_extraction_run": false,
+        "adapter_implementation_run": false,
+        "official_result_generated": false,
+        "dashboard_changed": false,
+        "frozen_strategy_files_changed": false,
+        "invalid_artifacts_used_as_source": false,
+        "composer_used": false,
+        "return_curve_stitching_used": false
+      }
+    }
+  },
+  "source_inventory": {
+    "run_stateful_simulation": {
+      "exists": true,
+      "path": "src/engine/backtest.py",
+      "name": "run_stateful_simulation",
+      "start_line": 763,
+      "end_line": 2486,
+      "line_count": 1724,
+      "args": [
+        "symbols",
+        "prices_map",
+        "dates_map",
+        "spx_prices",
+        "spx_dates",
+        "ohlc_map",
+        "assumptions",
+        "step",
+        "min_history",
+        "market_score_default",
+        "sim_start_date",
+        "sim_end_date",
+        "ndx_prices",
+        "ndx_dates",
+        "sox_prices",
+        "sox_dates",
+        "vix_prices",
+        "vix_dates"
+      ],
+      "features": {
+        "has_candidate_logic": true,
+        "has_buy": true,
+        "has_add": true,
+        "has_reduce": true,
+        "has_exit": true,
+        "has_hold": true,
+        "has_cash": true,
+        "has_positions": true,
+        "has_total_equity": true,
+        "has_market_gate": true,
+        "has_max_positions": true,
+        "has_regime": true,
+        "has_sidecar": false,
+        "references_invalid_artifacts": false
+      }
+    },
+    "run_oos_day": {
+      "exists": true,
+      "path": "src/oos/tracking_engine.py",
+      "name": "run_oos_day",
+      "start_line": 25,
+      "end_line": 265,
+      "line_count": 241,
+      "args": [
+        "signal_date",
+        "leaders",
+        "prices",
+        "market_state",
+        "source",
+        "data_date"
+      ],
+      "features": {
+        "has_candidate_logic": true,
+        "has_buy": true,
+        "has_add": true,
+        "has_reduce": false,
+        "has_exit": true,
+        "has_hold": false,
+        "has_cash": true,
+        "has_positions": true,
+        "has_total_equity": true,
+        "has_market_gate": true,
+        "has_max_positions": false,
+        "has_regime": false,
+        "has_sidecar": false,
+        "references_invalid_artifacts": false
+      }
+    },
+    "trade_action": {
+      "exists": true,
+      "path": "src/engine/trade_decision.py",
+      "name": "trade_action",
+      "start_line": 24,
+      "end_line": 78,
+      "line_count": 55,
+      "args": [
+        "trend_state",
+        "mom_score",
+        "rs_score",
+        "price",
+        "ma50",
+        "ma50_slope",
+        "leader_score",
+        "trend_health",
+        "market_score",
+        "ls60_exit_mode"
+      ],
+      "features": {
+        "has_candidate_logic": true,
+        "has_buy": true,
+        "has_add": true,
+        "has_reduce": true,
+        "has_exit": true,
+        "has_hold": true,
+        "has_cash": false,
+        "has_positions": false,
+        "has_total_equity": false,
+        "has_market_gate": false,
+        "has_max_positions": false,
+        "has_regime": false,
+        "has_sidecar": false,
+        "references_invalid_artifacts": false
+      }
+    },
+    "trade_action_reason": {
+      "exists": true,
+      "path": "src/engine/trade_decision.py",
+      "name": "trade_action_reason",
+      "start_line": 114,
+      "end_line": 194,
+      "line_count": 81,
+      "args": [
+        "trend_state",
+        "mom_score",
+        "rs_score",
+        "price",
+        "ma50",
+        "ma50_slope",
+        "leader_score",
+        "trend_health",
+        "market_score",
+        "ls60_exit_mode"
+      ],
+      "features": {
+        "has_candidate_logic": true,
+        "has_buy": true,
+        "has_add": true,
+        "has_reduce": true,
+        "has_exit": true,
+        "has_hold": true,
+        "has_cash": false,
+        "has_positions": false,
+        "has_total_equity": false,
+        "has_market_gate": false,
+        "has_max_positions": false,
+        "has_regime": false,
+        "has_sidecar": false,
+        "references_invalid_artifacts": false
+      }
+    },
+    "run_daily_rebalanced_sidecar": {
+      "exists": true,
+      "path": "src/engine/e1r_sidecar_sleeve.py",
+      "name": "run_daily_rebalanced_sidecar",
+      "start_line": 401,
+      "end_line": 470,
+      "line_count": 70,
+      "args": [
+        "rankings",
+        "spx",
+        "regimes",
+        "intervals",
+        "config"
+      ],
+      "features": {
+        "has_candidate_logic": true,
+        "has_buy": false,
+        "has_add": false,
+        "has_reduce": false,
+        "has_exit": false,
+        "has_hold": false,
+        "has_cash": false,
+        "has_positions": false,
+        "has_total_equity": false,
+        "has_market_gate": false,
+        "has_max_positions": false,
+        "has_regime": true,
+        "has_sidecar": true,
+        "references_invalid_artifacts": false
+      }
+    },
+    "build_e1r_sidecar_sleeve": {
+      "exists": true,
+      "path": "src/engine/e1r_sidecar_sleeve.py",
+      "name": "build_e1r_sidecar_sleeve",
+      "start_line": 538,
+      "end_line": 594,
+      "line_count": 57,
+      "args": [
+        "stock_dir",
+        "spx_path",
+        "regime_path",
+        "config"
+      ],
+      "features": {
+        "has_candidate_logic": true,
+        "has_buy": false,
+        "has_add": false,
+        "has_reduce": false,
+        "has_exit": false,
+        "has_hold": false,
+        "has_cash": false,
+        "has_positions": false,
+        "has_total_equity": true,
+        "has_market_gate": false,
+        "has_max_positions": false,
+        "has_regime": true,
+        "has_sidecar": true,
+        "references_invalid_artifacts": false
+      }
+    }
+  },
+  "engine_architecture_contract": {
+    "contract_name": "E1R_STANDALONE_ENGINE_ARCHITECTURE_CONTRACT_V1",
+    "core_principle": "Backtest, forward test / paper tracking, and future live trading must call the same E1R Core Engine. Mode-specific code may only adapt data, execution, persistence, and reporting; it must not fork trading logic.",
+    "engine_goal": {
+      "historical_backtest": "Run formal 5Y E1R historical simulation using the same core decision engine.",
+      "forward_test": "Run daily paper tracking using the same core decision engine and persisted account state.",
+      "future_live": "Use the same core decision engine with a live broker execution adapter after explicit approval."
+    },
+    "non_negotiable_rules": [
+      "Do not maintain separate backtest-only, forward-only, or live-only trading logic.",
+      "Do not use stitched return curves.",
+      "Do not use invalid artifacts as formal sources.",
+      "Do not silently modify entry, exit, add, reduce, hold, sizing, market gate, regime routing, or account-state rules.",
+      "Do not use src/oos/tracking_engine.py::run_oos_day as the official historical UPTREND provider.",
+      "Do not treat sidecar Top10 as ten live holdings; it is candidate/ranking input only.",
+      "Live holdings must never exceed max_open_positions = 3.",
+      "Cash, positions, pending orders, realized/unrealized PnL, and equity must be owned by one continuous account state.",
+      "Golden master / equivalence checks must precede any strategy-core extraction."
+    ],
+    "target_module_layout": {
+      "core_engine": "src/e1r_engine/core.py",
+      "contracts": "src/e1r_engine/contracts.py",
+      "state": "src/e1r_engine/state.py",
+      "strategy_core": "src/e1r_engine/strategy_core.py",
+      "regime_router": "src/e1r_engine/regime_router.py",
+      "uptrend_core": "src/e1r_engine/uptrend_core.py",
+      "sideways_core": "src/e1r_engine/sideways_core.py",
+      "cash_defensive_core": "src/e1r_engine/cash_defensive_core.py",
+      "data_adapters": {
+        "historical": "src/e1r_engine/adapters/historical_data.py",
+        "forward": "src/e1r_engine/adapters/forward_data.py",
+        "live_future": "src/e1r_engine/adapters/live_data.py"
+      },
+      "execution_adapters": {
+        "backtest": "src/e1r_engine/adapters/backtest_execution.py",
+        "paper": "src/e1r_engine/adapters/paper_execution.py",
+        "live_future": "src/e1r_engine/adapters/live_broker_execution.py"
+      },
+      "persistence": {
+        "backtest_memory": "in-memory state for historical simulation",
+        "paper_state": "persisted JSON state for forward tracking",
+        "live_state_future": "broker/account synced state after explicit approval"
+      },
+      "exports": {
+        "backtest": "exports/e1r_engine/backtest/",
+        "forward": "exports/e1r_engine/forward/",
+        "audit": "exports/e1r_engine/audit/"
+      }
+    },
+    "engine_api_contract": {
+      "E1RCoreEngine.step": {
+        "purpose": "Process one trading date with current account state and normalized market snapshot.",
+        "inputs": [
+          "as_of_date",
+          "mode: BACKTEST | PAPER | LIVE",
+          "account_state",
+          "market_snapshot",
+          "regime_snapshot",
+          "universe_snapshot",
+          "config",
+          "execution_adapter"
+        ],
+        "outputs": [
+          "next_account_state",
+          "decision_trace",
+          "orders",
+          "fills",
+          "daily_account_record",
+          "validation_flags"
+        ],
+        "must_not": [
+          "read mode-specific files directly",
+          "write dashboard outputs directly",
+          "call invalid artifacts",
+          "fork trading logic by mode"
+        ]
+      },
+      "E1RBacktestRunner.run": {
+        "purpose": "Loop over historical dates and call E1RCoreEngine.step for each date.",
+        "allowed_responsibility": [
+          "historical data loading",
+          "date iteration",
+          "in-memory account initialization",
+          "backtest execution fills",
+          "backtest report export"
+        ],
+        "not_allowed": [
+          "own separate trading rules",
+          "override core decisions",
+          "stitch sidecar/composer curves"
+        ]
+      },
+      "E1RForwardRunner.run_day": {
+        "purpose": "Load latest data and persisted paper account state, then call E1RCoreEngine.step once.",
+        "allowed_responsibility": [
+          "latest data loading",
+          "state persistence",
+          "paper execution fills",
+          "forward report export"
+        ],
+        "not_allowed": [
+          "own separate trading rules",
+          "use run_oos_day as a parallel decision engine",
+          "override core decisions"
+        ]
+      },
+      "E1RLiveRunner.future": {
+        "purpose": "Future live wrapper; disabled until explicitly approved.",
+        "allowed_responsibility": [
+          "broker data adapter",
+          "broker order adapter",
+          "broker state reconciliation",
+          "risk and safety checks"
+        ],
+        "not_allowed": [
+          "bypass E1RCoreEngine",
+          "introduce new trading rules outside core"
+        ]
+      }
+    },
+    "state_contract": {
+      "AccountState": [
+        "cash",
+        "positions",
+        "pending_orders",
+        "realized_pnl",
+        "unrealized_pnl",
+        "total_equity",
+        "open_positions_count",
+        "max_open_positions",
+        "last_processed_date",
+        "mode"
+      ],
+      "PositionState": [
+        "symbol",
+        "shares",
+        "avg_cost",
+        "size_units",
+        "entry_date",
+        "entry_signal",
+        "entry_price",
+        "leader_score_entry",
+        "entry_regime",
+        "entry_type",
+        "highest_close",
+        "min_close_since_entry",
+        "action_history"
+      ],
+      "hard_invariants": [
+        "open_positions_count <= 3",
+        "cash cannot silently diverge between modes",
+        "position sizing must be decided by core logic and filled by execution adapter",
+        "state transition timing must be identical between backtest and forward when input snapshots are identical"
+      ]
+    },
+    "strategy_core_contract": {
+      "RegimeRouter": {
+        "UPTREND": "call UPTREND core extracted from existing validated run_stateful_simulation behavior",
+        "SIDEWAYS_MA_CONFLICT": "call sidecar candidate provider as candidate/ranking input, then core max3 account execution",
+        "DETERIORATION_TRANSITION": "cash defensive branch",
+        "RECOVERY_TRANSITION": "cash defensive branch",
+        "DOWNTREND": "cash defensive branch"
+      },
+      "UPTREND": {
+        "source_of_truth": "src/engine/backtest.py::run_stateful_simulation current validated behavior",
+        "migration_method": "golden-master-first no-strategy-change extraction",
+        "required_equivalence": [
+          "BUY symbol/date/reason match",
+          "EXIT symbol/date/reason match",
+          "ADD/REDUCE/HOLD behavior match",
+          "candidate ranking match",
+          "market gate match",
+          "max_positions behavior match",
+          "sizing/cash/equity match within explicit tolerance"
+        ]
+      },
+      "SIDEWAYS_MA_CONFLICT": {
+        "source_of_truth": "src/engine/e1r_sidecar_sleeve.py strict MA_CONFLICT Top10 candidate/ranking provider",
+        "important_rule": "Top10 is not ten live holdings; final account holdings remain max3."
+      },
+      "CASH_DEFENSIVE": {
+        "behavior": "No new risk entries; manage/exit existing positions according to approved defensive branch rules.",
+        "must_be_explicit": true
+      }
+    },
+    "data_adapter_contract": {
+      "normalized_input_required": true,
+      "reason": "D4B-R1 showed that ad hoc JSON parsing is unsafe; engine must rely on one normalized input contract.",
+      "NormalizedMarketSnapshot": [
+        "date",
+        "prices_by_symbol",
+        "ohlc_by_symbol_optional",
+        "index_prices",
+        "regime",
+        "subclass",
+        "leader_features",
+        "universe_membership"
+      ],
+      "historical_adapter": {
+        "must_use_existing_verified_loader_or_formalized_replacement": true,
+        "purpose": "5Y backtest data normalization."
+      },
+      "forward_adapter": {
+        "purpose": "Daily latest data normalization using same schema."
+      },
+      "live_adapter_future": {
+        "purpose": "Broker/live market data normalization using same schema."
+      }
+    },
+    "execution_adapter_contract": {
+      "BacktestExecutionAdapter": [
+        "simulate fills using approved historical execution convention",
+        "return fills to core/account state"
+      ],
+      "PaperExecutionAdapter": [
+        "simulate/record paper fills using latest close or approved paper convention",
+        "persist paper state"
+      ],
+      "LiveBrokerExecutionAdapter_future": [
+        "disabled until explicit approval",
+        "must include broker reconciliation and risk controls"
+      ],
+      "core_rule": "Execution adapter may fill or reject orders; it must not decide trading signals."
+    },
+    "audit_and_output_contract": {
+      "decision_trace_required": true,
+      "trace_fields": [
+        "date",
+        "mode",
+        "regime",
+        "subclass",
+        "active_branch",
+        "candidate_snapshot",
+        "action_decisions",
+        "orders",
+        "fills",
+        "cash",
+        "positions",
+        "total_equity",
+        "open_positions_count",
+        "validation_flags"
+      ],
+      "outputs_by_mode": {
+        "backtest": [
+          "daily_equity",
+          "trades",
+          "orders",
+          "fills",
+          "decision_trace",
+          "metrics",
+          "validation_report"
+        ],
+        "forward": [
+          "daily_forward_state",
+          "paper_orders",
+          "paper_fills",
+          "decision_trace",
+          "dashboard_export"
+        ],
+        "live_future": [
+          "broker_orders",
+          "broker_fills",
+          "reconciliation_report",
+          "risk_log"
+        ]
+      }
+    },
+    "migration_plan": [
+      {
+        "stage": "ENGINE-A",
+        "name": "Standalone engine architecture contract",
+        "allowed": "architecture docs only",
+        "status": "current"
+      },
+      {
+        "stage": "ENGINE-B",
+        "name": "Normalized input/data adapter contract audit",
+        "purpose": "Find and formalize the existing verified data loader/input schema.",
+        "allowed": "audit only"
+      },
+      {
+        "stage": "ENGINE-C",
+        "name": "Core state and execution adapter contract",
+        "purpose": "Define AccountState, Order, Fill, DecisionTrace, BacktestExecution, PaperExecution.",
+        "allowed": "contract only"
+      },
+      {
+        "stage": "ENGINE-D",
+        "name": "Golden master baseline export harness",
+        "purpose": "Export baseline traces from current run_stateful_simulation using formalized input adapter.",
+        "allowed": "short-window baseline only"
+      },
+      {
+        "stage": "ENGINE-E",
+        "name": "UPTREND no-strategy-change extraction",
+        "purpose": "Extract UPTREND core from run_stateful_simulation behind golden master equivalence tests.",
+        "allowed": "implementation only after contract approval"
+      },
+      {
+        "stage": "ENGINE-F",
+        "name": "SIDEWAYS MA_CONFLICT and cash defensive branch integration",
+        "purpose": "Integrate sidecar candidate provider and defensive branch into same engine state.",
+        "allowed": "smoke first, no official result"
+      },
+      {
+        "stage": "ENGINE-G",
+        "name": "5Y E1R backtest runner",
+        "purpose": "Run formal 5Y backtest through E1RCoreEngine.",
+        "allowed": "only after branch equivalence validations pass"
+      },
+      {
+        "stage": "ENGINE-H",
+        "name": "Forward paper runner",
+        "purpose": "Daily forward tracking through same E1RCoreEngine.",
+        "allowed": "only after backtest runner contract and state persistence pass"
+      },
+      {
+        "stage": "ENGINE-I",
+        "name": "Dashboard integration",
+        "purpose": "Dashboard consumes engine exports only.",
+        "allowed": "after backtest + forward outputs are stable"
+      }
+    ],
+    "success_definition": {
+      "architecture_success": [
+        "One shared E1R Core Engine defined.",
+        "Backtest/forward/live responsibilities separated by adapters.",
+        "Trading logic belongs only to strategy core.",
+        "Data input contract normalized.",
+        "Account state ownership explicit.",
+        "Migration path preserves no-strategy-change rule."
+      ],
+      "future_engine_success": [
+        "5Y backtest can run through E1RCoreEngine.",
+        "Forward test can run through E1RCoreEngine with persisted state.",
+        "Given same input snapshot and state, backtest and forward mode produce same decisions before execution fill differences.",
+        "Dashboard uses engine exports, not stitched research artifacts."
+      ]
+    }
+  },
+  "validations": {
+    "architecture_contract_only": true,
+    "strategy_logic_changed": false,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "provider_extraction_run": false,
+    "adapter_implementation_run": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "strategy_files_unchanged": true,
+    "invalid_artifacts_not_used_as_source": true,
+    "composer_not_used": true,
+    "return_curve_stitching_not_used": true,
+    "shared_core_engine_principle_defined": true,
+    "backtest_forward_live_adapter_boundary_defined": true,
+    "state_contract_defined": true,
+    "strategy_core_contract_defined": true,
+    "data_adapter_contract_defined": true,
+    "execution_adapter_contract_defined": true,
+    "migration_plan_defined": true,
+    "provider_extraction_not_allowed_yet": true,
+    "adapter_implementation_not_allowed_yet": true,
+    "full_5y_backtest_not_allowed_yet": true,
+    "decision_generated": true
+  },
+  "decision": {
+    "standalone_engine_contract_defined": true,
+    "replaces_old_next_step": "D4B-R2 ad hoc loader fix is replaced by ENGINE-B normalized input/data adapter contract audit.",
+    "why": [
+      "D3 showed run_oos_day is not equivalent and cannot be the official UPTREND provider.",
+      "D4A showed golden master fields are sufficient, but only as a baseline contract.",
+      "D4B-R1 showed ad hoc data loaders are unsafe and the engine needs a normalized input contract.",
+      "The final target requires one core engine callable by backtest, forward test, and future live trading."
+    ],
+    "provider_extraction_allowed_now": false,
+    "adapter_implementation_allowed_now": false,
+    "full_5y_backtest_allowed_now": false,
+    "forward_runner_allowed_now": false,
+    "conclusion": "STANDALONE_E1R_ENGINE_ARCHITECTURE_CONTRACT_READY",
+    "recommended_next_action": "Proceed to 4C-2C-4E-ENGINE-B: normalized input/data adapter contract audit. Do not patch D4B with another ad hoc loader; formalize the shared input contract first.",
+    "engineering_rule": "Backtest, forward test / paper tracking, and future live trading must call the same E1R Core Engine. Mode-specific code may only adapt data, execution, persistence, and reporting; it must not fork trading logic.",
+    "prior_status": {
+      "D3": "UPTREND_RUNTIME_EQUIVALENCE_AUDIT_COMPLETE",
+      "D4A": "UPTREND_GOLDEN_MASTER_TRACE_CONTRACT_COMPLETE",
+      "D4B_R1": "UPTREND_GOLDEN_MASTER_FAILSAFE_DIAGNOSTIC_COMPLETE"
+    }
+  }
+}
