@@ -1,0 +1,611 @@
+{
+  "generated_at": "2026-07-10T05:32:37.633956+00:00",
+  "elapsed_seconds": 1.574315,
+  "stage": "4C-2C-4E-ENGINE-C-R1",
+  "status": "NO_STRATEGY_DATA_HARNESS_SMOKE_R1_COMPLETE",
+  "purpose": "Fix regime parser and strict date-alignment validation after ENGINE-C diagnostic failure.",
+  "policy": {
+    "strategy_logic_changed": false,
+    "no_strategy_data_harness_only": true,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "provider_extraction_run": false,
+    "adapter_implementation_run": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "frozen_strategy_files_changed": false,
+    "invalid_artifacts_used_as_source": false,
+    "composer_used": false,
+    "return_curve_stitching_used": false
+  },
+  "stock_universe_summary": {
+    "stock_dir": "data/research/e1_5y/raw/stocks",
+    "files_seen": 542,
+    "symbols_loaded": 540,
+    "symbols_skipped": 2,
+    "skipped_sample": {
+      "FDXF": "too_few_bars:17",
+      "VIXY": "excluded_vixy"
+    },
+    "first_symbols": [
+      "A",
+      "AAL",
+      "AAPL",
+      "ABBV",
+      "ABNB",
+      "ABT",
+      "ACGL",
+      "ACN",
+      "ADBE",
+      "ADI",
+      "ADM",
+      "ADP",
+      "ADSK",
+      "AEE",
+      "AEP",
+      "AES",
+      "AFL",
+      "AIG",
+      "AIZ",
+      "AJG"
+    ],
+    "meta_sample": {
+      "A": {
+        "path": "data/research/e1_5y/raw/stocks/A.json",
+        "raw_type": "dict",
+        "top_level_keys": [
+          "bars",
+          "data_end",
+          "data_start",
+          "dataset_mode",
+          "downloaded_at",
+          "formal_pass_fail_allowed",
+          "price_adjustment",
+          "requested_end",
+          "requested_start",
+          "schema_version",
+          "source",
+          "survivorship_bias",
+          "symbol",
+          "yahoo_ticker"
+        ],
+        "symbol": "A",
+        "schema_version": "1.0",
+        "data_start": "2020-04-01",
+        "data_end": "2026-06-18",
+        "dataset_mode": "CURRENT_CONSTITUENTS_PRELIMINARY",
+        "source": "Yahoo Finance",
+        "bar_source": "dict.bars",
+        "raw_bar_count": 1562,
+        "parsed_bar_count": 1562,
+        "rejected_bar_count": 0,
+        "first_date": "2020-04-01",
+        "last_date": "2026-06-18",
+        "sample_bar": {
+          "date": "2020-04-01",
+          "open": 66.616585,
+          "high": 67.34537,
+          "low": 65.350803,
+          "close": 66.089172,
+          "volume": 2173600.0
+        }
+      },
+      "AAL": {
+        "path": "data/research/e1_5y/raw/stocks/AAL.json",
+        "raw_type": "dict",
+        "top_level_keys": [
+          "bars",
+          "data_end",
+          "data_start",
+          "dataset_mode",
+          "downloaded_at",
+          "formal_pass_fail_allowed",
+          "price_adjustment",
+          "requested_end",
+          "requested_start",
+          "schema_version",
+          "source",
+          "survivorship_bias",
+          "symbol",
+          "yahoo_ticker"
+        ],
+        "symbol": "AAL",
+        "schema_version": "1.0",
+        "data_start": "2020-04-01",
+        "data_end": "2026-06-18",
+        "dataset_mode": "CURRENT_CONSTITUENTS_PRELIMINARY",
+        "source": "Yahoo Finance",
+        "bar_source": "dict.bars",
+        "raw_bar_count": 1562,
+        "parsed_bar_count": 1562,
+        "rejected_bar_count": 0,
+        "first_date": "2020-04-01",
+        "last_date": "2026-06-18",
+        "sample_bar": {
+          "date": "2020-04-01",
+          "open": 11.45,
+          "high": 11.48,
+          "low": 10.5,
+          "close": 10.69,
+          "volume": 56854400.0
+        }
+      },
+      "AAPL": {
+        "path": "data/research/e1_5y/raw/stocks/AAPL.json",
+        "raw_type": "dict",
+        "top_level_keys": [
+          "bars",
+          "data_end",
+          "data_start",
+          "dataset_mode",
+          "downloaded_at",
+          "formal_pass_fail_allowed",
+          "price_adjustment",
+          "requested_end",
+          "requested_start",
+          "schema_version",
+          "source",
+          "survivorship_bias",
+          "symbol",
+          "yahoo_ticker"
+        ],
+        "symbol": "AAPL",
+        "schema_version": "1.0",
+        "data_start": "2020-04-01",
+        "data_end": "2026-06-18",
+        "dataset_mode": "CURRENT_CONSTITUENTS_PRELIMINARY",
+        "source": "Yahoo Finance",
+        "bar_source": "dict.bars",
+        "raw_bar_count": 1562,
+        "parsed_bar_count": 1562,
+        "rejected_bar_count": 0,
+        "first_date": "2020-04-01",
+        "last_date": "2026-06-18",
+        "sample_bar": {
+          "date": "2020-04-01",
+          "open": 59.505966,
+          "high": 60.041882,
+          "low": 57.726823,
+          "close": 58.156521,
+          "volume": 176218400.0
+        }
+      },
+      "ABBV": {
+        "path": "data/research/e1_5y/raw/stocks/ABBV.json",
+        "raw_type": "dict",
+        "top_level_keys": [
+          "bars",
+          "data_end",
+          "data_start",
+          "dataset_mode",
+          "downloaded_at",
+          "formal_pass_fail_allowed",
+          "price_adjustment",
+          "requested_end",
+          "requested_start",
+          "schema_version",
+          "source",
+          "survivorship_bias",
+          "symbol",
+          "yahoo_ticker"
+        ],
+        "symbol": "ABBV",
+        "schema_version": "1.0",
+        "data_start": "2020-04-01",
+        "data_end": "2026-06-18",
+        "dataset_mode": "CURRENT_CONSTITUENTS_PRELIMINARY",
+        "source": "Yahoo Finance",
+        "bar_source": "dict.bars",
+        "raw_bar_count": 1562,
+        "parsed_bar_count": 1562,
+        "rejected_bar_count": 0,
+        "first_date": "2020-04-01",
+        "last_date": "2026-06-18",
+        "sample_bar": {
+          "date": "2020-04-01",
+          "open": 56.072673,
+          "high": 57.526578,
+          "low": 55.536202,
+          "close": 57.083408,
+          "volume": 12948000.0
+        }
+      },
+      "ABNB": {
+        "path": "data/research/e1_5y/raw/stocks/ABNB.json",
+        "raw_type": "dict",
+        "top_level_keys": [
+          "bars",
+          "data_end",
+          "data_start",
+          "dataset_mode",
+          "downloaded_at",
+          "formal_pass_fail_allowed",
+          "price_adjustment",
+          "requested_end",
+          "requested_start",
+          "schema_version",
+          "source",
+          "survivorship_bias",
+          "symbol",
+          "yahoo_ticker"
+        ],
+        "symbol": "ABNB",
+        "schema_version": "1.0",
+        "data_start": "2020-12-10",
+        "data_end": "2026-06-18",
+        "dataset_mode": "CURRENT_CONSTITUENTS_PRELIMINARY",
+        "source": "Yahoo Finance",
+        "bar_source": "dict.bars",
+        "raw_bar_count": 1386,
+        "parsed_bar_count": 1386,
+        "rejected_bar_count": 0,
+        "first_date": "2020-12-10",
+        "last_date": "2026-06-18",
+        "sample_bar": {
+          "date": "2020-12-10",
+          "open": 146.0,
+          "high": 165.0,
+          "low": 141.25,
+          "close": 144.710007,
+          "volume": 70447500.0
+        }
+      }
+    }
+  },
+  "index_summary": {
+    "SPX": {
+      "exists": true,
+      "path": "data/research/e1_5y/raw/indices/SPX.json",
+      "count": 1562,
+      "first_date": "2020-04-01",
+      "last_date": "2026-06-18",
+      "meta": {
+        "path": "data/research/e1_5y/raw/indices/SPX.json",
+        "raw_type": "dict",
+        "top_level_keys": [
+          "bars",
+          "data_end",
+          "data_start",
+          "dataset_mode",
+          "downloaded_at",
+          "requested_end",
+          "requested_start",
+          "schema_version",
+          "source",
+          "symbol",
+          "yahoo_ticker"
+        ],
+        "symbol": "SPX",
+        "schema_version": "1.0",
+        "data_start": "2020-04-01",
+        "data_end": "2026-06-18",
+        "dataset_mode": "CURRENT_CONSTITUENTS_PRELIMINARY",
+        "source": "Yahoo Finance",
+        "bar_source": "dict.bars",
+        "raw_bar_count": 1562,
+        "parsed_bar_count": 1562,
+        "rejected_bar_count": 0,
+        "first_date": "2020-04-01",
+        "last_date": "2026-06-18",
+        "sample_bar": {
+          "date": "2020-04-01",
+          "open": 2498.080078,
+          "high": 2522.75,
+          "low": 2447.48999,
+          "close": 2470.5,
+          "volume": 5964000000.0
+        }
+      }
+    },
+    "NDX": {
+      "exists": true,
+      "path": "data/research/e1_5y/raw/indices/NDX.json",
+      "count": 1562,
+      "first_date": "2020-04-01",
+      "last_date": "2026-06-18",
+      "meta": {
+        "path": "data/research/e1_5y/raw/indices/NDX.json",
+        "raw_type": "dict",
+        "top_level_keys": [
+          "bars",
+          "data_end",
+          "data_start",
+          "dataset_mode",
+          "downloaded_at",
+          "requested_end",
+          "requested_start",
+          "schema_version",
+          "source",
+          "symbol",
+          "yahoo_ticker"
+        ],
+        "symbol": "NDX",
+        "schema_version": "1.0",
+        "data_start": "2020-04-01",
+        "data_end": "2026-06-18",
+        "dataset_mode": "CURRENT_CONSTITUENTS_PRELIMINARY",
+        "source": "Yahoo Finance",
+        "bar_source": "dict.bars",
+        "raw_bar_count": 1562,
+        "parsed_bar_count": 1562,
+        "rejected_bar_count": 0,
+        "first_date": "2020-04-01",
+        "last_date": "2026-06-18",
+        "sample_bar": {
+          "date": "2020-04-01",
+          "open": 7582.779785,
+          "high": 7701.680176,
+          "low": 7423.970215,
+          "close": 7486.290039,
+          "volume": 3700040000.0
+        }
+      }
+    },
+    "SOX": {
+      "exists": true,
+      "path": "data/research/e1_5y/raw/indices/SOX.json",
+      "count": 1562,
+      "first_date": "2020-04-01",
+      "last_date": "2026-06-18",
+      "meta": {
+        "path": "data/research/e1_5y/raw/indices/SOX.json",
+        "raw_type": "dict",
+        "top_level_keys": [
+          "bars",
+          "data_end",
+          "data_start",
+          "dataset_mode",
+          "downloaded_at",
+          "requested_end",
+          "requested_start",
+          "schema_version",
+          "source",
+          "symbol",
+          "yahoo_ticker"
+        ],
+        "symbol": "SOX",
+        "schema_version": "1.0",
+        "data_start": "2020-04-01",
+        "data_end": "2026-06-18",
+        "dataset_mode": "CURRENT_CONSTITUENTS_PRELIMINARY",
+        "source": "Yahoo Finance",
+        "bar_source": "dict.bars",
+        "raw_bar_count": 1562,
+        "parsed_bar_count": 1562,
+        "rejected_bar_count": 0,
+        "first_date": "2020-04-01",
+        "last_date": "2026-06-18",
+        "sample_bar": {
+          "date": "2020-04-01",
+          "open": 1455.040039,
+          "high": 1497.98999,
+          "low": 1414.26001,
+          "close": 1427.72998,
+          "volume": 0.0
+        }
+      }
+    }
+  },
+  "vix_summary": {
+    "exists": true,
+    "path": "data/prices/_VIX.json",
+    "count": 792,
+    "first_date": "2023-05-16",
+    "last_date": "2026-07-09"
+  },
+  "regime_summary": {
+    "record_count": 1309,
+    "candidate_record_count": 1562,
+    "duplicate_count": 0,
+    "invalid_candidate_count": 253,
+    "first_date": "2021-04-05",
+    "last_date": "2026-06-18",
+    "regime_counts": {
+      "UPTREND": 910,
+      "SIDEWAYS": 241,
+      "DOWNTREND": 158
+    },
+    "subclass_counts": {
+      "NO_SUBCLASS": 1068,
+      "MA_CONFLICT": 135,
+      "DETERIORATION_TRANSITION": 63,
+      "RECOVERY_TRANSITION": 43
+    },
+    "sample": {
+      "2021-04-05": {
+        "spx_regime": "UPTREND",
+        "subclass": "NO_SUBCLASS",
+        "raw": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "_source_path": "$.daily_regime.2021-04-05"
+      },
+      "2021-04-06": {
+        "spx_regime": "UPTREND",
+        "subclass": "NO_SUBCLASS",
+        "raw": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "_source_path": "$.daily_regime.2021-04-06"
+      },
+      "2021-04-07": {
+        "spx_regime": "UPTREND",
+        "subclass": "NO_SUBCLASS",
+        "raw": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "_source_path": "$.daily_regime.2021-04-07"
+      },
+      "2021-04-08": {
+        "spx_regime": "UPTREND",
+        "subclass": "NO_SUBCLASS",
+        "raw": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "_source_path": "$.daily_regime.2021-04-08"
+      },
+      "2021-04-09": {
+        "spx_regime": "UPTREND",
+        "subclass": "NO_SUBCLASS",
+        "raw": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "_source_path": "$.daily_regime.2021-04-09"
+      }
+    },
+    "raw_shape": {
+      "type": "dict",
+      "top_level_keys": [
+        "daily_regime",
+        "generated_at",
+        "validation_window"
+      ]
+    }
+  },
+  "date_alignment": {
+    "spx_vs_indices": {
+      "count": 1562,
+      "first": "2020-04-01",
+      "last": "2026-06-18",
+      "sample": [
+        "2020-04-01",
+        "2020-04-02",
+        "2020-04-03",
+        "2020-04-06",
+        "2020-04-07"
+      ],
+      "strict_ok": true,
+      "missing_or_empty": [],
+      "input_counts": {
+        "SPX": 1562,
+        "NDX": 1562,
+        "SOX": 1562
+      }
+    },
+    "sample_stocks_vs_spx": {
+      "count": 1386,
+      "first": "2020-12-10",
+      "last": "2026-06-18",
+      "sample": [
+        "2020-12-10",
+        "2020-12-11",
+        "2020-12-14",
+        "2020-12-15",
+        "2020-12-16"
+      ],
+      "strict_ok": true,
+      "missing_or_empty": [],
+      "input_counts": {
+        "SPX": 1562,
+        "A": 1562,
+        "AAL": 1562,
+        "AAPL": 1562,
+        "ABBV": 1562,
+        "ABNB": 1386,
+        "ABT": 1562,
+        "ACGL": 1562,
+        "ACN": 1562,
+        "ADBE": 1562,
+        "ADI": 1562,
+        "ADM": 1562,
+        "ADP": 1562,
+        "ADSK": 1562,
+        "AEE": 1562,
+        "AEP": 1562,
+        "AES": 1562,
+        "AFL": 1562,
+        "AIG": 1562,
+        "AIZ": 1562,
+        "AJG": 1562
+      }
+    },
+    "spx_vs_regime": {
+      "count": 1309,
+      "first": "2021-04-05",
+      "last": "2026-06-18",
+      "sample": [
+        "2021-04-05",
+        "2021-04-06",
+        "2021-04-07",
+        "2021-04-08",
+        "2021-04-09"
+      ],
+      "strict_ok": true,
+      "missing_or_empty": [],
+      "input_counts": {
+        "SPX": 1562,
+        "regime": 1309
+      }
+    }
+  },
+  "databundle_sample_path": "exports/e1r_engine/audit/e1r_engine_c_r1_databundle_sample.json",
+  "databundle_sample_sha256": "9e304efb7ef21ef089679ecad1e95528d0f420f0adfac31ec0ab484a5cd2f19f",
+  "validations": {
+    "no_strategy_data_harness_only": true,
+    "strategy_logic_changed": false,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "provider_extraction_run": false,
+    "adapter_implementation_run": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "strategy_files_unchanged": true,
+    "invalid_artifacts_not_used_as_source": true,
+    "composer_not_used": true,
+    "return_curve_stitching_not_used": true,
+    "engine_a_loaded": true,
+    "engine_b_loaded": true,
+    "previous_engine_c_loaded": true,
+    "research_stock_bars_schema_parsed": true,
+    "stock_symbols_loaded_ge_500": true,
+    "prices_map_built": true,
+    "dates_map_built": true,
+    "ohlc_map_built": true,
+    "indices_loaded": true,
+    "regime_loaded": true,
+    "regime_count_ge_1000": true,
+    "spx_vs_indices_strict_alignment_ok": true,
+    "sample_stocks_vs_spx_strict_alignment_ok": true,
+    "spx_vs_regime_strict_alignment_ok": true,
+    "strict_alignment_rejects_empty_lists": true,
+    "databundle_sample_written": true,
+    "historical_adapter_not_implemented_yet": true,
+    "strategy_core_extraction_not_allowed_yet": true
+  },
+  "decision": {
+    "data_harness_smoke_passed": true,
+    "previous_engine_c_issue_fixed": {
+      "regime_parser_fixed": true,
+      "strict_alignment_fixed": true
+    },
+    "selected_loader_basis": {
+      "research_bars_parser": "canonical parser supports dict.bars schema for research stocks and indices",
+      "regime_parser": "recursive parser supports date-keyed and nested/list regime records",
+      "historical_input_fields": [
+        "symbols",
+        "prices_map",
+        "dates_map",
+        "ohlc_map",
+        "spx_prices/spx_dates",
+        "ndx_prices/ndx_dates",
+        "sox_prices/sox_dates",
+        "vix_prices/vix_dates optional explicit",
+        "regime_daily"
+      ]
+    },
+    "historical_adapter_implementation_allowed_next": true,
+    "strategy_core_extraction_allowed_now": false,
+    "full_5y_backtest_allowed_now": false,
+    "forward_runner_allowed_now": false,
+    "conclusion": "NO_STRATEGY_DATA_HARNESS_SMOKE_PASS_READY_FOR_HISTORICAL_ADAPTER_SKELETON",
+    "recommended_next_action": "Proceed to 4C-2C-4E-ENGINE-D: implement HistoricalDataAdapter skeleton and unit smoke only. Do not implement strategy core yet.",
+    "engineering_rule": "HistoricalDataAdapter may normalize data into DataBundle/MarketSnapshot. It must not decide BUY/SELL, sizing, market gate, regime branch execution, or account state transitions."
+  }
+}
