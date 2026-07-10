@@ -1,0 +1,4028 @@
+{
+  "generated_at": "2026-07-10T02:48:19.575303+00:00",
+  "elapsed_seconds": 0.173407,
+  "stage": "4C-2C-4E-D",
+  "status": "CONTINUOUS_STATEFUL_ADAPTER_DESIGN_COMPLETE",
+  "purpose": "Design a formal E1R continuous-stateful adapter/orchestrator after C audit proved existing engine does not execute full E1R branches.",
+  "policy": {
+    "strategy_logic_changed": false,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "frozen_strategy_files_changed": false,
+    "invalid_artifacts_used_as_source": false,
+    "composer_used": false,
+    "return_curve_stitching_used": false
+  },
+  "prior_evidence": {
+    "c_report_exists": true,
+    "b2_report_exists": true,
+    "b3_report_exists": true,
+    "c_decision": {
+      "engine_reads_e1r_regime": true,
+      "engine_calls_sidecar_inside_run_stateful": false,
+      "engine_has_sideways_branch_order_generation_evidence": false,
+      "b3_proves_sidecar_execution": false,
+      "existing_engine_sufficient_for_official_4e": false,
+      "conclusion": "EXISTING_ENGINE_BRANCH_EXECUTION_NOT_PROVEN_NEED_CONTINUOUS_STATEFUL_ADAPTER_DESIGN",
+      "recommended_next_action": "Proceed to 4C-2C-4E-D: design a new continuous-stateful E1R adapter/orchestrator that owns cash/positions and explicitly executes regime transitions. Do not use composer or stitched results.",
+      "reason": "Official E1R requires actual branch execution in one continuous account. Sidecar data availability is not enough; account orders/positions must be produced by the SIDEWAYS/MA_CONFLICT branch."
+    },
+    "b2_assumption_contract": {
+      "status": "BACKTEST_ASSUMPTIONS_CONTRACT_AUDIT_COMPLETE",
+      "assumption_key_count": 44,
+      "required_without_default_keys": [
+        "add_size",
+        "buy_size",
+        "max_positions",
+        "max_single_size",
+        "total_one_way"
+      ],
+      "unresolved_required_keys": []
+    },
+    "b3_smoke_summary": {
+      "status": "CONTINUOUS_STATEFUL_SMOKE_COMPLETE",
+      "conclusion": "4C2C4E_B3_SMOKE_FAILED_REVIEW_BEFORE_CONTINUING",
+      "known_conclusion_bug": true,
+      "engine_summary": {
+        "record_count": 124,
+        "regime_counts": {
+          "UPTREND": 19,
+          "SIDEWAYS": 78,
+          "DOWNTREND": 27
+        },
+        "branch_plan_counts": {
+          "UPTREND_ENGINE_BRANCH": 19,
+          "SIDEWAYS_MA_CONFLICT_SIDECAR_AVAILABLE": 39,
+          "CASH_DEFENSIVE_EXPECTED": 66
+        },
+        "max_open_positions": 2,
+        "open_position_violations_count": 0
+      },
+      "sidecar_summary": {
+        "ok": true,
+        "record_count": 123,
+        "active_count": 39,
+        "active_regime_counts": {
+          "SIDEWAYS": 39
+        },
+        "active_subclass_counts": {
+          "MA_CONFLICT": 39
+        },
+        "selected_count_max": 10,
+        "holdings_len_max": 10,
+        "gross_exposure_max": 0.25,
+        "strict_active_ma_conflict_count": 39
+      }
+    },
+    "c_key_facts": {
+      "status": "BRANCH_EXECUTION_TRANSITION_AUDIT_COMPLETE",
+      "engine_reads_e1r_regime": true,
+      "engine_calls_sidecar_inside_run_stateful": false,
+      "engine_has_sideways_branch_order_generation_evidence": false,
+      "b3_proves_sidecar_execution": false,
+      "existing_engine_sufficient_for_official_4e": false,
+      "conclusion": "EXISTING_ENGINE_BRANCH_EXECUTION_NOT_PROVEN_NEED_CONTINUOUS_STATEFUL_ADAPTER_DESIGN"
+    }
+  },
+  "proposed_new_files": [
+    "src/engine/e1r_continuous_stateful_adapter.py",
+    "scripts/run_e1r_continuous_stateful_smoke_4c2c4e_e.py",
+    "docs/research/E1R_4C2C4E_E_CONTINUOUS_STATEFUL_ADAPTER_SMOKE.json",
+    "docs/research/E1R_4C2C4E_E_CONTINUOUS_STATEFUL_ADAPTER_SMOKE.md"
+  ],
+  "invalid_artifacts_banned": [
+    "exports/e1r_unified_5y_full_account_v1_result.json",
+    "exports/e1r_unified_5y_dashboard_research_bundle.json",
+    "exports/e1r_combined_5y_original_max3_result.json",
+    "exports/e1r_combined_5y_original_max3_equity_curve.json",
+    "exports/e1r_combined_5y_original_max3_summary.json"
+  ],
+  "adapter_contract": {
+    "adapter_name": "E1RContinuousStatefulAdapter",
+    "proposed_module": "src/engine/e1r_continuous_stateful_adapter.py",
+    "purpose": "Official E1R 5Y continuous-stateful account orchestrator.",
+    "core_principle": "One account, one timeline, continuous cash/positions, daily mark-to-market, explicit regime branch execution.",
+    "non_goals": [
+      "Do not compose or stitch return curves.",
+      "Do not read invalid historical result artifacts.",
+      "Do not treat sidecar Top10 as live account holdings.",
+      "Do not modify frozen strategy files in adapter design stage.",
+      "Do not hide transition behavior inside undocumented assumptions."
+    ],
+    "account_state_schema": {
+      "cash": "float",
+      "positions": {
+        "symbol": "str",
+        "shares": "float",
+        "cost_basis": "float",
+        "entry_date": "YYYY-MM-DD",
+        "branch_origin": "UPTREND | SIDEWAYS_MA_CONFLICT",
+        "last_action": "BUY | ADD | REDUCE | HOLD | EXIT",
+        "holding_days": "int",
+        "metadata": "dict"
+      },
+      "total_equity": "cash + market_value(positions)",
+      "open_positions_count": "len(positions)",
+      "max_open_positions": 3
+    },
+    "daily_record_schema": {
+      "date": "YYYY-MM-DD",
+      "regime": "UPTREND | SIDEWAYS | DOWNTREND",
+      "subclass": "NO_SUBCLASS | MA_CONFLICT | DETERIORATION_TRANSITION | RECOVERY_TRANSITION",
+      "active_branch": "UPTREND | SIDEWAYS_MA_CONFLICT | CASH_DEFENSIVE",
+      "cash": "float",
+      "positions_value": "float",
+      "total_equity": "float",
+      "open_positions_count": "int <= 3",
+      "orders": "list[Order]",
+      "candidate_source": "UPTREND_SIGNAL_PROVIDER | SIDECAR_TOP10 | NONE",
+      "guard_flags": "dict"
+    },
+    "order_schema": {
+      "date": "YYYY-MM-DD",
+      "symbol": "str",
+      "action": "BUY | ADD | REDUCE | EXIT | HOLD",
+      "quantity_or_weight": "float",
+      "price": "float",
+      "branch": "UPTREND | SIDEWAYS_MA_CONFLICT | CASH_DEFENSIVE",
+      "reason": "str"
+    }
+  },
+  "daily_loop_design": {
+    "pseudocode": [
+      "initialize cash = 100000, positions = {}",
+      "for each trading day in aligned 5Y timeline:",
+      "    mark_to_market existing positions using close price",
+      "    read regime and subclass for date",
+      "    if regime == UPTREND:",
+      "        branch = UPTREND",
+      "        candidates/orders = uptrend_signal_provider(date, current_state)",
+      "        execute orders with account-level max_positions <= 3",
+      "    elif regime == SIDEWAYS and subclass == MA_CONFLICT:",
+      "        branch = SIDEWAYS_MA_CONFLICT",
+      "        candidates = sidecar_top10_provider(date)",
+      "        convert sidecar Top10 into live account target <= 3 positions",
+      "        execute transition orders explicitly",
+      "    else:",
+      "        branch = CASH_DEFENSIVE",
+      "        execute defensive transition orders explicitly",
+      "    enforce open_positions_count <= 3",
+      "    record daily account state"
+    ],
+    "hard_guards": [
+      "Fail if open_positions_count > 3 on any date.",
+      "Fail if any invalid artifact path is read.",
+      "Fail if composer is imported or called for official result.",
+      "Fail if sidecar holdings_len > 3 is interpreted as live holdings.",
+      "Fail if DETERIORATION/RECOVERY/DOWNTREND branch leaves positions open without explicit approved rule.",
+      "Fail if daily record lacks cash, positions_value, total_equity, active_branch."
+    ]
+  },
+  "transition_policy": {
+    "status": "DESIGN_REQUIRES_USER_CONFIRMATION_BEFORE_IMPLEMENTATION",
+    "policy_options": {
+      "UPTREND_to_SIDEWAYS_MA_CONFLICT": {
+        "recommended": "transition_to_sidecar_targets",
+        "meaning": "Existing UPTREND positions are not automatically assumed valid. Adapter compares current holdings with sidecar Top10 candidate pool and moves toward <=3 sidecar live targets.",
+        "why": "C audit showed current engine kept UPTREND positions during SIDEWAYS while sidecar was only data-available; formal E1R requires branch execution.",
+        "implementation_guard": "Every kept position must be explicitly tagged as also passing the SIDEWAYS sidecar candidate/target rule; otherwise exit or reduce by approved transition rule."
+      },
+      "SIDEWAYS_MA_CONFLICT_to_UPTREND": {
+        "recommended": "transition_to_uptrend_targets",
+        "meaning": "Sidecar-origin positions are re-evaluated by UPTREND branch. They can be kept only if current UPTREND branch would hold them.",
+        "implementation_guard": "No position silently changes branch_origin without a logged transition decision."
+      },
+      "ANY_to_DETERIORATION_OR_RECOVERY": {
+        "recommended": "cash_defensive_exit",
+        "meaning": "Exit live equity positions and hold cash unless a defensive holding rule is explicitly approved later.",
+        "implementation_guard": "open_positions_count should become 0 after transition execution window."
+      },
+      "ANY_to_DOWNTREND": {
+        "recommended": "cash_defensive_exit",
+        "meaning": "Exit live equity positions and hold cash.",
+        "implementation_guard": "open_positions_count should become 0 after transition execution window."
+      }
+    },
+    "unresolved_decision": "Whether transition exits occur same close, next close, or existing engine's execution convention. This must be confirmed before official full 5Y."
+  },
+  "branch_providers": {
+    "UPTREND_signal_provider": {
+      "status": "NEEDS_ENTRYPOINT_AUDIT_BEFORE_IMPLEMENTATION",
+      "goal": "Reuse existing validated UPTREND candidate/order logic without modifying frozen strategy files.",
+      "allowed_sources": [
+        "Existing leader score / rank / buy candidate functions if callable independently.",
+        "Existing run_stateful_simulation internals only if extracted into a non-strategy-changing provider after approval."
+      ],
+      "not_allowed": [
+        "Use old invalid result artifacts as UPTREND source.",
+        "Approximate UPTREND rules by a new ranking formula without explicit approval."
+      ],
+      "next_audit_needed": "Locate exact existing UPTREND candidate/order generation logic and define a read-only provider API."
+    },
+    "SIDEWAYS_MA_CONFLICT_provider": {
+      "status": "AVAILABLE_AS_CANDIDATE_PROVIDER",
+      "source": "src.engine.e1r_sidecar_sleeve.build_e1r_sidecar_sleeve",
+      "confirmed_behavior": [
+        "active only in SIDEWAYS / MA_CONFLICT in strict sidecar audit",
+        "Top10 selected_count is candidate/basket pool",
+        "gross_exposure = 0.25 in original sidecar model"
+      ],
+      "adapter_responsibility": [
+        "Convert Top10 candidate pool into <=3 live account targets.",
+        "Generate real account orders.",
+        "Record branch_origin = SIDEWAYS_MA_CONFLICT."
+      ]
+    },
+    "CASH_DEFENSIVE_provider": {
+      "status": "DESIGN_DEFINED",
+      "source": "adapter-owned transition logic",
+      "adapter_responsibility": [
+        "Generate EXIT orders for live equity positions.",
+        "Hold cash after transition.",
+        "Record active_branch = CASH_DEFENSIVE."
+      ]
+    }
+  },
+  "validation_matrix": {
+    "adapter_smoke_validations_for_next_stage": {
+      "strategy_files_unchanged": true,
+      "invalid_artifacts_not_used": true,
+      "composer_not_used": true,
+      "return_curve_stitching_not_used": true,
+      "single_account_state_owned_by_adapter": true,
+      "cash_positions_continuous": true,
+      "daily_mark_to_market_present": true,
+      "active_branch_recorded_daily": true,
+      "uptrend_branch_orders_observed": true,
+      "sideways_ma_conflict_branch_orders_observed": true,
+      "cash_defensive_exit_orders_observed": true,
+      "sidecar_top10_never_live_holdings_10": true,
+      "max_open_positions_le_3": true,
+      "position_violations_zero": true,
+      "transition_logs_present": true,
+      "official_result_generated": false,
+      "full_5y_backtest_run": false
+    },
+    "official_5y_validations_later": {
+      "full_timeline_covered": "2021-06-11 to 2026-06-18 or current aligned window",
+      "daily_record_count_matches_trading_days": true,
+      "open_positions_count_max_le_3": true,
+      "cash_defensive_regimes_open_positions_zero_or_explicitly_approved": true,
+      "orders_have_branch_and_reason": true,
+      "equity_curve_derived_from_account_state": true,
+      "no_result_stitching": true,
+      "no_invalid_artifact_dependency": true
+    }
+  },
+  "entrypoint_inspection": {
+    "keyword_hits": {
+      "leader_score": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 24,
+          "text": "from ..engine.leader_ranking import leader_score as calc_leader_score"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 124,
+          "text": "def _rebuild_leader_score(prices: list[float], spx_prices: list[float],"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 153,
+          "text": "ls = calc_leader_score(rs, mom, th)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 164,
+          "text": "\"leader_score\": ls,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 209,
+          "text": "info = _rebuild_leader_score("
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 222,
+          "text": "ls = info[\"leader_score\"]"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 375,
+          "text": "ls = calc_leader_score(rs, mom, th)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 519,
+          "text": "ls = calc_leader_score(rs, mom, th)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 522,
+          "text": "day_scores[sym] = {\"leader_score\": ls, \"promotion_score\": promo_approx}"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 528,
+          "text": "top30_now = set(sorted(day_scores, key=lambda s: day_scores[s][\"leader_score\"], reverse=True)[:30])"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 553,
+          "text": "future_scores[s] = calc_leader_score(frs, fmom, fth)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 660,
+          "text": "ls    = calc_leader_score(rs, mom, th)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1177,
+          "text": "\"leader_score_entry\":    ls,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1289,
+          "text": "\"leader_score_entry\":   round(h.get(\"leader_score_entry\", 0), 1),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1337,
+          "text": "if reduce_primary == \"leader_score_below_60\":"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1565,
+          "text": "ls      = calc_leader_score(rs, mom, th)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1596,
+          "text": "\"leader_score\":   ls,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1616,
+          "text": "((s, v[\"leader_score\"]) for s, v in day_signals.items()),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1650,
+          "text": "if sig[\"leader_score\"] >= 75: confirmed_reasons.append(\"leader_score_above_75\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1658,
+          "text": "and sig[\"leader_score\"] >= 75"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1679,
+          "text": "\"leader_score\": round(sig[\"leader_score\"], 2),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1710,
+          "text": "-v.get(\"leader_score\", 0),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1741,
+          "text": "qualified.append((s, v[\"leader_score\"]))"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1765,
+          "text": "ls      = sig[\"leader_score\"]"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2007,
+          "text": "and reason_info.get(\"primary_reason\") == \"leader_score_below_60\""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2052,
+          "text": "\"ls\": sig.get(\"leader_score\", h.get(\"leader_score_entry\", 0)),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2087,
+          "text": "\"ls\": day_signals.get(sym, {}).get(\"leader_score\", h.get(\"leader_score_entry\", 0)),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2118,
+          "text": "\"ls\": day_signals.get(sym, {}).get(\"leader_score\", h.get(\"leader_score_entry\", 0)),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2213,
+          "text": "\"leader_score_entry\":   round(h.get(\"leader_score_entry\", 0), 1),"
+        },
+        {
+          "path": "src/engine/leader_ranking.py",
+          "line": 11,
+          "text": "def leader_score(rs: float, mom: float, th: float) -> float:"
+        },
+        {
+          "path": "src/engine/leader_ranking.py",
+          "line": 24,
+          "text": "\"\"\"按 leader_score 降序排列，写入 rank 字段。\"\"\""
+        },
+        {
+          "path": "src/engine/leader_ranking.py",
+          "line": 25,
+          "text": "s = sorted(stocks, key=lambda x: x.get(\"leader_score\", 0), reverse=True)"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 26,
+          "text": "\"leader_score\":   round(s.get(\"leader_score\", 0), 2),"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 31,
+          "text": "leader_score:  float,   # 0-100"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 53,
+          "text": "if leader_score < 60 and ls60_exit_mode == \"exit\":"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 59,
+          "text": "if (leader_score >= 90 and rs_score >= 90 and"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 64,
+          "text": "if leader_score >= 85 and trend_state == \"Expansion\":"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 68,
+          "text": "if leader_score < 60 and ls60_exit_mode == \"reduce\":"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 70,
+          "text": "if leader_score < 75 or trend_health < 60:"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 74,
+          "text": "if leader_score >= 75 and trend_health >= 70:"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 89,
+          "text": "s.get(\"leader_score\", 0),"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 105,
+          "text": "EXIT_REASON_LEADER_SCORE_BELOW_60     = \"leader_score_below_60\""
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 107,
+          "text": "REDUCE_REASON_LEADER_SCORE_BELOW_75   = \"leader_score_below_75\""
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 121,
+          "text": "leader_score:  float,"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 132,
+          "text": "\"primary_reason\": \"leader_score_below_60\","
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 133,
+          "text": "\"reasons\": [\"leader_score_below_60\", ...]"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 145,
+          "text": "ls_below_60 = leader_score < 60"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 164,
+          "text": "# leader_score < 60 → EXIT 或 REDUCE，取决于 ls60_exit_mode"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 171,
+          "text": "if (leader_score >= 90 and rs_score >= 90 and"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 176,
+          "text": "if leader_score >= 85 and trend_state == \"Expansion\":"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 177,
+          "text": "return {\"action\": \"ADD\", \"primary_reason\": \"leader_score_above_85_expansion\", \"reasons\": [\"leader_score_above_85_expansion\"]}"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 181,
+          "text": "if leader_score < 75:"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 190,
+          "text": "if leader_score >= 75 and trend_health >= 70:"
+        },
+        {
+          "path": "src/engine/trend_state.py",
+          "line": 22,
+          "text": "from ..engine.leader_ranking import leader_score as calc_leader_score"
+        },
+        {
+          "path": "src/engine/trend_state.py",
+          "line": 69,
+          "text": "ls = calc_leader_score(rs_sc, mom_sc, th_sc)    # 0-100"
+        },
+        {
+          "path": "src/engine/trend_state.py",
+          "line": 119,
+          "text": "\"leader_score\":    ls,"
+        },
+        {
+          "path": "src/engine/watchlist.py",
+          "line": 89,
+          "text": "\"leader_score\":     s.get(\"leader_score\", 0),"
+        },
+        {
+          "path": "src/export/export_json.py",
+          "line": 55,
+          "text": "\"leader_score\":   s.get(\"leader_score\"),"
+        },
+        {
+          "path": "src/export/export_json.py",
+          "line": 139,
+          "text": "\"leader_score\": s.get(\"leader_score\", 0),"
+        },
+        {
+          "path": "src/oos/execution_adapter.py",
+          "line": 144,
+          "text": "def should_exit_e1(leader_score: float, min_hold_satisfied: bool) -> tuple:"
+        }
+      ],
+      "Leader": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 6,
+          "text": "Layer A: Leader Engine Validation (Leader Score 桶分析)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 96,
+          "text": "\"gate_use_leadership\":        True,   # Gate v2: 是否使用 NDX/SOX Leadership 条件"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 152,
+          "text": "# Leader Score"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 173,
+          "text": "# Layer A: Leader Engine Validation"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 185,
+          "text": "Layer A: Leader Score Bucket Analysis"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 187,
+          "text": "对每个时间点 t，计算所有股票的 Leader Score，"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 190,
+          "text": "logger.info(\"[Backtest Layer A] Leader Engine Validation...\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 204,
+          "text": "# 计算该时间点所有股票的 Leader Score"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 289,
+          "text": "\"name\":  \"Leader Engine Validation\","
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 300,
+          "text": "\"A1 PASS: Bucket A 持续领先，Top Leader 识别有效；A2 中低分组区分力待改善\""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 302,
+          "text": "else \"Leader Score 完整有效（A桶领先且单调性强）\""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 304,
+          "text": "else \"Leader Score 区分力不足，需检查公式\""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 484,
+          "text": "注意：需要历史排名数据，首次运行用 Leader Score 近似。"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 520,
+          "text": "# 用 Leader Score 近似 Promotion Score（历史 RankVelocity 不可用）"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 587,
+          "text": "\"note\":    \"Layer B 使用 Leader Score 近似 Promotion Score（需历史RankVelocity数据后重跑）\","
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 776,
+          "text": "ndx_prices:     list = None,  # NDX 收盘价（Gate v2 Leadership 判断）"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1433,
+          "text": "# ── Leadership 计算"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1544,
+          "text": "# E1-R Phase 3A: previous RS reference for Emerging Leader acceleration."
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1551,
+          "text": "# 先重建全市场当日信号与 Leader Score，用于确定 Top 3 Entry Universe"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2928,
+          "text": "# Layer A: Leader Engine（最基础）"
+        },
+        {
+          "path": "src/engine/leader_ranking.py",
+          "line": 2,
+          "text": "leader_ranking.py — Leader Score  [Phase 2 Spec Section 7]"
+        },
+        {
+          "path": "src/engine/leader_ranking.py",
+          "line": 5,
+          "text": "Leader Score = 0.40×RS_Score + 0.35×Momentum_Score + 0.25×Trend_Health"
+        },
+        {
+          "path": "src/engine/market_score.py",
+          "line": 14,
+          "text": "Leadership Confirmed: SPX>70 AND NDX>70 AND SOX>70"
+        },
+        {
+          "path": "src/engine/market_score.py",
+          "line": 70,
+          "text": "# Leadership: SPX>70 AND NDX>70 AND SOX>70"
+        },
+        {
+          "path": "src/engine/market_score.py",
+          "line": 89,
+          "text": "\"leadership_label\":      \"Leadership Confirmed ✅\" if leadership else \"Leadership Unconfirmed ⚠️\","
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 40,
+          "text": "OR  (ls60_exit_mode=\"exit\" AND LeaderScore<60)"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 41,
+          "text": "REDUCE: LeaderScore<60 (当 ls60_exit_mode=\"reduce\") OR LS<75 OR TH<60"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 42,
+          "text": "HOLD:   LeaderScore≥75 AND TH≥70"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 43,
+          "text": "ADD:    LeaderScore≥85 AND Expansion"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 44,
+          "text": "BUY:    LeaderScore≥90 AND RS≥90 AND Mom≥85 AND TH≥80 AND MarketScore≥50"
+        },
+        {
+          "path": "src/engine/trend_state.py",
+          "line": 68,
+          "text": "# ── Leader Score（Phase 2 权重）──────────────────────"
+        },
+        {
+          "path": "src/engine/watchlist.py",
+          "line": 5,
+          "text": "1. 候选池改为 Rank 11-100（排除 Top10 Leaders）"
+        },
+        {
+          "path": "src/engine/watchlist.py",
+          "line": 48,
+          "text": "候选池：Rank 11-100（排除 Top10 Leaders）"
+        },
+        {
+          "path": "src/engine/watchlist.py",
+          "line": 52,
+          "text": "# 候选池：Rank 11-100，排除已是 Leader Board 的股票"
+        },
+        {
+          "path": "src/engine/watchlist.py",
+          "line": 115,
+          "text": "logger.warn(f\"  Watchlist与Leader Board重叠率 {overlap_pct:.0f}% > 30%，检查候选池\")"
+        },
+        {
+          "path": "src/features/momentum.py",
+          "line": 9,
+          "text": "Weight in Leader Score: 35%"
+        },
+        {
+          "path": "src/pipeline/update_pipeline.py",
+          "line": 298,
+          "text": "logger.info(f\"  Leadership: {ms['leadership_label']}\")"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+          "line": 385,
+          "text": "\"Leader\","
+        }
+      ],
+      "leader": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 24,
+          "text": "from ..engine.leader_ranking import leader_score as calc_leader_score"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 96,
+          "text": "\"gate_use_leadership\":        True,   # Gate v2: 是否使用 NDX/SOX Leadership 条件"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 124,
+          "text": "def _rebuild_leader_score(prices: list[float], spx_prices: list[float],"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 153,
+          "text": "ls = calc_leader_score(rs, mom, th)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 164,
+          "text": "\"leader_score\": ls,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 176,
+          "text": "def run_leader_engine_validation("
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 209,
+          "text": "info = _rebuild_leader_score("
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 222,
+          "text": "ls = info[\"leader_score\"]"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 375,
+          "text": "ls = calc_leader_score(rs, mom, th)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 519,
+          "text": "ls = calc_leader_score(rs, mom, th)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 522,
+          "text": "day_scores[sym] = {\"leader_score\": ls, \"promotion_score\": promo_approx}"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 528,
+          "text": "top30_now = set(sorted(day_scores, key=lambda s: day_scores[s][\"leader_score\"], reverse=True)[:30])"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 553,
+          "text": "future_scores[s] = calc_leader_score(frs, fmom, fth)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 660,
+          "text": "ls    = calc_leader_score(rs, mom, th)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 863,
+          "text": "gate_use_leadership  = bool(a.get(\"gate_use_leadership\", True))"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1177,
+          "text": "\"leader_score_entry\":    ls,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1289,
+          "text": "\"leader_score_entry\":   round(h.get(\"leader_score_entry\", 0), 1),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1337,
+          "text": "if reduce_primary == \"leader_score_below_60\":"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1441,
+          "text": "_leadership_count = sum(["
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1446,
+          "text": "_leadership_ratio = _leadership_count / _n_indices if _n_indices > 0 else 1.0"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1460,
+          "text": "_leadership_strong = (_leadership_ratio >= 1.0) if gate_use_leadership else True"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1465,
+          "text": "or (gate_use_leadership and _leadership_ratio < 2/3)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1474,
+          "text": "and _leadership_strong"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1565,
+          "text": "ls      = calc_leader_score(rs, mom, th)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1596,
+          "text": "\"leader_score\":   ls,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1616,
+          "text": "((s, v[\"leader_score\"]) for s, v in day_signals.items()),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1624,
+          "text": "leader_rank_all = {s: i + 1 for i, (s, _) in enumerate(top_ranked)}"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1626,
+          "text": "rank_all = leader_rank_all.get(sym, 9999)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1635,
+          "text": "if rank_all <= 20: emerging_reasons.append(\"leader_rank_top20\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1649,
+          "text": "if rank_all <= 5: confirmed_reasons.append(\"leader_rank_top5\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1650,
+          "text": "if sig[\"leader_score\"] >= 75: confirmed_reasons.append(\"leader_score_above_75\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1658,
+          "text": "and sig[\"leader_score\"] >= 75"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1678,
+          "text": "\"leader_rank\": rank_all,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1679,
+          "text": "\"leader_score\": round(sig[\"leader_score\"], 2),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1709,
+          "text": "leader_rank_all.get(s, 9999),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1710,
+          "text": "-v.get(\"leader_score\", 0),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1741,
+          "text": "qualified.append((s, v[\"leader_score\"]))"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1765,
+          "text": "ls      = sig[\"leader_score\"]"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1795,
+          "text": "\"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2007,
+          "text": "and reason_info.get(\"primary_reason\") == \"leader_score_below_60\""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2052,
+          "text": "\"ls\": sig.get(\"leader_score\", h.get(\"leader_score_entry\", 0)),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2054,
+          "text": "\"entry_rank\": top_entry_rank.get(sym) or leader_rank_all.get(sym),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2087,
+          "text": "\"ls\": day_signals.get(sym, {}).get(\"leader_score\", h.get(\"leader_score_entry\", 0)),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2118,
+          "text": "\"ls\": day_signals.get(sym, {}).get(\"leader_score\", h.get(\"leader_score_entry\", 0)),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2213,
+          "text": "\"leader_score_entry\":   round(h.get(\"leader_score_entry\", 0), 1),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2542,
+          "text": "\"gate_use_leadership\":       True,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2642,
+          "text": "# E1/E2：Gate G4 固定使用 NDX/SOX（leadership），不传 VIX"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2929,
+          "text": "results[\"layer_a\"] = run_leader_engine_validation("
+        },
+        {
+          "path": "src/engine/leader_ranking.py",
+          "line": 2,
+          "text": "leader_ranking.py — Leader Score  [Phase 2 Spec Section 7]"
+        },
+        {
+          "path": "src/engine/leader_ranking.py",
+          "line": 11,
+          "text": "def leader_score(rs: float, mom: float, th: float) -> float:"
+        },
+        {
+          "path": "src/engine/leader_ranking.py",
+          "line": 24,
+          "text": "\"\"\"按 leader_score 降序排列，写入 rank 字段。\"\"\""
+        },
+        {
+          "path": "src/engine/leader_ranking.py",
+          "line": 25,
+          "text": "s = sorted(stocks, key=lambda x: x.get(\"leader_score\", 0), reverse=True)"
+        },
+        {
+          "path": "src/engine/market_score.py",
+          "line": 71,
+          "text": "leadership = spx_sc > 70 and ndx_sc > 70 and sox_sc > 70"
+        },
+        {
+          "path": "src/engine/market_score.py",
+          "line": 88,
+          "text": "\"leadership_confirmed\":  leadership,"
+        },
+        {
+          "path": "src/engine/market_score.py",
+          "line": 89,
+          "text": "\"leadership_label\":      \"Leadership Confirmed ✅\" if leadership else \"Leadership Unconfirmed ⚠️\","
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 26,
+          "text": "\"leader_score\":   round(s.get(\"leader_score\", 0), 2),"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 31,
+          "text": "leader_score:  float,   # 0-100"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 53,
+          "text": "if leader_score < 60 and ls60_exit_mode == \"exit\":"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 59,
+          "text": "if (leader_score >= 90 and rs_score >= 90 and"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 64,
+          "text": "if leader_score >= 85 and trend_state == \"Expansion\":"
+        }
+      ],
+      "candidate": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 82,
+          "text": "# candidate_top_n：Qualified Pool 内最多取 N 个候选（None = 用旧 entry_top_n 逻辑）"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 86,
+          "text": "\"candidate_top_n\":          None,    # None = 沿用旧 entry_top_n=3 逻辑"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 532,
+          "text": "candidates = [s for s, v in day_scores.items()"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 534,
+          "text": "for sym in candidates:"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 570,
+          "text": "\"total_candidates\": total,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 852,
+          "text": "candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 888,
+          "text": "logger.info(f\"  Qualified Pool: candidate_top_n={candidate_top_n} \""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 919,
+          "text": "f\"| CandidateTopN={candidate_top_n} MaxPos={max_pos} EntryMode=QualifiedPool \""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1033,
+          "text": "\"not_in_qualified_candidate_pool\":  0,   # qualified: 不在候选池"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1035,
+          "text": "\"qualified_candidate_generated\":    0,   # qualified: 候选池 BUY 已生成"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1050,
+          "text": "\"e1r_candidate_buy_generated\":     0,   # E1-R execution: candidate BUY generated"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1087,
+          "text": "# E1-R Phase 3A candidate tagging only."
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1089,
+          "text": "e1r_candidate_records: list[dict] = []"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1621,
+          "text": "# E1-R Phase 3A: UPTREND candidate tagging only."
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1671,
+          "text": "e1r_candidate_records.append({"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1695,
+          "text": "# E1-R Phase 3B: UPTREND Execution v0.1 candidate selection."
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1699,
+          "text": "e1r_buy_candidates = []"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1707,
+          "text": "e1r_buy_candidates.append(("
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1716,
+          "text": "e1r_buy_candidates.sort()"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1717,
+          "text": "if e1r_buy_candidates and market_entry_allowed:"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1719,
+          "text": "_, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1728,
+          "text": "skip_reasons[\"e1r_no_capacity\"] += len(e1r_buy_candidates)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1730,
+          "text": "if qualified_entry_enabled and candidate_top_n is not None:"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1742,
+          "text": "# Step 2: Qualified Pool 内按 LS 排名，取前 candidate_top_n"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1744,
+          "text": "top_entry_symbols = set(s for s, _ in qualified[:candidate_top_n])"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1745,
+          "text": "top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(qualified[:candidate_top_n])}"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1803,
+          "text": "skip_reasons[\"e1r_candidate_buy_generated\"] += 1"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1847,
+          "text": "\"candidate_top_n\": candidate_top_n,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1850,
+          "text": "skip_reasons[\"qualified_candidate_generated\"] += 1"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1854,
+          "text": "skip_reasons[\"not_in_qualified_candidate_pool\"] += 1"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2367,
+          "text": "\"candidate_top_n\":            candidate_top_n,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2480,
+          "text": "\"e1r_candidates\": e1r_candidate_records if e1r_shell_mode else [],"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2481,
+          "text": "\"e1r_candidate_count\": len(e1r_candidate_records) if e1r_shell_mode else 0,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2530,
+          "text": "\"candidate_top_n\":           None,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2543,
+          "text": "\"candidate_top_n\":           None,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2576,
+          "text": "# E1-R v0.1 shell: research candidate placeholder."
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2676,
+          "text": "_result[\"e1r_candidate_tagging_enabled\"] = True"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2678,
+          "text": "_result[\"strategy_controls\"][\"e1r_candidate_tagging_enabled\"] = True"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2684,
+          "text": "_result[\"e1r_candidate_tagging_enabled\"] = True"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2685,
+          "text": "_result[\"strategy_controls\"][\"e1r_candidate_tagging_enabled\"] = True"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2804,
+          "text": "\"candidate_top_n\": controls.get(\"candidate_top_n\"),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2816,
+          "text": "cand = f\"top{row.get('candidate_top_n','?')}\" if row.get(\"qualified_entry_enabled\") else f\"top{row.get('entry_top_n','?')}\""
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 254,
+          "text": "def score_candidate("
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 370,
+          "text": "candidates: list[dict[str, Any]] = []"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 376,
+          "text": "candidate = score_candidate(asset, spx, date, config)"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 377,
+          "text": "if candidate is None:"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 384,
+          "text": "candidate[\"one_day_return\"] = one_day_return"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 385,
+          "text": "candidates.append(candidate)"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 387,
+          "text": "candidates.sort(key=lambda x: x[\"score\"], reverse=True)"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 394,
+          "text": "\"candidate_count\": len(candidates),"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 395,
+          "text": "\"candidates\": candidates,"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 422,
+          "text": "candidates = ranked.get(\"candidates\", [])"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 429,
+          "text": "and bool(candidates)"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 436,
+          "text": "selected = candidates[:top_n]"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 439,
+          "text": "for candidate in selected:"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 440,
+          "text": "raw_return = candidate[\"one_day_return\"]"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 445,
+          "text": "\"symbol\": candidate[\"symbol\"],"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 446,
+          "text": "\"score\": candidate[\"score\"],"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 460,
+          "text": "\"candidate_count\": len(candidates),"
+        },
+        {
+          "path": "src/engine/index_analysis.py",
+          "line": 45,
+          "text": "candidates = INDEX_DOWNLOAD_MAP.get(code, [code])"
+        }
+      ],
+      "BUY": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 45,
+          "text": "# BUY/ADD:     next_day_high  × (1 + cost + slippage)  ← worst buy"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 325,
+          "text": "对每个 BUY/EXIT 信号，测量信号后的前向收益，"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 331,
+          "text": "\"BUY\":  {d: [] for d in forward_days},"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 340,
+          "text": "signal_counts = {\"BUY\": 0, \"ADD\": 0, \"HOLD\": 0, \"REDUCE\": 0, \"EXIT\": 0}"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 442,
+          "text": "buy_avg = summary[\"BUY\"].get(k, {}).get(\"avg_ret\", 0)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 449,
+          "text": "# 有效 BUY 信号数量（去重后）"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 450,
+          "text": "buy_n = summary.get(\"BUY\",{}).get(\"fwd20d\",{}).get(\"n\", 0)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 452,
+          "text": "logger.info(f\"  Layer C: {status} (BUY跑赢SPX {pass_count}/4, BUY信号数={buy_n})\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 610,
+          "text": "- BUY  → 买入后是否有正向期望？"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 621,
+          "text": "for a in [\"BUY\",\"ADD\",\"HOLD\",\"REDUCE\",\"EXIT\"]"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 728,
+          "text": "row = {a: summary[a].get(k,{}).get(\"avg_ret\",\"—\") for a in [\"BUY\",\"ADD\",\"HOLD\",\"REDUCE\",\"EXIT\"]}"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 732,
+          "text": "f\"BUY={row['BUY']:+.2f}% \""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 738,
+          "text": "if isinstance(row[\"BUY\"], float) else f\"  C2 {d}日: 无数据\""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1035,
+          "text": "\"qualified_candidate_generated\":    0,   # qualified: 候选池 BUY 已生成"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1046,
+          "text": "\"action_reason_buy_add_mismatch\":  0,   # BUY/ADD 不一致（记录，不中断）"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1047,
+          "text": "\"fill_only_no_empty_slot\":         0,   # fill_only 模式：无空仓位，跳过 BUY"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1048,
+          "text": "\"e1r_legacy_buy_blocked\":          0,   # E1-R execution: legacy BUY suppressed"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1050,
+          "text": "\"e1r_candidate_buy_generated\":     0,   # E1-R execution: candidate BUY generated"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1098,
+          "text": "\"buy_orders_generated\": 0,   # qualified_pool BUY 生成数"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1128,
+          "text": "if action in (\"BUY\", \"ADD\"):"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1143,
+          "text": "if action == \"BUY\":"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1172,
+          "text": "\"entry_signal\":          \"BUY\","
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1187,
+          "text": "\"action_history\":        [\"BUY\"],"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1379,
+          "text": "#   Top 3 只限制“新 BUY 候选池”"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1614,
+          "text": "# 只限制新开仓 BUY；不限制已有持仓的 HOLD/ADD/REDUCE/EXIT"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1780,
+          "text": "#   Entry Engine  → 由 Qualified Pool 或旧 trade_action BUY 决定"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1791,
+          "text": "\"action\":         \"BUY\","
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1808,
+          "text": "# 不使用 trade_action()==\"BUY\"，由候选池资格决定是否可开仓"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1810,
+          "text": "# 已持仓：BUY 信号在 Qualified 模式下转为 ADD，由下方 position mgmt 处理"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1811,
+          "text": "if action == \"BUY\":"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1838,
+          "text": "\"action\":         \"BUY\",    # 强制 BUY，不依赖 trade_action()"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1852,
+          "text": "# 如果 sym 不在 Qualified Pool 里，不生成 BUY 订单（跳过）"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1853,
+          "text": "elif action == \"BUY\":"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1857,
+          "text": "# 旧模式：trade_action()==\"BUY\" + Strict TopN"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1858,
+          "text": "if action == \"BUY\":"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1881,
+          "text": "\"action\":         \"BUY\","
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1983,
+          "text": "# BUY / ADD mismatch     → 仅计数，不中断（进攻类语义相近）"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2127,
+          "text": "# P0 Fix: 最后一个 sim 日（T日）不生成新 BUY/ADD"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2130,
+          "text": "# 最后一个或倒数第二个 sim 日不生成新 BUY（T+1 执行时会撞上 sim_end_date）"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2412,
+          "text": "\"blocked_actions\": [\"BUY\", \"ADD\"],"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 8,
+          "text": "\"BUY\":   {\"label\":\"买入\", \"color\":\"#1D9E75\", \"desc\":\"强势领导股，建仓信号\"},"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 44,
+          "text": "BUY:    LeaderScore≥90 AND RS≥90 AND Mom≥85 AND TH≥80 AND MarketScore≥50"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 58,
+          "text": "# BUY"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 61,
+          "text": "return \"BUY\""
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 109,
+          "text": "BUY_REASON_ALL_CONDITIONS_MET         = \"all_entry_conditions_met\""
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 131,
+          "text": "\"action\": \"EXIT\" / \"BUY\" / ...,"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 170,
+          "text": "# BUY"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 173,
+          "text": "return {\"action\": \"BUY\", \"primary_reason\": BUY_REASON_ALL_CONDITIONS_MET, \"reasons\": [BUY_REASON_ALL_CONDITIONS_MET]}"
+        },
+        {
+          "path": "src/oos/execution_adapter.py",
+          "line": 19,
+          "text": "\"\"\"BUY executes at T+1 high (adverse). Cost added.\"\"\""
+        },
+        {
+          "path": "src/oos/exporter.py",
+          "line": 200,
+          "text": "(\"ORDER_GENERATED\", \"BUY_EXECUTED\", \"EXIT_EXECUTED\")]"
+        },
+        {
+          "path": "src/oos/portfolio_state.py",
+          "line": 41,
+          "text": "elif t == \"BUY_EXECUTED\":"
+        },
+        {
+          "path": "src/oos/portfolio_state.py",
+          "line": 70,
+          "text": "if not (o[\"symbol\"] == sym and o[\"action\"] in (\"BUY\", \"ADD\"))"
+        },
+        {
+          "path": "src/oos/tracking_engine.py",
+          "line": 65,
+          "text": "pending_buys  = [o for o in state.pending_orders if o[\"action\"] in (\"BUY\", \"ADD\")]"
+        },
+        {
+          "path": "src/oos/tracking_engine.py",
+          "line": 112,
+          "text": "logger.warning(f\"No T+1 price for {sym} — skipping BUY\")"
+        },
+        {
+          "path": "src/oos/tracking_engine.py",
+          "line": 128,
+          "text": "exec_event_id = make_event_id(signal_date, \"BUY_EXECUTED\", sym)"
+        },
+        {
+          "path": "src/oos/tracking_engine.py",
+          "line": 131,
+          "text": "\"event_type\":        \"BUY_EXECUTED\","
+        },
+        {
+          "path": "src/oos/tracking_engine.py",
+          "line": 205,
+          "text": "order_id = make_event_id(signal_date, \"ORDER_BUY\", sym)"
+        },
+        {
+          "path": "src/oos/tracking_engine.py",
+          "line": 211,
+          "text": "\"action\":      \"BUY\","
+        },
+        {
+          "path": "src/oos/tracking_engine.py",
+          "line": 219,
+          "text": "new_orders.append({\"symbol\": sym, \"action\": \"BUY\"})"
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 48,
+          "text": "\"BUY\","
+        }
+      ],
+      "run_stateful_simulation": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 763,
+          "text": "def run_stateful_simulation("
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2646,
+          "text": "_result = run_stateful_simulation("
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2695,
+          "text": "# - Do not modify run_stateful_simulation()."
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 19,
+          "text": "This is intentionally separate from run_stateful_simulation()."
+        },
+        {
+          "path": "scripts/audit_e1r_generator_composer_contract_4b0g.py",
+          "line": 52,
+          "text": "\"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/audit_e1r_generator_composer_contract_4b0g.py",
+          "line": 311,
+          "text": "next_actions.append(\"If composer returns only metrics plus diagnostic rows, inspect upstream run_stateful_simulation / run_strategy_variant_comparison return object.\")"
+        },
+        {
+          "path": "scripts/e1r_backtest_assumptions_contract_audit_4c2c4e_b2.py",
+          "line": 31,
+          "text": "\"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/e1r_backtest_assumptions_contract_audit_4c2c4e_b2.py",
+          "line": 103,
+          "text": "if isinstance(node, ast.FunctionDef) and node.name == \"run_stateful_simulation\":"
+        },
+        {
+          "path": "scripts/e1r_backtest_assumptions_contract_audit_4c2c4e_b2.py",
+          "line": 108,
+          "text": "return {\"error\": \"run_stateful_simulation not found\"}"
+        },
+        {
+          "path": "scripts/e1r_backtest_assumptions_contract_audit_4c2c4e_b2.py",
+          "line": 179,
+          "text": "\"function\": \"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/e1r_backtest_assumptions_contract_audit_4c2c4e_b2.py",
+          "line": 188,
+          "text": "if \"run_stateful_simulation\" not in text:"
+        },
+        {
+          "path": "scripts/e1r_backtest_assumptions_contract_audit_4c2c4e_b2.py",
+          "line": 192,
+          "text": "if \"run_stateful_simulation\" in line:"
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 82,
+          "text": "if isinstance(node, ast.FunctionDef) and node.name == \"run_stateful_simulation\":"
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 95,
+          "text": "raise RuntimeError(\"run_stateful_simulation not found\")"
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 159,
+          "text": "interpretation.append(\"Engine appears to reference sidecar terms or builder inside run_stateful_simulation.\")"
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 161,
+          "text": "interpretation.append(\"Engine does not call sidecar builder inside run_stateful_simulation.\")"
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 356,
+          "text": "\"Proceed to official 5Y design with existing run_stateful_simulation, after adding explicit guards.\""
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 414,
+          "text": "\"purpose\": \"Audit whether existing run_stateful_simulation truly executes E1R regime branches or only records/aligns regime and sidecar data.\","
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+          "line": 316,
+          "text": "\"Existing run_stateful_simulation internals only if extracted into a non-strategy-changing provider after approval.\","
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+          "line": 389,
+          "text": "\"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+          "line": 541,
+          "text": "md.append(\"Design a formal E1R adapter/orchestrator after 4E-C confirmed that the existing `run_stateful_simulation` reads regime data but does not prove full SIDEWAYS sidecar branch execution inside the account engine.\")"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 164,
+          "text": "run_info = funcs.get(\"run_stateful_simulation\", {})"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 167,
+          "text": "\"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 190,
+          "text": "\"has_run_stateful_simulation\": \"run_stateful_simulation\" in funcs,"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 205,
+          "text": "\"signature\": import_signature(\"src.engine.backtest\", \"run_stateful_simulation\"),"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 206,
+          "text": "\"run_stateful_simulation_summary\": run_info,"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 348,
+          "text": "b[\"has_run_stateful_simulation\"],"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_smoke_4c2c4e_b3.py",
+          "line": 374,
+          "text": "fn = getattr(mod, \"run_stateful_simulation\")"
+        },
+        {
+          "path": "scripts/e1r_unified_5y_full_account_preflight_4c1.py",
+          "line": 40,
+          "text": "\"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/e1r_unified_5y_full_account_preflight_4c1.py",
+          "line": 53,
+          "text": "\"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/e1r_unified_5y_full_account_preflight_4c1.py",
+          "line": 359,
+          "text": "\"stateful_simulation_function_found\": any(\"run_stateful_simulation\" in k for k in available_functions),"
+        },
+        {
+          "path": "scripts/export_e1_5y_core_equity.py",
+          "line": 327,
+          "text": "result = backtest.run_stateful_simulation("
+        },
+        {
+          "path": "scripts/export_e1_5y_core_equity.py",
+          "line": 374,
+          "text": "\"Export-only wrapper called frozen run_stateful_simulation but it raised before producing candidate equity rows.\","
+        },
+        {
+          "path": "scripts/export_e1_5y_core_equity.py",
+          "line": 421,
+          "text": "\"source\": \"src.engine.backtest.run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/export_e1_5y_core_equity.py",
+          "line": 465,
+          "text": "\"Called frozen run_stateful_simulation through an export-only wrapper.\","
+        },
+        {
+          "path": "scripts/find_true_e1r_composer_callsite_4b0k.py",
+          "line": 45,
+          "text": "\"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/find_true_e1r_composer_callsite_4b0k.py",
+          "line": 99,
+          "text": "if \"run_stateful_simulation\" in matched:"
+        },
+        {
+          "path": "scripts/find_true_e1r_composer_callsite_4b0k.py",
+          "line": 141,
+          "text": "\"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/find_true_e1r_composer_callsite_4b0k.py",
+          "line": 192,
+          "text": "(\"core_variant_result\" in h[\"matched\"] or \"run_strategy_variant_comparison\" in h[\"matched\"] or \"run_stateful_simulation\" in h[\"matched\"])"
+        },
+        {
+          "path": "scripts/instrument_e1r_composer_callsite_4b0j.py",
+          "line": 53,
+          "text": "\"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/lock_e1r_original_entrypoints_4c2c4b.py",
+          "line": 31,
+          "text": "\"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/lock_e1r_original_entrypoints_4c2c4b.py",
+          "line": 121,
+          "text": "(\"src.engine.backtest\", [\"run_stateful_simulation\"]),"
+        },
+        {
+          "path": "scripts/lock_e1r_original_entrypoints_4c2c4b.py",
+          "line": 193,
+          "text": "\"function\": \"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/resolve_backtest_engine_entrypoint_4c2a.py",
+          "line": 41,
+          "text": "\"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/resolve_e1r_composer_input_candidates_4b0i.py",
+          "line": 45,
+          "text": "\"run_stateful_simulation\","
+        },
+        {
+          "path": "scripts/run_e1r_unified_5y_full_account_4c2c.py",
+          "line": 193,
+          "text": "if isinstance(node, ast.FunctionDef) and node.name == \"run_stateful_simulation\":"
+        },
+        {
+          "path": "scripts/run_e1r_unified_5y_full_account_4c2c.py",
+          "line": 698,
+          "text": "fn = getattr(mod, \"run_stateful_simulation\")"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_4c2b.py",
+          "line": 245,
+          "text": "fn = getattr(mod, \"run_stateful_simulation\")"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_4c2b1.py",
+          "line": 165,
+          "text": "if isinstance(node, ast.FunctionDef) and node.name == \"run_stateful_simulation\":"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_4c2b1.py",
+          "line": 336,
+          "text": "fn = getattr(mod, \"run_stateful_simulation\")"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_4c2b2.py",
+          "line": 180,
+          "text": "if isinstance(node, ast.FunctionDef) and node.name == \"run_stateful_simulation\":"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_4c2b2.py",
+          "line": 391,
+          "text": "fn = getattr(mod, \"run_stateful_simulation\")"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_4c2b3.py",
+          "line": 192,
+          "text": "if isinstance(node, ast.FunctionDef) and node.name == \"run_stateful_simulation\":"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_4c2b3.py",
+          "line": 401,
+          "text": "fn = getattr(mod, \"run_stateful_simulation\")"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_regime_wiring_4c2b4.py",
+          "line": 181,
+          "text": "if isinstance(node, ast.FunctionDef) and node.name == \"run_stateful_simulation\":"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_regime_wiring_4c2b4.py",
+          "line": 514,
+          "text": "fn = getattr(mod, \"run_stateful_simulation\")"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_regime_wiring_trade_window_4c2b5.py",
+          "line": 181,
+          "text": "if isinstance(node, ast.FunctionDef) and node.name == \"run_stateful_simulation\":"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_regime_wiring_trade_window_4c2b5.py",
+          "line": 533,
+          "text": "fn = getattr(mod, \"run_stateful_simulation\")"
+        }
+      ],
+      "calculate": [
+        {
+          "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+          "line": 390,
+          "text": "\"calculate\","
+        },
+        {
+          "path": "scripts/run_e1r_v0_2_oos_equity.py",
+          "line": 159,
+          "text": "No lookahead: previous positions are used to calculate previous_date -> current_date return."
+        }
+      ],
+      "rank": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 24,
+          "text": "from ..engine.leader_ranking import leader_score as calc_leader_score"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 56,
+          "text": "\"rank_based_exit\":   False,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 846,
+          "text": "rank_based_exit = bool(a.get(\"rank_based_exit\", False))"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1615,
+          "text": "top_ranked = sorted("
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1624,
+          "text": "leader_rank_all = {s: i + 1 for i, (s, _) in enumerate(top_ranked)}"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1626,
+          "text": "rank_all = leader_rank_all.get(sym, 9999)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1635,
+          "text": "if rank_all <= 20: emerging_reasons.append(\"leader_rank_top20\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1645,
+          "text": "and rank_all <= 20"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1649,
+          "text": "if rank_all <= 5: confirmed_reasons.append(\"leader_rank_top5\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1657,
+          "text": "and rank_all <= 5"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1678,
+          "text": "\"leader_rank\": rank_all,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1709,
+          "text": "leader_rank_all.get(s, 9999),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1745,
+          "text": "top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(qualified[:candidate_top_n])}"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1754,
+          "text": "top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1755,
+          "text": "top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1795,
+          "text": "\"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1842,
+          "text": "\"entry_rank\":     top_entry_rank.get(sym),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1885,
+          "text": "\"entry_rank\":     top_entry_rank.get(sym),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1893,
+          "text": "# 已持仓股票的管理：ADD / REDUCE / EXIT 与 rank 无关"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2019,
+          "text": "\"entry_rank\":    top_entry_rank.get(sym),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2054,
+          "text": "\"entry_rank\": top_entry_rank.get(sym) or leader_rank_all.get(sym),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2089,
+          "text": "\"entry_rank\": top_entry_rank.get(sym),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2094,
+          "text": "# EXIT or REDUCE. It is independent of rank and market entry gates."
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2120,
+          "text": "\"entry_rank\": top_entry_rank.get(sym),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2126,
+          "text": "buy_orders.sort(key=lambda o: o.get(\"entry_rank\") or 999)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2363,
+          "text": "\"rank_based_exit\": rank_based_exit,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2757,
+          "text": "status_rank = {"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2770,
+          "text": "status_rank.get(result.get(\"status\"), 0),"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 356,
+          "text": "def build_daily_rankings("
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 363,
+          "text": "rankings: dict[str, dict[str, Any]] = {}"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 389,
+          "text": "rankings[date] = {"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 398,
+          "text": "return rankings"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 402,
+          "text": "rankings: dict[str, dict[str, Any]],"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 421,
+          "text": "ranked = rankings.get(date, {})"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 422,
+          "text": "candidates = ranked.get(\"candidates\", [])"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 549,
+          "text": "rankings = build_daily_rankings(stocks, spx, regimes, intervals, config)"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 550,
+          "text": "records = run_daily_rebalanced_sidecar(rankings, spx, regimes, intervals, config)"
+        },
+        {
+          "path": "src/engine/leader_ranking.py",
+          "line": 2,
+          "text": "leader_ranking.py — Leader Score  [Phase 2 Spec Section 7]"
+        },
+        {
+          "path": "src/engine/leader_ranking.py",
+          "line": 23,
+          "text": "def rank_stocks(stocks: list[dict]) -> list[dict]:"
+        },
+        {
+          "path": "src/engine/leader_ranking.py",
+          "line": 24,
+          "text": "\"\"\"按 leader_score 降序排列，写入 rank 字段。\"\"\""
+        },
+        {
+          "path": "src/engine/leader_ranking.py",
+          "line": 27,
+          "text": "x[\"rank\"] = i + 1"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 2,
+          "text": "rank_history.py — 每日排名快照系统"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 4,
+          "text": "每天保存：data/rank_history/YYYY-MM-DD.json"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 16,
+          "text": "RANK_HISTORY_DIR = DATA_DIR / \"rank_history\""
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 19,
+          "text": "def save_daily_snapshot(date: str, ranked_stocks: list[dict]) -> None:"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 25,
+          "text": "\"rank\":           s[\"rank\"],"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 31,
+          "text": "for s in ranked_stocks"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 35,
+          "text": "logger.ok(f\"rank_history/{date}.json ({len(snapshot)} 只)\")"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 62,
+          "text": "def compute_rank_velocity(symbol: str, current_rank: int,"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 77,
+          "text": "past_ranks = []"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 81,
+          "text": "past_ranks.append(s[\"rank\"])"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 84,
+          "text": "if not past_ranks:"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 88,
+          "text": "oldest_rank = past_ranks[-1]  # 最早的"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 90,
+          "text": "rank_delta = oldest_rank - current_rank"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 92,
+          "text": "normalized = max(0.0, min(100.0, 50.0 + rank_delta))"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 134,
+          "text": "def get_rank_delta(symbol: str, current_rank: int, days_ago: int = 5) -> int:"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 148,
+          "text": "return s[\"rank\"] - current_rank  # 正=上升"
+        },
+        {
+          "path": "src/engine/trend_state.py",
+          "line": 15,
+          "text": "moving_average, linreg_slope, pct_rank,"
+        },
+        {
+          "path": "src/engine/trend_state.py",
+          "line": 22,
+          "text": "from ..engine.leader_ranking import leader_score as calc_leader_score"
+        },
+        {
+          "path": "src/engine/watchlist.py",
+          "line": 14,
+          "text": "from .rank_history import ("
+        }
+      ],
+      "relative_strength": [
+        {
+          "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+          "line": 392,
+          "text": "\"relative_strength\","
+        }
+      ],
+      "trend_health": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 23,
+          "text": "from ..features.trend_health import trend_health_score as calc_trend_health"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 149,
+          "text": "th_dict = calc_trend_health(p)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 150,
+          "text": "th = th_dict[\"trend_health\"]"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 163,
+          "text": "\"trend_health\": th,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 373,
+          "text": "th_dict = calc_trend_health(p)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 374,
+          "text": "th = th_dict[\"trend_health\"]"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 378,
+          "text": "from ..features.trend_health import trend_lifecycle"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 518,
+          "text": "th = calc_trend_health(p)[\"trend_health\"]"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 552,
+          "text": "fth = calc_trend_health(fp)[\"trend_health\"]"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 658,
+          "text": "th_d  = calc_trend_health(p)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 659,
+          "text": "th    = th_d[\"trend_health\"]"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 662,
+          "text": "from ..features.trend_health import trend_lifecycle"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1563,
+          "text": "th_d    = calc_trend_health(p)"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1564,
+          "text": "th      = th_d[\"trend_health\"]"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1567,
+          "text": "from ..features.trend_health import trend_lifecycle"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1597,
+          "text": "\"trend_health\":   th,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1632,
+          "text": "if sig[\"trend_health\"] >= 65: emerging_reasons.append(\"trend_health_above_65\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1642,
+          "text": "and sig[\"trend_health\"] >= 65"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1652,
+          "text": "if sig[\"trend_health\"] >= 70: confirmed_reasons.append(\"trend_health_above_70\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1660,
+          "text": "and sig[\"trend_health\"] >= 70"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1685,
+          "text": "\"trend_health\": round(sig[\"trend_health\"], 2),"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1737,
+          "text": "if v[\"trend_health\"]   < qualified_th_min:          continue"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1766,
+          "text": "th      = sig[\"trend_health\"]"
+        },
+        {
+          "path": "src/engine/rank_history.py",
+          "line": 28,
+          "text": "\"trend_health\":   round(s.get(\"trend_health\", 0), 2),"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 32,
+          "text": "trend_health:  float,   # 0-100"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 60,
+          "text": "mom_score >= 85 and trend_health >= 80 and market_score >= 50):"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 70,
+          "text": "if leader_score < 75 or trend_health < 60:"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 74,
+          "text": "if leader_score >= 75 and trend_health >= 70:"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 90,
+          "text": "s.get(\"trend_health\", 0),"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 108,
+          "text": "REDUCE_REASON_TREND_HEALTH_BELOW_60   = \"trend_health_below_60\""
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 110,
+          "text": "HOLD_REASON_TREND_HEALTHY             = \"trend_healthy\""
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 122,
+          "text": "trend_health:  float,"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 172,
+          "text": "mom_score >= 85 and trend_health >= 80 and market_score >= 50):"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 183,
+          "text": "if trend_health < 60:"
+        },
+        {
+          "path": "src/engine/trade_decision.py",
+          "line": 190,
+          "text": "if leader_score >= 75 and trend_health >= 70:"
+        },
+        {
+          "path": "src/engine/trend_state.py",
+          "line": 17,
+          "text": "from ..features.trend_health import ("
+        },
+        {
+          "path": "src/engine/trend_state.py",
+          "line": 18,
+          "text": "trend_health_score as calc_trend_health,"
+        },
+        {
+          "path": "src/engine/trend_state.py",
+          "line": 63,
+          "text": "th_dict = calc_trend_health(prices)"
+        },
+        {
+          "path": "src/engine/trend_state.py",
+          "line": 64,
+          "text": "th_sc   = th_dict[\"trend_health\"]               # 0-100"
+        },
+        {
+          "path": "src/engine/trend_state.py",
+          "line": 111,
+          "text": "\"trend_health\":    th_sc,"
+        },
+        {
+          "path": "src/engine/watchlist.py",
+          "line": 25,
+          "text": "trend_health: float,   # 0-100  ← 20%"
+        },
+        {
+          "path": "src/engine/watchlist.py",
+          "line": 38,
+          "text": "0.20 * max(0, min(100, trend_health))  +"
+        },
+        {
+          "path": "src/engine/watchlist.py",
+          "line": 64,
+          "text": "th    = s.get(\"trend_health\", 50)"
+        },
+        {
+          "path": "src/engine/watchlist.py",
+          "line": 92,
+          "text": "\"trend_health\":     th,"
+        },
+        {
+          "path": "src/export/export_json.py",
+          "line": 58,
+          "text": "\"trend_health\":   s.get(\"trend_health\"),"
+        },
+        {
+          "path": "src/export/export_json.py",
+          "line": 117,
+          "text": "\"trend_health\":   s.get(\"trend_health\", 0),"
+        },
+        {
+          "path": "src/features/trend_health.py",
+          "line": 2,
+          "text": "trend_health.py — Trend Health Score  [Phase 2 Spec Section 6]"
+        },
+        {
+          "path": "src/features/trend_health.py",
+          "line": 98,
+          "text": "def trend_health_score(prices: list[float]) -> dict:"
+        },
+        {
+          "path": "src/features/trend_health.py",
+          "line": 114,
+          "text": "\"trend_health\":          total,          # 0-100"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+          "line": 393,
+          "text": "\"trend_health\","
+        }
+      ],
+      "market_gate": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 59,
+          "text": "\"market_gate_enabled\": False,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 847,
+          "text": "market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 911,
+          "text": "market_gate_variant = ("
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 912,
+          "text": "\"D1_NO_MARKET_GATE\" if not market_gate_enabled else"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 927,
+          "text": "logger.info(f\"  Market Gate Variant: {market_gate_variant}\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 928,
+          "text": "logger.info(f\"  Market Gate: enabled={market_gate_enabled} \""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 938,
+          "text": "f\"relstop={relative_stop_enabled} gate={market_gate_enabled} ──\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1072,
+          "text": "market_gate_days = {"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1393,
+          "text": "if not market_gate_enabled:"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1400,
+          "text": "market_gate_days[\"entry_allowed\"] += 1"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1488,
+          "text": "market_gate_days[\"risk_off\"] += 1"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1490,
+          "text": "market_gate_days[\"market_shock\"] += 1"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1492,
+          "text": "market_gate_days[\"entry_allowed\"] += 1"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1494,
+          "text": "market_gate_days[\"blocked_total\"] += 1"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1525,
+          "text": "\"market_gate_state\": _gate_state,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1820,
+          "text": "if market_gate_enabled and len(holdings) >= entry_capacity:"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1872,
+          "text": "if market_gate_enabled and len(holdings) >= entry_capacity:"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1997,
+          "text": "if action == \"ADD\" and market_gate_enabled and market_state in (\"CAUTIOUS_ON\", \"CASH_MODE\"):"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2155,
+          "text": "\"market_gate_state\": ("
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2330,
+          "text": "logger.info(f\"  Market gate days: allowed={market_gate_days['entry_allowed']} \""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2331,
+          "text": "f\"blocked={market_gate_days['blocked_total']} \""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2332,
+          "text": "f\"risk_off={market_gate_days['risk_off']} \""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2333,
+          "text": "f\"shock={market_gate_days['market_shock']}\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2405,
+          "text": "\"variant\": market_gate_variant,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2406,
+          "text": "\"enabled\": market_gate_enabled,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2414,
+          "text": "\"days\": market_gate_days,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2519,
+          "text": "\"market_gate_enabled\": False,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2526,
+          "text": "\"market_gate_enabled\":       True,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2537,
+          "text": "\"market_gate_enabled\":       True,"
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 44,
+          "text": "\"market_gate\","
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+          "line": 394,
+          "text": "\"market_gate\","
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_smoke_4c2c4e_b3.py",
+          "line": 316,
+          "text": "assumptions[\"market_gate_enabled\"] = True"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_smoke_4c2c4e_b3.py",
+          "line": 347,
+          "text": "\"market_gate_enabled\": assumptions[\"market_gate_enabled\"],"
+        },
+        {
+          "path": "scripts/export_e1_5y_core_equity.py",
+          "line": 289,
+          "text": "\"market_state\": r.get(\"market_state\", r.get(\"market_gate_state\", r.get(\"regime\"))),"
+        },
+        {
+          "path": "scripts/recompute_e1r_unified_5y_row_metrics_4c2c2.py",
+          "line": 127,
+          "text": "\"market_gate_state\": r.get(\"market_gate_state\"),"
+        },
+        {
+          "path": "scripts/resolve_backtest_engine_entrypoint_4c2a.py",
+          "line": 49,
+          "text": "\"market_gate_state\","
+        },
+        {
+          "path": "scripts/resolve_backtest_engine_entrypoint_4c2a.py",
+          "line": 264,
+          "text": "if \"spx_regime\" in body or \"market_gate_state\" in body:"
+        },
+        {
+          "path": "scripts/run_e1r_combined_5y_original_max3_4c2c4d.py",
+          "line": 159,
+          "text": "\"market_gate_state\": r.get(\"market_gate_state\"),"
+        },
+        {
+          "path": "scripts/run_e1r_unified_5y_full_account_4c2c.py",
+          "line": 76,
+          "text": "\"market_gate_enabled\": True,"
+        },
+        {
+          "path": "scripts/run_e1r_unified_5y_full_account_4c2c.py",
+          "line": 500,
+          "text": "\"market_gate_state\": r.get(\"market_gate_state\"),"
+        },
+        {
+          "path": "scripts/run_e1r_unified_5y_full_account_4c2c.py",
+          "line": 661,
+          "text": "\"market_gate_enabled\": inputs[\"assumptions\"].get(\"market_gate_enabled\"),"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_4c2b.py",
+          "line": 163,
+          "text": "\"market_gate_enabled\": True,"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_4c2b1.py",
+          "line": 52,
+          "text": "\"market_gate_enabled\": True,"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_4c2b1.py",
+          "line": 82,
+          "text": "\"market_gate_enabled\": True,"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_4c2b2.py",
+          "line": 70,
+          "text": "\"market_gate_enabled\": True,"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_4c2b3.py",
+          "line": 68,
+          "text": "\"market_gate_enabled\": True,"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_regime_wiring_4c2b4.py",
+          "line": 70,
+          "text": "\"market_gate_enabled\": True,"
+        },
+        {
+          "path": "scripts/smoke_invoke_unified_engine_regime_wiring_trade_window_4c2b5.py",
+          "line": 70,
+          "text": "\"market_gate_enabled\": True,"
+        }
+      ],
+      "build_e1r_sidecar_sleeve": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2706,
+          "text": "build_e1r_sidecar_sleeve,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2730,
+          "text": "_sidecar_result = build_e1r_sidecar_sleeve("
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 538,
+          "text": "def build_e1r_sidecar_sleeve("
+        },
+        {
+          "path": "scripts/audit_e1r_generator_composer_contract_4b0g.py",
+          "line": 50,
+          "text": "\"build_e1r_sidecar_sleeve\","
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 40,
+          "text": "\"build_e1r_sidecar_sleeve\","
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 145,
+          "text": "sidecar_call_present = \"build_e1r_sidecar_sleeve\" in source or \"sidecar\" in source.lower()"
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 313,
+          "text": "\"build_e1r_sidecar_sleeve\","
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 327,
+          "text": "if \"build_e1r_sidecar_sleeve\" in text or \"E1RSidecarConfig\" in text:"
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 330,
+          "text": "if \"build_e1r_sidecar_sleeve\" in line or \"E1RSidecarConfig\" in line:"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+          "line": 326,
+          "text": "\"source\": \"src.engine.e1r_sidecar_sleeve.build_e1r_sidecar_sleeve\","
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+          "line": 395,
+          "text": "\"build_e1r_sidecar_sleeve\","
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 214,
+          "text": "build_info = funcs.get(\"build_e1r_sidecar_sleeve\", {})"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 218,
+          "text": "\"build_e1r_sidecar_sleeve\","
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 236,
+          "text": "\"has_sidecar_builder\": \"build_e1r_sidecar_sleeve\" in funcs,"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 246,
+          "text": "\"build_e1r_sidecar_sleeve\" in funcs,"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 258,
+          "text": "\"signature_builder\": import_signature(\"src.engine.e1r_sidecar_sleeve\", \"build_e1r_sidecar_sleeve\"),"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_smoke_4c2c4e_b3.py",
+          "line": 251,
+          "text": "build = getattr(mod, \"build_e1r_sidecar_sleeve\")"
+        },
+        {
+          "path": "scripts/e1r_no_strategy_change_adapter_smoke_4c2c4c.py",
+          "line": 274,
+          "text": "sidecar_fn = getattr(sidecar_mod, \"build_e1r_sidecar_sleeve\")"
+        },
+        {
+          "path": "scripts/e1r_sidecar_smoke_with_dates_4c2c4c1.py",
+          "line": 179,
+          "text": "build = getattr(mod, \"build_e1r_sidecar_sleeve\")"
+        },
+        {
+          "path": "scripts/e1r_sidecar_strict_field_audit_4c2c4c2.py",
+          "line": 253,
+          "text": "build = getattr(mod, \"build_e1r_sidecar_sleeve\")"
+        },
+        {
+          "path": "scripts/e1r_unified_5y_full_account_preflight_4c1.py",
+          "line": 47,
+          "text": "\"build_e1r_sidecar_sleeve\","
+        },
+        {
+          "path": "scripts/export_e1r_v0_2_status.py",
+          "line": 12,
+          "text": "from src.engine.e1r_sidecar_sleeve import E1RSidecarConfig, build_e1r_sidecar_sleeve"
+        },
+        {
+          "path": "scripts/export_e1r_v0_2_status.py",
+          "line": 132,
+          "text": "sidecar_result = build_e1r_sidecar_sleeve("
+        },
+        {
+          "path": "scripts/lock_e1r_original_entrypoints_4c2c4b.py",
+          "line": 30,
+          "text": "\"build_e1r_sidecar_sleeve\","
+        },
+        {
+          "path": "scripts/lock_e1r_original_entrypoints_4c2c4b.py",
+          "line": 120,
+          "text": "(\"src.engine.e1r_sidecar_sleeve\", [\"build_e1r_sidecar_sleeve\"]),"
+        },
+        {
+          "path": "scripts/lock_e1r_original_entrypoints_4c2c4b.py",
+          "line": 187,
+          "text": "\"function\": \"build_e1r_sidecar_sleeve\","
+        },
+        {
+          "path": "scripts/lock_e1r_original_entrypoints_4c2c4b.py",
+          "line": 205,
+          "text": "\"must_confirm\": \"build_e1r_sidecar_sleeve is the original validated sidecar source; selected_count_max/Top10 remains candidate pool, not live holdings.\","
+        },
+        {
+          "path": "scripts/probe_e1r_composer_return_shape_4b0h.py",
+          "line": 262,
+          "text": "\"mentions_build_e1r_sidecar_sleeve\": \"build_e1r_sidecar_sleeve\" in src,"
+        },
+        {
+          "path": "scripts/run_e1r_combined_5y_original_max3_4c2c4d.py",
+          "line": 46,
+          "text": "\"sideways_ma_conflict\": \"Call original build_e1r_sidecar_sleeve with original defaults: allowed_subclasses=('MA_CONFLICT',), top_n=10, gross_exposure=0.25.\","
+        },
+        {
+          "path": "scripts/run_e1r_combined_5y_original_max3_4c2c4d.py",
+          "line": 172,
+          "text": "build = getattr(mod, \"build_e1r_sidecar_sleeve\")"
+        },
+        {
+          "path": "scripts/run_e1r_combined_5y_original_max3_4c2c4d.py",
+          "line": 447,
+          "text": "\"function\": \"build_e1r_sidecar_sleeve\","
+        }
+      ],
+      "E1RSidecarConfig": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2705,
+          "text": "E1RSidecarConfig,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 2718,
+          "text": "_sidecar_cfg = E1RSidecarConfig("
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 41,
+          "text": "class E1RSidecarConfig:"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 160,
+          "text": "config: E1RSidecarConfig,"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 258,
+          "text": "config: E1RSidecarConfig,"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 345,
+          "text": "config: E1RSidecarConfig,"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 361,
+          "text": "config: E1RSidecarConfig,"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 406,
+          "text": "config: E1RSidecarConfig,"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 475,
+          "text": "config: E1RSidecarConfig,"
+        },
+        {
+          "path": "src/engine/e1r_sidecar_sleeve.py",
+          "line": 542,
+          "text": "config: E1RSidecarConfig,"
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 314,
+          "text": "\"E1RSidecarConfig\","
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 327,
+          "text": "if \"build_e1r_sidecar_sleeve\" in text or \"E1RSidecarConfig\" in text:"
+        },
+        {
+          "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+          "line": 330,
+          "text": "if \"build_e1r_sidecar_sleeve\" in line or \"E1RSidecarConfig\" in line:"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+          "line": 396,
+          "text": "\"E1RSidecarConfig\","
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 217,
+          "text": "\"E1RSidecarConfig\","
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 235,
+          "text": "\"has_sidecar_config\": \"E1RSidecarConfig\" in text,"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+          "line": 257,
+          "text": "\"signature_config\": import_signature(\"src.engine.e1r_sidecar_sleeve\", \"E1RSidecarConfig\"),"
+        },
+        {
+          "path": "scripts/e1r_continuous_stateful_smoke_4c2c4e_b3.py",
+          "line": 250,
+          "text": "Config = getattr(mod, \"E1RSidecarConfig\")"
+        },
+        {
+          "path": "scripts/e1r_no_strategy_change_adapter_smoke_4c2c4c.py",
+          "line": 180,
+          "text": "Config = getattr(mod, \"E1RSidecarConfig\", None)"
+        },
+        {
+          "path": "scripts/e1r_no_strategy_change_adapter_smoke_4c2c4c.py",
+          "line": 287,
+          "text": "sidecar_run[\"error\"] = \"E1RSidecarConfig could not be instantiated with defaults.\""
+        },
+        {
+          "path": "scripts/e1r_sidecar_smoke_with_dates_4c2c4c1.py",
+          "line": 178,
+          "text": "Config = getattr(mod, \"E1RSidecarConfig\")"
+        },
+        {
+          "path": "scripts/e1r_sidecar_strict_field_audit_4c2c4c2.py",
+          "line": 252,
+          "text": "Config = getattr(mod, \"E1RSidecarConfig\")"
+        },
+        {
+          "path": "scripts/export_e1r_v0_2_sidecar_records_5y.py",
+          "line": 217,
+          "text": "cfg = sidecar.E1RSidecarConfig(start_date=START_DATE, end_date=END_DATE)"
+        },
+        {
+          "path": "scripts/export_e1r_v0_2_status.py",
+          "line": 12,
+          "text": "from src.engine.e1r_sidecar_sleeve import E1RSidecarConfig, build_e1r_sidecar_sleeve"
+        },
+        {
+          "path": "scripts/export_e1r_v0_2_status.py",
+          "line": 120,
+          "text": "config = E1RSidecarConfig("
+        },
+        {
+          "path": "scripts/run_e1r_combined_5y_original_max3_4c2c4d.py",
+          "line": 171,
+          "text": "Config = getattr(mod, \"E1RSidecarConfig\")"
+        }
+      ]
+    },
+    "candidate_function_index_count": 76,
+    "uptrend_related_functions_sample": [
+      {
+        "path": "src/engine/backtest.py",
+        "name": "_rebuild_leader_score",
+        "start_line": 124,
+        "end_line": 169,
+        "line_count": 46,
+        "args": [
+          "prices",
+          "spx_prices",
+          "all_stocks_prices",
+          "t"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": true,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "name": "run_leader_engine_validation",
+        "start_line": 176,
+        "end_line": 306,
+        "line_count": 131,
+        "args": [
+          "symbols",
+          "prices_map",
+          "spx_prices",
+          "forward_days",
+          "step",
+          "min_history"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": true,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "name": "run_stateful_simulation",
+        "start_line": 763,
+        "end_line": 2486,
+        "line_count": 1724,
+        "args": [
+          "symbols",
+          "prices_map",
+          "dates_map",
+          "spx_prices",
+          "spx_dates",
+          "ohlc_map",
+          "assumptions",
+          "step",
+          "min_history",
+          "market_score_default",
+          "sim_start_date",
+          "sim_end_date",
+          "ndx_prices",
+          "ndx_dates",
+          "sox_prices",
+          "sox_dates",
+          "vix_prices",
+          "vix_dates"
+        ],
+        "contains_buy": true,
+        "contains_exit": true,
+        "contains_reduce": true,
+        "contains_leader_score": true,
+        "contains_regime": true,
+        "contains_sidecar": false,
+        "contains_positions": true,
+        "contains_cash": true
+      },
+      {
+        "path": "src/engine/leader_ranking.py",
+        "name": "leader_score",
+        "start_line": 11,
+        "end_line": 20,
+        "line_count": 10,
+        "args": [
+          "rs",
+          "mom",
+          "th"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": true,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "src/engine/leader_ranking.py",
+        "name": "rank_stocks",
+        "start_line": 23,
+        "end_line": 28,
+        "line_count": 6,
+        "args": [
+          "stocks"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": true,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "src/engine/rank_history.py",
+        "name": "compute_rank_velocity",
+        "start_line": 62,
+        "end_line": 93,
+        "line_count": 32,
+        "args": [
+          "symbol",
+          "current_rank",
+          "lookback_days"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "src/engine/rank_history.py",
+        "name": "get_rank_delta",
+        "start_line": 134,
+        "end_line": 149,
+        "line_count": 16,
+        "args": [
+          "symbol",
+          "current_rank",
+          "days_ago"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "src/features/momentum.py",
+        "name": "pct_rank",
+        "start_line": 150,
+        "end_line": 154,
+        "line_count": 5,
+        "args": [
+          "value",
+          "all_values"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "src/oos/execution_adapter.py",
+        "name": "fill_price_buy",
+        "start_line": 18,
+        "end_line": 20,
+        "line_count": 3,
+        "args": [
+          "high",
+          "cost_rate"
+        ],
+        "contains_buy": true,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "src/oos/execution_adapter.py",
+        "name": "allocate_buys",
+        "start_line": 28,
+        "end_line": 130,
+        "line_count": 103,
+        "args": [
+          "buy_orders",
+          "available_cash",
+          "n_existing_positions",
+          "max_positions",
+          "cost_rate"
+        ],
+        "contains_buy": true,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": true,
+        "contains_cash": true
+      },
+      {
+        "path": "src/oos/execution_adapter.py",
+        "name": "should_exit_e1",
+        "start_line": 144,
+        "end_line": 153,
+        "line_count": 10,
+        "args": [
+          "leader_score",
+          "min_hold_satisfied"
+        ],
+        "contains_buy": false,
+        "contains_exit": true,
+        "contains_reduce": false,
+        "contains_leader_score": true,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/audit_e1r_v0_2_daily_like_candidates_v2.py",
+        "name": "validate_portfolio_candidate",
+        "start_line": 259,
+        "end_line": 286,
+        "line_count": 28,
+        "args": [
+          "stats"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/dry_run_e1r_v0_2_generator_candidate.py",
+        "name": "select_generator_candidate",
+        "start_line": 218,
+        "end_line": 265,
+        "line_count": 48,
+        "args": [],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/dry_run_e1r_v0_2_generator_candidate.py",
+        "name": "run_candidate",
+        "start_line": 369,
+        "end_line": 427,
+        "line_count": 59,
+        "args": [
+          "candidate"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+        "name": "find_e1r_regime_usage_in_engine",
+        "start_line": 116,
+        "end_line": 188,
+        "line_count": 73,
+        "args": [],
+        "contains_buy": true,
+        "contains_exit": true,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": true,
+        "contains_cash": true
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+        "name": "inspect_candidate_entrypoints",
+        "start_line": 382,
+        "end_line": 430,
+        "line_count": 49,
+        "args": [],
+        "contains_buy": true,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": true,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": true
+      },
+      {
+        "path": "scripts/e1r_no_strategy_change_adapter_smoke_4c2c4c.py",
+        "name": "find_existing_core_candidates",
+        "start_line": 218,
+        "end_line": 246,
+        "line_count": 29,
+        "args": [],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/export_e1r_v0_2_targets_preview.py",
+        "name": "extract_leader_rows",
+        "start_line": 91,
+        "end_line": 99,
+        "line_count": 9,
+        "args": [
+          "raw"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/export_e1r_v0_2_targets_preview.py",
+        "name": "extract_sidecar_targets",
+        "start_line": 195,
+        "end_line": 264,
+        "line_count": 70,
+        "args": [
+          "sidecar",
+          "status",
+          "summary"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": true,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/resolve_backtest_engine_entrypoint_4c2a.py",
+        "name": "rank_entrypoint_candidates",
+        "start_line": 233,
+        "end_line": 277,
+        "line_count": 45,
+        "args": [
+          "scans"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": false,
+        "contains_positions": true,
+        "contains_cash": true
+      },
+      {
+        "path": "scripts/resolve_e1r_composer_input_candidates_4b0i.py",
+        "name": "score_core_candidate",
+        "start_line": 220,
+        "end_line": 258,
+        "line_count": 39,
+        "args": [
+          "node",
+          "path"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/resolve_e1r_composer_input_candidates_4b0i.py",
+        "name": "score_sidecar_candidate",
+        "start_line": 260,
+        "end_line": 285,
+        "line_count": 26,
+        "args": [
+          "node",
+          "path"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/validate_e1r_direct_composed_candidate_4b0m.py",
+        "name": "metrics_from_candidate",
+        "start_line": 184,
+        "end_line": 197,
+        "line_count": 14,
+        "args": [
+          "obj"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": false,
+        "contains_positions": false,
+        "contains_cash": false
+      }
+    ],
+    "sidecar_related_functions_sample": [
+      {
+        "path": "src/engine/e1r_sidecar_sleeve.py",
+        "name": "score_candidate",
+        "start_line": 254,
+        "end_line": 339,
+        "line_count": 86,
+        "args": [
+          "asset",
+          "spx",
+          "date",
+          "config"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "src/engine/e1r_sidecar_sleeve.py",
+        "name": "build_daily_rankings",
+        "start_line": 356,
+        "end_line": 398,
+        "line_count": 43,
+        "args": [
+          "stocks",
+          "spx",
+          "regimes",
+          "intervals",
+          "config"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "src/engine/e1r_sidecar_sleeve.py",
+        "name": "run_daily_rebalanced_sidecar",
+        "start_line": 401,
+        "end_line": 470,
+        "line_count": 70,
+        "args": [
+          "rankings",
+          "spx",
+          "regimes",
+          "intervals",
+          "config"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "src/engine/e1r_sidecar_sleeve.py",
+        "name": "summarize_sidecar",
+        "start_line": 473,
+        "end_line": 535,
+        "line_count": 63,
+        "args": [
+          "records",
+          "config"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "src/engine/e1r_sidecar_sleeve.py",
+        "name": "build_e1r_sidecar_sleeve",
+        "start_line": 538,
+        "end_line": 594,
+        "line_count": 57,
+        "args": [
+          "stock_dir",
+          "spx_path",
+          "regime_path",
+          "config"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/direct_compose_e1r_candidate_4b0l.py",
+        "name": "build_sidecar_result",
+        "start_line": 144,
+        "end_line": 152,
+        "line_count": 9,
+        "args": [
+          "sidecar_obj"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/dry_run_e1r_v0_2_generator_candidate.py",
+        "name": "select_generator_candidate",
+        "start_line": 218,
+        "end_line": 265,
+        "line_count": 48,
+        "args": [],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/dry_run_e1r_v0_2_generator_candidate.py",
+        "name": "score",
+        "start_line": 237,
+        "end_line": 251,
+        "line_count": 15,
+        "args": [
+          "c"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+        "name": "find_e1r_regime_usage_in_engine",
+        "start_line": 116,
+        "end_line": 188,
+        "line_count": 73,
+        "args": [],
+        "contains_buy": true,
+        "contains_exit": true,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": true,
+        "contains_cash": true
+      },
+      {
+        "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+        "name": "locate_sidecar_integration_points",
+        "start_line": 310,
+        "end_line": 341,
+        "line_count": 32,
+        "args": [],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+        "name": "inspect_candidate_entrypoints",
+        "start_line": 382,
+        "end_line": 430,
+        "line_count": 49,
+        "args": [],
+        "contains_buy": true,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": true,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": true
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_design_audit_4c2c4e_a.py",
+        "name": "audit_sidecar",
+        "start_line": 211,
+        "end_line": 262,
+        "line_count": 52,
+        "args": [],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/e1r_continuous_stateful_smoke_4c2c4e_b3.py",
+        "name": "run_original_sidecar",
+        "start_line": 247,
+        "end_line": 283,
+        "line_count": 37,
+        "args": [
+          "stock_dir",
+          "spx_path",
+          "regime_path"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/e1r_no_strategy_change_adapter_smoke_4c2c4c.py",
+        "name": "summarize_sidecar_result",
+        "start_line": 55,
+        "end_line": 177,
+        "line_count": 123,
+        "args": [
+          "result"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": true,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/e1r_no_strategy_change_adapter_smoke_4c2c4c.py",
+        "name": "instantiate_sidecar_config",
+        "start_line": 179,
+        "end_line": 206,
+        "line_count": 28,
+        "args": [
+          "mod"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/e1r_sidecar_smoke_with_dates_4c2c4c1.py",
+        "name": "summarize_sidecar",
+        "start_line": 48,
+        "end_line": 159,
+        "line_count": 112,
+        "args": [
+          "result"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/export_e1r_v0_2_sidecar_records_5y.py",
+        "name": "sidecar_stats",
+        "start_line": 82,
+        "end_line": 143,
+        "line_count": 62,
+        "args": [
+          "records"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/export_e1r_v0_2_sidecar_records_5y.py",
+        "name": "normalize_sidecar_record",
+        "start_line": 176,
+        "end_line": 206,
+        "line_count": 31,
+        "args": [
+          "r"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/export_e1r_v0_2_targets_preview.py",
+        "name": "extract_sidecar_targets",
+        "start_line": 195,
+        "end_line": 264,
+        "line_count": 70,
+        "args": [
+          "sidecar",
+          "status",
+          "summary"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": true,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/resolve_e1r_composer_input_candidates_4b0i.py",
+        "name": "score_sidecar_candidate",
+        "start_line": 260,
+        "end_line": 285,
+        "line_count": 26,
+        "args": [
+          "node",
+          "path"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/run_e1r_combined_5y_original_max3_4c2c4d.py",
+        "name": "build_sidecar_result",
+        "start_line": 168,
+        "end_line": 181,
+        "line_count": 14,
+        "args": [],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/run_e1r_combined_5y_original_max3_4c2c4d.py",
+        "name": "sidecar_records_by_date",
+        "start_line": 183,
+        "end_line": 194,
+        "line_count": 12,
+        "args": [
+          "sidecar"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": false,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/run_e1r_combined_5y_original_max3_4c2c4d.py",
+        "name": "sidecar_adapter_return_and_positions",
+        "start_line": 196,
+        "end_line": 262,
+        "line_count": 67,
+        "args": [
+          "r"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": true,
+        "contains_sidecar": true,
+        "contains_positions": true,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/run_e1r_v0_2_oos_equity.py",
+        "name": "compute_sidecar_mtm_return",
+        "start_line": 152,
+        "end_line": 222,
+        "line_count": 71,
+        "args": [
+          "previous_record",
+          "current_date",
+          "price_map"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": true,
+        "contains_cash": false
+      },
+      {
+        "path": "scripts/run_e1r_v0_2_oos_equity.py",
+        "name": "normalize_current_sidecar_positions",
+        "start_line": 225,
+        "end_line": 245,
+        "line_count": 21,
+        "args": [
+          "sidecar"
+        ],
+        "contains_buy": false,
+        "contains_exit": false,
+        "contains_reduce": false,
+        "contains_leader_score": false,
+        "contains_regime": false,
+        "contains_sidecar": true,
+        "contains_positions": true,
+        "contains_cash": false
+      }
+    ],
+    "entrypoint_status": {
+      "uptrend_provider_entrypoint_locked": false,
+      "sidecar_provider_entrypoint_locked": true,
+      "cash_defensive_provider_entrypoint_locked": true
+    },
+    "reason": "SIDEWAYS sidecar provider is known. UPTREND order/candidate provider still needs a focused entrypoint audit before adapter implementation."
+  },
+  "validations": {
+    "design_only_no_backtest_run": true,
+    "full_5y_backtest_run": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "strategy_files_unchanged": true,
+    "invalid_artifacts_not_used_as_source": true,
+    "composer_not_used": true,
+    "return_curve_stitching_not_used": true,
+    "c_report_loaded": true,
+    "c_conclusion_requires_adapter": true,
+    "adapter_contract_defined": true,
+    "daily_loop_defined": true,
+    "transition_policy_defined": true,
+    "branch_provider_contracts_defined": true,
+    "validation_matrix_defined": true,
+    "sidecar_provider_locked": true,
+    "cash_defensive_provider_locked": true,
+    "uptrend_provider_not_yet_locked": true
+  },
+  "decision": {
+    "c_audit_supports_adapter_need": true,
+    "sidecar_provider_locked": true,
+    "cash_defensive_provider_locked": true,
+    "uptrend_provider_locked": false,
+    "adapter_design_complete": true,
+    "implementation_allowed_now": false,
+    "conclusion": "ADAPTER_DESIGN_READY_BUT_UPTREND_PROVIDER_ENTRYPOINT_MUST_BE_LOCKED_BEFORE_IMPLEMENTATION",
+    "recommended_next_action": "Proceed to 4C-2C-4E-D1: UPTREND provider entrypoint audit. Do not implement adapter trading logic until the validated UPTREND candidate/order source is locked."
+  }
+}
