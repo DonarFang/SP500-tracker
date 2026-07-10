@@ -1,0 +1,6051 @@
+{
+  "generated_at": "2026-07-10T03:27:14.220905+00:00",
+  "elapsed_seconds": 0.094792,
+  "stage": "4C-2C-4E-D2B",
+  "status": "REAL_UPTREND_PROVIDER_FILTER_AUDIT_COMPLETE",
+  "purpose": "Filter false-positive provider candidates and inspect real runtime candidate src/oos/tracking_engine.py::run_oos_day.",
+  "policy": {
+    "strategy_logic_changed": false,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "frozen_strategy_files_changed": false,
+    "invalid_artifacts_used_as_source": false,
+    "composer_used": false,
+    "return_curve_stitching_used": false
+  },
+  "prior_reports": {
+    "d_exists": true,
+    "d1_exists": true,
+    "d2_exists": true,
+    "d2_selected_candidate": {
+      "path": "scripts/e1r_uptrend_provider_entrypoint_audit_4c2c4e_d1.py",
+      "name": "audit_run_stateful_uptrend_logic",
+      "start_line": 178,
+      "end_line": 260,
+      "line_count": 83,
+      "args": [],
+      "classification": "STATEFUL_UPTREND_SIMULATOR_OR_PROVIDER_CANDIDATE",
+      "score": 11,
+      "reasons": [
+        "has_candidate_logic",
+        "has_buy_logic",
+        "has_exit_logic",
+        "has_positions_state",
+        "has_cash_state",
+        "has_market_gate",
+        "has_max_positions"
+      ],
+      "risks": [
+        "Wrapper around run_stateful_simulation, not independent provider."
+      ],
+      "action_like_dict_count": 0,
+      "literal_action_counts": {},
+      "return_shape": {
+        "return_statements": [
+          {
+            "line": 244,
+            "shape": {
+              "type": "dict",
+              "keys": [
+                "path",
+                "function",
+                "start_line",
+                "end_line",
+                "line_count",
+                "static_evidence",
+                "internal_uptrend_source_logic_located",
+                "keyword_hits_count",
+                "keyword_hits_sample",
+                "candidate_contexts_sample",
+                "buy_contexts_sample",
+                "add_contexts_sample",
+                "reduce_contexts_sample",
+                "exit_contexts_sample",
+                "action_contexts_sample"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "d2_ranked_candidates": [
+      {
+        "rank": 1,
+        "path": "scripts/e1r_uptrend_provider_entrypoint_audit_4c2c4e_d1.py",
+        "name": "audit_run_stateful_uptrend_logic",
+        "start_line": 178,
+        "classification": "STATEFUL_UPTREND_SIMULATOR_OR_PROVIDER_CANDIDATE",
+        "score": 11,
+        "risks": [
+          "Wrapper around run_stateful_simulation, not independent provider."
+        ],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "rank": 2,
+        "path": "scripts/e1r_uptrend_provider_entrypoint_audit_4c2c4e_d1.py",
+        "name": "function_index",
+        "start_line": 262,
+        "classification": "STATEFUL_UPTREND_SIMULATOR_OR_PROVIDER_CANDIDATE",
+        "score": 11,
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "rank": 3,
+        "path": "src/oos/tracking_engine.py",
+        "name": "run_oos_day",
+        "start_line": 25,
+        "classification": "STATEFUL_UPTREND_SIMULATOR_OR_PROVIDER_CANDIDATE",
+        "score": 10,
+        "risks": [],
+        "action_like_dict_count": 11,
+        "literal_action_counts": {
+          "EXIT": 4,
+          "BUY": 2
+        }
+      },
+      {
+        "rank": 4,
+        "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+        "name": "design_adapter_contract",
+        "start_line": 195,
+        "classification": "STATEFUL_UPTREND_SIMULATOR_OR_PROVIDER_CANDIDATE",
+        "score": 10,
+        "risks": [
+          "Contains sidecar terms; may be mixed-regime helper rather than pure UPTREND provider."
+        ],
+        "action_like_dict_count": 3,
+        "literal_action_counts": {
+          "BUY | ADD | REDUCE | EXIT | HOLD": 1
+        }
+      },
+      {
+        "rank": 5,
+        "path": "scripts/e1r_continuous_stateful_adapter_design_4c2c4e_d.py",
+        "name": "ast_function_index",
+        "start_line": 98,
+        "classification": "STATEFUL_UPTREND_SIMULATOR_OR_PROVIDER_CANDIDATE",
+        "score": 10,
+        "risks": [
+          "Contains sidecar terms; may be mixed-regime helper rather than pure UPTREND provider."
+        ],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "rank": 6,
+        "path": "scripts/e1r_branch_execution_transition_audit_4c2c4e_c.py",
+        "name": "find_e1r_regime_usage_in_engine",
+        "start_line": 116,
+        "classification": "STATEFUL_UPTREND_SIMULATOR_OR_PROVIDER_CANDIDATE",
+        "score": 8,
+        "risks": [
+          "Wrapper around run_stateful_simulation, not independent provider.",
+          "Contains sidecar terms; may be mixed-regime helper rather than pure UPTREND provider."
+        ],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      }
+    ],
+    "d2_decision": {
+      "uptrend_provider_locked": false,
+      "implementation_allowed_now": false,
+      "selected_candidate": {
+        "path": "scripts/e1r_uptrend_provider_entrypoint_audit_4c2c4e_d1.py",
+        "name": "audit_run_stateful_uptrend_logic",
+        "start_line": 178,
+        "end_line": 260,
+        "line_count": 83,
+        "args": [],
+        "classification": "STATEFUL_UPTREND_SIMULATOR_OR_PROVIDER_CANDIDATE",
+        "score": 11,
+        "reasons": [
+          "has_candidate_logic",
+          "has_buy_logic",
+          "has_exit_logic",
+          "has_positions_state",
+          "has_cash_state",
+          "has_market_gate",
+          "has_max_positions"
+        ],
+        "risks": [
+          "Wrapper around run_stateful_simulation, not independent provider."
+        ],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {},
+        "return_shape": {
+          "return_statements": [
+            {
+              "line": 244,
+              "shape": {
+                "type": "dict",
+                "keys": [
+                  "path",
+                  "function",
+                  "start_line",
+                  "end_line",
+                  "line_count",
+                  "static_evidence",
+                  "internal_uptrend_source_logic_located",
+                  "keyword_hits_count",
+                  "keyword_hits_sample",
+                  "candidate_contexts_sample",
+                  "buy_contexts_sample",
+                  "add_contexts_sample",
+                  "reduce_contexts_sample",
+                  "exit_contexts_sample",
+                  "action_contexts_sample"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "baseline": {
+        "path": "src/engine/backtest.py",
+        "name": "run_stateful_simulation",
+        "action_like_dict_count": 16,
+        "literal_action_counts": {
+          "BUY": 3,
+          "ADD": 1,
+          "TP_REDUCE": 1
+        }
+      },
+      "conclusion": "UPTREND_PROVIDER_CANDIDATE_SELECTED_FOR_EQUIVALENCE_SMOKE",
+      "recommended_next_action": "Proceed to 4C-2C-4E-D3: run a short-window UPTREND-only equivalence smoke comparing the selected candidate against run_stateful_simulation action/order behavior. Do not implement adapter yet.",
+      "engineering_rule": "The selected UPTREND provider candidate is not allowed in adapter trading logic until equivalence against the existing run_stateful_simulation UPTREND behavior is demonstrated."
+    }
+  },
+  "false_positive_audit": {
+    "d2_selected_exists": true,
+    "d2_selected_candidate": {
+      "path": "scripts/e1r_uptrend_provider_entrypoint_audit_4c2c4e_d1.py",
+      "name": "audit_run_stateful_uptrend_logic",
+      "start_line": 178,
+      "end_line": 260,
+      "line_count": 83,
+      "args": [],
+      "classification": "STATEFUL_UPTREND_SIMULATOR_OR_PROVIDER_CANDIDATE",
+      "score": 11,
+      "reasons": [
+        "has_candidate_logic",
+        "has_buy_logic",
+        "has_exit_logic",
+        "has_positions_state",
+        "has_cash_state",
+        "has_market_gate",
+        "has_max_positions"
+      ],
+      "risks": [
+        "Wrapper around run_stateful_simulation, not independent provider."
+      ],
+      "action_like_dict_count": 0,
+      "literal_action_counts": {},
+      "return_shape": {
+        "return_statements": [
+          {
+            "line": 244,
+            "shape": {
+              "type": "dict",
+              "keys": [
+                "path",
+                "function",
+                "start_line",
+                "end_line",
+                "line_count",
+                "static_evidence",
+                "internal_uptrend_source_logic_located",
+                "keyword_hits_count",
+                "keyword_hits_sample",
+                "candidate_contexts_sample",
+                "buy_contexts_sample",
+                "add_contexts_sample",
+                "reduce_contexts_sample",
+                "exit_contexts_sample",
+                "action_contexts_sample"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "false_positive_confirmed": true,
+    "false_positive_reasons": [
+      "path_is_script_or_docs_not_runtime_provider",
+      "name_contains_audit",
+      "path_is_stage_audit_script",
+      "no_action_like_dicts",
+      "wrapper_or_static_audit_risk"
+    ],
+    "corrective_rule": "Exclude scripts/docs/audit/design functions from provider candidate set."
+  },
+  "run_oos_day_audit": {
+    "exists": true,
+    "path": "src/oos/tracking_engine.py",
+    "name": "run_oos_day",
+    "start_line": 25,
+    "end_line": 265,
+    "line_count": 241,
+    "args": [
+      "signal_date",
+      "leaders",
+      "prices",
+      "market_state",
+      "source",
+      "data_date"
+    ],
+    "classification": {
+      "path": "src/oos/tracking_engine.py",
+      "name": "run_oos_day",
+      "start_line": 25,
+      "end_line": 265,
+      "line_count": 241,
+      "args": [
+        "signal_date",
+        "leaders",
+        "prices",
+        "market_state",
+        "source",
+        "data_date"
+      ],
+      "classification": "REAL_RUNTIME_PROVIDER_CANDIDATE",
+      "score": 16,
+      "features": {
+        "runtime_src_path": true,
+        "oos_path": true,
+        "engine_path": false,
+        "has_candidate_logic": true,
+        "has_buy_logic": true,
+        "has_add_logic": true,
+        "has_reduce_logic": false,
+        "has_exit_logic": true,
+        "has_hold_logic": false,
+        "has_positions_state": true,
+        "has_cash_state": true,
+        "has_total_equity": true,
+        "has_open_positions_count": false,
+        "has_market_gate": false,
+        "has_max_positions": false,
+        "has_orders_or_trades": true,
+        "has_daily_loop": true,
+        "references_invalid_artifacts": false,
+        "calls_run_stateful_simulation": false,
+        "contains_sidecar": false
+      },
+      "risks": []
+    },
+    "action_shapes": {
+      "action_like_dict_count": 11,
+      "literal_action_counts": {
+        "EXIT": 4,
+        "BUY": 2
+      },
+      "samples": [
+        {
+          "line": 253,
+          "keys": [
+            "date",
+            "source",
+            "gate_open",
+            "equity",
+            "executed",
+            "new_orders",
+            "n_positions",
+            "status"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 233,
+          "keys": [
+            "event_id",
+            "event_type",
+            "date",
+            "equity",
+            "cash",
+            "holdings_value",
+            "n_positions",
+            "gate_open",
+            "source"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 51,
+          "keys": [
+            "event_id",
+            "event_type",
+            "date",
+            "initial_capital",
+            "source",
+            "strategy_id"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 77,
+          "keys": [
+            "event_id",
+            "event_type",
+            "date",
+            "symbol",
+            "action",
+            "fill_price",
+            "units",
+            "cost_rate",
+            "source",
+            "signal_provenance",
+            "order_ref"
+          ],
+          "literal_action": "EXIT",
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 91,
+          "keys": [
+            "symbol",
+            "action",
+            "fill_price",
+            "signal_provenance",
+            "execution_provenance"
+          ],
+          "literal_action": "EXIT",
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 129,
+          "keys": [
+            "event_id",
+            "event_type",
+            "date",
+            "signal_date",
+            "symbol",
+            "action",
+            "fill_price",
+            "units",
+            "total_cost",
+            "cost_rate",
+            "source",
+            "signal_provenance",
+            "order_ref"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 145,
+          "keys": [
+            "symbol",
+            "action",
+            "fill_price",
+            "units",
+            "total_cost",
+            "signal_provenance",
+            "execution_provenance"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 179,
+          "keys": [
+            "event_id",
+            "event_type",
+            "date",
+            "symbol",
+            "action",
+            "signal_reason",
+            "leader_score",
+            "execute_date",
+            "source"
+          ],
+          "literal_action": "EXIT",
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 206,
+          "keys": [
+            "event_id",
+            "event_type",
+            "date",
+            "symbol",
+            "action",
+            "rank",
+            "leader_score",
+            "rs_score",
+            "execute_date",
+            "source"
+          ],
+          "literal_action": "BUY",
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 191,
+          "keys": [
+            "symbol",
+            "action",
+            "reason"
+          ],
+          "literal_action": "EXIT",
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 219,
+          "keys": [
+            "symbol",
+            "action"
+          ],
+          "literal_action": "BUY",
+          "literal_reason": null,
+          "literal_order_type": null
+        }
+      ]
+    },
+    "contexts": {
+      "candidate_terms": [
+        {
+          "line": 174,
+          "text": "ls = ls_data.get(\"leader_score\", 100)",
+          "context": [
+            {
+              "line": 169,
+              "text": "        # Exit signals"
+            },
+            {
+              "line": 170,
+              "text": "        for sym, h in list(state.holdings.items()):"
+            },
+            {
+              "line": 171,
+              "text": "            ls_data = next((l for l in leaders if l[\"symbol\"] == sym), None)"
+            },
+            {
+              "line": 172,
+              "text": "            if not ls_data:"
+            },
+            {
+              "line": 173,
+              "text": "                continue"
+            },
+            {
+              "line": 174,
+              "text": "            ls = ls_data.get(\"leader_score\", 100)"
+            },
+            {
+              "line": 175,
+              "text": "            min_hold_ok = check_min_hold(h[\"entry_date\"], signal_date)"
+            },
+            {
+              "line": 176,
+              "text": "            should_exit, reason = should_exit_e1(ls, min_hold_ok)"
+            },
+            {
+              "line": 177,
+              "text": "            if should_exit:"
+            },
+            {
+              "line": 178,
+              "text": "                order_id = make_event_id(signal_date, \"ORDER_EXIT\", sym)"
+            },
+            {
+              "line": 179,
+              "text": "                appended = append_event({"
+            },
+            {
+              "line": 180,
+              "text": "                    \"event_id\":     order_id,"
+            },
+            {
+              "line": 181,
+              "text": "                    \"event_type\":   \"ORDER_GENERATED\","
+            },
+            {
+              "line": 182,
+              "text": "                    \"date\":         signal_date,"
+            },
+            {
+              "line": 183,
+              "text": "                    \"symbol\":       sym,"
+            },
+            {
+              "line": 184,
+              "text": "                    \"action\":       \"EXIT\","
+            }
+          ]
+        },
+        {
+          "line": 186,
+          "text": "\"leader_score\": ls,",
+          "context": [
+            {
+              "line": 181,
+              "text": "                    \"event_type\":   \"ORDER_GENERATED\","
+            },
+            {
+              "line": 182,
+              "text": "                    \"date\":         signal_date,"
+            },
+            {
+              "line": 183,
+              "text": "                    \"symbol\":       sym,"
+            },
+            {
+              "line": 184,
+              "text": "                    \"action\":       \"EXIT\","
+            },
+            {
+              "line": 185,
+              "text": "                    \"signal_reason\": reason,"
+            },
+            {
+              "line": 186,
+              "text": "                    \"leader_score\": ls,"
+            },
+            {
+              "line": 187,
+              "text": "                    \"execute_date\": \"T+1\","
+            },
+            {
+              "line": 188,
+              "text": "                    \"source\":       source,"
+            },
+            {
+              "line": 189,
+              "text": "                })"
+            },
+            {
+              "line": 190,
+              "text": "                if appended:"
+            },
+            {
+              "line": 191,
+              "text": "                    new_orders.append({\"symbol\": sym, \"action\": \"EXIT\", \"reason\": reason})"
+            },
+            {
+              "line": 192,
+              "text": ""
+            },
+            {
+              "line": 193,
+              "text": "        # Entry signals: Strict Top 3, RS >= 90"
+            },
+            {
+              "line": 194,
+              "text": "        slots = 3 - len(state.holdings)"
+            },
+            {
+              "line": 195,
+              "text": "        if slots > 0:"
+            },
+            {
+              "line": 196,
+              "text": "            candidates = sorted("
+            }
+          ]
+        },
+        {
+          "line": 196,
+          "text": "candidates = sorted(",
+          "context": [
+            {
+              "line": 191,
+              "text": "                    new_orders.append({\"symbol\": sym, \"action\": \"EXIT\", \"reason\": reason})"
+            },
+            {
+              "line": 192,
+              "text": ""
+            },
+            {
+              "line": 193,
+              "text": "        # Entry signals: Strict Top 3, RS >= 90"
+            },
+            {
+              "line": 194,
+              "text": "        slots = 3 - len(state.holdings)"
+            },
+            {
+              "line": 195,
+              "text": "        if slots > 0:"
+            },
+            {
+              "line": 196,
+              "text": "            candidates = sorted("
+            },
+            {
+              "line": 197,
+              "text": "                [l for l in leaders"
+            },
+            {
+              "line": 198,
+              "text": "                 if l.get(\"rs_score\", 0) >= 90"
+            },
+            {
+              "line": 199,
+              "text": "                 and l[\"symbol\"] not in state.holdings"
+            },
+            {
+              "line": 200,
+              "text": "                 and l.get(\"rank\", 999) <= 3],"
+            },
+            {
+              "line": 201,
+              "text": "                key=lambda l: l.get(\"rank\", 999)"
+            },
+            {
+              "line": 202,
+              "text": "            )"
+            },
+            {
+              "line": 203,
+              "text": "            for cand in candidates[:slots]:"
+            },
+            {
+              "line": 204,
+              "text": "                sym      = cand[\"symbol\"]"
+            },
+            {
+              "line": 205,
+              "text": "                order_id = make_event_id(signal_date, \"ORDER_BUY\", sym)"
+            },
+            {
+              "line": 206,
+              "text": "                appended = append_event({"
+            }
+          ]
+        },
+        {
+          "line": 198,
+          "text": "if l.get(\"rs_score\", 0) >= 90",
+          "context": [
+            {
+              "line": 193,
+              "text": "        # Entry signals: Strict Top 3, RS >= 90"
+            },
+            {
+              "line": 194,
+              "text": "        slots = 3 - len(state.holdings)"
+            },
+            {
+              "line": 195,
+              "text": "        if slots > 0:"
+            },
+            {
+              "line": 196,
+              "text": "            candidates = sorted("
+            },
+            {
+              "line": 197,
+              "text": "                [l for l in leaders"
+            },
+            {
+              "line": 198,
+              "text": "                 if l.get(\"rs_score\", 0) >= 90"
+            },
+            {
+              "line": 199,
+              "text": "                 and l[\"symbol\"] not in state.holdings"
+            },
+            {
+              "line": 200,
+              "text": "                 and l.get(\"rank\", 999) <= 3],"
+            },
+            {
+              "line": 201,
+              "text": "                key=lambda l: l.get(\"rank\", 999)"
+            },
+            {
+              "line": 202,
+              "text": "            )"
+            },
+            {
+              "line": 203,
+              "text": "            for cand in candidates[:slots]:"
+            },
+            {
+              "line": 204,
+              "text": "                sym      = cand[\"symbol\"]"
+            },
+            {
+              "line": 205,
+              "text": "                order_id = make_event_id(signal_date, \"ORDER_BUY\", sym)"
+            },
+            {
+              "line": 206,
+              "text": "                appended = append_event({"
+            },
+            {
+              "line": 207,
+              "text": "                    \"event_id\":    order_id,"
+            },
+            {
+              "line": 208,
+              "text": "                    \"event_type\":  \"ORDER_GENERATED\","
+            }
+          ]
+        },
+        {
+          "line": 200,
+          "text": "and l.get(\"rank\", 999) <= 3],",
+          "context": [
+            {
+              "line": 195,
+              "text": "        if slots > 0:"
+            },
+            {
+              "line": 196,
+              "text": "            candidates = sorted("
+            },
+            {
+              "line": 197,
+              "text": "                [l for l in leaders"
+            },
+            {
+              "line": 198,
+              "text": "                 if l.get(\"rs_score\", 0) >= 90"
+            },
+            {
+              "line": 199,
+              "text": "                 and l[\"symbol\"] not in state.holdings"
+            },
+            {
+              "line": 200,
+              "text": "                 and l.get(\"rank\", 999) <= 3],"
+            },
+            {
+              "line": 201,
+              "text": "                key=lambda l: l.get(\"rank\", 999)"
+            },
+            {
+              "line": 202,
+              "text": "            )"
+            },
+            {
+              "line": 203,
+              "text": "            for cand in candidates[:slots]:"
+            },
+            {
+              "line": 204,
+              "text": "                sym      = cand[\"symbol\"]"
+            },
+            {
+              "line": 205,
+              "text": "                order_id = make_event_id(signal_date, \"ORDER_BUY\", sym)"
+            },
+            {
+              "line": 206,
+              "text": "                appended = append_event({"
+            },
+            {
+              "line": 207,
+              "text": "                    \"event_id\":    order_id,"
+            },
+            {
+              "line": 208,
+              "text": "                    \"event_type\":  \"ORDER_GENERATED\","
+            },
+            {
+              "line": 209,
+              "text": "                    \"date\":        signal_date,"
+            },
+            {
+              "line": 210,
+              "text": "                    \"symbol\":      sym,"
+            }
+          ]
+        },
+        {
+          "line": 201,
+          "text": "key=lambda l: l.get(\"rank\", 999)",
+          "context": [
+            {
+              "line": 196,
+              "text": "            candidates = sorted("
+            },
+            {
+              "line": 197,
+              "text": "                [l for l in leaders"
+            },
+            {
+              "line": 198,
+              "text": "                 if l.get(\"rs_score\", 0) >= 90"
+            },
+            {
+              "line": 199,
+              "text": "                 and l[\"symbol\"] not in state.holdings"
+            },
+            {
+              "line": 200,
+              "text": "                 and l.get(\"rank\", 999) <= 3],"
+            },
+            {
+              "line": 201,
+              "text": "                key=lambda l: l.get(\"rank\", 999)"
+            },
+            {
+              "line": 202,
+              "text": "            )"
+            },
+            {
+              "line": 203,
+              "text": "            for cand in candidates[:slots]:"
+            },
+            {
+              "line": 204,
+              "text": "                sym      = cand[\"symbol\"]"
+            },
+            {
+              "line": 205,
+              "text": "                order_id = make_event_id(signal_date, \"ORDER_BUY\", sym)"
+            },
+            {
+              "line": 206,
+              "text": "                appended = append_event({"
+            },
+            {
+              "line": 207,
+              "text": "                    \"event_id\":    order_id,"
+            },
+            {
+              "line": 208,
+              "text": "                    \"event_type\":  \"ORDER_GENERATED\","
+            },
+            {
+              "line": 209,
+              "text": "                    \"date\":        signal_date,"
+            },
+            {
+              "line": 210,
+              "text": "                    \"symbol\":      sym,"
+            },
+            {
+              "line": 211,
+              "text": "                    \"action\":      \"BUY\","
+            }
+          ]
+        },
+        {
+          "line": 203,
+          "text": "for cand in candidates[:slots]:",
+          "context": [
+            {
+              "line": 198,
+              "text": "                 if l.get(\"rs_score\", 0) >= 90"
+            },
+            {
+              "line": 199,
+              "text": "                 and l[\"symbol\"] not in state.holdings"
+            },
+            {
+              "line": 200,
+              "text": "                 and l.get(\"rank\", 999) <= 3],"
+            },
+            {
+              "line": 201,
+              "text": "                key=lambda l: l.get(\"rank\", 999)"
+            },
+            {
+              "line": 202,
+              "text": "            )"
+            },
+            {
+              "line": 203,
+              "text": "            for cand in candidates[:slots]:"
+            },
+            {
+              "line": 204,
+              "text": "                sym      = cand[\"symbol\"]"
+            },
+            {
+              "line": 205,
+              "text": "                order_id = make_event_id(signal_date, \"ORDER_BUY\", sym)"
+            },
+            {
+              "line": 206,
+              "text": "                appended = append_event({"
+            },
+            {
+              "line": 207,
+              "text": "                    \"event_id\":    order_id,"
+            },
+            {
+              "line": 208,
+              "text": "                    \"event_type\":  \"ORDER_GENERATED\","
+            },
+            {
+              "line": 209,
+              "text": "                    \"date\":        signal_date,"
+            },
+            {
+              "line": 210,
+              "text": "                    \"symbol\":      sym,"
+            },
+            {
+              "line": 211,
+              "text": "                    \"action\":      \"BUY\","
+            },
+            {
+              "line": 212,
+              "text": "                    \"rank\":        cand.get(\"rank\"),"
+            },
+            {
+              "line": 213,
+              "text": "                    \"leader_score\": cand.get(\"leader_score\"),"
+            }
+          ]
+        },
+        {
+          "line": 212,
+          "text": "\"rank\":        cand.get(\"rank\"),",
+          "context": [
+            {
+              "line": 207,
+              "text": "                    \"event_id\":    order_id,"
+            },
+            {
+              "line": 208,
+              "text": "                    \"event_type\":  \"ORDER_GENERATED\","
+            },
+            {
+              "line": 209,
+              "text": "                    \"date\":        signal_date,"
+            },
+            {
+              "line": 210,
+              "text": "                    \"symbol\":      sym,"
+            },
+            {
+              "line": 211,
+              "text": "                    \"action\":      \"BUY\","
+            },
+            {
+              "line": 212,
+              "text": "                    \"rank\":        cand.get(\"rank\"),"
+            },
+            {
+              "line": 213,
+              "text": "                    \"leader_score\": cand.get(\"leader_score\"),"
+            },
+            {
+              "line": 214,
+              "text": "                    \"rs_score\":    cand.get(\"rs_score\"),"
+            },
+            {
+              "line": 215,
+              "text": "                    \"execute_date\": \"T+1\","
+            },
+            {
+              "line": 216,
+              "text": "                    \"source\":      source,"
+            },
+            {
+              "line": 217,
+              "text": "                })"
+            },
+            {
+              "line": 218,
+              "text": "                if appended:"
+            },
+            {
+              "line": 219,
+              "text": "                    new_orders.append({\"symbol\": sym, \"action\": \"BUY\"})"
+            },
+            {
+              "line": 220,
+              "text": "    else:"
+            },
+            {
+              "line": 221,
+              "text": "        logger.info(\"Gate CLOSED — no new entries\")"
+            },
+            {
+              "line": 222,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "line": 213,
+          "text": "\"leader_score\": cand.get(\"leader_score\"),",
+          "context": [
+            {
+              "line": 208,
+              "text": "                    \"event_type\":  \"ORDER_GENERATED\","
+            },
+            {
+              "line": 209,
+              "text": "                    \"date\":        signal_date,"
+            },
+            {
+              "line": 210,
+              "text": "                    \"symbol\":      sym,"
+            },
+            {
+              "line": 211,
+              "text": "                    \"action\":      \"BUY\","
+            },
+            {
+              "line": 212,
+              "text": "                    \"rank\":        cand.get(\"rank\"),"
+            },
+            {
+              "line": 213,
+              "text": "                    \"leader_score\": cand.get(\"leader_score\"),"
+            },
+            {
+              "line": 214,
+              "text": "                    \"rs_score\":    cand.get(\"rs_score\"),"
+            },
+            {
+              "line": 215,
+              "text": "                    \"execute_date\": \"T+1\","
+            },
+            {
+              "line": 216,
+              "text": "                    \"source\":      source,"
+            },
+            {
+              "line": 217,
+              "text": "                })"
+            },
+            {
+              "line": 218,
+              "text": "                if appended:"
+            },
+            {
+              "line": 219,
+              "text": "                    new_orders.append({\"symbol\": sym, \"action\": \"BUY\"})"
+            },
+            {
+              "line": 220,
+              "text": "    else:"
+            },
+            {
+              "line": 221,
+              "text": "        logger.info(\"Gate CLOSED — no new entries\")"
+            },
+            {
+              "line": 222,
+              "text": ""
+            },
+            {
+              "line": 223,
+              "text": "    # ── 5. EOD snapshot ───────────────────────────────────"
+            }
+          ]
+        },
+        {
+          "line": 214,
+          "text": "\"rs_score\":    cand.get(\"rs_score\"),",
+          "context": [
+            {
+              "line": 209,
+              "text": "                    \"date\":        signal_date,"
+            },
+            {
+              "line": 210,
+              "text": "                    \"symbol\":      sym,"
+            },
+            {
+              "line": 211,
+              "text": "                    \"action\":      \"BUY\","
+            },
+            {
+              "line": 212,
+              "text": "                    \"rank\":        cand.get(\"rank\"),"
+            },
+            {
+              "line": 213,
+              "text": "                    \"leader_score\": cand.get(\"leader_score\"),"
+            },
+            {
+              "line": 214,
+              "text": "                    \"rs_score\":    cand.get(\"rs_score\"),"
+            },
+            {
+              "line": 215,
+              "text": "                    \"execute_date\": \"T+1\","
+            },
+            {
+              "line": 216,
+              "text": "                    \"source\":      source,"
+            },
+            {
+              "line": 217,
+              "text": "                })"
+            },
+            {
+              "line": 218,
+              "text": "                if appended:"
+            },
+            {
+              "line": 219,
+              "text": "                    new_orders.append({\"symbol\": sym, \"action\": \"BUY\"})"
+            },
+            {
+              "line": 220,
+              "text": "    else:"
+            },
+            {
+              "line": 221,
+              "text": "        logger.info(\"Gate CLOSED — no new entries\")"
+            },
+            {
+              "line": 222,
+              "text": ""
+            },
+            {
+              "line": 223,
+              "text": "    # ── 5. EOD snapshot ───────────────────────────────────"
+            },
+            {
+              "line": 224,
+              "text": "    events = load_all_events()"
+            }
+          ]
+        }
+      ],
+      "action_terms": [
+        {
+          "line": 64,
+          "text": "pending_exits = [o for o in state.pending_orders if o[\"action\"] == \"EXIT\"]",
+          "context": [
+            {
+              "line": 59,
+              "text": ""
+            },
+            {
+              "line": 60,
+              "text": "    # ── 3. Execute T+1 orders from previous day ───────────"
+            },
+            {
+              "line": 61,
+              "text": "    executed = []"
+            },
+            {
+              "line": 62,
+              "text": ""
+            },
+            {
+              "line": 63,
+              "text": "    # ── Split pending orders into exits and buys ─────────"
+            },
+            {
+              "line": 64,
+              "text": "    pending_exits = [o for o in state.pending_orders if o[\"action\"] == \"EXIT\"]"
+            },
+            {
+              "line": 65,
+              "text": "    pending_buys  = [o for o in state.pending_orders if o[\"action\"] in (\"BUY\", \"ADD\")]"
+            },
+            {
+              "line": 66,
+              "text": ""
+            },
+            {
+              "line": 67,
+              "text": "    # ── Execute exits first ───────────────────────────────"
+            },
+            {
+              "line": 68,
+              "text": "    for order in pending_exits:"
+            },
+            {
+              "line": 69,
+              "text": "        sym      = order[\"symbol\"]"
+            },
+            {
+              "line": 70,
+              "text": "        t1_px    = prices.get(sym, {})"
+            },
+            {
+              "line": 71,
+              "text": "        sig_prov = order.get(\"source\", \"UNKNOWN\")"
+            },
+            {
+              "line": 72,
+              "text": "        if not t1_px:"
+            },
+            {
+              "line": 73,
+              "text": "            logger.warning(f\"No T+1 price for {sym} — skipping EXIT\")"
+            },
+            {
+              "line": 74,
+              "text": "            continue"
+            }
+          ]
+        },
+        {
+          "line": 65,
+          "text": "pending_buys  = [o for o in state.pending_orders if o[\"action\"] in (\"BUY\", \"ADD\")]",
+          "context": [
+            {
+              "line": 60,
+              "text": "    # ── 3. Execute T+1 orders from previous day ───────────"
+            },
+            {
+              "line": 61,
+              "text": "    executed = []"
+            },
+            {
+              "line": 62,
+              "text": ""
+            },
+            {
+              "line": 63,
+              "text": "    # ── Split pending orders into exits and buys ─────────"
+            },
+            {
+              "line": 64,
+              "text": "    pending_exits = [o for o in state.pending_orders if o[\"action\"] == \"EXIT\"]"
+            },
+            {
+              "line": 65,
+              "text": "    pending_buys  = [o for o in state.pending_orders if o[\"action\"] in (\"BUY\", \"ADD\")]"
+            },
+            {
+              "line": 66,
+              "text": ""
+            },
+            {
+              "line": 67,
+              "text": "    # ── Execute exits first ───────────────────────────────"
+            },
+            {
+              "line": 68,
+              "text": "    for order in pending_exits:"
+            },
+            {
+              "line": 69,
+              "text": "        sym      = order[\"symbol\"]"
+            },
+            {
+              "line": 70,
+              "text": "        t1_px    = prices.get(sym, {})"
+            },
+            {
+              "line": 71,
+              "text": "        sig_prov = order.get(\"source\", \"UNKNOWN\")"
+            },
+            {
+              "line": 72,
+              "text": "        if not t1_px:"
+            },
+            {
+              "line": 73,
+              "text": "            logger.warning(f\"No T+1 price for {sym} — skipping EXIT\")"
+            },
+            {
+              "line": 74,
+              "text": "            continue"
+            },
+            {
+              "line": 75,
+              "text": "        exec_event_id = make_event_id(signal_date, \"EXIT_EXECUTED\", sym)"
+            }
+          ]
+        },
+        {
+          "line": 73,
+          "text": "logger.warning(f\"No T+1 price for {sym} — skipping EXIT\")",
+          "context": [
+            {
+              "line": 68,
+              "text": "    for order in pending_exits:"
+            },
+            {
+              "line": 69,
+              "text": "        sym      = order[\"symbol\"]"
+            },
+            {
+              "line": 70,
+              "text": "        t1_px    = prices.get(sym, {})"
+            },
+            {
+              "line": 71,
+              "text": "        sig_prov = order.get(\"source\", \"UNKNOWN\")"
+            },
+            {
+              "line": 72,
+              "text": "        if not t1_px:"
+            },
+            {
+              "line": 73,
+              "text": "            logger.warning(f\"No T+1 price for {sym} — skipping EXIT\")"
+            },
+            {
+              "line": 74,
+              "text": "            continue"
+            },
+            {
+              "line": 75,
+              "text": "        exec_event_id = make_event_id(signal_date, \"EXIT_EXECUTED\", sym)"
+            },
+            {
+              "line": 76,
+              "text": "        fp = fill_price_exit(t1_px[\"low\"])"
+            },
+            {
+              "line": 77,
+              "text": "        appended = append_event({"
+            },
+            {
+              "line": 78,
+              "text": "            \"event_id\":          exec_event_id,"
+            },
+            {
+              "line": 79,
+              "text": "            \"event_type\":        \"EXIT_EXECUTED\","
+            },
+            {
+              "line": 80,
+              "text": "            \"date\":              signal_date,"
+            },
+            {
+              "line": 81,
+              "text": "            \"symbol\":            sym,"
+            },
+            {
+              "line": 82,
+              "text": "            \"action\":            \"EXIT\","
+            },
+            {
+              "line": 83,
+              "text": "            \"fill_price\":        fp,"
+            }
+          ]
+        },
+        {
+          "line": 75,
+          "text": "exec_event_id = make_event_id(signal_date, \"EXIT_EXECUTED\", sym)",
+          "context": [
+            {
+              "line": 70,
+              "text": "        t1_px    = prices.get(sym, {})"
+            },
+            {
+              "line": 71,
+              "text": "        sig_prov = order.get(\"source\", \"UNKNOWN\")"
+            },
+            {
+              "line": 72,
+              "text": "        if not t1_px:"
+            },
+            {
+              "line": 73,
+              "text": "            logger.warning(f\"No T+1 price for {sym} — skipping EXIT\")"
+            },
+            {
+              "line": 74,
+              "text": "            continue"
+            },
+            {
+              "line": 75,
+              "text": "        exec_event_id = make_event_id(signal_date, \"EXIT_EXECUTED\", sym)"
+            },
+            {
+              "line": 76,
+              "text": "        fp = fill_price_exit(t1_px[\"low\"])"
+            },
+            {
+              "line": 77,
+              "text": "        appended = append_event({"
+            },
+            {
+              "line": 78,
+              "text": "            \"event_id\":          exec_event_id,"
+            },
+            {
+              "line": 79,
+              "text": "            \"event_type\":        \"EXIT_EXECUTED\","
+            },
+            {
+              "line": 80,
+              "text": "            \"date\":              signal_date,"
+            },
+            {
+              "line": 81,
+              "text": "            \"symbol\":            sym,"
+            },
+            {
+              "line": 82,
+              "text": "            \"action\":            \"EXIT\","
+            },
+            {
+              "line": 83,
+              "text": "            \"fill_price\":        fp,"
+            },
+            {
+              "line": 84,
+              "text": "            \"units\":             state.holdings.get(sym, {}).get(\"units\", 0),"
+            },
+            {
+              "line": 85,
+              "text": "            \"cost_rate\":         0.001,"
+            }
+          ]
+        },
+        {
+          "line": 79,
+          "text": "\"event_type\":        \"EXIT_EXECUTED\",",
+          "context": [
+            {
+              "line": 74,
+              "text": "            continue"
+            },
+            {
+              "line": 75,
+              "text": "        exec_event_id = make_event_id(signal_date, \"EXIT_EXECUTED\", sym)"
+            },
+            {
+              "line": 76,
+              "text": "        fp = fill_price_exit(t1_px[\"low\"])"
+            },
+            {
+              "line": 77,
+              "text": "        appended = append_event({"
+            },
+            {
+              "line": 78,
+              "text": "            \"event_id\":          exec_event_id,"
+            },
+            {
+              "line": 79,
+              "text": "            \"event_type\":        \"EXIT_EXECUTED\","
+            },
+            {
+              "line": 80,
+              "text": "            \"date\":              signal_date,"
+            },
+            {
+              "line": 81,
+              "text": "            \"symbol\":            sym,"
+            },
+            {
+              "line": 82,
+              "text": "            \"action\":            \"EXIT\","
+            },
+            {
+              "line": 83,
+              "text": "            \"fill_price\":        fp,"
+            },
+            {
+              "line": 84,
+              "text": "            \"units\":             state.holdings.get(sym, {}).get(\"units\", 0),"
+            },
+            {
+              "line": 85,
+              "text": "            \"cost_rate\":         0.001,"
+            },
+            {
+              "line": 86,
+              "text": "            \"source\":            source,"
+            },
+            {
+              "line": 87,
+              "text": "            \"signal_provenance\": sig_prov,"
+            },
+            {
+              "line": 88,
+              "text": "            \"order_ref\":         order.get(\"event_id\"),"
+            },
+            {
+              "line": 89,
+              "text": "        })"
+            }
+          ]
+        },
+        {
+          "line": 82,
+          "text": "\"action\":            \"EXIT\",",
+          "context": [
+            {
+              "line": 77,
+              "text": "        appended = append_event({"
+            },
+            {
+              "line": 78,
+              "text": "            \"event_id\":          exec_event_id,"
+            },
+            {
+              "line": 79,
+              "text": "            \"event_type\":        \"EXIT_EXECUTED\","
+            },
+            {
+              "line": 80,
+              "text": "            \"date\":              signal_date,"
+            },
+            {
+              "line": 81,
+              "text": "            \"symbol\":            sym,"
+            },
+            {
+              "line": 82,
+              "text": "            \"action\":            \"EXIT\","
+            },
+            {
+              "line": 83,
+              "text": "            \"fill_price\":        fp,"
+            },
+            {
+              "line": 84,
+              "text": "            \"units\":             state.holdings.get(sym, {}).get(\"units\", 0),"
+            },
+            {
+              "line": 85,
+              "text": "            \"cost_rate\":         0.001,"
+            },
+            {
+              "line": 86,
+              "text": "            \"source\":            source,"
+            },
+            {
+              "line": 87,
+              "text": "            \"signal_provenance\": sig_prov,"
+            },
+            {
+              "line": 88,
+              "text": "            \"order_ref\":         order.get(\"event_id\"),"
+            },
+            {
+              "line": 89,
+              "text": "        })"
+            },
+            {
+              "line": 90,
+              "text": "        if appended:"
+            },
+            {
+              "line": 91,
+              "text": "            executed.append({"
+            },
+            {
+              "line": 92,
+              "text": "                \"symbol\":               sym,"
+            }
+          ]
+        },
+        {
+          "line": 93,
+          "text": "\"action\":               \"EXIT\",",
+          "context": [
+            {
+              "line": 88,
+              "text": "            \"order_ref\":         order.get(\"event_id\"),"
+            },
+            {
+              "line": 89,
+              "text": "        })"
+            },
+            {
+              "line": 90,
+              "text": "        if appended:"
+            },
+            {
+              "line": 91,
+              "text": "            executed.append({"
+            },
+            {
+              "line": 92,
+              "text": "                \"symbol\":               sym,"
+            },
+            {
+              "line": 93,
+              "text": "                \"action\":               \"EXIT\","
+            },
+            {
+              "line": 94,
+              "text": "                \"fill_price\":           fp,"
+            },
+            {
+              "line": 95,
+              "text": "                \"signal_provenance\":    sig_prov,"
+            },
+            {
+              "line": 96,
+              "text": "                \"execution_provenance\": source,"
+            },
+            {
+              "line": 97,
+              "text": "            })"
+            },
+            {
+              "line": 98,
+              "text": ""
+            },
+            {
+              "line": 99,
+              "text": "    # Rebuild state after exits (cash may have increased)"
+            },
+            {
+              "line": 100,
+              "text": "    if pending_exits:"
+            },
+            {
+              "line": 101,
+              "text": "        events = load_all_events()"
+            },
+            {
+              "line": 102,
+              "text": "        state  = PortfolioState.rebuild_from_events(events)"
+            },
+            {
+              "line": 103,
+              "text": ""
+            }
+          ]
+        },
+        {
+          "line": 112,
+          "text": "logger.warning(f\"No T+1 price for {sym} — skipping BUY\")",
+          "context": [
+            {
+              "line": 107,
+              "text": "        buy_order_list = []"
+            },
+            {
+              "line": 108,
+              "text": "        for order in pending_buys:"
+            },
+            {
+              "line": 109,
+              "text": "            sym   = order[\"symbol\"]"
+            },
+            {
+              "line": 110,
+              "text": "            t1_px = prices.get(sym, {})"
+            },
+            {
+              "line": 111,
+              "text": "            if not t1_px:"
+            },
+            {
+              "line": 112,
+              "text": "                logger.warning(f\"No T+1 price for {sym} — skipping BUY\")"
+            },
+            {
+              "line": 113,
+              "text": "                continue"
+            },
+            {
+              "line": 114,
+              "text": "            fp = fill_price_buy(t1_px[\"high\"])"
+            },
+            {
+              "line": 115,
+              "text": "            buy_order_list.append({**order, \"fill_price\": fp})"
+            },
+            {
+              "line": 116,
+              "text": ""
+            },
+            {
+              "line": 117,
+              "text": "        # Allocate cash across all buys in one pass — guarantees no negative cash"
+            },
+            {
+              "line": 118,
+              "text": "        allocations = allocate_buys("
+            },
+            {
+              "line": 119,
+              "text": "            buy_orders=buy_order_list,"
+            },
+            {
+              "line": 120,
+              "text": "            available_cash=state.cash,"
+            },
+            {
+              "line": 121,
+              "text": "            n_existing_positions=len(state.holdings),"
+            },
+            {
+              "line": 122,
+              "text": "        )"
+            }
+          ]
+        },
+        {
+          "line": 128,
+          "text": "exec_event_id = make_event_id(signal_date, \"BUY_EXECUTED\", sym)",
+          "context": [
+            {
+              "line": 123,
+              "text": ""
+            },
+            {
+              "line": 124,
+              "text": "        for alloc in allocations:"
+            },
+            {
+              "line": 125,
+              "text": "            sym      = alloc[\"symbol\"]"
+            },
+            {
+              "line": 126,
+              "text": "            order    = next(o for o in buy_order_list if o[\"symbol\"] == sym)"
+            },
+            {
+              "line": 127,
+              "text": "            sig_prov = order.get(\"source\", \"UNKNOWN\")"
+            },
+            {
+              "line": 128,
+              "text": "            exec_event_id = make_event_id(signal_date, \"BUY_EXECUTED\", sym)"
+            },
+            {
+              "line": 129,
+              "text": "            appended = append_event({"
+            },
+            {
+              "line": 130,
+              "text": "                \"event_id\":          exec_event_id,"
+            },
+            {
+              "line": 131,
+              "text": "                \"event_type\":        \"BUY_EXECUTED\","
+            },
+            {
+              "line": 132,
+              "text": "                \"date\":              signal_date,        # execution date (T+1)"
+            },
+            {
+              "line": 133,
+              "text": "                \"signal_date\":       order.get(\"date\"),  # original signal date (T)"
+            },
+            {
+              "line": 134,
+              "text": "                \"symbol\":            sym,"
+            },
+            {
+              "line": 135,
+              "text": "                \"action\":            order[\"action\"],"
+            },
+            {
+              "line": 136,
+              "text": "                \"fill_price\":        alloc[\"fill_price\"],"
+            },
+            {
+              "line": 137,
+              "text": "                \"units\":             alloc[\"units\"],"
+            },
+            {
+              "line": 138,
+              "text": "                \"total_cost\":        alloc[\"total_cost\"],"
+            }
+          ]
+        },
+        {
+          "line": 131,
+          "text": "\"event_type\":        \"BUY_EXECUTED\",",
+          "context": [
+            {
+              "line": 126,
+              "text": "            order    = next(o for o in buy_order_list if o[\"symbol\"] == sym)"
+            },
+            {
+              "line": 127,
+              "text": "            sig_prov = order.get(\"source\", \"UNKNOWN\")"
+            },
+            {
+              "line": 128,
+              "text": "            exec_event_id = make_event_id(signal_date, \"BUY_EXECUTED\", sym)"
+            },
+            {
+              "line": 129,
+              "text": "            appended = append_event({"
+            },
+            {
+              "line": 130,
+              "text": "                \"event_id\":          exec_event_id,"
+            },
+            {
+              "line": 131,
+              "text": "                \"event_type\":        \"BUY_EXECUTED\","
+            },
+            {
+              "line": 132,
+              "text": "                \"date\":              signal_date,        # execution date (T+1)"
+            },
+            {
+              "line": 133,
+              "text": "                \"signal_date\":       order.get(\"date\"),  # original signal date (T)"
+            },
+            {
+              "line": 134,
+              "text": "                \"symbol\":            sym,"
+            },
+            {
+              "line": 135,
+              "text": "                \"action\":            order[\"action\"],"
+            },
+            {
+              "line": 136,
+              "text": "                \"fill_price\":        alloc[\"fill_price\"],"
+            },
+            {
+              "line": 137,
+              "text": "                \"units\":             alloc[\"units\"],"
+            },
+            {
+              "line": 138,
+              "text": "                \"total_cost\":        alloc[\"total_cost\"],"
+            },
+            {
+              "line": 139,
+              "text": "                \"cost_rate\":         alloc[\"cost_rate\"],"
+            },
+            {
+              "line": 140,
+              "text": "                \"source\":            source,"
+            },
+            {
+              "line": 141,
+              "text": "                \"signal_provenance\": sig_prov,"
+            }
+          ]
+        },
+        {
+          "line": 178,
+          "text": "order_id = make_event_id(signal_date, \"ORDER_EXIT\", sym)",
+          "context": [
+            {
+              "line": 173,
+              "text": "                continue"
+            },
+            {
+              "line": 174,
+              "text": "            ls = ls_data.get(\"leader_score\", 100)"
+            },
+            {
+              "line": 175,
+              "text": "            min_hold_ok = check_min_hold(h[\"entry_date\"], signal_date)"
+            },
+            {
+              "line": 176,
+              "text": "            should_exit, reason = should_exit_e1(ls, min_hold_ok)"
+            },
+            {
+              "line": 177,
+              "text": "            if should_exit:"
+            },
+            {
+              "line": 178,
+              "text": "                order_id = make_event_id(signal_date, \"ORDER_EXIT\", sym)"
+            },
+            {
+              "line": 179,
+              "text": "                appended = append_event({"
+            },
+            {
+              "line": 180,
+              "text": "                    \"event_id\":     order_id,"
+            },
+            {
+              "line": 181,
+              "text": "                    \"event_type\":   \"ORDER_GENERATED\","
+            },
+            {
+              "line": 182,
+              "text": "                    \"date\":         signal_date,"
+            },
+            {
+              "line": 183,
+              "text": "                    \"symbol\":       sym,"
+            },
+            {
+              "line": 184,
+              "text": "                    \"action\":       \"EXIT\","
+            },
+            {
+              "line": 185,
+              "text": "                    \"signal_reason\": reason,"
+            },
+            {
+              "line": 186,
+              "text": "                    \"leader_score\": ls,"
+            },
+            {
+              "line": 187,
+              "text": "                    \"execute_date\": \"T+1\","
+            },
+            {
+              "line": 188,
+              "text": "                    \"source\":       source,"
+            }
+          ]
+        },
+        {
+          "line": 184,
+          "text": "\"action\":       \"EXIT\",",
+          "context": [
+            {
+              "line": 179,
+              "text": "                appended = append_event({"
+            },
+            {
+              "line": 180,
+              "text": "                    \"event_id\":     order_id,"
+            },
+            {
+              "line": 181,
+              "text": "                    \"event_type\":   \"ORDER_GENERATED\","
+            },
+            {
+              "line": 182,
+              "text": "                    \"date\":         signal_date,"
+            },
+            {
+              "line": 183,
+              "text": "                    \"symbol\":       sym,"
+            },
+            {
+              "line": 184,
+              "text": "                    \"action\":       \"EXIT\","
+            },
+            {
+              "line": 185,
+              "text": "                    \"signal_reason\": reason,"
+            },
+            {
+              "line": 186,
+              "text": "                    \"leader_score\": ls,"
+            },
+            {
+              "line": 187,
+              "text": "                    \"execute_date\": \"T+1\","
+            },
+            {
+              "line": 188,
+              "text": "                    \"source\":       source,"
+            },
+            {
+              "line": 189,
+              "text": "                })"
+            },
+            {
+              "line": 190,
+              "text": "                if appended:"
+            },
+            {
+              "line": 191,
+              "text": "                    new_orders.append({\"symbol\": sym, \"action\": \"EXIT\", \"reason\": reason})"
+            },
+            {
+              "line": 192,
+              "text": ""
+            },
+            {
+              "line": 193,
+              "text": "        # Entry signals: Strict Top 3, RS >= 90"
+            },
+            {
+              "line": 194,
+              "text": "        slots = 3 - len(state.holdings)"
+            }
+          ]
+        },
+        {
+          "line": 191,
+          "text": "new_orders.append({\"symbol\": sym, \"action\": \"EXIT\", \"reason\": reason})",
+          "context": [
+            {
+              "line": 186,
+              "text": "                    \"leader_score\": ls,"
+            },
+            {
+              "line": 187,
+              "text": "                    \"execute_date\": \"T+1\","
+            },
+            {
+              "line": 188,
+              "text": "                    \"source\":       source,"
+            },
+            {
+              "line": 189,
+              "text": "                })"
+            },
+            {
+              "line": 190,
+              "text": "                if appended:"
+            },
+            {
+              "line": 191,
+              "text": "                    new_orders.append({\"symbol\": sym, \"action\": \"EXIT\", \"reason\": reason})"
+            },
+            {
+              "line": 192,
+              "text": ""
+            },
+            {
+              "line": 193,
+              "text": "        # Entry signals: Strict Top 3, RS >= 90"
+            },
+            {
+              "line": 194,
+              "text": "        slots = 3 - len(state.holdings)"
+            },
+            {
+              "line": 195,
+              "text": "        if slots > 0:"
+            },
+            {
+              "line": 196,
+              "text": "            candidates = sorted("
+            },
+            {
+              "line": 197,
+              "text": "                [l for l in leaders"
+            },
+            {
+              "line": 198,
+              "text": "                 if l.get(\"rs_score\", 0) >= 90"
+            },
+            {
+              "line": 199,
+              "text": "                 and l[\"symbol\"] not in state.holdings"
+            },
+            {
+              "line": 200,
+              "text": "                 and l.get(\"rank\", 999) <= 3],"
+            },
+            {
+              "line": 201,
+              "text": "                key=lambda l: l.get(\"rank\", 999)"
+            }
+          ]
+        },
+        {
+          "line": 205,
+          "text": "order_id = make_event_id(signal_date, \"ORDER_BUY\", sym)",
+          "context": [
+            {
+              "line": 200,
+              "text": "                 and l.get(\"rank\", 999) <= 3],"
+            },
+            {
+              "line": 201,
+              "text": "                key=lambda l: l.get(\"rank\", 999)"
+            },
+            {
+              "line": 202,
+              "text": "            )"
+            },
+            {
+              "line": 203,
+              "text": "            for cand in candidates[:slots]:"
+            },
+            {
+              "line": 204,
+              "text": "                sym      = cand[\"symbol\"]"
+            },
+            {
+              "line": 205,
+              "text": "                order_id = make_event_id(signal_date, \"ORDER_BUY\", sym)"
+            },
+            {
+              "line": 206,
+              "text": "                appended = append_event({"
+            },
+            {
+              "line": 207,
+              "text": "                    \"event_id\":    order_id,"
+            },
+            {
+              "line": 208,
+              "text": "                    \"event_type\":  \"ORDER_GENERATED\","
+            },
+            {
+              "line": 209,
+              "text": "                    \"date\":        signal_date,"
+            },
+            {
+              "line": 210,
+              "text": "                    \"symbol\":      sym,"
+            },
+            {
+              "line": 211,
+              "text": "                    \"action\":      \"BUY\","
+            },
+            {
+              "line": 212,
+              "text": "                    \"rank\":        cand.get(\"rank\"),"
+            },
+            {
+              "line": 213,
+              "text": "                    \"leader_score\": cand.get(\"leader_score\"),"
+            },
+            {
+              "line": 214,
+              "text": "                    \"rs_score\":    cand.get(\"rs_score\"),"
+            },
+            {
+              "line": 215,
+              "text": "                    \"execute_date\": \"T+1\","
+            }
+          ]
+        },
+        {
+          "line": 211,
+          "text": "\"action\":      \"BUY\",",
+          "context": [
+            {
+              "line": 206,
+              "text": "                appended = append_event({"
+            },
+            {
+              "line": 207,
+              "text": "                    \"event_id\":    order_id,"
+            },
+            {
+              "line": 208,
+              "text": "                    \"event_type\":  \"ORDER_GENERATED\","
+            },
+            {
+              "line": 209,
+              "text": "                    \"date\":        signal_date,"
+            },
+            {
+              "line": 210,
+              "text": "                    \"symbol\":      sym,"
+            },
+            {
+              "line": 211,
+              "text": "                    \"action\":      \"BUY\","
+            },
+            {
+              "line": 212,
+              "text": "                    \"rank\":        cand.get(\"rank\"),"
+            },
+            {
+              "line": 213,
+              "text": "                    \"leader_score\": cand.get(\"leader_score\"),"
+            },
+            {
+              "line": 214,
+              "text": "                    \"rs_score\":    cand.get(\"rs_score\"),"
+            },
+            {
+              "line": 215,
+              "text": "                    \"execute_date\": \"T+1\","
+            },
+            {
+              "line": 216,
+              "text": "                    \"source\":      source,"
+            },
+            {
+              "line": 217,
+              "text": "                })"
+            },
+            {
+              "line": 218,
+              "text": "                if appended:"
+            },
+            {
+              "line": 219,
+              "text": "                    new_orders.append({\"symbol\": sym, \"action\": \"BUY\"})"
+            },
+            {
+              "line": 220,
+              "text": "    else:"
+            },
+            {
+              "line": 221,
+              "text": "        logger.info(\"Gate CLOSED — no new entries\")"
+            }
+          ]
+        },
+        {
+          "line": 219,
+          "text": "new_orders.append({\"symbol\": sym, \"action\": \"BUY\"})",
+          "context": [
+            {
+              "line": 214,
+              "text": "                    \"rs_score\":    cand.get(\"rs_score\"),"
+            },
+            {
+              "line": 215,
+              "text": "                    \"execute_date\": \"T+1\","
+            },
+            {
+              "line": 216,
+              "text": "                    \"source\":      source,"
+            },
+            {
+              "line": 217,
+              "text": "                })"
+            },
+            {
+              "line": 218,
+              "text": "                if appended:"
+            },
+            {
+              "line": 219,
+              "text": "                    new_orders.append({\"symbol\": sym, \"action\": \"BUY\"})"
+            },
+            {
+              "line": 220,
+              "text": "    else:"
+            },
+            {
+              "line": 221,
+              "text": "        logger.info(\"Gate CLOSED — no new entries\")"
+            },
+            {
+              "line": 222,
+              "text": ""
+            },
+            {
+              "line": 223,
+              "text": "    # ── 5. EOD snapshot ───────────────────────────────────"
+            },
+            {
+              "line": 224,
+              "text": "    events = load_all_events()"
+            },
+            {
+              "line": 225,
+              "text": "    state  = PortfolioState.rebuild_from_events(events)"
+            },
+            {
+              "line": 226,
+              "text": "    cur_prices = {"
+            },
+            {
+              "line": 227,
+              "text": "        sym: prices.get(sym, {}).get(\"close\", h[\"entry_price\"])"
+            },
+            {
+              "line": 228,
+              "text": "        for sym, h in state.holdings.items()"
+            },
+            {
+              "line": 229,
+              "text": "    }"
+            }
+          ]
+        }
+      ],
+      "state_terms": [
+        {
+          "line": 99,
+          "text": "# Rebuild state after exits (cash may have increased)",
+          "context": [
+            {
+              "line": 94,
+              "text": "                \"fill_price\":           fp,"
+            },
+            {
+              "line": 95,
+              "text": "                \"signal_provenance\":    sig_prov,"
+            },
+            {
+              "line": 96,
+              "text": "                \"execution_provenance\": source,"
+            },
+            {
+              "line": 97,
+              "text": "            })"
+            },
+            {
+              "line": 98,
+              "text": ""
+            },
+            {
+              "line": 99,
+              "text": "    # Rebuild state after exits (cash may have increased)"
+            },
+            {
+              "line": 100,
+              "text": "    if pending_exits:"
+            },
+            {
+              "line": 101,
+              "text": "        events = load_all_events()"
+            },
+            {
+              "line": 102,
+              "text": "        state  = PortfolioState.rebuild_from_events(events)"
+            },
+            {
+              "line": 103,
+              "text": ""
+            },
+            {
+              "line": 104,
+              "text": "    # ── Execute buys with proper batch allocation ─────────"
+            },
+            {
+              "line": 105,
+              "text": "    if pending_buys:"
+            },
+            {
+              "line": 106,
+              "text": "        # Compute fill prices first"
+            },
+            {
+              "line": 107,
+              "text": "        buy_order_list = []"
+            },
+            {
+              "line": 108,
+              "text": "        for order in pending_buys:"
+            },
+            {
+              "line": 109,
+              "text": "            sym   = order[\"symbol\"]"
+            }
+          ]
+        },
+        {
+          "line": 117,
+          "text": "# Allocate cash across all buys in one pass — guarantees no negative cash",
+          "context": [
+            {
+              "line": 112,
+              "text": "                logger.warning(f\"No T+1 price for {sym} — skipping BUY\")"
+            },
+            {
+              "line": 113,
+              "text": "                continue"
+            },
+            {
+              "line": 114,
+              "text": "            fp = fill_price_buy(t1_px[\"high\"])"
+            },
+            {
+              "line": 115,
+              "text": "            buy_order_list.append({**order, \"fill_price\": fp})"
+            },
+            {
+              "line": 116,
+              "text": ""
+            },
+            {
+              "line": 117,
+              "text": "        # Allocate cash across all buys in one pass — guarantees no negative cash"
+            },
+            {
+              "line": 118,
+              "text": "        allocations = allocate_buys("
+            },
+            {
+              "line": 119,
+              "text": "            buy_orders=buy_order_list,"
+            },
+            {
+              "line": 120,
+              "text": "            available_cash=state.cash,"
+            },
+            {
+              "line": 121,
+              "text": "            n_existing_positions=len(state.holdings),"
+            },
+            {
+              "line": 122,
+              "text": "        )"
+            },
+            {
+              "line": 123,
+              "text": ""
+            },
+            {
+              "line": 124,
+              "text": "        for alloc in allocations:"
+            },
+            {
+              "line": 125,
+              "text": "            sym      = alloc[\"symbol\"]"
+            },
+            {
+              "line": 126,
+              "text": "            order    = next(o for o in buy_order_list if o[\"symbol\"] == sym)"
+            },
+            {
+              "line": 127,
+              "text": "            sig_prov = order.get(\"source\", \"UNKNOWN\")"
+            }
+          ]
+        },
+        {
+          "line": 120,
+          "text": "available_cash=state.cash,",
+          "context": [
+            {
+              "line": 115,
+              "text": "            buy_order_list.append({**order, \"fill_price\": fp})"
+            },
+            {
+              "line": 116,
+              "text": ""
+            },
+            {
+              "line": 117,
+              "text": "        # Allocate cash across all buys in one pass — guarantees no negative cash"
+            },
+            {
+              "line": 118,
+              "text": "        allocations = allocate_buys("
+            },
+            {
+              "line": 119,
+              "text": "            buy_orders=buy_order_list,"
+            },
+            {
+              "line": 120,
+              "text": "            available_cash=state.cash,"
+            },
+            {
+              "line": 121,
+              "text": "            n_existing_positions=len(state.holdings),"
+            },
+            {
+              "line": 122,
+              "text": "        )"
+            },
+            {
+              "line": 123,
+              "text": ""
+            },
+            {
+              "line": 124,
+              "text": "        for alloc in allocations:"
+            },
+            {
+              "line": 125,
+              "text": "            sym      = alloc[\"symbol\"]"
+            },
+            {
+              "line": 126,
+              "text": "            order    = next(o for o in buy_order_list if o[\"symbol\"] == sym)"
+            },
+            {
+              "line": 127,
+              "text": "            sig_prov = order.get(\"source\", \"UNKNOWN\")"
+            },
+            {
+              "line": 128,
+              "text": "            exec_event_id = make_event_id(signal_date, \"BUY_EXECUTED\", sym)"
+            },
+            {
+              "line": 129,
+              "text": "            appended = append_event({"
+            },
+            {
+              "line": 130,
+              "text": "                \"event_id\":          exec_event_id,"
+            }
+          ]
+        },
+        {
+          "line": 121,
+          "text": "n_existing_positions=len(state.holdings),",
+          "context": [
+            {
+              "line": 116,
+              "text": ""
+            },
+            {
+              "line": 117,
+              "text": "        # Allocate cash across all buys in one pass — guarantees no negative cash"
+            },
+            {
+              "line": 118,
+              "text": "        allocations = allocate_buys("
+            },
+            {
+              "line": 119,
+              "text": "            buy_orders=buy_order_list,"
+            },
+            {
+              "line": 120,
+              "text": "            available_cash=state.cash,"
+            },
+            {
+              "line": 121,
+              "text": "            n_existing_positions=len(state.holdings),"
+            },
+            {
+              "line": 122,
+              "text": "        )"
+            },
+            {
+              "line": 123,
+              "text": ""
+            },
+            {
+              "line": 124,
+              "text": "        for alloc in allocations:"
+            },
+            {
+              "line": 125,
+              "text": "            sym      = alloc[\"symbol\"]"
+            },
+            {
+              "line": 126,
+              "text": "            order    = next(o for o in buy_order_list if o[\"symbol\"] == sym)"
+            },
+            {
+              "line": 127,
+              "text": "            sig_prov = order.get(\"source\", \"UNKNOWN\")"
+            },
+            {
+              "line": 128,
+              "text": "            exec_event_id = make_event_id(signal_date, \"BUY_EXECUTED\", sym)"
+            },
+            {
+              "line": 129,
+              "text": "            appended = append_event({"
+            },
+            {
+              "line": 130,
+              "text": "                \"event_id\":          exec_event_id,"
+            },
+            {
+              "line": 131,
+              "text": "                \"event_type\":        \"BUY_EXECUTED\","
+            }
+          ]
+        },
+        {
+          "line": 231,
+          "text": "equity = round(state.cash + hv, 2)",
+          "context": [
+            {
+              "line": 226,
+              "text": "    cur_prices = {"
+            },
+            {
+              "line": 227,
+              "text": "        sym: prices.get(sym, {}).get(\"close\", h[\"entry_price\"])"
+            },
+            {
+              "line": 228,
+              "text": "        for sym, h in state.holdings.items()"
+            },
+            {
+              "line": 229,
+              "text": "    }"
+            },
+            {
+              "line": 230,
+              "text": "    hv     = sum(state.holdings[s][\"units\"] * cur_prices[s] for s in state.holdings)"
+            },
+            {
+              "line": 231,
+              "text": "    equity = round(state.cash + hv, 2)"
+            },
+            {
+              "line": 232,
+              "text": ""
+            },
+            {
+              "line": 233,
+              "text": "    append_event({"
+            },
+            {
+              "line": 234,
+              "text": "        \"event_id\":       make_event_id(signal_date, \"EOD_SNAPSHOT\"),"
+            },
+            {
+              "line": 235,
+              "text": "        \"event_type\":     \"EOD_SNAPSHOT\","
+            },
+            {
+              "line": 236,
+              "text": "        \"date\":           signal_date,"
+            },
+            {
+              "line": 237,
+              "text": "        \"equity\":         equity,"
+            },
+            {
+              "line": 238,
+              "text": "        \"cash\":           round(state.cash, 2),"
+            },
+            {
+              "line": 239,
+              "text": "        \"holdings_value\": round(hv, 2),"
+            },
+            {
+              "line": 240,
+              "text": "        \"n_positions\":    len(state.holdings),"
+            },
+            {
+              "line": 241,
+              "text": "        \"gate_open\":      gate_open,"
+            }
+          ]
+        },
+        {
+          "line": 238,
+          "text": "\"cash\":           round(state.cash, 2),",
+          "context": [
+            {
+              "line": 233,
+              "text": "    append_event({"
+            },
+            {
+              "line": 234,
+              "text": "        \"event_id\":       make_event_id(signal_date, \"EOD_SNAPSHOT\"),"
+            },
+            {
+              "line": 235,
+              "text": "        \"event_type\":     \"EOD_SNAPSHOT\","
+            },
+            {
+              "line": 236,
+              "text": "        \"date\":           signal_date,"
+            },
+            {
+              "line": 237,
+              "text": "        \"equity\":         equity,"
+            },
+            {
+              "line": 238,
+              "text": "        \"cash\":           round(state.cash, 2),"
+            },
+            {
+              "line": 239,
+              "text": "        \"holdings_value\": round(hv, 2),"
+            },
+            {
+              "line": 240,
+              "text": "        \"n_positions\":    len(state.holdings),"
+            },
+            {
+              "line": 241,
+              "text": "        \"gate_open\":      gate_open,"
+            },
+            {
+              "line": 242,
+              "text": "        \"source\":         source,"
+            },
+            {
+              "line": 243,
+              "text": "    })"
+            },
+            {
+              "line": 244,
+              "text": ""
+            },
+            {
+              "line": 245,
+              "text": "    # ── 6. Save + export ──────────────────────────────────"
+            },
+            {
+              "line": 246,
+              "text": "    state.save_snapshot(cur_prices)"
+            },
+            {
+              "line": 247,
+              "text": "    events = load_all_events()"
+            },
+            {
+              "line": 248,
+              "text": "    state  = PortfolioState.rebuild_from_events(events)"
+            }
+          ]
+        },
+        {
+          "line": 240,
+          "text": "\"n_positions\":    len(state.holdings),",
+          "context": [
+            {
+              "line": 235,
+              "text": "        \"event_type\":     \"EOD_SNAPSHOT\","
+            },
+            {
+              "line": 236,
+              "text": "        \"date\":           signal_date,"
+            },
+            {
+              "line": 237,
+              "text": "        \"equity\":         equity,"
+            },
+            {
+              "line": 238,
+              "text": "        \"cash\":           round(state.cash, 2),"
+            },
+            {
+              "line": 239,
+              "text": "        \"holdings_value\": round(hv, 2),"
+            },
+            {
+              "line": 240,
+              "text": "        \"n_positions\":    len(state.holdings),"
+            },
+            {
+              "line": 241,
+              "text": "        \"gate_open\":      gate_open,"
+            },
+            {
+              "line": 242,
+              "text": "        \"source\":         source,"
+            },
+            {
+              "line": 243,
+              "text": "    })"
+            },
+            {
+              "line": 244,
+              "text": ""
+            },
+            {
+              "line": 245,
+              "text": "    # ── 6. Save + export ──────────────────────────────────"
+            },
+            {
+              "line": 246,
+              "text": "    state.save_snapshot(cur_prices)"
+            },
+            {
+              "line": 247,
+              "text": "    events = load_all_events()"
+            },
+            {
+              "line": 248,
+              "text": "    state  = PortfolioState.rebuild_from_events(events)"
+            },
+            {
+              "line": 249,
+              "text": "    export_all(state, events, manifest,"
+            },
+            {
+              "line": 250,
+              "text": "               run_date=signal_date,"
+            }
+          ]
+        },
+        {
+          "line": 260,
+          "text": "\"n_positions\": len(state.holdings),",
+          "context": [
+            {
+              "line": 255,
+              "text": "        \"source\":      source,"
+            },
+            {
+              "line": 256,
+              "text": "        \"gate_open\":   gate_open,"
+            },
+            {
+              "line": 257,
+              "text": "        \"equity\":      equity,"
+            },
+            {
+              "line": 258,
+              "text": "        \"executed\":    executed,"
+            },
+            {
+              "line": 259,
+              "text": "        \"new_orders\":  new_orders,"
+            },
+            {
+              "line": 260,
+              "text": "        \"n_positions\": len(state.holdings),"
+            },
+            {
+              "line": 261,
+              "text": "        \"status\":      \"OOS_ACTIVE\","
+            },
+            {
+              "line": 262,
+              "text": "    }"
+            },
+            {
+              "line": 263,
+              "text": "    append_run_record({**summary, \"event_count\": len(events)})"
+            },
+            {
+              "line": 264,
+              "text": "    logger.info(f\"OOS day complete: equity={equity} positions={len(state.holdings)}\")"
+            },
+            {
+              "line": 265,
+              "text": "    return summary"
+            }
+          ]
+        },
+        {
+          "line": 264,
+          "text": "logger.info(f\"OOS day complete: equity={equity} positions={len(state.holdings)}\")",
+          "context": [
+            {
+              "line": 259,
+              "text": "        \"new_orders\":  new_orders,"
+            },
+            {
+              "line": 260,
+              "text": "        \"n_positions\": len(state.holdings),"
+            },
+            {
+              "line": 261,
+              "text": "        \"status\":      \"OOS_ACTIVE\","
+            },
+            {
+              "line": 262,
+              "text": "    }"
+            },
+            {
+              "line": 263,
+              "text": "    append_run_record({**summary, \"event_count\": len(events)})"
+            },
+            {
+              "line": 264,
+              "text": "    logger.info(f\"OOS day complete: equity={equity} positions={len(state.holdings)}\")"
+            },
+            {
+              "line": 265,
+              "text": "    return summary"
+            }
+          ]
+        }
+      ],
+      "market_terms": [
+        {
+          "line": 29,
+          "text": "market_state: dict,",
+          "context": [
+            {
+              "line": 24,
+              "text": ""
+            },
+            {
+              "line": 25,
+              "text": "def run_oos_day("
+            },
+            {
+              "line": 26,
+              "text": "    signal_date: str,"
+            },
+            {
+              "line": 27,
+              "text": "    leaders: list,"
+            },
+            {
+              "line": 28,
+              "text": "    prices: dict,"
+            },
+            {
+              "line": 29,
+              "text": "    market_state: dict,"
+            },
+            {
+              "line": 30,
+              "text": "    source: str = \"LIVE_FORWARD\","
+            },
+            {
+              "line": 31,
+              "text": "    data_date: str = None,"
+            },
+            {
+              "line": 32,
+              "text": ") -> dict:"
+            },
+            {
+              "line": 33,
+              "text": "    \"\"\""
+            },
+            {
+              "line": 34,
+              "text": "    Process one trading day in OOS mode."
+            },
+            {
+              "line": 35,
+              "text": "    signal_date: T-day (signals generated at close)"
+            },
+            {
+              "line": 36,
+              "text": "    Orders generated today execute T+1 (next trading day)."
+            },
+            {
+              "line": 37,
+              "text": "    source: LIVE_FORWARD or BACKFILLED_PRELIVE"
+            },
+            {
+              "line": 38,
+              "text": "    \"\"\""
+            },
+            {
+              "line": 39,
+              "text": "    logger.info(f\"=== OOS Day: {signal_date} | source={source} ===\")"
+            }
+          ]
+        },
+        {
+          "line": 161,
+          "text": "market_state.get(\"gate_open\", False) or (",
+          "context": [
+            {
+              "line": 156,
+              "text": "    events = load_all_events()"
+            },
+            {
+              "line": 157,
+              "text": "    state  = PortfolioState.rebuild_from_events(events)"
+            },
+            {
+              "line": 158,
+              "text": ""
+            },
+            {
+              "line": 159,
+              "text": "    # ── 4. Generate T-day signals (frozen E1 rules) ──────"
+            },
+            {
+              "line": 160,
+              "text": "    gate_open = ("
+            },
+            {
+              "line": 161,
+              "text": "        market_state.get(\"gate_open\", False) or ("
+            },
+            {
+              "line": 162,
+              "text": "            market_state.get(\"spx_ma50_slope_positive\", False) and"
+            },
+            {
+              "line": 163,
+              "text": "            market_state.get(\"leadership_confirmed\", False)"
+            },
+            {
+              "line": 164,
+              "text": "        )"
+            },
+            {
+              "line": 165,
+              "text": "    )"
+            },
+            {
+              "line": 166,
+              "text": ""
+            },
+            {
+              "line": 167,
+              "text": "    new_orders = []"
+            },
+            {
+              "line": 168,
+              "text": "    if gate_open:"
+            },
+            {
+              "line": 169,
+              "text": "        # Exit signals"
+            },
+            {
+              "line": 170,
+              "text": "        for sym, h in list(state.holdings.items()):"
+            },
+            {
+              "line": 171,
+              "text": "            ls_data = next((l for l in leaders if l[\"symbol\"] == sym), None)"
+            }
+          ]
+        },
+        {
+          "line": 162,
+          "text": "market_state.get(\"spx_ma50_slope_positive\", False) and",
+          "context": [
+            {
+              "line": 157,
+              "text": "    state  = PortfolioState.rebuild_from_events(events)"
+            },
+            {
+              "line": 158,
+              "text": ""
+            },
+            {
+              "line": 159,
+              "text": "    # ── 4. Generate T-day signals (frozen E1 rules) ──────"
+            },
+            {
+              "line": 160,
+              "text": "    gate_open = ("
+            },
+            {
+              "line": 161,
+              "text": "        market_state.get(\"gate_open\", False) or ("
+            },
+            {
+              "line": 162,
+              "text": "            market_state.get(\"spx_ma50_slope_positive\", False) and"
+            },
+            {
+              "line": 163,
+              "text": "            market_state.get(\"leadership_confirmed\", False)"
+            },
+            {
+              "line": 164,
+              "text": "        )"
+            },
+            {
+              "line": 165,
+              "text": "    )"
+            },
+            {
+              "line": 166,
+              "text": ""
+            },
+            {
+              "line": 167,
+              "text": "    new_orders = []"
+            },
+            {
+              "line": 168,
+              "text": "    if gate_open:"
+            },
+            {
+              "line": 169,
+              "text": "        # Exit signals"
+            },
+            {
+              "line": 170,
+              "text": "        for sym, h in list(state.holdings.items()):"
+            },
+            {
+              "line": 171,
+              "text": "            ls_data = next((l for l in leaders if l[\"symbol\"] == sym), None)"
+            },
+            {
+              "line": 172,
+              "text": "            if not ls_data:"
+            }
+          ]
+        },
+        {
+          "line": 163,
+          "text": "market_state.get(\"leadership_confirmed\", False)",
+          "context": [
+            {
+              "line": 158,
+              "text": ""
+            },
+            {
+              "line": 159,
+              "text": "    # ── 4. Generate T-day signals (frozen E1 rules) ──────"
+            },
+            {
+              "line": 160,
+              "text": "    gate_open = ("
+            },
+            {
+              "line": 161,
+              "text": "        market_state.get(\"gate_open\", False) or ("
+            },
+            {
+              "line": 162,
+              "text": "            market_state.get(\"spx_ma50_slope_positive\", False) and"
+            },
+            {
+              "line": 163,
+              "text": "            market_state.get(\"leadership_confirmed\", False)"
+            },
+            {
+              "line": 164,
+              "text": "        )"
+            },
+            {
+              "line": 165,
+              "text": "    )"
+            },
+            {
+              "line": 166,
+              "text": ""
+            },
+            {
+              "line": 167,
+              "text": "    new_orders = []"
+            },
+            {
+              "line": 168,
+              "text": "    if gate_open:"
+            },
+            {
+              "line": 169,
+              "text": "        # Exit signals"
+            },
+            {
+              "line": 170,
+              "text": "        for sym, h in list(state.holdings.items()):"
+            },
+            {
+              "line": 171,
+              "text": "            ls_data = next((l for l in leaders if l[\"symbol\"] == sym), None)"
+            },
+            {
+              "line": 172,
+              "text": "            if not ls_data:"
+            },
+            {
+              "line": 173,
+              "text": "                continue"
+            }
+          ]
+        }
+      ],
+      "output_terms": [
+        {
+          "line": 60,
+          "text": "# ── 3. Execute T+1 orders from previous day ───────────",
+          "context": [
+            {
+              "line": 55,
+              "text": "            \"initial_capital\": INITIAL_CAPITAL,"
+            },
+            {
+              "line": 56,
+              "text": "            \"source\":          source,"
+            },
+            {
+              "line": 57,
+              "text": "            \"strategy_id\":     manifest[\"strategy\"][\"id\"],"
+            },
+            {
+              "line": 58,
+              "text": "        })"
+            },
+            {
+              "line": 59,
+              "text": ""
+            },
+            {
+              "line": 60,
+              "text": "    # ── 3. Execute T+1 orders from previous day ───────────"
+            },
+            {
+              "line": 61,
+              "text": "    executed = []"
+            },
+            {
+              "line": 62,
+              "text": ""
+            },
+            {
+              "line": 63,
+              "text": "    # ── Split pending orders into exits and buys ─────────"
+            },
+            {
+              "line": 64,
+              "text": "    pending_exits = [o for o in state.pending_orders if o[\"action\"] == \"EXIT\"]"
+            },
+            {
+              "line": 65,
+              "text": "    pending_buys  = [o for o in state.pending_orders if o[\"action\"] in (\"BUY\", \"ADD\")]"
+            },
+            {
+              "line": 66,
+              "text": ""
+            },
+            {
+              "line": 67,
+              "text": "    # ── Execute exits first ───────────────────────────────"
+            },
+            {
+              "line": 68,
+              "text": "    for order in pending_exits:"
+            },
+            {
+              "line": 69,
+              "text": "        sym      = order[\"symbol\"]"
+            },
+            {
+              "line": 70,
+              "text": "        t1_px    = prices.get(sym, {})"
+            }
+          ]
+        },
+        {
+          "line": 63,
+          "text": "# ── Split pending orders into exits and buys ─────────",
+          "context": [
+            {
+              "line": 58,
+              "text": "        })"
+            },
+            {
+              "line": 59,
+              "text": ""
+            },
+            {
+              "line": 60,
+              "text": "    # ── 3. Execute T+1 orders from previous day ───────────"
+            },
+            {
+              "line": 61,
+              "text": "    executed = []"
+            },
+            {
+              "line": 62,
+              "text": ""
+            },
+            {
+              "line": 63,
+              "text": "    # ── Split pending orders into exits and buys ─────────"
+            },
+            {
+              "line": 64,
+              "text": "    pending_exits = [o for o in state.pending_orders if o[\"action\"] == \"EXIT\"]"
+            },
+            {
+              "line": 65,
+              "text": "    pending_buys  = [o for o in state.pending_orders if o[\"action\"] in (\"BUY\", \"ADD\")]"
+            },
+            {
+              "line": 66,
+              "text": ""
+            },
+            {
+              "line": 67,
+              "text": "    # ── Execute exits first ───────────────────────────────"
+            },
+            {
+              "line": 68,
+              "text": "    for order in pending_exits:"
+            },
+            {
+              "line": 69,
+              "text": "        sym      = order[\"symbol\"]"
+            },
+            {
+              "line": 70,
+              "text": "        t1_px    = prices.get(sym, {})"
+            },
+            {
+              "line": 71,
+              "text": "        sig_prov = order.get(\"source\", \"UNKNOWN\")"
+            },
+            {
+              "line": 72,
+              "text": "        if not t1_px:"
+            },
+            {
+              "line": 73,
+              "text": "            logger.warning(f\"No T+1 price for {sym} — skipping EXIT\")"
+            }
+          ]
+        },
+        {
+          "line": 64,
+          "text": "pending_exits = [o for o in state.pending_orders if o[\"action\"] == \"EXIT\"]",
+          "context": [
+            {
+              "line": 59,
+              "text": ""
+            },
+            {
+              "line": 60,
+              "text": "    # ── 3. Execute T+1 orders from previous day ───────────"
+            },
+            {
+              "line": 61,
+              "text": "    executed = []"
+            },
+            {
+              "line": 62,
+              "text": ""
+            },
+            {
+              "line": 63,
+              "text": "    # ── Split pending orders into exits and buys ─────────"
+            },
+            {
+              "line": 64,
+              "text": "    pending_exits = [o for o in state.pending_orders if o[\"action\"] == \"EXIT\"]"
+            },
+            {
+              "line": 65,
+              "text": "    pending_buys  = [o for o in state.pending_orders if o[\"action\"] in (\"BUY\", \"ADD\")]"
+            },
+            {
+              "line": 66,
+              "text": ""
+            },
+            {
+              "line": 67,
+              "text": "    # ── Execute exits first ───────────────────────────────"
+            },
+            {
+              "line": 68,
+              "text": "    for order in pending_exits:"
+            },
+            {
+              "line": 69,
+              "text": "        sym      = order[\"symbol\"]"
+            },
+            {
+              "line": 70,
+              "text": "        t1_px    = prices.get(sym, {})"
+            },
+            {
+              "line": 71,
+              "text": "        sig_prov = order.get(\"source\", \"UNKNOWN\")"
+            },
+            {
+              "line": 72,
+              "text": "        if not t1_px:"
+            },
+            {
+              "line": 73,
+              "text": "            logger.warning(f\"No T+1 price for {sym} — skipping EXIT\")"
+            },
+            {
+              "line": 74,
+              "text": "            continue"
+            }
+          ]
+        },
+        {
+          "line": 65,
+          "text": "pending_buys  = [o for o in state.pending_orders if o[\"action\"] in (\"BUY\", \"ADD\")]",
+          "context": [
+            {
+              "line": 60,
+              "text": "    # ── 3. Execute T+1 orders from previous day ───────────"
+            },
+            {
+              "line": 61,
+              "text": "    executed = []"
+            },
+            {
+              "line": 62,
+              "text": ""
+            },
+            {
+              "line": 63,
+              "text": "    # ── Split pending orders into exits and buys ─────────"
+            },
+            {
+              "line": 64,
+              "text": "    pending_exits = [o for o in state.pending_orders if o[\"action\"] == \"EXIT\"]"
+            },
+            {
+              "line": 65,
+              "text": "    pending_buys  = [o for o in state.pending_orders if o[\"action\"] in (\"BUY\", \"ADD\")]"
+            },
+            {
+              "line": 66,
+              "text": ""
+            },
+            {
+              "line": 67,
+              "text": "    # ── Execute exits first ───────────────────────────────"
+            },
+            {
+              "line": 68,
+              "text": "    for order in pending_exits:"
+            },
+            {
+              "line": 69,
+              "text": "        sym      = order[\"symbol\"]"
+            },
+            {
+              "line": 70,
+              "text": "        t1_px    = prices.get(sym, {})"
+            },
+            {
+              "line": 71,
+              "text": "        sig_prov = order.get(\"source\", \"UNKNOWN\")"
+            },
+            {
+              "line": 72,
+              "text": "        if not t1_px:"
+            },
+            {
+              "line": 73,
+              "text": "            logger.warning(f\"No T+1 price for {sym} — skipping EXIT\")"
+            },
+            {
+              "line": 74,
+              "text": "            continue"
+            },
+            {
+              "line": 75,
+              "text": "        exec_event_id = make_event_id(signal_date, \"EXIT_EXECUTED\", sym)"
+            }
+          ]
+        },
+        {
+          "line": 119,
+          "text": "buy_orders=buy_order_list,",
+          "context": [
+            {
+              "line": 114,
+              "text": "            fp = fill_price_buy(t1_px[\"high\"])"
+            },
+            {
+              "line": 115,
+              "text": "            buy_order_list.append({**order, \"fill_price\": fp})"
+            },
+            {
+              "line": 116,
+              "text": ""
+            },
+            {
+              "line": 117,
+              "text": "        # Allocate cash across all buys in one pass — guarantees no negative cash"
+            },
+            {
+              "line": 118,
+              "text": "        allocations = allocate_buys("
+            },
+            {
+              "line": 119,
+              "text": "            buy_orders=buy_order_list,"
+            },
+            {
+              "line": 120,
+              "text": "            available_cash=state.cash,"
+            },
+            {
+              "line": 121,
+              "text": "            n_existing_positions=len(state.holdings),"
+            },
+            {
+              "line": 122,
+              "text": "        )"
+            },
+            {
+              "line": 123,
+              "text": ""
+            },
+            {
+              "line": 124,
+              "text": "        for alloc in allocations:"
+            },
+            {
+              "line": 125,
+              "text": "            sym      = alloc[\"symbol\"]"
+            },
+            {
+              "line": 126,
+              "text": "            order    = next(o for o in buy_order_list if o[\"symbol\"] == sym)"
+            },
+            {
+              "line": 127,
+              "text": "            sig_prov = order.get(\"source\", \"UNKNOWN\")"
+            },
+            {
+              "line": 128,
+              "text": "            exec_event_id = make_event_id(signal_date, \"BUY_EXECUTED\", sym)"
+            },
+            {
+              "line": 129,
+              "text": "            appended = append_event({"
+            }
+          ]
+        },
+        {
+          "line": 167,
+          "text": "new_orders = []",
+          "context": [
+            {
+              "line": 162,
+              "text": "            market_state.get(\"spx_ma50_slope_positive\", False) and"
+            },
+            {
+              "line": 163,
+              "text": "            market_state.get(\"leadership_confirmed\", False)"
+            },
+            {
+              "line": 164,
+              "text": "        )"
+            },
+            {
+              "line": 165,
+              "text": "    )"
+            },
+            {
+              "line": 166,
+              "text": ""
+            },
+            {
+              "line": 167,
+              "text": "    new_orders = []"
+            },
+            {
+              "line": 168,
+              "text": "    if gate_open:"
+            },
+            {
+              "line": 169,
+              "text": "        # Exit signals"
+            },
+            {
+              "line": 170,
+              "text": "        for sym, h in list(state.holdings.items()):"
+            },
+            {
+              "line": 171,
+              "text": "            ls_data = next((l for l in leaders if l[\"symbol\"] == sym), None)"
+            },
+            {
+              "line": 172,
+              "text": "            if not ls_data:"
+            },
+            {
+              "line": 173,
+              "text": "                continue"
+            },
+            {
+              "line": 174,
+              "text": "            ls = ls_data.get(\"leader_score\", 100)"
+            },
+            {
+              "line": 175,
+              "text": "            min_hold_ok = check_min_hold(h[\"entry_date\"], signal_date)"
+            },
+            {
+              "line": 176,
+              "text": "            should_exit, reason = should_exit_e1(ls, min_hold_ok)"
+            },
+            {
+              "line": 177,
+              "text": "            if should_exit:"
+            }
+          ]
+        },
+        {
+          "line": 191,
+          "text": "new_orders.append({\"symbol\": sym, \"action\": \"EXIT\", \"reason\": reason})",
+          "context": [
+            {
+              "line": 186,
+              "text": "                    \"leader_score\": ls,"
+            },
+            {
+              "line": 187,
+              "text": "                    \"execute_date\": \"T+1\","
+            },
+            {
+              "line": 188,
+              "text": "                    \"source\":       source,"
+            },
+            {
+              "line": 189,
+              "text": "                })"
+            },
+            {
+              "line": 190,
+              "text": "                if appended:"
+            },
+            {
+              "line": 191,
+              "text": "                    new_orders.append({\"symbol\": sym, \"action\": \"EXIT\", \"reason\": reason})"
+            },
+            {
+              "line": 192,
+              "text": ""
+            },
+            {
+              "line": 193,
+              "text": "        # Entry signals: Strict Top 3, RS >= 90"
+            },
+            {
+              "line": 194,
+              "text": "        slots = 3 - len(state.holdings)"
+            },
+            {
+              "line": 195,
+              "text": "        if slots > 0:"
+            },
+            {
+              "line": 196,
+              "text": "            candidates = sorted("
+            },
+            {
+              "line": 197,
+              "text": "                [l for l in leaders"
+            },
+            {
+              "line": 198,
+              "text": "                 if l.get(\"rs_score\", 0) >= 90"
+            },
+            {
+              "line": 199,
+              "text": "                 and l[\"symbol\"] not in state.holdings"
+            },
+            {
+              "line": 200,
+              "text": "                 and l.get(\"rank\", 999) <= 3],"
+            },
+            {
+              "line": 201,
+              "text": "                key=lambda l: l.get(\"rank\", 999)"
+            }
+          ]
+        },
+        {
+          "line": 219,
+          "text": "new_orders.append({\"symbol\": sym, \"action\": \"BUY\"})",
+          "context": [
+            {
+              "line": 214,
+              "text": "                    \"rs_score\":    cand.get(\"rs_score\"),"
+            },
+            {
+              "line": 215,
+              "text": "                    \"execute_date\": \"T+1\","
+            },
+            {
+              "line": 216,
+              "text": "                    \"source\":      source,"
+            },
+            {
+              "line": 217,
+              "text": "                })"
+            },
+            {
+              "line": 218,
+              "text": "                if appended:"
+            },
+            {
+              "line": 219,
+              "text": "                    new_orders.append({\"symbol\": sym, \"action\": \"BUY\"})"
+            },
+            {
+              "line": 220,
+              "text": "    else:"
+            },
+            {
+              "line": 221,
+              "text": "        logger.info(\"Gate CLOSED — no new entries\")"
+            },
+            {
+              "line": 222,
+              "text": ""
+            },
+            {
+              "line": 223,
+              "text": "    # ── 5. EOD snapshot ───────────────────────────────────"
+            },
+            {
+              "line": 224,
+              "text": "    events = load_all_events()"
+            },
+            {
+              "line": 225,
+              "text": "    state  = PortfolioState.rebuild_from_events(events)"
+            },
+            {
+              "line": 226,
+              "text": "    cur_prices = {"
+            },
+            {
+              "line": 227,
+              "text": "        sym: prices.get(sym, {}).get(\"close\", h[\"entry_price\"])"
+            },
+            {
+              "line": 228,
+              "text": "        for sym, h in state.holdings.items()"
+            },
+            {
+              "line": 229,
+              "text": "    }"
+            }
+          ]
+        },
+        {
+          "line": 259,
+          "text": "\"new_orders\":  new_orders,",
+          "context": [
+            {
+              "line": 254,
+              "text": "        \"date\":        signal_date,"
+            },
+            {
+              "line": 255,
+              "text": "        \"source\":      source,"
+            },
+            {
+              "line": 256,
+              "text": "        \"gate_open\":   gate_open,"
+            },
+            {
+              "line": 257,
+              "text": "        \"equity\":      equity,"
+            },
+            {
+              "line": 258,
+              "text": "        \"executed\":    executed,"
+            },
+            {
+              "line": 259,
+              "text": "        \"new_orders\":  new_orders,"
+            },
+            {
+              "line": 260,
+              "text": "        \"n_positions\": len(state.holdings),"
+            },
+            {
+              "line": 261,
+              "text": "        \"status\":      \"OOS_ACTIVE\","
+            },
+            {
+              "line": 262,
+              "text": "    }"
+            },
+            {
+              "line": 263,
+              "text": "    append_run_record({**summary, \"event_count\": len(events)})"
+            },
+            {
+              "line": 264,
+              "text": "    logger.info(f\"OOS day complete: equity={equity} positions={len(state.holdings)}\")"
+            },
+            {
+              "line": 265,
+              "text": "    return summary"
+            }
+          ]
+        }
+      ]
+    },
+    "direct_adapter_provider_assessment": {
+      "can_be_direct_adapter_provider_without_equivalence": false,
+      "can_be_direct_adapter_provider_after_equivalence": true,
+      "blockers_or_required_checks": [
+        "must_verify_same_UPTREND_rules_as_run_stateful_simulation",
+        "must_verify_same_BUY_EXIT_dates_and_symbols_in_short_window",
+        "must_verify_same_position_sizing_or explicitly map to adapter sizing",
+        "must verify OOS assumptions do not depend on forward-only state unavailable in historical adapter"
+      ]
+    }
+  },
+  "runtime_candidate_ranking": {
+    "real_runtime_candidate_count": 43,
+    "ranked_real_runtime_candidates": [
+      {
+        "path": "src/engine/backtest.py",
+        "name": "run_stateful_simulation",
+        "start_line": 763,
+        "end_line": 2486,
+        "line_count": 1724,
+        "args": [
+          "symbols",
+          "prices_map",
+          "dates_map",
+          "spx_prices",
+          "spx_dates",
+          "ohlc_map",
+          "assumptions",
+          "step",
+          "min_history",
+          "market_score_default",
+          "sim_start_date",
+          "sim_end_date",
+          "ndx_prices",
+          "ndx_dates",
+          "sox_prices",
+          "sox_dates",
+          "vix_prices",
+          "vix_dates"
+        ],
+        "classification": "REAL_RUNTIME_PROVIDER_CANDIDATE",
+        "score": 19,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": true,
+          "has_add_logic": true,
+          "has_reduce_logic": true,
+          "has_exit_logic": true,
+          "has_hold_logic": true,
+          "has_positions_state": true,
+          "has_cash_state": true,
+          "has_total_equity": true,
+          "has_open_positions_count": true,
+          "has_market_gate": true,
+          "has_max_positions": true,
+          "has_orders_or_trades": true,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 16,
+        "literal_action_counts": {
+          "BUY": 3,
+          "ADD": 1,
+          "TP_REDUCE": 1
+        }
+      },
+      {
+        "path": "src/oos/tracking_engine.py",
+        "name": "run_oos_day",
+        "start_line": 25,
+        "end_line": 265,
+        "line_count": 241,
+        "args": [
+          "signal_date",
+          "leaders",
+          "prices",
+          "market_state",
+          "source",
+          "data_date"
+        ],
+        "classification": "REAL_RUNTIME_PROVIDER_CANDIDATE",
+        "score": 16,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": true,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": true,
+          "has_add_logic": true,
+          "has_reduce_logic": false,
+          "has_exit_logic": true,
+          "has_hold_logic": false,
+          "has_positions_state": true,
+          "has_cash_state": true,
+          "has_total_equity": true,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": true,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 11,
+        "literal_action_counts": {
+          "EXIT": 4,
+          "BUY": 2
+        }
+      },
+      {
+        "path": "src/oos/exporter.py",
+        "name": "export_all",
+        "start_line": 82,
+        "end_line": 207,
+        "line_count": 126,
+        "args": [
+          "state",
+          "events",
+          "manifest",
+          "run_date",
+          "data_date"
+        ],
+        "classification": "RUNTIME_ORDER_OR_TRACKING_HELPER",
+        "score": 14,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": true,
+          "engine_path": false,
+          "has_candidate_logic": false,
+          "has_buy_logic": true,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": true,
+          "has_hold_logic": false,
+          "has_positions_state": true,
+          "has_cash_state": true,
+          "has_total_equity": true,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": true,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 1,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/oos/portfolio_state.py",
+        "name": "rebuild_from_events",
+        "start_line": 26,
+        "end_line": 112,
+        "line_count": 87,
+        "args": [
+          "cls",
+          "events"
+        ],
+        "classification": "RUNTIME_ORDER_OR_TRACKING_HELPER",
+        "score": 14,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": true,
+          "engine_path": false,
+          "has_candidate_logic": false,
+          "has_buy_logic": true,
+          "has_add_logic": true,
+          "has_reduce_logic": false,
+          "has_exit_logic": true,
+          "has_hold_logic": false,
+          "has_positions_state": true,
+          "has_cash_state": true,
+          "has_total_equity": true,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": true,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/trade_decision.py",
+        "name": "trade_action_reason",
+        "start_line": 114,
+        "end_line": 194,
+        "line_count": 81,
+        "args": [
+          "trend_state",
+          "mom_score",
+          "rs_score",
+          "price",
+          "ma50",
+          "ma50_slope",
+          "leader_score",
+          "trend_health",
+          "market_score",
+          "ls60_exit_mode"
+        ],
+        "classification": "RUNTIME_ORDER_OR_TRACKING_HELPER",
+        "score": 11,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": true,
+          "has_add_logic": true,
+          "has_reduce_logic": true,
+          "has_exit_logic": true,
+          "has_hold_logic": true,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 8,
+        "literal_action_counts": {
+          "REDUCE": 2,
+          "EXIT": 2,
+          "BUY": 1,
+          "ADD": 1,
+          "HOLD": 1
+        }
+      },
+      {
+        "path": "src/engine/trade_decision.py",
+        "name": "trade_action",
+        "start_line": 24,
+        "end_line": 78,
+        "line_count": 55,
+        "args": [
+          "trend_state",
+          "mom_score",
+          "rs_score",
+          "price",
+          "ma50",
+          "ma50_slope",
+          "leader_score",
+          "trend_health",
+          "market_score",
+          "ls60_exit_mode"
+        ],
+        "classification": "RUNTIME_ORDER_OR_TRACKING_HELPER",
+        "score": 11,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": true,
+          "has_add_logic": true,
+          "has_reduce_logic": true,
+          "has_exit_logic": true,
+          "has_hold_logic": true,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "name": "run_strategy_variant_comparison",
+        "start_line": 2489,
+        "end_line": 2895,
+        "line_count": 407,
+        "args": [
+          "symbols",
+          "prices_map",
+          "dates_map",
+          "spx_prices",
+          "spx_dates",
+          "ndx_prices",
+          "ndx_dates",
+          "sox_prices",
+          "sox_dates",
+          "vix_prices",
+          "vix_dates"
+        ],
+        "classification": "RUNTIME_ORDER_OR_TRACKING_HELPER",
+        "score": 10,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": true,
+          "has_exit_logic": true,
+          "has_hold_logic": true,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": true,
+          "has_open_positions_count": false,
+          "has_market_gate": true,
+          "has_max_positions": true,
+          "has_orders_or_trades": true,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": true,
+          "contains_sidecar": true
+        },
+        "risks": [
+          "wrapper_around_run_stateful_simulation",
+          "contains_sidecar_terms_may_not_be_pure_uptrend"
+        ],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/export/export_json.py",
+        "name": "export_all",
+        "start_line": 74,
+        "end_line": 146,
+        "line_count": 73,
+        "args": [
+          "market",
+          "leaders",
+          "watchlist",
+          "all_signals",
+          "backtest",
+          "chart_source"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 8,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": true,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": true,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 4,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/e1r_sidecar_sleeve.py",
+        "name": "run_daily_rebalanced_sidecar",
+        "start_line": 401,
+        "end_line": 470,
+        "line_count": 70,
+        "args": [
+          "rankings",
+          "spx",
+          "regimes",
+          "intervals",
+          "config"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": true
+        },
+        "risks": [
+          "contains_sidecar_terms_may_not_be_pure_uptrend"
+        ],
+        "action_like_dict_count": 2,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/e1r_sidecar_sleeve.py",
+        "name": "build_e1r_sidecar_sleeve",
+        "start_line": 538,
+        "end_line": 594,
+        "line_count": 57,
+        "args": [
+          "stock_dir",
+          "spx_path",
+          "regime_path",
+          "config"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": true,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": true
+        },
+        "risks": [
+          "contains_sidecar_terms_may_not_be_pure_uptrend"
+        ],
+        "action_like_dict_count": 2,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/e1r_sidecar_sleeve.py",
+        "name": "score_candidate",
+        "start_line": 254,
+        "end_line": 339,
+        "line_count": 86,
+        "args": [
+          "asset",
+          "spx",
+          "date",
+          "config"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": true
+        },
+        "risks": [
+          "contains_sidecar_terms_may_not_be_pure_uptrend"
+        ],
+        "action_like_dict_count": 1,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/e1r_sidecar_sleeve.py",
+        "name": "build_daily_rankings",
+        "start_line": 356,
+        "end_line": 398,
+        "line_count": 43,
+        "args": [
+          "stocks",
+          "spx",
+          "regimes",
+          "intervals",
+          "config"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": true
+        },
+        "risks": [
+          "contains_sidecar_terms_may_not_be_pure_uptrend"
+        ],
+        "action_like_dict_count": 1,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/rank_history.py",
+        "name": "save_daily_snapshot",
+        "start_line": 19,
+        "end_line": 35,
+        "line_count": 17,
+        "args": [
+          "date",
+          "ranked_stocks"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 1,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/trend_state.py",
+        "name": "compute_stock_state",
+        "start_line": 25,
+        "end_line": 126,
+        "line_count": 102,
+        "args": [
+          "symbol",
+          "prices",
+          "dates",
+          "spx_prices",
+          "all_ret20",
+          "all_ret60",
+          "all_ma50_slopes",
+          "members_map"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 1,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/watchlist.py",
+        "name": "build_watchlist",
+        "start_line": 44,
+        "end_line": 119,
+        "line_count": 76,
+        "args": [
+          "ranked_stocks"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": true,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 1,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/pipeline/update_pipeline.py",
+        "name": "run_daily_update",
+        "start_line": 114,
+        "end_line": 304,
+        "line_count": 191,
+        "args": [
+          "force_full"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 1,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "name": "_rebuild_leader_score",
+        "start_line": 124,
+        "end_line": 169,
+        "line_count": 46,
+        "args": [
+          "prices",
+          "spx_prices",
+          "all_stocks_prices",
+          "t"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/backtest.py",
+        "name": "selection_key",
+        "start_line": 2767,
+        "end_line": 2776,
+        "line_count": 10,
+        "args": [
+          "item"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/index_analysis.py",
+        "name": "_find_prices",
+        "start_line": 38,
+        "end_line": 59,
+        "line_count": 22,
+        "args": [
+          "code",
+          "prices_map"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/leader_ranking.py",
+        "name": "leader_score",
+        "start_line": 11,
+        "end_line": 20,
+        "line_count": 10,
+        "args": [
+          "rs",
+          "mom",
+          "th"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/leader_ranking.py",
+        "name": "rank_stocks",
+        "start_line": 23,
+        "end_line": 28,
+        "line_count": 6,
+        "args": [
+          "stocks"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/market_score.py",
+        "name": "_vix_score",
+        "start_line": 38,
+        "end_line": 48,
+        "line_count": 11,
+        "args": [
+          "vix"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": true,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/market_score.py",
+        "name": "compute_market_score",
+        "start_line": 51,
+        "end_line": 97,
+        "line_count": 47,
+        "args": [
+          "spx",
+          "ndx",
+          "sox",
+          "vix"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/rank_history.py",
+        "name": "load_snapshot",
+        "start_line": 38,
+        "end_line": 42,
+        "line_count": 5,
+        "args": [
+          "date"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/rank_history.py",
+        "name": "get_recent_snapshots",
+        "start_line": 45,
+        "end_line": 59,
+        "line_count": 15,
+        "args": [
+          "lookback_days"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/rank_history.py",
+        "name": "compute_rank_velocity",
+        "start_line": 62,
+        "end_line": 93,
+        "line_count": 32,
+        "args": [
+          "symbol",
+          "current_rank",
+          "lookback_days"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/rank_history.py",
+        "name": "compute_momentum_acceleration",
+        "start_line": 96,
+        "end_line": 131,
+        "line_count": 36,
+        "args": [
+          "symbol",
+          "mom_today",
+          "lookback_days"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/rank_history.py",
+        "name": "get_rank_delta",
+        "start_line": 134,
+        "end_line": 149,
+        "line_count": 16,
+        "args": [
+          "symbol",
+          "current_rank",
+          "days_ago"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/trade_decision.py",
+        "name": "enrich_action",
+        "start_line": 81,
+        "end_line": 100,
+        "line_count": 20,
+        "args": [
+          "s"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/engine/watchlist.py",
+        "name": "promotion_score",
+        "start_line": 22,
+        "end_line": 41,
+        "line_count": 20,
+        "args": [
+          "rank_vel",
+          "mom_accel",
+          "trend_health",
+          "pullback_score"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": true,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/export/export_json.py",
+        "name": "export_stock_charts",
+        "start_line": 35,
+        "end_line": 71,
+        "line_count": 37,
+        "args": [
+          "chart_source"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": true,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/features/momentum.py",
+        "name": "momentum_score",
+        "start_line": 70,
+        "end_line": 122,
+        "line_count": 53,
+        "args": [
+          "prices",
+          "all_ret20",
+          "all_ret60",
+          "all_ma50_slopes"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/features/momentum.py",
+        "name": "momentum_acceleration",
+        "start_line": 125,
+        "end_line": 134,
+        "line_count": 10,
+        "args": [
+          "prices",
+          "lookback"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/features/momentum.py",
+        "name": "pct_rank",
+        "start_line": 150,
+        "end_line": 154,
+        "line_count": 5,
+        "args": [
+          "value",
+          "all_values"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/features/rs.py",
+        "name": "rs_score",
+        "start_line": 34,
+        "end_line": 38,
+        "line_count": 5,
+        "args": [
+          "symbol_return",
+          "all_returns"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/features/trend_health.py",
+        "name": "price_structure_score",
+        "start_line": 21,
+        "end_line": 32,
+        "line_count": 12,
+        "args": [
+          "prices"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/features/trend_health.py",
+        "name": "ma50_slope_score",
+        "start_line": 37,
+        "end_line": 46,
+        "line_count": 10,
+        "args": [
+          "prices"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/features/trend_health.py",
+        "name": "drawdown_stability_score",
+        "start_line": 60,
+        "end_line": 74,
+        "line_count": 15,
+        "args": [
+          "dd_pct"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/features/trend_health.py",
+        "name": "volatility_quality_score",
+        "start_line": 79,
+        "end_line": 93,
+        "line_count": 15,
+        "args": [
+          "vol_pct"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/features/trend_health.py",
+        "name": "trend_health_score",
+        "start_line": 98,
+        "end_line": 121,
+        "line_count": 24,
+        "args": [
+          "prices"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": false,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/oos/execution_adapter.py",
+        "name": "fill_price_buy",
+        "start_line": 18,
+        "end_line": 20,
+        "line_count": 3,
+        "args": [
+          "high",
+          "cost_rate"
+        ],
+        "classification": "RUNTIME_ORDER_OR_TRACKING_HELPER",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": true,
+          "engine_path": false,
+          "has_candidate_logic": false,
+          "has_buy_logic": true,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/oos/execution_adapter.py",
+        "name": "fill_price_exit",
+        "start_line": 23,
+        "end_line": 25,
+        "line_count": 3,
+        "args": [
+          "low",
+          "cost_rate"
+        ],
+        "classification": "RUNTIME_ORDER_OR_TRACKING_HELPER",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": true,
+          "engine_path": false,
+          "has_candidate_logic": false,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": true,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      },
+      {
+        "path": "src/oos/execution_adapter.py",
+        "name": "should_exit_e1",
+        "start_line": 144,
+        "end_line": 153,
+        "line_count": 10,
+        "args": [
+          "leader_score",
+          "min_hold_satisfied"
+        ],
+        "classification": "RUNTIME_CANDIDATE_GENERATOR_ONLY",
+        "score": 7,
+        "features": {
+          "runtime_src_path": true,
+          "oos_path": true,
+          "engine_path": false,
+          "has_candidate_logic": true,
+          "has_buy_logic": false,
+          "has_add_logic": false,
+          "has_reduce_logic": false,
+          "has_exit_logic": false,
+          "has_hold_logic": false,
+          "has_positions_state": false,
+          "has_cash_state": false,
+          "has_total_equity": false,
+          "has_open_positions_count": false,
+          "has_market_gate": false,
+          "has_max_positions": false,
+          "has_orders_or_trades": false,
+          "has_daily_loop": false,
+          "references_invalid_artifacts": false,
+          "calls_run_stateful_simulation": false,
+          "contains_sidecar": false
+        },
+        "risks": [],
+        "action_like_dict_count": 0,
+        "literal_action_counts": {}
+      }
+    ]
+  },
+  "baseline_run_stateful_audit": {
+    "exists": true,
+    "path": "src/engine/backtest.py",
+    "name": "run_stateful_simulation",
+    "start_line": 763,
+    "end_line": 2486,
+    "line_count": 1724,
+    "classification": {
+      "path": "src/engine/backtest.py",
+      "name": "run_stateful_simulation",
+      "start_line": 763,
+      "end_line": 2486,
+      "line_count": 1724,
+      "args": [
+        "symbols",
+        "prices_map",
+        "dates_map",
+        "spx_prices",
+        "spx_dates",
+        "ohlc_map",
+        "assumptions",
+        "step",
+        "min_history",
+        "market_score_default",
+        "sim_start_date",
+        "sim_end_date",
+        "ndx_prices",
+        "ndx_dates",
+        "sox_prices",
+        "sox_dates",
+        "vix_prices",
+        "vix_dates"
+      ],
+      "classification": "REAL_RUNTIME_PROVIDER_CANDIDATE",
+      "score": 19,
+      "features": {
+        "runtime_src_path": true,
+        "oos_path": false,
+        "engine_path": true,
+        "has_candidate_logic": true,
+        "has_buy_logic": true,
+        "has_add_logic": true,
+        "has_reduce_logic": true,
+        "has_exit_logic": true,
+        "has_hold_logic": true,
+        "has_positions_state": true,
+        "has_cash_state": true,
+        "has_total_equity": true,
+        "has_open_positions_count": true,
+        "has_market_gate": true,
+        "has_max_positions": true,
+        "has_orders_or_trades": true,
+        "has_daily_loop": true,
+        "references_invalid_artifacts": false,
+        "calls_run_stateful_simulation": false,
+        "contains_sidecar": false
+      },
+      "risks": []
+    },
+    "action_shapes": {
+      "action_like_dict_count": 16,
+      "literal_action_counts": {
+        "BUY": 3,
+        "ADD": 1,
+        "TP_REDUCE": 1
+      },
+      "samples": [
+        {
+          "line": 2236,
+          "keys": [
+            "date",
+            "cash",
+            "positions_value",
+            "total_equity",
+            "open_positions_count",
+            "sim_end_trades",
+            "spx_regime",
+            "e1r_active_mode",
+            "risk_budget_mode",
+            "event"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 1515,
+          "keys": [
+            "date",
+            "cash",
+            "positions_value",
+            "total_equity",
+            "daily_return_pct",
+            "drawdown_pct",
+            "exposure_pct",
+            "open_positions_count",
+            "pending_orders_count",
+            "market_gate_state",
+            "spx_regime",
+            "e1r_active_mode",
+            "risk_budget_mode",
+            "risk_budget",
+            "spx_close",
+            "spx_ma50",
+            "spx_day_return_pct",
+            "event"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 1589,
+          "keys": [
+            "symbol",
+            "action",
+            "trend_state",
+            "momentum_score",
+            "rs_score",
+            "leader_score",
+            "trend_health",
+            "close_t",
+            "ma20",
+            "ma20_slope",
+            "ma50",
+            "ma50_slope",
+            "rs_prev20",
+            "rs_20d_improvement",
+            "momentum_acceleration",
+            "e1r_entry_type",
+            "e1r_uptrend_emerging_eligible",
+            "e1r_uptrend_confirmed_eligible",
+            "e1r_entry_reason"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 2198,
+          "keys": [
+            "symbol",
+            "entry_date",
+            "exit_date",
+            "entry_signal",
+            "exit_signal",
+            "entry_price",
+            "avg_cost",
+            "exit_price",
+            "effective_exit",
+            "return_pct",
+            "max_gain_pct",
+            "max_drawdown_in_trade",
+            "holding_days",
+            "size_units_at_exit",
+            "leader_score_entry",
+            "take_profit_triggered",
+            "take_profit_exec_date",
+            "realized_pnl_before_exit",
+            "actions_during_trade",
+            "action_count",
+            "execution_model",
+            "is_sim_end",
+            "entry_regime",
+            "exit_regime",
+            "dominant_regime",
+            "entry_type",
+            "regime_day_weights",
+            "exit_type",
+            "exit_warning_log",
+            "exit_warning_count"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 2148,
+          "keys": [
+            "date",
+            "cash",
+            "position_value",
+            "total_equity",
+            "n_holdings",
+            "pending_orders",
+            "market_gate_state",
+            "spx_close",
+            "spx_ma50",
+            "spx_day_return_pct"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 1165,
+          "keys": [
+            "shares",
+            "avg_cost",
+            "size_units",
+            "entry_close_ref",
+            "entry_date",
+            "entry_sig_date",
+            "entry_signal",
+            "e1r_entry_type",
+            "highest_close",
+            "min_close_since_entry",
+            "current_close",
+            "leader_score_entry",
+            "entry_spx",
+            "relative_stop_triggered",
+            "relative_stop_signal_date",
+            "relative_stop_exec_date",
+            "take_profit_triggered",
+            "take_profit_signal_date",
+            "take_profit_exec_date",
+            "realized_pnl",
+            "realized_cost_basis",
+            "action_history",
+            "ls60_reduce_triggered",
+            "entry_regime",
+            "entry_type",
+            "regime_day_weights"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 1789,
+          "keys": [
+            "sym",
+            "action",
+            "signal_date",
+            "ls",
+            "close_t",
+            "entry_rank",
+            "strategy",
+            "entry_mode",
+            "primary_reason",
+            "reasons",
+            "e1r_entry_type",
+            "target_size_units"
+          ],
+          "literal_action": "BUY",
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 2013,
+          "keys": [
+            "sym",
+            "action",
+            "signal_date",
+            "ls",
+            "close_t",
+            "entry_rank",
+            "strategy",
+            "primary_reason",
+            "reasons"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 2048,
+          "keys": [
+            "sym",
+            "action",
+            "signal_date",
+            "ls",
+            "close_t",
+            "entry_rank",
+            "strategy",
+            "primary_reason",
+            "reasons",
+            "e1r_entry_type",
+            "add_size_units"
+          ],
+          "literal_action": "ADD",
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 1671,
+          "keys": [
+            "date",
+            "symbol",
+            "spx_regime",
+            "e1r_entry_type",
+            "e1r_uptrend_emerging_eligible",
+            "e1r_uptrend_confirmed_eligible",
+            "leader_rank",
+            "leader_score",
+            "rs_score",
+            "rs_prev20",
+            "rs_20d_improvement",
+            "momentum_score",
+            "momentum_acceleration",
+            "trend_health",
+            "close",
+            "ma20",
+            "ma50",
+            "ma20_slope",
+            "ma50_slope",
+            "reasons",
+            "diagnostic_only"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 1879,
+          "keys": [
+            "sym",
+            "action",
+            "signal_date",
+            "ls",
+            "close_t",
+            "entry_rank",
+            "strategy",
+            "entry_mode",
+            "primary_reason",
+            "reasons"
+          ],
+          "literal_action": "BUY",
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 2083,
+          "keys": [
+            "sym",
+            "action",
+            "signal_date",
+            "ls",
+            "close_t",
+            "entry_rank",
+            "strategy"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 2114,
+          "keys": [
+            "sym",
+            "action",
+            "signal_date",
+            "ls",
+            "close_t",
+            "entry_rank",
+            "strategy"
+          ],
+          "literal_action": "TP_REDUCE",
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 1274,
+          "keys": [
+            "symbol",
+            "entry_date",
+            "exit_date",
+            "entry_signal",
+            "exit_signal",
+            "entry_price",
+            "avg_cost",
+            "exit_price",
+            "effective_exit",
+            "return_pct",
+            "max_gain_pct",
+            "max_drawdown_in_trade",
+            "holding_days",
+            "size_units_at_exit",
+            "leader_score_entry",
+            "relative_stop_triggered",
+            "relative_stop_exec_date",
+            "take_profit_triggered",
+            "take_profit_exec_date",
+            "realized_pnl_before_exit",
+            "actions_during_trade",
+            "action_count",
+            "execution_model",
+            "entry_adverse_gap_pct",
+            "exit_adverse_gap_pct",
+            "total_execution_drag_pct",
+            "is_sim_end",
+            "entry_regime",
+            "exit_regime",
+            "dominant_regime",
+            "entry_type",
+            "regime_day_weights",
+            "exit_reason",
+            "exit_reasons",
+            "exit_type",
+            "exit_warning_log",
+            "exit_warning_count"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 1836,
+          "keys": [
+            "sym",
+            "action",
+            "signal_date",
+            "ls",
+            "close_t",
+            "entry_rank",
+            "strategy",
+            "entry_mode",
+            "primary_reason",
+            "reasons",
+            "candidate_top_n"
+          ],
+          "literal_action": "BUY",
+          "literal_reason": null,
+          "literal_order_type": null
+        },
+        {
+          "line": 1934,
+          "keys": [
+            "date",
+            "ls",
+            "price",
+            "ma50",
+            "price_vs_ma50_pct",
+            "ma50_slope",
+            "market_state",
+            "warning_day"
+          ],
+          "literal_action": null,
+          "literal_reason": null,
+          "literal_order_type": null
+        }
+      ]
+    },
+    "baseline_role": "behavioral_reference_only_not_direct_provider"
+  },
+  "validations": {
+    "audit_only_no_backtest_run": true,
+    "full_5y_backtest_run": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "strategy_files_unchanged": true,
+    "invalid_artifacts_not_used_as_source": true,
+    "composer_not_used": true,
+    "return_curve_stitching_not_used": true,
+    "d2_report_loaded": true,
+    "d2_false_positive_confirmed": true,
+    "scripts_docs_filtered_from_provider_candidates": true,
+    "run_oos_day_audited": true,
+    "runtime_candidates_ranked": true,
+    "baseline_run_stateful_audited": true,
+    "provider_not_locked_yet": true,
+    "implementation_not_allowed_yet": true,
+    "decision_generated": true
+  },
+  "decision": {
+    "d2_false_positive_confirmed": true,
+    "run_oos_day_is_runtime_candidate": true,
+    "run_oos_day_allowed_directly_without_equivalence": false,
+    "uptrend_provider_locked": false,
+    "implementation_allowed_now": false,
+    "baseline_reference": {
+      "path": "src/engine/backtest.py",
+      "name": "run_stateful_simulation",
+      "action_like_dict_count": 16,
+      "literal_action_counts": {
+        "BUY": 3,
+        "ADD": 1,
+        "TP_REDUCE": 1
+      }
+    },
+    "candidate_for_next_equivalence_audit": {
+      "path": "src/oos/tracking_engine.py",
+      "name": "run_oos_day",
+      "reason": "Best real runtime candidate after filtering out scripts/docs/audit/design false positives."
+    },
+    "conclusion": "D2_FALSE_POSITIVE_FILTERED_RUN_OOS_DAY_REQUIRES_EQUIVALENCE_AUDIT",
+    "recommended_next_action": "Proceed to 4C-2C-4E-D3: UPTREND runtime equivalence audit focused on src/oos/tracking_engine.py::run_oos_day versus src/engine/backtest.py::run_stateful_simulation. Do not implement adapter trading logic yet.",
+    "engineering_rule": "Trading logic is not correct until proven equivalent or explicitly approved. Do not use audit scripts as providers. Do not use run_oos_day in adapter until equivalence with run_stateful_simulation UPTREND behavior is verified."
+  }
+}
