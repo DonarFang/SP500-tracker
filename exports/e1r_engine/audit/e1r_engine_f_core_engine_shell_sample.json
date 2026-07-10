@@ -1,0 +1,312 @@
+{
+  "schema": "E1RCoreEngineShellSmokeSampleV1",
+  "generated_at": "2026-07-10T06:05:14.263843+00:00",
+  "snapshot": {
+    "date": "2021-04-05",
+    "universe": [
+      "A",
+      "AAL",
+      "AAPL",
+      "ABBV",
+      "ABNB"
+    ],
+    "prices_by_symbol": {
+      "A": {
+        "date": "2021-04-05",
+        "open": 124.577632,
+        "high": 126.132439,
+        "low": 124.577632,
+        "close": 125.54335,
+        "volume": 1096300.0
+      },
+      "AAL": {
+        "date": "2021-04-05",
+        "open": 24.459999,
+        "high": 24.85,
+        "low": 24.16,
+        "close": 24.23,
+        "volume": 33657000.0
+      },
+      "AAPL": {
+        "date": "2021-04-05",
+        "open": 120.537771,
+        "high": 122.766169,
+        "low": 119.759289,
+        "close": 122.513161,
+        "volume": 88651200.0
+      },
+      "ABBV": {
+        "date": "2021-04-05",
+        "open": 89.343498,
+        "high": 89.343498,
+        "low": 86.329342,
+        "close": 86.935448,
+        "volume": 10584400.0
+      },
+      "ABNB": {
+        "date": "2021-04-05",
+        "open": 191.660004,
+        "high": 192.100006,
+        "low": 185.809998,
+        "close": 186.690002,
+        "volume": 2591400.0
+      }
+    },
+    "indices": {
+      "SPX": {
+        "date": "2021-04-05",
+        "open": 4034.439941,
+        "high": 4083.419922,
+        "low": 4034.439941,
+        "close": 4077.909912,
+        "volume": 4005030000.0
+      },
+      "NDX": {
+        "date": "2021-04-05",
+        "open": 13434.040039,
+        "high": 13623.599609,
+        "low": 13420.80957,
+        "close": 13598.160156,
+        "volume": 4459000000.0
+      },
+      "SOX": {
+        "date": "2021-04-05",
+        "open": 3282.909912,
+        "high": 3314.159912,
+        "low": 3255.280029,
+        "close": 3305.429932,
+        "volume": 0.0
+      }
+    },
+    "regime": {
+      "date": "2021-04-05",
+      "spx_regime": "UPTREND",
+      "subclass": "NO_SUBCLASS",
+      "raw": {
+        "regime": "UPTREND",
+        "subclass": null
+      },
+      "source_path": "$.daily_regime.2021-04-05"
+    },
+    "metadata": {
+      "stage": "ENGINE-F",
+      "shell_smoke": true,
+      "source": "HistoricalDataAdapter"
+    }
+  },
+  "account_before": {
+    "date": "2021-04-05",
+    "cash": 90000.0,
+    "positions": {
+      "A": {
+        "symbol": "A",
+        "quantity": 10.0,
+        "avg_cost": 119.2661825,
+        "last_price": 125.54335,
+        "market_value": 1255.4335,
+        "unrealized_pnl": 62.771675000000045,
+        "entry_date": "2021-04-05",
+        "last_update_date": "2021-04-05",
+        "metadata": {}
+      }
+    },
+    "total_equity": 91255.4335,
+    "positions_value": 1255.4335,
+    "open_positions_count": 1,
+    "metadata": {
+      "stage": "ENGINE-F",
+      "shell_smoke": true
+    }
+  },
+  "account_after": {
+    "date": "2021-04-05",
+    "cash": 90000.0,
+    "positions": {
+      "A": {
+        "symbol": "A",
+        "quantity": 10.0,
+        "avg_cost": 119.2661825,
+        "last_price": 125.54335,
+        "market_value": 1255.4335,
+        "unrealized_pnl": 62.771675000000045,
+        "entry_date": "2021-04-05",
+        "last_update_date": "2021-04-05",
+        "metadata": {}
+      }
+    },
+    "total_equity": 91255.4335,
+    "positions_value": 1255.4335,
+    "open_positions_count": 1,
+    "metadata": {
+      "stage": "ENGINE-F",
+      "shell_smoke": true
+    }
+  },
+  "decision_trace": {
+    "date": "2021-04-05",
+    "branch": "UPTREND",
+    "market_regime": "UPTREND",
+    "regime_subclass": "NO_SUBCLASS",
+    "inputs": {
+      "shell_mode": true,
+      "no_strategy_logic": true,
+      "no_candidate_ranking": true,
+      "no_sizing": true,
+      "no_market_gate": true,
+      "route_reason": "route_uptrend"
+    },
+    "candidate_count": 0,
+    "selected_symbols": [],
+    "order_intents": [
+      {
+        "date": "2021-04-05",
+        "symbol": "A",
+        "intent_type": "HOLD",
+        "side": null,
+        "target_quantity": 10.0,
+        "quantity_delta": 0.0,
+        "reason": "engine_f_shell_existing_position_hold",
+        "branch": "UPTREND",
+        "metadata": {
+          "shell_mode": true,
+          "no_strategy_decision": true
+        }
+      }
+    ],
+    "reasons": [
+      "engine_f_core_shell_only",
+      "route_uptrend",
+      "mark_to_market_only"
+    ],
+    "metadata": {
+      "route": {
+        "date": "2021-04-05",
+        "branch": "UPTREND",
+        "spx_regime": "UPTREND",
+        "subclass": "NO_SUBCLASS",
+        "reason": "route_uptrend",
+        "metadata": {
+          "router_shell_only": true,
+          "no_strategy_decision": true
+        }
+      },
+      "max_positions": 3
+    }
+  },
+  "order_intents": [
+    {
+      "date": "2021-04-05",
+      "symbol": "A",
+      "intent_type": "HOLD",
+      "side": null,
+      "target_quantity": 10.0,
+      "quantity_delta": 0.0,
+      "reason": "engine_f_shell_existing_position_hold",
+      "branch": "UPTREND",
+      "metadata": {
+        "shell_mode": true,
+        "no_strategy_decision": true
+      }
+    }
+  ],
+  "fills": [],
+  "router_cases": [
+    {
+      "date": "2021-04-05",
+      "branch": "UPTREND",
+      "spx_regime": "UPTREND",
+      "subclass": "NO_SUBCLASS",
+      "reason": "route_uptrend",
+      "metadata": {
+        "router_shell_only": true,
+        "no_strategy_decision": true
+      }
+    },
+    {
+      "date": "2021-04-05",
+      "branch": "SIDEWAYS_MA_CONFLICT",
+      "spx_regime": "SIDEWAYS",
+      "subclass": "MA_CONFLICT",
+      "reason": "route_sideways_ma_conflict",
+      "metadata": {
+        "router_shell_only": true,
+        "no_strategy_decision": true
+      }
+    },
+    {
+      "date": "2021-04-05",
+      "branch": "DETERIORATION_TRANSITION",
+      "spx_regime": "SIDEWAYS",
+      "subclass": "DETERIORATION_TRANSITION",
+      "reason": "route_deterioration_transition",
+      "metadata": {
+        "router_shell_only": true,
+        "no_strategy_decision": true
+      }
+    },
+    {
+      "date": "2021-04-05",
+      "branch": "RECOVERY_TRANSITION",
+      "spx_regime": "SIDEWAYS",
+      "subclass": "RECOVERY_TRANSITION",
+      "reason": "route_recovery_transition",
+      "metadata": {
+        "router_shell_only": true,
+        "no_strategy_decision": true
+      }
+    },
+    {
+      "date": "2021-04-05",
+      "branch": "DOWNTREND",
+      "spx_regime": "DOWNTREND",
+      "subclass": "NO_SUBCLASS",
+      "reason": "route_downtrend",
+      "metadata": {
+        "router_shell_only": true,
+        "no_strategy_decision": true
+      }
+    },
+    {
+      "date": "2021-04-05",
+      "branch": "CASH_DEFENSIVE",
+      "spx_regime": "UNKNOWN",
+      "subclass": "NO_SUBCLASS",
+      "reason": "route_default_cash_defensive",
+      "metadata": {
+        "router_shell_only": true,
+        "no_strategy_decision": true
+      }
+    }
+  ],
+  "result_validation": {
+    "ok": true,
+    "errors": [],
+    "error_count": 0,
+    "date": "2021-04-05",
+    "max_positions": 3,
+    "account_before": {
+      "ok": true,
+      "errors": [],
+      "error_count": 0,
+      "date": "2021-04-05",
+      "cash": 90000.0,
+      "positions_value": 1255.4335,
+      "total_equity": 91255.4335,
+      "open_positions_count": 1,
+      "max_positions": 3
+    },
+    "account_after": {
+      "ok": true,
+      "errors": [],
+      "error_count": 0,
+      "date": "2021-04-05",
+      "cash": 90000.0,
+      "positions_value": 1255.4335,
+      "total_equity": 91255.4335,
+      "open_positions_count": 1,
+      "max_positions": 3
+    },
+    "order_count": 1,
+    "fill_count": 0
+  }
+}
