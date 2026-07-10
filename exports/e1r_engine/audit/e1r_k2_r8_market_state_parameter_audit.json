@@ -1,0 +1,3618 @@
+{
+  "generated_at": "2026-07-10T13:03:59.470621+00:00",
+  "elapsed_seconds": 0.028713,
+  "stage": "4C-2C-4E-ENGINE-K2-R8-MARKET_STATE_PARAMETER_AUDIT",
+  "status": "MARKET_STATE_PARAMETER_AUDIT_COMPLETE",
+  "purpose": "Audit exact market-state and market-gate parameters before copying the E1R 115% market-state behavior.",
+  "policy": {
+    "strategy_logic_changed": false,
+    "audit_only": true,
+    "formula_not_patched": true,
+    "backtest_engine_run": false,
+    "short_window_existing_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "frozen_strategy_files_changed": false
+  },
+  "source": {
+    "backtest_path": "src/engine/backtest.py",
+    "backtest_sha256": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+    "function_bounds": {
+      "name": "run_stateful_simulation",
+      "start_line": 763,
+      "end_line": 2486,
+      "line_count": 1724
+    },
+    "k2_r7_report": "docs/research/E1R_4C2C4E_ENGINE_K2_R7_MARKET_STATE_SOURCE_EQUIVALENCE_TRACE.json",
+    "r7_trace": "exports/e1r_engine/uptrend/e1r_k2_r7_market_state_source_equivalence_trace.json",
+    "r7_equivalence": "exports/e1r_engine/equivalence/e1r_k2_r7_market_state_source_equivalence.json",
+    "golden_master": "exports/e1r_engine/golden_master/e1r_engine_g_short_window_golden_master.json"
+  },
+  "source_scan": {
+    "market_gate_enabled": {
+      "occurrence_count": 9,
+      "assignment_count": 1,
+      "control_count": 4,
+      "rows": [
+        {
+          "line": 847,
+          "kind": "assignment",
+          "indent": 4,
+          "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+        },
+        {
+          "line": 912,
+          "kind": "reference",
+          "indent": 8,
+          "text": "        \"D1_NO_MARKET_GATE\" if not market_gate_enabled else"
+        },
+        {
+          "line": 928,
+          "kind": "log",
+          "indent": 4,
+          "text": "    logger.info(f\"  Market Gate: enabled={market_gate_enabled} \""
+        },
+        {
+          "line": 938,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                f\"relstop={relative_stop_enabled} gate={market_gate_enabled} ──\")"
+        },
+        {
+          "line": 1393,
+          "kind": "control",
+          "indent": 8,
+          "text": "        if not market_gate_enabled:"
+        },
+        {
+          "line": 1820,
+          "kind": "control",
+          "indent": 20,
+          "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+        },
+        {
+          "line": 1872,
+          "kind": "control",
+          "indent": 20,
+          "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+        },
+        {
+          "line": 1997,
+          "kind": "control",
+          "indent": 16,
+          "text": "                if action == \"ADD\" and market_gate_enabled and market_state in (\"CAUTIOUS_ON\", \"CASH_MODE\"):"
+        },
+        {
+          "line": 2406,
+          "kind": "reference",
+          "indent": 12,
+          "text": "            \"enabled\": market_gate_enabled,"
+        }
+      ]
+    },
+    "risk_off_below_spx_ma50": {
+      "occurrence_count": 3,
+      "assignment_count": 1,
+      "control_count": 0,
+      "rows": [
+        {
+          "line": 848,
+          "kind": "assignment",
+          "indent": 4,
+          "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))"
+        },
+        {
+          "line": 929,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                f\"| RiskOff=SPX<MA50:{risk_off_below_spx_ma50} \""
+        },
+        {
+          "line": 2407,
+          "kind": "reference",
+          "indent": 12,
+          "text": "            \"risk_off_rule\": \"SPX close < SPX MA50\" if risk_off_below_spx_ma50 else \"disabled\","
+        }
+      ]
+    },
+    "market_shock_gate_enabled": {
+      "occurrence_count": 5,
+      "assignment_count": 1,
+      "control_count": 1,
+      "rows": [
+        {
+          "line": 896,
+          "kind": "assignment",
+          "indent": 4,
+          "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))"
+        },
+        {
+          "line": 913,
+          "kind": "reference",
+          "indent": 8,
+          "text": "        \"D2_RISK_OFF_GATE\" if not market_shock_gate_enabled else"
+        },
+        {
+          "line": 930,
+          "kind": "output",
+          "indent": 16,
+          "text": "                f\"| Shock<={market_shock_daily_return*100:.1f}%:{market_shock_gate_enabled}\")"
+        },
+        {
+          "line": 1449,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                market_shock_gate_enabled"
+        },
+        {
+          "line": 2410,
+          "kind": "control",
+          "indent": 16,
+          "text": "                if market_shock_gate_enabled else \"disabled\""
+        }
+      ]
+    },
+    "market_shock_daily_return": {
+      "occurrence_count": 4,
+      "assignment_count": 1,
+      "control_count": 0,
+      "rows": [
+        {
+          "line": 897,
+          "kind": "assignment",
+          "indent": 4,
+          "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))"
+        },
+        {
+          "line": 930,
+          "kind": "output",
+          "indent": 16,
+          "text": "                f\"| Shock<={market_shock_daily_return*100:.1f}%:{market_shock_gate_enabled}\")"
+        },
+        {
+          "line": 1450,
+          "kind": "output",
+          "indent": 16,
+          "text": "                and spx_day_return <= market_shock_daily_return"
+        },
+        {
+          "line": 2409,
+          "kind": "output",
+          "indent": 16,
+          "text": "                f\"SPX daily return <= {market_shock_daily_return*100:.1f}%\""
+        }
+      ]
+    },
+    "market_state": {
+      "occurrence_count": 8,
+      "assignment_count": 6,
+      "control_count": 1,
+      "rows": [
+        {
+          "line": 1395,
+          "kind": "assignment",
+          "indent": 12,
+          "text": "            market_state     = \"FULL_ON\""
+        },
+        {
+          "line": 1469,
+          "kind": "assignment",
+          "indent": 16,
+          "text": "                market_state   = \"CASH_MODE\""
+        },
+        {
+          "line": 1477,
+          "kind": "assignment",
+          "indent": 16,
+          "text": "                market_state   = \"FULL_ON\""
+        },
+        {
+          "line": 1480,
+          "kind": "assignment",
+          "indent": 16,
+          "text": "                market_state   = \"CAUTIOUS_ON\""
+        },
+        {
+          "line": 1483,
+          "kind": "assignment",
+          "indent": 12,
+          "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+        },
+        {
+          "line": 1920,
+          "kind": "assignment",
+          "indent": 28,
+          "text": "                            if market_state == \"FULL_ON\":"
+        },
+        {
+          "line": 1943,
+          "kind": "reference",
+          "indent": 44,
+          "text": "                                            \"market_state\": market_state,"
+        },
+        {
+          "line": 1997,
+          "kind": "control",
+          "indent": 16,
+          "text": "                if action == \"ADD\" and market_gate_enabled and market_state in (\"CAUTIOUS_ON\", \"CASH_MODE\"):"
+        }
+      ]
+    },
+    "_shock_active": {
+      "occurrence_count": 5,
+      "assignment_count": 1,
+      "control_count": 0,
+      "rows": [
+        {
+          "line": 1448,
+          "kind": "assignment",
+          "indent": 12,
+          "text": "            _shock_active = ("
+        },
+        {
+          "line": 1464,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                or _shock_active"
+        },
+        {
+          "line": 1475,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                and not _shock_active"
+        },
+        {
+          "line": 1483,
+          "kind": "reference",
+          "indent": 12,
+          "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+        },
+        {
+          "line": 1484,
+          "kind": "reference",
+          "indent": 12,
+          "text": "            market_shock     = _shock_active"
+        }
+      ]
+    },
+    "entry_capacity": {
+      "occurrence_count": 9,
+      "assignment_count": 4,
+      "control_count": 4,
+      "rows": [
+        {
+          "line": 1396,
+          "kind": "assignment",
+          "indent": 12,
+          "text": "            entry_capacity   = max_pos"
+        },
+        {
+          "line": 1470,
+          "kind": "assignment",
+          "indent": 16,
+          "text": "                entry_capacity = 0"
+        },
+        {
+          "line": 1478,
+          "kind": "assignment",
+          "indent": 16,
+          "text": "                entry_capacity = max_pos"
+        },
+        {
+          "line": 1481,
+          "kind": "assignment",
+          "indent": 16,
+          "text": "                entry_capacity = min(max_pos, 2)"
+        },
+        {
+          "line": 1485,
+          "kind": "reference",
+          "indent": 12,
+          "text": "            market_entry_allowed = entry_capacity > 0"
+        },
+        {
+          "line": 1718,
+          "kind": "control",
+          "indent": 16,
+          "text": "                if len(holdings) < min(max_pos, entry_capacity):"
+        },
+        {
+          "line": 1816,
+          "kind": "control",
+          "indent": 20,
+          "text": "                    if fill_only_enabled and len(holdings) >= entry_capacity:"
+        },
+        {
+          "line": 1820,
+          "kind": "control",
+          "indent": 20,
+          "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+        },
+        {
+          "line": 1872,
+          "kind": "control",
+          "indent": 20,
+          "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+        }
+      ]
+    },
+    "market_entry_allowed": {
+      "occurrence_count": 10,
+      "assignment_count": 2,
+      "control_count": 5,
+      "rows": [
+        {
+          "line": 1399,
+          "kind": "assignment",
+          "indent": 12,
+          "text": "            market_entry_allowed = True"
+        },
+        {
+          "line": 1485,
+          "kind": "assignment",
+          "indent": 12,
+          "text": "            market_entry_allowed = entry_capacity > 0"
+        },
+        {
+          "line": 1491,
+          "kind": "control",
+          "indent": 12,
+          "text": "            if market_entry_allowed:"
+        },
+        {
+          "line": 1511,
+          "kind": "reference",
+          "indent": 12,
+          "text": "            \"ALLOW\" if market_entry_allowed else"
+        },
+        {
+          "line": 1717,
+          "kind": "control",
+          "indent": 12,
+          "text": "            if e1r_buy_candidates and market_entry_allowed:"
+        },
+        {
+          "line": 1823,
+          "kind": "control",
+          "indent": 20,
+          "text": "                    if not market_entry_allowed:"
+        },
+        {
+          "line": 1875,
+          "kind": "control",
+          "indent": 20,
+          "text": "                    if not market_entry_allowed:"
+        },
+        {
+          "line": 1971,
+          "kind": "control",
+          "indent": 16,
+          "text": "                if action == \"ADD\" and not market_entry_allowed:"
+        },
+        {
+          "line": 2137,
+          "kind": "reference",
+          "indent": 12,
+          "text": "            gate_state = \"ALLOW\" if market_entry_allowed else ("
+        },
+        {
+          "line": 2156,
+          "kind": "reference",
+          "indent": 20,
+          "text": "                    \"ALLOW\" if market_entry_allowed else"
+        }
+      ]
+    },
+    "market_risk_off": {
+      "occurrence_count": 3,
+      "assignment_count": 2,
+      "control_count": 1,
+      "rows": [
+        {
+          "line": 1397,
+          "kind": "assignment",
+          "indent": 12,
+          "text": "            market_risk_off  = False"
+        },
+        {
+          "line": 1483,
+          "kind": "assignment",
+          "indent": 12,
+          "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+        },
+        {
+          "line": 1487,
+          "kind": "control",
+          "indent": 12,
+          "text": "            if market_risk_off:"
+        }
+      ]
+    },
+    "market_shock": {
+      "occurrence_count": 12,
+      "assignment_count": 2,
+      "control_count": 1,
+      "rows": [
+        {
+          "line": 1075,
+          "kind": "reference",
+          "indent": 8,
+          "text": "        \"market_shock\": 0,"
+        },
+        {
+          "line": 1398,
+          "kind": "assignment",
+          "indent": 12,
+          "text": "            market_shock     = False"
+        },
+        {
+          "line": 1484,
+          "kind": "assignment",
+          "indent": 12,
+          "text": "            market_shock     = _shock_active"
+        },
+        {
+          "line": 1489,
+          "kind": "control",
+          "indent": 12,
+          "text": "            if market_shock:"
+        },
+        {
+          "line": 1490,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                market_gate_days[\"market_shock\"] += 1"
+        },
+        {
+          "line": 1512,
+          "kind": "reference",
+          "indent": 12,
+          "text": "            \"SHOCK\" if market_shock else \"RISK_OFF\""
+        },
+        {
+          "line": 1824,
+          "kind": "reference",
+          "indent": 24,
+          "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+        },
+        {
+          "line": 1876,
+          "kind": "reference",
+          "indent": 24,
+          "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+        },
+        {
+          "line": 1972,
+          "kind": "reference",
+          "indent": 20,
+          "text": "                    reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+        },
+        {
+          "line": 2138,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                \"SHOCK\" if market_shock else \"RISK_OFF\""
+        },
+        {
+          "line": 2157,
+          "kind": "reference",
+          "indent": 20,
+          "text": "                    \"SHOCK\" if market_shock else \"RISK_OFF\""
+        },
+        {
+          "line": 2333,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                f\"shock={market_gate_days['market_shock']}\")"
+        }
+      ]
+    },
+    "_gate_state": {
+      "occurrence_count": 2,
+      "assignment_count": 1,
+      "control_count": 0,
+      "rows": [
+        {
+          "line": 1510,
+          "kind": "assignment",
+          "indent": 8,
+          "text": "        _gate_state = ("
+        },
+        {
+          "line": 1525,
+          "kind": "reference",
+          "indent": 12,
+          "text": "            \"market_gate_state\": _gate_state,"
+        }
+      ]
+    },
+    "market_gate_days": {
+      "occurrence_count": 11,
+      "assignment_count": 1,
+      "control_count": 0,
+      "rows": [
+        {
+          "line": 1072,
+          "kind": "assignment",
+          "indent": 4,
+          "text": "    market_gate_days = {"
+        },
+        {
+          "line": 1400,
+          "kind": "reference",
+          "indent": 12,
+          "text": "            market_gate_days[\"entry_allowed\"] += 1"
+        },
+        {
+          "line": 1488,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                market_gate_days[\"risk_off\"] += 1"
+        },
+        {
+          "line": 1490,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                market_gate_days[\"market_shock\"] += 1"
+        },
+        {
+          "line": 1492,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                market_gate_days[\"entry_allowed\"] += 1"
+        },
+        {
+          "line": 1494,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                market_gate_days[\"blocked_total\"] += 1"
+        },
+        {
+          "line": 2330,
+          "kind": "log",
+          "indent": 4,
+          "text": "    logger.info(f\"  Market gate days: allowed={market_gate_days['entry_allowed']} \""
+        },
+        {
+          "line": 2331,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                f\"blocked={market_gate_days['blocked_total']} \""
+        },
+        {
+          "line": 2332,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                f\"risk_off={market_gate_days['risk_off']} \""
+        },
+        {
+          "line": 2333,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                f\"shock={market_gate_days['market_shock']}\")"
+        },
+        {
+          "line": 2414,
+          "kind": "reference",
+          "indent": 12,
+          "text": "            \"days\": market_gate_days,"
+        }
+      ]
+    },
+    "FULL_ON": {
+      "occurrence_count": 5,
+      "assignment_count": 1,
+      "control_count": 1,
+      "rows": [
+        {
+          "line": 940,
+          "kind": "assignment",
+          "indent": 8,
+          "text": "        logger.info(f\"  Dynamic Exit v2: ON | Hard=Close<MA50+slope<0 | FULL_ON=needs structure | CAUTIOUS/CASH=LS<60 exits\")"
+        },
+        {
+          "line": 1395,
+          "kind": "reference",
+          "indent": 12,
+          "text": "            market_state     = \"FULL_ON\""
+        },
+        {
+          "line": 1477,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                market_state   = \"FULL_ON\""
+        },
+        {
+          "line": 1920,
+          "kind": "control",
+          "indent": 28,
+          "text": "                            if market_state == \"FULL_ON\":"
+        },
+        {
+          "line": 1921,
+          "kind": "reference",
+          "indent": 32,
+          "text": "                                # FULL_ON：LS<60 还需一项价格结构证据才退出"
+        }
+      ]
+    },
+    "CAUTIOUS_ON": {
+      "occurrence_count": 4,
+      "assignment_count": 0,
+      "control_count": 1,
+      "rows": [
+        {
+          "line": 1480,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                market_state   = \"CAUTIOUS_ON\""
+        },
+        {
+          "line": 1956,
+          "kind": "reference",
+          "indent": 32,
+          "text": "                                # CAUTIOUS_ON / CASH_MODE：LS<60 本身足以退出"
+        },
+        {
+          "line": 1996,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                # CAUTIOUS_ON/CASH_MODE 禁止 ADD（生成层拦截）"
+        },
+        {
+          "line": 1997,
+          "kind": "control",
+          "indent": 16,
+          "text": "                if action == \"ADD\" and market_gate_enabled and market_state in (\"CAUTIOUS_ON\", \"CASH_MODE\"):"
+        }
+      ]
+    },
+    "CASH_MODE": {
+      "occurrence_count": 5,
+      "assignment_count": 0,
+      "control_count": 1,
+      "rows": [
+        {
+          "line": 1469,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                market_state   = \"CASH_MODE\""
+        },
+        {
+          "line": 1483,
+          "kind": "reference",
+          "indent": 12,
+          "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+        },
+        {
+          "line": 1956,
+          "kind": "reference",
+          "indent": 32,
+          "text": "                                # CAUTIOUS_ON / CASH_MODE：LS<60 本身足以退出"
+        },
+        {
+          "line": 1996,
+          "kind": "reference",
+          "indent": 16,
+          "text": "                # CAUTIOUS_ON/CASH_MODE 禁止 ADD（生成层拦截）"
+        },
+        {
+          "line": 1997,
+          "kind": "control",
+          "indent": 16,
+          "text": "                if action == \"ADD\" and market_gate_enabled and market_state in (\"CAUTIOUS_ON\", \"CASH_MODE\"):"
+        }
+      ]
+    }
+  },
+  "assumption_gets": [
+    {
+      "line": 801,
+      "key": "initial_capital",
+      "default_expr": "100_000",
+      "text": "    init_cap = float(a.get(\"initial_capital\", 100_000))",
+      "context": {
+        "start": 797,
+        "end": 805,
+        "rows": [
+          {
+            "line": 797,
+            "text": "    buy_pct  = a[\"buy_size\"]  / max_pos       # Top3: 1/3 per full slot"
+          },
+          {
+            "line": 798,
+            "text": "    add_pct  = a[\"add_size\"]  / max_pos       # Top3: +1/6, only useful after REDUCE"
+          },
+          {
+            "line": 799,
+            "text": "    max_pct  = a[\"max_single_size\"] / max_pos # Top3: max 1/3 per position"
+          },
+          {
+            "line": 800,
+            "text": "    one_way  = a[\"total_one_way\"]             # 0.001"
+          },
+          {
+            "line": 801,
+            "text": "    init_cap = float(a.get(\"initial_capital\", 100_000))"
+          },
+          {
+            "line": 802,
+            "text": "    strategy_variant = a.get(\"strategy_variant\", \"top3_entry_rs_minhold_relstop\")"
+          },
+          {
+            "line": 803,
+            "text": "    e1r_shell_mode = bool(a.get(\"e1r_shell_mode\", False))"
+          },
+          {
+            "line": 804,
+            "text": "    e1r_regime_wiring_enabled = bool(a.get(\"e1r_regime_wiring_enabled\", False))"
+          },
+          {
+            "line": 805,
+            "text": "    e1r_uptrend_execution_enabled = bool(a.get(\"e1r_uptrend_execution_enabled\", False))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 802,
+      "key": "strategy_variant",
+      "default_expr": "\"top3_entry_rs_minhold_relstop\"",
+      "text": "    strategy_variant = a.get(\"strategy_variant\", \"top3_entry_rs_minhold_relstop\")",
+      "context": {
+        "start": 798,
+        "end": 806,
+        "rows": [
+          {
+            "line": 798,
+            "text": "    add_pct  = a[\"add_size\"]  / max_pos       # Top3: +1/6, only useful after REDUCE"
+          },
+          {
+            "line": 799,
+            "text": "    max_pct  = a[\"max_single_size\"] / max_pos # Top3: max 1/3 per position"
+          },
+          {
+            "line": 800,
+            "text": "    one_way  = a[\"total_one_way\"]             # 0.001"
+          },
+          {
+            "line": 801,
+            "text": "    init_cap = float(a.get(\"initial_capital\", 100_000))"
+          },
+          {
+            "line": 802,
+            "text": "    strategy_variant = a.get(\"strategy_variant\", \"top3_entry_rs_minhold_relstop\")"
+          },
+          {
+            "line": 803,
+            "text": "    e1r_shell_mode = bool(a.get(\"e1r_shell_mode\", False))"
+          },
+          {
+            "line": 804,
+            "text": "    e1r_regime_wiring_enabled = bool(a.get(\"e1r_regime_wiring_enabled\", False))"
+          },
+          {
+            "line": 805,
+            "text": "    e1r_uptrend_execution_enabled = bool(a.get(\"e1r_uptrend_execution_enabled\", False))"
+          },
+          {
+            "line": 806,
+            "text": "    e1r_regime_daily = a.get(\"e1r_regime_daily\", {}) or {}"
+          }
+        ]
+      }
+    },
+    {
+      "line": 803,
+      "key": "e1r_shell_mode",
+      "default_expr": "False",
+      "text": "    e1r_shell_mode = bool(a.get(\"e1r_shell_mode\", False))",
+      "context": {
+        "start": 799,
+        "end": 807,
+        "rows": [
+          {
+            "line": 799,
+            "text": "    max_pct  = a[\"max_single_size\"] / max_pos # Top3: max 1/3 per position"
+          },
+          {
+            "line": 800,
+            "text": "    one_way  = a[\"total_one_way\"]             # 0.001"
+          },
+          {
+            "line": 801,
+            "text": "    init_cap = float(a.get(\"initial_capital\", 100_000))"
+          },
+          {
+            "line": 802,
+            "text": "    strategy_variant = a.get(\"strategy_variant\", \"top3_entry_rs_minhold_relstop\")"
+          },
+          {
+            "line": 803,
+            "text": "    e1r_shell_mode = bool(a.get(\"e1r_shell_mode\", False))"
+          },
+          {
+            "line": 804,
+            "text": "    e1r_regime_wiring_enabled = bool(a.get(\"e1r_regime_wiring_enabled\", False))"
+          },
+          {
+            "line": 805,
+            "text": "    e1r_uptrend_execution_enabled = bool(a.get(\"e1r_uptrend_execution_enabled\", False))"
+          },
+          {
+            "line": 806,
+            "text": "    e1r_regime_daily = a.get(\"e1r_regime_daily\", {}) or {}"
+          },
+          {
+            "line": 807,
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "line": 804,
+      "key": "e1r_regime_wiring_enabled",
+      "default_expr": "False",
+      "text": "    e1r_regime_wiring_enabled = bool(a.get(\"e1r_regime_wiring_enabled\", False))",
+      "context": {
+        "start": 800,
+        "end": 808,
+        "rows": [
+          {
+            "line": 800,
+            "text": "    one_way  = a[\"total_one_way\"]             # 0.001"
+          },
+          {
+            "line": 801,
+            "text": "    init_cap = float(a.get(\"initial_capital\", 100_000))"
+          },
+          {
+            "line": 802,
+            "text": "    strategy_variant = a.get(\"strategy_variant\", \"top3_entry_rs_minhold_relstop\")"
+          },
+          {
+            "line": 803,
+            "text": "    e1r_shell_mode = bool(a.get(\"e1r_shell_mode\", False))"
+          },
+          {
+            "line": 804,
+            "text": "    e1r_regime_wiring_enabled = bool(a.get(\"e1r_regime_wiring_enabled\", False))"
+          },
+          {
+            "line": 805,
+            "text": "    e1r_uptrend_execution_enabled = bool(a.get(\"e1r_uptrend_execution_enabled\", False))"
+          },
+          {
+            "line": 806,
+            "text": "    e1r_regime_daily = a.get(\"e1r_regime_daily\", {}) or {}"
+          },
+          {
+            "line": 807,
+            "text": ""
+          },
+          {
+            "line": 808,
+            "text": "    def _e1r_regime_on(date: str) -> str:"
+          }
+        ]
+      }
+    },
+    {
+      "line": 805,
+      "key": "e1r_uptrend_execution_enabled",
+      "default_expr": "False",
+      "text": "    e1r_uptrend_execution_enabled = bool(a.get(\"e1r_uptrend_execution_enabled\", False))",
+      "context": {
+        "start": 801,
+        "end": 809,
+        "rows": [
+          {
+            "line": 801,
+            "text": "    init_cap = float(a.get(\"initial_capital\", 100_000))"
+          },
+          {
+            "line": 802,
+            "text": "    strategy_variant = a.get(\"strategy_variant\", \"top3_entry_rs_minhold_relstop\")"
+          },
+          {
+            "line": 803,
+            "text": "    e1r_shell_mode = bool(a.get(\"e1r_shell_mode\", False))"
+          },
+          {
+            "line": 804,
+            "text": "    e1r_regime_wiring_enabled = bool(a.get(\"e1r_regime_wiring_enabled\", False))"
+          },
+          {
+            "line": 805,
+            "text": "    e1r_uptrend_execution_enabled = bool(a.get(\"e1r_uptrend_execution_enabled\", False))"
+          },
+          {
+            "line": 806,
+            "text": "    e1r_regime_daily = a.get(\"e1r_regime_daily\", {}) or {}"
+          },
+          {
+            "line": 807,
+            "text": ""
+          },
+          {
+            "line": 808,
+            "text": "    def _e1r_regime_on(date: str) -> str:"
+          },
+          {
+            "line": 809,
+            "text": "        if not e1r_regime_wiring_enabled or not date:"
+          }
+        ]
+      }
+    },
+    {
+      "line": 806,
+      "key": "e1r_regime_daily",
+      "default_expr": "{}",
+      "text": "    e1r_regime_daily = a.get(\"e1r_regime_daily\", {}) or {}",
+      "context": {
+        "start": 802,
+        "end": 810,
+        "rows": [
+          {
+            "line": 802,
+            "text": "    strategy_variant = a.get(\"strategy_variant\", \"top3_entry_rs_minhold_relstop\")"
+          },
+          {
+            "line": 803,
+            "text": "    e1r_shell_mode = bool(a.get(\"e1r_shell_mode\", False))"
+          },
+          {
+            "line": 804,
+            "text": "    e1r_regime_wiring_enabled = bool(a.get(\"e1r_regime_wiring_enabled\", False))"
+          },
+          {
+            "line": 805,
+            "text": "    e1r_uptrend_execution_enabled = bool(a.get(\"e1r_uptrend_execution_enabled\", False))"
+          },
+          {
+            "line": 806,
+            "text": "    e1r_regime_daily = a.get(\"e1r_regime_daily\", {}) or {}"
+          },
+          {
+            "line": 807,
+            "text": ""
+          },
+          {
+            "line": 808,
+            "text": "    def _e1r_regime_on(date: str) -> str:"
+          },
+          {
+            "line": 809,
+            "text": "        if not e1r_regime_wiring_enabled or not date:"
+          },
+          {
+            "line": 810,
+            "text": "            return \"N/A\""
+          }
+        ]
+      }
+    },
+    {
+      "line": 845,
+      "key": "entry_top_n",
+      "default_expr": "3",
+      "text": "    entry_top_n = int(a.get(\"entry_top_n\", 3))",
+      "context": {
+        "start": 841,
+        "end": 849,
+        "rows": [
+          {
+            "line": 841,
+            "text": "        if not weights:"
+          },
+          {
+            "line": 842,
+            "text": "            return \"UNCLASSIFIED\" if e1r_regime_wiring_enabled else \"N/A\""
+          },
+          {
+            "line": 843,
+            "text": "        return max(weights.items(), key=lambda kv: kv[1])[0]"
+          },
+          {
+            "line": 844,
+            "text": ""
+          },
+          {
+            "line": 845,
+            "text": "    entry_top_n = int(a.get(\"entry_top_n\", 3))"
+          },
+          {
+            "line": 846,
+            "text": "    rank_based_exit = bool(a.get(\"rank_based_exit\", False))"
+          },
+          {
+            "line": 847,
+            "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+          },
+          {
+            "line": 848,
+            "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))"
+          },
+          {
+            "line": 849,
+            "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则"
+          }
+        ]
+      }
+    },
+    {
+      "line": 846,
+      "key": "rank_based_exit",
+      "default_expr": "False",
+      "text": "    rank_based_exit = bool(a.get(\"rank_based_exit\", False))",
+      "context": {
+        "start": 842,
+        "end": 850,
+        "rows": [
+          {
+            "line": 842,
+            "text": "            return \"UNCLASSIFIED\" if e1r_regime_wiring_enabled else \"N/A\""
+          },
+          {
+            "line": 843,
+            "text": "        return max(weights.items(), key=lambda kv: kv[1])[0]"
+          },
+          {
+            "line": 844,
+            "text": ""
+          },
+          {
+            "line": 845,
+            "text": "    entry_top_n = int(a.get(\"entry_top_n\", 3))"
+          },
+          {
+            "line": 846,
+            "text": "    rank_based_exit = bool(a.get(\"rank_based_exit\", False))"
+          },
+          {
+            "line": 847,
+            "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+          },
+          {
+            "line": 848,
+            "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))"
+          },
+          {
+            "line": 849,
+            "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则"
+          },
+          {
+            "line": 850,
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "line": 847,
+      "key": "market_gate_enabled",
+      "default_expr": "True",
+      "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))",
+      "context": {
+        "start": 843,
+        "end": 851,
+        "rows": [
+          {
+            "line": 843,
+            "text": "        return max(weights.items(), key=lambda kv: kv[1])[0]"
+          },
+          {
+            "line": 844,
+            "text": ""
+          },
+          {
+            "line": 845,
+            "text": "    entry_top_n = int(a.get(\"entry_top_n\", 3))"
+          },
+          {
+            "line": 846,
+            "text": "    rank_based_exit = bool(a.get(\"rank_based_exit\", False))"
+          },
+          {
+            "line": 847,
+            "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+          },
+          {
+            "line": 848,
+            "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))"
+          },
+          {
+            "line": 849,
+            "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则"
+          },
+          {
+            "line": 850,
+            "text": ""
+          },
+          {
+            "line": 851,
+            "text": "    # Qualified Candidate Pool 参数"
+          }
+        ]
+      }
+    },
+    {
+      "line": 848,
+      "key": "risk_off_below_spx_ma50",
+      "default_expr": "True",
+      "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))",
+      "context": {
+        "start": 844,
+        "end": 852,
+        "rows": [
+          {
+            "line": 844,
+            "text": ""
+          },
+          {
+            "line": 845,
+            "text": "    entry_top_n = int(a.get(\"entry_top_n\", 3))"
+          },
+          {
+            "line": 846,
+            "text": "    rank_based_exit = bool(a.get(\"rank_based_exit\", False))"
+          },
+          {
+            "line": 847,
+            "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+          },
+          {
+            "line": 848,
+            "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))"
+          },
+          {
+            "line": 849,
+            "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则"
+          },
+          {
+            "line": 850,
+            "text": ""
+          },
+          {
+            "line": 851,
+            "text": "    # Qualified Candidate Pool 参数"
+          },
+          {
+            "line": 852,
+            "text": "    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n"
+          }
+        ]
+      }
+    },
+    {
+      "line": 849,
+      "key": "ls60_exit_mode",
+      "default_expr": "\"reduce\"",
+      "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则",
+      "context": {
+        "start": 845,
+        "end": 853,
+        "rows": [
+          {
+            "line": 845,
+            "text": "    entry_top_n = int(a.get(\"entry_top_n\", 3))"
+          },
+          {
+            "line": 846,
+            "text": "    rank_based_exit = bool(a.get(\"rank_based_exit\", False))"
+          },
+          {
+            "line": 847,
+            "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+          },
+          {
+            "line": 848,
+            "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))"
+          },
+          {
+            "line": 849,
+            "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则"
+          },
+          {
+            "line": 850,
+            "text": ""
+          },
+          {
+            "line": 851,
+            "text": "    # Qualified Candidate Pool 参数"
+          },
+          {
+            "line": 852,
+            "text": "    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n"
+          },
+          {
+            "line": 853,
+            "text": "    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 852,
+      "key": "candidate_top_n",
+      "default_expr": "None",
+      "text": "    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n",
+      "context": {
+        "start": 848,
+        "end": 856,
+        "rows": [
+          {
+            "line": 848,
+            "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))"
+          },
+          {
+            "line": 849,
+            "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则"
+          },
+          {
+            "line": 850,
+            "text": ""
+          },
+          {
+            "line": 851,
+            "text": "    # Qualified Candidate Pool 参数"
+          },
+          {
+            "line": 852,
+            "text": "    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n"
+          },
+          {
+            "line": 853,
+            "text": "    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))"
+          },
+          {
+            "line": 854,
+            "text": "    qualified_rs_min          = float(a.get(\"qualified_rs_min\", 90.0))"
+          },
+          {
+            "line": 855,
+            "text": "    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))"
+          },
+          {
+            "line": 856,
+            "text": "    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 853,
+      "key": "qualified_entry_enabled",
+      "default_expr": "False",
+      "text": "    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))",
+      "context": {
+        "start": 849,
+        "end": 857,
+        "rows": [
+          {
+            "line": 849,
+            "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则"
+          },
+          {
+            "line": 850,
+            "text": ""
+          },
+          {
+            "line": 851,
+            "text": "    # Qualified Candidate Pool 参数"
+          },
+          {
+            "line": 852,
+            "text": "    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n"
+          },
+          {
+            "line": 853,
+            "text": "    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))"
+          },
+          {
+            "line": 854,
+            "text": "    qualified_rs_min          = float(a.get(\"qualified_rs_min\", 90.0))"
+          },
+          {
+            "line": 855,
+            "text": "    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))"
+          },
+          {
+            "line": 856,
+            "text": "    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))"
+          },
+          {
+            "line": 857,
+            "text": "    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 854,
+      "key": "qualified_rs_min",
+      "default_expr": "90.0",
+      "text": "    qualified_rs_min          = float(a.get(\"qualified_rs_min\", 90.0))",
+      "context": {
+        "start": 850,
+        "end": 858,
+        "rows": [
+          {
+            "line": 850,
+            "text": ""
+          },
+          {
+            "line": 851,
+            "text": "    # Qualified Candidate Pool 参数"
+          },
+          {
+            "line": 852,
+            "text": "    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n"
+          },
+          {
+            "line": 853,
+            "text": "    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))"
+          },
+          {
+            "line": 854,
+            "text": "    qualified_rs_min          = float(a.get(\"qualified_rs_min\", 90.0))"
+          },
+          {
+            "line": 855,
+            "text": "    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))"
+          },
+          {
+            "line": 856,
+            "text": "    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))"
+          },
+          {
+            "line": 857,
+            "text": "    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))"
+          },
+          {
+            "line": 858,
+            "text": "    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 855,
+      "key": "qualified_momentum_min",
+      "default_expr": "85.0",
+      "text": "    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))",
+      "context": {
+        "start": 851,
+        "end": 859,
+        "rows": [
+          {
+            "line": 851,
+            "text": "    # Qualified Candidate Pool 参数"
+          },
+          {
+            "line": 852,
+            "text": "    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n"
+          },
+          {
+            "line": 853,
+            "text": "    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))"
+          },
+          {
+            "line": 854,
+            "text": "    qualified_rs_min          = float(a.get(\"qualified_rs_min\", 90.0))"
+          },
+          {
+            "line": 855,
+            "text": "    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))"
+          },
+          {
+            "line": 856,
+            "text": "    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))"
+          },
+          {
+            "line": 857,
+            "text": "    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))"
+          },
+          {
+            "line": 858,
+            "text": "    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))"
+          },
+          {
+            "line": 859,
+            "text": "    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 856,
+      "key": "qualified_th_min",
+      "default_expr": "75.0",
+      "text": "    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))",
+      "context": {
+        "start": 852,
+        "end": 860,
+        "rows": [
+          {
+            "line": 852,
+            "text": "    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n"
+          },
+          {
+            "line": 853,
+            "text": "    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))"
+          },
+          {
+            "line": 854,
+            "text": "    qualified_rs_min          = float(a.get(\"qualified_rs_min\", 90.0))"
+          },
+          {
+            "line": 855,
+            "text": "    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))"
+          },
+          {
+            "line": 856,
+            "text": "    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))"
+          },
+          {
+            "line": 857,
+            "text": "    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))"
+          },
+          {
+            "line": 858,
+            "text": "    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))"
+          },
+          {
+            "line": 859,
+            "text": "    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))"
+          },
+          {
+            "line": 860,
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "line": 857,
+      "key": "qualified_states",
+      "default_expr": "[\"Expansion\"]",
+      "text": "    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))",
+      "context": {
+        "start": 853,
+        "end": 861,
+        "rows": [
+          {
+            "line": 853,
+            "text": "    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))"
+          },
+          {
+            "line": 854,
+            "text": "    qualified_rs_min          = float(a.get(\"qualified_rs_min\", 90.0))"
+          },
+          {
+            "line": 855,
+            "text": "    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))"
+          },
+          {
+            "line": 856,
+            "text": "    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))"
+          },
+          {
+            "line": 857,
+            "text": "    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))"
+          },
+          {
+            "line": 858,
+            "text": "    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))"
+          },
+          {
+            "line": 859,
+            "text": "    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))"
+          },
+          {
+            "line": 860,
+            "text": ""
+          },
+          {
+            "line": 861,
+            "text": "    fill_only_enabled    = bool(a.get(\"fill_only_enabled\", False))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 858,
+      "key": "qualified_price_above_ma50",
+      "default_expr": "True",
+      "text": "    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))",
+      "context": {
+        "start": 854,
+        "end": 862,
+        "rows": [
+          {
+            "line": 854,
+            "text": "    qualified_rs_min          = float(a.get(\"qualified_rs_min\", 90.0))"
+          },
+          {
+            "line": 855,
+            "text": "    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))"
+          },
+          {
+            "line": 856,
+            "text": "    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))"
+          },
+          {
+            "line": 857,
+            "text": "    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))"
+          },
+          {
+            "line": 858,
+            "text": "    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))"
+          },
+          {
+            "line": 859,
+            "text": "    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))"
+          },
+          {
+            "line": 860,
+            "text": ""
+          },
+          {
+            "line": 861,
+            "text": "    fill_only_enabled    = bool(a.get(\"fill_only_enabled\", False))"
+          },
+          {
+            "line": 862,
+            "text": "    gate_use_slope       = bool(a.get(\"gate_use_slope\", True))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 859,
+      "key": "qualified_ma50_slope_min",
+      "default_expr": "0.0",
+      "text": "    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))",
+      "context": {
+        "start": 855,
+        "end": 863,
+        "rows": [
+          {
+            "line": 855,
+            "text": "    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))"
+          },
+          {
+            "line": 856,
+            "text": "    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))"
+          },
+          {
+            "line": 857,
+            "text": "    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))"
+          },
+          {
+            "line": 858,
+            "text": "    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))"
+          },
+          {
+            "line": 859,
+            "text": "    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))"
+          },
+          {
+            "line": 860,
+            "text": ""
+          },
+          {
+            "line": 861,
+            "text": "    fill_only_enabled    = bool(a.get(\"fill_only_enabled\", False))"
+          },
+          {
+            "line": 862,
+            "text": "    gate_use_slope       = bool(a.get(\"gate_use_slope\", True))"
+          },
+          {
+            "line": 863,
+            "text": "    gate_use_leadership  = bool(a.get(\"gate_use_leadership\", True))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 861,
+      "key": "fill_only_enabled",
+      "default_expr": "False",
+      "text": "    fill_only_enabled    = bool(a.get(\"fill_only_enabled\", False))",
+      "context": {
+        "start": 857,
+        "end": 865,
+        "rows": [
+          {
+            "line": 857,
+            "text": "    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))"
+          },
+          {
+            "line": 858,
+            "text": "    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))"
+          },
+          {
+            "line": 859,
+            "text": "    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))"
+          },
+          {
+            "line": 860,
+            "text": ""
+          },
+          {
+            "line": 861,
+            "text": "    fill_only_enabled    = bool(a.get(\"fill_only_enabled\", False))"
+          },
+          {
+            "line": 862,
+            "text": "    gate_use_slope       = bool(a.get(\"gate_use_slope\", True))"
+          },
+          {
+            "line": 863,
+            "text": "    gate_use_leadership  = bool(a.get(\"gate_use_leadership\", True))"
+          },
+          {
+            "line": 864,
+            "text": ""
+          },
+          {
+            "line": 865,
+            "text": "    # ── 辅助指数 Lookup（日期 → 价格）─────────────────────────"
+          }
+        ]
+      }
+    },
+    {
+      "line": 862,
+      "key": "gate_use_slope",
+      "default_expr": "True",
+      "text": "    gate_use_slope       = bool(a.get(\"gate_use_slope\", True))",
+      "context": {
+        "start": 858,
+        "end": 866,
+        "rows": [
+          {
+            "line": 858,
+            "text": "    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))"
+          },
+          {
+            "line": 859,
+            "text": "    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))"
+          },
+          {
+            "line": 860,
+            "text": ""
+          },
+          {
+            "line": 861,
+            "text": "    fill_only_enabled    = bool(a.get(\"fill_only_enabled\", False))"
+          },
+          {
+            "line": 862,
+            "text": "    gate_use_slope       = bool(a.get(\"gate_use_slope\", True))"
+          },
+          {
+            "line": 863,
+            "text": "    gate_use_leadership  = bool(a.get(\"gate_use_leadership\", True))"
+          },
+          {
+            "line": 864,
+            "text": ""
+          },
+          {
+            "line": 865,
+            "text": "    # ── 辅助指数 Lookup（日期 → 价格）─────────────────────────"
+          },
+          {
+            "line": 866,
+            "text": "    # 用于 Gate v2 市场状态判断；缺失日期使用最近一个有效值"
+          }
+        ]
+      }
+    },
+    {
+      "line": 863,
+      "key": "gate_use_leadership",
+      "default_expr": "True",
+      "text": "    gate_use_leadership  = bool(a.get(\"gate_use_leadership\", True))",
+      "context": {
+        "start": 859,
+        "end": 867,
+        "rows": [
+          {
+            "line": 859,
+            "text": "    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))"
+          },
+          {
+            "line": 860,
+            "text": ""
+          },
+          {
+            "line": 861,
+            "text": "    fill_only_enabled    = bool(a.get(\"fill_only_enabled\", False))"
+          },
+          {
+            "line": 862,
+            "text": "    gate_use_slope       = bool(a.get(\"gate_use_slope\", True))"
+          },
+          {
+            "line": 863,
+            "text": "    gate_use_leadership  = bool(a.get(\"gate_use_leadership\", True))"
+          },
+          {
+            "line": 864,
+            "text": ""
+          },
+          {
+            "line": 865,
+            "text": "    # ── 辅助指数 Lookup（日期 → 价格）─────────────────────────"
+          },
+          {
+            "line": 866,
+            "text": "    # 用于 Gate v2 市场状态判断；缺失日期使用最近一个有效值"
+          },
+          {
+            "line": 867,
+            "text": "    def _build_lookup(dates_list, prices_list):"
+          }
+        ]
+      }
+    },
+    {
+      "line": 896,
+      "key": "market_shock_gate_enabled",
+      "default_expr": "True",
+      "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))",
+      "context": {
+        "start": 892,
+        "end": 900,
+        "rows": [
+          {
+            "line": 892,
+            "text": "    else:"
+          },
+          {
+            "line": 893,
+            "text": "        logger.info(f\"  Entry mode: Strict Top{entry_top_n} (legacy)\")"
+          },
+          {
+            "line": 894,
+            "text": "    if ls60_exit_mode not in {\"exit\", \"reduce\"}:"
+          },
+          {
+            "line": 895,
+            "text": "        raise ValueError(f\"Invalid ls60_exit_mode={ls60_exit_mode!r}; expected 'exit' or 'reduce'\")"
+          },
+          {
+            "line": 896,
+            "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))"
+          },
+          {
+            "line": 897,
+            "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))"
+          },
+          {
+            "line": 898,
+            "text": "    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))"
+          },
+          {
+            "line": 899,
+            "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))"
+          },
+          {
+            "line": 900,
+            "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 897,
+      "key": "market_shock_daily_return",
+      "default_expr": "-0.02",
+      "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))",
+      "context": {
+        "start": 893,
+        "end": 901,
+        "rows": [
+          {
+            "line": 893,
+            "text": "        logger.info(f\"  Entry mode: Strict Top{entry_top_n} (legacy)\")"
+          },
+          {
+            "line": 894,
+            "text": "    if ls60_exit_mode not in {\"exit\", \"reduce\"}:"
+          },
+          {
+            "line": 895,
+            "text": "        raise ValueError(f\"Invalid ls60_exit_mode={ls60_exit_mode!r}; expected 'exit' or 'reduce'\")"
+          },
+          {
+            "line": 896,
+            "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))"
+          },
+          {
+            "line": 897,
+            "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))"
+          },
+          {
+            "line": 898,
+            "text": "    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))"
+          },
+          {
+            "line": 899,
+            "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))"
+          },
+          {
+            "line": 900,
+            "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))"
+          },
+          {
+            "line": 901,
+            "text": "    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 898,
+      "key": "partial_take_profit_enabled",
+      "default_expr": "False",
+      "text": "    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))",
+      "context": {
+        "start": 894,
+        "end": 902,
+        "rows": [
+          {
+            "line": 894,
+            "text": "    if ls60_exit_mode not in {\"exit\", \"reduce\"}:"
+          },
+          {
+            "line": 895,
+            "text": "        raise ValueError(f\"Invalid ls60_exit_mode={ls60_exit_mode!r}; expected 'exit' or 'reduce'\")"
+          },
+          {
+            "line": 896,
+            "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))"
+          },
+          {
+            "line": 897,
+            "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))"
+          },
+          {
+            "line": 898,
+            "text": "    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))"
+          },
+          {
+            "line": 899,
+            "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))"
+          },
+          {
+            "line": 900,
+            "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))"
+          },
+          {
+            "line": 901,
+            "text": "    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))"
+          },
+          {
+            "line": 902,
+            "text": "    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 899,
+      "key": "partial_take_profit_threshold",
+      "default_expr": "0.07",
+      "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))",
+      "context": {
+        "start": 895,
+        "end": 903,
+        "rows": [
+          {
+            "line": 895,
+            "text": "        raise ValueError(f\"Invalid ls60_exit_mode={ls60_exit_mode!r}; expected 'exit' or 'reduce'\")"
+          },
+          {
+            "line": 896,
+            "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))"
+          },
+          {
+            "line": 897,
+            "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))"
+          },
+          {
+            "line": 898,
+            "text": "    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))"
+          },
+          {
+            "line": 899,
+            "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))"
+          },
+          {
+            "line": 900,
+            "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))"
+          },
+          {
+            "line": 901,
+            "text": "    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))"
+          },
+          {
+            "line": 902,
+            "text": "    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))"
+          },
+          {
+            "line": 903,
+            "text": "    min_holding_days = int(a.get(\"min_holding_days\", 0))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 900,
+      "key": "partial_take_profit_fraction",
+      "default_expr": "0.50",
+      "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))",
+      "context": {
+        "start": 896,
+        "end": 904,
+        "rows": [
+          {
+            "line": 896,
+            "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))"
+          },
+          {
+            "line": 897,
+            "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))"
+          },
+          {
+            "line": 898,
+            "text": "    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))"
+          },
+          {
+            "line": 899,
+            "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))"
+          },
+          {
+            "line": 900,
+            "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))"
+          },
+          {
+            "line": 901,
+            "text": "    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))"
+          },
+          {
+            "line": 902,
+            "text": "    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))"
+          },
+          {
+            "line": 903,
+            "text": "    min_holding_days = int(a.get(\"min_holding_days\", 0))"
+          },
+          {
+            "line": 904,
+            "text": "    # E2 Dynamic Exit parameters"
+          }
+        ]
+      }
+    },
+    {
+      "line": 901,
+      "key": "block_add_after_take_profit",
+      "default_expr": "False",
+      "text": "    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))",
+      "context": {
+        "start": 897,
+        "end": 905,
+        "rows": [
+          {
+            "line": 897,
+            "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))"
+          },
+          {
+            "line": 898,
+            "text": "    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))"
+          },
+          {
+            "line": 899,
+            "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))"
+          },
+          {
+            "line": 900,
+            "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))"
+          },
+          {
+            "line": 901,
+            "text": "    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))"
+          },
+          {
+            "line": 902,
+            "text": "    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))"
+          },
+          {
+            "line": 903,
+            "text": "    min_holding_days = int(a.get(\"min_holding_days\", 0))"
+          },
+          {
+            "line": 904,
+            "text": "    # E2 Dynamic Exit parameters"
+          },
+          {
+            "line": 905,
+            "text": "    dynamic_exit_enabled   = bool(a.get(\"dynamic_exit_enabled\", False))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 902,
+      "key": "entry_rs_min",
+      "default_expr": "90.0",
+      "text": "    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))",
+      "context": {
+        "start": 898,
+        "end": 906,
+        "rows": [
+          {
+            "line": 898,
+            "text": "    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))"
+          },
+          {
+            "line": 899,
+            "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))"
+          },
+          {
+            "line": 900,
+            "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))"
+          },
+          {
+            "line": 901,
+            "text": "    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))"
+          },
+          {
+            "line": 902,
+            "text": "    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))"
+          },
+          {
+            "line": 903,
+            "text": "    min_holding_days = int(a.get(\"min_holding_days\", 0))"
+          },
+          {
+            "line": 904,
+            "text": "    # E2 Dynamic Exit parameters"
+          },
+          {
+            "line": 905,
+            "text": "    dynamic_exit_enabled   = bool(a.get(\"dynamic_exit_enabled\", False))"
+          },
+          {
+            "line": 906,
+            "text": "    min_hold_allow_broken_exit = bool(a.get(\"min_hold_allow_broken_exit\", True))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 903,
+      "key": "min_holding_days",
+      "default_expr": "0",
+      "text": "    min_holding_days = int(a.get(\"min_holding_days\", 0))",
+      "context": {
+        "start": 899,
+        "end": 907,
+        "rows": [
+          {
+            "line": 899,
+            "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))"
+          },
+          {
+            "line": 900,
+            "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))"
+          },
+          {
+            "line": 901,
+            "text": "    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))"
+          },
+          {
+            "line": 902,
+            "text": "    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))"
+          },
+          {
+            "line": 903,
+            "text": "    min_holding_days = int(a.get(\"min_holding_days\", 0))"
+          },
+          {
+            "line": 904,
+            "text": "    # E2 Dynamic Exit parameters"
+          },
+          {
+            "line": 905,
+            "text": "    dynamic_exit_enabled   = bool(a.get(\"dynamic_exit_enabled\", False))"
+          },
+          {
+            "line": 906,
+            "text": "    min_hold_allow_broken_exit = bool(a.get(\"min_hold_allow_broken_exit\", True))"
+          },
+          {
+            "line": 907,
+            "text": "    relative_stop_enabled = bool(a.get(\"relative_stop_enabled\", False))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 905,
+      "key": "dynamic_exit_enabled",
+      "default_expr": "False",
+      "text": "    dynamic_exit_enabled   = bool(a.get(\"dynamic_exit_enabled\", False))",
+      "context": {
+        "start": 901,
+        "end": 909,
+        "rows": [
+          {
+            "line": 901,
+            "text": "    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))"
+          },
+          {
+            "line": 902,
+            "text": "    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))"
+          },
+          {
+            "line": 903,
+            "text": "    min_holding_days = int(a.get(\"min_holding_days\", 0))"
+          },
+          {
+            "line": 904,
+            "text": "    # E2 Dynamic Exit parameters"
+          },
+          {
+            "line": 905,
+            "text": "    dynamic_exit_enabled   = bool(a.get(\"dynamic_exit_enabled\", False))"
+          },
+          {
+            "line": 906,
+            "text": "    min_hold_allow_broken_exit = bool(a.get(\"min_hold_allow_broken_exit\", True))"
+          },
+          {
+            "line": 907,
+            "text": "    relative_stop_enabled = bool(a.get(\"relative_stop_enabled\", False))"
+          },
+          {
+            "line": 908,
+            "text": "    relative_stop_underperform = float(a.get(\"relative_stop_underperform_pct\", -0.08))"
+          },
+          {
+            "line": 909,
+            "text": "    relative_stop_action = a.get(\"relative_stop_action\", \"REL_REDUCE\")"
+          }
+        ]
+      }
+    },
+    {
+      "line": 906,
+      "key": "min_hold_allow_broken_exit",
+      "default_expr": "True",
+      "text": "    min_hold_allow_broken_exit = bool(a.get(\"min_hold_allow_broken_exit\", True))",
+      "context": {
+        "start": 902,
+        "end": 910,
+        "rows": [
+          {
+            "line": 902,
+            "text": "    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))"
+          },
+          {
+            "line": 903,
+            "text": "    min_holding_days = int(a.get(\"min_holding_days\", 0))"
+          },
+          {
+            "line": 904,
+            "text": "    # E2 Dynamic Exit parameters"
+          },
+          {
+            "line": 905,
+            "text": "    dynamic_exit_enabled   = bool(a.get(\"dynamic_exit_enabled\", False))"
+          },
+          {
+            "line": 906,
+            "text": "    min_hold_allow_broken_exit = bool(a.get(\"min_hold_allow_broken_exit\", True))"
+          },
+          {
+            "line": 907,
+            "text": "    relative_stop_enabled = bool(a.get(\"relative_stop_enabled\", False))"
+          },
+          {
+            "line": 908,
+            "text": "    relative_stop_underperform = float(a.get(\"relative_stop_underperform_pct\", -0.08))"
+          },
+          {
+            "line": 909,
+            "text": "    relative_stop_action = a.get(\"relative_stop_action\", \"REL_REDUCE\")"
+          },
+          {
+            "line": 910,
+            "text": "    relative_stop_once = bool(a.get(\"relative_stop_once_per_position\", True))"
+          }
+        ]
+      }
+    },
+    {
+      "line": 907,
+      "key": "relative_stop_enabled",
+      "default_expr": "False",
+      "text": "    relative_stop_enabled = bool(a.get(\"relative_stop_enabled\", False))",
+      "context": {
+        "start": 903,
+        "end": 911,
+        "rows": [
+          {
+            "line": 903,
+            "text": "    min_holding_days = int(a.get(\"min_holding_days\", 0))"
+          },
+          {
+            "line": 904,
+            "text": "    # E2 Dynamic Exit parameters"
+          },
+          {
+            "line": 905,
+            "text": "    dynamic_exit_enabled   = bool(a.get(\"dynamic_exit_enabled\", False))"
+          },
+          {
+            "line": 906,
+            "text": "    min_hold_allow_broken_exit = bool(a.get(\"min_hold_allow_broken_exit\", True))"
+          },
+          {
+            "line": 907,
+            "text": "    relative_stop_enabled = bool(a.get(\"relative_stop_enabled\", False))"
+          },
+          {
+            "line": 908,
+            "text": "    relative_stop_underperform = float(a.get(\"relative_stop_underperform_pct\", -0.08))"
+          },
+          {
+            "line": 909,
+            "text": "    relative_stop_action = a.get(\"relative_stop_action\", \"REL_REDUCE\")"
+          },
+          {
+            "line": 910,
+            "text": "    relative_stop_once = bool(a.get(\"relative_stop_once_per_position\", True))"
+          },
+          {
+            "line": 911,
+            "text": "    market_gate_variant = ("
+          }
+        ]
+      }
+    },
+    {
+      "line": 908,
+      "key": "relative_stop_underperform_pct",
+      "default_expr": "-0.08",
+      "text": "    relative_stop_underperform = float(a.get(\"relative_stop_underperform_pct\", -0.08))",
+      "context": {
+        "start": 904,
+        "end": 912,
+        "rows": [
+          {
+            "line": 904,
+            "text": "    # E2 Dynamic Exit parameters"
+          },
+          {
+            "line": 905,
+            "text": "    dynamic_exit_enabled   = bool(a.get(\"dynamic_exit_enabled\", False))"
+          },
+          {
+            "line": 906,
+            "text": "    min_hold_allow_broken_exit = bool(a.get(\"min_hold_allow_broken_exit\", True))"
+          },
+          {
+            "line": 907,
+            "text": "    relative_stop_enabled = bool(a.get(\"relative_stop_enabled\", False))"
+          },
+          {
+            "line": 908,
+            "text": "    relative_stop_underperform = float(a.get(\"relative_stop_underperform_pct\", -0.08))"
+          },
+          {
+            "line": 909,
+            "text": "    relative_stop_action = a.get(\"relative_stop_action\", \"REL_REDUCE\")"
+          },
+          {
+            "line": 910,
+            "text": "    relative_stop_once = bool(a.get(\"relative_stop_once_per_position\", True))"
+          },
+          {
+            "line": 911,
+            "text": "    market_gate_variant = ("
+          },
+          {
+            "line": 912,
+            "text": "        \"D1_NO_MARKET_GATE\" if not market_gate_enabled else"
+          }
+        ]
+      }
+    },
+    {
+      "line": 909,
+      "key": "relative_stop_action",
+      "default_expr": "\"REL_REDUCE\"",
+      "text": "    relative_stop_action = a.get(\"relative_stop_action\", \"REL_REDUCE\")",
+      "context": {
+        "start": 905,
+        "end": 913,
+        "rows": [
+          {
+            "line": 905,
+            "text": "    dynamic_exit_enabled   = bool(a.get(\"dynamic_exit_enabled\", False))"
+          },
+          {
+            "line": 906,
+            "text": "    min_hold_allow_broken_exit = bool(a.get(\"min_hold_allow_broken_exit\", True))"
+          },
+          {
+            "line": 907,
+            "text": "    relative_stop_enabled = bool(a.get(\"relative_stop_enabled\", False))"
+          },
+          {
+            "line": 908,
+            "text": "    relative_stop_underperform = float(a.get(\"relative_stop_underperform_pct\", -0.08))"
+          },
+          {
+            "line": 909,
+            "text": "    relative_stop_action = a.get(\"relative_stop_action\", \"REL_REDUCE\")"
+          },
+          {
+            "line": 910,
+            "text": "    relative_stop_once = bool(a.get(\"relative_stop_once_per_position\", True))"
+          },
+          {
+            "line": 911,
+            "text": "    market_gate_variant = ("
+          },
+          {
+            "line": 912,
+            "text": "        \"D1_NO_MARKET_GATE\" if not market_gate_enabled else"
+          },
+          {
+            "line": 913,
+            "text": "        \"D2_RISK_OFF_GATE\" if not market_shock_gate_enabled else"
+          }
+        ]
+      }
+    },
+    {
+      "line": 910,
+      "key": "relative_stop_once_per_position",
+      "default_expr": "True",
+      "text": "    relative_stop_once = bool(a.get(\"relative_stop_once_per_position\", True))",
+      "context": {
+        "start": 906,
+        "end": 914,
+        "rows": [
+          {
+            "line": 906,
+            "text": "    min_hold_allow_broken_exit = bool(a.get(\"min_hold_allow_broken_exit\", True))"
+          },
+          {
+            "line": 907,
+            "text": "    relative_stop_enabled = bool(a.get(\"relative_stop_enabled\", False))"
+          },
+          {
+            "line": 908,
+            "text": "    relative_stop_underperform = float(a.get(\"relative_stop_underperform_pct\", -0.08))"
+          },
+          {
+            "line": 909,
+            "text": "    relative_stop_action = a.get(\"relative_stop_action\", \"REL_REDUCE\")"
+          },
+          {
+            "line": 910,
+            "text": "    relative_stop_once = bool(a.get(\"relative_stop_once_per_position\", True))"
+          },
+          {
+            "line": 911,
+            "text": "    market_gate_variant = ("
+          },
+          {
+            "line": 912,
+            "text": "        \"D1_NO_MARKET_GATE\" if not market_gate_enabled else"
+          },
+          {
+            "line": 913,
+            "text": "        \"D2_RISK_OFF_GATE\" if not market_shock_gate_enabled else"
+          },
+          {
+            "line": 914,
+            "text": "        \"D3_RISK_OFF_PLUS_SHOCK_GATE\""
+          }
+        ]
+      }
+    },
+    {
+      "line": 918,
+      "key": "version",
+      "default_expr": "'?'",
+      "text": "        logger.info(f\"  v{a.get('version','?')} | Strategy={strategy_variant} \"",
+      "context": {
+        "start": 914,
+        "end": 922,
+        "rows": [
+          {
+            "line": 914,
+            "text": "        \"D3_RISK_OFF_PLUS_SHOCK_GATE\""
+          },
+          {
+            "line": 915,
+            "text": "    )"
+          },
+          {
+            "line": 916,
+            "text": ""
+          },
+          {
+            "line": 917,
+            "text": "    if qualified_entry_enabled:"
+          },
+          {
+            "line": 918,
+            "text": "        logger.info(f\"  v{a.get('version','?')} | Strategy={strategy_variant} \""
+          },
+          {
+            "line": 919,
+            "text": "                    f\"| CandidateTopN={candidate_top_n} MaxPos={max_pos} EntryMode=QualifiedPool \""
+          },
+          {
+            "line": 920,
+            "text": "                    f\"BuySlot={buy_pct*100:.1f}% MaxSingle={max_pct*100:.1f}% \""
+          },
+          {
+            "line": 921,
+            "text": "                    f\"OneWay={one_way*100:.2f}%\")"
+          },
+          {
+            "line": 922,
+            "text": "    else:"
+          }
+        ]
+      }
+    },
+    {
+      "line": 923,
+      "key": "version",
+      "default_expr": "'?'",
+      "text": "        logger.info(f\"  v{a.get('version','?')} | Strategy={strategy_variant} \"",
+      "context": {
+        "start": 919,
+        "end": 927,
+        "rows": [
+          {
+            "line": 919,
+            "text": "                    f\"| CandidateTopN={candidate_top_n} MaxPos={max_pos} EntryMode=QualifiedPool \""
+          },
+          {
+            "line": 920,
+            "text": "                    f\"BuySlot={buy_pct*100:.1f}% MaxSingle={max_pct*100:.1f}% \""
+          },
+          {
+            "line": 921,
+            "text": "                    f\"OneWay={one_way*100:.2f}%\")"
+          },
+          {
+            "line": 922,
+            "text": "    else:"
+          },
+          {
+            "line": 923,
+            "text": "        logger.info(f\"  v{a.get('version','?')} | Strategy={strategy_variant} \""
+          },
+          {
+            "line": 924,
+            "text": "                    f\"| EntryTopN={entry_top_n} MaxPos={max_pos} EntryMode=StrictTop3 \""
+          },
+          {
+            "line": 925,
+            "text": "                    f\"BuySlot={buy_pct*100:.1f}% MaxSingle={max_pct*100:.1f}% \""
+          },
+          {
+            "line": 926,
+            "text": "                    f\"OneWay={one_way*100:.2f}%\")"
+          },
+          {
+            "line": 927,
+            "text": "    logger.info(f\"  Market Gate Variant: {market_gate_variant}\")"
+          }
+        ]
+      }
+    },
+    {
+      "line": 2360,
+      "key": "execution_model",
+      "default_expr": "\"adverse_intraday\"",
+      "text": "        \"execution_model\": a.get(\"execution_model\", \"adverse_intraday\"),",
+      "context": {
+        "start": 2356,
+        "end": 2364,
+        "rows": [
+          {
+            "line": 2356,
+            "text": "        \"layer\":   \"D\","
+          },
+          {
+            "line": 2357,
+            "text": "        \"name\":    \"Stateful Portfolio Backtest\","
+          },
+          {
+            "line": 2358,
+            "text": "        \"status\":  status,"
+          },
+          {
+            "line": 2359,
+            "text": "        \"version\": \"v1.6-top3-rs-minhold-relstop\","
+          },
+          {
+            "line": 2360,
+            "text": "        \"execution_model\": a.get(\"execution_model\", \"adverse_intraday\"),"
+          },
+          {
+            "line": 2361,
+            "text": "        \"strategy_variant\": strategy_variant,"
+          },
+          {
+            "line": 2362,
+            "text": "        \"entry_top_n\": entry_top_n,"
+          },
+          {
+            "line": 2363,
+            "text": "        \"rank_based_exit\": rank_based_exit,"
+          },
+          {
+            "line": 2364,
+            "text": "        \"strategy_controls\": {"
+          }
+        ]
+      }
+    }
+  ],
+  "parameter_audit": {
+    "market_gate_parameters": {
+      "market_gate_variant": "D3_RISK_OFF_PLUS_SHOCK_GATE",
+      "market_gate_enabled": true,
+      "risk_off_below_spx_ma50": true,
+      "market_shock_gate_enabled": true,
+      "market_shock_daily_return": -0.02,
+      "evidence": [
+        {
+          "type": "runtime_log_from_R7",
+          "text": "Market Gate Variant: D3_RISK_OFF_PLUS_SHOCK_GATE"
+        },
+        {
+          "type": "runtime_log_from_R7",
+          "text": "Market Gate: enabled=True | RiskOff=SPX<MA50:True | Shock<=-2.0%:True"
+        }
+      ]
+    },
+    "observed_market_state_distribution": {
+      "FULL_ON": 46,
+      "CAUTIOUS_ON": 7,
+      "CASH_MODE": 9
+    },
+    "observed_shock_distribution": {
+      "False": 61,
+      "True": 1
+    },
+    "observed_entry_capacity_distribution": {
+      "3": 46,
+      "2": 7,
+      "0": 9
+    },
+    "observed_gate_state_distribution": {
+      "None": 62
+    },
+    "entry_capacity_mapping_by_market_state": {
+      "mapping": {
+        "FULL_ON": [
+          3
+        ],
+        "CAUTIOUS_ON": [
+          2
+        ],
+        "CASH_MODE": [
+          0
+        ]
+      },
+      "conflicts": [],
+      "stable_mapping": true
+    },
+    "focused_rows": [
+      {
+        "date": "2021-05-03",
+        "expected_market_gate_state": "ALLOW",
+        "captured__gate_state": "ALLOW",
+        "computed_gate_state_from_captured_inputs": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false,
+        "market_state": "CAUTIOUS_ON",
+        "_shock_active": false,
+        "entry_capacity": 2,
+        "spx_close_t": 4192.660156,
+        "spx_ma50_t": 4008.45681644,
+        "spx_day_return": 0.0027480906574836577,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-04",
+        "expected_market_gate_state": "ALLOW",
+        "captured__gate_state": "ALLOW",
+        "computed_gate_state_from_captured_inputs": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false,
+        "market_state": "CAUTIOUS_ON",
+        "_shock_active": false,
+        "entry_capacity": 2,
+        "spx_close_t": 4164.660156,
+        "spx_ma50_t": 4014.2200195600003,
+        "spx_day_return": -0.006678337608625392,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-05",
+        "expected_market_gate_state": "ALLOW",
+        "captured__gate_state": "ALLOW",
+        "computed_gate_state_from_captured_inputs": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false,
+        "market_state": "CAUTIOUS_ON",
+        "_shock_active": false,
+        "entry_capacity": 2,
+        "spx_close_t": 4167.589844,
+        "spx_ma50_t": 4019.9444141,
+        "spx_day_return": 0.0007034638818678605,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-06",
+        "expected_market_gate_state": "ALLOW",
+        "captured__gate_state": "ALLOW",
+        "computed_gate_state_from_captured_inputs": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false,
+        "market_state": "CAUTIOUS_ON",
+        "_shock_active": false,
+        "entry_capacity": 2,
+        "spx_close_t": 4201.620117,
+        "spx_ma50_t": 4025.4682178000007,
+        "spx_day_return": 0.008165456360585254,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-07",
+        "expected_market_gate_state": "ALLOW",
+        "captured__gate_state": "ALLOW",
+        "computed_gate_state_from_captured_inputs": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false,
+        "market_state": "FULL_ON",
+        "_shock_active": false,
+        "entry_capacity": 3,
+        "spx_close_t": 4232.600098,
+        "spx_ma50_t": 4033.5334180000004,
+        "spx_day_return": 0.007373341743736585,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-10",
+        "expected_market_gate_state": "RISK_OFF",
+        "captured__gate_state": "RISK_OFF",
+        "computed_gate_state_from_captured_inputs": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true,
+        "market_state": "CASH_MODE",
+        "_shock_active": false,
+        "entry_capacity": 0,
+        "spx_close_t": 4188.430176,
+        "spx_ma50_t": 4041.07902348,
+        "spx_day_return": -0.010435647350873364,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-11",
+        "expected_market_gate_state": "RISK_OFF",
+        "captured__gate_state": "RISK_OFF",
+        "computed_gate_state_from_captured_inputs": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true,
+        "market_state": "CASH_MODE",
+        "_shock_active": false,
+        "entry_capacity": 0,
+        "spx_close_t": 4152.100098,
+        "spx_ma50_t": 4046.08462408,
+        "spx_day_return": -0.008673912772421005,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-12",
+        "expected_market_gate_state": "SHOCK",
+        "captured__gate_state": "SHOCK",
+        "computed_gate_state_from_captured_inputs": "SHOCK",
+        "market_entry_allowed": false,
+        "market_shock": true,
+        "market_risk_off": false,
+        "market_state": "CASH_MODE",
+        "_shock_active": true,
+        "entry_capacity": 0,
+        "spx_close_t": 4063.040039,
+        "spx_ma50_t": 4049.93962408,
+        "spx_day_return": -0.02144940076056902,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-13",
+        "expected_market_gate_state": "RISK_OFF",
+        "captured__gate_state": "RISK_OFF",
+        "computed_gate_state_from_captured_inputs": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true,
+        "market_state": "CASH_MODE",
+        "_shock_active": false,
+        "entry_capacity": 0,
+        "spx_close_t": 4112.5,
+        "spx_ma50_t": 4055.7952246600007,
+        "spx_day_return": 0.01217314142249338,
+        "holdings_count": 3,
+        "pending_orders_count": 3,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-14",
+        "expected_market_gate_state": "RISK_OFF",
+        "captured__gate_state": "RISK_OFF",
+        "computed_gate_state_from_captured_inputs": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true,
+        "market_state": "CASH_MODE",
+        "_shock_active": false,
+        "entry_capacity": 0,
+        "spx_close_t": 4173.850098,
+        "spx_ma50_t": 4063.902827200001,
+        "spx_day_return": 0.014917956960486296,
+        "holdings_count": 3,
+        "pending_orders_count": 3,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-17",
+        "expected_market_gate_state": "RISK_OFF",
+        "captured__gate_state": "RISK_OFF",
+        "computed_gate_state_from_captured_inputs": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true,
+        "market_state": "CASH_MODE",
+        "_shock_active": false,
+        "entry_capacity": 0,
+        "spx_close_t": 4163.290039,
+        "spx_ma50_t": 4070.329829160001,
+        "spx_day_return": -0.0025300522903444855,
+        "holdings_count": 3,
+        "pending_orders_count": 3,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-18",
+        "expected_market_gate_state": "RISK_OFF",
+        "captured__gate_state": "RISK_OFF",
+        "computed_gate_state_from_captured_inputs": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true,
+        "market_state": "CASH_MODE",
+        "_shock_active": false,
+        "entry_capacity": 0,
+        "spx_close_t": 4127.830078,
+        "spx_ma50_t": 4076.4594287600007,
+        "spx_day_return": -0.00851729297450479,
+        "holdings_count": 3,
+        "pending_orders_count": 2,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-19",
+        "expected_market_gate_state": "RISK_OFF",
+        "captured__gate_state": "RISK_OFF",
+        "computed_gate_state_from_captured_inputs": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true,
+        "market_state": "CASH_MODE",
+        "_shock_active": false,
+        "entry_capacity": 0,
+        "spx_close_t": 4115.680176,
+        "spx_ma50_t": 4081.264233460001,
+        "spx_day_return": -0.0029434113736307027,
+        "holdings_count": 3,
+        "pending_orders_count": 2,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-20",
+        "expected_market_gate_state": "ALLOW",
+        "captured__gate_state": "ALLOW",
+        "computed_gate_state_from_captured_inputs": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false,
+        "market_state": "CAUTIOUS_ON",
+        "_shock_active": false,
+        "entry_capacity": 2,
+        "spx_close_t": 4159.120117,
+        "spx_ma50_t": 4086.470434620001,
+        "spx_day_return": 0.010554741656874688,
+        "holdings_count": 3,
+        "pending_orders_count": 3,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-21",
+        "expected_market_gate_state": "RISK_OFF",
+        "captured__gate_state": "RISK_OFF",
+        "computed_gate_state_from_captured_inputs": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true,
+        "market_state": "CASH_MODE",
+        "_shock_active": false,
+        "entry_capacity": 0,
+        "spx_close_t": 4155.859863,
+        "spx_ma50_t": 4090.8008301200007,
+        "spx_day_return": -0.0007838807027175632,
+        "holdings_count": 3,
+        "pending_orders_count": 3,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-05-24",
+        "expected_market_gate_state": "ALLOW",
+        "captured__gate_state": "ALLOW",
+        "computed_gate_state_from_captured_inputs": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false,
+        "market_state": "FULL_ON",
+        "_shock_active": false,
+        "entry_capacity": 3,
+        "spx_close_t": 4197.049805,
+        "spx_ma50_t": 4095.87502446,
+        "spx_day_return": 0.009911292333679919,
+        "holdings_count": 3,
+        "pending_orders_count": 3,
+        "source_quality": "legacy_sys_trace_locals"
+      },
+      {
+        "date": "2021-06-18",
+        "expected_market_gate_state": "ALLOW",
+        "captured__gate_state": "ALLOW",
+        "computed_gate_state_from_captured_inputs": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false,
+        "market_state": "CAUTIOUS_ON",
+        "_shock_active": false,
+        "entry_capacity": 2,
+        "spx_close_t": 4166.450195,
+        "spx_ma50_t": 4181.589023459999,
+        "spx_day_return": -0.01312446878817667,
+        "holdings_count": 3,
+        "pending_orders_count": 3,
+        "source_quality": "legacy_sys_trace_locals"
+      }
+    ],
+    "transitions": [
+      {
+        "date": "2021-05-03",
+        "changed": {
+          "market_state": {
+            "from": "FULL_ON",
+            "to": "CAUTIOUS_ON"
+          },
+          "entry_capacity": {
+            "from": 3,
+            "to": 2
+          }
+        },
+        "prev_date": "2021-04-30"
+      },
+      {
+        "date": "2021-05-07",
+        "changed": {
+          "market_state": {
+            "from": "CAUTIOUS_ON",
+            "to": "FULL_ON"
+          },
+          "entry_capacity": {
+            "from": 2,
+            "to": 3
+          }
+        },
+        "prev_date": "2021-05-06"
+      },
+      {
+        "date": "2021-05-10",
+        "changed": {
+          "market_state": {
+            "from": "FULL_ON",
+            "to": "CASH_MODE"
+          },
+          "entry_capacity": {
+            "from": 3,
+            "to": 0
+          },
+          "market_entry_allowed": {
+            "from": true,
+            "to": false
+          },
+          "market_risk_off": {
+            "from": false,
+            "to": true
+          },
+          "_gate_state": {
+            "from": "ALLOW",
+            "to": "RISK_OFF"
+          }
+        },
+        "prev_date": "2021-05-07"
+      },
+      {
+        "date": "2021-05-12",
+        "changed": {
+          "_shock_active": {
+            "from": false,
+            "to": true
+          },
+          "market_shock": {
+            "from": false,
+            "to": true
+          },
+          "market_risk_off": {
+            "from": true,
+            "to": false
+          },
+          "_gate_state": {
+            "from": "RISK_OFF",
+            "to": "SHOCK"
+          }
+        },
+        "prev_date": "2021-05-11"
+      },
+      {
+        "date": "2021-05-13",
+        "changed": {
+          "_shock_active": {
+            "from": true,
+            "to": false
+          },
+          "market_shock": {
+            "from": true,
+            "to": false
+          },
+          "market_risk_off": {
+            "from": false,
+            "to": true
+          },
+          "_gate_state": {
+            "from": "SHOCK",
+            "to": "RISK_OFF"
+          }
+        },
+        "prev_date": "2021-05-12"
+      },
+      {
+        "date": "2021-05-20",
+        "changed": {
+          "market_state": {
+            "from": "CASH_MODE",
+            "to": "CAUTIOUS_ON"
+          },
+          "entry_capacity": {
+            "from": 0,
+            "to": 2
+          },
+          "market_entry_allowed": {
+            "from": false,
+            "to": true
+          },
+          "market_risk_off": {
+            "from": true,
+            "to": false
+          },
+          "_gate_state": {
+            "from": "RISK_OFF",
+            "to": "ALLOW"
+          }
+        },
+        "prev_date": "2021-05-19"
+      },
+      {
+        "date": "2021-05-21",
+        "changed": {
+          "market_state": {
+            "from": "CAUTIOUS_ON",
+            "to": "CASH_MODE"
+          },
+          "entry_capacity": {
+            "from": 2,
+            "to": 0
+          },
+          "market_entry_allowed": {
+            "from": true,
+            "to": false
+          },
+          "market_risk_off": {
+            "from": false,
+            "to": true
+          },
+          "_gate_state": {
+            "from": "ALLOW",
+            "to": "RISK_OFF"
+          }
+        },
+        "prev_date": "2021-05-20"
+      },
+      {
+        "date": "2021-05-24",
+        "changed": {
+          "market_state": {
+            "from": "CASH_MODE",
+            "to": "FULL_ON"
+          },
+          "entry_capacity": {
+            "from": 0,
+            "to": 3
+          },
+          "market_entry_allowed": {
+            "from": false,
+            "to": true
+          },
+          "market_risk_off": {
+            "from": true,
+            "to": false
+          },
+          "_gate_state": {
+            "from": "RISK_OFF",
+            "to": "ALLOW"
+          }
+        },
+        "prev_date": "2021-05-21"
+      },
+      {
+        "date": "2021-06-03",
+        "changed": {
+          "market_state": {
+            "from": "FULL_ON",
+            "to": "CAUTIOUS_ON"
+          },
+          "entry_capacity": {
+            "from": 3,
+            "to": 2
+          }
+        },
+        "prev_date": "2021-06-02"
+      },
+      {
+        "date": "2021-06-04",
+        "changed": {
+          "market_state": {
+            "from": "CAUTIOUS_ON",
+            "to": "FULL_ON"
+          },
+          "entry_capacity": {
+            "from": 2,
+            "to": 3
+          }
+        },
+        "prev_date": "2021-06-03"
+      },
+      {
+        "date": "2021-06-18",
+        "changed": {
+          "market_state": {
+            "from": "FULL_ON",
+            "to": "CAUTIOUS_ON"
+          },
+          "entry_capacity": {
+            "from": 3,
+            "to": 2
+          }
+        },
+        "prev_date": "2021-06-17"
+      },
+      {
+        "date": "2021-06-21",
+        "changed": {
+          "market_state": {
+            "from": "CAUTIOUS_ON",
+            "to": "FULL_ON"
+          },
+          "entry_capacity": {
+            "from": 2,
+            "to": 3
+          }
+        },
+        "prev_date": "2021-06-18"
+      }
+    ],
+    "golden_master_controls": {
+      "strategy_controls": {
+        "entry_rs_min": 90.0,
+        "ls60_exit_mode": "reduce",
+        "candidate_top_n": null,
+        "qualified_entry_enabled": false,
+        "qualified_rs_min": 90.0,
+        "qualified_momentum_min": 85.0,
+        "qualified_th_min": 75.0,
+        "qualified_states": [
+          "Expansion"
+        ],
+        "qualified_price_above_ma50": true,
+        "qualified_ma50_slope_min": 0.0,
+        "qp_avg_pool_size": 0.0,
+        "qp_pool_days": 0,
+        "qp_days_pool_lt_3": 0,
+        "qp_days_pool_ge_10": 0,
+        "qp_buy_orders_generated": 0,
+        "min_holding_days": 0,
+        "min_hold_allow_broken_exit": true,
+        "e1r_regime_wiring_enabled": false,
+        "e1r_regime_source": null,
+        "relative_stop_enabled": false,
+        "relative_stop_underperform_pct": -8.0,
+        "relative_stop_action": "REL_REDUCE",
+        "relative_stop_once_per_position": true,
+        "relative_stop_stats": {
+          "signals": 0,
+          "executed": 0
+        },
+        "fixed_take_profit_enabled": false
+      },
+      "market_entry_gate": {
+        "variant": "D3_RISK_OFF_PLUS_SHOCK_GATE",
+        "enabled": true,
+        "risk_off_rule": "SPX close < SPX MA50",
+        "market_shock_rule": "SPX daily return <= -2.0%",
+        "blocked_actions": [
+          "BUY",
+          "ADD"
+        ],
+        "unaffected_actions": [
+          "HOLD",
+          "REDUCE",
+          "EXIT"
+        ],
+        "days": {
+          "entry_allowed": 53,
+          "risk_off": 8,
+          "market_shock": 1,
+          "blocked_total": 9
+        }
+      },
+      "version": "v1.6-top3-rs-minhold-relstop",
+      "strategy_variant": "top3_entry_rs_minhold_relstop",
+      "entry_top_n": 3,
+      "rank_based_exit": false,
+      "e1r_uptrend_execution_enabled": false,
+      "status": "INSUFFICIENT_SAMPLE"
+    },
+    "source_assumption_gets_relevant": [
+      {
+        "line": 845,
+        "key": "entry_top_n",
+        "default_expr": "3",
+        "text": "    entry_top_n = int(a.get(\"entry_top_n\", 3))",
+        "context": {
+          "start": 841,
+          "end": 849,
+          "rows": [
+            {
+              "line": 841,
+              "text": "        if not weights:"
+            },
+            {
+              "line": 842,
+              "text": "            return \"UNCLASSIFIED\" if e1r_regime_wiring_enabled else \"N/A\""
+            },
+            {
+              "line": 843,
+              "text": "        return max(weights.items(), key=lambda kv: kv[1])[0]"
+            },
+            {
+              "line": 844,
+              "text": ""
+            },
+            {
+              "line": 845,
+              "text": "    entry_top_n = int(a.get(\"entry_top_n\", 3))"
+            },
+            {
+              "line": 846,
+              "text": "    rank_based_exit = bool(a.get(\"rank_based_exit\", False))"
+            },
+            {
+              "line": 847,
+              "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+            },
+            {
+              "line": 848,
+              "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))"
+            },
+            {
+              "line": 849,
+              "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则"
+            }
+          ]
+        }
+      },
+      {
+        "line": 847,
+        "key": "market_gate_enabled",
+        "default_expr": "True",
+        "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))",
+        "context": {
+          "start": 843,
+          "end": 851,
+          "rows": [
+            {
+              "line": 843,
+              "text": "        return max(weights.items(), key=lambda kv: kv[1])[0]"
+            },
+            {
+              "line": 844,
+              "text": ""
+            },
+            {
+              "line": 845,
+              "text": "    entry_top_n = int(a.get(\"entry_top_n\", 3))"
+            },
+            {
+              "line": 846,
+              "text": "    rank_based_exit = bool(a.get(\"rank_based_exit\", False))"
+            },
+            {
+              "line": 847,
+              "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+            },
+            {
+              "line": 848,
+              "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))"
+            },
+            {
+              "line": 849,
+              "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则"
+            },
+            {
+              "line": 850,
+              "text": ""
+            },
+            {
+              "line": 851,
+              "text": "    # Qualified Candidate Pool 参数"
+            }
+          ]
+        }
+      },
+      {
+        "line": 848,
+        "key": "risk_off_below_spx_ma50",
+        "default_expr": "True",
+        "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))",
+        "context": {
+          "start": 844,
+          "end": 852,
+          "rows": [
+            {
+              "line": 844,
+              "text": ""
+            },
+            {
+              "line": 845,
+              "text": "    entry_top_n = int(a.get(\"entry_top_n\", 3))"
+            },
+            {
+              "line": 846,
+              "text": "    rank_based_exit = bool(a.get(\"rank_based_exit\", False))"
+            },
+            {
+              "line": 847,
+              "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+            },
+            {
+              "line": 848,
+              "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))"
+            },
+            {
+              "line": 849,
+              "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则"
+            },
+            {
+              "line": 850,
+              "text": ""
+            },
+            {
+              "line": 851,
+              "text": "    # Qualified Candidate Pool 参数"
+            },
+            {
+              "line": 852,
+              "text": "    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n"
+            }
+          ]
+        }
+      },
+      {
+        "line": 853,
+        "key": "qualified_entry_enabled",
+        "default_expr": "False",
+        "text": "    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))",
+        "context": {
+          "start": 849,
+          "end": 857,
+          "rows": [
+            {
+              "line": 849,
+              "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则"
+            },
+            {
+              "line": 850,
+              "text": ""
+            },
+            {
+              "line": 851,
+              "text": "    # Qualified Candidate Pool 参数"
+            },
+            {
+              "line": 852,
+              "text": "    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n"
+            },
+            {
+              "line": 853,
+              "text": "    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))"
+            },
+            {
+              "line": 854,
+              "text": "    qualified_rs_min          = float(a.get(\"qualified_rs_min\", 90.0))"
+            },
+            {
+              "line": 855,
+              "text": "    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))"
+            },
+            {
+              "line": 856,
+              "text": "    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))"
+            },
+            {
+              "line": 857,
+              "text": "    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))"
+            }
+          ]
+        }
+      },
+      {
+        "line": 896,
+        "key": "market_shock_gate_enabled",
+        "default_expr": "True",
+        "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))",
+        "context": {
+          "start": 892,
+          "end": 900,
+          "rows": [
+            {
+              "line": 892,
+              "text": "    else:"
+            },
+            {
+              "line": 893,
+              "text": "        logger.info(f\"  Entry mode: Strict Top{entry_top_n} (legacy)\")"
+            },
+            {
+              "line": 894,
+              "text": "    if ls60_exit_mode not in {\"exit\", \"reduce\"}:"
+            },
+            {
+              "line": 895,
+              "text": "        raise ValueError(f\"Invalid ls60_exit_mode={ls60_exit_mode!r}; expected 'exit' or 'reduce'\")"
+            },
+            {
+              "line": 896,
+              "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))"
+            },
+            {
+              "line": 897,
+              "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))"
+            },
+            {
+              "line": 898,
+              "text": "    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))"
+            },
+            {
+              "line": 899,
+              "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))"
+            },
+            {
+              "line": 900,
+              "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))"
+            }
+          ]
+        }
+      },
+      {
+        "line": 897,
+        "key": "market_shock_daily_return",
+        "default_expr": "-0.02",
+        "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))",
+        "context": {
+          "start": 893,
+          "end": 901,
+          "rows": [
+            {
+              "line": 893,
+              "text": "        logger.info(f\"  Entry mode: Strict Top{entry_top_n} (legacy)\")"
+            },
+            {
+              "line": 894,
+              "text": "    if ls60_exit_mode not in {\"exit\", \"reduce\"}:"
+            },
+            {
+              "line": 895,
+              "text": "        raise ValueError(f\"Invalid ls60_exit_mode={ls60_exit_mode!r}; expected 'exit' or 'reduce'\")"
+            },
+            {
+              "line": 896,
+              "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))"
+            },
+            {
+              "line": 897,
+              "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))"
+            },
+            {
+              "line": 898,
+              "text": "    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))"
+            },
+            {
+              "line": 899,
+              "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))"
+            },
+            {
+              "line": 900,
+              "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))"
+            },
+            {
+              "line": 901,
+              "text": "    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))"
+            }
+          ]
+        }
+      },
+      {
+        "line": 902,
+        "key": "entry_rs_min",
+        "default_expr": "90.0",
+        "text": "    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))",
+        "context": {
+          "start": 898,
+          "end": 906,
+          "rows": [
+            {
+              "line": 898,
+              "text": "    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))"
+            },
+            {
+              "line": 899,
+              "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))"
+            },
+            {
+              "line": 900,
+              "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))"
+            },
+            {
+              "line": 901,
+              "text": "    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))"
+            },
+            {
+              "line": 902,
+              "text": "    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))"
+            },
+            {
+              "line": 903,
+              "text": "    min_holding_days = int(a.get(\"min_holding_days\", 0))"
+            },
+            {
+              "line": 904,
+              "text": "    # E2 Dynamic Exit parameters"
+            },
+            {
+              "line": 905,
+              "text": "    dynamic_exit_enabled   = bool(a.get(\"dynamic_exit_enabled\", False))"
+            },
+            {
+              "line": 906,
+              "text": "    min_hold_allow_broken_exit = bool(a.get(\"min_hold_allow_broken_exit\", True))"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "unresolved": [],
+  "validations": {
+    "market_state_parameter_audit_complete": true,
+    "strategy_logic_changed": false,
+    "audit_only": true,
+    "formula_not_patched": true,
+    "backtest_engine_run": false,
+    "short_window_existing_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "strategy_files_unchanged": true,
+    "k2_r7_loaded": true,
+    "r7_trace_loaded": true,
+    "r7_equivalence_ok": true,
+    "trace_rows_loaded": true,
+    "source_scan_complete": true,
+    "assumption_gets_extracted": true,
+    "market_gate_parameters_documented": true,
+    "market_state_distribution_documented": true,
+    "entry_capacity_mapping_documented": true,
+    "entry_capacity_mapping_stable": true,
+    "focused_rows_documented": true,
+    "unresolved_count": 0
+  },
+  "decision": {
+    "k2_r8_market_state_parameter_audit_passed": true,
+    "formula_patch_allowed_now": false,
+    "candidate_extraction_allowed_now": false,
+    "implementation_may_resume": false,
+    "unresolved": [],
+    "short_window_market_state_replication_ready": true,
+    "full_115_replication_ready": true,
+    "next_required_stage": "4C-2C-4E-ENGINE-K2-R9-MARKET_GATE_STANDALONE_REPLICATION_PROPOSAL",
+    "conclusion": "K2_R8_PASS_MARKET_STATE_PARAMETERS_READY_FOR_REPLICATION_PROPOSAL",
+    "recommended_next_action": "Audit the exact full E1R 115% run artifact and assumptions before standalone replication, because short-window source equivalence is not enough to prove full 115% parameter identity."
+  }
+}
