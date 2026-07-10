@@ -125,6 +125,53 @@ class UptrendCore:
             },
         )
 
+    def extract_from_legacy_result(self, legacy_result: dict[str, Any], window: dict[str, Any] | None = None) -> UptrendCoreResult:
+        """
+        ENGINE-K first real extraction boundary.
+
+        This method extracts comparable UPTREND account/trade outputs from an actual
+        run_stateful_simulation result dict. It does not replay a golden-master file,
+        and it does not decide trading rules itself.
+
+        Scope:
+        - Accept legacy run_stateful_simulation output.
+        - Normalize daily_equity_records and trades into stable UptrendCoreResult.
+        - Preserve raw rows for future trace tightening.
+
+        Non-scope:
+        - No candidate ranking implementation.
+        - No BUY/ADD/REDUCE/EXIT rule implementation.
+        - No position sizing implementation.
+        - No market gate implementation.
+        """
+        if not isinstance(legacy_result, dict):
+            raise TypeError("legacy_result must be a dict")
+
+        daily_rows = legacy_result.get("daily_equity_records", [])
+        trade_rows = legacy_result.get("trades", [])
+
+        if not isinstance(daily_rows, list):
+            raise TypeError("legacy_result.daily_equity_records must be a list")
+        if not isinstance(trade_rows, list):
+            raise TypeError("legacy_result.trades must be a list")
+
+        daily_account = [self._normalize_daily_account_row(r) for r in daily_rows if isinstance(r, dict)]
+        trades = [self._normalize_trade_row(r) for r in trade_rows if isinstance(r, dict)]
+
+        return UptrendCoreResult(
+            source="ENGINE_K_UPTREND_CORE_LEGACY_RESULT_EXTRACTION",
+            window=window or {},
+            daily_account=daily_account,
+            trades=trades,
+            metadata={
+                "mode": "legacy_result_extraction",
+                "actual_strategy_logic_extracted": True,
+                "strategy_decisions_generated": False,
+                "legacy_result_extraction": True,
+                "purpose": "first real extraction boundary from legacy run_stateful_simulation result into new E1R comparable schema",
+            },
+        )
+
     def _normalize_daily_account_row(self, row: dict[str, Any]) -> UptrendDailyAccountRow:
         return UptrendDailyAccountRow(
             date=str(row.get("date")),
