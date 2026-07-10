@@ -1,0 +1,5424 @@
+{
+  "generated_at": "2026-07-10T11:46:40.378022+00:00",
+  "elapsed_seconds": 0.005959,
+  "stage": "4C-2C-4E-ENGINE-K2-R1",
+  "status": "MARKET_GATE_FORMULA_AUDIT_COMPLETE",
+  "purpose": "Audit actual legacy market gate formula after K2 mismatch.",
+  "policy": {
+    "strategy_logic_changed": false,
+    "audit_only": true,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "provider_extraction_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "frozen_strategy_files_changed": false
+  },
+  "expected_summary": {
+    "distribution": {
+      "ALLOW": 53,
+      "RISK_OFF": 8,
+      "SHOCK": 1
+    },
+    "examples": {
+      "ALLOW": [
+        {
+          "date": "2021-04-05",
+          "spx_close": 4077.91,
+          "spx_ma50": 3892.47,
+          "spx_day_return_pct": 1.4438,
+          "market_gate_state": "ALLOW"
+        },
+        {
+          "date": "2021-04-06",
+          "spx_close": 4073.94,
+          "spx_ma50": 3897.12,
+          "spx_day_return_pct": -0.0974,
+          "market_gate_state": "ALLOW"
+        },
+        {
+          "date": "2021-04-07",
+          "spx_close": 4079.95,
+          "spx_ma50": 3901.61,
+          "spx_day_return_pct": 0.1475,
+          "market_gate_state": "ALLOW"
+        },
+        {
+          "date": "2021-04-08",
+          "spx_close": 4097.17,
+          "spx_ma50": 3906.56,
+          "spx_day_return_pct": 0.4221,
+          "market_gate_state": "ALLOW"
+        },
+        {
+          "date": "2021-04-09",
+          "spx_close": 4128.8,
+          "spx_ma50": 3914.12,
+          "spx_day_return_pct": 0.772,
+          "market_gate_state": "ALLOW"
+        },
+        {
+          "date": "2021-04-12",
+          "spx_close": 4127.99,
+          "spx_ma50": 3920.94,
+          "spx_day_return_pct": -0.0196,
+          "market_gate_state": "ALLOW"
+        },
+        {
+          "date": "2021-04-13",
+          "spx_close": 4141.59,
+          "spx_ma50": 3929.48,
+          "spx_day_return_pct": 0.3294,
+          "market_gate_state": "ALLOW"
+        },
+        {
+          "date": "2021-04-14",
+          "spx_close": 4124.66,
+          "spx_ma50": 3936.5,
+          "spx_day_return_pct": -0.4088,
+          "market_gate_state": "ALLOW"
+        },
+        {
+          "date": "2021-04-15",
+          "spx_close": 4170.42,
+          "spx_ma50": 3943.38,
+          "spx_day_return_pct": 1.1094,
+          "market_gate_state": "ALLOW"
+        },
+        {
+          "date": "2021-04-16",
+          "spx_close": 4185.47,
+          "spx_ma50": 3950.49,
+          "spx_day_return_pct": 0.3609,
+          "market_gate_state": "ALLOW"
+        }
+      ],
+      "RISK_OFF": [
+        {
+          "date": "2021-05-10",
+          "spx_close": 4188.43,
+          "spx_ma50": 4041.08,
+          "spx_day_return_pct": -1.0436,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-11",
+          "spx_close": 4152.1,
+          "spx_ma50": 4046.08,
+          "spx_day_return_pct": -0.8674,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-13",
+          "spx_close": 4112.5,
+          "spx_ma50": 4055.8,
+          "spx_day_return_pct": 1.2173,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-14",
+          "spx_close": 4173.85,
+          "spx_ma50": 4063.9,
+          "spx_day_return_pct": 1.4918,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-17",
+          "spx_close": 4163.29,
+          "spx_ma50": 4070.33,
+          "spx_day_return_pct": -0.253,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-18",
+          "spx_close": 4127.83,
+          "spx_ma50": 4076.46,
+          "spx_day_return_pct": -0.8517,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-19",
+          "spx_close": 4115.68,
+          "spx_ma50": 4081.26,
+          "spx_day_return_pct": -0.2943,
+          "market_gate_state": "RISK_OFF"
+        },
+        {
+          "date": "2021-05-21",
+          "spx_close": 4155.86,
+          "spx_ma50": 4090.8,
+          "spx_day_return_pct": -0.0784,
+          "market_gate_state": "RISK_OFF"
+        }
+      ],
+      "SHOCK": [
+        {
+          "date": "2021-05-12",
+          "spx_close": 4063.04,
+          "spx_ma50": 4049.94,
+          "spx_day_return_pct": -2.1449,
+          "market_gate_state": "SHOCK"
+        }
+      ]
+    }
+  },
+  "formula_candidate_results": {
+    "basic_spx_close_lt_ma50_shock_lte_neg2": {
+      "ok": false,
+      "mismatch_count": 9,
+      "distribution": {
+        "ALLOW": 60,
+        "SHOCK": 1,
+        "RISK_OFF": 1
+      },
+      "mismatches": [
+        {
+          "date": "2021-05-10",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4188.43,
+          "spx_ma50": 4041.08,
+          "spx_day_return_pct": -1.0436
+        },
+        {
+          "date": "2021-05-11",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4152.1,
+          "spx_ma50": 4046.08,
+          "spx_day_return_pct": -0.8674
+        },
+        {
+          "date": "2021-05-13",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4112.5,
+          "spx_ma50": 4055.8,
+          "spx_day_return_pct": 1.2173
+        },
+        {
+          "date": "2021-05-14",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4173.85,
+          "spx_ma50": 4063.9,
+          "spx_day_return_pct": 1.4918
+        },
+        {
+          "date": "2021-05-17",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4163.29,
+          "spx_ma50": 4070.33,
+          "spx_day_return_pct": -0.253
+        },
+        {
+          "date": "2021-05-18",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4127.83,
+          "spx_ma50": 4076.46,
+          "spx_day_return_pct": -0.8517
+        },
+        {
+          "date": "2021-05-19",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4115.68,
+          "spx_ma50": 4081.26,
+          "spx_day_return_pct": -0.2943
+        },
+        {
+          "date": "2021-05-21",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4155.86,
+          "spx_ma50": 4090.8,
+          "spx_day_return_pct": -0.0784
+        },
+        {
+          "date": "2021-06-18",
+          "expected": "ALLOW",
+          "actual": "RISK_OFF",
+          "spx_close": 4166.45,
+          "spx_ma50": 4181.59,
+          "spx_day_return_pct": -1.3124
+        }
+      ]
+    },
+    "close_lt_ma50_or_day_lte_neg1": {
+      "ok": false,
+      "mismatch_count": 8,
+      "distribution": {
+        "ALLOW": 59,
+        "RISK_OFF": 2,
+        "SHOCK": 1
+      },
+      "mismatches": [
+        {
+          "date": "2021-05-11",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4152.1,
+          "spx_ma50": 4046.08,
+          "spx_day_return_pct": -0.8674
+        },
+        {
+          "date": "2021-05-13",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4112.5,
+          "spx_ma50": 4055.8,
+          "spx_day_return_pct": 1.2173
+        },
+        {
+          "date": "2021-05-14",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4173.85,
+          "spx_ma50": 4063.9,
+          "spx_day_return_pct": 1.4918
+        },
+        {
+          "date": "2021-05-17",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4163.29,
+          "spx_ma50": 4070.33,
+          "spx_day_return_pct": -0.253
+        },
+        {
+          "date": "2021-05-18",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4127.83,
+          "spx_ma50": 4076.46,
+          "spx_day_return_pct": -0.8517
+        },
+        {
+          "date": "2021-05-19",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4115.68,
+          "spx_ma50": 4081.26,
+          "spx_day_return_pct": -0.2943
+        },
+        {
+          "date": "2021-05-21",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4155.86,
+          "spx_ma50": 4090.8,
+          "spx_day_return_pct": -0.0784
+        },
+        {
+          "date": "2021-06-18",
+          "expected": "ALLOW",
+          "actual": "RISK_OFF",
+          "spx_close": 4166.45,
+          "spx_ma50": 4181.59,
+          "spx_day_return_pct": -1.3124
+        }
+      ]
+    },
+    "close_lt_ma50_or_day_lte_neg05": {
+      "ok": false,
+      "mismatch_count": 12,
+      "distribution": {
+        "ALLOW": 51,
+        "RISK_OFF": 10,
+        "SHOCK": 1
+      },
+      "mismatches": [
+        {
+          "date": "2021-04-19",
+          "expected": "ALLOW",
+          "actual": "RISK_OFF",
+          "spx_close": 4163.26,
+          "spx_ma50": 3956.32,
+          "spx_day_return_pct": -0.5307
+        },
+        {
+          "date": "2021-04-20",
+          "expected": "ALLOW",
+          "actual": "RISK_OFF",
+          "spx_close": 4134.94,
+          "spx_ma50": 3961.28,
+          "spx_day_return_pct": -0.6802
+        },
+        {
+          "date": "2021-04-22",
+          "expected": "ALLOW",
+          "actual": "RISK_OFF",
+          "spx_close": 4134.98,
+          "spx_ma50": 3970.91,
+          "spx_day_return_pct": -0.9211
+        },
+        {
+          "date": "2021-04-30",
+          "expected": "ALLOW",
+          "actual": "RISK_OFF",
+          "spx_close": 4181.17,
+          "spx_ma50": 4002.74,
+          "spx_day_return_pct": -0.7195
+        },
+        {
+          "date": "2021-05-04",
+          "expected": "ALLOW",
+          "actual": "RISK_OFF",
+          "spx_close": 4164.66,
+          "spx_ma50": 4014.22,
+          "spx_day_return_pct": -0.6678
+        },
+        {
+          "date": "2021-05-13",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4112.5,
+          "spx_ma50": 4055.8,
+          "spx_day_return_pct": 1.2173
+        },
+        {
+          "date": "2021-05-14",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4173.85,
+          "spx_ma50": 4063.9,
+          "spx_day_return_pct": 1.4918
+        },
+        {
+          "date": "2021-05-17",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4163.29,
+          "spx_ma50": 4070.33,
+          "spx_day_return_pct": -0.253
+        },
+        {
+          "date": "2021-05-19",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4115.68,
+          "spx_ma50": 4081.26,
+          "spx_day_return_pct": -0.2943
+        },
+        {
+          "date": "2021-05-21",
+          "expected": "RISK_OFF",
+          "actual": "ALLOW",
+          "spx_close": 4155.86,
+          "spx_ma50": 4090.8,
+          "spx_day_return_pct": -0.0784
+        },
+        {
+          "date": "2021-06-16",
+          "expected": "ALLOW",
+          "actual": "RISK_OFF",
+          "spx_close": 4223.7,
+          "spx_ma50": 4177.37,
+          "spx_day_return_pct": -0.539
+        },
+        {
+          "date": "2021-06-18",
+          "expected": "ALLOW",
+          "actual": "RISK_OFF",
+          "spx_close": 4166.45,
+          "spx_ma50": 4181.59,
+          "spx_day_return_pct": -1.3124
+        }
+      ]
+    },
+    "basic_formula_shift_-2": {
+      "ok": false,
+      "mismatch_count": 12,
+      "mismatches": [
+        {
+          "date": "2021-04-05",
+          "expected": "ALLOW",
+          "actual_shifted_basic": null,
+          "shift": -2
+        },
+        {
+          "date": "2021-04-06",
+          "expected": "ALLOW",
+          "actual_shifted_basic": null,
+          "shift": -2
+        },
+        {
+          "date": "2021-05-10",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -2
+        },
+        {
+          "date": "2021-05-11",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -2
+        },
+        {
+          "date": "2021-05-12",
+          "expected": "SHOCK",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -2
+        },
+        {
+          "date": "2021-05-13",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -2
+        },
+        {
+          "date": "2021-05-14",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "SHOCK",
+          "shift": -2
+        },
+        {
+          "date": "2021-05-17",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -2
+        },
+        {
+          "date": "2021-05-18",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -2
+        },
+        {
+          "date": "2021-05-19",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -2
+        },
+        {
+          "date": "2021-05-21",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -2
+        },
+        {
+          "date": "2021-06-22",
+          "expected": "ALLOW",
+          "actual_shifted_basic": "RISK_OFF",
+          "shift": -2
+        }
+      ]
+    },
+    "basic_formula_shift_-1": {
+      "ok": false,
+      "mismatch_count": 11,
+      "mismatches": [
+        {
+          "date": "2021-04-05",
+          "expected": "ALLOW",
+          "actual_shifted_basic": null,
+          "shift": -1
+        },
+        {
+          "date": "2021-05-10",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -1
+        },
+        {
+          "date": "2021-05-11",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -1
+        },
+        {
+          "date": "2021-05-12",
+          "expected": "SHOCK",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -1
+        },
+        {
+          "date": "2021-05-13",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "SHOCK",
+          "shift": -1
+        },
+        {
+          "date": "2021-05-14",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -1
+        },
+        {
+          "date": "2021-05-17",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -1
+        },
+        {
+          "date": "2021-05-18",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -1
+        },
+        {
+          "date": "2021-05-19",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -1
+        },
+        {
+          "date": "2021-05-21",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": -1
+        },
+        {
+          "date": "2021-06-21",
+          "expected": "ALLOW",
+          "actual_shifted_basic": "RISK_OFF",
+          "shift": -1
+        }
+      ]
+    },
+    "basic_formula_shift_1": {
+      "ok": false,
+      "mismatch_count": 11,
+      "mismatches": [
+        {
+          "date": "2021-05-10",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 1
+        },
+        {
+          "date": "2021-05-11",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "SHOCK",
+          "shift": 1
+        },
+        {
+          "date": "2021-05-12",
+          "expected": "SHOCK",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 1
+        },
+        {
+          "date": "2021-05-13",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 1
+        },
+        {
+          "date": "2021-05-14",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 1
+        },
+        {
+          "date": "2021-05-17",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 1
+        },
+        {
+          "date": "2021-05-18",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 1
+        },
+        {
+          "date": "2021-05-19",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 1
+        },
+        {
+          "date": "2021-05-21",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 1
+        },
+        {
+          "date": "2021-06-17",
+          "expected": "ALLOW",
+          "actual_shifted_basic": "RISK_OFF",
+          "shift": 1
+        },
+        {
+          "date": "2021-06-30",
+          "expected": "ALLOW",
+          "actual_shifted_basic": null,
+          "shift": 1
+        }
+      ]
+    },
+    "basic_formula_shift_2": {
+      "ok": false,
+      "mismatch_count": 12,
+      "mismatches": [
+        {
+          "date": "2021-05-10",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "SHOCK",
+          "shift": 2
+        },
+        {
+          "date": "2021-05-11",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 2
+        },
+        {
+          "date": "2021-05-12",
+          "expected": "SHOCK",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 2
+        },
+        {
+          "date": "2021-05-13",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 2
+        },
+        {
+          "date": "2021-05-14",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 2
+        },
+        {
+          "date": "2021-05-17",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 2
+        },
+        {
+          "date": "2021-05-18",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 2
+        },
+        {
+          "date": "2021-05-19",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 2
+        },
+        {
+          "date": "2021-05-21",
+          "expected": "RISK_OFF",
+          "actual_shifted_basic": "ALLOW",
+          "shift": 2
+        },
+        {
+          "date": "2021-06-16",
+          "expected": "ALLOW",
+          "actual_shifted_basic": "RISK_OFF",
+          "shift": 2
+        },
+        {
+          "date": "2021-06-29",
+          "expected": "ALLOW",
+          "actual_shifted_basic": null,
+          "shift": 2
+        },
+        {
+          "date": "2021-06-30",
+          "expected": "ALLOW",
+          "actual_shifted_basic": null,
+          "shift": 2
+        }
+      ]
+    }
+  },
+  "source_contexts": {
+    "market_gate_state": {
+      "patterns": [
+        "market_gate_state"
+      ],
+      "hit_count": 2,
+      "hits": [
+        {
+          "line": 1525,
+          "text": "            \"market_gate_state\": _gate_state,",
+          "context": {
+            "start": 1520,
+            "end": 1530,
+            "rows": [
+              {
+                "line": 1520,
+                "text": "            \"daily_return_pct\": round(_daily_return_pct, 4),"
+              },
+              {
+                "line": 1521,
+                "text": "            \"drawdown_pct\": round(_drawdown_pct, 4),"
+              },
+              {
+                "line": 1522,
+                "text": "            \"exposure_pct\": round(position_value / total_equity * 100, 2) if total_equity > 0 else 0.0,"
+              },
+              {
+                "line": 1523,
+                "text": "            \"open_positions_count\": len(holdings),"
+              },
+              {
+                "line": 1524,
+                "text": "            \"pending_orders_count\": len(pending_orders),"
+              },
+              {
+                "line": 1525,
+                "text": "            \"market_gate_state\": _gate_state,"
+              },
+              {
+                "line": 1526,
+                "text": "            \"spx_regime\": _e1r_regime_on(date_t) if e1r_regime_wiring_enabled else None,"
+              },
+              {
+                "line": 1527,
+                "text": "            \"e1r_active_mode\": _e1r_mode_for_regime(_e1r_regime_on(date_t)) if e1r_regime_wiring_enabled else None,"
+              },
+              {
+                "line": 1528,
+                "text": "            \"risk_budget_mode\": _e1r_risk_budget_for_regime(_e1r_regime_on(date_t))[\"mode\"] if e1r_regime_wiring_enabled else None,"
+              },
+              {
+                "line": 1529,
+                "text": "            \"risk_budget\": _e1r_risk_budget_for_regime(_e1r_regime_on(date_t)) if e1r_regime_wiring_enabled else None,"
+              },
+              {
+                "line": 1530,
+                "text": "            \"spx_close\": round(spx_close_t, 2),"
+              }
+            ]
+          }
+        },
+        {
+          "line": 2155,
+          "text": "                \"market_gate_state\": (",
+          "context": {
+            "start": 2150,
+            "end": 2160,
+            "rows": [
+              {
+                "line": 2150,
+                "text": "                \"cash\":           round(cash, 2),"
+              },
+              {
+                "line": 2151,
+                "text": "                \"position_value\": round(position_value, 2),"
+              },
+              {
+                "line": 2152,
+                "text": "                \"total_equity\":   round(total_equity, 2),"
+              },
+              {
+                "line": 2153,
+                "text": "                \"n_holdings\":     len(holdings),"
+              },
+              {
+                "line": 2154,
+                "text": "                \"pending_orders\": len(pending_orders),"
+              },
+              {
+                "line": 2155,
+                "text": "                \"market_gate_state\": ("
+              },
+              {
+                "line": 2156,
+                "text": "                    \"ALLOW\" if market_entry_allowed else"
+              },
+              {
+                "line": 2157,
+                "text": "                    \"SHOCK\" if market_shock else \"RISK_OFF\""
+              },
+              {
+                "line": 2158,
+                "text": "                ),"
+              },
+              {
+                "line": 2159,
+                "text": "                \"spx_close\":      round(spx_close_t, 2),"
+              },
+              {
+                "line": 2160,
+                "text": "                \"spx_ma50\":       round(spx_ma50_t, 2),"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "gate_state": {
+      "patterns": [
+        "gate_state"
+      ],
+      "hit_count": 5,
+      "hits": [
+        {
+          "line": 1510,
+          "text": "        _gate_state = (",
+          "context": {
+            "start": 1505,
+            "end": 1515,
+            "rows": [
+              {
+                "line": 1505,
+                "text": "        daily_equity_peak = max(daily_equity_peak, total_equity)"
+              },
+              {
+                "line": 1506,
+                "text": "        _drawdown_pct = ("
+              },
+              {
+                "line": 1507,
+                "text": "            (daily_equity_peak - total_equity) / daily_equity_peak * 100"
+              },
+              {
+                "line": 1508,
+                "text": "            if daily_equity_peak and daily_equity_peak > 0 else 0.0"
+              },
+              {
+                "line": 1509,
+                "text": "        )"
+              },
+              {
+                "line": 1510,
+                "text": "        _gate_state = ("
+              },
+              {
+                "line": 1511,
+                "text": "            \"ALLOW\" if market_entry_allowed else"
+              },
+              {
+                "line": 1512,
+                "text": "            \"SHOCK\" if market_shock else \"RISK_OFF\""
+              },
+              {
+                "line": 1513,
+                "text": "        )"
+              },
+              {
+                "line": 1514,
+                "text": ""
+              },
+              {
+                "line": 1515,
+                "text": "        daily_equity_records.append({"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1525,
+          "text": "            \"market_gate_state\": _gate_state,",
+          "context": {
+            "start": 1520,
+            "end": 1530,
+            "rows": [
+              {
+                "line": 1520,
+                "text": "            \"daily_return_pct\": round(_daily_return_pct, 4),"
+              },
+              {
+                "line": 1521,
+                "text": "            \"drawdown_pct\": round(_drawdown_pct, 4),"
+              },
+              {
+                "line": 1522,
+                "text": "            \"exposure_pct\": round(position_value / total_equity * 100, 2) if total_equity > 0 else 0.0,"
+              },
+              {
+                "line": 1523,
+                "text": "            \"open_positions_count\": len(holdings),"
+              },
+              {
+                "line": 1524,
+                "text": "            \"pending_orders_count\": len(pending_orders),"
+              },
+              {
+                "line": 1525,
+                "text": "            \"market_gate_state\": _gate_state,"
+              },
+              {
+                "line": 1526,
+                "text": "            \"spx_regime\": _e1r_regime_on(date_t) if e1r_regime_wiring_enabled else None,"
+              },
+              {
+                "line": 1527,
+                "text": "            \"e1r_active_mode\": _e1r_mode_for_regime(_e1r_regime_on(date_t)) if e1r_regime_wiring_enabled else None,"
+              },
+              {
+                "line": 1528,
+                "text": "            \"risk_budget_mode\": _e1r_risk_budget_for_regime(_e1r_regime_on(date_t))[\"mode\"] if e1r_regime_wiring_enabled else None,"
+              },
+              {
+                "line": 1529,
+                "text": "            \"risk_budget\": _e1r_risk_budget_for_regime(_e1r_regime_on(date_t)) if e1r_regime_wiring_enabled else None,"
+              },
+              {
+                "line": 1530,
+                "text": "            \"spx_close\": round(spx_close_t, 2),"
+              }
+            ]
+          }
+        },
+        {
+          "line": 2137,
+          "text": "            gate_state = \"ALLOW\" if market_entry_allowed else (",
+          "context": {
+            "start": 2132,
+            "end": 2142,
+            "rows": [
+              {
+                "line": 2132,
+                "text": "        if _is_last_sim_day:"
+              },
+              {
+                "line": 2133,
+                "text": "            buy_orders = []  # 不在最后一天生成新买入（防止 entry==exit invalid）"
+              },
+              {
+                "line": 2134,
+                "text": "        pending_orders = management_orders + buy_orders"
+              },
+              {
+                "line": 2135,
+                "text": ""
+              },
+              {
+                "line": 2136,
+                "text": "        if (t - min_history) % 20 == 0:"
+              },
+              {
+                "line": 2137,
+                "text": "            gate_state = \"ALLOW\" if market_entry_allowed else ("
+              },
+              {
+                "line": 2138,
+                "text": "                \"SHOCK\" if market_shock else \"RISK_OFF\""
+              },
+              {
+                "line": 2139,
+                "text": "            )"
+              },
+              {
+                "line": 2140,
+                "text": "            logger.info("
+              },
+              {
+                "line": 2141,
+                "text": "                f\"  Layer D market-gate: {t}/{n_days} {date_t} \""
+              },
+              {
+                "line": 2142,
+                "text": "                f\"gate={gate_state} SPXvsMA50={(spx_close_t/spx_ma50_t-1)*100:+.1f}% \""
+              }
+            ]
+          }
+        },
+        {
+          "line": 2142,
+          "text": "                f\"gate={gate_state} SPXvsMA50={(spx_close_t/spx_ma50_t-1)*100:+.1f}% \"",
+          "context": {
+            "start": 2137,
+            "end": 2147,
+            "rows": [
+              {
+                "line": 2137,
+                "text": "            gate_state = \"ALLOW\" if market_entry_allowed else ("
+              },
+              {
+                "line": 2138,
+                "text": "                \"SHOCK\" if market_shock else \"RISK_OFF\""
+              },
+              {
+                "line": 2139,
+                "text": "            )"
+              },
+              {
+                "line": 2140,
+                "text": "            logger.info("
+              },
+              {
+                "line": 2141,
+                "text": "                f\"  Layer D market-gate: {t}/{n_days} {date_t} \""
+              },
+              {
+                "line": 2142,
+                "text": "                f\"gate={gate_state} SPXvsMA50={(spx_close_t/spx_ma50_t-1)*100:+.1f}% \""
+              },
+              {
+                "line": 2143,
+                "text": "                f\"day={spx_day_return*100:+.1f}% cash={cash:.0f} \""
+              },
+              {
+                "line": 2144,
+                "text": "                f\"holdings={len(holdings)} trades={len(closed_trades)}\""
+              },
+              {
+                "line": 2145,
+                "text": "            )"
+              },
+              {
+                "line": 2146,
+                "text": ""
+              },
+              {
+                "line": 2147,
+                "text": "        if t % 30 == 0:"
+              }
+            ]
+          }
+        },
+        {
+          "line": 2155,
+          "text": "                \"market_gate_state\": (",
+          "context": {
+            "start": 2150,
+            "end": 2160,
+            "rows": [
+              {
+                "line": 2150,
+                "text": "                \"cash\":           round(cash, 2),"
+              },
+              {
+                "line": 2151,
+                "text": "                \"position_value\": round(position_value, 2),"
+              },
+              {
+                "line": 2152,
+                "text": "                \"total_equity\":   round(total_equity, 2),"
+              },
+              {
+                "line": 2153,
+                "text": "                \"n_holdings\":     len(holdings),"
+              },
+              {
+                "line": 2154,
+                "text": "                \"pending_orders\": len(pending_orders),"
+              },
+              {
+                "line": 2155,
+                "text": "                \"market_gate_state\": ("
+              },
+              {
+                "line": 2156,
+                "text": "                    \"ALLOW\" if market_entry_allowed else"
+              },
+              {
+                "line": 2157,
+                "text": "                    \"SHOCK\" if market_shock else \"RISK_OFF\""
+              },
+              {
+                "line": 2158,
+                "text": "                ),"
+              },
+              {
+                "line": 2159,
+                "text": "                \"spx_close\":      round(spx_close_t, 2),"
+              },
+              {
+                "line": 2160,
+                "text": "                \"spx_ma50\":       round(spx_ma50_t, 2),"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "risk_off": {
+      "patterns": [
+        "risk_off",
+        "RiskOff"
+      ],
+      "hit_count": 16,
+      "hits": [
+        {
+          "line": 60,
+          "text": "    \"risk_off_below_spx_ma50\": False,",
+          "context": {
+            "start": 55,
+            "end": 65,
+            "rows": [
+              {
+                "line": 55,
+                "text": "    \"entry_top_n\":       3,"
+              },
+              {
+                "line": 56,
+                "text": "    \"rank_based_exit\":   False,"
+              },
+              {
+                "line": 57,
+                "text": "    # Market Gate is disabled in this v1.6 diagnostic matrix so we can isolate"
+              },
+              {
+                "line": 58,
+                "text": "    # the impact of RS threshold, minimum holding period, and relative SPX stop."
+              },
+              {
+                "line": 59,
+                "text": "    \"market_gate_enabled\": False,"
+              },
+              {
+                "line": 60,
+                "text": "    \"risk_off_below_spx_ma50\": False,"
+              },
+              {
+                "line": 61,
+                "text": "    \"market_shock_gate_enabled\": False,"
+              },
+              {
+                "line": 62,
+                "text": "    \"market_shock_daily_return\": -0.02,"
+              },
+              {
+                "line": 63,
+                "text": ""
+              },
+              {
+                "line": 64,
+                "text": "    # Entry / holding / relative-risk controls tested by v1.6 variants."
+              },
+              {
+                "line": 65,
+                "text": "    \"entry_rs_min\": 90.0,"
+              }
+            ]
+          }
+        },
+        {
+          "line": 848,
+          "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))",
+          "context": {
+            "start": 843,
+            "end": 853,
+            "rows": [
+              {
+                "line": 843,
+                "text": "        return max(weights.items(), key=lambda kv: kv[1])[0]"
+              },
+              {
+                "line": 844,
+                "text": ""
+              },
+              {
+                "line": 845,
+                "text": "    entry_top_n = int(a.get(\"entry_top_n\", 3))"
+              },
+              {
+                "line": 846,
+                "text": "    rank_based_exit = bool(a.get(\"rank_based_exit\", False))"
+              },
+              {
+                "line": 847,
+                "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+              },
+              {
+                "line": 848,
+                "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))"
+              },
+              {
+                "line": 849,
+                "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则"
+              },
+              {
+                "line": 850,
+                "text": ""
+              },
+              {
+                "line": 851,
+                "text": "    # Qualified Candidate Pool 参数"
+              },
+              {
+                "line": 852,
+                "text": "    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n"
+              },
+              {
+                "line": 853,
+                "text": "    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))"
+              }
+            ]
+          }
+        },
+        {
+          "line": 929,
+          "text": "                f\"| RiskOff=SPX<MA50:{risk_off_below_spx_ma50} \"",
+          "context": {
+            "start": 924,
+            "end": 934,
+            "rows": [
+              {
+                "line": 924,
+                "text": "                    f\"| EntryTopN={entry_top_n} MaxPos={max_pos} EntryMode=StrictTop3 \""
+              },
+              {
+                "line": 925,
+                "text": "                    f\"BuySlot={buy_pct*100:.1f}% MaxSingle={max_pct*100:.1f}% \""
+              },
+              {
+                "line": 926,
+                "text": "                    f\"OneWay={one_way*100:.2f}%\")"
+              },
+              {
+                "line": 927,
+                "text": "    logger.info(f\"  Market Gate Variant: {market_gate_variant}\")"
+              },
+              {
+                "line": 928,
+                "text": "    logger.info(f\"  Market Gate: enabled={market_gate_enabled} \""
+              },
+              {
+                "line": 929,
+                "text": "                f\"| RiskOff=SPX<MA50:{risk_off_below_spx_ma50} \""
+              },
+              {
+                "line": 930,
+                "text": "                f\"| Shock<={market_shock_daily_return*100:.1f}%:{market_shock_gate_enabled}\")"
+              },
+              {
+                "line": 931,
+                "text": "    logger.info(f\"  Entry filter: RS >= {entry_rs_min:.1f}; MinHold={min_holding_days}d; \""
+              },
+              {
+                "line": 932,
+                "text": "                f\"RelStop={'ON' if relative_stop_enabled else 'OFF'} \""
+              },
+              {
+                "line": 933,
+                "text": "                f\"({relative_stop_underperform*100:.1f}% vs SPX)\")"
+              },
+              {
+                "line": 934,
+                "text": "    logger.info(f\"  LS60 mode: {ls60_exit_mode} \""
+              }
+            ]
+          }
+        },
+        {
+          "line": 1037,
+          "text": "        \"market_risk_off_block\":    0,",
+          "context": {
+            "start": 1032,
+            "end": 1042,
+            "rows": [
+              {
+                "line": 1032,
+                "text": "        \"not_in_entry_top_n\":               0,   # legacy: 旧 Strict Top3 模式"
+              },
+              {
+                "line": 1033,
+                "text": "        \"not_in_qualified_candidate_pool\":  0,   # qualified: 不在候选池"
+              },
+              {
+                "line": 1034,
+                "text": "        \"not_qualified_entry\":              0,   # qualified: 未通过资格过滤"
+              },
+              {
+                "line": 1035,
+                "text": "        \"qualified_candidate_generated\":    0,   # qualified: 候选池 BUY 已生成"
+              },
+              {
+                "line": 1036,
+                "text": ""
+              },
+              {
+                "line": 1037,
+                "text": "        \"market_risk_off_block\":    0,"
+              },
+              {
+                "line": 1038,
+                "text": "        \"market_shock_block\":       0,"
+              },
+              {
+                "line": 1039,
+                "text": "        \"add_blocked_after_tp\":     0,"
+              },
+              {
+                "line": 1040,
+                "text": "        \"entry_rs_below_threshold\":        0,"
+              },
+              {
+                "line": 1041,
+                "text": "        \"min_hold_block\":                  0,"
+              },
+              {
+                "line": 1042,
+                "text": "        \"dynamic_exit_warning\":            0,  # E2: LS<60 但动态确认为 HOLD"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1074,
+          "text": "        \"risk_off\": 0,",
+          "context": {
+            "start": 1069,
+            "end": 1079,
+            "rows": [
+              {
+                "line": 1069,
+                "text": "        \"signals\": 0,"
+              },
+              {
+                "line": 1070,
+                "text": "        \"executed\": 0,"
+              },
+              {
+                "line": 1071,
+                "text": "    }"
+              },
+              {
+                "line": 1072,
+                "text": "    market_gate_days = {"
+              },
+              {
+                "line": 1073,
+                "text": "        \"entry_allowed\": 0,"
+              },
+              {
+                "line": 1074,
+                "text": "        \"risk_off\": 0,"
+              },
+              {
+                "line": 1075,
+                "text": "        \"market_shock\": 0,"
+              },
+              {
+                "line": 1076,
+                "text": "        \"blocked_total\": 0,"
+              },
+              {
+                "line": 1077,
+                "text": "    }"
+              },
+              {
+                "line": 1078,
+                "text": ""
+              },
+              {
+                "line": 1079,
+                "text": "    equity_curve:  list[float] = []"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1397,
+          "text": "            market_risk_off  = False",
+          "context": {
+            "start": 1392,
+            "end": 1402,
+            "rows": [
+              {
+                "line": 1392,
+                "text": "        # ── Gate v2：三档市场状态 ────────────────────────────────"
+              },
+              {
+                "line": 1393,
+                "text": "        if not market_gate_enabled:"
+              },
+              {
+                "line": 1394,
+                "text": "            # Gate 关闭：完全跳过，不执行任何 Gate v2 计算"
+              },
+              {
+                "line": 1395,
+                "text": "            market_state     = \"FULL_ON\""
+              },
+              {
+                "line": 1396,
+                "text": "            entry_capacity   = max_pos"
+              },
+              {
+                "line": 1397,
+                "text": "            market_risk_off  = False"
+              },
+              {
+                "line": 1398,
+                "text": "            market_shock     = False"
+              },
+              {
+                "line": 1399,
+                "text": "            market_entry_allowed = True"
+              },
+              {
+                "line": 1400,
+                "text": "            market_gate_days[\"entry_allowed\"] += 1"
+              },
+              {
+                "line": 1401,
+                "text": "        else:"
+              },
+              {
+                "line": 1402,
+                "text": "            # ── MA50 slope（10日变化率，使用完整历史索引，无 warm-up 问题）"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1483,
+          "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active",
+          "context": {
+            "start": 1478,
+            "end": 1488,
+            "rows": [
+              {
+                "line": 1478,
+                "text": "                entry_capacity = max_pos"
+              },
+              {
+                "line": 1479,
+                "text": "            else:"
+              },
+              {
+                "line": 1480,
+                "text": "                market_state   = \"CAUTIOUS_ON\""
+              },
+              {
+                "line": 1481,
+                "text": "                entry_capacity = min(max_pos, 2)"
+              },
+              {
+                "line": 1482,
+                "text": ""
+              },
+              {
+                "line": 1483,
+                "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+              },
+              {
+                "line": 1484,
+                "text": "            market_shock     = _shock_active"
+              },
+              {
+                "line": 1485,
+                "text": "            market_entry_allowed = entry_capacity > 0"
+              },
+              {
+                "line": 1486,
+                "text": ""
+              },
+              {
+                "line": 1487,
+                "text": "            if market_risk_off:"
+              },
+              {
+                "line": 1488,
+                "text": "                market_gate_days[\"risk_off\"] += 1"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1487,
+          "text": "            if market_risk_off:",
+          "context": {
+            "start": 1482,
+            "end": 1492,
+            "rows": [
+              {
+                "line": 1482,
+                "text": ""
+              },
+              {
+                "line": 1483,
+                "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+              },
+              {
+                "line": 1484,
+                "text": "            market_shock     = _shock_active"
+              },
+              {
+                "line": 1485,
+                "text": "            market_entry_allowed = entry_capacity > 0"
+              },
+              {
+                "line": 1486,
+                "text": ""
+              },
+              {
+                "line": 1487,
+                "text": "            if market_risk_off:"
+              },
+              {
+                "line": 1488,
+                "text": "                market_gate_days[\"risk_off\"] += 1"
+              },
+              {
+                "line": 1489,
+                "text": "            if market_shock:"
+              },
+              {
+                "line": 1490,
+                "text": "                market_gate_days[\"market_shock\"] += 1"
+              },
+              {
+                "line": 1491,
+                "text": "            if market_entry_allowed:"
+              },
+              {
+                "line": 1492,
+                "text": "                market_gate_days[\"entry_allowed\"] += 1"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1488,
+          "text": "                market_gate_days[\"risk_off\"] += 1",
+          "context": {
+            "start": 1483,
+            "end": 1493,
+            "rows": [
+              {
+                "line": 1483,
+                "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+              },
+              {
+                "line": 1484,
+                "text": "            market_shock     = _shock_active"
+              },
+              {
+                "line": 1485,
+                "text": "            market_entry_allowed = entry_capacity > 0"
+              },
+              {
+                "line": 1486,
+                "text": ""
+              },
+              {
+                "line": 1487,
+                "text": "            if market_risk_off:"
+              },
+              {
+                "line": 1488,
+                "text": "                market_gate_days[\"risk_off\"] += 1"
+              },
+              {
+                "line": 1489,
+                "text": "            if market_shock:"
+              },
+              {
+                "line": 1490,
+                "text": "                market_gate_days[\"market_shock\"] += 1"
+              },
+              {
+                "line": 1491,
+                "text": "            if market_entry_allowed:"
+              },
+              {
+                "line": 1492,
+                "text": "                market_gate_days[\"entry_allowed\"] += 1"
+              },
+              {
+                "line": 1493,
+                "text": "            else:"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1824,
+          "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\"",
+          "context": {
+            "start": 1819,
+            "end": 1829,
+            "rows": [
+              {
+                "line": 1819,
+                "text": "                    # → 允许开仓（Gate 启用时才在 STEP 3 检查容量）"
+              },
+              {
+                "line": 1820,
+                "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+              },
+              {
+                "line": 1821,
+                "text": "                        skip_reasons[\"gate_capacity_block\"] = skip_reasons.get(\"gate_capacity_block\", 0) + 1"
+              },
+              {
+                "line": 1822,
+                "text": "                        continue"
+              },
+              {
+                "line": 1823,
+                "text": "                    if not market_entry_allowed:"
+              },
+              {
+                "line": 1824,
+                "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+              },
+              {
+                "line": 1825,
+                "text": "                        skip_reasons[reason] += 1"
+              },
+              {
+                "line": 1826,
+                "text": "                        continue"
+              },
+              {
+                "line": 1827,
+                "text": "                    qual_reasons = ["
+              },
+              {
+                "line": 1828,
+                "text": "                        \"qualified_pool_entry\","
+              },
+              {
+                "line": 1829,
+                "text": "                        f\"rs_above_{qualified_rs_min}\","
+              }
+            ]
+          }
+        },
+        {
+          "line": 1876,
+          "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\"",
+          "context": {
+            "start": 1871,
+            "end": 1881,
+            "rows": [
+              {
+                "line": 1871,
+                "text": "                    # Gate OFF 时依赖 STEP 1 执行层的 max_positions_reached 检查"
+              },
+              {
+                "line": 1872,
+                "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+              },
+              {
+                "line": 1873,
+                "text": "                        skip_reasons[\"gate_capacity_block\"] = skip_reasons.get(\"gate_capacity_block\", 0) + 1"
+              },
+              {
+                "line": 1874,
+                "text": "                        continue"
+              },
+              {
+                "line": 1875,
+                "text": "                    if not market_entry_allowed:"
+              },
+              {
+                "line": 1876,
+                "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+              },
+              {
+                "line": 1877,
+                "text": "                        skip_reasons[reason] += 1"
+              },
+              {
+                "line": 1878,
+                "text": "                        continue"
+              },
+              {
+                "line": 1879,
+                "text": "                    buy_orders.append({"
+              },
+              {
+                "line": 1880,
+                "text": "                        \"sym\":            sym,"
+              },
+              {
+                "line": 1881,
+                "text": "                        \"action\":         \"BUY\","
+              }
+            ]
+          }
+        },
+        {
+          "line": 1972,
+          "text": "                    reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\"",
+          "context": {
+            "start": 1967,
+            "end": 1977,
+            "rows": [
+              {
+                "line": 1967,
+                "text": "                            continue"
+              },
+              {
+                "line": 1968,
+                "text": "                if action == \"ADD\" and block_add_after_take_profit and holdings[sym].get(\"take_profit_triggered\"):"
+              },
+              {
+                "line": 1969,
+                "text": "                    skip_reasons[\"add_blocked_after_tp\"] += 1"
+              },
+              {
+                "line": 1970,
+                "text": "                    continue"
+              },
+              {
+                "line": 1971,
+                "text": "                if action == \"ADD\" and not market_entry_allowed:"
+              },
+              {
+                "line": 1972,
+                "text": "                    reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+              },
+              {
+                "line": 1973,
+                "text": "                    skip_reasons[reason] += 1"
+              },
+              {
+                "line": 1974,
+                "text": "                    continue"
+              },
+              {
+                "line": 1975,
+                "text": "                # 记录 reason（在 T 日信号生成时调用，不在 T+1 执行时重算）"
+              },
+              {
+                "line": 1976,
+                "text": "                reason_info = trade_action_reason("
+              },
+              {
+                "line": 1977,
+                "text": "                    state, mom, rs, close_t, ma50_v, ma50_sl,"
+              }
+            ]
+          }
+        },
+        {
+          "line": 2332,
+          "text": "                f\"risk_off={market_gate_days['risk_off']} \"",
+          "context": {
+            "start": 2327,
+            "end": 2337,
+            "rows": [
+              {
+                "line": 2327,
+                "text": "    else:"
+              },
+              {
+                "line": 2328,
+                "text": "        status = \"FAIL\""
+              },
+              {
+                "line": 2329,
+                "text": ""
+              },
+              {
+                "line": 2330,
+                "text": "    logger.info(f\"  Market gate days: allowed={market_gate_days['entry_allowed']} \""
+              },
+              {
+                "line": 2331,
+                "text": "                f\"blocked={market_gate_days['blocked_total']} \""
+              },
+              {
+                "line": 2332,
+                "text": "                f\"risk_off={market_gate_days['risk_off']} \""
+              },
+              {
+                "line": 2333,
+                "text": "                f\"shock={market_gate_days['market_shock']}\")"
+              },
+              {
+                "line": 2334,
+                "text": "    logger.info(f\"  Relative stop: signals={relative_stop_stats['signals']} \""
+              },
+              {
+                "line": 2335,
+                "text": "                f\"executed={relative_stop_stats['executed']}\")"
+              },
+              {
+                "line": 2336,
+                "text": "    logger.info(f\"  Fixed TP: signals={take_profit_stats['signals']} \""
+              },
+              {
+                "line": 2337,
+                "text": "                f\"executed={take_profit_stats['executed']}\")"
+              }
+            ]
+          }
+        },
+        {
+          "line": 2407,
+          "text": "            \"risk_off_rule\": \"SPX close < SPX MA50\" if risk_off_below_spx_ma50 else \"disabled\",",
+          "context": {
+            "start": 2402,
+            "end": 2412,
+            "rows": [
+              {
+                "line": 2402,
+                "text": "            \"note\": \"Partial reduction releases cash but does not free a Max3 symbol slot.\","
+              },
+              {
+                "line": 2403,
+                "text": "        },"
+              },
+              {
+                "line": 2404,
+                "text": "        \"market_entry_gate\": {"
+              },
+              {
+                "line": 2405,
+                "text": "            \"variant\": market_gate_variant,"
+              },
+              {
+                "line": 2406,
+                "text": "            \"enabled\": market_gate_enabled,"
+              },
+              {
+                "line": 2407,
+                "text": "            \"risk_off_rule\": \"SPX close < SPX MA50\" if risk_off_below_spx_ma50 else \"disabled\","
+              },
+              {
+                "line": 2408,
+                "text": "            \"market_shock_rule\": ("
+              },
+              {
+                "line": 2409,
+                "text": "                f\"SPX daily return <= {market_shock_daily_return*100:.1f}%\""
+              },
+              {
+                "line": 2410,
+                "text": "                if market_shock_gate_enabled else \"disabled\""
+              },
+              {
+                "line": 2411,
+                "text": "            ),"
+              },
+              {
+                "line": 2412,
+                "text": "            \"blocked_actions\": [\"BUY\", \"ADD\"],"
+              }
+            ]
+          }
+        },
+        {
+          "line": 2527,
+          "text": "        \"risk_off_below_spx_ma50\":   True,",
+          "context": {
+            "start": 2522,
+            "end": 2532,
+            "rows": [
+              {
+                "line": 2522,
+                "text": "        \"block_add_after_take_profit\": False,"
+              },
+              {
+                "line": 2523,
+                "text": "    }"
+              },
+              {
+                "line": 2524,
+                "text": "    # ── Gate v2 No VIX（冻结市场层基准）─────────────────────────"
+              },
+              {
+                "line": 2525,
+                "text": "    _gate_v2_no_vix = {"
+              },
+              {
+                "line": 2526,
+                "text": "        \"market_gate_enabled\":       True,"
+              },
+              {
+                "line": 2527,
+                "text": "        \"risk_off_below_spx_ma50\":   True,"
+              },
+              {
+                "line": 2528,
+                "text": "        \"market_shock_gate_enabled\": True,"
+              },
+              {
+                "line": 2529,
+                "text": "        \"market_shock_daily_return\": -0.02,"
+              },
+              {
+                "line": 2530,
+                "text": "        \"candidate_top_n\":           None,"
+              },
+              {
+                "line": 2531,
+                "text": "        \"qualified_entry_enabled\":   False,"
+              },
+              {
+                "line": 2532,
+                "text": "        \"fill_only_enabled\":         False,"
+              }
+            ]
+          }
+        },
+        {
+          "line": 2538,
+          "text": "        \"risk_off_below_spx_ma50\":   False,",
+          "context": {
+            "start": 2533,
+            "end": 2543,
+            "rows": [
+              {
+                "line": 2533,
+                "text": "    }"
+              },
+              {
+                "line": 2534,
+                "text": ""
+              },
+              {
+                "line": 2535,
+                "text": "    # ── E2 实验配置（Gate 固定 G4，只改退出层）────────────────"
+              },
+              {
+                "line": 2536,
+                "text": "    _gate_g4 = {"
+              },
+              {
+                "line": 2537,
+                "text": "        \"market_gate_enabled\":       True,"
+              },
+              {
+                "line": 2538,
+                "text": "        \"risk_off_below_spx_ma50\":   False,"
+              },
+              {
+                "line": 2539,
+                "text": "        \"market_shock_gate_enabled\": False,"
+              },
+              {
+                "line": 2540,
+                "text": "        \"market_shock_daily_return\": -0.02,"
+              },
+              {
+                "line": 2541,
+                "text": "        \"gate_use_slope\":            True,"
+              },
+              {
+                "line": 2542,
+                "text": "        \"gate_use_leadership\":       True,"
+              },
+              {
+                "line": 2543,
+                "text": "        \"candidate_top_n\":           None,"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "shock": {
+      "patterns": [
+        "shock",
+        "Shock"
+      ],
+      "hit_count": 34,
+      "hits": [
+        {
+          "line": 61,
+          "text": "    \"market_shock_gate_enabled\": False,",
+          "context": {
+            "start": 56,
+            "end": 66,
+            "rows": [
+              {
+                "line": 56,
+                "text": "    \"rank_based_exit\":   False,"
+              },
+              {
+                "line": 57,
+                "text": "    # Market Gate is disabled in this v1.6 diagnostic matrix so we can isolate"
+              },
+              {
+                "line": 58,
+                "text": "    # the impact of RS threshold, minimum holding period, and relative SPX stop."
+              },
+              {
+                "line": 59,
+                "text": "    \"market_gate_enabled\": False,"
+              },
+              {
+                "line": 60,
+                "text": "    \"risk_off_below_spx_ma50\": False,"
+              },
+              {
+                "line": 61,
+                "text": "    \"market_shock_gate_enabled\": False,"
+              },
+              {
+                "line": 62,
+                "text": "    \"market_shock_daily_return\": -0.02,"
+              },
+              {
+                "line": 63,
+                "text": ""
+              },
+              {
+                "line": 64,
+                "text": "    # Entry / holding / relative-risk controls tested by v1.6 variants."
+              },
+              {
+                "line": 65,
+                "text": "    \"entry_rs_min\": 90.0,"
+              },
+              {
+                "line": 66,
+                "text": "    \"min_holding_days\": 0,"
+              }
+            ]
+          }
+        },
+        {
+          "line": 62,
+          "text": "    \"market_shock_daily_return\": -0.02,",
+          "context": {
+            "start": 57,
+            "end": 67,
+            "rows": [
+              {
+                "line": 57,
+                "text": "    # Market Gate is disabled in this v1.6 diagnostic matrix so we can isolate"
+              },
+              {
+                "line": 58,
+                "text": "    # the impact of RS threshold, minimum holding period, and relative SPX stop."
+              },
+              {
+                "line": 59,
+                "text": "    \"market_gate_enabled\": False,"
+              },
+              {
+                "line": 60,
+                "text": "    \"risk_off_below_spx_ma50\": False,"
+              },
+              {
+                "line": 61,
+                "text": "    \"market_shock_gate_enabled\": False,"
+              },
+              {
+                "line": 62,
+                "text": "    \"market_shock_daily_return\": -0.02,"
+              },
+              {
+                "line": 63,
+                "text": ""
+              },
+              {
+                "line": 64,
+                "text": "    # Entry / holding / relative-risk controls tested by v1.6 variants."
+              },
+              {
+                "line": 65,
+                "text": "    \"entry_rs_min\": 90.0,"
+              },
+              {
+                "line": 66,
+                "text": "    \"min_holding_days\": 0,"
+              },
+              {
+                "line": 67,
+                "text": "    \"min_hold_allow_broken_exit\": True,"
+              }
+            ]
+          }
+        },
+        {
+          "line": 896,
+          "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))",
+          "context": {
+            "start": 891,
+            "end": 901,
+            "rows": [
+              {
+                "line": 891,
+                "text": "                    f\"price>MA50={qualified_price_above_ma50} slope>={qualified_ma50_slope_min}\")"
+              },
+              {
+                "line": 892,
+                "text": "    else:"
+              },
+              {
+                "line": 893,
+                "text": "        logger.info(f\"  Entry mode: Strict Top{entry_top_n} (legacy)\")"
+              },
+              {
+                "line": 894,
+                "text": "    if ls60_exit_mode not in {\"exit\", \"reduce\"}:"
+              },
+              {
+                "line": 895,
+                "text": "        raise ValueError(f\"Invalid ls60_exit_mode={ls60_exit_mode!r}; expected 'exit' or 'reduce'\")"
+              },
+              {
+                "line": 896,
+                "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))"
+              },
+              {
+                "line": 897,
+                "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))"
+              },
+              {
+                "line": 898,
+                "text": "    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))"
+              },
+              {
+                "line": 899,
+                "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))"
+              },
+              {
+                "line": 900,
+                "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))"
+              },
+              {
+                "line": 901,
+                "text": "    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))"
+              }
+            ]
+          }
+        },
+        {
+          "line": 897,
+          "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))",
+          "context": {
+            "start": 892,
+            "end": 902,
+            "rows": [
+              {
+                "line": 892,
+                "text": "    else:"
+              },
+              {
+                "line": 893,
+                "text": "        logger.info(f\"  Entry mode: Strict Top{entry_top_n} (legacy)\")"
+              },
+              {
+                "line": 894,
+                "text": "    if ls60_exit_mode not in {\"exit\", \"reduce\"}:"
+              },
+              {
+                "line": 895,
+                "text": "        raise ValueError(f\"Invalid ls60_exit_mode={ls60_exit_mode!r}; expected 'exit' or 'reduce'\")"
+              },
+              {
+                "line": 896,
+                "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))"
+              },
+              {
+                "line": 897,
+                "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))"
+              },
+              {
+                "line": 898,
+                "text": "    take_profit_enabled = bool(a.get(\"partial_take_profit_enabled\", False))"
+              },
+              {
+                "line": 899,
+                "text": "    take_profit_threshold = float(a.get(\"partial_take_profit_threshold\", 0.07))"
+              },
+              {
+                "line": 900,
+                "text": "    take_profit_fraction = float(a.get(\"partial_take_profit_fraction\", 0.50))"
+              },
+              {
+                "line": 901,
+                "text": "    block_add_after_take_profit = bool(a.get(\"block_add_after_take_profit\", False))"
+              },
+              {
+                "line": 902,
+                "text": "    entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))"
+              }
+            ]
+          }
+        },
+        {
+          "line": 913,
+          "text": "        \"D2_RISK_OFF_GATE\" if not market_shock_gate_enabled else",
+          "context": {
+            "start": 908,
+            "end": 918,
+            "rows": [
+              {
+                "line": 908,
+                "text": "    relative_stop_underperform = float(a.get(\"relative_stop_underperform_pct\", -0.08))"
+              },
+              {
+                "line": 909,
+                "text": "    relative_stop_action = a.get(\"relative_stop_action\", \"REL_REDUCE\")"
+              },
+              {
+                "line": 910,
+                "text": "    relative_stop_once = bool(a.get(\"relative_stop_once_per_position\", True))"
+              },
+              {
+                "line": 911,
+                "text": "    market_gate_variant = ("
+              },
+              {
+                "line": 912,
+                "text": "        \"D1_NO_MARKET_GATE\" if not market_gate_enabled else"
+              },
+              {
+                "line": 913,
+                "text": "        \"D2_RISK_OFF_GATE\" if not market_shock_gate_enabled else"
+              },
+              {
+                "line": 914,
+                "text": "        \"D3_RISK_OFF_PLUS_SHOCK_GATE\""
+              },
+              {
+                "line": 915,
+                "text": "    )"
+              },
+              {
+                "line": 916,
+                "text": ""
+              },
+              {
+                "line": 917,
+                "text": "    if qualified_entry_enabled:"
+              },
+              {
+                "line": 918,
+                "text": "        logger.info(f\"  v{a.get('version','?')} | Strategy={strategy_variant} \""
+              }
+            ]
+          }
+        },
+        {
+          "line": 930,
+          "text": "                f\"| Shock<={market_shock_daily_return*100:.1f}%:{market_shock_gate_enabled}\")",
+          "context": {
+            "start": 925,
+            "end": 935,
+            "rows": [
+              {
+                "line": 925,
+                "text": "                    f\"BuySlot={buy_pct*100:.1f}% MaxSingle={max_pct*100:.1f}% \""
+              },
+              {
+                "line": 926,
+                "text": "                    f\"OneWay={one_way*100:.2f}%\")"
+              },
+              {
+                "line": 927,
+                "text": "    logger.info(f\"  Market Gate Variant: {market_gate_variant}\")"
+              },
+              {
+                "line": 928,
+                "text": "    logger.info(f\"  Market Gate: enabled={market_gate_enabled} \""
+              },
+              {
+                "line": 929,
+                "text": "                f\"| RiskOff=SPX<MA50:{risk_off_below_spx_ma50} \""
+              },
+              {
+                "line": 930,
+                "text": "                f\"| Shock<={market_shock_daily_return*100:.1f}%:{market_shock_gate_enabled}\")"
+              },
+              {
+                "line": 931,
+                "text": "    logger.info(f\"  Entry filter: RS >= {entry_rs_min:.1f}; MinHold={min_holding_days}d; \""
+              },
+              {
+                "line": 932,
+                "text": "                f\"RelStop={'ON' if relative_stop_enabled else 'OFF'} \""
+              },
+              {
+                "line": 933,
+                "text": "                f\"({relative_stop_underperform*100:.1f}% vs SPX)\")"
+              },
+              {
+                "line": 934,
+                "text": "    logger.info(f\"  LS60 mode: {ls60_exit_mode} \""
+              },
+              {
+                "line": 935,
+                "text": "                f\"({'LS<60 → EXIT' if ls60_exit_mode == 'exit' else 'LS<60 → REDUCE'})\")"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1038,
+          "text": "        \"market_shock_block\":       0,",
+          "context": {
+            "start": 1033,
+            "end": 1043,
+            "rows": [
+              {
+                "line": 1033,
+                "text": "        \"not_in_qualified_candidate_pool\":  0,   # qualified: 不在候选池"
+              },
+              {
+                "line": 1034,
+                "text": "        \"not_qualified_entry\":              0,   # qualified: 未通过资格过滤"
+              },
+              {
+                "line": 1035,
+                "text": "        \"qualified_candidate_generated\":    0,   # qualified: 候选池 BUY 已生成"
+              },
+              {
+                "line": 1036,
+                "text": ""
+              },
+              {
+                "line": 1037,
+                "text": "        \"market_risk_off_block\":    0,"
+              },
+              {
+                "line": 1038,
+                "text": "        \"market_shock_block\":       0,"
+              },
+              {
+                "line": 1039,
+                "text": "        \"add_blocked_after_tp\":     0,"
+              },
+              {
+                "line": 1040,
+                "text": "        \"entry_rs_below_threshold\":        0,"
+              },
+              {
+                "line": 1041,
+                "text": "        \"min_hold_block\":                  0,"
+              },
+              {
+                "line": 1042,
+                "text": "        \"dynamic_exit_warning\":            0,  # E2: LS<60 但动态确认为 HOLD"
+              },
+              {
+                "line": 1043,
+                "text": "        \"dynamic_hard_exit_triggered\":     0,  # E2: 硬退出触发次数"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1075,
+          "text": "        \"market_shock\": 0,",
+          "context": {
+            "start": 1070,
+            "end": 1080,
+            "rows": [
+              {
+                "line": 1070,
+                "text": "        \"executed\": 0,"
+              },
+              {
+                "line": 1071,
+                "text": "    }"
+              },
+              {
+                "line": 1072,
+                "text": "    market_gate_days = {"
+              },
+              {
+                "line": 1073,
+                "text": "        \"entry_allowed\": 0,"
+              },
+              {
+                "line": 1074,
+                "text": "        \"risk_off\": 0,"
+              },
+              {
+                "line": 1075,
+                "text": "        \"market_shock\": 0,"
+              },
+              {
+                "line": 1076,
+                "text": "        \"blocked_total\": 0,"
+              },
+              {
+                "line": 1077,
+                "text": "    }"
+              },
+              {
+                "line": 1078,
+                "text": ""
+              },
+              {
+                "line": 1079,
+                "text": "    equity_curve:  list[float] = []"
+              },
+              {
+                "line": 1080,
+                "text": "    spx_curve:     list[float] = []"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1398,
+          "text": "            market_shock     = False",
+          "context": {
+            "start": 1393,
+            "end": 1403,
+            "rows": [
+              {
+                "line": 1393,
+                "text": "        if not market_gate_enabled:"
+              },
+              {
+                "line": 1394,
+                "text": "            # Gate 关闭：完全跳过，不执行任何 Gate v2 计算"
+              },
+              {
+                "line": 1395,
+                "text": "            market_state     = \"FULL_ON\""
+              },
+              {
+                "line": 1396,
+                "text": "            entry_capacity   = max_pos"
+              },
+              {
+                "line": 1397,
+                "text": "            market_risk_off  = False"
+              },
+              {
+                "line": 1398,
+                "text": "            market_shock     = False"
+              },
+              {
+                "line": 1399,
+                "text": "            market_entry_allowed = True"
+              },
+              {
+                "line": 1400,
+                "text": "            market_gate_days[\"entry_allowed\"] += 1"
+              },
+              {
+                "line": 1401,
+                "text": "        else:"
+              },
+              {
+                "line": 1402,
+                "text": "            # ── MA50 slope（10日变化率，使用完整历史索引，无 warm-up 问题）"
+              },
+              {
+                "line": 1403,
+                "text": "            if t >= 59:  # t>=49（MA50）+ 10（slope 回溯）"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1447,
+          "text": "            # shock/VIX 受开关控制，不泄漏到未启用的 variant",
+          "context": {
+            "start": 1442,
+            "end": 1452,
+            "rows": [
+              {
+                "line": 1442,
+                "text": "                1 if _spx_above else 0,"
+              },
+              {
+                "line": 1443,
+                "text": "                1 if (_ndx_above is True) else 0,"
+              },
+              {
+                "line": 1444,
+                "text": "                1 if (_sox_above is True) else 0,"
+              },
+              {
+                "line": 1445,
+                "text": "            ])"
+              },
+              {
+                "line": 1446,
+                "text": "            _leadership_ratio = _leadership_count / _n_indices if _n_indices > 0 else 1.0"
+              },
+              {
+                "line": 1447,
+                "text": "            # shock/VIX 受开关控制，不泄漏到未启用的 variant"
+              },
+              {
+                "line": 1448,
+                "text": "            _shock_active = ("
+              },
+              {
+                "line": 1449,
+                "text": "                market_shock_gate_enabled"
+              },
+              {
+                "line": 1450,
+                "text": "                and spx_day_return <= market_shock_daily_return"
+              },
+              {
+                "line": 1451,
+                "text": "            )"
+              },
+              {
+                "line": 1452,
+                "text": "            _vix_active = ("
+              }
+            ]
+          }
+        },
+        {
+          "line": 1448,
+          "text": "            _shock_active = (",
+          "context": {
+            "start": 1443,
+            "end": 1453,
+            "rows": [
+              {
+                "line": 1443,
+                "text": "                1 if (_ndx_above is True) else 0,"
+              },
+              {
+                "line": 1444,
+                "text": "                1 if (_sox_above is True) else 0,"
+              },
+              {
+                "line": 1445,
+                "text": "            ])"
+              },
+              {
+                "line": 1446,
+                "text": "            _leadership_ratio = _leadership_count / _n_indices if _n_indices > 0 else 1.0"
+              },
+              {
+                "line": 1447,
+                "text": "            # shock/VIX 受开关控制，不泄漏到未启用的 variant"
+              },
+              {
+                "line": 1448,
+                "text": "            _shock_active = ("
+              },
+              {
+                "line": 1449,
+                "text": "                market_shock_gate_enabled"
+              },
+              {
+                "line": 1450,
+                "text": "                and spx_day_return <= market_shock_daily_return"
+              },
+              {
+                "line": 1451,
+                "text": "            )"
+              },
+              {
+                "line": 1452,
+                "text": "            _vix_active = ("
+              },
+              {
+                "line": 1453,
+                "text": "                vix_lookup is not None and len(vix_lookup) > 0"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1449,
+          "text": "                market_shock_gate_enabled",
+          "context": {
+            "start": 1444,
+            "end": 1454,
+            "rows": [
+              {
+                "line": 1444,
+                "text": "                1 if (_sox_above is True) else 0,"
+              },
+              {
+                "line": 1445,
+                "text": "            ])"
+              },
+              {
+                "line": 1446,
+                "text": "            _leadership_ratio = _leadership_count / _n_indices if _n_indices > 0 else 1.0"
+              },
+              {
+                "line": 1447,
+                "text": "            # shock/VIX 受开关控制，不泄漏到未启用的 variant"
+              },
+              {
+                "line": 1448,
+                "text": "            _shock_active = ("
+              },
+              {
+                "line": 1449,
+                "text": "                market_shock_gate_enabled"
+              },
+              {
+                "line": 1450,
+                "text": "                and spx_day_return <= market_shock_daily_return"
+              },
+              {
+                "line": 1451,
+                "text": "            )"
+              },
+              {
+                "line": 1452,
+                "text": "            _vix_active = ("
+              },
+              {
+                "line": 1453,
+                "text": "                vix_lookup is not None and len(vix_lookup) > 0"
+              },
+              {
+                "line": 1454,
+                "text": "                and (_vix_last or 0) >= 30"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1450,
+          "text": "                and spx_day_return <= market_shock_daily_return",
+          "context": {
+            "start": 1445,
+            "end": 1455,
+            "rows": [
+              {
+                "line": 1445,
+                "text": "            ])"
+              },
+              {
+                "line": 1446,
+                "text": "            _leadership_ratio = _leadership_count / _n_indices if _n_indices > 0 else 1.0"
+              },
+              {
+                "line": 1447,
+                "text": "            # shock/VIX 受开关控制，不泄漏到未启用的 variant"
+              },
+              {
+                "line": 1448,
+                "text": "            _shock_active = ("
+              },
+              {
+                "line": 1449,
+                "text": "                market_shock_gate_enabled"
+              },
+              {
+                "line": 1450,
+                "text": "                and spx_day_return <= market_shock_daily_return"
+              },
+              {
+                "line": 1451,
+                "text": "            )"
+              },
+              {
+                "line": 1452,
+                "text": "            _vix_active = ("
+              },
+              {
+                "line": 1453,
+                "text": "                vix_lookup is not None and len(vix_lookup) > 0"
+              },
+              {
+                "line": 1454,
+                "text": "                and (_vix_last or 0) >= 30"
+              },
+              {
+                "line": 1455,
+                "text": "                # VIX 当前冻结禁用（所有 Gate v2.1 variant 均不传 VIX 数据）"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1464,
+          "text": "                or _shock_active",
+          "context": {
+            "start": 1459,
+            "end": 1469,
+            "rows": [
+              {
+                "line": 1459,
+                "text": "            _slope_ok          = (spx_ma50_slope >= 0) if gate_use_slope else True"
+              },
+              {
+                "line": 1460,
+                "text": "            _leadership_strong = (_leadership_ratio >= 1.0) if gate_use_leadership else True"
+              },
+              {
+                "line": 1461,
+                "text": ""
+              },
+              {
+                "line": 1462,
+                "text": "            _cash_mode = ("
+              },
+              {
+                "line": 1463,
+                "text": "                _vix_active"
+              },
+              {
+                "line": 1464,
+                "text": "                or _shock_active"
+              },
+              {
+                "line": 1465,
+                "text": "                or (gate_use_leadership and _leadership_ratio < 2/3)"
+              },
+              {
+                "line": 1466,
+                "text": "                or (gate_use_slope and spx_ma50_slope < 0)"
+              },
+              {
+                "line": 1467,
+                "text": "            )"
+              },
+              {
+                "line": 1468,
+                "text": "            if _cash_mode:"
+              },
+              {
+                "line": 1469,
+                "text": "                market_state   = \"CASH_MODE\""
+              }
+            ]
+          }
+        },
+        {
+          "line": 1475,
+          "text": "                and not _shock_active",
+          "context": {
+            "start": 1470,
+            "end": 1480,
+            "rows": [
+              {
+                "line": 1470,
+                "text": "                entry_capacity = 0"
+              },
+              {
+                "line": 1471,
+                "text": "            elif ("
+              },
+              {
+                "line": 1472,
+                "text": "                _spx_above"
+              },
+              {
+                "line": 1473,
+                "text": "                and _slope_ok"
+              },
+              {
+                "line": 1474,
+                "text": "                and _leadership_strong"
+              },
+              {
+                "line": 1475,
+                "text": "                and not _shock_active"
+              },
+              {
+                "line": 1476,
+                "text": "            ):"
+              },
+              {
+                "line": 1477,
+                "text": "                market_state   = \"FULL_ON\""
+              },
+              {
+                "line": 1478,
+                "text": "                entry_capacity = max_pos"
+              },
+              {
+                "line": 1479,
+                "text": "            else:"
+              },
+              {
+                "line": 1480,
+                "text": "                market_state   = \"CAUTIOUS_ON\""
+              }
+            ]
+          }
+        },
+        {
+          "line": 1483,
+          "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active",
+          "context": {
+            "start": 1478,
+            "end": 1488,
+            "rows": [
+              {
+                "line": 1478,
+                "text": "                entry_capacity = max_pos"
+              },
+              {
+                "line": 1479,
+                "text": "            else:"
+              },
+              {
+                "line": 1480,
+                "text": "                market_state   = \"CAUTIOUS_ON\""
+              },
+              {
+                "line": 1481,
+                "text": "                entry_capacity = min(max_pos, 2)"
+              },
+              {
+                "line": 1482,
+                "text": ""
+              },
+              {
+                "line": 1483,
+                "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+              },
+              {
+                "line": 1484,
+                "text": "            market_shock     = _shock_active"
+              },
+              {
+                "line": 1485,
+                "text": "            market_entry_allowed = entry_capacity > 0"
+              },
+              {
+                "line": 1486,
+                "text": ""
+              },
+              {
+                "line": 1487,
+                "text": "            if market_risk_off:"
+              },
+              {
+                "line": 1488,
+                "text": "                market_gate_days[\"risk_off\"] += 1"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1484,
+          "text": "            market_shock     = _shock_active",
+          "context": {
+            "start": 1479,
+            "end": 1489,
+            "rows": [
+              {
+                "line": 1479,
+                "text": "            else:"
+              },
+              {
+                "line": 1480,
+                "text": "                market_state   = \"CAUTIOUS_ON\""
+              },
+              {
+                "line": 1481,
+                "text": "                entry_capacity = min(max_pos, 2)"
+              },
+              {
+                "line": 1482,
+                "text": ""
+              },
+              {
+                "line": 1483,
+                "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+              },
+              {
+                "line": 1484,
+                "text": "            market_shock     = _shock_active"
+              },
+              {
+                "line": 1485,
+                "text": "            market_entry_allowed = entry_capacity > 0"
+              },
+              {
+                "line": 1486,
+                "text": ""
+              },
+              {
+                "line": 1487,
+                "text": "            if market_risk_off:"
+              },
+              {
+                "line": 1488,
+                "text": "                market_gate_days[\"risk_off\"] += 1"
+              },
+              {
+                "line": 1489,
+                "text": "            if market_shock:"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1489,
+          "text": "            if market_shock:",
+          "context": {
+            "start": 1484,
+            "end": 1494,
+            "rows": [
+              {
+                "line": 1484,
+                "text": "            market_shock     = _shock_active"
+              },
+              {
+                "line": 1485,
+                "text": "            market_entry_allowed = entry_capacity > 0"
+              },
+              {
+                "line": 1486,
+                "text": ""
+              },
+              {
+                "line": 1487,
+                "text": "            if market_risk_off:"
+              },
+              {
+                "line": 1488,
+                "text": "                market_gate_days[\"risk_off\"] += 1"
+              },
+              {
+                "line": 1489,
+                "text": "            if market_shock:"
+              },
+              {
+                "line": 1490,
+                "text": "                market_gate_days[\"market_shock\"] += 1"
+              },
+              {
+                "line": 1491,
+                "text": "            if market_entry_allowed:"
+              },
+              {
+                "line": 1492,
+                "text": "                market_gate_days[\"entry_allowed\"] += 1"
+              },
+              {
+                "line": 1493,
+                "text": "            else:"
+              },
+              {
+                "line": 1494,
+                "text": "                market_gate_days[\"blocked_total\"] += 1"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1490,
+          "text": "                market_gate_days[\"market_shock\"] += 1",
+          "context": {
+            "start": 1485,
+            "end": 1495,
+            "rows": [
+              {
+                "line": 1485,
+                "text": "            market_entry_allowed = entry_capacity > 0"
+              },
+              {
+                "line": 1486,
+                "text": ""
+              },
+              {
+                "line": 1487,
+                "text": "            if market_risk_off:"
+              },
+              {
+                "line": 1488,
+                "text": "                market_gate_days[\"risk_off\"] += 1"
+              },
+              {
+                "line": 1489,
+                "text": "            if market_shock:"
+              },
+              {
+                "line": 1490,
+                "text": "                market_gate_days[\"market_shock\"] += 1"
+              },
+              {
+                "line": 1491,
+                "text": "            if market_entry_allowed:"
+              },
+              {
+                "line": 1492,
+                "text": "                market_gate_days[\"entry_allowed\"] += 1"
+              },
+              {
+                "line": 1493,
+                "text": "            else:"
+              },
+              {
+                "line": 1494,
+                "text": "                market_gate_days[\"blocked_total\"] += 1"
+              },
+              {
+                "line": 1495,
+                "text": ""
+              }
+            ]
+          }
+        },
+        {
+          "line": 1512,
+          "text": "            \"SHOCK\" if market_shock else \"RISK_OFF\"",
+          "context": {
+            "start": 1507,
+            "end": 1517,
+            "rows": [
+              {
+                "line": 1507,
+                "text": "            (daily_equity_peak - total_equity) / daily_equity_peak * 100"
+              },
+              {
+                "line": 1508,
+                "text": "            if daily_equity_peak and daily_equity_peak > 0 else 0.0"
+              },
+              {
+                "line": 1509,
+                "text": "        )"
+              },
+              {
+                "line": 1510,
+                "text": "        _gate_state = ("
+              },
+              {
+                "line": 1511,
+                "text": "            \"ALLOW\" if market_entry_allowed else"
+              },
+              {
+                "line": 1512,
+                "text": "            \"SHOCK\" if market_shock else \"RISK_OFF\""
+              },
+              {
+                "line": 1513,
+                "text": "        )"
+              },
+              {
+                "line": 1514,
+                "text": ""
+              },
+              {
+                "line": 1515,
+                "text": "        daily_equity_records.append({"
+              },
+              {
+                "line": 1516,
+                "text": "            \"date\": date_t,"
+              },
+              {
+                "line": 1517,
+                "text": "            \"cash\": round(cash, 2),"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1824,
+          "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\"",
+          "context": {
+            "start": 1819,
+            "end": 1829,
+            "rows": [
+              {
+                "line": 1819,
+                "text": "                    # → 允许开仓（Gate 启用时才在 STEP 3 检查容量）"
+              },
+              {
+                "line": 1820,
+                "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+              },
+              {
+                "line": 1821,
+                "text": "                        skip_reasons[\"gate_capacity_block\"] = skip_reasons.get(\"gate_capacity_block\", 0) + 1"
+              },
+              {
+                "line": 1822,
+                "text": "                        continue"
+              },
+              {
+                "line": 1823,
+                "text": "                    if not market_entry_allowed:"
+              },
+              {
+                "line": 1824,
+                "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+              },
+              {
+                "line": 1825,
+                "text": "                        skip_reasons[reason] += 1"
+              },
+              {
+                "line": 1826,
+                "text": "                        continue"
+              },
+              {
+                "line": 1827,
+                "text": "                    qual_reasons = ["
+              },
+              {
+                "line": 1828,
+                "text": "                        \"qualified_pool_entry\","
+              },
+              {
+                "line": 1829,
+                "text": "                        f\"rs_above_{qualified_rs_min}\","
+              }
+            ]
+          }
+        },
+        {
+          "line": 1876,
+          "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\"",
+          "context": {
+            "start": 1871,
+            "end": 1881,
+            "rows": [
+              {
+                "line": 1871,
+                "text": "                    # Gate OFF 时依赖 STEP 1 执行层的 max_positions_reached 检查"
+              },
+              {
+                "line": 1872,
+                "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+              },
+              {
+                "line": 1873,
+                "text": "                        skip_reasons[\"gate_capacity_block\"] = skip_reasons.get(\"gate_capacity_block\", 0) + 1"
+              },
+              {
+                "line": 1874,
+                "text": "                        continue"
+              },
+              {
+                "line": 1875,
+                "text": "                    if not market_entry_allowed:"
+              },
+              {
+                "line": 1876,
+                "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+              },
+              {
+                "line": 1877,
+                "text": "                        skip_reasons[reason] += 1"
+              },
+              {
+                "line": 1878,
+                "text": "                        continue"
+              },
+              {
+                "line": 1879,
+                "text": "                    buy_orders.append({"
+              },
+              {
+                "line": 1880,
+                "text": "                        \"sym\":            sym,"
+              },
+              {
+                "line": 1881,
+                "text": "                        \"action\":         \"BUY\","
+              }
+            ]
+          }
+        },
+        {
+          "line": 1972,
+          "text": "                    reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\"",
+          "context": {
+            "start": 1967,
+            "end": 1977,
+            "rows": [
+              {
+                "line": 1967,
+                "text": "                            continue"
+              },
+              {
+                "line": 1968,
+                "text": "                if action == \"ADD\" and block_add_after_take_profit and holdings[sym].get(\"take_profit_triggered\"):"
+              },
+              {
+                "line": 1969,
+                "text": "                    skip_reasons[\"add_blocked_after_tp\"] += 1"
+              },
+              {
+                "line": 1970,
+                "text": "                    continue"
+              },
+              {
+                "line": 1971,
+                "text": "                if action == \"ADD\" and not market_entry_allowed:"
+              },
+              {
+                "line": 1972,
+                "text": "                    reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+              },
+              {
+                "line": 1973,
+                "text": "                    skip_reasons[reason] += 1"
+              },
+              {
+                "line": 1974,
+                "text": "                    continue"
+              },
+              {
+                "line": 1975,
+                "text": "                # 记录 reason（在 T 日信号生成时调用，不在 T+1 执行时重算）"
+              },
+              {
+                "line": 1976,
+                "text": "                reason_info = trade_action_reason("
+              },
+              {
+                "line": 1977,
+                "text": "                    state, mom, rs, close_t, ma50_v, ma50_sl,"
+              }
+            ]
+          }
+        },
+        {
+          "line": 2138,
+          "text": "                \"SHOCK\" if market_shock else \"RISK_OFF\"",
+          "context": {
+            "start": 2133,
+            "end": 2143,
+            "rows": [
+              {
+                "line": 2133,
+                "text": "            buy_orders = []  # 不在最后一天生成新买入（防止 entry==exit invalid）"
+              },
+              {
+                "line": 2134,
+                "text": "        pending_orders = management_orders + buy_orders"
+              },
+              {
+                "line": 2135,
+                "text": ""
+              },
+              {
+                "line": 2136,
+                "text": "        if (t - min_history) % 20 == 0:"
+              },
+              {
+                "line": 2137,
+                "text": "            gate_state = \"ALLOW\" if market_entry_allowed else ("
+              },
+              {
+                "line": 2138,
+                "text": "                \"SHOCK\" if market_shock else \"RISK_OFF\""
+              },
+              {
+                "line": 2139,
+                "text": "            )"
+              },
+              {
+                "line": 2140,
+                "text": "            logger.info("
+              },
+              {
+                "line": 2141,
+                "text": "                f\"  Layer D market-gate: {t}/{n_days} {date_t} \""
+              },
+              {
+                "line": 2142,
+                "text": "                f\"gate={gate_state} SPXvsMA50={(spx_close_t/spx_ma50_t-1)*100:+.1f}% \""
+              },
+              {
+                "line": 2143,
+                "text": "                f\"day={spx_day_return*100:+.1f}% cash={cash:.0f} \""
+              }
+            ]
+          }
+        },
+        {
+          "line": 2157,
+          "text": "                    \"SHOCK\" if market_shock else \"RISK_OFF\"",
+          "context": {
+            "start": 2152,
+            "end": 2162,
+            "rows": [
+              {
+                "line": 2152,
+                "text": "                \"total_equity\":   round(total_equity, 2),"
+              },
+              {
+                "line": 2153,
+                "text": "                \"n_holdings\":     len(holdings),"
+              },
+              {
+                "line": 2154,
+                "text": "                \"pending_orders\": len(pending_orders),"
+              },
+              {
+                "line": 2155,
+                "text": "                \"market_gate_state\": ("
+              },
+              {
+                "line": 2156,
+                "text": "                    \"ALLOW\" if market_entry_allowed else"
+              },
+              {
+                "line": 2157,
+                "text": "                    \"SHOCK\" if market_shock else \"RISK_OFF\""
+              },
+              {
+                "line": 2158,
+                "text": "                ),"
+              },
+              {
+                "line": 2159,
+                "text": "                \"spx_close\":      round(spx_close_t, 2),"
+              },
+              {
+                "line": 2160,
+                "text": "                \"spx_ma50\":       round(spx_ma50_t, 2),"
+              },
+              {
+                "line": 2161,
+                "text": "                \"spx_day_return_pct\": round(spx_day_return * 100, 2),"
+              },
+              {
+                "line": 2162,
+                "text": "            })"
+              }
+            ]
+          }
+        },
+        {
+          "line": 2333,
+          "text": "                f\"shock={market_gate_days['market_shock']}\")",
+          "context": {
+            "start": 2328,
+            "end": 2338,
+            "rows": [
+              {
+                "line": 2328,
+                "text": "        status = \"FAIL\""
+              },
+              {
+                "line": 2329,
+                "text": ""
+              },
+              {
+                "line": 2330,
+                "text": "    logger.info(f\"  Market gate days: allowed={market_gate_days['entry_allowed']} \""
+              },
+              {
+                "line": 2331,
+                "text": "                f\"blocked={market_gate_days['blocked_total']} \""
+              },
+              {
+                "line": 2332,
+                "text": "                f\"risk_off={market_gate_days['risk_off']} \""
+              },
+              {
+                "line": 2333,
+                "text": "                f\"shock={market_gate_days['market_shock']}\")"
+              },
+              {
+                "line": 2334,
+                "text": "    logger.info(f\"  Relative stop: signals={relative_stop_stats['signals']} \""
+              },
+              {
+                "line": 2335,
+                "text": "                f\"executed={relative_stop_stats['executed']}\")"
+              },
+              {
+                "line": 2336,
+                "text": "    logger.info(f\"  Fixed TP: signals={take_profit_stats['signals']} \""
+              },
+              {
+                "line": 2337,
+                "text": "                f\"executed={take_profit_stats['executed']}\")"
+              },
+              {
+                "line": 2338,
+                "text": "    if dynamic_exit_enabled:"
+              }
+            ]
+          }
+        },
+        {
+          "line": 2408,
+          "text": "            \"market_shock_rule\": (",
+          "context": {
+            "start": 2403,
+            "end": 2413,
+            "rows": [
+              {
+                "line": 2403,
+                "text": "        },"
+              },
+              {
+                "line": 2404,
+                "text": "        \"market_entry_gate\": {"
+              },
+              {
+                "line": 2405,
+                "text": "            \"variant\": market_gate_variant,"
+              },
+              {
+                "line": 2406,
+                "text": "            \"enabled\": market_gate_enabled,"
+              },
+              {
+                "line": 2407,
+                "text": "            \"risk_off_rule\": \"SPX close < SPX MA50\" if risk_off_below_spx_ma50 else \"disabled\","
+              },
+              {
+                "line": 2408,
+                "text": "            \"market_shock_rule\": ("
+              },
+              {
+                "line": 2409,
+                "text": "                f\"SPX daily return <= {market_shock_daily_return*100:.1f}%\""
+              },
+              {
+                "line": 2410,
+                "text": "                if market_shock_gate_enabled else \"disabled\""
+              },
+              {
+                "line": 2411,
+                "text": "            ),"
+              },
+              {
+                "line": 2412,
+                "text": "            \"blocked_actions\": [\"BUY\", \"ADD\"],"
+              },
+              {
+                "line": 2413,
+                "text": "            \"unaffected_actions\": [\"HOLD\", \"REDUCE\", \"EXIT\"],"
+              }
+            ]
+          }
+        },
+        {
+          "line": 2409,
+          "text": "                f\"SPX daily return <= {market_shock_daily_return*100:.1f}%\"",
+          "context": {
+            "start": 2404,
+            "end": 2414,
+            "rows": [
+              {
+                "line": 2404,
+                "text": "        \"market_entry_gate\": {"
+              },
+              {
+                "line": 2405,
+                "text": "            \"variant\": market_gate_variant,"
+              },
+              {
+                "line": 2406,
+                "text": "            \"enabled\": market_gate_enabled,"
+              },
+              {
+                "line": 2407,
+                "text": "            \"risk_off_rule\": \"SPX close < SPX MA50\" if risk_off_below_spx_ma50 else \"disabled\","
+              },
+              {
+                "line": 2408,
+                "text": "            \"market_shock_rule\": ("
+              },
+              {
+                "line": 2409,
+                "text": "                f\"SPX daily return <= {market_shock_daily_return*100:.1f}%\""
+              },
+              {
+                "line": 2410,
+                "text": "                if market_shock_gate_enabled else \"disabled\""
+              },
+              {
+                "line": 2411,
+                "text": "            ),"
+              },
+              {
+                "line": 2412,
+                "text": "            \"blocked_actions\": [\"BUY\", \"ADD\"],"
+              },
+              {
+                "line": 2413,
+                "text": "            \"unaffected_actions\": [\"HOLD\", \"REDUCE\", \"EXIT\"],"
+              },
+              {
+                "line": 2414,
+                "text": "            \"days\": market_gate_days,"
+              }
+            ]
+          }
+        },
+        {
+          "line": 2410,
+          "text": "                if market_shock_gate_enabled else \"disabled\"",
+          "context": {
+            "start": 2405,
+            "end": 2415,
+            "rows": [
+              {
+                "line": 2405,
+                "text": "            \"variant\": market_gate_variant,"
+              },
+              {
+                "line": 2406,
+                "text": "            \"enabled\": market_gate_enabled,"
+              },
+              {
+                "line": 2407,
+                "text": "            \"risk_off_rule\": \"SPX close < SPX MA50\" if risk_off_below_spx_ma50 else \"disabled\","
+              },
+              {
+                "line": 2408,
+                "text": "            \"market_shock_rule\": ("
+              },
+              {
+                "line": 2409,
+                "text": "                f\"SPX daily return <= {market_shock_daily_return*100:.1f}%\""
+              },
+              {
+                "line": 2410,
+                "text": "                if market_shock_gate_enabled else \"disabled\""
+              },
+              {
+                "line": 2411,
+                "text": "            ),"
+              },
+              {
+                "line": 2412,
+                "text": "            \"blocked_actions\": [\"BUY\", \"ADD\"],"
+              },
+              {
+                "line": 2413,
+                "text": "            \"unaffected_actions\": [\"HOLD\", \"REDUCE\", \"EXIT\"],"
+              },
+              {
+                "line": 2414,
+                "text": "            \"days\": market_gate_days,"
+              },
+              {
+                "line": 2415,
+                "text": "        },"
+              }
+            ]
+          }
+        },
+        {
+          "line": 2520,
+          "text": "        \"market_shock_gate_enabled\": False,",
+          "context": {
+            "start": 2515,
+            "end": 2525,
+            "rows": [
+              {
+                "line": 2515,
+                "text": "    logger.info(\"[Backtest Layer D v1.6] Strategy Variant Comparison...\")"
+              },
+              {
+                "line": 2516,
+                "text": ""
+              },
+              {
+                "line": 2517,
+                "text": "    base = {"
+              },
+              {
+                "line": 2518,
+                "text": "        **LAYER_D_ASSUMPTIONS,"
+              },
+              {
+                "line": 2519,
+                "text": "        \"market_gate_enabled\": False,"
+              },
+              {
+                "line": 2520,
+                "text": "        \"market_shock_gate_enabled\": False,"
+              },
+              {
+                "line": 2521,
+                "text": "        \"partial_take_profit_enabled\": False,"
+              },
+              {
+                "line": 2522,
+                "text": "        \"block_add_after_take_profit\": False,"
+              },
+              {
+                "line": 2523,
+                "text": "    }"
+              },
+              {
+                "line": 2524,
+                "text": "    # ── Gate v2 No VIX（冻结市场层基准）─────────────────────────"
+              },
+              {
+                "line": 2525,
+                "text": "    _gate_v2_no_vix = {"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "spx_ma50": {
+      "patterns": [
+        "spx_ma50",
+        "MA50",
+        "ma50"
+      ],
+      "hit_count": 87,
+      "hits": [
+        {
+          "line": 60,
+          "text": "    \"risk_off_below_spx_ma50\": False,",
+          "context": {
+            "start": 55,
+            "end": 65,
+            "rows": [
+              {
+                "line": 55,
+                "text": "    \"entry_top_n\":       3,"
+              },
+              {
+                "line": 56,
+                "text": "    \"rank_based_exit\":   False,"
+              },
+              {
+                "line": 57,
+                "text": "    # Market Gate is disabled in this v1.6 diagnostic matrix so we can isolate"
+              },
+              {
+                "line": 58,
+                "text": "    # the impact of RS threshold, minimum holding period, and relative SPX stop."
+              },
+              {
+                "line": 59,
+                "text": "    \"market_gate_enabled\": False,"
+              },
+              {
+                "line": 60,
+                "text": "    \"risk_off_below_spx_ma50\": False,"
+              },
+              {
+                "line": 61,
+                "text": "    \"market_shock_gate_enabled\": False,"
+              },
+              {
+                "line": 62,
+                "text": "    \"market_shock_daily_return\": -0.02,"
+              },
+              {
+                "line": 63,
+                "text": ""
+              },
+              {
+                "line": 64,
+                "text": "    # Entry / holding / relative-risk controls tested by v1.6 variants."
+              },
+              {
+                "line": 65,
+                "text": "    \"entry_rs_min\": 90.0,"
+              }
+            ]
+          }
+        },
+        {
+          "line": 92,
+          "text": "    \"qualified_price_above_ma50\": True,",
+          "context": {
+            "start": 87,
+            "end": 97,
+            "rows": [
+              {
+                "line": 87,
+                "text": "    \"qualified_entry_enabled\":  False,"
+              },
+              {
+                "line": 88,
+                "text": "    \"qualified_rs_min\":         90.0,"
+              },
+              {
+                "line": 89,
+                "text": "    \"qualified_momentum_min\":   85.0,"
+              },
+              {
+                "line": 90,
+                "text": "    \"qualified_th_min\":         75.0,"
+              },
+              {
+                "line": 91,
+                "text": "    \"qualified_states\":         [\"Expansion\"],"
+              },
+              {
+                "line": 92,
+                "text": "    \"qualified_price_above_ma50\": True,"
+              },
+              {
+                "line": 93,
+                "text": "    \"qualified_ma50_slope_min\":   0.0,"
+              },
+              {
+                "line": 94,
+                "text": "    \"fill_only_enabled\":          False,  # True = Qualified Pool 只补空仓，不替换持仓"
+              },
+              {
+                "line": 95,
+                "text": "    \"gate_use_slope\":             True,   # Gate v2: 是否使用 SPX MA50 slope 条件"
+              },
+              {
+                "line": 96,
+                "text": "    \"gate_use_leadership\":        True,   # Gate v2: 是否使用 NDX/SOX Leadership 条件"
+              },
+              {
+                "line": 97,
+                "text": "}"
+              }
+            ]
+          }
+        },
+        {
+          "line": 93,
+          "text": "    \"qualified_ma50_slope_min\":   0.0,",
+          "context": {
+            "start": 88,
+            "end": 98,
+            "rows": [
+              {
+                "line": 88,
+                "text": "    \"qualified_rs_min\":         90.0,"
+              },
+              {
+                "line": 89,
+                "text": "    \"qualified_momentum_min\":   85.0,"
+              },
+              {
+                "line": 90,
+                "text": "    \"qualified_th_min\":         75.0,"
+              },
+              {
+                "line": 91,
+                "text": "    \"qualified_states\":         [\"Expansion\"],"
+              },
+              {
+                "line": 92,
+                "text": "    \"qualified_price_above_ma50\": True,"
+              },
+              {
+                "line": 93,
+                "text": "    \"qualified_ma50_slope_min\":   0.0,"
+              },
+              {
+                "line": 94,
+                "text": "    \"fill_only_enabled\":          False,  # True = Qualified Pool 只补空仓，不替换持仓"
+              },
+              {
+                "line": 95,
+                "text": "    \"gate_use_slope\":             True,   # Gate v2: 是否使用 SPX MA50 slope 条件"
+              },
+              {
+                "line": 96,
+                "text": "    \"gate_use_leadership\":        True,   # Gate v2: 是否使用 NDX/SOX Leadership 条件"
+              },
+              {
+                "line": 97,
+                "text": "}"
+              },
+              {
+                "line": 98,
+                "text": ""
+              }
+            ]
+          }
+        },
+        {
+          "line": 95,
+          "text": "    \"gate_use_slope\":             True,   # Gate v2: 是否使用 SPX MA50 slope 条件",
+          "context": {
+            "start": 90,
+            "end": 100,
+            "rows": [
+              {
+                "line": 90,
+                "text": "    \"qualified_th_min\":         75.0,"
+              },
+              {
+                "line": 91,
+                "text": "    \"qualified_states\":         [\"Expansion\"],"
+              },
+              {
+                "line": 92,
+                "text": "    \"qualified_price_above_ma50\": True,"
+              },
+              {
+                "line": 93,
+                "text": "    \"qualified_ma50_slope_min\":   0.0,"
+              },
+              {
+                "line": 94,
+                "text": "    \"fill_only_enabled\":          False,  # True = Qualified Pool 只补空仓，不替换持仓"
+              },
+              {
+                "line": 95,
+                "text": "    \"gate_use_slope\":             True,   # Gate v2: 是否使用 SPX MA50 slope 条件"
+              },
+              {
+                "line": 96,
+                "text": "    \"gate_use_leadership\":        True,   # Gate v2: 是否使用 NDX/SOX Leadership 条件"
+              },
+              {
+                "line": 97,
+                "text": "}"
+              },
+              {
+                "line": 98,
+                "text": ""
+              },
+              {
+                "line": 99,
+                "text": ""
+              },
+              {
+                "line": 100,
+                "text": "# ══════════════════════════════════════════════════════════════════"
+              }
+            ]
+          }
+        },
+        {
+          "line": 155,
+          "text": "    # MA50 slope（用于 trade_decision）",
+          "context": {
+            "start": 150,
+            "end": 160,
+            "rows": [
+              {
+                "line": 150,
+                "text": "    th = th_dict[\"trend_health\"]"
+              },
+              {
+                "line": 151,
+                "text": ""
+              },
+              {
+                "line": 152,
+                "text": "    # Leader Score"
+              },
+              {
+                "line": 153,
+                "text": "    ls = calc_leader_score(rs, mom, th)"
+              },
+              {
+                "line": 154,
+                "text": ""
+              },
+              {
+                "line": 155,
+                "text": "    # MA50 slope（用于 trade_decision）"
+              },
+              {
+                "line": 156,
+                "text": "    ma50s = moving_average(p, 50)"
+              },
+              {
+                "line": 157,
+                "text": "    ma50_sl = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 158,
+                "text": "    ma50_val = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 159,
+                "text": ""
+              },
+              {
+                "line": 160,
+                "text": "    return {"
+              }
+            ]
+          }
+        },
+        {
+          "line": 156,
+          "text": "    ma50s = moving_average(p, 50)",
+          "context": {
+            "start": 151,
+            "end": 161,
+            "rows": [
+              {
+                "line": 151,
+                "text": ""
+              },
+              {
+                "line": 152,
+                "text": "    # Leader Score"
+              },
+              {
+                "line": 153,
+                "text": "    ls = calc_leader_score(rs, mom, th)"
+              },
+              {
+                "line": 154,
+                "text": ""
+              },
+              {
+                "line": 155,
+                "text": "    # MA50 slope（用于 trade_decision）"
+              },
+              {
+                "line": 156,
+                "text": "    ma50s = moving_average(p, 50)"
+              },
+              {
+                "line": 157,
+                "text": "    ma50_sl = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 158,
+                "text": "    ma50_val = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 159,
+                "text": ""
+              },
+              {
+                "line": 160,
+                "text": "    return {"
+              },
+              {
+                "line": 161,
+                "text": "        \"rs_score\":     rs,"
+              }
+            ]
+          }
+        },
+        {
+          "line": 157,
+          "text": "    ma50_sl = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0",
+          "context": {
+            "start": 152,
+            "end": 162,
+            "rows": [
+              {
+                "line": 152,
+                "text": "    # Leader Score"
+              },
+              {
+                "line": 153,
+                "text": "    ls = calc_leader_score(rs, mom, th)"
+              },
+              {
+                "line": 154,
+                "text": ""
+              },
+              {
+                "line": 155,
+                "text": "    # MA50 slope（用于 trade_decision）"
+              },
+              {
+                "line": 156,
+                "text": "    ma50s = moving_average(p, 50)"
+              },
+              {
+                "line": 157,
+                "text": "    ma50_sl = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 158,
+                "text": "    ma50_val = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 159,
+                "text": ""
+              },
+              {
+                "line": 160,
+                "text": "    return {"
+              },
+              {
+                "line": 161,
+                "text": "        \"rs_score\":     rs,"
+              },
+              {
+                "line": 162,
+                "text": "        \"momentum_score\": mom,"
+              }
+            ]
+          }
+        },
+        {
+          "line": 158,
+          "text": "    ma50_val = ma50s[-1] if ma50s else p[-1]",
+          "context": {
+            "start": 153,
+            "end": 163,
+            "rows": [
+              {
+                "line": 153,
+                "text": "    ls = calc_leader_score(rs, mom, th)"
+              },
+              {
+                "line": 154,
+                "text": ""
+              },
+              {
+                "line": 155,
+                "text": "    # MA50 slope（用于 trade_decision）"
+              },
+              {
+                "line": 156,
+                "text": "    ma50s = moving_average(p, 50)"
+              },
+              {
+                "line": 157,
+                "text": "    ma50_sl = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 158,
+                "text": "    ma50_val = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 159,
+                "text": ""
+              },
+              {
+                "line": 160,
+                "text": "    return {"
+              },
+              {
+                "line": 161,
+                "text": "        \"rs_score\":     rs,"
+              },
+              {
+                "line": 162,
+                "text": "        \"momentum_score\": mom,"
+              },
+              {
+                "line": 163,
+                "text": "        \"trend_health\": th,"
+              }
+            ]
+          }
+        },
+        {
+          "line": 166,
+          "text": "        \"ma50\":         ma50_val,",
+          "context": {
+            "start": 161,
+            "end": 171,
+            "rows": [
+              {
+                "line": 161,
+                "text": "        \"rs_score\":     rs,"
+              },
+              {
+                "line": 162,
+                "text": "        \"momentum_score\": mom,"
+              },
+              {
+                "line": 163,
+                "text": "        \"trend_health\": th,"
+              },
+              {
+                "line": 164,
+                "text": "        \"leader_score\": ls,"
+              },
+              {
+                "line": 165,
+                "text": "        \"price\":        p[-1],"
+              },
+              {
+                "line": 166,
+                "text": "        \"ma50\":         ma50_val,"
+              },
+              {
+                "line": 167,
+                "text": "        \"ma50_slope\":   ma50_sl,"
+              },
+              {
+                "line": 168,
+                "text": "        \"drawdown_pct\": th_dict[\"drawdown_pct\"],"
+              },
+              {
+                "line": 169,
+                "text": "    }"
+              },
+              {
+                "line": 170,
+                "text": ""
+              },
+              {
+                "line": 171,
+                "text": ""
+              }
+            ]
+          }
+        },
+        {
+          "line": 167,
+          "text": "        \"ma50_slope\":   ma50_sl,",
+          "context": {
+            "start": 162,
+            "end": 172,
+            "rows": [
+              {
+                "line": 162,
+                "text": "        \"momentum_score\": mom,"
+              },
+              {
+                "line": 163,
+                "text": "        \"trend_health\": th,"
+              },
+              {
+                "line": 164,
+                "text": "        \"leader_score\": ls,"
+              },
+              {
+                "line": 165,
+                "text": "        \"price\":        p[-1],"
+              },
+              {
+                "line": 166,
+                "text": "        \"ma50\":         ma50_val,"
+              },
+              {
+                "line": 167,
+                "text": "        \"ma50_slope\":   ma50_sl,"
+              },
+              {
+                "line": 168,
+                "text": "        \"drawdown_pct\": th_dict[\"drawdown_pct\"],"
+              },
+              {
+                "line": 169,
+                "text": "    }"
+              },
+              {
+                "line": 170,
+                "text": ""
+              },
+              {
+                "line": 171,
+                "text": ""
+              },
+              {
+                "line": 172,
+                "text": "# ══════════════════════════════════════════════════════════════════"
+              }
+            ]
+          }
+        },
+        {
+          "line": 381,
+          "text": "            ma50s = moving_average(p, 50)",
+          "context": {
+            "start": 376,
+            "end": 386,
+            "rows": [
+              {
+                "line": 376,
+                "text": ""
+              },
+              {
+                "line": 377,
+                "text": "            # Trend State"
+              },
+              {
+                "line": 378,
+                "text": "            from ..features.trend_health import trend_lifecycle"
+              },
+              {
+                "line": 379,
+                "text": "            state = trend_lifecycle(th, mom, rs)"
+              },
+              {
+                "line": 380,
+                "text": ""
+              },
+              {
+                "line": 381,
+                "text": "            ma50s = moving_average(p, 50)"
+              },
+              {
+                "line": 382,
+                "text": "            ma50_val = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 383,
+                "text": "            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 384,
+                "text": ""
+              },
+              {
+                "line": 385,
+                "text": "            action = trade_action("
+              },
+              {
+                "line": 386,
+                "text": "                state, mom, rs, p[-1], ma50_val,"
+              }
+            ]
+          }
+        },
+        {
+          "line": 382,
+          "text": "            ma50_val = ma50s[-1] if ma50s else p[-1]",
+          "context": {
+            "start": 377,
+            "end": 387,
+            "rows": [
+              {
+                "line": 377,
+                "text": "            # Trend State"
+              },
+              {
+                "line": 378,
+                "text": "            from ..features.trend_health import trend_lifecycle"
+              },
+              {
+                "line": 379,
+                "text": "            state = trend_lifecycle(th, mom, rs)"
+              },
+              {
+                "line": 380,
+                "text": ""
+              },
+              {
+                "line": 381,
+                "text": "            ma50s = moving_average(p, 50)"
+              },
+              {
+                "line": 382,
+                "text": "            ma50_val = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 383,
+                "text": "            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 384,
+                "text": ""
+              },
+              {
+                "line": 385,
+                "text": "            action = trade_action("
+              },
+              {
+                "line": 386,
+                "text": "                state, mom, rs, p[-1], ma50_val,"
+              },
+              {
+                "line": 387,
+                "text": "                ma50_sl, ls, th, market_score_default"
+              }
+            ]
+          }
+        },
+        {
+          "line": 383,
+          "text": "            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0",
+          "context": {
+            "start": 378,
+            "end": 388,
+            "rows": [
+              {
+                "line": 378,
+                "text": "            from ..features.trend_health import trend_lifecycle"
+              },
+              {
+                "line": 379,
+                "text": "            state = trend_lifecycle(th, mom, rs)"
+              },
+              {
+                "line": 380,
+                "text": ""
+              },
+              {
+                "line": 381,
+                "text": "            ma50s = moving_average(p, 50)"
+              },
+              {
+                "line": 382,
+                "text": "            ma50_val = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 383,
+                "text": "            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 384,
+                "text": ""
+              },
+              {
+                "line": 385,
+                "text": "            action = trade_action("
+              },
+              {
+                "line": 386,
+                "text": "                state, mom, rs, p[-1], ma50_val,"
+              },
+              {
+                "line": 387,
+                "text": "                ma50_sl, ls, th, market_score_default"
+              },
+              {
+                "line": 388,
+                "text": "            )"
+              }
+            ]
+          }
+        },
+        {
+          "line": 386,
+          "text": "                state, mom, rs, p[-1], ma50_val,",
+          "context": {
+            "start": 381,
+            "end": 391,
+            "rows": [
+              {
+                "line": 381,
+                "text": "            ma50s = moving_average(p, 50)"
+              },
+              {
+                "line": 382,
+                "text": "            ma50_val = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 383,
+                "text": "            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 384,
+                "text": ""
+              },
+              {
+                "line": 385,
+                "text": "            action = trade_action("
+              },
+              {
+                "line": 386,
+                "text": "                state, mom, rs, p[-1], ma50_val,"
+              },
+              {
+                "line": 387,
+                "text": "                ma50_sl, ls, th, market_score_default"
+              },
+              {
+                "line": 388,
+                "text": "            )"
+              },
+              {
+                "line": 389,
+                "text": ""
+              },
+              {
+                "line": 390,
+                "text": "            if action not in signal_returns:"
+              },
+              {
+                "line": 391,
+                "text": "                continue"
+              }
+            ]
+          }
+        },
+        {
+          "line": 387,
+          "text": "                ma50_sl, ls, th, market_score_default",
+          "context": {
+            "start": 382,
+            "end": 392,
+            "rows": [
+              {
+                "line": 382,
+                "text": "            ma50_val = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 383,
+                "text": "            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 384,
+                "text": ""
+              },
+              {
+                "line": 385,
+                "text": "            action = trade_action("
+              },
+              {
+                "line": 386,
+                "text": "                state, mom, rs, p[-1], ma50_val,"
+              },
+              {
+                "line": 387,
+                "text": "                ma50_sl, ls, th, market_score_default"
+              },
+              {
+                "line": 388,
+                "text": "            )"
+              },
+              {
+                "line": 389,
+                "text": ""
+              },
+              {
+                "line": 390,
+                "text": "            if action not in signal_returns:"
+              },
+              {
+                "line": 391,
+                "text": "                continue"
+              },
+              {
+                "line": 392,
+                "text": ""
+              }
+            ]
+          }
+        },
+        {
+          "line": 664,
+          "text": "            ma50s    = moving_average(p, 50)",
+          "context": {
+            "start": 659,
+            "end": 669,
+            "rows": [
+              {
+                "line": 659,
+                "text": "            th    = th_d[\"trend_health\"]"
+              },
+              {
+                "line": 660,
+                "text": "            ls    = calc_leader_score(rs, mom, th)"
+              },
+              {
+                "line": 661,
+                "text": ""
+              },
+              {
+                "line": 662,
+                "text": "            from ..features.trend_health import trend_lifecycle"
+              },
+              {
+                "line": 663,
+                "text": "            state    = trend_lifecycle(th, mom, rs)"
+              },
+              {
+                "line": 664,
+                "text": "            ma50s    = moving_average(p, 50)"
+              },
+              {
+                "line": 665,
+                "text": "            ma50_v   = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 666,
+                "text": "            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 667,
+                "text": ""
+              },
+              {
+                "line": 668,
+                "text": "            action = trade_action("
+              },
+              {
+                "line": 669,
+                "text": "                state, mom, rs, p[-1], ma50_v,"
+              }
+            ]
+          }
+        },
+        {
+          "line": 665,
+          "text": "            ma50_v   = ma50s[-1] if ma50s else p[-1]",
+          "context": {
+            "start": 660,
+            "end": 670,
+            "rows": [
+              {
+                "line": 660,
+                "text": "            ls    = calc_leader_score(rs, mom, th)"
+              },
+              {
+                "line": 661,
+                "text": ""
+              },
+              {
+                "line": 662,
+                "text": "            from ..features.trend_health import trend_lifecycle"
+              },
+              {
+                "line": 663,
+                "text": "            state    = trend_lifecycle(th, mom, rs)"
+              },
+              {
+                "line": 664,
+                "text": "            ma50s    = moving_average(p, 50)"
+              },
+              {
+                "line": 665,
+                "text": "            ma50_v   = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 666,
+                "text": "            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 667,
+                "text": ""
+              },
+              {
+                "line": 668,
+                "text": "            action = trade_action("
+              },
+              {
+                "line": 669,
+                "text": "                state, mom, rs, p[-1], ma50_v,"
+              },
+              {
+                "line": 670,
+                "text": "                ma50_sl, ls, th, market_score_default"
+              }
+            ]
+          }
+        },
+        {
+          "line": 666,
+          "text": "            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0",
+          "context": {
+            "start": 661,
+            "end": 671,
+            "rows": [
+              {
+                "line": 661,
+                "text": ""
+              },
+              {
+                "line": 662,
+                "text": "            from ..features.trend_health import trend_lifecycle"
+              },
+              {
+                "line": 663,
+                "text": "            state    = trend_lifecycle(th, mom, rs)"
+              },
+              {
+                "line": 664,
+                "text": "            ma50s    = moving_average(p, 50)"
+              },
+              {
+                "line": 665,
+                "text": "            ma50_v   = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 666,
+                "text": "            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 667,
+                "text": ""
+              },
+              {
+                "line": 668,
+                "text": "            action = trade_action("
+              },
+              {
+                "line": 669,
+                "text": "                state, mom, rs, p[-1], ma50_v,"
+              },
+              {
+                "line": 670,
+                "text": "                ma50_sl, ls, th, market_score_default"
+              },
+              {
+                "line": 671,
+                "text": "            )"
+              }
+            ]
+          }
+        },
+        {
+          "line": 669,
+          "text": "                state, mom, rs, p[-1], ma50_v,",
+          "context": {
+            "start": 664,
+            "end": 674,
+            "rows": [
+              {
+                "line": 664,
+                "text": "            ma50s    = moving_average(p, 50)"
+              },
+              {
+                "line": 665,
+                "text": "            ma50_v   = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 666,
+                "text": "            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 667,
+                "text": ""
+              },
+              {
+                "line": 668,
+                "text": "            action = trade_action("
+              },
+              {
+                "line": 669,
+                "text": "                state, mom, rs, p[-1], ma50_v,"
+              },
+              {
+                "line": 670,
+                "text": "                ma50_sl, ls, th, market_score_default"
+              },
+              {
+                "line": 671,
+                "text": "            )"
+              },
+              {
+                "line": 672,
+                "text": ""
+              },
+              {
+                "line": 673,
+                "text": "            if action not in action_returns:"
+              },
+              {
+                "line": 674,
+                "text": "                continue"
+              }
+            ]
+          }
+        },
+        {
+          "line": 670,
+          "text": "                ma50_sl, ls, th, market_score_default",
+          "context": {
+            "start": 665,
+            "end": 675,
+            "rows": [
+              {
+                "line": 665,
+                "text": "            ma50_v   = ma50s[-1] if ma50s else p[-1]"
+              },
+              {
+                "line": 666,
+                "text": "            ma50_sl  = linreg_slope(ma50s[-10:]) if len(ma50s) >= 10 else 0"
+              },
+              {
+                "line": 667,
+                "text": ""
+              },
+              {
+                "line": 668,
+                "text": "            action = trade_action("
+              },
+              {
+                "line": 669,
+                "text": "                state, mom, rs, p[-1], ma50_v,"
+              },
+              {
+                "line": 670,
+                "text": "                ma50_sl, ls, th, market_score_default"
+              },
+              {
+                "line": 671,
+                "text": "            )"
+              },
+              {
+                "line": 672,
+                "text": ""
+              },
+              {
+                "line": 673,
+                "text": "            if action not in action_returns:"
+              },
+              {
+                "line": 674,
+                "text": "                continue"
+              },
+              {
+                "line": 675,
+                "text": ""
+              }
+            ]
+          }
+        },
+        {
+          "line": 848,
+          "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))",
+          "context": {
+            "start": 843,
+            "end": 853,
+            "rows": [
+              {
+                "line": 843,
+                "text": "        return max(weights.items(), key=lambda kv: kv[1])[0]"
+              },
+              {
+                "line": 844,
+                "text": ""
+              },
+              {
+                "line": 845,
+                "text": "    entry_top_n = int(a.get(\"entry_top_n\", 3))"
+              },
+              {
+                "line": 846,
+                "text": "    rank_based_exit = bool(a.get(\"rank_based_exit\", False))"
+              },
+              {
+                "line": 847,
+                "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+              },
+              {
+                "line": 848,
+                "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))"
+              },
+              {
+                "line": 849,
+                "text": "    ls60_exit_mode = a.get(\"ls60_exit_mode\", \"reduce\")  # \"exit\"=旧规则 \"reduce\"=新规则"
+              },
+              {
+                "line": 850,
+                "text": ""
+              },
+              {
+                "line": 851,
+                "text": "    # Qualified Candidate Pool 参数"
+              },
+              {
+                "line": 852,
+                "text": "    candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n"
+              },
+              {
+                "line": 853,
+                "text": "    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))"
+              }
+            ]
+          }
+        },
+        {
+          "line": 858,
+          "text": "    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))",
+          "context": {
+            "start": 853,
+            "end": 863,
+            "rows": [
+              {
+                "line": 853,
+                "text": "    qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))"
+              },
+              {
+                "line": 854,
+                "text": "    qualified_rs_min          = float(a.get(\"qualified_rs_min\", 90.0))"
+              },
+              {
+                "line": 855,
+                "text": "    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))"
+              },
+              {
+                "line": 856,
+                "text": "    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))"
+              },
+              {
+                "line": 857,
+                "text": "    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))"
+              },
+              {
+                "line": 858,
+                "text": "    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))"
+              },
+              {
+                "line": 859,
+                "text": "    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))"
+              },
+              {
+                "line": 860,
+                "text": ""
+              },
+              {
+                "line": 861,
+                "text": "    fill_only_enabled    = bool(a.get(\"fill_only_enabled\", False))"
+              },
+              {
+                "line": 862,
+                "text": "    gate_use_slope       = bool(a.get(\"gate_use_slope\", True))"
+              },
+              {
+                "line": 863,
+                "text": "    gate_use_leadership  = bool(a.get(\"gate_use_leadership\", True))"
+              }
+            ]
+          }
+        },
+        {
+          "line": 859,
+          "text": "    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))",
+          "context": {
+            "start": 854,
+            "end": 864,
+            "rows": [
+              {
+                "line": 854,
+                "text": "    qualified_rs_min          = float(a.get(\"qualified_rs_min\", 90.0))"
+              },
+              {
+                "line": 855,
+                "text": "    qualified_momentum_min    = float(a.get(\"qualified_momentum_min\", 85.0))"
+              },
+              {
+                "line": 856,
+                "text": "    qualified_th_min          = float(a.get(\"qualified_th_min\", 75.0))"
+              },
+              {
+                "line": 857,
+                "text": "    qualified_states          = set(a.get(\"qualified_states\", [\"Expansion\"]))"
+              },
+              {
+                "line": 858,
+                "text": "    qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))"
+              },
+              {
+                "line": 859,
+                "text": "    qualified_ma50_slope_min  = float(a.get(\"qualified_ma50_slope_min\", 0.0))"
+              },
+              {
+                "line": 860,
+                "text": ""
+              },
+              {
+                "line": 861,
+                "text": "    fill_only_enabled    = bool(a.get(\"fill_only_enabled\", False))"
+              },
+              {
+                "line": 862,
+                "text": "    gate_use_slope       = bool(a.get(\"gate_use_slope\", True))"
+              },
+              {
+                "line": 863,
+                "text": "    gate_use_leadership  = bool(a.get(\"gate_use_leadership\", True))"
+              },
+              {
+                "line": 864,
+                "text": ""
+              }
+            ]
+          }
+        },
+        {
+          "line": 883,
+          "text": "    # SPX MA50 历史队列（用于 10日 slope 计算）",
+          "context": {
+            "start": 878,
+            "end": 888,
+            "rows": [
+              {
+                "line": 878,
+                "text": ""
+              },
+              {
+                "line": 879,
+                "text": "    def _get_price_on(lookup, date, fallback=None):"
+              },
+              {
+                "line": 880,
+                "text": "        \"\"\"获取 date 当天价格，缺失时返回 fallback\"\"\""
+              },
+              {
+                "line": 881,
+                "text": "        return lookup.get(date, fallback)"
+              },
+              {
+                "line": 882,
+                "text": ""
+              },
+              {
+                "line": 883,
+                "text": "    # SPX MA50 历史队列（用于 10日 slope 计算）"
+              },
+              {
+                "line": 884,
+                "text": "    from collections import deque"
+              },
+              {
+                "line": 885,
+                "text": "    spx_ma50_history = deque(maxlen=11)  # 存最近11个 MA50 值（今天+10天前）"
+              },
+              {
+                "line": 886,
+                "text": ""
+              },
+              {
+                "line": 887,
+                "text": "    if qualified_entry_enabled:"
+              },
+              {
+                "line": 888,
+                "text": "        logger.info(f\"  Qualified Pool: candidate_top_n={candidate_top_n} \""
+              }
+            ]
+          }
+        },
+        {
+          "line": 885,
+          "text": "    spx_ma50_history = deque(maxlen=11)  # 存最近11个 MA50 值（今天+10天前）",
+          "context": {
+            "start": 880,
+            "end": 890,
+            "rows": [
+              {
+                "line": 880,
+                "text": "        \"\"\"获取 date 当天价格，缺失时返回 fallback\"\"\""
+              },
+              {
+                "line": 881,
+                "text": "        return lookup.get(date, fallback)"
+              },
+              {
+                "line": 882,
+                "text": ""
+              },
+              {
+                "line": 883,
+                "text": "    # SPX MA50 历史队列（用于 10日 slope 计算）"
+              },
+              {
+                "line": 884,
+                "text": "    from collections import deque"
+              },
+              {
+                "line": 885,
+                "text": "    spx_ma50_history = deque(maxlen=11)  # 存最近11个 MA50 值（今天+10天前）"
+              },
+              {
+                "line": 886,
+                "text": ""
+              },
+              {
+                "line": 887,
+                "text": "    if qualified_entry_enabled:"
+              },
+              {
+                "line": 888,
+                "text": "        logger.info(f\"  Qualified Pool: candidate_top_n={candidate_top_n} \""
+              },
+              {
+                "line": 889,
+                "text": "                    f\"RS>={qualified_rs_min} Mom>={qualified_momentum_min} \""
+              },
+              {
+                "line": 890,
+                "text": "                    f\"TH>={qualified_th_min} states={qualified_states} \""
+              }
+            ]
+          }
+        },
+        {
+          "line": 891,
+          "text": "                    f\"price>MA50={qualified_price_above_ma50} slope>={qualified_ma50_slope_min}\")",
+          "context": {
+            "start": 886,
+            "end": 896,
+            "rows": [
+              {
+                "line": 886,
+                "text": ""
+              },
+              {
+                "line": 887,
+                "text": "    if qualified_entry_enabled:"
+              },
+              {
+                "line": 888,
+                "text": "        logger.info(f\"  Qualified Pool: candidate_top_n={candidate_top_n} \""
+              },
+              {
+                "line": 889,
+                "text": "                    f\"RS>={qualified_rs_min} Mom>={qualified_momentum_min} \""
+              },
+              {
+                "line": 890,
+                "text": "                    f\"TH>={qualified_th_min} states={qualified_states} \""
+              },
+              {
+                "line": 891,
+                "text": "                    f\"price>MA50={qualified_price_above_ma50} slope>={qualified_ma50_slope_min}\")"
+              },
+              {
+                "line": 892,
+                "text": "    else:"
+              },
+              {
+                "line": 893,
+                "text": "        logger.info(f\"  Entry mode: Strict Top{entry_top_n} (legacy)\")"
+              },
+              {
+                "line": 894,
+                "text": "    if ls60_exit_mode not in {\"exit\", \"reduce\"}:"
+              },
+              {
+                "line": 895,
+                "text": "        raise ValueError(f\"Invalid ls60_exit_mode={ls60_exit_mode!r}; expected 'exit' or 'reduce'\")"
+              },
+              {
+                "line": 896,
+                "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))"
+              }
+            ]
+          }
+        },
+        {
+          "line": 929,
+          "text": "                f\"| RiskOff=SPX<MA50:{risk_off_below_spx_ma50} \"",
+          "context": {
+            "start": 924,
+            "end": 934,
+            "rows": [
+              {
+                "line": 924,
+                "text": "                    f\"| EntryTopN={entry_top_n} MaxPos={max_pos} EntryMode=StrictTop3 \""
+              },
+              {
+                "line": 925,
+                "text": "                    f\"BuySlot={buy_pct*100:.1f}% MaxSingle={max_pct*100:.1f}% \""
+              },
+              {
+                "line": 926,
+                "text": "                    f\"OneWay={one_way*100:.2f}%\")"
+              },
+              {
+                "line": 927,
+                "text": "    logger.info(f\"  Market Gate Variant: {market_gate_variant}\")"
+              },
+              {
+                "line": 928,
+                "text": "    logger.info(f\"  Market Gate: enabled={market_gate_enabled} \""
+              },
+              {
+                "line": 929,
+                "text": "                f\"| RiskOff=SPX<MA50:{risk_off_below_spx_ma50} \""
+              },
+              {
+                "line": 930,
+                "text": "                f\"| Shock<={market_shock_daily_return*100:.1f}%:{market_shock_gate_enabled}\")"
+              },
+              {
+                "line": 931,
+                "text": "    logger.info(f\"  Entry filter: RS >= {entry_rs_min:.1f}; MinHold={min_holding_days}d; \""
+              },
+              {
+                "line": 932,
+                "text": "                f\"RelStop={'ON' if relative_stop_enabled else 'OFF'} \""
+              },
+              {
+                "line": 933,
+                "text": "                f\"({relative_stop_underperform*100:.1f}% vs SPX)\")"
+              },
+              {
+                "line": 934,
+                "text": "    logger.info(f\"  LS60 mode: {ls60_exit_mode} \""
+              }
+            ]
+          }
+        },
+        {
+          "line": 940,
+          "text": "        logger.info(f\"  Dynamic Exit v2: ON | Hard=Close<MA50+slope<0 | FULL_ON=needs structure | CAUTIOUS/CASH=LS<60 exits\")",
+          "context": {
+            "start": 935,
+            "end": 945,
+            "rows": [
+              {
+                "line": 935,
+                "text": "                f\"({'LS<60 → EXIT' if ls60_exit_mode == 'exit' else 'LS<60 → REDUCE'})\")"
+              },
+              {
+                "line": 936,
+                "text": "    logger.info(f\"  ── Param check: ls60={ls60_exit_mode} rs={entry_rs_min} \""
+              },
+              {
+                "line": 937,
+                "text": "                f\"top_n={entry_top_n} minhold={min_holding_days} \""
+              },
+              {
+                "line": 938,
+                "text": "                f\"relstop={relative_stop_enabled} gate={market_gate_enabled} ──\")"
+              },
+              {
+                "line": 939,
+                "text": "    if dynamic_exit_enabled:"
+              },
+              {
+                "line": 940,
+                "text": "        logger.info(f\"  Dynamic Exit v2: ON | Hard=Close<MA50+slope<0 | FULL_ON=needs structure | CAUTIOUS/CASH=LS<60 exits\")"
+              },
+              {
+                "line": 941,
+                "text": "    logger.info(f\"  Fixed TP: enabled={take_profit_enabled} \""
+              },
+              {
+                "line": 942,
+                "text": "                f\"(v1.6 default OFF; TP7-P rejected for this matrix)\")"
+              },
+              {
+                "line": 943,
+                "text": ""
+              },
+              {
+                "line": 944,
+                "text": "    # ── 修正1: SPX master calendar ────────────────────────"
+              },
+              {
+                "line": 945,
+                "text": "    # 时间轴以 SPX dates 为准，不受个股短数据影响"
+              }
+            ]
+          }
+        },
+        {
+          "line": 1386,
+          "text": "        spx_ma50_t = sum(spx_prices[t-49:t+1]) / 50 if t >= 49 else spx_close_t",
+          "context": {
+            "start": 1381,
+            "end": 1391,
+            "rows": [
+              {
+                "line": 1381,
+                "text": "        #   可选：普通 REDUCE/EXIT 最短持仓 5 天"
+              },
+              {
+                "line": 1382,
+                "text": "        #   可选：相对 SPX 跑输 8% 时减仓 50%"
+              },
+              {
+                "line": 1383,
+                "text": "        #   不使用固定止盈；不因跌出 Top3 卖出"
+              },
+              {
+                "line": 1384,
+                "text": "        # ════════════════════════════════════════════════"
+              },
+              {
+                "line": 1385,
+                "text": "        spx_close_t = spx_prices[t]"
+              },
+              {
+                "line": 1386,
+                "text": "        spx_ma50_t = sum(spx_prices[t-49:t+1]) / 50 if t >= 49 else spx_close_t"
+              },
+              {
+                "line": 1387,
+                "text": "        spx_day_return = ("
+              },
+              {
+                "line": 1388,
+                "text": "            (spx_prices[t] - spx_prices[t-1]) / spx_prices[t-1]"
+              },
+              {
+                "line": 1389,
+                "text": "            if t > 0 and spx_prices[t-1] > 0 else 0.0"
+              },
+              {
+                "line": 1390,
+                "text": "        )"
+              },
+              {
+                "line": 1391,
+                "text": ""
+              }
+            ]
+          }
+        },
+        {
+          "line": 1402,
+          "text": "            # ── MA50 slope（10日变化率，使用完整历史索引，无 warm-up 问题）",
+          "context": {
+            "start": 1397,
+            "end": 1407,
+            "rows": [
+              {
+                "line": 1397,
+                "text": "            market_risk_off  = False"
+              },
+              {
+                "line": 1398,
+                "text": "            market_shock     = False"
+              },
+              {
+                "line": 1399,
+                "text": "            market_entry_allowed = True"
+              },
+              {
+                "line": 1400,
+                "text": "            market_gate_days[\"entry_allowed\"] += 1"
+              },
+              {
+                "line": 1401,
+                "text": "        else:"
+              },
+              {
+                "line": 1402,
+                "text": "            # ── MA50 slope（10日变化率，使用完整历史索引，无 warm-up 问题）"
+              },
+              {
+                "line": 1403,
+                "text": "            if t >= 59:  # t>=49（MA50）+ 10（slope 回溯）"
+              },
+              {
+                "line": 1404,
+                "text": "                spx_ma50_t10 = sum(spx_prices[t-59:t-9]) / 50"
+              },
+              {
+                "line": 1405,
+                "text": "                spx_ma50_slope = (spx_ma50_t / spx_ma50_t10) - 1.0 if spx_ma50_t10 > 0 else 0.0"
+              },
+              {
+                "line": 1406,
+                "text": "            else:"
+              },
+              {
+                "line": 1407,
+                "text": "                spx_ma50_slope = 0.0"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "market_entry_gate": {
+      "patterns": [
+        "market_entry_gate"
+      ],
+      "hit_count": 1,
+      "hits": [
+        {
+          "line": 2404,
+          "text": "        \"market_entry_gate\": {",
+          "context": {
+            "start": 2399,
+            "end": 2409,
+            "rows": [
+              {
+                "line": 2399,
+                "text": "            \"once_per_position\": True,"
+              },
+              {
+                "line": 2400,
+                "text": "            \"block_add_after_trigger\": block_add_after_take_profit,"
+              },
+              {
+                "line": 2401,
+                "text": "            \"stats\": take_profit_stats,"
+              },
+              {
+                "line": 2402,
+                "text": "            \"note\": \"Partial reduction releases cash but does not free a Max3 symbol slot.\","
+              },
+              {
+                "line": 2403,
+                "text": "        },"
+              },
+              {
+                "line": 2404,
+                "text": "        \"market_entry_gate\": {"
+              },
+              {
+                "line": 2405,
+                "text": "            \"variant\": market_gate_variant,"
+              },
+              {
+                "line": 2406,
+                "text": "            \"enabled\": market_gate_enabled,"
+              },
+              {
+                "line": 2407,
+                "text": "            \"risk_off_rule\": \"SPX close < SPX MA50\" if risk_off_below_spx_ma50 else \"disabled\","
+              },
+              {
+                "line": 2408,
+                "text": "            \"market_shock_rule\": ("
+              },
+              {
+                "line": 2409,
+                "text": "                f\"SPX daily return <= {market_shock_daily_return*100:.1f}%\""
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "D3_RISK_OFF_PLUS_SHOCK_GATE": {
+      "patterns": [
+        "D3_RISK_OFF_PLUS_SHOCK_GATE"
+      ],
+      "hit_count": 1,
+      "hits": [
+        {
+          "line": 914,
+          "text": "        \"D3_RISK_OFF_PLUS_SHOCK_GATE\"",
+          "context": {
+            "start": 909,
+            "end": 919,
+            "rows": [
+              {
+                "line": 909,
+                "text": "    relative_stop_action = a.get(\"relative_stop_action\", \"REL_REDUCE\")"
+              },
+              {
+                "line": 910,
+                "text": "    relative_stop_once = bool(a.get(\"relative_stop_once_per_position\", True))"
+              },
+              {
+                "line": 911,
+                "text": "    market_gate_variant = ("
+              },
+              {
+                "line": 912,
+                "text": "        \"D1_NO_MARKET_GATE\" if not market_gate_enabled else"
+              },
+              {
+                "line": 913,
+                "text": "        \"D2_RISK_OFF_GATE\" if not market_shock_gate_enabled else"
+              },
+              {
+                "line": 914,
+                "text": "        \"D3_RISK_OFF_PLUS_SHOCK_GATE\""
+              },
+              {
+                "line": 915,
+                "text": "    )"
+              },
+              {
+                "line": 916,
+                "text": ""
+              },
+              {
+                "line": 917,
+                "text": "    if qualified_entry_enabled:"
+              },
+              {
+                "line": 918,
+                "text": "        logger.info(f\"  v{a.get('version','?')} | Strategy={strategy_variant} \""
+              },
+              {
+                "line": 919,
+                "text": "                    f\"| CandidateTopN={candidate_top_n} MaxPos={max_pos} EntryMode=QualifiedPool \""
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "gate_allowed": {
+      "patterns": [
+        "gate_allowed",
+        "allow_buy",
+        "can_buy"
+      ],
+      "hit_count": 0,
+      "hits": []
+    }
+  },
+  "validations": {
+    "formula_audit_complete": true,
+    "strategy_logic_changed": false,
+    "audit_only": true,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "provider_extraction_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "strategy_files_unchanged": true,
+    "golden_master_loaded": true,
+    "daily_equity_records_loaded": true,
+    "source_contexts_scanned": true,
+    "formula_candidates_evaluated": true,
+    "basic_formula_known_failed": true
+  },
+  "decision": {
+    "market_gate_formula_audit_passed": true,
+    "exact_formula_candidates": [],
+    "basic_formula_mismatch_count": 9,
+    "requires_source_formula_patch": true,
+    "recommended_next_stage": "4C-2C-4E-ENGINE-K2-R2",
+    "conclusion": "MARKET_GATE_FORMULA_AUDIT_PASS_NEEDS_SOURCE_FORMULA_PATCH",
+    "recommended_next_action": "Inspect source_contexts for the exact legacy market gate logic, then patch K2 using the real formula. Do not proceed to candidate extraction until market_gate_state equivalence passes."
+  }
+}
