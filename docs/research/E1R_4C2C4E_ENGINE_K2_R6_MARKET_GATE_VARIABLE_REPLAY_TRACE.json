@@ -1,0 +1,896 @@
+{
+  "generated_at": "2026-07-10T12:26:00.748446+00:00",
+  "elapsed_seconds": 0.022646,
+  "stage": "4C-2C-4E-ENGINE-K2-R6-MARKET_GATE_VARIABLE_REPLAY_TRACE",
+  "status": "MARKET_GATE_VARIABLE_REPLAY_TRACE_COMPLETE",
+  "purpose": "Replay market gate variables required by the source-supported formula before patching standalone implementation.",
+  "policy": {
+    "strategy_logic_changed": false,
+    "audit_only": true,
+    "formula_not_patched": true,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "frozen_strategy_files_changed": false
+  },
+  "source": {
+    "backtest_path": "src/engine/backtest.py",
+    "backtest_sha256": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+    "function_bounds": {
+      "name": "run_stateful_simulation",
+      "start_line": 763,
+      "end_line": 2486,
+      "line_count": 1724
+    },
+    "k2_r5": "docs/research/E1R_4C2C4E_ENGINE_K2_R5_FORMULA_PATCH_PROPOSAL.json",
+    "golden_master": "exports/e1r_engine/golden_master/e1r_engine_g_short_window_golden_master.json"
+  },
+  "source_evidence": {
+    "_gate_state_formula": [
+      {
+        "line": 1510,
+        "text": "        _gate_state = ("
+      },
+      {
+        "line": 1511,
+        "text": "            \"ALLOW\" if market_entry_allowed else"
+      },
+      {
+        "line": 1512,
+        "text": "            \"SHOCK\" if market_shock else \"RISK_OFF\""
+      }
+    ],
+    "daily_equity_target": [
+      {
+        "line": 1525,
+        "text": "            \"market_gate_state\": _gate_state,"
+      }
+    ],
+    "market_entry_allowed_no_gate": [
+      {
+        "line": 1399,
+        "text": "            market_entry_allowed = True"
+      }
+    ],
+    "market_entry_allowed_gate": [
+      {
+        "line": 1485,
+        "text": "            market_entry_allowed = entry_capacity > 0"
+      }
+    ],
+    "market_risk_off_gate": [
+      {
+        "line": 1483,
+        "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+      }
+    ],
+    "market_shock_gate": [
+      {
+        "line": 1484,
+        "text": "            market_shock     = _shock_active"
+      }
+    ]
+  },
+  "source_chain": {
+    "market_state": {
+      "occurrence_count": 8,
+      "assignment_count": 6,
+      "rows": [
+        {
+          "line": 1395,
+          "kind": "assignment",
+          "text": "            market_state     = \"FULL_ON\""
+        },
+        {
+          "line": 1469,
+          "kind": "assignment",
+          "text": "                market_state   = \"CASH_MODE\""
+        },
+        {
+          "line": 1477,
+          "kind": "assignment",
+          "text": "                market_state   = \"FULL_ON\""
+        },
+        {
+          "line": 1480,
+          "kind": "assignment",
+          "text": "                market_state   = \"CAUTIOUS_ON\""
+        },
+        {
+          "line": 1483,
+          "kind": "assignment",
+          "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+        },
+        {
+          "line": 1920,
+          "kind": "assignment",
+          "text": "                            if market_state == \"FULL_ON\":"
+        },
+        {
+          "line": 1943,
+          "kind": "reference",
+          "text": "                                            \"market_state\": market_state,"
+        },
+        {
+          "line": 1997,
+          "kind": "control",
+          "text": "                if action == \"ADD\" and market_gate_enabled and market_state in (\"CAUTIOUS_ON\", \"CASH_MODE\"):"
+        }
+      ]
+    },
+    "_shock_active": {
+      "occurrence_count": 5,
+      "assignment_count": 1,
+      "rows": [
+        {
+          "line": 1448,
+          "kind": "assignment",
+          "text": "            _shock_active = ("
+        },
+        {
+          "line": 1464,
+          "kind": "reference",
+          "text": "                or _shock_active"
+        },
+        {
+          "line": 1475,
+          "kind": "reference",
+          "text": "                and not _shock_active"
+        },
+        {
+          "line": 1483,
+          "kind": "reference",
+          "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+        },
+        {
+          "line": 1484,
+          "kind": "reference",
+          "text": "            market_shock     = _shock_active"
+        }
+      ]
+    },
+    "entry_capacity": {
+      "occurrence_count": 9,
+      "assignment_count": 4,
+      "rows": [
+        {
+          "line": 1396,
+          "kind": "assignment",
+          "text": "            entry_capacity   = max_pos"
+        },
+        {
+          "line": 1470,
+          "kind": "assignment",
+          "text": "                entry_capacity = 0"
+        },
+        {
+          "line": 1478,
+          "kind": "assignment",
+          "text": "                entry_capacity = max_pos"
+        },
+        {
+          "line": 1481,
+          "kind": "assignment",
+          "text": "                entry_capacity = min(max_pos, 2)"
+        },
+        {
+          "line": 1485,
+          "kind": "reference",
+          "text": "            market_entry_allowed = entry_capacity > 0"
+        },
+        {
+          "line": 1718,
+          "kind": "control",
+          "text": "                if len(holdings) < min(max_pos, entry_capacity):"
+        },
+        {
+          "line": 1816,
+          "kind": "control",
+          "text": "                    if fill_only_enabled and len(holdings) >= entry_capacity:"
+        },
+        {
+          "line": 1820,
+          "kind": "control",
+          "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+        },
+        {
+          "line": 1872,
+          "kind": "control",
+          "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+        }
+      ]
+    },
+    "market_entry_allowed": {
+      "occurrence_count": 10,
+      "assignment_count": 2,
+      "rows": [
+        {
+          "line": 1399,
+          "kind": "assignment",
+          "text": "            market_entry_allowed = True"
+        },
+        {
+          "line": 1485,
+          "kind": "assignment",
+          "text": "            market_entry_allowed = entry_capacity > 0"
+        },
+        {
+          "line": 1491,
+          "kind": "control",
+          "text": "            if market_entry_allowed:"
+        },
+        {
+          "line": 1511,
+          "kind": "reference",
+          "text": "            \"ALLOW\" if market_entry_allowed else"
+        },
+        {
+          "line": 1717,
+          "kind": "control",
+          "text": "            if e1r_buy_candidates and market_entry_allowed:"
+        },
+        {
+          "line": 1823,
+          "kind": "control",
+          "text": "                    if not market_entry_allowed:"
+        },
+        {
+          "line": 1875,
+          "kind": "control",
+          "text": "                    if not market_entry_allowed:"
+        },
+        {
+          "line": 1971,
+          "kind": "control",
+          "text": "                if action == \"ADD\" and not market_entry_allowed:"
+        },
+        {
+          "line": 2137,
+          "kind": "reference",
+          "text": "            gate_state = \"ALLOW\" if market_entry_allowed else ("
+        },
+        {
+          "line": 2156,
+          "kind": "reference",
+          "text": "                    \"ALLOW\" if market_entry_allowed else"
+        }
+      ]
+    },
+    "market_risk_off": {
+      "occurrence_count": 3,
+      "assignment_count": 2,
+      "rows": [
+        {
+          "line": 1397,
+          "kind": "assignment",
+          "text": "            market_risk_off  = False"
+        },
+        {
+          "line": 1483,
+          "kind": "assignment",
+          "text": "            market_risk_off  = (market_state == \"CASH_MODE\") and not _shock_active"
+        },
+        {
+          "line": 1487,
+          "kind": "control",
+          "text": "            if market_risk_off:"
+        }
+      ]
+    },
+    "market_shock": {
+      "occurrence_count": 12,
+      "assignment_count": 2,
+      "rows": [
+        {
+          "line": 1075,
+          "kind": "reference",
+          "text": "        \"market_shock\": 0,"
+        },
+        {
+          "line": 1398,
+          "kind": "assignment",
+          "text": "            market_shock     = False"
+        },
+        {
+          "line": 1484,
+          "kind": "assignment",
+          "text": "            market_shock     = _shock_active"
+        },
+        {
+          "line": 1489,
+          "kind": "control",
+          "text": "            if market_shock:"
+        },
+        {
+          "line": 1490,
+          "kind": "reference",
+          "text": "                market_gate_days[\"market_shock\"] += 1"
+        },
+        {
+          "line": 1512,
+          "kind": "reference",
+          "text": "            \"SHOCK\" if market_shock else \"RISK_OFF\""
+        },
+        {
+          "line": 1824,
+          "kind": "reference",
+          "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+        },
+        {
+          "line": 1876,
+          "kind": "reference",
+          "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+        },
+        {
+          "line": 1972,
+          "kind": "reference",
+          "text": "                    reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+        },
+        {
+          "line": 2138,
+          "kind": "reference",
+          "text": "                \"SHOCK\" if market_shock else \"RISK_OFF\""
+        },
+        {
+          "line": 2157,
+          "kind": "reference",
+          "text": "                    \"SHOCK\" if market_shock else \"RISK_OFF\""
+        },
+        {
+          "line": 2333,
+          "kind": "reference",
+          "text": "                f\"shock={market_gate_days['market_shock']}\")"
+        }
+      ]
+    },
+    "_gate_state": {
+      "occurrence_count": 2,
+      "assignment_count": 1,
+      "rows": [
+        {
+          "line": 1510,
+          "kind": "assignment",
+          "text": "        _gate_state = ("
+        },
+        {
+          "line": 1525,
+          "kind": "reference",
+          "text": "            \"market_gate_state\": _gate_state,"
+        }
+      ]
+    },
+    "market_gate_enabled": {
+      "occurrence_count": 9,
+      "assignment_count": 1,
+      "rows": [
+        {
+          "line": 847,
+          "kind": "assignment",
+          "text": "    market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+        },
+        {
+          "line": 912,
+          "kind": "reference",
+          "text": "        \"D1_NO_MARKET_GATE\" if not market_gate_enabled else"
+        },
+        {
+          "line": 928,
+          "kind": "reference",
+          "text": "    logger.info(f\"  Market Gate: enabled={market_gate_enabled} \""
+        },
+        {
+          "line": 938,
+          "kind": "reference",
+          "text": "                f\"relstop={relative_stop_enabled} gate={market_gate_enabled} ──\")"
+        },
+        {
+          "line": 1393,
+          "kind": "control",
+          "text": "        if not market_gate_enabled:"
+        },
+        {
+          "line": 1820,
+          "kind": "control",
+          "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+        },
+        {
+          "line": 1872,
+          "kind": "control",
+          "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+        },
+        {
+          "line": 1997,
+          "kind": "control",
+          "text": "                if action == \"ADD\" and market_gate_enabled and market_state in (\"CAUTIOUS_ON\", \"CASH_MODE\"):"
+        },
+        {
+          "line": 2406,
+          "kind": "reference",
+          "text": "            \"enabled\": market_gate_enabled,"
+        }
+      ]
+    },
+    "risk_off_below_spx_ma50": {
+      "occurrence_count": 3,
+      "assignment_count": 1,
+      "rows": [
+        {
+          "line": 848,
+          "kind": "assignment",
+          "text": "    risk_off_below_spx_ma50 = bool(a.get(\"risk_off_below_spx_ma50\", True))"
+        },
+        {
+          "line": 929,
+          "kind": "reference",
+          "text": "                f\"| RiskOff=SPX<MA50:{risk_off_below_spx_ma50} \""
+        },
+        {
+          "line": 2407,
+          "kind": "reference",
+          "text": "            \"risk_off_rule\": \"SPX close < SPX MA50\" if risk_off_below_spx_ma50 else \"disabled\","
+        }
+      ]
+    },
+    "market_shock_gate_enabled": {
+      "occurrence_count": 5,
+      "assignment_count": 1,
+      "rows": [
+        {
+          "line": 896,
+          "kind": "assignment",
+          "text": "    market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))"
+        },
+        {
+          "line": 913,
+          "kind": "reference",
+          "text": "        \"D2_RISK_OFF_GATE\" if not market_shock_gate_enabled else"
+        },
+        {
+          "line": 930,
+          "kind": "reference",
+          "text": "                f\"| Shock<={market_shock_daily_return*100:.1f}%:{market_shock_gate_enabled}\")"
+        },
+        {
+          "line": 1449,
+          "kind": "reference",
+          "text": "                market_shock_gate_enabled"
+        },
+        {
+          "line": 2410,
+          "kind": "control",
+          "text": "                if market_shock_gate_enabled else \"disabled\""
+        }
+      ]
+    },
+    "market_shock_daily_return": {
+      "occurrence_count": 4,
+      "assignment_count": 1,
+      "rows": [
+        {
+          "line": 897,
+          "kind": "assignment",
+          "text": "    market_shock_daily_return = float(a.get(\"market_shock_daily_return\", -0.02))"
+        },
+        {
+          "line": 930,
+          "kind": "reference",
+          "text": "                f\"| Shock<={market_shock_daily_return*100:.1f}%:{market_shock_gate_enabled}\")"
+        },
+        {
+          "line": 1450,
+          "kind": "reference",
+          "text": "                and spx_day_return <= market_shock_daily_return"
+        },
+        {
+          "line": 2409,
+          "kind": "reference",
+          "text": "                f\"SPX daily return <= {market_shock_daily_return*100:.1f}%\""
+        }
+      ]
+    }
+  },
+  "upstream_availability": {
+    "golden_master_has_market_entry_allowed": false,
+    "golden_master_has_market_shock": false,
+    "golden_master_has_market_risk_off": false,
+    "golden_master_has_market_state": false,
+    "golden_master_has__shock_active": false,
+    "golden_master_has_entry_capacity": false
+  },
+  "upstream_source_equivalent_available": false,
+  "replay_artifact_path": "exports/e1r_engine/uptrend/e1r_k2_r6_market_gate_variable_replay_trace.json",
+  "replay_artifact_sha256": "2aeb6b23ef4a2d5724ed7123ba5eafd44a92795a9d0b6c267528831a1b5d2726",
+  "equivalence_report_path": "exports/e1r_engine/equivalence/e1r_k2_r6_market_gate_variable_replay_equivalence.json",
+  "equivalence_report_sha256": "622b0f3d997da4ae1910485606bfedf80875c7db5e8a68df2fb2f2e067e975c2",
+  "equivalence_report": {
+    "ok": true,
+    "checked_assertions": [
+      "daily_equity_market_gate_state_date_sequence",
+      "formula_replayed_gate_state_matches_daily_equity_market_gate_state"
+    ],
+    "mismatch_count": 0,
+    "mismatches": [],
+    "summary": {
+      "row_count": 62,
+      "mismatch_count": 0,
+      "expected_distribution": {
+        "ALLOW": 53,
+        "RISK_OFF": 8,
+        "SHOCK": 1
+      },
+      "replayed_distribution": {
+        "ALLOW": 53,
+        "RISK_OFF": 8,
+        "SHOCK": 1
+      },
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    "caveat": "This is formula-level replay from inverse target labels, not full upstream source-equivalent replay, because golden master rows do not persist market_entry_allowed and market_shock."
+  },
+  "focused_rows": [
+    {
+      "date": "2021-05-03",
+      "daily_equity_market_gate_state": "ALLOW",
+      "replayed_gate_state": "ALLOW",
+      "market_entry_allowed": true,
+      "market_shock": false,
+      "market_risk_off": false,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4192.66,
+      "spx_ma50": 4008.46,
+      "spx_day_return_pct": 0.2748,
+      "open_positions_count": 3,
+      "pending_orders_count": 1,
+      "exposure_pct": 15.09,
+      "replay_mode": "minimal_inverse_from_target_allow",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-04",
+      "daily_equity_market_gate_state": "ALLOW",
+      "replayed_gate_state": "ALLOW",
+      "market_entry_allowed": true,
+      "market_shock": false,
+      "market_risk_off": false,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4164.66,
+      "spx_ma50": 4014.22,
+      "spx_day_return_pct": -0.6678,
+      "open_positions_count": 3,
+      "pending_orders_count": 1,
+      "exposure_pct": 15.01,
+      "replay_mode": "minimal_inverse_from_target_allow",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-05",
+      "daily_equity_market_gate_state": "ALLOW",
+      "replayed_gate_state": "ALLOW",
+      "market_entry_allowed": true,
+      "market_shock": false,
+      "market_risk_off": false,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4167.59,
+      "spx_ma50": 4019.94,
+      "spx_day_return_pct": 0.0703,
+      "open_positions_count": 3,
+      "pending_orders_count": 1,
+      "exposure_pct": 15.15,
+      "replay_mode": "minimal_inverse_from_target_allow",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-06",
+      "daily_equity_market_gate_state": "ALLOW",
+      "replayed_gate_state": "ALLOW",
+      "market_entry_allowed": true,
+      "market_shock": false,
+      "market_risk_off": false,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4201.62,
+      "spx_ma50": 4025.47,
+      "spx_day_return_pct": 0.8165,
+      "open_positions_count": 3,
+      "pending_orders_count": 1,
+      "exposure_pct": 15.18,
+      "replay_mode": "minimal_inverse_from_target_allow",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-07",
+      "daily_equity_market_gate_state": "ALLOW",
+      "replayed_gate_state": "ALLOW",
+      "market_entry_allowed": true,
+      "market_shock": false,
+      "market_risk_off": false,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4232.6,
+      "spx_ma50": 4033.53,
+      "spx_day_return_pct": 0.7373,
+      "open_positions_count": 3,
+      "pending_orders_count": 1,
+      "exposure_pct": 15.44,
+      "replay_mode": "minimal_inverse_from_target_allow",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-10",
+      "daily_equity_market_gate_state": "RISK_OFF",
+      "replayed_gate_state": "RISK_OFF",
+      "market_entry_allowed": false,
+      "market_shock": false,
+      "market_risk_off": true,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4188.43,
+      "spx_ma50": 4041.08,
+      "spx_day_return_pct": -1.0436,
+      "open_positions_count": 3,
+      "pending_orders_count": 1,
+      "exposure_pct": 15.2,
+      "replay_mode": "minimal_inverse_from_target_risk_off",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-11",
+      "daily_equity_market_gate_state": "RISK_OFF",
+      "replayed_gate_state": "RISK_OFF",
+      "market_entry_allowed": false,
+      "market_shock": false,
+      "market_risk_off": true,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4152.1,
+      "spx_ma50": 4046.08,
+      "spx_day_return_pct": -0.8674,
+      "open_positions_count": 3,
+      "pending_orders_count": 1,
+      "exposure_pct": 14.79,
+      "replay_mode": "minimal_inverse_from_target_risk_off",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-12",
+      "daily_equity_market_gate_state": "SHOCK",
+      "replayed_gate_state": "SHOCK",
+      "market_entry_allowed": false,
+      "market_shock": true,
+      "market_risk_off": false,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4063.04,
+      "spx_ma50": 4049.94,
+      "spx_day_return_pct": -2.1449,
+      "open_positions_count": 3,
+      "pending_orders_count": 1,
+      "exposure_pct": 14.01,
+      "replay_mode": "minimal_inverse_from_target_shock",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-13",
+      "daily_equity_market_gate_state": "RISK_OFF",
+      "replayed_gate_state": "RISK_OFF",
+      "market_entry_allowed": false,
+      "market_shock": false,
+      "market_risk_off": true,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4112.5,
+      "spx_ma50": 4055.8,
+      "spx_day_return_pct": 1.2173,
+      "open_positions_count": 3,
+      "pending_orders_count": 3,
+      "exposure_pct": 14.47,
+      "replay_mode": "minimal_inverse_from_target_risk_off",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-14",
+      "daily_equity_market_gate_state": "RISK_OFF",
+      "replayed_gate_state": "RISK_OFF",
+      "market_entry_allowed": false,
+      "market_shock": false,
+      "market_risk_off": true,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4173.85,
+      "spx_ma50": 4063.9,
+      "spx_day_return_pct": 1.4918,
+      "open_positions_count": 3,
+      "pending_orders_count": 3,
+      "exposure_pct": 14.66,
+      "replay_mode": "minimal_inverse_from_target_risk_off",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-17",
+      "daily_equity_market_gate_state": "RISK_OFF",
+      "replayed_gate_state": "RISK_OFF",
+      "market_entry_allowed": false,
+      "market_shock": false,
+      "market_risk_off": true,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4163.29,
+      "spx_ma50": 4070.33,
+      "spx_day_return_pct": -0.253,
+      "open_positions_count": 3,
+      "pending_orders_count": 3,
+      "exposure_pct": 14.58,
+      "replay_mode": "minimal_inverse_from_target_risk_off",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-18",
+      "daily_equity_market_gate_state": "RISK_OFF",
+      "replayed_gate_state": "RISK_OFF",
+      "market_entry_allowed": false,
+      "market_shock": false,
+      "market_risk_off": true,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4127.83,
+      "spx_ma50": 4076.46,
+      "spx_day_return_pct": -0.8517,
+      "open_positions_count": 3,
+      "pending_orders_count": 2,
+      "exposure_pct": 14.29,
+      "replay_mode": "minimal_inverse_from_target_risk_off",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-19",
+      "daily_equity_market_gate_state": "RISK_OFF",
+      "replayed_gate_state": "RISK_OFF",
+      "market_entry_allowed": false,
+      "market_shock": false,
+      "market_risk_off": true,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4115.68,
+      "spx_ma50": 4081.26,
+      "spx_day_return_pct": -0.2943,
+      "open_positions_count": 3,
+      "pending_orders_count": 2,
+      "exposure_pct": 14.16,
+      "replay_mode": "minimal_inverse_from_target_risk_off",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-20",
+      "daily_equity_market_gate_state": "ALLOW",
+      "replayed_gate_state": "ALLOW",
+      "market_entry_allowed": true,
+      "market_shock": false,
+      "market_risk_off": false,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4159.12,
+      "spx_ma50": 4086.47,
+      "spx_day_return_pct": 1.0555,
+      "open_positions_count": 3,
+      "pending_orders_count": 3,
+      "exposure_pct": 14.3,
+      "replay_mode": "minimal_inverse_from_target_allow",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-21",
+      "daily_equity_market_gate_state": "RISK_OFF",
+      "replayed_gate_state": "RISK_OFF",
+      "market_entry_allowed": false,
+      "market_shock": false,
+      "market_risk_off": true,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4155.86,
+      "spx_ma50": 4090.8,
+      "spx_day_return_pct": -0.0784,
+      "open_positions_count": 3,
+      "pending_orders_count": 3,
+      "exposure_pct": 14.2,
+      "replay_mode": "minimal_inverse_from_target_risk_off",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-05-24",
+      "daily_equity_market_gate_state": "ALLOW",
+      "replayed_gate_state": "ALLOW",
+      "market_entry_allowed": true,
+      "market_shock": false,
+      "market_risk_off": false,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4197.05,
+      "spx_ma50": 4095.88,
+      "spx_day_return_pct": 0.9911,
+      "open_positions_count": 3,
+      "pending_orders_count": 3,
+      "exposure_pct": 14.39,
+      "replay_mode": "minimal_inverse_from_target_allow",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    },
+    {
+      "date": "2021-06-18",
+      "daily_equity_market_gate_state": "ALLOW",
+      "replayed_gate_state": "ALLOW",
+      "market_entry_allowed": true,
+      "market_shock": false,
+      "market_risk_off": false,
+      "market_state": null,
+      "_shock_active": null,
+      "entry_capacity": null,
+      "spx_close": 4166.45,
+      "spx_ma50": 4181.59,
+      "spx_day_return_pct": -1.3124,
+      "open_positions_count": 3,
+      "pending_orders_count": 3,
+      "exposure_pct": 15.49,
+      "replay_mode": "minimal_inverse_from_target_allow",
+      "source_quality": "target_inverse_only_not_upstream_source_equivalent"
+    }
+  ],
+  "validations": {
+    "market_gate_variable_replay_trace_complete": true,
+    "strategy_logic_changed": false,
+    "audit_only": true,
+    "formula_not_patched": true,
+    "backtest_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "strategy_files_unchanged": true,
+    "k2_r5_loaded": true,
+    "golden_master_loaded": true,
+    "daily_equity_records_loaded": true,
+    "source_evidence_cited": true,
+    "source_chain_scanned": true,
+    "upstream_source_equivalent_available": false,
+    "target_inverse_replay_available": true,
+    "target_inverse_replay_mismatch_count": 0,
+    "target_inverse_replay_passed": true,
+    "replay_artifact_written": true,
+    "equivalence_report_written": true
+  },
+  "decision": {
+    "k2_r6_variable_replay_trace_passed": true,
+    "upstream_source_equivalent_available": false,
+    "formula_patch_allowed_now": false,
+    "candidate_extraction_allowed_now": false,
+    "implementation_may_resume": false,
+    "reason_patch_still_blocked": "K2-R6 obtained formula-level target replay but did not obtain true upstream market_entry_allowed/market_shock from legacy internals. A standalone patch can now be designed to require these inputs, but historical equivalence must be checked against target-inverse replay unless legacy instrumentation is added.",
+    "acceptable_patch_shape_next": "K2-R7 may patch compute_market_gate_state only as a pure function requiring market_entry_allowed and market_shock inputs. It must not accept spx_close/spx_ma50/spx_day_return as sufficient source-equivalent inputs.",
+    "next_required_stage": "4C-2C-4E-ENGINE-K2-R7-MARKET_GATE_EQUIVALENCE_PATCH",
+    "conclusion": "K2_R6_PASS_TARGET_REPLAY_READY_FOR_INPUT_REQUIRED_EQUIVALENCE_PATCH",
+    "recommended_next_action": "Run 4C-2C-4E-ENGINE-K2-R7-MARKET_GATE_EQUIVALENCE_PATCH: patch a pure input-required market gate function and validate against K2-R6 replay rows with mismatch_count=0."
+  }
+}
