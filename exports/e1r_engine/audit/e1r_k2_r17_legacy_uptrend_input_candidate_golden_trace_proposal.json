@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17-LEGACY-UPTREND-INPUT-AND-CANDIDATE-BOUNDARY-GOLDEN-TRACE-PROPOSAL",
+  "generated_at_utc": "2026-07-11T11:24:28.073133+00:00",
+  "artifact_role": "COMPACT_AUDIT_SUMMARY",
+  "canonical_report": {
+    "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R17_LEGACY_UPTREND_INPUT_AND_CANDIDATE_BOUNDARY_GOLDEN_TRACE_PROPOSAL.json"
+  },
+  "validation": {
+    "primary_function_located": true,
+    "primary_function": "src/engine/backtest.py:run_stateful_simulation",
+    "primary_function_line_start": 763,
+    "primary_function_line_end": 2486,
+    "input_parameter_count": 18,
+    "high_value_assignment_count": 42,
+    "high_value_call_count": 60,
+    "high_value_branch_count": 27,
+    "candidate_lifecycle_stage_count": 7,
+    "golden_row_class_count": 7,
+    "acceptance_criterion_count": 9,
+    "unresolved_unknown_count": 5,
+    "strategy_source_modified": false,
+    "standalone_engine_modified": false,
+    "candidate_extractor_implemented": false,
+    "full_5y_run_performed": false,
+    "sideways_logic_added": false,
+    "frozen_files_unchanged": true
+  },
+  "decision": "PASS_GOLDEN_TRACE_PROPOSAL_READY_FOR_R17A_READ_ONLY_TRACE_DESIGN_REVIEW",
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R17A-LEGACY-UPTREND-CANDIDATE-BOUNDARY-READ-ONLY-TRACE-DESIGN-REVIEW"
+}

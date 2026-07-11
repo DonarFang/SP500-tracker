@@ -1,0 +1,4822 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17-LEGACY-UPTREND-INPUT-AND-CANDIDATE-BOUNDARY-GOLDEN-TRACE-PROPOSAL",
+  "generated_at_utc": "2026-07-11T11:24:28.073133+00:00",
+  "repository": {
+    "branch": "main",
+    "head": "0f18eff4387c662b01574ceee2007b6b48793382",
+    "head_short": "0f18eff",
+    "head_subject": "Compact E1R legacy uptrend evidence index",
+    "origin_main": "0f18eff4387c662b01574ceee2007b6b48793382"
+  },
+  "scope": {
+    "proposal_only": true,
+    "read_only_source_analysis": true,
+    "strategy_source_modified": false,
+    "standalone_engine_modified": false,
+    "candidate_extractor_implemented": false,
+    "ranking_logic_implemented": false,
+    "order_generation_implemented": false,
+    "position_sizing_implemented": false,
+    "account_mutation_implemented": false,
+    "legacy_backtest_integration": false,
+    "full_5y_run": false,
+    "sideways_integration": false
+  },
+  "r16_canonical_reference": {
+    "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R16_LEGACY_UPTREND_ORDER_LOGIC_EXTRACTION_PROPOSAL.json",
+    "sha256": "ef7a00555d98c83be19d98d7ff8c854b76a845f25dd1febeababd6e62aa477fe",
+    "schema_version": "2.0",
+    "standalone_evidence_count": 0
+  },
+  "input_contract_map": {
+    "function": "src/engine/backtest.py:run_stateful_simulation",
+    "source_line_start": 763,
+    "source_line_end": 2486,
+    "required_inputs": [
+      "symbols",
+      "prices_map",
+      "dates_map",
+      "spx_prices",
+      "spx_dates"
+    ],
+    "defaulted_inputs": [
+      "ohlc_map",
+      "assumptions",
+      "step",
+      "min_history",
+      "market_score_default",
+      "sim_start_date",
+      "sim_end_date",
+      "ndx_prices",
+      "ndx_dates",
+      "sox_prices",
+      "sox_dates",
+      "vix_prices",
+      "vix_dates"
+    ],
+    "keyword_only_inputs": [],
+    "input_classification": {
+      "market_and_price_inputs": [
+        "prices_map",
+        "dates_map",
+        "spx_prices",
+        "spx_dates",
+        "market_score_default",
+        "sim_start_date",
+        "sim_end_date",
+        "ndx_prices",
+        "ndx_dates",
+        "sox_prices",
+        "sox_dates",
+        "vix_prices",
+        "vix_dates"
+      ],
+      "universe_and_symbol_inputs": [
+        "symbols"
+      ],
+      "regime_and_gate_inputs": [],
+      "account_and_position_inputs": [],
+      "configuration_inputs": [],
+      "unclassified_inputs": [
+        "ohlc_map",
+        "assumptions",
+        "step",
+        "min_history"
+      ]
+    }
+  },
+  "function_inventory": {
+    "src/engine/backtest.py:_e1r_mode_for_regime": {
+      "path": "src/engine/backtest.py",
+      "signature": {
+        "name": "_e1r_mode_for_regime",
+        "line_start": 818,
+        "line_end": 827,
+        "positional_parameters": [
+          "regime"
+        ],
+        "required_positional_parameters": [
+          "regime"
+        ],
+        "defaulted_positional_parameters": [],
+        "vararg": null,
+        "keyword_only_parameters": [],
+        "kwarg": null
+      },
+      "candidate_related_assignments": [],
+      "candidate_related_calls": [],
+      "candidate_related_branches": [
+        {
+          "line": 819,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"UPTREND\":",
+          "high_value": false
+        },
+        {
+          "line": 821,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"SIDEWAYS\":",
+          "high_value": false
+        },
+        {
+          "line": 823,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"DOWNTREND\":",
+          "high_value": false
+        },
+        {
+          "line": 825,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"N/A\":",
+          "high_value": false
+        }
+      ],
+      "returns": [
+        {
+          "line": 827,
+          "referenced_names": [],
+          "source": "return \"UNCLASSIFIED_NO_RISK_EXPANSION\""
+        },
+        {
+          "line": 820,
+          "referenced_names": [],
+          "source": "return \"UPTREND_EMERGING_CONFIRMED_ENABLED\""
+        },
+        {
+          "line": 822,
+          "referenced_names": [],
+          "source": "return \"SIDEWAYS_QUALITY_BREAKOUT_ONLY\""
+        },
+        {
+          "line": 824,
+          "referenced_names": [],
+          "source": "return \"DOWNTREND_EXCEPTION_ONLY\""
+        },
+        {
+          "line": 826,
+          "referenced_names": [],
+          "source": "return \"N/A\""
+        }
+      ]
+    },
+    "src/engine/backtest.py:_e1r_risk_budget_for_regime": {
+      "path": "src/engine/backtest.py",
+      "signature": {
+        "name": "_e1r_risk_budget_for_regime",
+        "line_start": 829,
+        "line_end": 838,
+        "positional_parameters": [
+          "regime"
+        ],
+        "required_positional_parameters": [
+          "regime"
+        ],
+        "defaulted_positional_parameters": [],
+        "vararg": null,
+        "keyword_only_parameters": [],
+        "kwarg": null
+      },
+      "candidate_related_assignments": [],
+      "candidate_related_calls": [],
+      "candidate_related_branches": [
+        {
+          "line": 830,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"UPTREND\":",
+          "high_value": false
+        },
+        {
+          "line": 832,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"SIDEWAYS\":",
+          "high_value": false
+        },
+        {
+          "line": 834,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"DOWNTREND\":",
+          "high_value": false
+        },
+        {
+          "line": 836,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"N/A\":",
+          "high_value": false
+        }
+      ],
+      "returns": [
+        {
+          "line": 838,
+          "referenced_names": [],
+          "source": "return {\"mode\": \"UNCLASSIFIED_DEFENSIVE\", \"max_positions\": 0, \"max_total_exposure_pct\": 0.0}"
+        },
+        {
+          "line": 831,
+          "referenced_names": [],
+          "source": "return {\"mode\": \"UPTREND_RISK_ON\", \"max_positions\": 3, \"max_total_exposure_pct\": 100.0}"
+        },
+        {
+          "line": 833,
+          "referenced_names": [],
+          "source": "return {\"mode\": \"SIDEWAYS_LIMITED\", \"max_positions\": 2, \"max_total_exposure_pct\": 33.3}"
+        },
+        {
+          "line": 835,
+          "referenced_names": [],
+          "source": "return {\"mode\": \"DOWNTREND_DEFENSIVE\", \"max_positions\": 1, \"max_total_exposure_pct\": 10.0}"
+        },
+        {
+          "line": 837,
+          "referenced_names": [],
+          "source": "return {\"mode\": \"N/A\", \"max_positions\": None, \"max_total_exposure_pct\": None}"
+        }
+      ]
+    },
+    "src/engine/backtest.py:_rebuild_leader_score": {
+      "path": "src/engine/backtest.py",
+      "signature": {
+        "name": "_rebuild_leader_score",
+        "line_start": 124,
+        "line_end": 169,
+        "positional_parameters": [
+          "prices",
+          "spx_prices",
+          "all_stocks_prices",
+          "t"
+        ],
+        "required_positional_parameters": [
+          "prices",
+          "spx_prices",
+          "all_stocks_prices",
+          "t"
+        ],
+        "defaulted_positional_parameters": [],
+        "vararg": null,
+        "keyword_only_parameters": [],
+        "kwarg": null
+      },
+      "candidate_related_assignments": [
+        {
+          "line": 153,
+          "targets": [
+            "ls"
+          ],
+          "referenced_names": [
+            "calc_leader_score",
+            "ls",
+            "mom",
+            "rs",
+            "th"
+          ],
+          "source": "ls = calc_leader_score(rs, mom, th)",
+          "high_value": true
+        },
+        {
+          "line": 130,
+          "targets": [
+            "p"
+          ],
+          "referenced_names": [
+            "p",
+            "prices",
+            "t"
+          ],
+          "source": "p = prices[:t+1]",
+          "high_value": false
+        },
+        {
+          "line": 131,
+          "targets": [
+            "spx"
+          ],
+          "referenced_names": [
+            "spx",
+            "spx_prices",
+            "t"
+          ],
+          "source": "spx = spx_prices[:t+1]",
+          "high_value": false
+        },
+        {
+          "line": 146,
+          "targets": [
+            "mom"
+          ],
+          "referenced_names": [
+            "mom",
+            "mom_dict"
+          ],
+          "source": "mom = mom_dict[\"momentum_score\"]",
+          "high_value": false
+        }
+      ],
+      "candidate_related_calls": [
+        {
+          "line": 153,
+          "referenced_names": [
+            "calc_leader_score",
+            "mom",
+            "rs",
+            "th"
+          ],
+          "source": "ls = calc_leader_score(rs, mom, th)",
+          "high_value": true
+        },
+        {
+          "line": 137,
+          "referenced_names": [
+            "all_stocks_prices",
+            "all_stocks_prices.values"
+          ],
+          "source": "for sym_p in all_stocks_prices.values():",
+          "high_value": false
+        }
+      ],
+      "candidate_related_branches": [],
+      "returns": [
+        {
+          "line": 160,
+          "referenced_names": [
+            "ls",
+            "ma50_sl",
+            "ma50_val",
+            "mom",
+            "p",
+            "rs",
+            "th",
+            "th_dict"
+          ],
+          "source": "return {"
+        },
+        {
+          "line": 133,
+          "referenced_names": [],
+          "source": "return None"
+        }
+      ]
+    },
+    "src/engine/backtest.py:run_stateful_simulation": {
+      "path": "src/engine/backtest.py",
+      "signature": {
+        "name": "run_stateful_simulation",
+        "line_start": 763,
+        "line_end": 2486,
+        "positional_parameters": [
+          "symbols",
+          "prices_map",
+          "dates_map",
+          "spx_prices",
+          "spx_dates",
+          "ohlc_map",
+          "assumptions",
+          "step",
+          "min_history",
+          "market_score_default",
+          "sim_start_date",
+          "sim_end_date",
+          "ndx_prices",
+          "ndx_dates",
+          "sox_prices",
+          "sox_dates",
+          "vix_prices",
+          "vix_dates"
+        ],
+        "required_positional_parameters": [
+          "symbols",
+          "prices_map",
+          "dates_map",
+          "spx_prices",
+          "spx_dates"
+        ],
+        "defaulted_positional_parameters": [
+          "ohlc_map",
+          "assumptions",
+          "step",
+          "min_history",
+          "market_score_default",
+          "sim_start_date",
+          "sim_end_date",
+          "ndx_prices",
+          "ndx_dates",
+          "sox_prices",
+          "sox_dates",
+          "vix_prices",
+          "vix_dates"
+        ],
+        "vararg": null,
+        "keyword_only_parameters": [],
+        "kwarg": null
+      },
+      "candidate_related_assignments": [
+        {
+          "line": 796,
+          "targets": [
+            "max_pos"
+          ],
+          "referenced_names": [
+            "a",
+            "max_pos"
+          ],
+          "source": "max_pos  = a[\"max_positions\"]",
+          "high_value": true
+        },
+        {
+          "line": 797,
+          "targets": [
+            "buy_pct"
+          ],
+          "referenced_names": [
+            "a",
+            "buy_pct",
+            "max_pos"
+          ],
+          "source": "buy_pct  = a[\"buy_size\"]  / max_pos       # Top3: 1/3 per full slot",
+          "high_value": true
+        },
+        {
+          "line": 798,
+          "targets": [
+            "add_pct"
+          ],
+          "referenced_names": [
+            "a",
+            "add_pct",
+            "max_pos"
+          ],
+          "source": "add_pct  = a[\"add_size\"]  / max_pos       # Top3: +1/6, only useful after REDUCE",
+          "high_value": true
+        },
+        {
+          "line": 799,
+          "targets": [
+            "max_pct"
+          ],
+          "referenced_names": [
+            "a",
+            "max_pct",
+            "max_pos"
+          ],
+          "source": "max_pct  = a[\"max_single_size\"] / max_pos # Top3: max 1/3 per position",
+          "high_value": true
+        },
+        {
+          "line": 802,
+          "targets": [
+            "strategy_variant"
+          ],
+          "referenced_names": [
+            "a",
+            "a.get",
+            "strategy_variant"
+          ],
+          "source": "strategy_variant = a.get(\"strategy_variant\", \"top3_entry_rs_minhold_relstop\")",
+          "high_value": true
+        },
+        {
+          "line": 845,
+          "targets": [
+            "entry_top_n"
+          ],
+          "referenced_names": [
+            "a",
+            "a.get",
+            "entry_top_n",
+            "int"
+          ],
+          "source": "entry_top_n = int(a.get(\"entry_top_n\", 3))",
+          "high_value": true
+        },
+        {
+          "line": 846,
+          "targets": [
+            "rank_based_exit"
+          ],
+          "referenced_names": [
+            "a",
+            "a.get",
+            "bool",
+            "rank_based_exit"
+          ],
+          "source": "rank_based_exit = bool(a.get(\"rank_based_exit\", False))",
+          "high_value": true
+        },
+        {
+          "line": 852,
+          "targets": [
+            "candidate_top_n"
+          ],
+          "referenced_names": [
+            "a",
+            "a.get",
+            "candidate_top_n"
+          ],
+          "source": "candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n",
+          "high_value": true
+        },
+        {
+          "line": 1017,
+          "targets": [
+            "holdings"
+          ],
+          "referenced_names": [
+            "dict",
+            "holdings",
+            "str"
+          ],
+          "source": "holdings: dict[str, dict] = {}",
+          "high_value": true
+        },
+        {
+          "line": 1089,
+          "targets": [
+            "e1r_candidate_records"
+          ],
+          "referenced_names": [
+            "dict",
+            "e1r_candidate_records",
+            "list"
+          ],
+          "source": "e1r_candidate_records: list[dict] = []",
+          "high_value": true
+        },
+        {
+          "line": 1138,
+          "targets": [
+            "port_val"
+          ],
+          "referenced_names": [
+            "cash",
+            "h",
+            "h.get",
+            "holdings",
+            "holdings.values",
+            "port_val",
+            "sum"
+          ],
+          "source": "port_val = cash + sum(",
+          "high_value": true
+        },
+        {
+          "line": 1148,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "skip_reasons"
+          ],
+          "source": "skip_reasons[\"max_positions_reached\"] += 1",
+          "high_value": true
+        },
+        {
+          "line": 1165,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "_e1r_regime_on",
+            "_order_size_units",
+            "close_ref",
+            "e1r_regime_wiring_enabled",
+            "exec_date",
+            "exec_price",
+            "holdings",
+            "ls",
+            "master_dates",
+            "master_dates.index",
+            "order",
+            "order.get",
+            "shares",
+            "sig_date",
+            "spx_close_t",
+            "spx_prices",
+            "sym"
+          ],
+          "source": "holdings[sym] = {",
+          "high_value": true
+        },
+        {
+          "line": 1199,
+          "targets": [
+            "h"
+          ],
+          "referenced_names": [
+            "h",
+            "holdings",
+            "sym"
+          ],
+          "source": "h = holdings[sym]",
+          "high_value": true
+        },
+        {
+          "line": 1235,
+          "targets": [
+            "h"
+          ],
+          "referenced_names": [
+            "h",
+            "holdings",
+            "sym"
+          ],
+          "source": "h = holdings[sym]",
+          "high_value": true
+        },
+        {
+          "line": 1356,
+          "targets": [
+            "_today_regime_for_positions"
+          ],
+          "referenced_names": [
+            "_e1r_regime_on",
+            "_today_regime_for_positions",
+            "date_t"
+          ],
+          "source": "_today_regime_for_positions = _e1r_regime_on(date_t)",
+          "high_value": true
+        },
+        {
+          "line": 1359,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "_today_regime_for_positions",
+            "_weights",
+            "_weights.get"
+          ],
+          "source": "_weights[_today_regime_for_positions] = _weights.get(_today_regime_for_positions, 0) + 1",
+          "high_value": true
+        },
+        {
+          "line": 1399,
+          "targets": [
+            "market_entry_allowed"
+          ],
+          "referenced_names": [
+            "market_entry_allowed"
+          ],
+          "source": "market_entry_allowed = True",
+          "high_value": true
+        },
+        {
+          "line": 1485,
+          "targets": [
+            "market_entry_allowed"
+          ],
+          "referenced_names": [
+            "entry_capacity",
+            "market_entry_allowed"
+          ],
+          "source": "market_entry_allowed = entry_capacity > 0",
+          "high_value": true
+        },
+        {
+          "line": 1510,
+          "targets": [
+            "_gate_state"
+          ],
+          "referenced_names": [
+            "_gate_state",
+            "market_entry_allowed",
+            "market_shock"
+          ],
+          "source": "_gate_state = (",
+          "high_value": true
+        },
+        {
+          "line": 1565,
+          "targets": [
+            "ls"
+          ],
+          "referenced_names": [
+            "calc_leader_score",
+            "ls",
+            "mom",
+            "rs",
+            "th"
+          ],
+          "source": "ls      = calc_leader_score(rs, mom, th)",
+          "high_value": true
+        },
+        {
+          "line": 1615,
+          "targets": [
+            "top_ranked"
+          ],
+          "referenced_names": [
+            "day_signals",
+            "day_signals.items",
+            "s",
+            "sorted",
+            "top_ranked",
+            "v",
+            "x"
+          ],
+          "source": "top_ranked = sorted(",
+          "high_value": true
+        },
+        {
+          "line": 1624,
+          "targets": [
+            "leader_rank_all"
+          ],
+          "referenced_names": [
+            "_",
+            "enumerate",
+            "i",
+            "leader_rank_all",
+            "s",
+            "top_ranked"
+          ],
+          "source": "leader_rank_all = {s: i + 1 for i, (s, _) in enumerate(top_ranked)}",
+          "high_value": true
+        },
+        {
+          "line": 1626,
+          "targets": [
+            "rank_all"
+          ],
+          "referenced_names": [
+            "leader_rank_all",
+            "leader_rank_all.get",
+            "rank_all",
+            "sym"
+          ],
+          "source": "rank_all = leader_rank_all.get(sym, 9999)",
+          "high_value": true
+        },
+        {
+          "line": 1637,
+          "targets": [
+            "emerging"
+          ],
+          "referenced_names": [
+            "emerging",
+            "rank_all",
+            "sig",
+            "sig.get"
+          ],
+          "source": "emerging = (",
+          "high_value": true
+        },
+        {
+          "line": 1655,
+          "targets": [
+            "confirmed"
+          ],
+          "referenced_names": [
+            "confirmed",
+            "rank_all",
+            "sig",
+            "sig.get"
+          ],
+          "source": "confirmed = (",
+          "high_value": true
+        },
+        {
+          "line": 1668,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "emerging",
+            "sig"
+          ],
+          "source": "sig[\"e1r_uptrend_emerging_eligible\"] = emerging",
+          "high_value": true
+        },
+        {
+          "line": 1669,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "confirmed",
+            "sig"
+          ],
+          "source": "sig[\"e1r_uptrend_confirmed_eligible\"] = confirmed",
+          "high_value": true
+        },
+        {
+          "line": 1699,
+          "targets": [
+            "e1r_buy_candidates"
+          ],
+          "referenced_names": [
+            "e1r_buy_candidates"
+          ],
+          "source": "e1r_buy_candidates = []",
+          "high_value": true
+        },
+        {
+          "line": 1719,
+          "targets": [
+            "_",
+            "_",
+            "_",
+            "_",
+            "_",
+            "_sym",
+            "_sig"
+          ],
+          "referenced_names": [
+            "_",
+            "_sig",
+            "_sym",
+            "e1r_buy_candidates"
+          ],
+          "source": "_, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]",
+          "high_value": true
+        },
+        {
+          "line": 1728,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "e1r_buy_candidates",
+            "len",
+            "skip_reasons"
+          ],
+          "source": "skip_reasons[\"e1r_no_capacity\"] += len(e1r_buy_candidates)",
+          "high_value": true
+        },
+        {
+          "line": 1744,
+          "targets": [
+            "top_entry_symbols"
+          ],
+          "referenced_names": [
+            "_",
+            "candidate_top_n",
+            "qualified",
+            "s",
+            "set",
+            "top_entry_symbols"
+          ],
+          "source": "top_entry_symbols = set(s for s, _ in qualified[:candidate_top_n])",
+          "high_value": true
+        },
+        {
+          "line": 1745,
+          "targets": [
+            "top_entry_rank"
+          ],
+          "referenced_names": [
+            "_",
+            "candidate_top_n",
+            "enumerate",
+            "i",
+            "qualified",
+            "s",
+            "top_entry_rank"
+          ],
+          "source": "top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(qualified[:candidate_top_n])}",
+          "high_value": true
+        },
+        {
+          "line": 1754,
+          "targets": [
+            "top_entry_symbols"
+          ],
+          "referenced_names": [
+            "_",
+            "entry_top_n",
+            "s",
+            "set",
+            "top_entry_symbols",
+            "top_ranked"
+          ],
+          "source": "top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])",
+          "high_value": true
+        },
+        {
+          "line": 1755,
+          "targets": [
+            "top_entry_rank"
+          ],
+          "referenced_names": [
+            "_",
+            "entry_top_n",
+            "enumerate",
+            "i",
+            "s",
+            "top_entry_rank",
+            "top_ranked"
+          ],
+          "source": "top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}",
+          "high_value": true
+        },
+        {
+          "line": 1765,
+          "targets": [
+            "ls"
+          ],
+          "referenced_names": [
+            "ls",
+            "sig"
+          ],
+          "source": "ls      = sig[\"leader_score\"]",
+          "high_value": true
+        },
+        {
+          "line": 1803,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "skip_reasons"
+          ],
+          "source": "skip_reasons[\"e1r_candidate_buy_generated\"] += 1",
+          "high_value": true
+        },
+        {
+          "line": 1850,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "skip_reasons"
+          ],
+          "source": "skip_reasons[\"qualified_candidate_generated\"] += 1",
+          "high_value": true
+        },
+        {
+          "line": 1854,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "skip_reasons"
+          ],
+          "source": "skip_reasons[\"not_in_qualified_candidate_pool\"] += 1",
+          "high_value": true
+        },
+        {
+          "line": 1868,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "skip_reasons"
+          ],
+          "source": "skip_reasons[\"not_in_entry_top_n\"] += 1",
+          "high_value": true
+        },
+        {
+          "line": 1899,
+          "targets": [
+            "h"
+          ],
+          "referenced_names": [
+            "h",
+            "holdings",
+            "sym"
+          ],
+          "source": "h = holdings[sym]",
+          "high_value": true
+        },
+        {
+          "line": 2137,
+          "targets": [
+            "gate_state"
+          ],
+          "referenced_names": [
+            "gate_state",
+            "market_entry_allowed",
+            "market_shock"
+          ],
+          "source": "gate_state = \"ALLOW\" if market_entry_allowed else (",
+          "high_value": true
+        },
+        {
+          "line": 804,
+          "targets": [
+            "e1r_regime_wiring_enabled"
+          ],
+          "referenced_names": [
+            "a",
+            "a.get",
+            "bool",
+            "e1r_regime_wiring_enabled"
+          ],
+          "source": "e1r_regime_wiring_enabled = bool(a.get(\"e1r_regime_wiring_enabled\", False))",
+          "high_value": false
+        },
+        {
+          "line": 806,
+          "targets": [
+            "e1r_regime_daily"
+          ],
+          "referenced_names": [
+            "a",
+            "a.get",
+            "e1r_regime_daily"
+          ],
+          "source": "e1r_regime_daily = a.get(\"e1r_regime_daily\", {}) or {}",
+          "high_value": false
+        },
+        {
+          "line": 811,
+          "targets": [
+            "rec"
+          ],
+          "referenced_names": [
+            "date",
+            "e1r_regime_daily",
+            "e1r_regime_daily.get",
+            "rec"
+          ],
+          "source": "rec = e1r_regime_daily.get(date, {})",
+          "high_value": false
+        },
+        {
+          "line": 853,
+          "targets": [
+            "qualified_entry_enabled"
+          ],
+          "referenced_names": [
+            "a",
+            "a.get",
+            "bool",
+            "qualified_entry_enabled"
+          ],
+          "source": "qualified_entry_enabled   = bool(a.get(\"qualified_entry_enabled\", False))",
+          "high_value": false
+        },
+        {
+          "line": 858,
+          "targets": [
+            "qualified_price_above_ma50"
+          ],
+          "referenced_names": [
+            "a",
+            "a.get",
+            "bool",
+            "qualified_price_above_ma50"
+          ],
+          "source": "qualified_price_above_ma50 = bool(a.get(\"qualified_price_above_ma50\", True))",
+          "high_value": false
+        },
+        {
+          "line": 863,
+          "targets": [
+            "gate_use_leadership"
+          ],
+          "referenced_names": [
+            "a",
+            "a.get",
+            "bool",
+            "gate_use_leadership"
+          ],
+          "source": "gate_use_leadership  = bool(a.get(\"gate_use_leadership\", True))",
+          "high_value": false
+        },
+        {
+          "line": 875,
+          "targets": [
+            "ndx_lookup"
+          ],
+          "referenced_names": [
+            "_build_lookup",
+            "ndx_dates",
+            "ndx_lookup",
+            "ndx_prices"
+          ],
+          "source": "ndx_lookup = _build_lookup(ndx_dates or [], ndx_prices or [])",
+          "high_value": false
+        },
+        {
+          "line": 876,
+          "targets": [
+            "sox_lookup"
+          ],
+          "referenced_names": [
+            "_build_lookup",
+            "sox_dates",
+            "sox_lookup",
+            "sox_prices"
+          ],
+          "source": "sox_lookup = _build_lookup(sox_dates or [], sox_prices or [])",
+          "high_value": false
+        },
+        {
+          "line": 877,
+          "targets": [
+            "vix_lookup"
+          ],
+          "referenced_names": [
+            "_build_lookup",
+            "vix_dates",
+            "vix_lookup",
+            "vix_prices"
+          ],
+          "source": "vix_lookup = _build_lookup(vix_dates or [], vix_prices or [])",
+          "high_value": false
+        },
+        {
+          "line": 885,
+          "targets": [
+            "spx_ma50_history"
+          ],
+          "referenced_names": [
+            "deque",
+            "spx_ma50_history"
+          ],
+          "source": "spx_ma50_history = deque(maxlen=11)  # 存最近11个 MA50 值（今天+10天前）",
+          "high_value": false
+        },
+        {
+          "line": 902,
+          "targets": [
+            "entry_rs_min"
+          ],
+          "referenced_names": [
+            "a",
+            "a.get",
+            "entry_rs_min",
+            "float"
+          ],
+          "source": "entry_rs_min = float(a.get(\"entry_rs_min\", 90.0))",
+          "high_value": false
+        },
+        {
+          "line": 903,
+          "targets": [
+            "min_holding_days"
+          ],
+          "referenced_names": [
+            "a",
+            "a.get",
+            "int",
+            "min_holding_days"
+          ],
+          "source": "min_holding_days = int(a.get(\"min_holding_days\", 0))",
+          "high_value": false
+        },
+        {
+          "line": 910,
+          "targets": [
+            "relative_stop_once"
+          ],
+          "referenced_names": [
+            "a",
+            "a.get",
+            "bool",
+            "relative_stop_once"
+          ],
+          "source": "relative_stop_once = bool(a.get(\"relative_stop_once_per_position\", True))",
+          "high_value": false
+        },
+        {
+          "line": 947,
+          "targets": [
+            "n_days"
+          ],
+          "referenced_names": [
+            "len",
+            "n_days",
+            "spx_prices"
+          ],
+          "source": "n_days       = len(spx_prices)",
+          "high_value": false
+        },
+        {
+          "line": 951,
+          "targets": [
+            "_trade_start"
+          ],
+          "referenced_names": [
+            "_trade_start",
+            "sim_start_date"
+          ],
+          "source": "_trade_start = sim_start_date  # None = 从 min_history 后第一天",
+          "high_value": false
+        },
+        {
+          "line": 953,
+          "targets": [
+            "_default_start"
+          ],
+          "referenced_names": [
+            "_default_start",
+            "len",
+            "master_dates",
+            "min_history"
+          ],
+          "source": "_default_start = master_dates[min_history] if len(master_dates) > min_history else (master_dates[0] if master_dates else \"?\")",
+          "high_value": false
+        },
+        {
+          "line": 996,
+          "targets": [
+            "data"
+          ],
+          "referenced_names": [
+            "data",
+            "prices_map",
+            "prices_map.get",
+            "sym"
+          ],
+          "source": "data    = prices_map.get(sym, [])",
+          "high_value": false
+        },
+        {
+          "line": 1005,
+          "targets": [
+            "data"
+          ],
+          "referenced_names": [
+            "data",
+            "prices_map",
+            "prices_map.get",
+            "sym"
+          ],
+          "source": "data     = prices_map.get(sym, [])",
+          "high_value": false
+        },
+        {
+          "line": 1090,
+          "targets": [
+            "spx_entry"
+          ],
+          "referenced_names": [
+            "spx_entry"
+          ],
+          "source": "spx_entry = 0.0  # 在日循环中遇到第一个 sim 日时设置，保证与 Period 区间一致",
+          "high_value": false
+        },
+        {
+          "line": 1130,
+          "targets": [
+            "raw"
+          ],
+          "referenced_names": [
+            "exec_date",
+            "get_price_by_date",
+            "raw",
+            "sym"
+          ],
+          "source": "raw = get_price_by_date(sym, exec_date, \"high\")",
+          "high_value": false
+        },
+        {
+          "line": 1132,
+          "targets": [
+            "raw"
+          ],
+          "referenced_names": [
+            "exec_date",
+            "get_price_by_date",
+            "raw",
+            "sym"
+          ],
+          "source": "raw = get_price_by_date(sym, exec_date, \"close\")",
+          "high_value": false
+        },
+        {
+          "line": 1134,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "skip_reasons"
+          ],
+          "source": "skip_reasons[\"no_t1_price\"] += 1",
+          "high_value": false
+        },
+        {
+          "line": 1136,
+          "targets": [
+            "exec_price"
+          ],
+          "referenced_names": [
+            "exec_price",
+            "one_way",
+            "raw"
+          ],
+          "source": "exec_price = raw * (1 + one_way)",
+          "high_value": false
+        },
+        {
+          "line": 1145,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "skip_reasons"
+          ],
+          "source": "skip_reasons[\"already_holding\"] += 1",
+          "high_value": false
+        },
+        {
+          "line": 1162,
+          "targets": [
+            "shares"
+          ],
+          "referenced_names": [
+            "exec_price",
+            "shares",
+            "target"
+          ],
+          "source": "shares = target / exec_price",
+          "high_value": false
+        },
+        {
+          "line": 1163,
+          "targets": [
+            "cash"
+          ],
+          "referenced_names": [
+            "cash",
+            "exec_price",
+            "shares"
+          ],
+          "source": "cash  -= shares * exec_price",
+          "high_value": false
+        },
+        {
+          "line": 1197,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "skip_reasons"
+          ],
+          "source": "skip_reasons[\"not_holding\"] += 1",
+          "high_value": false
+        },
+        {
+          "line": 1206,
+          "targets": [
+            "current_val"
+          ],
+          "referenced_names": [
+            "current_val",
+            "exec_price",
+            "h"
+          ],
+          "source": "current_val = h[\"shares\"] * exec_price",
+          "high_value": false
+        },
+        {
+          "line": 1218,
+          "targets": [
+            "add_shares"
+          ],
+          "referenced_names": [
+            "add_shares",
+            "exec_price",
+            "target_add"
+          ],
+          "source": "add_shares   = target_add / exec_price",
+          "high_value": false
+        },
+        {
+          "line": 1220,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "add_shares",
+            "exec_price",
+            "h",
+            "old_c",
+            "old_s"
+          ],
+          "source": "h[\"avg_cost\"]   = (old_s * old_c + add_shares * exec_price) / (old_s + add_shares)",
+          "high_value": false
+        },
+        {
+          "line": 1224,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "h",
+            "order",
+            "order.get"
+          ],
+          "source": "h[\"e1r_entry_type\"] = order.get(\"e1r_entry_type\")",
+          "high_value": false
+        },
+        {
+          "line": 1225,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "h",
+            "order",
+            "order.get"
+          ],
+          "source": "h[\"entry_type\"] = order.get(\"e1r_entry_type\")",
+          "high_value": false
+        },
+        {
+          "line": 1233,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "skip_reasons"
+          ],
+          "source": "skip_reasons[\"not_holding\"] += 1",
+          "high_value": false
+        },
+        {
+          "line": 1236,
+          "targets": [
+            "raw"
+          ],
+          "referenced_names": [
+            "exec_date",
+            "get_price_by_date",
+            "raw",
+            "sym"
+          ],
+          "source": "raw = get_price_by_date(sym, exec_date, \"low\")",
+          "high_value": false
+        },
+        {
+          "line": 1238,
+          "targets": [
+            "raw"
+          ],
+          "referenced_names": [
+            "exec_date",
+            "get_price_by_date",
+            "raw",
+            "sym"
+          ],
+          "source": "raw = get_price_by_date(sym, exec_date, \"close\")",
+          "high_value": false
+        },
+        {
+          "line": 1240,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "skip_reasons"
+          ],
+          "source": "skip_reasons[\"no_t1_price\"] += 1",
+          "high_value": false
+        },
+        {
+          "line": 1242,
+          "targets": [
+            "exec_price"
+          ],
+          "referenced_names": [
+            "exec_price",
+            "one_way",
+            "raw"
+          ],
+          "source": "exec_price = raw * (1 - one_way)",
+          "high_value": false
+        },
+        {
+          "line": 1244,
+          "targets": [
+            "SUBSCRIPT_TARGET"
+          ],
+          "referenced_names": [
+            "skip_reasons"
+          ],
+          "source": "skip_reasons[\"invalid_execution_price\"] += 1",
+          "high_value": false
+        }
+      ],
+      "candidate_related_calls": [
+        {
+          "line": 792,
+          "referenced_names": [
+            "logger",
+            "logger.info"
+          ],
+          "source": "logger.info(\"[Backtest Layer D v1.6] Strict Top3 + RS/MinHold/RelStop Backtest...\")",
+          "high_value": true
+        },
+        {
+          "line": 802,
+          "referenced_names": [
+            "a",
+            "a.get"
+          ],
+          "source": "strategy_variant = a.get(\"strategy_variant\", \"top3_entry_rs_minhold_relstop\")",
+          "high_value": true
+        },
+        {
+          "line": 845,
+          "referenced_names": [
+            "a",
+            "a.get",
+            "int"
+          ],
+          "source": "entry_top_n = int(a.get(\"entry_top_n\", 3))",
+          "high_value": true
+        },
+        {
+          "line": 845,
+          "referenced_names": [
+            "a",
+            "a.get"
+          ],
+          "source": "entry_top_n = int(a.get(\"entry_top_n\", 3))",
+          "high_value": true
+        },
+        {
+          "line": 846,
+          "referenced_names": [
+            "a",
+            "a.get",
+            "bool"
+          ],
+          "source": "rank_based_exit = bool(a.get(\"rank_based_exit\", False))",
+          "high_value": true
+        },
+        {
+          "line": 846,
+          "referenced_names": [
+            "a",
+            "a.get"
+          ],
+          "source": "rank_based_exit = bool(a.get(\"rank_based_exit\", False))",
+          "high_value": true
+        },
+        {
+          "line": 852,
+          "referenced_names": [
+            "a",
+            "a.get"
+          ],
+          "source": "candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n",
+          "high_value": true
+        },
+        {
+          "line": 888,
+          "referenced_names": [
+            "candidate_top_n",
+            "logger",
+            "logger.info",
+            "qualified_ma50_slope_min",
+            "qualified_momentum_min",
+            "qualified_price_above_ma50",
+            "qualified_rs_min",
+            "qualified_states",
+            "qualified_th_min"
+          ],
+          "source": "logger.info(f\"  Qualified Pool: candidate_top_n={candidate_top_n} \"",
+          "high_value": true
+        },
+        {
+          "line": 893,
+          "referenced_names": [
+            "entry_top_n",
+            "logger",
+            "logger.info"
+          ],
+          "source": "logger.info(f\"  Entry mode: Strict Top{entry_top_n} (legacy)\")",
+          "high_value": true
+        },
+        {
+          "line": 918,
+          "referenced_names": [
+            "a",
+            "a.get",
+            "buy_pct",
+            "candidate_top_n",
+            "logger",
+            "logger.info",
+            "max_pct",
+            "max_pos",
+            "one_way",
+            "strategy_variant"
+          ],
+          "source": "logger.info(f\"  v{a.get('version','?')} | Strategy={strategy_variant} \"",
+          "high_value": true
+        },
+        {
+          "line": 923,
+          "referenced_names": [
+            "a",
+            "a.get",
+            "buy_pct",
+            "entry_top_n",
+            "logger",
+            "logger.info",
+            "max_pct",
+            "max_pos",
+            "one_way",
+            "strategy_variant"
+          ],
+          "source": "logger.info(f\"  v{a.get('version','?')} | Strategy={strategy_variant} \"",
+          "high_value": true
+        },
+        {
+          "line": 936,
+          "referenced_names": [
+            "entry_rs_min",
+            "entry_top_n",
+            "logger",
+            "logger.info",
+            "ls60_exit_mode",
+            "market_gate_enabled",
+            "min_holding_days",
+            "relative_stop_enabled"
+          ],
+          "source": "logger.info(f\"  ── Param check: ls60={ls60_exit_mode} rs={entry_rs_min} \"",
+          "high_value": true
+        },
+        {
+          "line": 1138,
+          "referenced_names": [
+            "h",
+            "h.get",
+            "holdings",
+            "holdings.values",
+            "sum"
+          ],
+          "source": "port_val = cash + sum(",
+          "high_value": true
+        },
+        {
+          "line": 1140,
+          "referenced_names": [
+            "holdings",
+            "holdings.values"
+          ],
+          "source": "for h in holdings.values()",
+          "high_value": true
+        },
+        {
+          "line": 1147,
+          "referenced_names": [
+            "holdings",
+            "len"
+          ],
+          "source": "if len(holdings) >= max_pos:",
+          "high_value": true
+        },
+        {
+          "line": 1289,
+          "referenced_names": [
+            "h",
+            "h.get",
+            "round"
+          ],
+          "source": "\"leader_score_entry\":   round(h.get(\"leader_score_entry\", 0), 1),",
+          "high_value": true
+        },
+        {
+          "line": 1289,
+          "referenced_names": [
+            "h",
+            "h.get"
+          ],
+          "source": "\"leader_score_entry\":   round(h.get(\"leader_score_entry\", 0), 1),",
+          "high_value": true
+        },
+        {
+          "line": 1345,
+          "referenced_names": [
+            "holdings",
+            "holdings.items"
+          ],
+          "source": "for sym, h in holdings.items():",
+          "high_value": true
+        },
+        {
+          "line": 1356,
+          "referenced_names": [
+            "_e1r_regime_on",
+            "date_t"
+          ],
+          "source": "_today_regime_for_positions = _e1r_regime_on(date_t)",
+          "high_value": true
+        },
+        {
+          "line": 1357,
+          "referenced_names": [
+            "holdings",
+            "holdings.values"
+          ],
+          "source": "for _h in holdings.values():",
+          "high_value": true
+        },
+        {
+          "line": 1359,
+          "referenced_names": [
+            "_today_regime_for_positions",
+            "_weights",
+            "_weights.get"
+          ],
+          "source": "_weights[_today_regime_for_positions] = _weights.get(_today_regime_for_positions, 0) + 1",
+          "high_value": true
+        },
+        {
+          "line": 1515,
+          "referenced_names": [
+            "_daily_return_pct",
+            "_drawdown_pct",
+            "_e1r_mode_for_regime",
+            "_e1r_regime_on",
+            "_e1r_risk_budget_for_regime",
+            "_gate_state",
+            "cash",
+            "daily_equity_records",
+            "daily_equity_records.append",
+            "date_t",
+            "e1r_regime_wiring_enabled",
+            "holdings",
+            "len",
+            "pending_orders",
+            "position_value",
+            "round",
+            "spx_close_t",
+            "spx_day_return",
+            "spx_ma50_t",
+            "total_equity"
+          ],
+          "source": "daily_equity_records.append({",
+          "high_value": true
+        },
+        {
+          "line": 1518,
+          "referenced_names": [
+            "position_value",
+            "round"
+          ],
+          "source": "\"positions_value\": round(position_value, 2),",
+          "high_value": true
+        },
+        {
+          "line": 1523,
+          "referenced_names": [
+            "holdings",
+            "len"
+          ],
+          "source": "\"open_positions_count\": len(holdings),",
+          "high_value": true
+        },
+        {
+          "line": 1565,
+          "referenced_names": [
+            "calc_leader_score",
+            "mom",
+            "rs",
+            "th"
+          ],
+          "source": "ls      = calc_leader_score(rs, mom, th)",
+          "high_value": true
+        },
+        {
+          "line": 1615,
+          "referenced_names": [
+            "day_signals",
+            "day_signals.items",
+            "s",
+            "sorted",
+            "v",
+            "x"
+          ],
+          "source": "top_ranked = sorted(",
+          "high_value": true
+        },
+        {
+          "line": 1616,
+          "referenced_names": [
+            "day_signals",
+            "day_signals.items"
+          ],
+          "source": "((s, v[\"leader_score\"]) for s, v in day_signals.items()),",
+          "high_value": true
+        },
+        {
+          "line": 1624,
+          "referenced_names": [
+            "enumerate",
+            "top_ranked"
+          ],
+          "source": "leader_rank_all = {s: i + 1 for i, (s, _) in enumerate(top_ranked)}",
+          "high_value": true
+        },
+        {
+          "line": 1626,
+          "referenced_names": [
+            "leader_rank_all",
+            "leader_rank_all.get",
+            "sym"
+          ],
+          "source": "rank_all = leader_rank_all.get(sym, 9999)",
+          "high_value": true
+        },
+        {
+          "line": 1635,
+          "referenced_names": [
+            "emerging_reasons",
+            "emerging_reasons.append"
+          ],
+          "source": "if rank_all <= 20: emerging_reasons.append(\"leader_rank_top20\")",
+          "high_value": true
+        },
+        {
+          "line": 1649,
+          "referenced_names": [
+            "confirmed_reasons",
+            "confirmed_reasons.append"
+          ],
+          "source": "if rank_all <= 5: confirmed_reasons.append(\"leader_rank_top5\")",
+          "high_value": true
+        },
+        {
+          "line": 1650,
+          "referenced_names": [
+            "confirmed_reasons",
+            "confirmed_reasons.append"
+          ],
+          "source": "if sig[\"leader_score\"] >= 75: confirmed_reasons.append(\"leader_score_above_75\")",
+          "high_value": true
+        },
+        {
+          "line": 1671,
+          "referenced_names": [
+            "confirmed",
+            "date_t",
+            "e1r_candidate_records",
+            "e1r_candidate_records.append",
+            "emerging",
+            "entry_type",
+            "rank_all",
+            "reasons",
+            "round",
+            "sig",
+            "sig.get",
+            "sym"
+          ],
+          "source": "e1r_candidate_records.append({",
+          "high_value": true
+        },
+        {
+          "line": 1679,
+          "referenced_names": [
+            "round",
+            "sig"
+          ],
+          "source": "\"leader_score\": round(sig[\"leader_score\"], 2),",
+          "high_value": true
+        },
+        {
+          "line": 1707,
+          "referenced_names": [
+            "_priority",
+            "e1r_buy_candidates",
+            "e1r_buy_candidates.append",
+            "leader_rank_all",
+            "leader_rank_all.get",
+            "s",
+            "v",
+            "v.get"
+          ],
+          "source": "e1r_buy_candidates.append((",
+          "high_value": true
+        },
+        {
+          "line": 1709,
+          "referenced_names": [
+            "leader_rank_all",
+            "leader_rank_all.get",
+            "s"
+          ],
+          "source": "leader_rank_all.get(s, 9999),",
+          "high_value": true
+        },
+        {
+          "line": 1710,
+          "referenced_names": [
+            "v",
+            "v.get"
+          ],
+          "source": "-v.get(\"leader_score\", 0),",
+          "high_value": true
+        },
+        {
+          "line": 1716,
+          "referenced_names": [
+            "e1r_buy_candidates",
+            "e1r_buy_candidates.sort"
+          ],
+          "source": "e1r_buy_candidates.sort()",
+          "high_value": true
+        },
+        {
+          "line": 1718,
+          "referenced_names": [
+            "holdings",
+            "len"
+          ],
+          "source": "if len(holdings) < min(max_pos, entry_capacity):",
+          "high_value": true
+        },
+        {
+          "line": 1718,
+          "referenced_names": [
+            "entry_capacity",
+            "max_pos",
+            "min"
+          ],
+          "source": "if len(holdings) < min(max_pos, entry_capacity):",
+          "high_value": true
+        },
+        {
+          "line": 1728,
+          "referenced_names": [
+            "e1r_buy_candidates",
+            "len"
+          ],
+          "source": "skip_reasons[\"e1r_no_capacity\"] += len(e1r_buy_candidates)",
+          "high_value": true
+        },
+        {
+          "line": 1741,
+          "referenced_names": [
+            "qualified",
+            "qualified.append",
+            "s",
+            "v"
+          ],
+          "source": "qualified.append((s, v[\"leader_score\"]))",
+          "high_value": true
+        },
+        {
+          "line": 1744,
+          "referenced_names": [
+            "_",
+            "candidate_top_n",
+            "qualified",
+            "s",
+            "set"
+          ],
+          "source": "top_entry_symbols = set(s for s, _ in qualified[:candidate_top_n])",
+          "high_value": true
+        },
+        {
+          "line": 1745,
+          "referenced_names": [
+            "candidate_top_n",
+            "enumerate",
+            "qualified"
+          ],
+          "source": "top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(qualified[:candidate_top_n])}",
+          "high_value": true
+        },
+        {
+          "line": 1754,
+          "referenced_names": [
+            "_",
+            "entry_top_n",
+            "s",
+            "set",
+            "top_ranked"
+          ],
+          "source": "top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])",
+          "high_value": true
+        },
+        {
+          "line": 1755,
+          "referenced_names": [
+            "entry_top_n",
+            "enumerate",
+            "top_ranked"
+          ],
+          "source": "top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}",
+          "high_value": true
+        },
+        {
+          "line": 1773,
+          "referenced_names": [
+            "action",
+            "append",
+            "holdings",
+            "sym"
+          ],
+          "source": "holdings[sym][\"action_history\"].append(action)",
+          "high_value": true
+        },
+        {
+          "line": 1789,
+          "referenced_names": [
+            "_etype",
+            "buy_orders",
+            "buy_orders.append",
+            "close_t",
+            "date_t",
+            "e1r_selected_buy",
+            "leader_rank_all",
+            "leader_rank_all.get",
+            "ls",
+            "sig",
+            "sig.get",
+            "sym",
+            "top_entry_rank",
+            "top_entry_rank.get"
+          ],
+          "source": "buy_orders.append({",
+          "high_value": true
+        },
+        {
+          "line": 1795,
+          "referenced_names": [
+            "sym",
+            "top_entry_rank",
+            "top_entry_rank.get"
+          ],
+          "source": "\"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),",
+          "high_value": true
+        },
+        {
+          "line": 1795,
+          "referenced_names": [
+            "leader_rank_all",
+            "leader_rank_all.get",
+            "sym"
+          ],
+          "source": "\"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),",
+          "high_value": true
+        },
+        {
+          "line": 1816,
+          "referenced_names": [
+            "holdings",
+            "len"
+          ],
+          "source": "if fill_only_enabled and len(holdings) >= entry_capacity:",
+          "high_value": true
+        },
+        {
+          "line": 1820,
+          "referenced_names": [
+            "holdings",
+            "len"
+          ],
+          "source": "if market_gate_enabled and len(holdings) >= entry_capacity:",
+          "high_value": true
+        },
+        {
+          "line": 1836,
+          "referenced_names": [
+            "buy_orders",
+            "buy_orders.append",
+            "candidate_top_n",
+            "close_t",
+            "date_t",
+            "ls",
+            "qual_reasons",
+            "strategy_variant",
+            "sym",
+            "top_entry_rank",
+            "top_entry_rank.get"
+          ],
+          "source": "buy_orders.append({",
+          "high_value": true
+        },
+        {
+          "line": 1842,
+          "referenced_names": [
+            "sym",
+            "top_entry_rank",
+            "top_entry_rank.get"
+          ],
+          "source": "\"entry_rank\":     top_entry_rank.get(sym),",
+          "high_value": true
+        },
+        {
+          "line": 1872,
+          "referenced_names": [
+            "holdings",
+            "len"
+          ],
+          "source": "if market_gate_enabled and len(holdings) >= entry_capacity:",
+          "high_value": true
+        },
+        {
+          "line": 1879,
+          "referenced_names": [
+            "buy_orders",
+            "buy_orders.append",
+            "close_t",
+            "date_t",
+            "ls",
+            "strategy_variant",
+            "sym",
+            "top_entry_rank",
+            "top_entry_rank.get"
+          ],
+          "source": "buy_orders.append({",
+          "high_value": true
+        },
+        {
+          "line": 1885,
+          "referenced_names": [
+            "sym",
+            "top_entry_rank",
+            "top_entry_rank.get"
+          ],
+          "source": "\"entry_rank\":     top_entry_rank.get(sym),",
+          "high_value": true
+        },
+        {
+          "line": 1968,
+          "referenced_names": [
+            "get",
+            "holdings",
+            "sym"
+          ],
+          "source": "if action == \"ADD\" and block_add_after_take_profit and holdings[sym].get(\"take_profit_triggered\"):",
+          "high_value": true
+        },
+        {
+          "line": 2007,
+          "referenced_names": [
+            "reason_info",
+            "reason_info.get"
+          ],
+          "source": "and reason_info.get(\"primary_reason\") == \"leader_score_below_60\"",
+          "high_value": true
+        },
+        {
+          "line": 2009,
+          "referenced_names": [
+            "get",
+            "holdings",
+            "sym"
+          ],
+          "source": "and holdings[sym].get(\"ls60_reduce_triggered\")):",
+          "high_value": true
+        }
+      ],
+      "candidate_related_branches": [
+        {
+          "line": 1144,
+          "referenced_names": [
+            "holdings",
+            "sym"
+          ],
+          "source": "if sym in holdings:",
+          "high_value": true
+        },
+        {
+          "line": 1147,
+          "referenced_names": [
+            "holdings",
+            "len",
+            "max_pos"
+          ],
+          "source": "if len(holdings) >= max_pos:",
+          "high_value": true
+        },
+        {
+          "line": 1196,
+          "referenced_names": [
+            "holdings",
+            "sym"
+          ],
+          "source": "if sym not in holdings:",
+          "high_value": true
+        },
+        {
+          "line": 1232,
+          "referenced_names": [
+            "holdings",
+            "sym"
+          ],
+          "source": "if sym not in holdings:",
+          "high_value": true
+        },
+        {
+          "line": 1337,
+          "referenced_names": [
+            "reduce_primary"
+          ],
+          "source": "if reduce_primary == \"leader_score_below_60\":",
+          "high_value": true
+        },
+        {
+          "line": 1491,
+          "referenced_names": [
+            "market_entry_allowed"
+          ],
+          "source": "if market_entry_allowed:",
+          "high_value": true
+        },
+        {
+          "line": 1635,
+          "referenced_names": [
+            "rank_all"
+          ],
+          "source": "if rank_all <= 20: emerging_reasons.append(\"leader_rank_top20\")",
+          "high_value": true
+        },
+        {
+          "line": 1649,
+          "referenced_names": [
+            "rank_all"
+          ],
+          "source": "if rank_all <= 5: confirmed_reasons.append(\"leader_rank_top5\")",
+          "high_value": true
+        },
+        {
+          "line": 1650,
+          "referenced_names": [
+            "sig"
+          ],
+          "source": "if sig[\"leader_score\"] >= 75: confirmed_reasons.append(\"leader_score_above_75\")",
+          "high_value": true
+        },
+        {
+          "line": 1701,
+          "referenced_names": [
+            "holdings",
+            "s"
+          ],
+          "source": "if s in holdings:",
+          "high_value": true
+        },
+        {
+          "line": 1717,
+          "referenced_names": [
+            "e1r_buy_candidates",
+            "market_entry_allowed"
+          ],
+          "source": "if e1r_buy_candidates and market_entry_allowed:",
+          "high_value": true
+        },
+        {
+          "line": 1718,
+          "referenced_names": [
+            "entry_capacity",
+            "holdings",
+            "len",
+            "max_pos",
+            "min"
+          ],
+          "source": "if len(holdings) < min(max_pos, entry_capacity):",
+          "high_value": true
+        },
+        {
+          "line": 1730,
+          "referenced_names": [
+            "candidate_top_n",
+            "qualified_entry_enabled"
+          ],
+          "source": "if qualified_entry_enabled and candidate_top_n is not None:",
+          "high_value": true
+        },
+        {
+          "line": 1772,
+          "referenced_names": [
+            "holdings",
+            "sym"
+          ],
+          "source": "if sym in holdings:",
+          "high_value": true
+        },
+        {
+          "line": 1782,
+          "referenced_names": [
+            "e1r_selected_buy",
+            "e1r_uptrend_execution_enabled",
+            "holdings",
+            "sym"
+          ],
+          "source": "if (",
+          "high_value": true
+        },
+        {
+          "line": 1809,
+          "referenced_names": [
+            "holdings",
+            "sym"
+          ],
+          "source": "if sym in holdings:",
+          "high_value": true
+        },
+        {
+          "line": 1816,
+          "referenced_names": [
+            "entry_capacity",
+            "fill_only_enabled",
+            "holdings",
+            "len"
+          ],
+          "source": "if fill_only_enabled and len(holdings) >= entry_capacity:",
+          "high_value": true
+        },
+        {
+          "line": 1820,
+          "referenced_names": [
+            "entry_capacity",
+            "holdings",
+            "len",
+            "market_gate_enabled"
+          ],
+          "source": "if market_gate_enabled and len(holdings) >= entry_capacity:",
+          "high_value": true
+        },
+        {
+          "line": 1823,
+          "referenced_names": [
+            "market_entry_allowed"
+          ],
+          "source": "if not market_entry_allowed:",
+          "high_value": true
+        },
+        {
+          "line": 1862,
+          "referenced_names": [
+            "holdings",
+            "sym"
+          ],
+          "source": "if sym in holdings:",
+          "high_value": true
+        },
+        {
+          "line": 1872,
+          "referenced_names": [
+            "entry_capacity",
+            "holdings",
+            "len",
+            "market_gate_enabled"
+          ],
+          "source": "if market_gate_enabled and len(holdings) >= entry_capacity:",
+          "high_value": true
+        },
+        {
+          "line": 1875,
+          "referenced_names": [
+            "market_entry_allowed"
+          ],
+          "source": "if not market_entry_allowed:",
+          "high_value": true
+        },
+        {
+          "line": 1895,
+          "referenced_names": [
+            "holdings",
+            "sym"
+          ],
+          "source": "if sym not in holdings:",
+          "high_value": true
+        },
+        {
+          "line": 1968,
+          "referenced_names": [
+            "action",
+            "block_add_after_take_profit",
+            "get",
+            "holdings",
+            "sym"
+          ],
+          "source": "if action == \"ADD\" and block_add_after_take_profit and holdings[sym].get(\"take_profit_triggered\"):",
+          "high_value": true
+        },
+        {
+          "line": 1971,
+          "referenced_names": [
+            "action",
+            "market_entry_allowed"
+          ],
+          "source": "if action == \"ADD\" and not market_entry_allowed:",
+          "high_value": true
+        },
+        {
+          "line": 2006,
+          "referenced_names": [
+            "action",
+            "get",
+            "holdings",
+            "reason_info",
+            "reason_info.get",
+            "sym"
+          ],
+          "source": "if (action == \"REDUCE\"",
+          "high_value": true
+        },
+        {
+          "line": 2034,
+          "referenced_names": [
+            "sig",
+            "sig.get"
+          ],
+          "source": "if not sig or not sig.get(\"e1r_uptrend_confirmed_eligible\"):",
+          "high_value": true
+        },
+        {
+          "line": 809,
+          "referenced_names": [
+            "date",
+            "e1r_regime_wiring_enabled"
+          ],
+          "source": "if not e1r_regime_wiring_enabled or not date:",
+          "high_value": false
+        },
+        {
+          "line": 819,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"UPTREND\":",
+          "high_value": false
+        },
+        {
+          "line": 821,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"SIDEWAYS\":",
+          "high_value": false
+        },
+        {
+          "line": 823,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"DOWNTREND\":",
+          "high_value": false
+        },
+        {
+          "line": 825,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"N/A\":",
+          "high_value": false
+        },
+        {
+          "line": 830,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"UPTREND\":",
+          "high_value": false
+        },
+        {
+          "line": 832,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"SIDEWAYS\":",
+          "high_value": false
+        },
+        {
+          "line": 834,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"DOWNTREND\":",
+          "high_value": false
+        },
+        {
+          "line": 836,
+          "referenced_names": [
+            "regime"
+          ],
+          "source": "if regime == \"N/A\":",
+          "high_value": false
+        },
+        {
+          "line": 870,
+          "referenced_names": [
+            "dates_list",
+            "prices_list"
+          ],
+          "source": "if dates_list and prices_list:",
+          "high_value": false
+        },
+        {
+          "line": 887,
+          "referenced_names": [
+            "qualified_entry_enabled"
+          ],
+          "source": "if qualified_entry_enabled:",
+          "high_value": false
+        },
+        {
+          "line": 917,
+          "referenced_names": [
+            "qualified_entry_enabled"
+          ],
+          "source": "if qualified_entry_enabled:",
+          "high_value": false
+        },
+        {
+          "line": 1223,
+          "referenced_names": [
+            "order",
+            "order.get"
+          ],
+          "source": "if order.get(\"e1r_entry_type\"):",
+          "high_value": false
+        },
+        {
+          "line": 1243,
+          "referenced_names": [
+            "exec_price"
+          ],
+          "source": "if exec_price <= 0:",
+          "high_value": false
+        },
+        {
+          "line": 1254,
+          "referenced_names": [
+            "entry_date",
+            "exec_date",
+            "holding_days"
+          ],
+          "source": "if exec_date <= entry_date or holding_days <= 0:",
+          "high_value": false
+        },
+        {
+          "line": 1355,
+          "referenced_names": [
+            "e1r_regime_wiring_enabled"
+          ],
+          "source": "if e1r_regime_wiring_enabled:",
+          "high_value": false
+        },
+        {
+          "line": 1367,
+          "referenced_names": [
+            "position_value",
+            "total_equity"
+          ],
+          "source": "if position_value > total_equity * 1.02:",
+          "high_value": false
+        },
+        {
+          "line": 1372,
+          "referenced_names": [
+            "spx_entry"
+          ],
+          "source": "if spx_entry <= 0:",
+          "high_value": false
+        },
+        {
+          "line": 1418,
+          "referenced_names": [
+            "len",
+            "ndx_prices"
+          ],
+          "source": "if ndx_prices and len(ndx_prices) >= 50:",
+          "high_value": false
+        },
+        {
+          "line": 1425,
+          "referenced_names": [
+            "len",
+            "sox_prices"
+          ],
+          "source": "if sox_prices and len(sox_prices) >= 50:",
+          "high_value": false
+        },
+        {
+          "line": 1471,
+          "referenced_names": [
+            "_leadership_strong",
+            "_shock_active",
+            "_slope_ok",
+            "_spx_above"
+          ],
+          "source": "elif (",
+          "high_value": false
+        },
+        {
+          "line": 1623,
+          "referenced_names": [
+            "_e1r_regime_on",
+            "date_t",
+            "e1r_regime_wiring_enabled",
+            "e1r_shell_mode"
+          ],
+          "source": "if e1r_shell_mode and e1r_regime_wiring_enabled and _e1r_regime_on(date_t) == \"UPTREND\":",
+          "high_value": false
+        },
+        {
+          "line": 1628,
+          "referenced_names": [
+            "sig"
+          ],
+          "source": "if sig[\"rs_score\"] >= 80: emerging_reasons.append(\"rs_above_80\")",
+          "high_value": false
+        },
+        {
+          "line": 1630,
+          "referenced_names": [
+            "sig"
+          ],
+          "source": "if sig[\"momentum_score\"] >= 70: emerging_reasons.append(\"momentum_above_70\")",
+          "high_value": false
+        },
+        {
+          "line": 1648,
+          "referenced_names": [
+            "sig"
+          ],
+          "source": "if sig[\"rs_score\"] >= 90: confirmed_reasons.append(\"rs_above_90\")",
+          "high_value": false
+        },
+        {
+          "line": 1651,
+          "referenced_names": [
+            "sig"
+          ],
+          "source": "if sig[\"momentum_score\"] >= 75: confirmed_reasons.append(\"momentum_above_75\")",
+          "high_value": false
+        },
+        {
+          "line": 1698,
+          "referenced_names": [
+            "_e1r_regime_on",
+            "date_t",
+            "e1r_uptrend_execution_enabled"
+          ],
+          "source": "if e1r_uptrend_execution_enabled and _e1r_regime_on(date_t) == \"UPTREND\":",
+          "high_value": false
+        },
+        {
+          "line": 1703,
+          "referenced_names": [
+            "v",
+            "v.get"
+          ],
+          "source": "if not v.get(\"e1r_entry_type\"):",
+          "high_value": false
+        },
+        {
+          "line": 1735,
+          "referenced_names": [
+            "qualified_rs_min",
+            "v"
+          ],
+          "source": "if v[\"rs_score\"]       < qualified_rs_min:          continue",
+          "high_value": false
+        },
+        {
+          "line": 1736,
+          "referenced_names": [
+            "qualified_momentum_min",
+            "v"
+          ],
+          "source": "if v[\"momentum_score\"] < qualified_momentum_min:    continue",
+          "high_value": false
+        },
+        {
+          "line": 1739,
+          "referenced_names": [
+            "qualified_price_above_ma50",
+            "v"
+          ],
+          "source": "if qualified_price_above_ma50 and v[\"close_t\"] <= v[\"ma50\"]: continue",
+          "high_value": false
+        },
+        {
+          "line": 1806,
+          "referenced_names": [
+            "qualified_entry_enabled"
+          ],
+          "source": "if qualified_entry_enabled:",
+          "high_value": false
+        },
+        {
+          "line": 1813,
+          "referenced_names": [
+            "sym",
+            "top_entry_symbols"
+          ],
+          "source": "elif sym in top_entry_symbols:",
+          "high_value": false
+        }
+      ],
+      "returns": [
+        {
+          "line": 2355,
+          "referenced_names": [
+            "a",
+            "a.get",
+            "avg_h",
+            "block_add_after_take_profit",
+            "cagr",
+            "candidate_top_n",
+            "closed_trades",
+            "completed_trades",
+            "daily_equity_records",
+            "daily_records",
+            "e",
+            "e1r_candidate_records",
+            "e1r_regime_wiring_enabled",
+            "e1r_shell_mode",
+            "e1r_uptrend_execution_enabled",
+            "entry_rs_min",
+            "entry_top_n",
+            "equity_curve",
+            "executed_exit_reason_dist",
+            "executed_reduce_reason_dist",
+            "exposure",
+            "final_equity",
+            "init_cap",
+            "invalid_trades",
+            "len",
+            "list",
+            "losses",
+            "ls60_exit_mode",
+            "market_gate_days",
+            "market_gate_enabled",
+            "market_gate_variant",
+            "market_shock_daily_return",
+            "market_shock_gate_enabled",
+            "max",
+            "max_dd",
+            "min_hold_allow_broken_exit",
+            "min_holding_days",
+            "orders_executed",
+            "pending_signal_reason_dist",
+            "pf",
+            "portfolio_action_dist",
+            "qp_diag",
+            "qualified_entry_enabled",
+            "qualified_ma50_slope_min",
+            "qualified_momentum_min",
+            "qualified_price_above_ma50",
+            "qualified_rs_min",
+            "qualified_states",
+            "qualified_th_min",
+            "rank_based_exit",
+            "reasonable",
+            "relative_stop_action",
+            "relative_stop_enabled",
+            "relative_stop_once",
+            "relative_stop_stats",
+            "relative_stop_underperform",
+            "rets",
+            "risk_off_below_spx_ma50",
+            "round",
+            "sample_valid",
+            "sharpe",
+            "sim_end_count",
+            "sim_end_date",
+            "sim_end_liquidation_record",
+            "sim_end_ratio",
+            "sim_start_date",
+            "simulation_days",
+            "skip_reasons",
+            "skip_reasons.values",
+            "spx_cagr",
+            "spx_curve",
+            "spx_total",
+            "status",
+            "strategy_variant",
+            "sum",
+            "t",
+            "t.get",
+            "take_profit_enabled",
+            "take_profit_fraction",
+            "take_profit_stats",
+            "take_profit_threshold",
+            "total_return",
+            "total_trades",
+            "wins"
+          ],
+          "source": "return {"
+        },
+        {
+          "line": 816,
+          "referenced_names": [],
+          "source": "return \"UNCLASSIFIED\""
+        },
+        {
+          "line": 827,
+          "referenced_names": [],
+          "source": "return \"UNCLASSIFIED_NO_RISK_EXPANSION\""
+        },
+        {
+          "line": 838,
+          "referenced_names": [],
+          "source": "return {\"mode\": \"UNCLASSIFIED_DEFENSIVE\", \"max_positions\": 0, \"max_total_exposure_pct\": 0.0}"
+        },
+        {
+          "line": 843,
+          "referenced_names": [
+            "kv",
+            "max",
+            "weights",
+            "weights.items"
+          ],
+          "source": "return max(weights.items(), key=lambda kv: kv[1])[0]"
+        },
+        {
+          "line": 873,
+          "referenced_names": [
+            "m"
+          ],
+          "source": "return m"
+        },
+        {
+          "line": 881,
+          "referenced_names": [
+            "date",
+            "fallback",
+            "lookup",
+            "lookup.get"
+          ],
+          "source": "return lookup.get(date, fallback)"
+        },
+        {
+          "line": 1000,
+          "referenced_names": [
+            "data",
+            "i"
+          ],
+          "source": "return data[i]"
+        },
+        {
+          "line": 1013,
+          "referenced_names": [
+            "data",
+            "end_idx"
+          ],
+          "source": "return data[:end_idx+1]"
+        },
+        {
+          "line": 2282,
+          "referenced_names": [
+            "skip_reasons"
+          ],
+          "source": "return {"
+        },
+        {
+          "line": 810,
+          "referenced_names": [],
+          "source": "return \"N/A\""
+        },
+        {
+          "line": 813,
+          "referenced_names": [
+            "rec",
+            "rec.get"
+          ],
+          "source": "return rec.get(\"regime\") or rec.get(\"spx_regime\") or rec.get(\"weekly_regime\") or \"UNCLASSIFIED\""
+        },
+        {
+          "line": 815,
+          "referenced_names": [
+            "rec"
+          ],
+          "source": "return rec"
+        },
+        {
+          "line": 820,
+          "referenced_names": [],
+          "source": "return \"UPTREND_EMERGING_CONFIRMED_ENABLED\""
+        },
+        {
+          "line": 822,
+          "referenced_names": [],
+          "source": "return \"SIDEWAYS_QUALITY_BREAKOUT_ONLY\""
+        },
+        {
+          "line": 824,
+          "referenced_names": [],
+          "source": "return \"DOWNTREND_EXCEPTION_ONLY\""
+        },
+        {
+          "line": 826,
+          "referenced_names": [],
+          "source": "return \"N/A\""
+        },
+        {
+          "line": 831,
+          "referenced_names": [],
+          "source": "return {\"mode\": \"UPTREND_RISK_ON\", \"max_positions\": 3, \"max_total_exposure_pct\": 100.0}"
+        },
+        {
+          "line": 833,
+          "referenced_names": [],
+          "source": "return {\"mode\": \"SIDEWAYS_LIMITED\", \"max_positions\": 2, \"max_total_exposure_pct\": 33.3}"
+        },
+        {
+          "line": 835,
+          "referenced_names": [],
+          "source": "return {\"mode\": \"DOWNTREND_DEFENSIVE\", \"max_positions\": 1, \"max_total_exposure_pct\": 10.0}"
+        }
+      ]
+    },
+    "src/engine/trade_decision.py:trade_action": {
+      "path": "src/engine/trade_decision.py",
+      "signature": {
+        "name": "trade_action",
+        "line_start": 24,
+        "line_end": 78,
+        "positional_parameters": [
+          "trend_state",
+          "mom_score",
+          "rs_score",
+          "price",
+          "ma50",
+          "ma50_slope",
+          "leader_score",
+          "trend_health",
+          "market_score",
+          "ls60_exit_mode"
+        ],
+        "required_positional_parameters": [
+          "trend_state",
+          "mom_score",
+          "rs_score",
+          "price",
+          "ma50",
+          "ma50_slope",
+          "leader_score",
+          "trend_health"
+        ],
+        "defaulted_positional_parameters": [
+          "market_score",
+          "ls60_exit_mode"
+        ],
+        "vararg": null,
+        "keyword_only_parameters": [],
+        "kwarg": null
+      },
+      "candidate_related_assignments": [],
+      "candidate_related_calls": [],
+      "candidate_related_branches": [
+        {
+          "line": 53,
+          "referenced_names": [
+            "leader_score",
+            "ls60_exit_mode"
+          ],
+          "source": "if leader_score < 60 and ls60_exit_mode == \"exit\":",
+          "high_value": true
+        },
+        {
+          "line": 59,
+          "referenced_names": [
+            "leader_score",
+            "market_score",
+            "mom_score",
+            "rs_score",
+            "trend_health"
+          ],
+          "source": "if (leader_score >= 90 and rs_score >= 90 and",
+          "high_value": true
+        },
+        {
+          "line": 64,
+          "referenced_names": [
+            "leader_score",
+            "trend_state"
+          ],
+          "source": "if leader_score >= 85 and trend_state == \"Expansion\":",
+          "high_value": true
+        },
+        {
+          "line": 68,
+          "referenced_names": [
+            "leader_score",
+            "ls60_exit_mode"
+          ],
+          "source": "if leader_score < 60 and ls60_exit_mode == \"reduce\":",
+          "high_value": true
+        },
+        {
+          "line": 70,
+          "referenced_names": [
+            "leader_score",
+            "trend_health"
+          ],
+          "source": "if leader_score < 75 or trend_health < 60:",
+          "high_value": true
+        },
+        {
+          "line": 74,
+          "referenced_names": [
+            "leader_score",
+            "trend_health"
+          ],
+          "source": "if leader_score >= 75 and trend_health >= 70:",
+          "high_value": true
+        },
+        {
+          "line": 55,
+          "referenced_names": [
+            "ma50",
+            "ma50_slope",
+            "price"
+          ],
+          "source": "if ma50 > 0 and price < ma50 and ma50_slope < 0:",
+          "high_value": false
+        }
+      ],
+      "returns": [
+        {
+          "line": 78,
+          "referenced_names": [],
+          "source": "return \"REDUCE\""
+        },
+        {
+          "line": 52,
+          "referenced_names": [],
+          "source": "return \"EXIT\""
+        },
+        {
+          "line": 54,
+          "referenced_names": [],
+          "source": "return \"EXIT\""
+        },
+        {
+          "line": 56,
+          "referenced_names": [],
+          "source": "return \"EXIT\""
+        },
+        {
+          "line": 61,
+          "referenced_names": [],
+          "source": "return \"BUY\""
+        },
+        {
+          "line": 65,
+          "referenced_names": [],
+          "source": "return \"ADD\""
+        },
+        {
+          "line": 69,
+          "referenced_names": [],
+          "source": "return \"REDUCE\""
+        },
+        {
+          "line": 71,
+          "referenced_names": [],
+          "source": "return \"REDUCE\""
+        },
+        {
+          "line": 75,
+          "referenced_names": [],
+          "source": "return \"HOLD\""
+        }
+      ]
+    },
+    "src/engine/trade_decision.py:trade_action_reason": {
+      "path": "src/engine/trade_decision.py",
+      "signature": {
+        "name": "trade_action_reason",
+        "line_start": 114,
+        "line_end": 194,
+        "positional_parameters": [
+          "trend_state",
+          "mom_score",
+          "rs_score",
+          "price",
+          "ma50",
+          "ma50_slope",
+          "leader_score",
+          "trend_health",
+          "market_score",
+          "ls60_exit_mode"
+        ],
+        "required_positional_parameters": [
+          "trend_state",
+          "mom_score",
+          "rs_score",
+          "price",
+          "ma50",
+          "ma50_slope",
+          "leader_score",
+          "trend_health"
+        ],
+        "defaulted_positional_parameters": [
+          "market_score",
+          "ls60_exit_mode"
+        ],
+        "vararg": null,
+        "keyword_only_parameters": [],
+        "kwarg": null
+      },
+      "candidate_related_assignments": [
+        {
+          "line": 145,
+          "targets": [
+            "ls_below_60"
+          ],
+          "referenced_names": [
+            "leader_score",
+            "ls_below_60"
+          ],
+          "source": "ls_below_60 = leader_score < 60",
+          "high_value": true
+        },
+        {
+          "line": 146,
+          "targets": [
+            "price_broken"
+          ],
+          "referenced_names": [
+            "ma50",
+            "ma50_slope",
+            "price",
+            "price_broken"
+          ],
+          "source": "price_broken = ma50 > 0 and price < ma50 and ma50_slope < 0",
+          "high_value": false
+        }
+      ],
+      "candidate_related_calls": [
+        {
+          "line": 151,
+          "referenced_names": [
+            "EXIT_REASON_LEADER_SCORE_BELOW_60",
+            "reasons",
+            "reasons.append"
+          ],
+          "source": "reasons.append(EXIT_REASON_LEADER_SCORE_BELOW_60)",
+          "high_value": true
+        },
+        {
+          "line": 182,
+          "referenced_names": [
+            "REDUCE_REASON_LEADER_SCORE_BELOW_75",
+            "reduce_reasons",
+            "reduce_reasons.append"
+          ],
+          "source": "reduce_reasons.append(REDUCE_REASON_LEADER_SCORE_BELOW_75)",
+          "high_value": true
+        },
+        {
+          "line": 153,
+          "referenced_names": [
+            "EXIT_REASON_PRICE_BELOW_MA50",
+            "reasons",
+            "reasons.append"
+          ],
+          "source": "reasons.append(EXIT_REASON_PRICE_BELOW_MA50)",
+          "high_value": false
+        }
+      ],
+      "candidate_related_branches": [
+        {
+          "line": 171,
+          "referenced_names": [
+            "leader_score",
+            "market_score",
+            "mom_score",
+            "rs_score",
+            "trend_health"
+          ],
+          "source": "if (leader_score >= 90 and rs_score >= 90 and",
+          "high_value": true
+        },
+        {
+          "line": 176,
+          "referenced_names": [
+            "leader_score",
+            "trend_state"
+          ],
+          "source": "if leader_score >= 85 and trend_state == \"Expansion\":",
+          "high_value": true
+        },
+        {
+          "line": 181,
+          "referenced_names": [
+            "leader_score"
+          ],
+          "source": "if leader_score < 75:",
+          "high_value": true
+        },
+        {
+          "line": 190,
+          "referenced_names": [
+            "leader_score",
+            "trend_health"
+          ],
+          "source": "if leader_score >= 75 and trend_health >= 70:",
+          "high_value": true
+        },
+        {
+          "line": 152,
+          "referenced_names": [
+            "price_broken"
+          ],
+          "source": "if price_broken:",
+          "high_value": false
+        },
+        {
+          "line": 160,
+          "referenced_names": [
+            "price_broken"
+          ],
+          "source": "if price_broken:",
+          "high_value": false
+        }
+      ],
+      "returns": [
+        {
+          "line": 194,
+          "referenced_names": [
+            "REDUCE_REASON_LEADER_SCORE_BELOW_75"
+          ],
+          "source": "return {\"action\": \"REDUCE\", \"primary_reason\": REDUCE_REASON_LEADER_SCORE_BELOW_75, \"reasons\": [REDUCE_REASON_LEADER_SCORE_BELOW_75]}"
+        },
+        {
+          "line": 157,
+          "referenced_names": [
+            "EXIT_REASON_BROKEN_TREND"
+          ],
+          "source": "return {\"action\": \"EXIT\", \"primary_reason\": EXIT_REASON_BROKEN_TREND, \"reasons\": [EXIT_REASON_BROKEN_TREND]}"
+        },
+        {
+          "line": 161,
+          "referenced_names": [
+            "EXIT_REASON_LEADER_SCORE_BELOW_60",
+            "EXIT_REASON_PRICE_BELOW_MA50",
+            "ls_below_60"
+          ],
+          "source": "return {\"action\": \"EXIT\", \"primary_reason\": EXIT_REASON_PRICE_BELOW_MA50,"
+        },
+        {
+          "line": 167,
+          "referenced_names": [
+            "EXIT_REASON_LEADER_SCORE_BELOW_60",
+            "action_60"
+          ],
+          "source": "return {\"action\": action_60, \"primary_reason\": EXIT_REASON_LEADER_SCORE_BELOW_60,"
+        },
+        {
+          "line": 173,
+          "referenced_names": [
+            "BUY_REASON_ALL_CONDITIONS_MET"
+          ],
+          "source": "return {\"action\": \"BUY\", \"primary_reason\": BUY_REASON_ALL_CONDITIONS_MET, \"reasons\": [BUY_REASON_ALL_CONDITIONS_MET]}"
+        },
+        {
+          "line": 177,
+          "referenced_names": [],
+          "source": "return {\"action\": \"ADD\", \"primary_reason\": \"leader_score_above_85_expansion\", \"reasons\": [\"leader_score_above_85_expansion\"]}"
+        },
+        {
+          "line": 187,
+          "referenced_names": [
+            "reduce_reasons"
+          ],
+          "source": "return {\"action\": \"REDUCE\", \"primary_reason\": reduce_reasons[0], \"reasons\": reduce_reasons}"
+        },
+        {
+          "line": 191,
+          "referenced_names": [
+            "HOLD_REASON_TREND_HEALTHY"
+          ],
+          "source": "return {\"action\": \"HOLD\", \"primary_reason\": HOLD_REASON_TREND_HEALTHY, \"reasons\": [HOLD_REASON_TREND_HEALTHY]}"
+        }
+      ]
+    }
+  },
+  "candidate_variable_candidates": [
+    {
+      "name": "exec_price",
+      "evidence_count": 10
+    },
+    {
+      "name": "holdings",
+      "evidence_count": 7
+    },
+    {
+      "name": "market_entry_allowed",
+      "evidence_count": 6
+    },
+    {
+      "name": "max_pos",
+      "evidence_count": 5
+    },
+    {
+      "name": "top_ranked",
+      "evidence_count": 5
+    },
+    {
+      "name": "entry_top_n",
+      "evidence_count": 4
+    },
+    {
+      "name": "candidate_top_n",
+      "evidence_count": 4
+    },
+    {
+      "name": "rank_all",
+      "evidence_count": 4
+    },
+    {
+      "name": "e1r_buy_candidates",
+      "evidence_count": 4
+    },
+    {
+      "name": "top_entry_symbols",
+      "evidence_count": 4
+    },
+    {
+      "name": "top_entry_rank",
+      "evidence_count": 4
+    },
+    {
+      "name": "get_price_by_date",
+      "evidence_count": 4
+    },
+    {
+      "name": "spx_prices",
+      "evidence_count": 3
+    },
+    {
+      "name": "e1r_regime_wiring_enabled",
+      "evidence_count": 3
+    },
+    {
+      "name": "_today_regime_for_positions",
+      "evidence_count": 3
+    },
+    {
+      "name": "leader_rank_all",
+      "evidence_count": 3
+    },
+    {
+      "name": "e1r_regime_daily",
+      "evidence_count": 3
+    },
+    {
+      "name": "calc_leader_score",
+      "evidence_count": 2
+    },
+    {
+      "name": "rank_based_exit",
+      "evidence_count": 2
+    },
+    {
+      "name": "e1r_candidate_records",
+      "evidence_count": 2
+    },
+    {
+      "name": "_e1r_regime_on",
+      "evidence_count": 2
+    },
+    {
+      "name": "qualified_entry_enabled",
+      "evidence_count": 2
+    },
+    {
+      "name": "qualified_price_above_ma50",
+      "evidence_count": 2
+    },
+    {
+      "name": "gate_use_leadership",
+      "evidence_count": 2
+    },
+    {
+      "name": "spx_ma50_history",
+      "evidence_count": 2
+    },
+    {
+      "name": "entry_rs_min",
+      "evidence_count": 2
+    },
+    {
+      "name": "min_holding_days",
+      "evidence_count": 2
+    },
+    {
+      "name": "prices_map",
+      "evidence_count": 2
+    },
+    {
+      "name": "prices_map.get",
+      "evidence_count": 2
+    },
+    {
+      "name": "spx_entry",
+      "evidence_count": 2
+    },
+    {
+      "name": "price_broken",
+      "evidence_count": 2
+    },
+    {
+      "name": "prices",
+      "evidence_count": 1
+    },
+    {
+      "name": "holdings.values",
+      "evidence_count": 1
+    },
+    {
+      "name": "entry_capacity",
+      "evidence_count": 1
+    },
+    {
+      "name": "leader_rank_all.get",
+      "evidence_count": 1
+    },
+    {
+      "name": "e1r_regime_daily.get",
+      "evidence_count": 1
+    },
+    {
+      "name": "ndx_prices",
+      "evidence_count": 1
+    },
+    {
+      "name": "sox_prices",
+      "evidence_count": 1
+    },
+    {
+      "name": "vix_prices",
+      "evidence_count": 1
+    },
+    {
+      "name": "min_history",
+      "evidence_count": 1
+    }
+  ],
+  "candidate_call_candidates": [
+    {
+      "name": "holdings",
+      "evidence_count": 14
+    },
+    {
+      "name": "top_entry_rank",
+      "evidence_count": 6
+    },
+    {
+      "name": "top_entry_rank.get",
+      "evidence_count": 6
+    },
+    {
+      "name": "candidate_top_n",
+      "evidence_count": 5
+    },
+    {
+      "name": "entry_top_n",
+      "evidence_count": 5
+    },
+    {
+      "name": "leader_rank_all",
+      "evidence_count": 5
+    },
+    {
+      "name": "leader_rank_all.get",
+      "evidence_count": 5
+    },
+    {
+      "name": "max_pos",
+      "evidence_count": 3
+    },
+    {
+      "name": "holdings.values",
+      "evidence_count": 3
+    },
+    {
+      "name": "top_ranked",
+      "evidence_count": 3
+    },
+    {
+      "name": "e1r_buy_candidates",
+      "evidence_count": 3
+    },
+    {
+      "name": "calc_leader_score",
+      "evidence_count": 2
+    },
+    {
+      "name": "_e1r_regime_on",
+      "evidence_count": 2
+    },
+    {
+      "name": "position_value",
+      "evidence_count": 2
+    },
+    {
+      "name": "all_stocks_prices",
+      "evidence_count": 1
+    },
+    {
+      "name": "all_stocks_prices.values",
+      "evidence_count": 1
+    },
+    {
+      "name": "qualified_price_above_ma50",
+      "evidence_count": 1
+    },
+    {
+      "name": "entry_rs_min",
+      "evidence_count": 1
+    },
+    {
+      "name": "min_holding_days",
+      "evidence_count": 1
+    },
+    {
+      "name": "holdings.items",
+      "evidence_count": 1
+    },
+    {
+      "name": "_today_regime_for_positions",
+      "evidence_count": 1
+    },
+    {
+      "name": "_e1r_mode_for_regime",
+      "evidence_count": 1
+    },
+    {
+      "name": "_e1r_risk_budget_for_regime",
+      "evidence_count": 1
+    },
+    {
+      "name": "e1r_regime_wiring_enabled",
+      "evidence_count": 1
+    },
+    {
+      "name": "e1r_candidate_records",
+      "evidence_count": 1
+    },
+    {
+      "name": "e1r_candidate_records.append",
+      "evidence_count": 1
+    },
+    {
+      "name": "entry_type",
+      "evidence_count": 1
+    },
+    {
+      "name": "rank_all",
+      "evidence_count": 1
+    },
+    {
+      "name": "e1r_buy_candidates.append",
+      "evidence_count": 1
+    },
+    {
+      "name": "e1r_buy_candidates.sort",
+      "evidence_count": 1
+    },
+    {
+      "name": "entry_capacity",
+      "evidence_count": 1
+    },
+    {
+      "name": "EXIT_REASON_LEADER_SCORE_BELOW_60",
+      "evidence_count": 1
+    },
+    {
+      "name": "REDUCE_REASON_LEADER_SCORE_BELOW_75",
+      "evidence_count": 1
+    },
+    {
+      "name": "EXIT_REASON_PRICE_BELOW_MA50",
+      "evidence_count": 1
+    }
+  ],
+  "primary_function_high_value_evidence": {
+    "assignments": [
+      {
+        "line": 796,
+        "targets": [
+          "max_pos"
+        ],
+        "referenced_names": [
+          "a",
+          "max_pos"
+        ],
+        "source": "max_pos  = a[\"max_positions\"]",
+        "high_value": true
+      },
+      {
+        "line": 797,
+        "targets": [
+          "buy_pct"
+        ],
+        "referenced_names": [
+          "a",
+          "buy_pct",
+          "max_pos"
+        ],
+        "source": "buy_pct  = a[\"buy_size\"]  / max_pos       # Top3: 1/3 per full slot",
+        "high_value": true
+      },
+      {
+        "line": 798,
+        "targets": [
+          "add_pct"
+        ],
+        "referenced_names": [
+          "a",
+          "add_pct",
+          "max_pos"
+        ],
+        "source": "add_pct  = a[\"add_size\"]  / max_pos       # Top3: +1/6, only useful after REDUCE",
+        "high_value": true
+      },
+      {
+        "line": 799,
+        "targets": [
+          "max_pct"
+        ],
+        "referenced_names": [
+          "a",
+          "max_pct",
+          "max_pos"
+        ],
+        "source": "max_pct  = a[\"max_single_size\"] / max_pos # Top3: max 1/3 per position",
+        "high_value": true
+      },
+      {
+        "line": 802,
+        "targets": [
+          "strategy_variant"
+        ],
+        "referenced_names": [
+          "a",
+          "a.get",
+          "strategy_variant"
+        ],
+        "source": "strategy_variant = a.get(\"strategy_variant\", \"top3_entry_rs_minhold_relstop\")",
+        "high_value": true
+      },
+      {
+        "line": 845,
+        "targets": [
+          "entry_top_n"
+        ],
+        "referenced_names": [
+          "a",
+          "a.get",
+          "entry_top_n",
+          "int"
+        ],
+        "source": "entry_top_n = int(a.get(\"entry_top_n\", 3))",
+        "high_value": true
+      },
+      {
+        "line": 846,
+        "targets": [
+          "rank_based_exit"
+        ],
+        "referenced_names": [
+          "a",
+          "a.get",
+          "bool",
+          "rank_based_exit"
+        ],
+        "source": "rank_based_exit = bool(a.get(\"rank_based_exit\", False))",
+        "high_value": true
+      },
+      {
+        "line": 852,
+        "targets": [
+          "candidate_top_n"
+        ],
+        "referenced_names": [
+          "a",
+          "a.get",
+          "candidate_top_n"
+        ],
+        "source": "candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n",
+        "high_value": true
+      },
+      {
+        "line": 1017,
+        "targets": [
+          "holdings"
+        ],
+        "referenced_names": [
+          "dict",
+          "holdings",
+          "str"
+        ],
+        "source": "holdings: dict[str, dict] = {}",
+        "high_value": true
+      },
+      {
+        "line": 1089,
+        "targets": [
+          "e1r_candidate_records"
+        ],
+        "referenced_names": [
+          "dict",
+          "e1r_candidate_records",
+          "list"
+        ],
+        "source": "e1r_candidate_records: list[dict] = []",
+        "high_value": true
+      },
+      {
+        "line": 1138,
+        "targets": [
+          "port_val"
+        ],
+        "referenced_names": [
+          "cash",
+          "h",
+          "h.get",
+          "holdings",
+          "holdings.values",
+          "port_val",
+          "sum"
+        ],
+        "source": "port_val = cash + sum(",
+        "high_value": true
+      },
+      {
+        "line": 1148,
+        "targets": [
+          "SUBSCRIPT_TARGET"
+        ],
+        "referenced_names": [
+          "skip_reasons"
+        ],
+        "source": "skip_reasons[\"max_positions_reached\"] += 1",
+        "high_value": true
+      },
+      {
+        "line": 1165,
+        "targets": [
+          "SUBSCRIPT_TARGET"
+        ],
+        "referenced_names": [
+          "_e1r_regime_on",
+          "_order_size_units",
+          "close_ref",
+          "e1r_regime_wiring_enabled",
+          "exec_date",
+          "exec_price",
+          "holdings",
+          "ls",
+          "master_dates",
+          "master_dates.index",
+          "order",
+          "order.get",
+          "shares",
+          "sig_date",
+          "spx_close_t",
+          "spx_prices",
+          "sym"
+        ],
+        "source": "holdings[sym] = {",
+        "high_value": true
+      },
+      {
+        "line": 1199,
+        "targets": [
+          "h"
+        ],
+        "referenced_names": [
+          "h",
+          "holdings",
+          "sym"
+        ],
+        "source": "h = holdings[sym]",
+        "high_value": true
+      },
+      {
+        "line": 1235,
+        "targets": [
+          "h"
+        ],
+        "referenced_names": [
+          "h",
+          "holdings",
+          "sym"
+        ],
+        "source": "h = holdings[sym]",
+        "high_value": true
+      },
+      {
+        "line": 1356,
+        "targets": [
+          "_today_regime_for_positions"
+        ],
+        "referenced_names": [
+          "_e1r_regime_on",
+          "_today_regime_for_positions",
+          "date_t"
+        ],
+        "source": "_today_regime_for_positions = _e1r_regime_on(date_t)",
+        "high_value": true
+      },
+      {
+        "line": 1359,
+        "targets": [
+          "SUBSCRIPT_TARGET"
+        ],
+        "referenced_names": [
+          "_today_regime_for_positions",
+          "_weights",
+          "_weights.get"
+        ],
+        "source": "_weights[_today_regime_for_positions] = _weights.get(_today_regime_for_positions, 0) + 1",
+        "high_value": true
+      },
+      {
+        "line": 1399,
+        "targets": [
+          "market_entry_allowed"
+        ],
+        "referenced_names": [
+          "market_entry_allowed"
+        ],
+        "source": "market_entry_allowed = True",
+        "high_value": true
+      },
+      {
+        "line": 1485,
+        "targets": [
+          "market_entry_allowed"
+        ],
+        "referenced_names": [
+          "entry_capacity",
+          "market_entry_allowed"
+        ],
+        "source": "market_entry_allowed = entry_capacity > 0",
+        "high_value": true
+      },
+      {
+        "line": 1510,
+        "targets": [
+          "_gate_state"
+        ],
+        "referenced_names": [
+          "_gate_state",
+          "market_entry_allowed",
+          "market_shock"
+        ],
+        "source": "_gate_state = (",
+        "high_value": true
+      },
+      {
+        "line": 1565,
+        "targets": [
+          "ls"
+        ],
+        "referenced_names": [
+          "calc_leader_score",
+          "ls",
+          "mom",
+          "rs",
+          "th"
+        ],
+        "source": "ls      = calc_leader_score(rs, mom, th)",
+        "high_value": true
+      },
+      {
+        "line": 1615,
+        "targets": [
+          "top_ranked"
+        ],
+        "referenced_names": [
+          "day_signals",
+          "day_signals.items",
+          "s",
+          "sorted",
+          "top_ranked",
+          "v",
+          "x"
+        ],
+        "source": "top_ranked = sorted(",
+        "high_value": true
+      },
+      {
+        "line": 1624,
+        "targets": [
+          "leader_rank_all"
+        ],
+        "referenced_names": [
+          "_",
+          "enumerate",
+          "i",
+          "leader_rank_all",
+          "s",
+          "top_ranked"
+        ],
+        "source": "leader_rank_all = {s: i + 1 for i, (s, _) in enumerate(top_ranked)}",
+        "high_value": true
+      },
+      {
+        "line": 1626,
+        "targets": [
+          "rank_all"
+        ],
+        "referenced_names": [
+          "leader_rank_all",
+          "leader_rank_all.get",
+          "rank_all",
+          "sym"
+        ],
+        "source": "rank_all = leader_rank_all.get(sym, 9999)",
+        "high_value": true
+      },
+      {
+        "line": 1637,
+        "targets": [
+          "emerging"
+        ],
+        "referenced_names": [
+          "emerging",
+          "rank_all",
+          "sig",
+          "sig.get"
+        ],
+        "source": "emerging = (",
+        "high_value": true
+      },
+      {
+        "line": 1655,
+        "targets": [
+          "confirmed"
+        ],
+        "referenced_names": [
+          "confirmed",
+          "rank_all",
+          "sig",
+          "sig.get"
+        ],
+        "source": "confirmed = (",
+        "high_value": true
+      },
+      {
+        "line": 1668,
+        "targets": [
+          "SUBSCRIPT_TARGET"
+        ],
+        "referenced_names": [
+          "emerging",
+          "sig"
+        ],
+        "source": "sig[\"e1r_uptrend_emerging_eligible\"] = emerging",
+        "high_value": true
+      },
+      {
+        "line": 1669,
+        "targets": [
+          "SUBSCRIPT_TARGET"
+        ],
+        "referenced_names": [
+          "confirmed",
+          "sig"
+        ],
+        "source": "sig[\"e1r_uptrend_confirmed_eligible\"] = confirmed",
+        "high_value": true
+      },
+      {
+        "line": 1699,
+        "targets": [
+          "e1r_buy_candidates"
+        ],
+        "referenced_names": [
+          "e1r_buy_candidates"
+        ],
+        "source": "e1r_buy_candidates = []",
+        "high_value": true
+      },
+      {
+        "line": 1719,
+        "targets": [
+          "_",
+          "_",
+          "_",
+          "_",
+          "_",
+          "_sym",
+          "_sig"
+        ],
+        "referenced_names": [
+          "_",
+          "_sig",
+          "_sym",
+          "e1r_buy_candidates"
+        ],
+        "source": "_, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]",
+        "high_value": true
+      }
+    ],
+    "calls": [
+      {
+        "line": 792,
+        "referenced_names": [
+          "logger",
+          "logger.info"
+        ],
+        "source": "logger.info(\"[Backtest Layer D v1.6] Strict Top3 + RS/MinHold/RelStop Backtest...\")",
+        "high_value": true
+      },
+      {
+        "line": 802,
+        "referenced_names": [
+          "a",
+          "a.get"
+        ],
+        "source": "strategy_variant = a.get(\"strategy_variant\", \"top3_entry_rs_minhold_relstop\")",
+        "high_value": true
+      },
+      {
+        "line": 845,
+        "referenced_names": [
+          "a",
+          "a.get",
+          "int"
+        ],
+        "source": "entry_top_n = int(a.get(\"entry_top_n\", 3))",
+        "high_value": true
+      },
+      {
+        "line": 845,
+        "referenced_names": [
+          "a",
+          "a.get"
+        ],
+        "source": "entry_top_n = int(a.get(\"entry_top_n\", 3))",
+        "high_value": true
+      },
+      {
+        "line": 846,
+        "referenced_names": [
+          "a",
+          "a.get",
+          "bool"
+        ],
+        "source": "rank_based_exit = bool(a.get(\"rank_based_exit\", False))",
+        "high_value": true
+      },
+      {
+        "line": 846,
+        "referenced_names": [
+          "a",
+          "a.get"
+        ],
+        "source": "rank_based_exit = bool(a.get(\"rank_based_exit\", False))",
+        "high_value": true
+      },
+      {
+        "line": 852,
+        "referenced_names": [
+          "a",
+          "a.get"
+        ],
+        "source": "candidate_top_n           = a.get(\"candidate_top_n\", None)   # None = 沿用旧 entry_top_n",
+        "high_value": true
+      },
+      {
+        "line": 888,
+        "referenced_names": [
+          "candidate_top_n",
+          "logger",
+          "logger.info",
+          "qualified_ma50_slope_min",
+          "qualified_momentum_min",
+          "qualified_price_above_ma50",
+          "qualified_rs_min",
+          "qualified_states",
+          "qualified_th_min"
+        ],
+        "source": "logger.info(f\"  Qualified Pool: candidate_top_n={candidate_top_n} \"",
+        "high_value": true
+      },
+      {
+        "line": 893,
+        "referenced_names": [
+          "entry_top_n",
+          "logger",
+          "logger.info"
+        ],
+        "source": "logger.info(f\"  Entry mode: Strict Top{entry_top_n} (legacy)\")",
+        "high_value": true
+      },
+      {
+        "line": 918,
+        "referenced_names": [
+          "a",
+          "a.get",
+          "buy_pct",
+          "candidate_top_n",
+          "logger",
+          "logger.info",
+          "max_pct",
+          "max_pos",
+          "one_way",
+          "strategy_variant"
+        ],
+        "source": "logger.info(f\"  v{a.get('version','?')} | Strategy={strategy_variant} \"",
+        "high_value": true
+      },
+      {
+        "line": 923,
+        "referenced_names": [
+          "a",
+          "a.get",
+          "buy_pct",
+          "entry_top_n",
+          "logger",
+          "logger.info",
+          "max_pct",
+          "max_pos",
+          "one_way",
+          "strategy_variant"
+        ],
+        "source": "logger.info(f\"  v{a.get('version','?')} | Strategy={strategy_variant} \"",
+        "high_value": true
+      },
+      {
+        "line": 936,
+        "referenced_names": [
+          "entry_rs_min",
+          "entry_top_n",
+          "logger",
+          "logger.info",
+          "ls60_exit_mode",
+          "market_gate_enabled",
+          "min_holding_days",
+          "relative_stop_enabled"
+        ],
+        "source": "logger.info(f\"  ── Param check: ls60={ls60_exit_mode} rs={entry_rs_min} \"",
+        "high_value": true
+      },
+      {
+        "line": 1138,
+        "referenced_names": [
+          "h",
+          "h.get",
+          "holdings",
+          "holdings.values",
+          "sum"
+        ],
+        "source": "port_val = cash + sum(",
+        "high_value": true
+      },
+      {
+        "line": 1140,
+        "referenced_names": [
+          "holdings",
+          "holdings.values"
+        ],
+        "source": "for h in holdings.values()",
+        "high_value": true
+      },
+      {
+        "line": 1147,
+        "referenced_names": [
+          "holdings",
+          "len"
+        ],
+        "source": "if len(holdings) >= max_pos:",
+        "high_value": true
+      },
+      {
+        "line": 1289,
+        "referenced_names": [
+          "h",
+          "h.get",
+          "round"
+        ],
+        "source": "\"leader_score_entry\":   round(h.get(\"leader_score_entry\", 0), 1),",
+        "high_value": true
+      },
+      {
+        "line": 1289,
+        "referenced_names": [
+          "h",
+          "h.get"
+        ],
+        "source": "\"leader_score_entry\":   round(h.get(\"leader_score_entry\", 0), 1),",
+        "high_value": true
+      },
+      {
+        "line": 1345,
+        "referenced_names": [
+          "holdings",
+          "holdings.items"
+        ],
+        "source": "for sym, h in holdings.items():",
+        "high_value": true
+      },
+      {
+        "line": 1356,
+        "referenced_names": [
+          "_e1r_regime_on",
+          "date_t"
+        ],
+        "source": "_today_regime_for_positions = _e1r_regime_on(date_t)",
+        "high_value": true
+      },
+      {
+        "line": 1357,
+        "referenced_names": [
+          "holdings",
+          "holdings.values"
+        ],
+        "source": "for _h in holdings.values():",
+        "high_value": true
+      },
+      {
+        "line": 1359,
+        "referenced_names": [
+          "_today_regime_for_positions",
+          "_weights",
+          "_weights.get"
+        ],
+        "source": "_weights[_today_regime_for_positions] = _weights.get(_today_regime_for_positions, 0) + 1",
+        "high_value": true
+      },
+      {
+        "line": 1515,
+        "referenced_names": [
+          "_daily_return_pct",
+          "_drawdown_pct",
+          "_e1r_mode_for_regime",
+          "_e1r_regime_on",
+          "_e1r_risk_budget_for_regime",
+          "_gate_state",
+          "cash",
+          "daily_equity_records",
+          "daily_equity_records.append",
+          "date_t",
+          "e1r_regime_wiring_enabled",
+          "holdings",
+          "len",
+          "pending_orders",
+          "position_value",
+          "round",
+          "spx_close_t",
+          "spx_day_return",
+          "spx_ma50_t",
+          "total_equity"
+        ],
+        "source": "daily_equity_records.append({",
+        "high_value": true
+      },
+      {
+        "line": 1518,
+        "referenced_names": [
+          "position_value",
+          "round"
+        ],
+        "source": "\"positions_value\": round(position_value, 2),",
+        "high_value": true
+      },
+      {
+        "line": 1523,
+        "referenced_names": [
+          "holdings",
+          "len"
+        ],
+        "source": "\"open_positions_count\": len(holdings),",
+        "high_value": true
+      },
+      {
+        "line": 1565,
+        "referenced_names": [
+          "calc_leader_score",
+          "mom",
+          "rs",
+          "th"
+        ],
+        "source": "ls      = calc_leader_score(rs, mom, th)",
+        "high_value": true
+      }
+    ],
+    "branches": [
+      {
+        "line": 1144,
+        "referenced_names": [
+          "holdings",
+          "sym"
+        ],
+        "source": "if sym in holdings:",
+        "high_value": true
+      },
+      {
+        "line": 1147,
+        "referenced_names": [
+          "holdings",
+          "len",
+          "max_pos"
+        ],
+        "source": "if len(holdings) >= max_pos:",
+        "high_value": true
+      },
+      {
+        "line": 1196,
+        "referenced_names": [
+          "holdings",
+          "sym"
+        ],
+        "source": "if sym not in holdings:",
+        "high_value": true
+      },
+      {
+        "line": 1232,
+        "referenced_names": [
+          "holdings",
+          "sym"
+        ],
+        "source": "if sym not in holdings:",
+        "high_value": true
+      },
+      {
+        "line": 1337,
+        "referenced_names": [
+          "reduce_primary"
+        ],
+        "source": "if reduce_primary == \"leader_score_below_60\":",
+        "high_value": true
+      },
+      {
+        "line": 1491,
+        "referenced_names": [
+          "market_entry_allowed"
+        ],
+        "source": "if market_entry_allowed:",
+        "high_value": true
+      },
+      {
+        "line": 1635,
+        "referenced_names": [
+          "rank_all"
+        ],
+        "source": "if rank_all <= 20: emerging_reasons.append(\"leader_rank_top20\")",
+        "high_value": true
+      },
+      {
+        "line": 1649,
+        "referenced_names": [
+          "rank_all"
+        ],
+        "source": "if rank_all <= 5: confirmed_reasons.append(\"leader_rank_top5\")",
+        "high_value": true
+      },
+      {
+        "line": 1650,
+        "referenced_names": [
+          "sig"
+        ],
+        "source": "if sig[\"leader_score\"] >= 75: confirmed_reasons.append(\"leader_score_above_75\")",
+        "high_value": true
+      },
+      {
+        "line": 1701,
+        "referenced_names": [
+          "holdings",
+          "s"
+        ],
+        "source": "if s in holdings:",
+        "high_value": true
+      },
+      {
+        "line": 1717,
+        "referenced_names": [
+          "e1r_buy_candidates",
+          "market_entry_allowed"
+        ],
+        "source": "if e1r_buy_candidates and market_entry_allowed:",
+        "high_value": true
+      },
+      {
+        "line": 1718,
+        "referenced_names": [
+          "entry_capacity",
+          "holdings",
+          "len",
+          "max_pos",
+          "min"
+        ],
+        "source": "if len(holdings) < min(max_pos, entry_capacity):",
+        "high_value": true
+      },
+      {
+        "line": 1730,
+        "referenced_names": [
+          "candidate_top_n",
+          "qualified_entry_enabled"
+        ],
+        "source": "if qualified_entry_enabled and candidate_top_n is not None:",
+        "high_value": true
+      },
+      {
+        "line": 1772,
+        "referenced_names": [
+          "holdings",
+          "sym"
+        ],
+        "source": "if sym in holdings:",
+        "high_value": true
+      },
+      {
+        "line": 1782,
+        "referenced_names": [
+          "e1r_selected_buy",
+          "e1r_uptrend_execution_enabled",
+          "holdings",
+          "sym"
+        ],
+        "source": "if (",
+        "high_value": true
+      },
+      {
+        "line": 1809,
+        "referenced_names": [
+          "holdings",
+          "sym"
+        ],
+        "source": "if sym in holdings:",
+        "high_value": true
+      },
+      {
+        "line": 1816,
+        "referenced_names": [
+          "entry_capacity",
+          "fill_only_enabled",
+          "holdings",
+          "len"
+        ],
+        "source": "if fill_only_enabled and len(holdings) >= entry_capacity:",
+        "high_value": true
+      },
+      {
+        "line": 1820,
+        "referenced_names": [
+          "entry_capacity",
+          "holdings",
+          "len",
+          "market_gate_enabled"
+        ],
+        "source": "if market_gate_enabled and len(holdings) >= entry_capacity:",
+        "high_value": true
+      },
+      {
+        "line": 1823,
+        "referenced_names": [
+          "market_entry_allowed"
+        ],
+        "source": "if not market_entry_allowed:",
+        "high_value": true
+      },
+      {
+        "line": 1862,
+        "referenced_names": [
+          "holdings",
+          "sym"
+        ],
+        "source": "if sym in holdings:",
+        "high_value": true
+      },
+      {
+        "line": 1872,
+        "referenced_names": [
+          "entry_capacity",
+          "holdings",
+          "len",
+          "market_gate_enabled"
+        ],
+        "source": "if market_gate_enabled and len(holdings) >= entry_capacity:",
+        "high_value": true
+      },
+      {
+        "line": 1875,
+        "referenced_names": [
+          "market_entry_allowed"
+        ],
+        "source": "if not market_entry_allowed:",
+        "high_value": true
+      },
+      {
+        "line": 1895,
+        "referenced_names": [
+          "holdings",
+          "sym"
+        ],
+        "source": "if sym not in holdings:",
+        "high_value": true
+      },
+      {
+        "line": 1968,
+        "referenced_names": [
+          "action",
+          "block_add_after_take_profit",
+          "get",
+          "holdings",
+          "sym"
+        ],
+        "source": "if action == \"ADD\" and block_add_after_take_profit and holdings[sym].get(\"take_profit_triggered\"):",
+        "high_value": true
+      },
+      {
+        "line": 1971,
+        "referenced_names": [
+          "action",
+          "market_entry_allowed"
+        ],
+        "source": "if action == \"ADD\" and not market_entry_allowed:",
+        "high_value": true
+      }
+    ]
+  },
+  "candidate_lifecycle": [
+    {
+      "sequence": 1,
+      "boundary": "SIMULATION_INPUT",
+      "definition": "Inputs supplied to run_stateful_simulation before any daily UPTREND decision.",
+      "required_trace_fields": [
+        "date",
+        "market_state",
+        "regime",
+        "entry_capacity",
+        "market_entry_allowed",
+        "account_cash",
+        "open_positions",
+        "universe_count"
+      ]
+    },
+    {
+      "sequence": 2,
+      "boundary": "RAW_UNIVERSE",
+      "definition": "Complete symbol set visible to the legacy UPTREND path before eligibility filtering.",
+      "required_trace_fields": [
+        "symbol",
+        "included_in_raw_universe",
+        "exclusion_reason"
+      ]
+    },
+    {
+      "sequence": 3,
+      "boundary": "ELIGIBILITY_FILTER",
+      "definition": "Per-symbol pass/fail results for history, price, data completeness, exclusions, and other legacy eligibility rules.",
+      "required_trace_fields": [
+        "symbol",
+        "history_length",
+        "minimum_history_required",
+        "price",
+        "minimum_price_required",
+        "excluded_symbol",
+        "data_complete",
+        "eligible",
+        "eligibility_reasons"
+      ]
+    },
+    {
+      "sequence": 4,
+      "boundary": "PRE_RANK_CANDIDATE_SNAPSHOT",
+      "definition": "Exact complete eligible candidate collection before Leader Score ordering or Top3 selection.",
+      "required_trace_fields": [
+        "date",
+        "candidate_count",
+        "candidate_symbols_in_legacy_order",
+        "candidate_records"
+      ]
+    },
+    {
+      "sequence": 5,
+      "boundary": "RANKED_CANDIDATE_SNAPSHOT",
+      "definition": "Candidate collection after exact legacy score calculation and ordering, before entry truncation.",
+      "required_trace_fields": [
+        "symbol",
+        "leader_score",
+        "score_components",
+        "legacy_rank",
+        "tie_break_fields"
+      ]
+    },
+    {
+      "sequence": 6,
+      "boundary": "TOP3_ENTRY_SELECTION",
+      "definition": "Symbols selected for possible new entry, separate from existing holdings.",
+      "required_trace_fields": [
+        "selected_symbols",
+        "entry_top_n",
+        "available_position_slots",
+        "existing_holding_symbols",
+        "selection_reasons"
+      ]
+    },
+    {
+      "sequence": 7,
+      "boundary": "PRE_GATE_INTENT_HANDOFF",
+      "definition": "Future boundary where candidate decisions become order intents before R15 gate consumption.",
+      "required_trace_fields": [
+        "symbol",
+        "intent_type",
+        "reason",
+        "pre_gate_allowed"
+      ]
+    }
+  ],
+  "golden_row_classes": [
+    {
+      "class": "ALLOW_BELOW_MA50_GUARD",
+      "date": "2021-06-18",
+      "purpose": "Protect the established market-gate guard: CAUTIOUS_ON with entry capacity 2 remains ALLOW.",
+      "candidate_requirement": "Capture the complete raw, eligible, ranked, and Top3 snapshots for the date."
+    },
+    {
+      "class": "SHOCK_PRECEDENCE_GUARD",
+      "date": "2021-05-12",
+      "purpose": "Verify candidate tracing remains observable while SHOCK blocks new BUY and ADD downstream.",
+      "candidate_requirement": "Candidate snapshots must be recorded before gate consumption without generating trades."
+    },
+    {
+      "class": "RISK_OFF_ZERO_CAPACITY",
+      "date": "2022-01-24",
+      "purpose": "Verify zero-capacity candidate trace and separation between candidate generation and gate blocking.",
+      "candidate_requirement": "Trace candidates even when new entries are not allowed."
+    },
+    {
+      "class": "TOP3_OVERFLOW",
+      "date": null,
+      "selection_rule": "Choose a legacy UPTREND day with at least 5 eligible candidates and at least 3 available slots.",
+      "purpose": "Prove full pre-rank set, exact ordering, and Top3 truncation."
+    },
+    {
+      "class": "TIE_OR_NEAR_TIE",
+      "date": null,
+      "selection_rule": "Choose a day where rank positions 3 and 4 have equal or minimally separated Leader Scores.",
+      "purpose": "Prove deterministic tie-breaking and sort stability."
+    },
+    {
+      "class": "EXISTING_HOLDING_OUTSIDE_TOP3",
+      "date": null,
+      "selection_rule": "Choose a day with an existing holding that is absent from the new-entry Top3.",
+      "purpose": "Prove that leaving Top3 alone does not imply EXIT."
+    },
+    {
+      "class": "ELIGIBILITY_REJECTION_MATRIX",
+      "date": null,
+      "selection_rule": "Choose one or more days containing symbols rejected for insufficient history, minimum price, explicit exclusion, or incomplete indicators.",
+      "purpose": "Prove each candidate eligibility reason independently."
+    }
+  ],
+  "trace_schema": {
+    "schema_version": "1.0",
+    "record_identity": [
+      "trace_run_id",
+      "date",
+      "stage",
+      "source_commit"
+    ],
+    "market_context": [
+      "regime",
+      "market_state",
+      "entry_capacity",
+      "market_entry_allowed",
+      "market_shock",
+      "market_risk_off"
+    ],
+    "account_context": [
+      "cash",
+      "equity",
+      "open_positions_count",
+      "open_position_symbols",
+      "available_position_slots",
+      "max_live_holdings"
+    ],
+    "universe_context": [
+      "raw_universe_count",
+      "raw_universe_symbols",
+      "excluded_symbols"
+    ],
+    "eligibility_records": [
+      "symbol",
+      "history_length",
+      "price",
+      "minimum_history_pass",
+      "minimum_price_pass",
+      "explicit_exclusion_pass",
+      "indicator_completeness_pass",
+      "eligible",
+      "reasons"
+    ],
+    "candidate_snapshots": [
+      "pre_rank_candidate_count",
+      "pre_rank_candidate_symbols",
+      "ranked_candidate_count",
+      "ranked_candidate_symbols",
+      "candidate_score_records",
+      "selected_top3_symbols"
+    ],
+    "provenance": [
+      "source_file",
+      "source_function",
+      "source_line_start",
+      "source_line_end",
+      "source_variable_names"
+    ]
+  },
+  "equivalence_acceptance_criteria": [
+    {
+      "criterion": "Same raw universe",
+      "metric": "symbol set equality",
+      "threshold": "100 percent"
+    },
+    {
+      "criterion": "Same eligibility results",
+      "metric": "per-symbol eligible flag and reason equality",
+      "threshold": "100 percent"
+    },
+    {
+      "criterion": "Same pre-rank candidate sequence",
+      "metric": "ordered list equality",
+      "threshold": "exact"
+    },
+    {
+      "criterion": "Same score values",
+      "metric": "per-symbol Leader Score and components",
+      "threshold": "exact serialized value or approved numeric tolerance"
+    },
+    {
+      "criterion": "Same ranked order",
+      "metric": "ordered symbol list equality",
+      "threshold": "exact"
+    },
+    {
+      "criterion": "Same Top3 selection",
+      "metric": "ordered selected symbol list equality",
+      "threshold": "exact"
+    },
+    {
+      "criterion": "Same holdings treatment",
+      "metric": "existing holdings outside Top3 are not reclassified as EXIT solely by rank",
+      "threshold": "zero violations"
+    },
+    {
+      "criterion": "Position cap preserved",
+      "metric": "maximum live holdings",
+      "threshold": "less than or equal to 3"
+    },
+    {
+      "criterion": "Gate separation preserved",
+      "metric": "candidate trace generated independently; R15 alone blocks BUY and ADD",
+      "threshold": "zero gate recomputations"
+    }
+  ],
+  "unresolved_unknowns": [
+    {
+      "topic": "Exact variable representing raw universe",
+      "status": "SOURCE_CANDIDATES_LOCATED_NOT_YET_TRACED",
+      "required_next_step": "Run one-date read-only variable trace inside the legacy function without changing decisions."
+    },
+    {
+      "topic": "Exact pre-rank candidate variable",
+      "status": "NOT_YET_PROVEN",
+      "required_next_step": "Identify the last assignment before sorting or TopN truncation."
+    },
+    {
+      "topic": "Tie-breaking order",
+      "status": "NOT_YET_PROVEN",
+      "required_next_step": "Capture rank positions around equal scores and inspect sort keys and original order."
+    },
+    {
+      "topic": "Existing holdings versus new-entry candidates",
+      "status": "NOT_YET_PROVEN",
+      "required_next_step": "Trace holdings and candidate lists separately on a day where a holding is outside Top3."
+    },
+    {
+      "topic": "Candidate trace timing versus position sizing",
+      "status": "NOT_YET_PROVEN",
+      "required_next_step": "Establish source-line sequence from Top3 selection through sizing and pending-order creation."
+    }
+  ],
+  "frozen_files": {
+    "src/engine/backtest.py": {
+      "sha256_before": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "sha256_after": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "unchanged": true
+    },
+    "src/engine/e1r_composer.py": {
+      "sha256_before": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "sha256_after": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "unchanged": true
+    },
+    "src/engine/e1r_sidecar_sleeve.py": {
+      "sha256_before": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "sha256_after": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "unchanged": true
+    }
+  },
+  "decision": "PASS_GOLDEN_TRACE_PROPOSAL_READY_FOR_R17A_READ_ONLY_TRACE_DESIGN_REVIEW",
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R17A-LEGACY-UPTREND-CANDIDATE-BOUNDARY-READ-ONLY-TRACE-DESIGN-REVIEW"
+}

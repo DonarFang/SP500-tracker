@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17-LEGACY-UPTREND-INPUT-AND-CANDIDATE-BOUNDARY-GOLDEN-TRACE-PROPOSAL",
+  "decision": "PASS_GOLDEN_TRACE_PROPOSAL_READY_FOR_R17A_READ_ONLY_TRACE_DESIGN_REVIEW",
+  "validation": {
+    "primary_function_located": true,
+    "primary_function": "src/engine/backtest.py:run_stateful_simulation",
+    "primary_function_line_start": 763,
+    "primary_function_line_end": 2486,
+    "input_parameter_count": 18,
+    "high_value_assignment_count": 42,
+    "high_value_call_count": 60,
+    "high_value_branch_count": 27,
+    "candidate_lifecycle_stage_count": 7,
+    "golden_row_class_count": 7,
+    "acceptance_criterion_count": 9,
+    "unresolved_unknown_count": 5,
+    "strategy_source_modified": false,
+    "standalone_engine_modified": false,
+    "candidate_extractor_implemented": false,
+    "full_5y_run_performed": false,
+    "sideways_logic_added": false,
+    "frozen_files_unchanged": true
+  },
+  "source_boundary": {
+    "included": [
+      "src/engine/backtest.py",
+      "src/engine/trade_decision.py",
+      "src/engine/leader_ranking.py",
+      "src/features/rs.py",
+      "src/features/momentum.py",
+      "src/features/trend_health.py"
+    ],
+    "standalone_used_as_legacy_proof": false
+  },
+  "conclusion": "K2_R17_PASS_LEGACY_UPTREND_INPUT_AND_CANDIDATE_BOUNDARY_GOLDEN_TRACE_PROPOSAL",
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R17A-LEGACY-UPTREND-CANDIDATE-BOUNDARY-READ-ONLY-TRACE-DESIGN-REVIEW"
+}
