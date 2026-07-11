@@ -1,0 +1,225 @@
+# E1R 4C-2C-4E-ENGINE-K2-R13B — Uptrend Core Wiring Proposal Gap RCA
+
+Generated At: `2026-07-11T08:36:23.036598+00:00`
+
+## Purpose
+Determine why R13 proposal validation failed on future_modules_not_created and define corrected validation policy.
+
+## R13 Failure Summary
+```json
+{
+  "r13_report_exists": true,
+  "status": "UPTREND_CORE_GATE_WIRING_PROPOSAL_COMPLETE",
+  "validations": {
+    "r13_wiring_proposal_complete": true,
+    "r10_loaded": true,
+    "r11_loaded": true,
+    "r12c_loaded": true,
+    "r12c_authorized_r13": true,
+    "market_gate_module_exists": true,
+    "r12c_equivalence_ready": true,
+    "r12c_row_count_positive": true,
+    "r12c_mismatch_count_zero": true,
+    "proposal_only": true,
+    "strategy_logic_changed": false,
+    "standalone_module_only": true,
+    "strategy_integration_changed": false,
+    "legacy_backtest_called": false,
+    "backtest_engine_run": false,
+    "short_window_existing_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "formula_not_patched_in_legacy": true,
+    "strategy_files_unchanged": true,
+    "future_modules_not_created": false
+  },
+  "decision": {
+    "k2_r13_uptrend_core_gate_wiring_proposal_passed": false,
+    "uptrend_core_gate_wiring_proposal_ready": false,
+    "uptrend_core_implementation_allowed_now": false,
+    "market_gate_strategy_integration_allowed_now": false,
+    "formula_patch_allowed_now": false,
+    "candidate_extraction_allowed_now": false,
+    "implementation_may_resume": false,
+    "requires_user_approval_before_next_stage": true,
+    "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R13B-UPTREND_CORE_WIRING_PROPOSAL_GAP_RCA",
+    "conclusion": "K2_R13_WIRING_PROPOSAL_INCOMPLETE_DO_NOT_IMPLEMENT",
+    "recommended_next_action": "Stop and perform R13B RCA before any implementation."
+  },
+  "failure_confirmed": true,
+  "failed_condition": "future_modules_not_created=false"
+}
+```
+
+## Prohibited Path Audit
+```json
+[
+  {
+    "path": "src/e1r_engine/uptrend_core.py",
+    "exists": true,
+    "sha256": "cdbcff0bfa79fb14e6a7042eeeb8d46208e93c4613932487c2987fc728f15113",
+    "tracked": true,
+    "git_status_porcelain": "",
+    "git_diff_name": "",
+    "git_cached_diff_name": "",
+    "creation_log": [
+      "e721ee0b6dfcbbaa3db0a2aafc30ab32e2958525 2026-07-10T19:29:40+08:00 Add E1R uptrend extraction skeleton"
+    ],
+    "recent_log": [
+      "678c781d6b67537f4b245af3b01818e56d35a90e 2026-07-10T19:34:27+08:00 Extract E1R uptrend legacy result boundary",
+      "e721ee0b6dfcbbaa3db0a2aafc30ab32e2958525 2026-07-10T19:29:40+08:00 Add E1R uptrend extraction skeleton"
+    ],
+    "classification": "HISTORICAL_TRACKED_UNCHANGED"
+  },
+  {
+    "path": "src/e1r_engine/regime_router.py",
+    "exists": true,
+    "sha256": "9d4417229547b49330e66f368f361bd1a1c65b761a47d6c11bce24a585e4db89",
+    "tracked": true,
+    "git_status_porcelain": "",
+    "git_diff_name": "",
+    "git_cached_diff_name": "",
+    "creation_log": [
+      "3e96fb8a55d9b4feb54cf119c4d42490578c1e91 2026-07-10T14:05:14+08:00 Add E1R core engine shell"
+    ],
+    "recent_log": [
+      "3e96fb8a55d9b4feb54cf119c4d42490578c1e91 2026-07-10T14:05:14+08:00 Add E1R core engine shell"
+    ],
+    "classification": "HISTORICAL_TRACKED_UNCHANGED"
+  },
+  {
+    "path": "src/e1r_engine/core_engine.py",
+    "exists": false,
+    "sha256": null,
+    "tracked": false,
+    "git_status_porcelain": "",
+    "git_diff_name": "",
+    "git_cached_diff_name": "",
+    "creation_log": [],
+    "recent_log": [],
+    "classification": "ABSENT_OK"
+  },
+  {
+    "path": "tests/e1r_engine/test_uptrend_core_gate_wiring.py",
+    "exists": false,
+    "sha256": null,
+    "tracked": false,
+    "git_status_porcelain": "",
+    "git_diff_name": "",
+    "git_cached_diff_name": "",
+    "creation_log": [],
+    "recent_log": [],
+    "classification": "ABSENT_OK"
+  }
+]
+```
+
+## Corrected Validation Policy
+```json
+{
+  "old_policy": {
+    "future_modules_not_created": "all(not exists(path) for prohibited_future_paths)",
+    "problem": "This blocks historically created standalone engine shell files, even if R13 did not modify or create them."
+  },
+  "corrected_policy": {
+    "future_modules_not_newly_created_or_modified_by_R13": [
+      "Historical tracked files may exist.",
+      "Historical tracked files must have clean git status.",
+      "Untracked future implementation files remain blocking.",
+      "Tracked but modified future implementation files remain blocking.",
+      "Frozen legacy strategy files must remain unchanged."
+    ],
+    "allowed_existing_classifications": [
+      "ABSENT_OK",
+      "HISTORICAL_TRACKED_UNCHANGED"
+    ],
+    "blocking_classifications": [
+      "TRACKED_BUT_MODIFIED_REQUIRES_REVIEW",
+      "UNTRACKED_NEW_REQUIRES_REVIEW",
+      "EXISTS_UNCLASSIFIED_REQUIRES_REVIEW"
+    ]
+  },
+  "path_audit_summary": [
+    {
+      "path": "src/e1r_engine/uptrend_core.py",
+      "exists": true,
+      "tracked": true,
+      "git_status_porcelain": "",
+      "classification": "HISTORICAL_TRACKED_UNCHANGED"
+    },
+    {
+      "path": "src/e1r_engine/regime_router.py",
+      "exists": true,
+      "tracked": true,
+      "git_status_porcelain": "",
+      "classification": "HISTORICAL_TRACKED_UNCHANGED"
+    },
+    {
+      "path": "src/e1r_engine/core_engine.py",
+      "exists": false,
+      "tracked": false,
+      "git_status_porcelain": "",
+      "classification": "ABSENT_OK"
+    },
+    {
+      "path": "tests/e1r_engine/test_uptrend_core_gate_wiring.py",
+      "exists": false,
+      "tracked": false,
+      "git_status_porcelain": "",
+      "classification": "ABSENT_OK"
+    }
+  ]
+}
+```
+
+## Validations
+```json
+{
+  "r13b_gap_rca_complete": true,
+  "r12c_loaded": true,
+  "r12c_equivalence_ready": true,
+  "r13_failed_report_loaded": true,
+  "r13_failure_confirmed": true,
+  "prohibited_paths_audited": true,
+  "prohibited_path_count": 4,
+  "historical_existing_path_count": 2,
+  "blocking_path_count": 0,
+  "all_existing_future_paths_historical_or_absent": true,
+  "corrected_validation_policy_defined": true,
+  "failed_r13_artifacts_preserved": true,
+  "proposal_only": true,
+  "strategy_logic_changed": false,
+  "strategy_integration_changed": false,
+  "legacy_backtest_called": false,
+  "backtest_engine_run": false,
+  "full_5y_backtest_run": false,
+  "candidate_generation_extracted": false,
+  "buy_add_reduce_exit_extracted": false,
+  "official_result_generated": false,
+  "dashboard_changed": false,
+  "strategy_files_unchanged": true
+}
+```
+
+## Decision
+```json
+{
+  "k2_r13b_uptrend_core_wiring_proposal_gap_rca_passed": true,
+  "root_cause": "R13 validation rule was too strict: it treated historical standalone engine shell files as forbidden new future implementation files.",
+  "r13_original_proposal_can_be_retried_with_corrected_validation": true,
+  "market_gate_equivalence_ready": true,
+  "uptrend_core_implementation_allowed_now": false,
+  "market_gate_strategy_integration_allowed_now": false,
+  "formula_patch_allowed_now": false,
+  "candidate_extraction_allowed_now": false,
+  "implementation_may_resume": false,
+  "requires_user_approval_before_next_stage": true,
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R13C-UPTREND_CORE_GATE_WIRING_PROPOSAL_RETRY_WITH_HISTORICAL_SHELL_AWARE_VALIDATION",
+  "conclusion": "K2_R13B_PASS_VALIDATION_RULE_TOO_STRICT_READY_FOR_R13C_RETRY",
+  "recommended_next_action": "Retry R13 with corrected validation: historical tracked unchanged shell files are allowed; new/modified implementation files remain blocking."
+}
+```

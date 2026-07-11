@@ -1,0 +1,222 @@
+{
+  "generated_at": "2026-07-11T08:28:51.257130+00:00",
+  "elapsed_seconds": 0.000977,
+  "stage": "4C-2C-4E-ENGINE-K2-R13-UPTREND_CORE_GATE_WIRING_PROPOSAL",
+  "status": "UPTREND_CORE_GATE_WIRING_PROPOSAL_COMPLETE",
+  "purpose": "Design how a future standalone UptrendCore should consume MarketGateDecision without changing strategy logic.",
+  "source_reports": {
+    "r10": {
+      "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R10_MARKET_GATE_STANDALONE_REPLICATION_PROPOSAL.json",
+      "sha256": "5223356d777271f5bb1ab3b713e8cf362f408bf93296766bf90af73c06de8b71"
+    },
+    "r11": {
+      "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R11_MARKET_GATE_STANDALONE_SKELETON.json",
+      "sha256": "8c7b42b914bc6fb80c14309b469dc2d01667edd2ea9ce454283758aab7e8cc89"
+    },
+    "r12c": {
+      "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R12C_MARKET_GATE_GOLDEN_ROW_LOCATOR_AND_EQUIVALENCE_RETRY.json",
+      "sha256": "caf052914f9c2e9a21aa015983b949481592295528c693751ee57426211a4c1c"
+    },
+    "market_gate": {
+      "path": "src/e1r_engine/market_gate.py",
+      "sha256": "9c974fe678e32b0d621f16276d1f9c672b14c0bf217ec643c0c3827781916cf8"
+    }
+  },
+  "proposal": {
+    "proposal_id": "E1R_UPTREND_CORE_GATE_WIRING_PROPOSAL_V1",
+    "proposal_scope": "Design only. No implementation in R13.",
+    "prerequisite_evidence": {
+      "market_gate_module": "src/e1r_engine/market_gate.py",
+      "r12c_selected_golden_path": "equivalence_report.focused_rows",
+      "r12c_row_count": 17,
+      "r12c_mismatch_count": 0,
+      "r12c_equivalence_ok": true
+    },
+    "target_future_module_not_created_in_r13": {
+      "file": "src/e1r_engine/uptrend_core.py",
+      "purpose": "A future standalone UptrendCore that consumes MarketGateDecision while preserving legacy entry/exit/sizing behavior.",
+      "status": "proposal_only_not_created"
+    },
+    "wiring_boundary": {
+      "MarketGateEvaluator": {
+        "responsibility": [
+          "Receive MarketGateInputs.",
+          "Return MarketGateDecision.",
+          "Expose gate_state, market_entry_allowed, market_shock, market_risk_off, entry_capacity."
+        ],
+        "must_not_do": [
+          "No candidate ranking.",
+          "No BUY/ADD/REDUCE/EXIT generation.",
+          "No position sizing.",
+          "No account mutation.",
+          "No regime routing."
+        ]
+      },
+      "FutureUptrendCore": {
+        "responsibility": [
+          "Consume MarketGateDecision.",
+          "Preserve existing legacy UPTREND candidate ranking and order semantics.",
+          "Block new entry actions when market_entry_allowed is false.",
+          "Respect entry_capacity as the max intended open-position capacity for new entries/adds.",
+          "Allow HOLD/REDUCE/EXIT logic to remain unaffected by gate blocks."
+        ],
+        "must_not_do": [
+          "Must not recompute gate_state from SPX close < MA50.",
+          "Must not change existing rank/RS/exit/take-profit logic.",
+          "Must not increase max live holdings above 3.",
+          "Must not use SIDEWAYS sidecar Top10 as live holdings."
+        ]
+      }
+    },
+    "action_contract": {
+      "blocked_by_gate_when_market_entry_allowed_false": [
+        "BUY",
+        "ADD"
+      ],
+      "unaffected_by_gate": [
+        "HOLD",
+        "REDUCE",
+        "EXIT"
+      ],
+      "entry_capacity_contract": {
+        "FULL_ON": 3,
+        "CAUTIOUS_ON": 2,
+        "CASH_MODE": 0,
+        "note": "Future UptrendCore consumes entry_capacity from MarketGateDecision. It does not compute this mapping internally unless that mapping is separately implemented and equivalence-tested."
+      },
+      "max_live_holdings": 3
+    },
+    "future_interface_sketch": {
+      "UptrendCoreInputs": {
+        "date": "YYYY-MM-DD",
+        "account_state": "positions/cash/equity snapshot",
+        "candidate_snapshot": "pre-ranked candidate data from future candidate engine",
+        "market_gate_decision": "MarketGateDecision",
+        "legacy_config": "frozen legacy uptrend assumptions"
+      },
+      "UptrendCoreOutputs": {
+        "orders": "list[OrderIntent]",
+        "post_decision_trace": "dict with market_gate_state and gate block reason"
+      },
+      "proposed_pseudocode": [
+        "gate = MarketGateEvaluator.evaluate(config, market_inputs)",
+        "candidate_orders = legacy_uptrend_candidate_order_logic(inputs)",
+        "if not gate.market_entry_allowed: remove BUY and ADD from candidate_orders",
+        "enforce open_positions_after_orders <= min(3, gate.entry_capacity when adding new exposure)",
+        "preserve HOLD/REDUCE/EXIT decisions",
+        "record gate trace for audit"
+      ]
+    },
+    "future_equivalence_test_plan": {
+      "stage": "R14/R15 after user approval",
+      "tests": [
+        {
+          "name": "gate_decision_consumption_only",
+          "assertion": "Future UptrendCore receives MarketGateDecision; it does not call direct SPX/MA50 formula."
+        },
+        {
+          "name": "buy_add_blocking",
+          "assertion": "When market_entry_allowed=false, BUY/ADD are removed or not produced."
+        },
+        {
+          "name": "hold_reduce_exit_unaffected",
+          "assertion": "HOLD/REDUCE/EXIT paths are unchanged by market_entry_allowed=false."
+        },
+        {
+          "name": "entry_capacity_guard",
+          "assertion": "Future UptrendCore never creates exposure above gate.entry_capacity and never above 3 live holdings."
+        },
+        {
+          "name": "r7_guard_rows",
+          "assertion": "2021-06-18 remains ALLOW despite close < MA50; 2021-05-12 remains SHOCK."
+        }
+      ],
+      "required_pass_before_full_5y": [
+        "Standalone unit smoke pass.",
+        "R7 focused_rows equivalence pass.",
+        "No strategy file changes.",
+        "No candidate extraction unless separately approved."
+      ]
+    },
+    "implementation_sequence_after_approval": [
+      {
+        "stage": "4C-2C-4E-ENGINE-K2-R14-UPTREND_CORE_CONTRACT_SKELETON",
+        "allowed": "Create standalone dataclasses/interfaces for UptrendCore. No legacy strategy integration."
+      },
+      {
+        "stage": "4C-2C-4E-ENGINE-K2-R15-UPTREND_CORE_GATE_CONSUMPTION_SMOKE",
+        "allowed": "Pure Python tests for gate consumption only, with synthetic orders."
+      },
+      {
+        "stage": "4C-2C-4E-ENGINE-K2-R16-LEGACY_UPTREND_ORDER_LOGIC_EXTRACTION_PROPOSAL",
+        "allowed": "Proposal only for extracting legacy UPTREND order logic."
+      }
+    ],
+    "explicit_non_goals": [
+      "No direct patch to src/engine/backtest.py.",
+      "No full 5Y run.",
+      "No official result generation.",
+      "No dashboard changes.",
+      "No candidate extraction.",
+      "No live-holding behavior change.",
+      "No SIDEWAYS sidecar integration."
+    ]
+  },
+  "policy": {
+    "proposal_only": true,
+    "strategy_logic_changed": false,
+    "standalone_module_only": true,
+    "strategy_integration_changed": false,
+    "legacy_backtest_called": false,
+    "backtest_engine_run": false,
+    "short_window_existing_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "formula_not_patched_in_legacy": true,
+    "frozen_strategy_files_changed": false
+  },
+  "validations": {
+    "r13_wiring_proposal_complete": true,
+    "r10_loaded": true,
+    "r11_loaded": true,
+    "r12c_loaded": true,
+    "r12c_authorized_r13": true,
+    "market_gate_module_exists": true,
+    "r12c_equivalence_ready": true,
+    "r12c_row_count_positive": true,
+    "r12c_mismatch_count_zero": true,
+    "proposal_only": true,
+    "strategy_logic_changed": false,
+    "standalone_module_only": true,
+    "strategy_integration_changed": false,
+    "legacy_backtest_called": false,
+    "backtest_engine_run": false,
+    "short_window_existing_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "formula_not_patched_in_legacy": true,
+    "strategy_files_unchanged": true,
+    "future_modules_not_created": false
+  },
+  "decision": {
+    "k2_r13_uptrend_core_gate_wiring_proposal_passed": false,
+    "uptrend_core_gate_wiring_proposal_ready": false,
+    "uptrend_core_implementation_allowed_now": false,
+    "market_gate_strategy_integration_allowed_now": false,
+    "formula_patch_allowed_now": false,
+    "candidate_extraction_allowed_now": false,
+    "implementation_may_resume": false,
+    "requires_user_approval_before_next_stage": true,
+    "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R13B-UPTREND_CORE_WIRING_PROPOSAL_GAP_RCA",
+    "conclusion": "K2_R13_WIRING_PROPOSAL_INCOMPLETE_DO_NOT_IMPLEMENT",
+    "recommended_next_action": "Stop and perform R13B RCA before any implementation."
+  }
+}
