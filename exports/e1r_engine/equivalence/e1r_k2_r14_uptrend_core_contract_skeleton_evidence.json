@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R14B-UPTREND-CORE-CONTRACT-SKELETON-VALIDATION-RETRY",
+  "decision": "PASS",
+  "retry_reason": {
+    "previous_failure_type": "VALIDATION_HARNESS_PATH_PARSING_ERROR",
+    "previous_invalid_path": "rc/e1r_engine/uptrend_core.py",
+    "root_cause": "git status porcelain leading space was removed before fixed-offset parsing",
+    "corrected_method": "git status --porcelain=v1 -z parsed as raw bytes",
+    "strategy_logic_failure": false,
+    "contract_compile_failure": false
+  },
+  "validation": {
+    "python_compile_passed": true,
+    "input_contract_validation_passed": true,
+    "output_contract_validation_passed": true,
+    "candidate_count": 0,
+    "ranking_performed": false,
+    "strategy_selection_performed": false,
+    "gate_logic_recomputed": false,
+    "guard_row_2021_06_18": {
+      "spx_close_below_ma50": true,
+      "market_state": "CAUTIOUS_ON",
+      "entry_capacity": 2,
+      "gate_state": "ALLOW",
+      "market_entry_allowed": true,
+      "expected_gate_state": "ALLOW",
+      "passed": true
+    },
+    "order_intent_count": 0,
+    "strategy_logic_implemented": false,
+    "account_state_mutated": false,
+    "live_holdings_count": 0,
+    "max_live_holdings_contract": 3,
+    "legacy_boundary_methods_preserved": {
+      "from_golden_master": true,
+      "extract_from_legacy_result": true
+    },
+    "duplicate_shared_contract_definitions": {
+      "OrderIntent": 0,
+      "AccountState": 0,
+      "MarketGateDecision": 0,
+      "MarketSnapshot": 0
+    },
+    "frozen_files": {
+      "src/engine/backtest.py": {
+        "sha256_before": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+        "sha256_after": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+        "unchanged": true
+      },
+      "src/engine/e1r_composer.py": {
+        "sha256_before": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+        "sha256_after": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+        "unchanged": true
+      },
+      "src/engine/e1r_sidecar_sleeve.py": {
+        "sha256_before": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+        "sha256_after": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+        "unchanged": true
+      }
+    },
+    "working_tree_paths": [
+      "docs/architecture/E1R_4C2C4E_ENGINE_K2_R14_UPTREND_CORE_CONTRACT_SKELETON.md",
+      "docs/research/E1R_4C2C4E_ENGINE_K2_R14A_UPTREND_CONTRACT_SOURCE_BOUNDARY_AUDIT.json",
+      "docs/research/E1R_4C2C4E_ENGINE_K2_R14A_UPTREND_CONTRACT_SOURCE_BOUNDARY_AUDIT.md",
+      "docs/research/E1R_4C2C4E_ENGINE_K2_R14_UPTREND_CORE_CONTRACT_SKELETON.json",
+      "docs/research/E1R_4C2C4E_ENGINE_K2_R14_UPTREND_CORE_CONTRACT_SKELETON.md",
+      "exports/e1r_engine/audit/e1r_k2_r14_uptrend_core_contract_skeleton.json",
+      "src/e1r_engine/uptrend_core.py"
+    ],
+    "unexpected_working_tree_paths": []
+  },
+  "scope_confirmation": {
+    "contract_skeleton_only": true,
+    "strategy_logic_changed": false,
+    "candidate_ranking_added": false,
+    "candidate_selection_added": false,
+    "order_generation_added": false,
+    "position_sizing_added": false,
+    "account_mutation_added": false,
+    "gate_logic_recomputation_added": false,
+    "legacy_backtest_integration_added": false,
+    "full_5y_run_performed": false,
+    "sideways_logic_added": false
+  },
+  "conclusion": "K2_R14B_PASS_UPTREND_CORE_CONTRACT_SKELETON_READY_FOR_R15_GATE_CONSUMPTION_SMOKE",
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R15-UPTREND-CORE-GATE-CONSUMPTION-SMOKE"
+}

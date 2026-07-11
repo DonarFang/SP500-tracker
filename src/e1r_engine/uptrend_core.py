@@ -3,6 +3,10 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
+from e1r_engine.contracts import MarketSnapshot
+from e1r_engine.market_gate import MarketGateDecision
+from e1r_engine.state import AccountState, OrderIntent
+
 
 @dataclass(frozen=True)
 class UptrendDailyAccountRow:
@@ -74,6 +78,281 @@ class UptrendCoreResult:
             ],
             "metadata": self.metadata,
         }
+
+
+@dataclass(frozen=True)
+class CandidateSnapshot:
+    """Opaque placeholder for future candidate extraction.
+
+    R14 does not rank, filter, select, or score candidates.
+    """
+
+    date: str
+    source: str
+    candidates: tuple[dict[str, Any], ...] = ()
+    selected_symbols: tuple[str, ...] = ()
+    ranking_performed: bool = False
+    strategy_selection_performed: bool = False
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    @property
+    def candidate_count(self) -> int:
+        return len(self.candidates)
+
+    def validate(self) -> list[str]:
+        errors: list[str] = []
+
+        if not self.date:
+            errors.append("candidate_snapshot:missing_date")
+
+        if not self.source:
+            errors.append("candidate_snapshot:missing_source")
+
+        if self.ranking_performed:
+            errors.append(
+                "candidate_snapshot:"
+                "r14_ranking_must_not_be_performed"
+            )
+
+        if self.strategy_selection_performed:
+            errors.append(
+                "candidate_snapshot:"
+                "r14_strategy_selection_must_not_be_performed"
+            )
+
+        if any(
+            not isinstance(row, dict)
+            for row in self.candidates
+        ):
+            errors.append(
+                "candidate_snapshot:"
+                "candidates_must_be_dict_records"
+            )
+
+        if len(set(self.selected_symbols)) != len(
+            self.selected_symbols
+        ):
+            errors.append(
+                "candidate_snapshot:"
+                "duplicate_selected_symbols"
+            )
+
+        return errors
+
+
+@dataclass(frozen=True)
+class GateConsumptionTrace:
+    """Trace-only contract for consuming MarketGateDecision.
+
+    R14 does not generate or filter order intents.
+    R15 will test BUY/ADD blocking behavior separately.
+    """
+
+    date: str
+    gate_state: str
+    market_state: str
+    entry_capacity: int
+    market_entry_allowed: bool
+    effective_blocked_actions: tuple[str, ...]
+    unaffected_actions: tuple[str, ...]
+    source: str = "MarketGateDecision"
+    gate_logic_recomputed: bool = False
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def validate(self) -> list[str]:
+        errors: list[str] = []
+
+        if not self.date:
+            errors.append("gate_trace:missing_date")
+
+        if self.entry_capacity < 0:
+            errors.append(
+                "gate_trace:negative_entry_capacity"
+            )
+
+        if self.gate_logic_recomputed:
+            errors.append(
+                "gate_trace:"
+                "uptrend_core_must_not_recompute_gate_logic"
+            )
+
+        if self.gate_state not in {
+            "ALLOW",
+            "SHOCK",
+            "RISK_OFF",
+        }:
+            errors.append("gate_trace:invalid_gate_state")
+
+        allowed_actions = {
+            "BUY",
+            "ADD",
+            "HOLD",
+            "REDUCE",
+            "EXIT",
+        }
+
+        if any(
+            action not in allowed_actions
+            for action in self.effective_blocked_actions
+        ):
+            errors.append(
+                "gate_trace:invalid_blocked_action"
+            )
+
+        if any(
+            action not in allowed_actions
+            for action in self.unaffected_actions
+        ):
+            errors.append(
+                "gate_trace:invalid_unaffected_action"
+            )
+
+        return errors
+
+
+@dataclass(frozen=True)
+class UptrendCoreInputs:
+    """Stable R14 input contract for future UptrendCore logic."""
+
+    date: str
+    market_snapshot: MarketSnapshot
+    account_state: AccountState
+    market_gate_decision: MarketGateDecision
+    candidate_snapshot: CandidateSnapshot
+    max_live_holdings: int = 3
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def validate(self) -> list[str]:
+        errors: list[str] = []
+
+        if not self.date:
+            errors.append("uptrend_inputs:missing_date")
+
+        if self.max_live_holdings != 3:
+            errors.append(
+                "uptrend_inputs:"
+                "max_live_holdings_contract_must_equal_3"
+            )
+
+        if self.market_snapshot.date != self.date:
+            errors.append(
+                "uptrend_inputs:"
+                "market_snapshot_date_mismatch"
+            )
+
+        if self.account_state.date != self.date:
+            errors.append(
+                "uptrend_inputs:"
+                "account_state_date_mismatch"
+            )
+
+        if self.market_gate_decision.date != self.date:
+            errors.append(
+                "uptrend_inputs:"
+                "market_gate_decision_date_mismatch"
+            )
+
+        if self.candidate_snapshot.date != self.date:
+            errors.append(
+                "uptrend_inputs:"
+                "candidate_snapshot_date_mismatch"
+            )
+
+        account_validation = self.account_state.validate(
+            max_positions=self.max_live_holdings
+        )
+
+        if not account_validation["ok"]:
+            errors.extend(
+                "uptrend_inputs:account_state:" + error
+                for error in account_validation["errors"]
+            )
+
+        errors.extend(self.candidate_snapshot.validate())
+
+        return errors
+
+
+@dataclass(frozen=True)
+class UptrendCoreOutputs:
+    """Stable R14 output contract without strategy implementation."""
+
+    date: str
+    account_state_reference: AccountState
+    candidate_snapshot: CandidateSnapshot
+    gate_consumption_trace: GateConsumptionTrace
+    order_intents: tuple[OrderIntent, ...] = ()
+    strategy_logic_implemented: bool = False
+    account_state_mutated: bool = False
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def validate(
+        self,
+        max_live_holdings: int = 3,
+    ) -> list[str]:
+        errors: list[str] = []
+
+        if not self.date:
+            errors.append("uptrend_outputs:missing_date")
+
+        if self.strategy_logic_implemented:
+            errors.append(
+                "uptrend_outputs:"
+                "r14_strategy_logic_must_not_be_implemented"
+            )
+
+        if self.account_state_mutated:
+            errors.append(
+                "uptrend_outputs:"
+                "r14_account_state_must_not_be_mutated"
+            )
+
+        if self.order_intents:
+            errors.append(
+                "uptrend_outputs:"
+                "r14_order_intents_must_remain_empty"
+            )
+
+        if self.account_state_reference.date != self.date:
+            errors.append(
+                "uptrend_outputs:"
+                "account_state_date_mismatch"
+            )
+
+        if self.candidate_snapshot.date != self.date:
+            errors.append(
+                "uptrend_outputs:"
+                "candidate_snapshot_date_mismatch"
+            )
+
+        if self.gate_consumption_trace.date != self.date:
+            errors.append(
+                "uptrend_outputs:"
+                "gate_trace_date_mismatch"
+            )
+
+        account_validation = (
+            self.account_state_reference.validate(
+                max_positions=max_live_holdings
+            )
+        )
+
+        if not account_validation["ok"]:
+            errors.extend(
+                "uptrend_outputs:account_state:" + error
+                for error in account_validation["errors"]
+            )
+
+        errors.extend(self.candidate_snapshot.validate())
+        errors.extend(self.gate_consumption_trace.validate())
+
+        for order_intent in self.order_intents:
+            errors.extend(
+                "uptrend_outputs:order_intent:" + error
+                for error in order_intent.validate()
+            )
+
+        return errors
 
 
 class UptrendCore:

@@ -1,0 +1,753 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R14A-UPTREND-CONTRACT-SOURCE-BOUNDARY-AUDIT",
+  "generated_at_utc": "2026-07-11T09:10:26.659608+00:00",
+  "repository": {
+    "root": "/Users/dongfang/Downloads/sp500-tracker-v13",
+    "branch": "main",
+    "head_full": "77b268c5eebee5de93e58f3b547d970456b2d8dc",
+    "head_short": "77b268c",
+    "head_subject": "Retry E1R uptrend wiring proposal with shell-aware validation",
+    "remote_origin": "https://github.com/DonarFang/SP500-tracker.git",
+    "status_branch": "## main...origin/main",
+    "working_tree_clean_before_audit": true
+  },
+  "scope": {
+    "implementation_performed": false,
+    "strategy_logic_changed": false,
+    "full_5y_run": false,
+    "candidate_extraction_performed": false,
+    "legacy_backtest_modified": false
+  },
+  "required_files": {
+    "src/e1r_engine/uptrend_core.py": true,
+    "src/e1r_engine/contracts.py": true,
+    "src/e1r_engine/market_gate.py": true
+  },
+  "file_records": {
+    "src/e1r_engine/uptrend_core.py": {
+      "path": "src/e1r_engine/uptrend_core.py",
+      "sha256": "cdbcff0bfa79fb14e6a7042eeeb8d46208e93c4613932487c2987fc728f15113",
+      "git": {
+        "tracked": true,
+        "working_tree_status": "CLEAN",
+        "latest_history": "678c781d6b67537f4b245af3b01818e56d35a90e|678c781|2026-07-10T19:34:27+08:00|Extract E1R uptrend legacy result boundary",
+        "creation_history": "e721ee0b6dfcbbaa3db0a2aafc30ab32e2958525|e721ee0|2026-07-10T19:29:40+08:00|Add E1R uptrend extraction skeleton"
+      },
+      "python_structure": {
+        "exists": true,
+        "parse_ok": true,
+        "line_count": 210,
+        "classes": [
+          {
+            "name": "UptrendDailyAccountRow",
+            "line": 8,
+            "methods": [],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "UptrendTradeRow",
+            "line": 20,
+            "methods": [],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "UptrendCoreResult",
+            "line": 36,
+            "methods": [
+              "to_comparable_dict"
+            ],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "UptrendCore",
+            "line": 79,
+            "methods": [
+              "__init__",
+              "from_golden_master",
+              "extract_from_legacy_result",
+              "_normalize_daily_account_row",
+              "_normalize_trade_row",
+              "_optional_float"
+            ],
+            "decorators": []
+          }
+        ],
+        "functions": [],
+        "imports": [
+          "__future__.annotations",
+          "dataclasses.dataclass",
+          "dataclasses.field",
+          "typing.Any"
+        ],
+        "error": null
+      }
+    },
+    "src/e1r_engine/contracts.py": {
+      "path": "src/e1r_engine/contracts.py",
+      "sha256": "c4103cfc700463666be7045b0a01055f5ece1acffb5bf7574b41856c6e1dad4d",
+      "git": {
+        "tracked": true,
+        "working_tree_status": "CLEAN",
+        "latest_history": "dc0082b8c29a4f4d6c3e3e83e187f1cc53d51b64|dc0082b|2026-07-10T13:47:28+08:00|Add E1R historical data adapter skeleton",
+        "creation_history": "dc0082b8c29a4f4d6c3e3e83e187f1cc53d51b64|dc0082b|2026-07-10T13:47:28+08:00|Add E1R historical data adapter skeleton"
+      },
+      "python_structure": {
+        "exists": true,
+        "parse_ok": true,
+        "line_count": 144,
+        "classes": [
+          {
+            "name": "DailyBar",
+            "line": 11,
+            "methods": [],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "AssetSeries",
+            "line": 21,
+            "methods": [
+              "validate"
+            ],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "RegimeRecord",
+            "line": 45,
+            "methods": [],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "HistoricalDataBundle",
+            "line": 54,
+            "methods": [
+              "validate_shape"
+            ],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "MarketSnapshot",
+            "line": 110,
+            "methods": [],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          }
+        ],
+        "functions": [
+          {
+            "name": "strict_common_dates",
+            "line": 119
+          }
+        ],
+        "imports": [
+          "__future__.annotations",
+          "dataclasses.dataclass",
+          "dataclasses.field",
+          "typing.Any",
+          "typing.Literal"
+        ],
+        "error": null
+      }
+    },
+    "src/e1r_engine/market_gate.py": {
+      "path": "src/e1r_engine/market_gate.py",
+      "sha256": "9c974fe678e32b0d621f16276d1f9c672b14c0bf217ec643c0c3827781916cf8",
+      "git": {
+        "tracked": true,
+        "working_tree_status": "CLEAN",
+        "latest_history": "5758c1f91c4e3d284155ed187101958e6e324b70|5758c1f|2026-07-11T13:18:07+08:00|Add E1R market gate standalone skeleton",
+        "creation_history": "5758c1f91c4e3d284155ed187101958e6e324b70|5758c1f|2026-07-11T13:18:07+08:00|Add E1R market gate standalone skeleton"
+      },
+      "python_structure": {
+        "exists": true,
+        "parse_ok": true,
+        "line_count": 150,
+        "classes": [
+          {
+            "name": "MarketGateConfig",
+            "line": 35,
+            "methods": [],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "MarketGateInputs",
+            "line": 50,
+            "methods": [],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "MarketGateDecision",
+            "line": 68,
+            "methods": [],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "MarketGateEvaluator",
+            "line": 83,
+            "methods": [
+              "evaluate"
+            ],
+            "decorators": []
+          }
+        ],
+        "functions": [],
+        "imports": [
+          "__future__.annotations",
+          "dataclasses.dataclass",
+          "dataclasses.field",
+          "typing.Any",
+          "typing.Literal"
+        ],
+        "error": null
+      }
+    },
+    "src/e1r_engine/regime_router.py": {
+      "path": "src/e1r_engine/regime_router.py",
+      "sha256": "9d4417229547b49330e66f368f361bd1a1c65b761a47d6c11bce24a585e4db89",
+      "git": {
+        "tracked": true,
+        "working_tree_status": "CLEAN",
+        "latest_history": "3e96fb8a55d9b4feb54cf119c4d42490578c1e91|3e96fb8|2026-07-10T14:05:14+08:00|Add E1R core engine shell",
+        "creation_history": "3e96fb8a55d9b4feb54cf119c4d42490578c1e91|3e96fb8|2026-07-10T14:05:14+08:00|Add E1R core engine shell"
+      },
+      "python_structure": {
+        "exists": true,
+        "parse_ok": true,
+        "line_count": 73,
+        "classes": [
+          {
+            "name": "RegimeRoute",
+            "line": 10,
+            "methods": [],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "RegimeRouter",
+            "line": 19,
+            "methods": [
+              "route"
+            ],
+            "decorators": []
+          }
+        ],
+        "functions": [],
+        "imports": [
+          "__future__.annotations",
+          "dataclasses.dataclass",
+          "typing.Any",
+          "e1r_engine.state.EngineBranch"
+        ],
+        "error": null
+      }
+    },
+    "src/e1r_engine/state.py": {
+      "path": "src/e1r_engine/state.py",
+      "sha256": "4843ff0469c11e6fe40d1ffac6675854cb7663b62b623d2011688dba1e8f8e84",
+      "git": {
+        "tracked": true,
+        "working_tree_status": "CLEAN",
+        "latest_history": "1cde05d94d09d7561b8cb48d17c78b15aeab4e5c|1cde05d|2026-07-10T13:57:12+08:00|Add E1R engine state contracts",
+        "creation_history": "1cde05d94d09d7561b8cb48d17c78b15aeab4e5c|1cde05d|2026-07-10T13:57:12+08:00|Add E1R engine state contracts"
+      },
+      "python_structure": {
+        "exists": true,
+        "parse_ok": true,
+        "line_count": 346,
+        "classes": [
+          {
+            "name": "PositionState",
+            "line": 22,
+            "methods": [
+              "create",
+              "mark_to_market",
+              "validate"
+            ],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "AccountState",
+            "line": 77,
+            "methods": [
+              "empty",
+              "mark_to_market",
+              "validate"
+            ],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "OrderIntent",
+            "line": 147,
+            "methods": [
+              "validate"
+            ],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "Fill",
+            "line": 172,
+            "methods": [
+              "from_order",
+              "validate"
+            ],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "DecisionTrace",
+            "line": 212,
+            "methods": [
+              "validate"
+            ],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          },
+          {
+            "name": "DailyEngineResult",
+            "line": 236,
+            "methods": [
+              "validate"
+            ],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          }
+        ],
+        "functions": [
+          {
+            "name": "apply_fills_contract_only",
+            "line": 280
+          }
+        ],
+        "imports": [
+          "__future__.annotations",
+          "dataclasses.dataclass",
+          "dataclasses.field",
+          "typing.Any",
+          "typing.Literal"
+        ],
+        "error": null
+      }
+    },
+    "src/e1r_engine/adapters/historical_data.py": {
+      "path": "src/e1r_engine/adapters/historical_data.py",
+      "sha256": "4937c7d66139cfd69a1710b60ac415b4f34310034deef30fbfd96652fc38e04b",
+      "git": {
+        "tracked": true,
+        "working_tree_status": "CLEAN",
+        "latest_history": "dc0082b8c29a4f4d6c3e3e83e187f1cc53d51b64|dc0082b|2026-07-10T13:47:28+08:00|Add E1R historical data adapter skeleton",
+        "creation_history": "dc0082b8c29a4f4d6c3e3e83e187f1cc53d51b64|dc0082b|2026-07-10T13:47:28+08:00|Add E1R historical data adapter skeleton"
+      },
+      "python_structure": {
+        "exists": true,
+        "parse_ok": true,
+        "line_count": 474,
+        "classes": [
+          {
+            "name": "HistoricalDataAdapter",
+            "line": 17,
+            "methods": [
+              "__init__",
+              "load_bundle",
+              "load_asset_series",
+              "load_vix_series",
+              "load_regime_daily",
+              "regime_summary",
+              "build_alignment_summary",
+              "to_audit_sample",
+              "_collect_regime_records",
+              "_normalize_regime_value",
+              "_read_json",
+              "_rel",
+              "_is_date_like",
+              "_parse_date",
+              "_parse_float",
+              "_find_first_value"
+            ],
+            "decorators": []
+          }
+        ],
+        "functions": [],
+        "imports": [
+          "__future__.annotations",
+          "pathlib.Path",
+          "json",
+          "collections.Counter",
+          "typing.Any",
+          "e1r_engine.contracts.AssetSeries",
+          "e1r_engine.contracts.DailyBar",
+          "e1r_engine.contracts.HistoricalDataBundle",
+          "e1r_engine.contracts.RegimeRecord",
+          "e1r_engine.contracts.strict_common_dates"
+        ],
+        "error": null
+      }
+    },
+    "src/engine/backtest.py": {
+      "path": "src/engine/backtest.py",
+      "sha256": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "git": {
+        "tracked": true,
+        "working_tree_status": "CLEAN",
+        "latest_history": "94a16b02ae953a3195267d34a1536df10db8948c|94a16b0|2026-07-05T23:08:51+08:00|Integrate E1R v0.2 backtest variant into main",
+        "creation_history": "c0a72886a2f1e3adc56ecaa482c0293aa779aba9|c0a7288|2026-06-12T18:08:34+08:00|Phase 2: quantitative indicators"
+      },
+      "python_structure": {
+        "exists": true,
+        "parse_ok": true,
+        "line_count": 2978,
+        "classes": [],
+        "functions": [
+          {
+            "name": "is_broken_trend",
+            "line": 104
+          },
+          {
+            "name": "forward_return",
+            "line": 115
+          },
+          {
+            "name": "_rebuild_leader_score",
+            "line": 124
+          },
+          {
+            "name": "run_leader_engine_validation",
+            "line": 176
+          },
+          {
+            "name": "run_trade_rule_validation",
+            "line": 313
+          },
+          {
+            "name": "run_promotion_engine_validation",
+            "line": 471
+          },
+          {
+            "name": "run_action_forward_validation",
+            "line": 595
+          },
+          {
+            "name": "run_stateful_simulation",
+            "line": 763
+          },
+          {
+            "name": "run_strategy_variant_comparison",
+            "line": 2489
+          },
+          {
+            "name": "run_full_backtest",
+            "line": 2904
+          }
+        ],
+        "imports": [
+          "__future__.annotations",
+          "math",
+          "json",
+          "pathlib.Path",
+          "features.rs.period_return",
+          "features.rs.rs_percentile",
+          "features.momentum.momentum_score",
+          "features.momentum.moving_average",
+          "features.momentum.linreg_slope",
+          "features.momentum.momentum_acceleration",
+          "features.trend_health.trend_health_score",
+          "engine.leader_ranking.leader_score",
+          "engine.trade_decision.trade_action",
+          "engine.trade_decision.trade_action_reason",
+          "utils.logger"
+        ],
+        "error": null
+      }
+    },
+    "src/engine/e1r_composer.py": {
+      "path": "src/engine/e1r_composer.py",
+      "sha256": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "git": {
+        "tracked": true,
+        "working_tree_status": "CLEAN",
+        "latest_history": "2c884bfa94e0162a4dff0d1a41be3380c1c807f4|2c884bf|2026-07-05T22:53:15+08:00|Port E1R v0.2 support files to main stage 1",
+        "creation_history": "2c884bfa94e0162a4dff0d1a41be3380c1c807f4|2c884bf|2026-07-05T22:53:15+08:00|Port E1R v0.2 support files to main stage 1"
+      },
+      "python_structure": {
+        "exists": true,
+        "parse_ok": true,
+        "line_count": 360,
+        "classes": [],
+        "functions": [
+          {
+            "name": "safe_float",
+            "line": 31
+          },
+          {
+            "name": "pct_display",
+            "line": 43
+          },
+          {
+            "name": "compound_return",
+            "line": 47
+          },
+          {
+            "name": "max_drawdown",
+            "line": 55
+          },
+          {
+            "name": "sharpe_ratio",
+            "line": 70
+          },
+          {
+            "name": "profit_factor",
+            "line": 82
+          },
+          {
+            "name": "extract_core_interval_returns",
+            "line": 94
+          },
+          {
+            "name": "build_equity_records_from_returns",
+            "line": 171
+          },
+          {
+            "name": "summarize_combined_variant",
+            "line": 214
+          },
+          {
+            "name": "compose_e1r_v0_2_variant",
+            "line": 283
+          }
+        ],
+        "imports": [
+          "__future__.annotations",
+          "copy",
+          "math",
+          "statistics.mean",
+          "statistics.pstdev",
+          "typing.Any",
+          "typing.Optional",
+          "typing.Sequence"
+        ],
+        "error": null
+      }
+    },
+    "src/engine/e1r_sidecar_sleeve.py": {
+      "path": "src/engine/e1r_sidecar_sleeve.py",
+      "sha256": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "git": {
+        "tracked": true,
+        "working_tree_status": "CLEAN",
+        "latest_history": "2c884bfa94e0162a4dff0d1a41be3380c1c807f4|2c884bf|2026-07-05T22:53:15+08:00|Port E1R v0.2 support files to main stage 1",
+        "creation_history": "2c884bfa94e0162a4dff0d1a41be3380c1c807f4|2c884bf|2026-07-05T22:53:15+08:00|Port E1R v0.2 support files to main stage 1"
+      },
+      "python_structure": {
+        "exists": true,
+        "parse_ok": true,
+        "line_count": 594,
+        "classes": [
+          {
+            "name": "E1RSidecarConfig",
+            "line": 41,
+            "methods": [],
+            "decorators": [
+              "dataclass(frozen=True)"
+            ]
+          }
+        ],
+        "functions": [
+          {
+            "name": "safe_float",
+            "line": 53
+          },
+          {
+            "name": "pct_display",
+            "line": 65
+          },
+          {
+            "name": "compound_return",
+            "line": 69
+          },
+          {
+            "name": "mean_or_none",
+            "line": 77
+          },
+          {
+            "name": "median_or_none",
+            "line": 82
+          },
+          {
+            "name": "max_drawdown",
+            "line": 87
+          },
+          {
+            "name": "sharpe_ratio",
+            "line": 102
+          },
+          {
+            "name": "profit_factor",
+            "line": 114
+          },
+          {
+            "name": "load_asset",
+            "line": 126
+          },
+          {
+            "name": "load_stock_universe",
+            "line": 158
+          },
+          {
+            "name": "load_regimes",
+            "line": 182
+          },
+          {
+            "name": "history_closes",
+            "line": 192
+          },
+          {
+            "name": "moving_average",
+            "line": 199
+          },
+          {
+            "name": "slope_pct",
+            "line": 208
+          },
+          {
+            "name": "drawdown_from_high_pct",
+            "line": 221
+          },
+          {
+            "name": "close_to_close_return",
+            "line": 234
+          },
+          {
+            "name": "score_candidate",
+            "line": 254
+          },
+          {
+            "name": "build_backtest_intervals",
+            "line": 342
+          },
+          {
+            "name": "build_daily_rankings",
+            "line": 356
+          },
+          {
+            "name": "run_daily_rebalanced_sidecar",
+            "line": 401
+          },
+          {
+            "name": "summarize_sidecar",
+            "line": 473
+          },
+          {
+            "name": "build_e1r_sidecar_sleeve",
+            "line": 538
+          }
+        ],
+        "imports": [
+          "__future__.annotations",
+          "json",
+          "math",
+          "dataclasses.dataclass",
+          "pathlib.Path",
+          "statistics.mean",
+          "statistics.median",
+          "statistics.pstdev",
+          "typing.Any",
+          "typing.Iterable",
+          "typing.Optional",
+          "typing.Sequence"
+        ],
+        "error": null
+      }
+    }
+  },
+  "historical_shell_checks": {
+    "src/e1r_engine/uptrend_core.py": {
+      "expected_creation_commit": "e721ee0",
+      "description": "historical UptrendCore extraction skeleton",
+      "creation_commit_visible_in_history": true,
+      "working_tree_unchanged": true,
+      "observed_creation_history": "e721ee0b6dfcbbaa3db0a2aafc30ab32e2958525|e721ee0|2026-07-10T19:29:40+08:00|Add E1R uptrend extraction skeleton"
+    },
+    "src/e1r_engine/regime_router.py": {
+      "expected_creation_commit": "3e96fb8",
+      "description": "historical regime router shell",
+      "creation_commit_visible_in_history": true,
+      "working_tree_unchanged": true,
+      "observed_creation_history": "3e96fb8a55d9b4feb54cf119c4d42490578c1e91|3e96fb8|2026-07-10T14:05:14+08:00|Add E1R core engine shell"
+    }
+  },
+  "frozen_file_checks": {
+    "src/engine/backtest.py": {
+      "exists": true,
+      "tracked": true,
+      "working_tree_unchanged": true,
+      "sha256": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea"
+    },
+    "src/engine/e1r_composer.py": {
+      "exists": true,
+      "tracked": true,
+      "working_tree_unchanged": true,
+      "sha256": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f"
+    },
+    "src/engine/e1r_sidecar_sleeve.py": {
+      "exists": true,
+      "tracked": true,
+      "working_tree_unchanged": true,
+      "sha256": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995"
+    }
+  },
+  "observed_class_names": {
+    "uptrend_core.py": [
+      "UptrendDailyAccountRow",
+      "UptrendTradeRow",
+      "UptrendCoreResult",
+      "UptrendCore"
+    ],
+    "contracts.py": [
+      "DailyBar",
+      "AssetSeries",
+      "RegimeRecord",
+      "HistoricalDataBundle",
+      "MarketSnapshot"
+    ],
+    "market_gate.py": [
+      "MarketGateConfig",
+      "MarketGateInputs",
+      "MarketGateDecision",
+      "MarketGateEvaluator"
+    ]
+  },
+  "duplicate_contract_candidates": [],
+  "blocking_reasons": [],
+  "decision": "PASS_READY_FOR_R14_CONTRACT_DESIGN",
+  "proposed_next_action": "Review existing UptrendCore/contracts structures and produce the minimal R14 contract skeleton patch without implementing ranking, candidate generation, sizing, entry, exit, or legacy integration."
+}
