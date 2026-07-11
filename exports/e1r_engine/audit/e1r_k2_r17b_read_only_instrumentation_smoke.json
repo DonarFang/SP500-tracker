@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "trace_schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17B-READ-ONLY-INSTRUMENTATION-SMOKE",
+  "artifact_role": "COMPACT_AUDIT_SUMMARY",
+  "decision": "PASS_READ_ONLY_INSTRUMENTATION_SMOKE",
+  "validation": {
+    "trace_point_count": 11,
+    "expected_trace_point_count": 11,
+    "all_trace_points_inserted_once": true,
+    "static_strategy_ast_equal_after_trace_removal": true,
+    "trace_default_disabled": true,
+    "disabled_mode_no_file_written": true,
+    "enabled_mode_one_record_written": true,
+    "canonical_sha256_verified": true,
+    "nan_infinity_rejected": true,
+    "python_compile_passed": true,
+    "stdlib_unittest_passed": true,
+    "test_invocation": "PYTHONPATH=<repo-root> python3 -m unittest discover -s tests -p test_e1r_trace_smoke.py -v",
+    "test_summary": "test_enabled_writes_canonical_hash (test_e1r_trace_smoke.E1RTraceSmokeTest) ... ok\ntest_rejects_non_finite_float (test_e1r_trace_smoke.E1RTraceSmokeTest) ... ok\ntest_set_is_canonically_sorted (test_e1r_trace_smoke.E1RTraceSmokeTest) ... ok\ntest_trace_disabled_is_noop (test_e1r_trace_smoke.E1RTraceSmokeTest) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nOK",
+    "full_5y_run_performed": false,
+    "golden_date_backtest_run_performed": false,
+    "strategy_logic_intentionally_modified": false,
+    "execution_logic_intentionally_modified": false,
+    "sideways_logic_added": false
+  },
+  "trace_point_ids": [
+    "TP01_PRE_RANK_CANDIDATES",
+    "TP02_POST_RANK_CANDIDATES",
+    "TP03_SELECTED_BUY_FINALIZED",
+    "TP04_BUY_ORDER_INTENT_CREATED",
+    "TP05_PENDING_HANDOFF_FINALIZED",
+    "TP06_T1_ORDER_EXECUTION_START",
+    "TP07_BUY_SIZING_FINALIZED",
+    "TP08_BUY_ACCOUNT_MUTATION_COMPLETE",
+    "TP09_SELL_EXECUTION_PRICE_FINALIZED",
+    "TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE",
+    "TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE"
+  ],
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R17B-1-GOLDEN-DATE-TRACE-EQUIVALENCE-SMOKE"
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "trace_schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17B-READ-ONLY-INSTRUMENTATION-SMOKE",
+  "repository": {
+    "branch": "main",
+    "head_before_commit": "7525f6deb43d8a441ef8cbfdd1a637126d69c9fd",
+    "origin_main": "7525f6deb43d8a441ef8cbfdd1a637126d69c9fd"
+  },
+  "prerequisite": {
+    "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R17A3_TRACE_POINT_FINALIZATION_REVIEW.json",
+    "sha256": "d39c12cfd030652d578ca2ea413e55a0878d27c5daed18a103cd167c20044083",
+    "decision": "PASS_TRACE_POINT_CONTRACT_FINALIZED"
+  },
+  "source_change": {
+    "backtest_sha256_before": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+    "backtest_sha256_after": "32f2b756ec10b597b8094b9aef595b1b13c62000e7a1422460dc3636af238873",
+    "observer_only": true,
+    "default_disabled": true
+  },
+  "environment_failures_and_corrections": [
+    {
+      "failure": "System Python did not include pytest",
+      "correction": "Use Python standard-library unittest"
+    },
+    {
+      "failure": "Direct test-file execution did not include repository root in sys.path",
+      "correction": "Run unittest discovery from repository root with PYTHONPATH explicitly set"
+    }
+  ],
+  "trace_hook_counts": {
+    "TP01_PRE_RANK_CANDIDATES": 1,
+    "TP02_POST_RANK_CANDIDATES": 1,
+    "TP03_SELECTED_BUY_FINALIZED": 1,
+    "TP04_BUY_ORDER_INTENT_CREATED": 1,
+    "TP05_PENDING_HANDOFF_FINALIZED": 1,
+    "TP06_T1_ORDER_EXECUTION_START": 1,
+    "TP07_BUY_SIZING_FINALIZED": 1,
+    "TP08_BUY_ACCOUNT_MUTATION_COMPLETE": 1,
+    "TP09_SELL_EXECUTION_PRICE_FINALIZED": 1,
+    "TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE": 1,
+    "TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE": 1
+  },
+  "validation": {
+    "trace_point_count": 11,
+    "expected_trace_point_count": 11,
+    "all_trace_points_inserted_once": true,
+    "static_strategy_ast_equal_after_trace_removal": true,
+    "trace_default_disabled": true,
+    "disabled_mode_no_file_written": true,
+    "enabled_mode_one_record_written": true,
+    "canonical_sha256_verified": true,
+    "nan_infinity_rejected": true,
+    "python_compile_passed": true,
+    "stdlib_unittest_passed": true,
+    "test_invocation": "PYTHONPATH=<repo-root> python3 -m unittest discover -s tests -p test_e1r_trace_smoke.py -v",
+    "test_summary": "test_enabled_writes_canonical_hash (test_e1r_trace_smoke.E1RTraceSmokeTest) ... ok\ntest_rejects_non_finite_float (test_e1r_trace_smoke.E1RTraceSmokeTest) ... ok\ntest_set_is_canonically_sorted (test_e1r_trace_smoke.E1RTraceSmokeTest) ... ok\ntest_trace_disabled_is_noop (test_e1r_trace_smoke.E1RTraceSmokeTest) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nOK",
+    "full_5y_run_performed": false,
+    "golden_date_backtest_run_performed": false,
+    "strategy_logic_intentionally_modified": false,
+    "execution_logic_intentionally_modified": false,
+    "sideways_logic_added": false
+  },
+  "decision": "PASS_READ_ONLY_INSTRUMENTATION_SMOKE",
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R17B-1-GOLDEN-DATE-TRACE-EQUIVALENCE-SMOKE"
+}

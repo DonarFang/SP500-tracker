@@ -25,6 +25,13 @@ from ..engine.leader_ranking import leader_score as calc_leader_score
 from ..engine.trade_decision import trade_action, trade_action_reason
 from ..utils import logger
 
+try:
+    from .e1r_trace import emit_trace as _e1r_emit_trace
+    from .e1r_trace import trace_enabled as _e1r_trace_enabled
+except ImportError:
+    from src.engine.e1r_trace import emit_trace as _e1r_emit_trace
+    from src.engine.e1r_trace import trace_enabled as _e1r_trace_enabled
+
 
 # ══════════════════════════════════════════════════════════════════
 # Layer D Frozen Assumptions (v1.6 RS95 / MinHold / Relative Stop comparison)
@@ -1122,6 +1129,20 @@ def run_stateful_simulation(
             action    = order["action"]
             sig_date  = order["signal_date"]   # 信号日期
             exec_date = date_t                 # 执行日期 = 今天
+            if _e1r_trace_enabled():
+                _e1r_emit_trace(
+                    'TP06_T1_ORDER_EXECUTION_START',
+                    signal_date=sig_date,
+                    execution_date=exec_date,
+                    symbol=sym,
+                    action=action,
+                    order_payload=dict(order),
+                    cash_before=cash,
+                    holdings_before={
+                        key: dict(value)
+                        for key, value in holdings.items()
+                    },
+                )
             ls        = order["ls"]
             close_ref = order["close_t"]       # 信号日收盘（参考价）
 
@@ -1160,6 +1181,26 @@ def run_stateful_simulation(
                         target = cash * 0.99
 
                     shares = target / exec_price
+                    if _e1r_trace_enabled():
+                        _e1r_emit_trace(
+                            'TP07_BUY_SIZING_FINALIZED',
+                            signal_date=sig_date,
+                            execution_date=exec_date,
+                            symbol=sym,
+                            action=action,
+                            raw_execution_price=raw,
+                            execution_price=exec_price,
+                            execution_price_field='high' if get_price_by_date(sym, exec_date, 'high') > 0 else 'close',
+                            fallback_used=get_price_by_date(sym, exec_date, 'high') <= 0,
+                            one_way=one_way,
+                            portfolio_value=port_val,
+                            buy_pct=buy_pct,
+                            max_pct=max_pct,
+                            target_size_units=_order_size_units,
+                            target_cash=target,
+                            shares=shares,
+                            cash_before=cash,
+                        )
                     cash  -= shares * exec_price
                     orders_executed += 1
                     holdings[sym] = {
@@ -1191,6 +1232,20 @@ def run_stateful_simulation(
                         "entry_type": order.get("e1r_entry_type") or ("E1R_PLACEHOLDER_LEGACY_ENTRY" if e1r_regime_wiring_enabled else None),
                         "regime_day_weights": {},
                     }
+                    if _e1r_trace_enabled():
+                        _e1r_emit_trace(
+                            'TP08_BUY_ACCOUNT_MUTATION_COMPLETE',
+                            signal_date=sig_date,
+                            execution_date=exec_date,
+                            symbol=sym,
+                            action=action,
+                            execution_price=exec_price,
+                            shares=shares,
+                            cash_after=cash,
+                            holding_after=dict(holdings[sym]),
+                            holding_count_after=len(holdings),
+                            orders_executed=orders_executed,
+                        )
 
                 elif action == "ADD":
                     if sym not in holdings:
@@ -1240,6 +1295,21 @@ def run_stateful_simulation(
                     skip_reasons["no_t1_price"] += 1
                     continue
                 exec_price = raw * (1 - one_way)
+                if _e1r_trace_enabled():
+                    _e1r_emit_trace(
+                        'TP09_SELL_EXECUTION_PRICE_FINALIZED',
+                        signal_date=sig_date,
+                        execution_date=exec_date,
+                        symbol=sym,
+                        action=action,
+                        raw_execution_price=raw,
+                        execution_price=exec_price,
+                        execution_price_field='low' if get_price_by_date(sym, exec_date, 'low') > 0 else 'close',
+                        fallback_used=get_price_by_date(sym, exec_date, 'low') <= 0,
+                        one_way=one_way,
+                        holding_before=dict(h),
+                        cash_before=cash,
+                    )
                 if exec_price <= 0:
                     skip_reasons["invalid_execution_price"] += 1
                     continue
@@ -1311,6 +1381,21 @@ def run_stateful_simulation(
                         "exit_warning_count":   len(h.get("exit_warning_log", [])),
                     })
                     del holdings[sym]
+                    if _e1r_trace_enabled():
+                        _e1r_emit_trace(
+                            'TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE',
+                            signal_date=sig_date,
+                            execution_date=exec_date,
+                            symbol=sym,
+                            action=action,
+                            execution_price=exec_price,
+                            shares_sold=h['shares'],
+                            proceeds=proceeds,
+                            realized_pnl=total_pnl,
+                            cash_after=cash,
+                            symbol_still_held=sym in holdings,
+                            holding_count_after=len(holdings),
+                        )
 
                 elif action in ("REDUCE", "REL_REDUCE", "TP_REDUCE"):
                     if h["size_units"] <= 0.5:
@@ -1337,6 +1422,22 @@ def run_stateful_simulation(
                     if reduce_primary == "leader_score_below_60":
                         h["ls60_reduce_triggered"] = True
                     orders_executed += 1
+                    if _e1r_trace_enabled():
+                        _e1r_emit_trace(
+                            'TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE',
+                            signal_date=sig_date,
+                            execution_date=exec_date,
+                            symbol=sym,
+                            action=action,
+                            execution_price=exec_price,
+                            sell_fraction=sell_fraction,
+                            shares_sold=sell_shares,
+                            proceeds=sell_shares * exec_price,
+                            cash_after=cash,
+                            remaining_shares=h['shares'],
+                            remaining_size_units=h['size_units'],
+                            holding_after=dict(h),
+                        )
 
         # ════════════════════════════════════════════════
         # STEP 2: T 日盯市（mark-to-market at T close）
@@ -1713,7 +1814,45 @@ def run_stateful_simulation(
                     s,
                     v,
                 ))
+            if _e1r_trace_enabled():
+                _e1r_emit_trace(
+                    'TP01_PRE_RANK_CANDIDATES',
+                    signal_date=date_t,
+                    market_entry_allowed=market_entry_allowed,
+                    holdings_symbols=sorted(holdings.keys()),
+                    candidate_count=len(e1r_buy_candidates),
+                    candidate_tuples=[
+                        {
+                            'entry_priority': row[0],
+                            'leader_rank_all': row[1],
+                            'negative_leader_score': row[2],
+                            'negative_momentum_acceleration': row[3],
+                            'negative_rs_20d_improvement': row[4],
+                            'symbol': row[5],
+                            'entry_type': row[6].get('e1r_entry_type'),
+                        }
+                        for row in e1r_buy_candidates
+                    ],
+                )
             e1r_buy_candidates.sort()
+            if _e1r_trace_enabled():
+                _e1r_emit_trace(
+                    'TP02_POST_RANK_CANDIDATES',
+                    signal_date=date_t,
+                    ranked_candidate_count=len(e1r_buy_candidates),
+                    ranked_candidate_tuples=[
+                        {
+                            'entry_priority': row[0],
+                            'leader_rank_all': row[1],
+                            'negative_leader_score': row[2],
+                            'negative_momentum_acceleration': row[3],
+                            'negative_rs_20d_improvement': row[4],
+                            'symbol': row[5],
+                            'entry_type': row[6].get('e1r_entry_type'),
+                        }
+                        for row in e1r_buy_candidates
+                    ],
+                )
             if e1r_buy_candidates and market_entry_allowed:
                 if len(holdings) < min(max_pos, entry_capacity):
                     _, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]
@@ -1724,6 +1863,20 @@ def run_stateful_simulation(
                         "entry_type": _etype,
                         "target_size_units": 1.0 if _etype == "E1R_UPTREND_CONFIRMED" else 0.5,
                     }
+                    if _e1r_trace_enabled():
+                        _e1r_emit_trace(
+                            'TP03_SELECTED_BUY_FINALIZED',
+                            signal_date=date_t,
+                            selected_symbol=e1r_selected_buy['sym'],
+                            entry_type=e1r_selected_buy['entry_type'],
+                            target_size_units=e1r_selected_buy['target_size_units'],
+                            leader_rank=leader_rank_all.get(e1r_selected_buy['sym']),
+                            leader_score=e1r_selected_buy['sig'].get('leader_score'),
+                            market_entry_allowed=market_entry_allowed,
+                            holding_count=len(holdings),
+                            entry_capacity=entry_capacity,
+                            max_pos=max_pos,
+                        )
                 else:
                     skip_reasons["e1r_no_capacity"] += len(e1r_buy_candidates)
 
@@ -1800,6 +1953,14 @@ def run_stateful_simulation(
                     "e1r_entry_type": _etype,
                     "target_size_units": e1r_selected_buy["target_size_units"],
                 })
+                if _e1r_trace_enabled():
+                    _e1r_emit_trace(
+                        'TP04_BUY_ORDER_INTENT_CREATED',
+                        signal_date=date_t,
+                        symbol=sym,
+                        action='BUY',
+                        order_payload=dict(buy_orders[-1]),
+                    )
                 skip_reasons["e1r_candidate_buy_generated"] += 1
                 continue
 
@@ -2132,6 +2293,15 @@ def run_stateful_simulation(
         if _is_last_sim_day:
             buy_orders = []  # 不在最后一天生成新买入（防止 entry==exit invalid）
         pending_orders = management_orders + buy_orders
+        if _e1r_trace_enabled():
+            _e1r_emit_trace(
+                'TP05_PENDING_HANDOFF_FINALIZED',
+                signal_date=date_t,
+                management_order_count=len(management_orders),
+                buy_order_count=len(buy_orders),
+                pending_order_count=len(pending_orders),
+                ordered_pending_orders=[dict(row) for row in pending_orders],
+            )
 
         if (t - min_history) % 20 == 0:
             gate_state = "ALLOW" if market_entry_allowed else (
