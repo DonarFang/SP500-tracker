@@ -1,0 +1,2470 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17A-LEGACY-UPTREND-CANDIDATE-BOUNDARY-READ-ONLY-TRACE-DESIGN-REVIEW",
+  "generated_at_utc": "2026-07-11T11:33:11.616699+00:00",
+  "repository": {
+    "branch": "main",
+    "head": "27b08b74cc2e9674b5e5f2387d4ee4181e00d3a3",
+    "head_short": "27b08b7",
+    "head_subject": "Propose E1R uptrend candidate golden traces",
+    "origin_main": "27b08b74cc2e9674b5e5f2387d4ee4181e00d3a3"
+  },
+  "scope": {
+    "design_review_only": true,
+    "source_modified": false,
+    "instrumentation_implemented": false,
+    "strategy_logic_implemented": false,
+    "candidate_extractor_implemented": false,
+    "ranking_logic_implemented": false,
+    "order_generation_implemented": false,
+    "position_sizing_implemented": false,
+    "account_mutation_implemented": false,
+    "full_5y_run": false,
+    "sideways_integration": false
+  },
+  "r17_reference": {
+    "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R17_LEGACY_UPTREND_INPUT_AND_CANDIDATE_BOUNDARY_GOLDEN_TRACE_PROPOSAL.json",
+    "sha256": "fcb52122c4fca916ada54f07bce1f31eba154362e1fb6ecae3c81b959f79b4af",
+    "decision": "PASS_GOLDEN_TRACE_PROPOSAL_READY_FOR_R17A_READ_ONLY_TRACE_DESIGN_REVIEW"
+  },
+  "primary_function": {
+    "path": "src/engine/backtest.py",
+    "function": "run_stateful_simulation",
+    "line_start": 763,
+    "line_end": 2486
+  },
+  "candidate_window": {
+    "line_start": 1500,
+    "line_end": 1850,
+    "event_count": 56,
+    "events": [
+      {
+        "kind": "assignment",
+        "line": 1510,
+        "targets": [
+          "_gate_state"
+        ],
+        "references": [
+          "_gate_state",
+          "market_entry_allowed",
+          "market_shock"
+        ],
+        "source": "_gate_state = (",
+        "context": [
+          {
+            "line": 1508,
+            "text": "            if daily_equity_peak and daily_equity_peak > 0 else 0.0"
+          },
+          {
+            "line": 1509,
+            "text": "        )"
+          },
+          {
+            "line": 1510,
+            "text": "        _gate_state = ("
+          },
+          {
+            "line": 1511,
+            "text": "            \"ALLOW\" if market_entry_allowed else"
+          },
+          {
+            "line": 1512,
+            "text": "            \"SHOCK\" if market_shock else \"RISK_OFF\""
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1515,
+        "call": "daily_equity_records.append",
+        "references": [
+          "_daily_return_pct",
+          "_drawdown_pct",
+          "_e1r_mode_for_regime",
+          "_e1r_regime_on",
+          "_e1r_risk_budget_for_regime",
+          "_gate_state",
+          "cash",
+          "daily_equity_records",
+          "daily_equity_records.append",
+          "date_t",
+          "e1r_regime_wiring_enabled",
+          "holdings",
+          "len",
+          "pending_orders",
+          "position_value",
+          "round",
+          "spx_close_t",
+          "spx_day_return",
+          "spx_ma50_t",
+          "total_equity"
+        ],
+        "source": "daily_equity_records.append({",
+        "potential_mutation": true,
+        "context": [
+          {
+            "line": 1513,
+            "text": "        )"
+          },
+          {
+            "line": 1514,
+            "text": ""
+          },
+          {
+            "line": 1515,
+            "text": "        daily_equity_records.append({"
+          },
+          {
+            "line": 1516,
+            "text": "            \"date\": date_t,"
+          },
+          {
+            "line": 1517,
+            "text": "            \"cash\": round(cash, 2),"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1523,
+        "call": "len",
+        "references": [
+          "holdings",
+          "len"
+        ],
+        "source": "\"open_positions_count\": len(holdings),",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1521,
+            "text": "            \"drawdown_pct\": round(_drawdown_pct, 4),"
+          },
+          {
+            "line": 1522,
+            "text": "            \"exposure_pct\": round(position_value / total_equity * 100, 2) if total_equity > 0 else 0.0,"
+          },
+          {
+            "line": 1523,
+            "text": "            \"open_positions_count\": len(holdings),"
+          },
+          {
+            "line": 1524,
+            "text": "            \"pending_orders_count\": len(pending_orders),"
+          },
+          {
+            "line": 1525,
+            "text": "            \"market_gate_state\": _gate_state,"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1524,
+        "call": "len",
+        "references": [
+          "len",
+          "pending_orders"
+        ],
+        "source": "\"pending_orders_count\": len(pending_orders),",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1522,
+            "text": "            \"exposure_pct\": round(position_value / total_equity * 100, 2) if total_equity > 0 else 0.0,"
+          },
+          {
+            "line": 1523,
+            "text": "            \"open_positions_count\": len(holdings),"
+          },
+          {
+            "line": 1524,
+            "text": "            \"pending_orders_count\": len(pending_orders),"
+          },
+          {
+            "line": 1525,
+            "text": "            \"market_gate_state\": _gate_state,"
+          },
+          {
+            "line": 1526,
+            "text": "            \"spx_regime\": _e1r_regime_on(date_t) if e1r_regime_wiring_enabled else None,"
+          }
+        ]
+      },
+      {
+        "kind": "loop",
+        "line": 1538,
+        "references": [
+          "all_ret60",
+          "all_ret60.append",
+          "all_ret60_prev20",
+          "all_ret60_prev20.append",
+          "date_t",
+          "e1r_shell_mode",
+          "get_close_series_by_date",
+          "len",
+          "p_s",
+          "period_return",
+          "r",
+          "r_prev",
+          "s",
+          "symbols"
+        ],
+        "source": "for s in symbols:",
+        "context": [
+          {
+            "line": 1536,
+            "text": "        all_ret60 = []"
+          },
+          {
+            "line": 1537,
+            "text": "        all_ret60_prev20 = []"
+          },
+          {
+            "line": 1538,
+            "text": "        for s in symbols:"
+          },
+          {
+            "line": 1539,
+            "text": "            p_s = get_close_series_by_date(s, date_t)"
+          },
+          {
+            "line": 1540,
+            "text": "            if len(p_s) > 60:"
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1552,
+        "targets": [
+          "day_signals"
+        ],
+        "references": [
+          "day_signals",
+          "dict",
+          "str"
+        ],
+        "source": "day_signals: dict[str, dict] = {}",
+        "context": [
+          {
+            "line": 1550,
+            "text": ""
+          },
+          {
+            "line": 1551,
+            "text": "        # 先重建全市场当日信号与 Leader Score，用于确定 Top 3 Entry Universe"
+          },
+          {
+            "line": 1552,
+            "text": "        day_signals: dict[str, dict] = {}"
+          },
+          {
+            "line": 1553,
+            "text": "        for sym in symbols:"
+          },
+          {
+            "line": 1554,
+            "text": "            p = get_close_series_by_date(sym, date_t)"
+          }
+        ]
+      },
+      {
+        "kind": "loop",
+        "line": 1553,
+        "references": [
+          "action",
+          "all_ret60",
+          "all_ret60_prev20",
+          "calc_leader_score",
+          "calc_momentum",
+          "calc_trend_health",
+          "close_t",
+          "date_t",
+          "day_signals",
+          "e1r_shell_mode",
+          "get_close_series_by_date",
+          "len",
+          "linreg_slope",
+          "ls",
+          "ls60_exit_mode",
+          "ma20_sl",
+          "ma20_v",
+          "ma20s",
+          "ma50_sl",
+          "ma50_v",
+          "ma50s",
+          "market_score_default",
+          "mom",
+          "mom_acc",
+          "mom_d",
+          "momentum_acceleration",
+          "moving_average",
+          "p",
+          "period_return",
+          "ret60",
+          "ret60_prev20",
+          "round",
+          "rs",
+          "rs_20d_improvement",
+          "rs_percentile",
+          "rs_prev20",
+          "state",
+          "sym",
+          "symbols",
+          "th",
+          "th_d",
+          "trade_action",
+          "trend_lifecycle"
+        ],
+        "source": "for sym in symbols:",
+        "context": [
+          {
+            "line": 1551,
+            "text": "        # 先重建全市场当日信号与 Leader Score，用于确定 Top 3 Entry Universe"
+          },
+          {
+            "line": 1552,
+            "text": "        day_signals: dict[str, dict] = {}"
+          },
+          {
+            "line": 1553,
+            "text": "        for sym in symbols:"
+          },
+          {
+            "line": 1554,
+            "text": "            p = get_close_series_by_date(sym, date_t)"
+          },
+          {
+            "line": 1555,
+            "text": "            if len(p) < 60:"
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1589,
+        "targets": [
+          "day_signals[...]"
+        ],
+        "references": [
+          "action",
+          "close_t",
+          "day_signals",
+          "ls",
+          "ma20_sl",
+          "ma20_v",
+          "ma50_sl",
+          "ma50_v",
+          "mom",
+          "mom_acc",
+          "rs",
+          "rs_20d_improvement",
+          "rs_prev20",
+          "state",
+          "sym",
+          "th"
+        ],
+        "source": "day_signals[sym] = {",
+        "context": [
+          {
+            "line": 1587,
+            "text": "            )"
+          },
+          {
+            "line": 1588,
+            "text": ""
+          },
+          {
+            "line": 1589,
+            "text": "            day_signals[sym] = {"
+          },
+          {
+            "line": 1590,
+            "text": "                \"symbol\":         sym,"
+          },
+          {
+            "line": 1591,
+            "text": "                \"action\":         action,"
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1615,
+        "targets": [
+          "top_ranked"
+        ],
+        "references": [
+          "day_signals",
+          "day_signals.items",
+          "s",
+          "sorted",
+          "top_ranked",
+          "v",
+          "x"
+        ],
+        "source": "top_ranked = sorted(",
+        "context": [
+          {
+            "line": 1613,
+            "text": "        # ── Entry Universe ────────────────────────────────────────────"
+          },
+          {
+            "line": 1614,
+            "text": "        # 只限制新开仓 BUY；不限制已有持仓的 HOLD/ADD/REDUCE/EXIT"
+          },
+          {
+            "line": 1615,
+            "text": "        top_ranked = sorted("
+          },
+          {
+            "line": 1616,
+            "text": "            ((s, v[\"leader_score\"]) for s, v in day_signals.items()),"
+          },
+          {
+            "line": 1617,
+            "text": "            key=lambda x: x[1],"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1615,
+        "call": "sorted",
+        "references": [
+          "day_signals",
+          "day_signals.items",
+          "s",
+          "sorted",
+          "v",
+          "x"
+        ],
+        "source": "top_ranked = sorted(",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1613,
+            "text": "        # ── Entry Universe ────────────────────────────────────────────"
+          },
+          {
+            "line": 1614,
+            "text": "        # 只限制新开仓 BUY；不限制已有持仓的 HOLD/ADD/REDUCE/EXIT"
+          },
+          {
+            "line": 1615,
+            "text": "        top_ranked = sorted("
+          },
+          {
+            "line": 1616,
+            "text": "            ((s, v[\"leader_score\"]) for s, v in day_signals.items()),"
+          },
+          {
+            "line": 1617,
+            "text": "            key=lambda x: x[1],"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1616,
+        "call": "day_signals.items",
+        "references": [
+          "day_signals",
+          "day_signals.items"
+        ],
+        "source": "((s, v[\"leader_score\"]) for s, v in day_signals.items()),",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1614,
+            "text": "        # 只限制新开仓 BUY；不限制已有持仓的 HOLD/ADD/REDUCE/EXIT"
+          },
+          {
+            "line": 1615,
+            "text": "        top_ranked = sorted("
+          },
+          {
+            "line": 1616,
+            "text": "            ((s, v[\"leader_score\"]) for s, v in day_signals.items()),"
+          },
+          {
+            "line": 1617,
+            "text": "            key=lambda x: x[1],"
+          },
+          {
+            "line": 1618,
+            "text": "            reverse=True"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1625,
+        "call": "day_signals.items",
+        "references": [
+          "day_signals",
+          "day_signals.items"
+        ],
+        "source": "for sym, sig in day_signals.items():",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1623,
+            "text": "        if e1r_shell_mode and e1r_regime_wiring_enabled and _e1r_regime_on(date_t) == \"UPTREND\":"
+          },
+          {
+            "line": 1624,
+            "text": "            leader_rank_all = {s: i + 1 for i, (s, _) in enumerate(top_ranked)}"
+          },
+          {
+            "line": 1625,
+            "text": "            for sym, sig in day_signals.items():"
+          },
+          {
+            "line": 1626,
+            "text": "                rank_all = leader_rank_all.get(sym, 9999)"
+          },
+          {
+            "line": 1627,
+            "text": "                emerging_reasons = []"
+          }
+        ]
+      },
+      {
+        "kind": "loop",
+        "line": 1625,
+        "references": [
+          "confirmed",
+          "confirmed_reasons",
+          "confirmed_reasons.append",
+          "date_t",
+          "day_signals",
+          "day_signals.items",
+          "e1r_candidate_records",
+          "e1r_candidate_records.append",
+          "emerging",
+          "emerging_reasons",
+          "emerging_reasons.append",
+          "entry_type",
+          "leader_rank_all",
+          "leader_rank_all.get",
+          "rank_all",
+          "reasons",
+          "round",
+          "sig",
+          "sig.get",
+          "sym"
+        ],
+        "source": "for sym, sig in day_signals.items():",
+        "context": [
+          {
+            "line": 1623,
+            "text": "        if e1r_shell_mode and e1r_regime_wiring_enabled and _e1r_regime_on(date_t) == \"UPTREND\":"
+          },
+          {
+            "line": 1624,
+            "text": "            leader_rank_all = {s: i + 1 for i, (s, _) in enumerate(top_ranked)}"
+          },
+          {
+            "line": 1625,
+            "text": "            for sym, sig in day_signals.items():"
+          },
+          {
+            "line": 1626,
+            "text": "                rank_all = leader_rank_all.get(sym, 9999)"
+          },
+          {
+            "line": 1627,
+            "text": "                emerging_reasons = []"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1671,
+        "call": "e1r_candidate_records.append",
+        "references": [
+          "confirmed",
+          "date_t",
+          "e1r_candidate_records",
+          "e1r_candidate_records.append",
+          "emerging",
+          "entry_type",
+          "rank_all",
+          "reasons",
+          "round",
+          "sig",
+          "sig.get",
+          "sym"
+        ],
+        "source": "e1r_candidate_records.append({",
+        "potential_mutation": true,
+        "context": [
+          {
+            "line": 1669,
+            "text": "                    sig[\"e1r_uptrend_confirmed_eligible\"] = confirmed"
+          },
+          {
+            "line": 1670,
+            "text": "                    sig[\"e1r_entry_reason\"] = reasons"
+          },
+          {
+            "line": 1671,
+            "text": "                    e1r_candidate_records.append({"
+          },
+          {
+            "line": 1672,
+            "text": "                        \"date\": date_t,"
+          },
+          {
+            "line": 1673,
+            "text": "                        \"symbol\": sym,"
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1697,
+        "targets": [
+          "e1r_selected_buy"
+        ],
+        "references": [
+          "dict",
+          "e1r_selected_buy"
+        ],
+        "source": "e1r_selected_buy: dict | None = None",
+        "context": [
+          {
+            "line": 1695,
+            "text": "        # E1-R Phase 3B: UPTREND Execution v0.1 candidate selection."
+          },
+          {
+            "line": 1696,
+            "text": "        # Only entry execution is changed; existing E1 reduce/exit logic remains intact."
+          },
+          {
+            "line": 1697,
+            "text": "        e1r_selected_buy: dict | None = None"
+          },
+          {
+            "line": 1698,
+            "text": "        if e1r_uptrend_execution_enabled and _e1r_regime_on(date_t) == \"UPTREND\":"
+          },
+          {
+            "line": 1699,
+            "text": "            e1r_buy_candidates = []"
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1699,
+        "targets": [
+          "e1r_buy_candidates"
+        ],
+        "references": [
+          "e1r_buy_candidates"
+        ],
+        "source": "e1r_buy_candidates = []",
+        "context": [
+          {
+            "line": 1697,
+            "text": "        e1r_selected_buy: dict | None = None"
+          },
+          {
+            "line": 1698,
+            "text": "        if e1r_uptrend_execution_enabled and _e1r_regime_on(date_t) == \"UPTREND\":"
+          },
+          {
+            "line": 1699,
+            "text": "            e1r_buy_candidates = []"
+          },
+          {
+            "line": 1700,
+            "text": "            for s, v in day_signals.items():"
+          },
+          {
+            "line": 1701,
+            "text": "                if s in holdings:"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1700,
+        "call": "day_signals.items",
+        "references": [
+          "day_signals",
+          "day_signals.items"
+        ],
+        "source": "for s, v in day_signals.items():",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1698,
+            "text": "        if e1r_uptrend_execution_enabled and _e1r_regime_on(date_t) == \"UPTREND\":"
+          },
+          {
+            "line": 1699,
+            "text": "            e1r_buy_candidates = []"
+          },
+          {
+            "line": 1700,
+            "text": "            for s, v in day_signals.items():"
+          },
+          {
+            "line": 1701,
+            "text": "                if s in holdings:"
+          },
+          {
+            "line": 1702,
+            "text": "                    continue"
+          }
+        ]
+      },
+      {
+        "kind": "loop",
+        "line": 1700,
+        "references": [
+          "_etype",
+          "_priority",
+          "day_signals",
+          "day_signals.items",
+          "e1r_buy_candidates",
+          "e1r_buy_candidates.append",
+          "holdings",
+          "leader_rank_all",
+          "leader_rank_all.get",
+          "s",
+          "v",
+          "v.get"
+        ],
+        "source": "for s, v in day_signals.items():",
+        "context": [
+          {
+            "line": 1698,
+            "text": "        if e1r_uptrend_execution_enabled and _e1r_regime_on(date_t) == \"UPTREND\":"
+          },
+          {
+            "line": 1699,
+            "text": "            e1r_buy_candidates = []"
+          },
+          {
+            "line": 1700,
+            "text": "            for s, v in day_signals.items():"
+          },
+          {
+            "line": 1701,
+            "text": "                if s in holdings:"
+          },
+          {
+            "line": 1702,
+            "text": "                    continue"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "line": 1701,
+        "references": [
+          "holdings",
+          "s"
+        ],
+        "source": "if s in holdings:",
+        "context": [
+          {
+            "line": 1699,
+            "text": "            e1r_buy_candidates = []"
+          },
+          {
+            "line": 1700,
+            "text": "            for s, v in day_signals.items():"
+          },
+          {
+            "line": 1701,
+            "text": "                if s in holdings:"
+          },
+          {
+            "line": 1702,
+            "text": "                    continue"
+          },
+          {
+            "line": 1703,
+            "text": "                if not v.get(\"e1r_entry_type\"):"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1707,
+        "call": "e1r_buy_candidates.append",
+        "references": [
+          "_priority",
+          "e1r_buy_candidates",
+          "e1r_buy_candidates.append",
+          "leader_rank_all",
+          "leader_rank_all.get",
+          "s",
+          "v",
+          "v.get"
+        ],
+        "source": "e1r_buy_candidates.append((",
+        "potential_mutation": true,
+        "context": [
+          {
+            "line": 1705,
+            "text": "                _etype = v.get(\"e1r_entry_type\")"
+          },
+          {
+            "line": 1706,
+            "text": "                _priority = 0 if _etype == \"E1R_UPTREND_CONFIRMED\" else 1"
+          },
+          {
+            "line": 1707,
+            "text": "                e1r_buy_candidates.append(("
+          },
+          {
+            "line": 1708,
+            "text": "                    _priority,"
+          },
+          {
+            "line": 1709,
+            "text": "                    leader_rank_all.get(s, 9999),"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1716,
+        "call": "e1r_buy_candidates.sort",
+        "references": [
+          "e1r_buy_candidates",
+          "e1r_buy_candidates.sort"
+        ],
+        "source": "e1r_buy_candidates.sort()",
+        "potential_mutation": true,
+        "context": [
+          {
+            "line": 1714,
+            "text": "                    v,"
+          },
+          {
+            "line": 1715,
+            "text": "                ))"
+          },
+          {
+            "line": 1716,
+            "text": "            e1r_buy_candidates.sort()"
+          },
+          {
+            "line": 1717,
+            "text": "            if e1r_buy_candidates and market_entry_allowed:"
+          },
+          {
+            "line": 1718,
+            "text": "                if len(holdings) < min(max_pos, entry_capacity):"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "line": 1717,
+        "references": [
+          "e1r_buy_candidates",
+          "market_entry_allowed"
+        ],
+        "source": "if e1r_buy_candidates and market_entry_allowed:",
+        "context": [
+          {
+            "line": 1715,
+            "text": "                ))"
+          },
+          {
+            "line": 1716,
+            "text": "            e1r_buy_candidates.sort()"
+          },
+          {
+            "line": 1717,
+            "text": "            if e1r_buy_candidates and market_entry_allowed:"
+          },
+          {
+            "line": 1718,
+            "text": "                if len(holdings) < min(max_pos, entry_capacity):"
+          },
+          {
+            "line": 1719,
+            "text": "                    _, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "line": 1718,
+        "references": [
+          "entry_capacity",
+          "holdings",
+          "len",
+          "max_pos",
+          "min"
+        ],
+        "source": "if len(holdings) < min(max_pos, entry_capacity):",
+        "context": [
+          {
+            "line": 1716,
+            "text": "            e1r_buy_candidates.sort()"
+          },
+          {
+            "line": 1717,
+            "text": "            if e1r_buy_candidates and market_entry_allowed:"
+          },
+          {
+            "line": 1718,
+            "text": "                if len(holdings) < min(max_pos, entry_capacity):"
+          },
+          {
+            "line": 1719,
+            "text": "                    _, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]"
+          },
+          {
+            "line": 1720,
+            "text": "                    _etype = _sig.get(\"e1r_entry_type\")"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1718,
+        "call": "len",
+        "references": [
+          "holdings",
+          "len"
+        ],
+        "source": "if len(holdings) < min(max_pos, entry_capacity):",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1716,
+            "text": "            e1r_buy_candidates.sort()"
+          },
+          {
+            "line": 1717,
+            "text": "            if e1r_buy_candidates and market_entry_allowed:"
+          },
+          {
+            "line": 1718,
+            "text": "                if len(holdings) < min(max_pos, entry_capacity):"
+          },
+          {
+            "line": 1719,
+            "text": "                    _, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]"
+          },
+          {
+            "line": 1720,
+            "text": "                    _etype = _sig.get(\"e1r_entry_type\")"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1718,
+        "call": "min",
+        "references": [
+          "entry_capacity",
+          "max_pos",
+          "min"
+        ],
+        "source": "if len(holdings) < min(max_pos, entry_capacity):",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1716,
+            "text": "            e1r_buy_candidates.sort()"
+          },
+          {
+            "line": 1717,
+            "text": "            if e1r_buy_candidates and market_entry_allowed:"
+          },
+          {
+            "line": 1718,
+            "text": "                if len(holdings) < min(max_pos, entry_capacity):"
+          },
+          {
+            "line": 1719,
+            "text": "                    _, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]"
+          },
+          {
+            "line": 1720,
+            "text": "                    _etype = _sig.get(\"e1r_entry_type\")"
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1719,
+        "targets": [
+          "_",
+          "_",
+          "_",
+          "_",
+          "_",
+          "_sym",
+          "_sig"
+        ],
+        "references": [
+          "_",
+          "_sig",
+          "_sym",
+          "e1r_buy_candidates"
+        ],
+        "source": "_, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]",
+        "context": [
+          {
+            "line": 1717,
+            "text": "            if e1r_buy_candidates and market_entry_allowed:"
+          },
+          {
+            "line": 1718,
+            "text": "                if len(holdings) < min(max_pos, entry_capacity):"
+          },
+          {
+            "line": 1719,
+            "text": "                    _, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]"
+          },
+          {
+            "line": 1720,
+            "text": "                    _etype = _sig.get(\"e1r_entry_type\")"
+          },
+          {
+            "line": 1721,
+            "text": "                    e1r_selected_buy = {"
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1721,
+        "targets": [
+          "e1r_selected_buy"
+        ],
+        "references": [
+          "_etype",
+          "_sig",
+          "_sym",
+          "e1r_selected_buy"
+        ],
+        "source": "e1r_selected_buy = {",
+        "context": [
+          {
+            "line": 1719,
+            "text": "                    _, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]"
+          },
+          {
+            "line": 1720,
+            "text": "                    _etype = _sig.get(\"e1r_entry_type\")"
+          },
+          {
+            "line": 1721,
+            "text": "                    e1r_selected_buy = {"
+          },
+          {
+            "line": 1722,
+            "text": "                        \"sym\": _sym,"
+          },
+          {
+            "line": 1723,
+            "text": "                        \"sig\": _sig,"
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1728,
+        "targets": [
+          "skip_reasons[...]"
+        ],
+        "references": [
+          "e1r_buy_candidates",
+          "len",
+          "skip_reasons"
+        ],
+        "source": "skip_reasons[\"e1r_no_capacity\"] += len(e1r_buy_candidates)",
+        "context": [
+          {
+            "line": 1726,
+            "text": "                    }"
+          },
+          {
+            "line": 1727,
+            "text": "                else:"
+          },
+          {
+            "line": 1728,
+            "text": "                    skip_reasons[\"e1r_no_capacity\"] += len(e1r_buy_candidates)"
+          },
+          {
+            "line": 1729,
+            "text": ""
+          },
+          {
+            "line": 1730,
+            "text": "        if qualified_entry_enabled and candidate_top_n is not None:"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1728,
+        "call": "len",
+        "references": [
+          "e1r_buy_candidates",
+          "len"
+        ],
+        "source": "skip_reasons[\"e1r_no_capacity\"] += len(e1r_buy_candidates)",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1726,
+            "text": "                    }"
+          },
+          {
+            "line": 1727,
+            "text": "                else:"
+          },
+          {
+            "line": 1728,
+            "text": "                    skip_reasons[\"e1r_no_capacity\"] += len(e1r_buy_candidates)"
+          },
+          {
+            "line": 1729,
+            "text": ""
+          },
+          {
+            "line": 1730,
+            "text": "        if qualified_entry_enabled and candidate_top_n is not None:"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "line": 1730,
+        "references": [
+          "candidate_top_n",
+          "qualified_entry_enabled"
+        ],
+        "source": "if qualified_entry_enabled and candidate_top_n is not None:",
+        "context": [
+          {
+            "line": 1728,
+            "text": "                    skip_reasons[\"e1r_no_capacity\"] += len(e1r_buy_candidates)"
+          },
+          {
+            "line": 1729,
+            "text": ""
+          },
+          {
+            "line": 1730,
+            "text": "        if qualified_entry_enabled and candidate_top_n is not None:"
+          },
+          {
+            "line": 1731,
+            "text": "            # Qualified Candidate Pool 逻辑："
+          },
+          {
+            "line": 1732,
+            "text": "            # Step 1: 过滤资格条件"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1734,
+        "call": "day_signals.items",
+        "references": [
+          "day_signals",
+          "day_signals.items"
+        ],
+        "source": "for s, v in day_signals.items():",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1732,
+            "text": "            # Step 1: 过滤资格条件"
+          },
+          {
+            "line": 1733,
+            "text": "            qualified = []"
+          },
+          {
+            "line": 1734,
+            "text": "            for s, v in day_signals.items():"
+          },
+          {
+            "line": 1735,
+            "text": "                if v[\"rs_score\"]       < qualified_rs_min:          continue"
+          },
+          {
+            "line": 1736,
+            "text": "                if v[\"momentum_score\"] < qualified_momentum_min:    continue"
+          }
+        ]
+      },
+      {
+        "kind": "loop",
+        "line": 1734,
+        "references": [
+          "day_signals",
+          "day_signals.items",
+          "qualified",
+          "qualified.append",
+          "qualified_ma50_slope_min",
+          "qualified_momentum_min",
+          "qualified_price_above_ma50",
+          "qualified_rs_min",
+          "qualified_states",
+          "qualified_th_min",
+          "s",
+          "v"
+        ],
+        "source": "for s, v in day_signals.items():",
+        "context": [
+          {
+            "line": 1732,
+            "text": "            # Step 1: 过滤资格条件"
+          },
+          {
+            "line": 1733,
+            "text": "            qualified = []"
+          },
+          {
+            "line": 1734,
+            "text": "            for s, v in day_signals.items():"
+          },
+          {
+            "line": 1735,
+            "text": "                if v[\"rs_score\"]       < qualified_rs_min:          continue"
+          },
+          {
+            "line": 1736,
+            "text": "                if v[\"momentum_score\"] < qualified_momentum_min:    continue"
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1744,
+        "targets": [
+          "top_entry_symbols"
+        ],
+        "references": [
+          "_",
+          "candidate_top_n",
+          "qualified",
+          "s",
+          "set",
+          "top_entry_symbols"
+        ],
+        "source": "top_entry_symbols = set(s for s, _ in qualified[:candidate_top_n])",
+        "context": [
+          {
+            "line": 1742,
+            "text": "            # Step 2: Qualified Pool 内按 LS 排名，取前 candidate_top_n"
+          },
+          {
+            "line": 1743,
+            "text": "            qualified.sort(key=lambda x: x[1], reverse=True)"
+          },
+          {
+            "line": 1744,
+            "text": "            top_entry_symbols = set(s for s, _ in qualified[:candidate_top_n])"
+          },
+          {
+            "line": 1745,
+            "text": "            top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(qualified[:candidate_top_n])}"
+          },
+          {
+            "line": 1746,
+            "text": "            # 诊断：记录每日候选池大小"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1744,
+        "call": "set",
+        "references": [
+          "_",
+          "candidate_top_n",
+          "qualified",
+          "s",
+          "set"
+        ],
+        "source": "top_entry_symbols = set(s for s, _ in qualified[:candidate_top_n])",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1742,
+            "text": "            # Step 2: Qualified Pool 内按 LS 排名，取前 candidate_top_n"
+          },
+          {
+            "line": 1743,
+            "text": "            qualified.sort(key=lambda x: x[1], reverse=True)"
+          },
+          {
+            "line": 1744,
+            "text": "            top_entry_symbols = set(s for s, _ in qualified[:candidate_top_n])"
+          },
+          {
+            "line": 1745,
+            "text": "            top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(qualified[:candidate_top_n])}"
+          },
+          {
+            "line": 1746,
+            "text": "            # 诊断：记录每日候选池大小"
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1745,
+        "targets": [
+          "top_entry_rank"
+        ],
+        "references": [
+          "_",
+          "candidate_top_n",
+          "enumerate",
+          "i",
+          "qualified",
+          "s",
+          "top_entry_rank"
+        ],
+        "source": "top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(qualified[:candidate_top_n])}",
+        "context": [
+          {
+            "line": 1743,
+            "text": "            qualified.sort(key=lambda x: x[1], reverse=True)"
+          },
+          {
+            "line": 1744,
+            "text": "            top_entry_symbols = set(s for s, _ in qualified[:candidate_top_n])"
+          },
+          {
+            "line": 1745,
+            "text": "            top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(qualified[:candidate_top_n])}"
+          },
+          {
+            "line": 1746,
+            "text": "            # 诊断：记录每日候选池大小"
+          },
+          {
+            "line": 1747,
+            "text": "            pool_size = len(top_entry_symbols)"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1745,
+        "call": "enumerate",
+        "references": [
+          "candidate_top_n",
+          "enumerate",
+          "qualified"
+        ],
+        "source": "top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(qualified[:candidate_top_n])}",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1743,
+            "text": "            qualified.sort(key=lambda x: x[1], reverse=True)"
+          },
+          {
+            "line": 1744,
+            "text": "            top_entry_symbols = set(s for s, _ in qualified[:candidate_top_n])"
+          },
+          {
+            "line": 1745,
+            "text": "            top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(qualified[:candidate_top_n])}"
+          },
+          {
+            "line": 1746,
+            "text": "            # 诊断：记录每日候选池大小"
+          },
+          {
+            "line": 1747,
+            "text": "            pool_size = len(top_entry_symbols)"
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1747,
+        "targets": [
+          "pool_size"
+        ],
+        "references": [
+          "len",
+          "pool_size",
+          "top_entry_symbols"
+        ],
+        "source": "pool_size = len(top_entry_symbols)",
+        "context": [
+          {
+            "line": 1745,
+            "text": "            top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(qualified[:candidate_top_n])}"
+          },
+          {
+            "line": 1746,
+            "text": "            # 诊断：记录每日候选池大小"
+          },
+          {
+            "line": 1747,
+            "text": "            pool_size = len(top_entry_symbols)"
+          },
+          {
+            "line": 1748,
+            "text": "            qp_diag[\"pool_size_sum\"]  += pool_size"
+          },
+          {
+            "line": 1749,
+            "text": "            qp_diag[\"pool_days\"]      += 1"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1747,
+        "call": "len",
+        "references": [
+          "len",
+          "top_entry_symbols"
+        ],
+        "source": "pool_size = len(top_entry_symbols)",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1745,
+            "text": "            top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(qualified[:candidate_top_n])}"
+          },
+          {
+            "line": 1746,
+            "text": "            # 诊断：记录每日候选池大小"
+          },
+          {
+            "line": 1747,
+            "text": "            pool_size = len(top_entry_symbols)"
+          },
+          {
+            "line": 1748,
+            "text": "            qp_diag[\"pool_size_sum\"]  += pool_size"
+          },
+          {
+            "line": 1749,
+            "text": "            qp_diag[\"pool_days\"]      += 1"
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1754,
+        "targets": [
+          "top_entry_symbols"
+        ],
+        "references": [
+          "_",
+          "entry_top_n",
+          "s",
+          "set",
+          "top_entry_symbols",
+          "top_ranked"
+        ],
+        "source": "top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])",
+        "context": [
+          {
+            "line": 1752,
+            "text": "        else:"
+          },
+          {
+            "line": 1753,
+            "text": "            # 旧逻辑：全市场 LS 排名取前 entry_top_n（Strict Top3）"
+          },
+          {
+            "line": 1754,
+            "text": "            top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])"
+          },
+          {
+            "line": 1755,
+            "text": "            top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}"
+          },
+          {
+            "line": 1756,
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1754,
+        "call": "set",
+        "references": [
+          "_",
+          "entry_top_n",
+          "s",
+          "set",
+          "top_ranked"
+        ],
+        "source": "top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1752,
+            "text": "        else:"
+          },
+          {
+            "line": 1753,
+            "text": "            # 旧逻辑：全市场 LS 排名取前 entry_top_n（Strict Top3）"
+          },
+          {
+            "line": 1754,
+            "text": "            top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])"
+          },
+          {
+            "line": 1755,
+            "text": "            top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}"
+          },
+          {
+            "line": 1756,
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1755,
+        "targets": [
+          "top_entry_rank"
+        ],
+        "references": [
+          "_",
+          "entry_top_n",
+          "enumerate",
+          "i",
+          "s",
+          "top_entry_rank",
+          "top_ranked"
+        ],
+        "source": "top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}",
+        "context": [
+          {
+            "line": 1753,
+            "text": "            # 旧逻辑：全市场 LS 排名取前 entry_top_n（Strict Top3）"
+          },
+          {
+            "line": 1754,
+            "text": "            top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])"
+          },
+          {
+            "line": 1755,
+            "text": "            top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}"
+          },
+          {
+            "line": 1756,
+            "text": ""
+          },
+          {
+            "line": 1757,
+            "text": "        management_orders = []"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1755,
+        "call": "enumerate",
+        "references": [
+          "entry_top_n",
+          "enumerate",
+          "top_ranked"
+        ],
+        "source": "top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1753,
+            "text": "            # 旧逻辑：全市场 LS 排名取前 entry_top_n（Strict Top3）"
+          },
+          {
+            "line": 1754,
+            "text": "            top_entry_symbols = set(s for s, _ in top_ranked[:entry_top_n])"
+          },
+          {
+            "line": 1755,
+            "text": "            top_entry_rank    = {s: i + 1 for i, (s, _) in enumerate(top_ranked[:entry_top_n])}"
+          },
+          {
+            "line": 1756,
+            "text": ""
+          },
+          {
+            "line": 1757,
+            "text": "        management_orders = []"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1759,
+        "call": "day_signals.items",
+        "references": [
+          "day_signals",
+          "day_signals.items"
+        ],
+        "source": "for sym, sig in day_signals.items():",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1757,
+            "text": "        management_orders = []"
+          },
+          {
+            "line": 1758,
+            "text": "        buy_orders = []"
+          },
+          {
+            "line": 1759,
+            "text": "        for sym, sig in day_signals.items():"
+          },
+          {
+            "line": 1760,
+            "text": "            # 从 sig 完整读取所有字段，严格避免跨 sym 的变量作用域污染"
+          },
+          {
+            "line": 1761,
+            "text": "            action  = sig[\"action\"]"
+          }
+        ]
+      },
+      {
+        "kind": "loop",
+        "line": 1759,
+        "references": [
+          "RuntimeError",
+          "_etype",
+          "action",
+          "block_add_after_take_profit",
+          "buy_orders",
+          "buy_orders.append",
+          "candidate_top_n",
+          "close_t",
+          "d",
+          "date_t",
+          "day_signals",
+          "day_signals.items",
+          "dynamic_exit_enabled",
+          "e1r_selected_buy",
+          "e1r_uptrend_execution_enabled",
+          "entry_capacity",
+          "entry_rs_min",
+          "fill_only_enabled",
+          "h",
+          "h.get",
+          "hard_exit",
+          "holding_days_so_far",
+          "holdings",
+          "is_broken",
+          "is_broken_trend",
+          "is_consecutive",
+          "last_warn",
+          "leader_rank_all",
+          "leader_rank_all.get",
+          "len",
+          "ls",
+          "ls60_exit_mode",
+          "ls_below_60",
+          "ma50_sl",
+          "ma50_v",
+          "management_orders",
+          "management_orders.append",
+          "market_entry_allowed",
+          "market_gate_enabled",
+          "market_score_default",
+          "market_shock",
+          "market_state",
+          "master_dates",
+          "master_dates.index",
+          "min_hold_allow_broken_exit",
+          "min_holding_days",
+          "mom",
+          "pending_signal_reason_dist",
+          "pending_signal_reason_dist.get",
+          "portfolio_action_dist",
+          "pr",
+          "prev_date",
+          "price_below_ma50",
+          "qp_diag",
+          "qual_reasons",
+          "qualified_entry_enabled",
+          "qualified_momentum_min",
+          "qualified_rs_min",
+          "qualified_th_min",
+          "reason",
+          "reason_action",
+          "reason_info",
+          "reason_info.get",
+          "risk_actions",
+          "round",
+          "rs",
+          "sig",
+          "sig.get",
+          "skip_reasons",
+          "skip_reasons.get",
+          "slope_negative",
+          "state",
+          "stock_ma50",
+          "stock_slope",
+          "strategy_variant",
+          "sum",
+          "sym",
+          "th",
+          "top_entry_rank",
+          "top_entry_rank.get",
+          "top_entry_symbols",
+          "trade_action_reason"
+        ],
+        "source": "for sym, sig in day_signals.items():",
+        "context": [
+          {
+            "line": 1757,
+            "text": "        management_orders = []"
+          },
+          {
+            "line": 1758,
+            "text": "        buy_orders = []"
+          },
+          {
+            "line": 1759,
+            "text": "        for sym, sig in day_signals.items():"
+          },
+          {
+            "line": 1760,
+            "text": "            # 从 sig 完整读取所有字段，严格避免跨 sym 的变量作用域污染"
+          },
+          {
+            "line": 1761,
+            "text": "            action  = sig[\"action\"]"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "line": 1772,
+        "references": [
+          "holdings",
+          "sym"
+        ],
+        "source": "if sym in holdings:",
+        "context": [
+          {
+            "line": 1770,
+            "text": ""
+          },
+          {
+            "line": 1771,
+            "text": "            # 已持仓股票：记录每天动作；是否卖出/减仓只看 Trade Action，不看是否仍在 Top 3"
+          },
+          {
+            "line": 1772,
+            "text": "            if sym in holdings:"
+          },
+          {
+            "line": 1773,
+            "text": "                holdings[sym][\"action_history\"].append(action)"
+          },
+          {
+            "line": 1774,
+            "text": "                # 持仓内 Action 分布统计"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "line": 1782,
+        "references": [
+          "e1r_selected_buy",
+          "e1r_uptrend_execution_enabled",
+          "holdings",
+          "sym"
+        ],
+        "source": "if (",
+        "context": [
+          {
+            "line": 1780,
+            "text": "            #   Entry Engine  → 由 Qualified Pool 或旧 trade_action BUY 决定"
+          },
+          {
+            "line": 1781,
+            "text": "            #   Position Mgmt → 由 trade_action 决定（HOLD/ADD/REDUCE/EXIT）"
+          },
+          {
+            "line": 1782,
+            "text": "            if ("
+          },
+          {
+            "line": 1783,
+            "text": "                e1r_uptrend_execution_enabled"
+          },
+          {
+            "line": 1784,
+            "text": "                and e1r_selected_buy"
+          }
+        ]
+      },
+      {
+        "kind": "assignment",
+        "line": 1788,
+        "targets": [
+          "_etype"
+        ],
+        "references": [
+          "_etype",
+          "e1r_selected_buy"
+        ],
+        "source": "_etype = e1r_selected_buy[\"entry_type\"]",
+        "context": [
+          {
+            "line": 1786,
+            "text": "                and sym not in holdings"
+          },
+          {
+            "line": 1787,
+            "text": "            ):"
+          },
+          {
+            "line": 1788,
+            "text": "                _etype = e1r_selected_buy[\"entry_type\"]"
+          },
+          {
+            "line": 1789,
+            "text": "                buy_orders.append({"
+          },
+          {
+            "line": 1790,
+            "text": "                    \"sym\":            sym,"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1789,
+        "call": "buy_orders.append",
+        "references": [
+          "_etype",
+          "buy_orders",
+          "buy_orders.append",
+          "close_t",
+          "date_t",
+          "e1r_selected_buy",
+          "leader_rank_all",
+          "leader_rank_all.get",
+          "ls",
+          "sig",
+          "sig.get",
+          "sym",
+          "top_entry_rank",
+          "top_entry_rank.get"
+        ],
+        "source": "buy_orders.append({",
+        "potential_mutation": true,
+        "context": [
+          {
+            "line": 1787,
+            "text": "            ):"
+          },
+          {
+            "line": 1788,
+            "text": "                _etype = e1r_selected_buy[\"entry_type\"]"
+          },
+          {
+            "line": 1789,
+            "text": "                buy_orders.append({"
+          },
+          {
+            "line": 1790,
+            "text": "                    \"sym\":            sym,"
+          },
+          {
+            "line": 1791,
+            "text": "                    \"action\":         \"BUY\","
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "line": 1809,
+        "references": [
+          "holdings",
+          "sym"
+        ],
+        "source": "if sym in holdings:",
+        "context": [
+          {
+            "line": 1807,
+            "text": "                # Qualified Pool 模式：接管新开仓权限"
+          },
+          {
+            "line": 1808,
+            "text": "                # 不使用 trade_action()==\"BUY\"，由候选池资格决定是否可开仓"
+          },
+          {
+            "line": 1809,
+            "text": "                if sym in holdings:"
+          },
+          {
+            "line": 1810,
+            "text": "                    # 已持仓：BUY 信号在 Qualified 模式下转为 ADD，由下方 position mgmt 处理"
+          },
+          {
+            "line": 1811,
+            "text": "                    if action == \"BUY\":"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "line": 1813,
+        "references": [
+          "sym",
+          "top_entry_symbols"
+        ],
+        "source": "elif sym in top_entry_symbols:",
+        "context": [
+          {
+            "line": 1811,
+            "text": "                    if action == \"BUY\":"
+          },
+          {
+            "line": 1812,
+            "text": "                        action = \"ADD\""
+          },
+          {
+            "line": 1813,
+            "text": "                elif sym in top_entry_symbols:"
+          },
+          {
+            "line": 1814,
+            "text": "                    # sym 在 Qualified Pool 候选里"
+          },
+          {
+            "line": 1815,
+            "text": "                    # Fill-Only 检查：如果开启，只在有空仓位时才允许买入"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "line": 1816,
+        "references": [
+          "entry_capacity",
+          "fill_only_enabled",
+          "holdings",
+          "len"
+        ],
+        "source": "if fill_only_enabled and len(holdings) >= entry_capacity:",
+        "context": [
+          {
+            "line": 1814,
+            "text": "                    # sym 在 Qualified Pool 候选里"
+          },
+          {
+            "line": 1815,
+            "text": "                    # Fill-Only 检查：如果开启，只在有空仓位时才允许买入"
+          },
+          {
+            "line": 1816,
+            "text": "                    if fill_only_enabled and len(holdings) >= entry_capacity:"
+          },
+          {
+            "line": 1817,
+            "text": "                        skip_reasons[\"fill_only_no_empty_slot\"] += 1"
+          },
+          {
+            "line": 1818,
+            "text": "                        continue"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1816,
+        "call": "len",
+        "references": [
+          "holdings",
+          "len"
+        ],
+        "source": "if fill_only_enabled and len(holdings) >= entry_capacity:",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1814,
+            "text": "                    # sym 在 Qualified Pool 候选里"
+          },
+          {
+            "line": 1815,
+            "text": "                    # Fill-Only 检查：如果开启，只在有空仓位时才允许买入"
+          },
+          {
+            "line": 1816,
+            "text": "                    if fill_only_enabled and len(holdings) >= entry_capacity:"
+          },
+          {
+            "line": 1817,
+            "text": "                        skip_reasons[\"fill_only_no_empty_slot\"] += 1"
+          },
+          {
+            "line": 1818,
+            "text": "                        continue"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "line": 1820,
+        "references": [
+          "entry_capacity",
+          "holdings",
+          "len",
+          "market_gate_enabled"
+        ],
+        "source": "if market_gate_enabled and len(holdings) >= entry_capacity:",
+        "context": [
+          {
+            "line": 1818,
+            "text": "                        continue"
+          },
+          {
+            "line": 1819,
+            "text": "                    # → 允许开仓（Gate 启用时才在 STEP 3 检查容量）"
+          },
+          {
+            "line": 1820,
+            "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+          },
+          {
+            "line": 1821,
+            "text": "                        skip_reasons[\"gate_capacity_block\"] = skip_reasons.get(\"gate_capacity_block\", 0) + 1"
+          },
+          {
+            "line": 1822,
+            "text": "                        continue"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1820,
+        "call": "len",
+        "references": [
+          "holdings",
+          "len"
+        ],
+        "source": "if market_gate_enabled and len(holdings) >= entry_capacity:",
+        "potential_mutation": false,
+        "context": [
+          {
+            "line": 1818,
+            "text": "                        continue"
+          },
+          {
+            "line": 1819,
+            "text": "                    # → 允许开仓（Gate 启用时才在 STEP 3 检查容量）"
+          },
+          {
+            "line": 1820,
+            "text": "                    if market_gate_enabled and len(holdings) >= entry_capacity:"
+          },
+          {
+            "line": 1821,
+            "text": "                        skip_reasons[\"gate_capacity_block\"] = skip_reasons.get(\"gate_capacity_block\", 0) + 1"
+          },
+          {
+            "line": 1822,
+            "text": "                        continue"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "line": 1823,
+        "references": [
+          "market_entry_allowed"
+        ],
+        "source": "if not market_entry_allowed:",
+        "context": [
+          {
+            "line": 1821,
+            "text": "                        skip_reasons[\"gate_capacity_block\"] = skip_reasons.get(\"gate_capacity_block\", 0) + 1"
+          },
+          {
+            "line": 1822,
+            "text": "                        continue"
+          },
+          {
+            "line": 1823,
+            "text": "                    if not market_entry_allowed:"
+          },
+          {
+            "line": 1824,
+            "text": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+          },
+          {
+            "line": 1825,
+            "text": "                        skip_reasons[reason] += 1"
+          }
+        ]
+      },
+      {
+        "kind": "call",
+        "line": 1836,
+        "call": "buy_orders.append",
+        "references": [
+          "buy_orders",
+          "buy_orders.append",
+          "candidate_top_n",
+          "close_t",
+          "date_t",
+          "ls",
+          "qual_reasons",
+          "strategy_variant",
+          "sym",
+          "top_entry_rank",
+          "top_entry_rank.get"
+        ],
+        "source": "buy_orders.append({",
+        "potential_mutation": true,
+        "context": [
+          {
+            "line": 1834,
+            "text": "                        \"ma50_slope_non_negative\","
+          },
+          {
+            "line": 1835,
+            "text": "                    ]"
+          },
+          {
+            "line": 1836,
+            "text": "                    buy_orders.append({"
+          },
+          {
+            "line": 1837,
+            "text": "                        \"sym\":            sym,"
+          },
+          {
+            "line": 1838,
+            "text": "                        \"action\":         \"BUY\",    # 强制 BUY，不依赖 trade_action()"
+          }
+        ]
+      }
+    ]
+  },
+  "boundary_candidates": {
+    "RAW_UNIVERSE": {
+      "trace_position": "FUNCTION_INPUT",
+      "source_line": 763,
+      "source_variable": "symbols",
+      "trace_timing": "Immediately after input normalization and before per-date/per-symbol filtering.",
+      "observational_copy": "tuple(symbols)"
+    },
+    "ELIGIBILITY_FILTER": {
+      "trace_position": "AFTER_EACH_CANDIDATE_RECORD_FINALIZED",
+      "source_line": 1625,
+      "source_variable": "e1r_candidate_records",
+      "trace_timing": "After the per-symbol candidate record contains final eligibility fields, before ranked selection.",
+      "observational_copy": "tuple(dict(record) for record in e1r_candidate_records)"
+    },
+    "PRE_RANK_CANDIDATE_SNAPSHOT": {
+      "trace_position": "IMMEDIATELY_BEFORE_FIRST_SORT_OR_TOPN",
+      "source_line": 1699,
+      "source_variable": "e1r_buy_candidates",
+      "trace_timing": "After all eligibility filtering and before any in-place sort, sorted call, slice, or TopN truncation.",
+      "observational_copy": "tuple(dict(record) for record in e1r_buy_candidates)"
+    },
+    "RANKED_CANDIDATE_SNAPSHOT": {
+      "trace_position": "IMMEDIATELY_AFTER_RANK_ORDER_FINALIZED",
+      "source_line": 1615,
+      "source_variable": "e1r_buy_candidates",
+      "trace_timing": "After exact legacy ordering is complete and before candidate_top_n or entry_top_n truncation.",
+      "observational_copy": "tuple(dict(record) for record in e1r_buy_candidates)"
+    },
+    "TOP3_ENTRY_SELECTION": {
+      "trace_position": "AFTER_E1R_SELECTED_BUY_FINALIZED",
+      "source_line": 1697,
+      "source_variable": "e1r_selected_buy",
+      "trace_timing": "After exact legacy TopN selection and before position sizing or order creation.",
+      "observational_copy": "tuple(dict(record) for record in e1r_selected_buy)"
+    },
+    "EXISTING_HOLDINGS_SEPARATION": {
+      "trace_position": "BEFORE_NEW_ENTRY_SELECTION",
+      "source_line": 1700,
+      "source_variable": "holdings",
+      "trace_timing": "Capture existing holding symbols before removing or skipping them from new-entry candidates.",
+      "observational_copy": "tuple(holdings.keys())"
+    },
+    "PRE_GATE_INTENT_HANDOFF": {
+      "trace_position": "IMMEDIATELY_BEFORE_GATE_CONDITION",
+      "source_line": 1717,
+      "source_variable": "e1r_buy_candidates",
+      "trace_timing": "Capture candidate decisions before market_entry_allowed blocks downstream entry.",
+      "observational_copy": "tuple(dict(record) for record in e1r_buy_candidates)"
+    },
+    "POSITION_SIZING_BOUNDARY": {
+      "trace_position": "IMMEDIATELY_BEFORE_FIRST_QUANTITY_CALCULATION",
+      "source_line": null,
+      "source_variable": "e1r_selected_buy",
+      "trace_timing": "The candidate trace must be complete before shares, weight, or cash allocation is calculated.",
+      "observational_copy": "tuple(dict(record) for record in e1r_selected_buy)"
+    },
+    "PENDING_ORDER_BOUNDARY": {
+      "trace_position": "IMMEDIATELY_BEFORE_PENDING_ORDER_MUTATION",
+      "source_line": 1515,
+      "source_variable": "pending_orders",
+      "trace_timing": "Candidate and selection traces must be finalized before pending order append/update.",
+      "observational_copy": "tuple(dict(order) for order in pending_orders)"
+    }
+  },
+  "missing_boundaries": [
+    "POSITION_SIZING_BOUNDARY"
+  ],
+  "side_effect_review": {
+    "RAW_UNIVERSE": {
+      "observational_copy": "tuple(symbols)",
+      "mutates_source": false,
+      "consumes_iterator": false,
+      "changes_sort_order": false,
+      "changes_dict_order": false,
+      "changes_randomness": false,
+      "changes_account_state": false,
+      "changes_pending_orders": false,
+      "changes_execution_date": false,
+      "hazards": [],
+      "passed": true
+    },
+    "ELIGIBILITY_FILTER": {
+      "observational_copy": "tuple(dict(record) for record in e1r_candidate_records)",
+      "mutates_source": false,
+      "consumes_iterator": false,
+      "changes_sort_order": false,
+      "changes_dict_order": false,
+      "changes_randomness": false,
+      "changes_account_state": false,
+      "changes_pending_orders": false,
+      "changes_execution_date": false,
+      "hazards": [],
+      "passed": true
+    },
+    "PRE_RANK_CANDIDATE_SNAPSHOT": {
+      "observational_copy": "tuple(dict(record) for record in e1r_buy_candidates)",
+      "mutates_source": false,
+      "consumes_iterator": false,
+      "changes_sort_order": false,
+      "changes_dict_order": false,
+      "changes_randomness": false,
+      "changes_account_state": false,
+      "changes_pending_orders": false,
+      "changes_execution_date": false,
+      "hazards": [],
+      "passed": true
+    },
+    "RANKED_CANDIDATE_SNAPSHOT": {
+      "observational_copy": "tuple(dict(record) for record in e1r_buy_candidates)",
+      "mutates_source": false,
+      "consumes_iterator": false,
+      "changes_sort_order": false,
+      "changes_dict_order": false,
+      "changes_randomness": false,
+      "changes_account_state": false,
+      "changes_pending_orders": false,
+      "changes_execution_date": false,
+      "hazards": [],
+      "passed": true
+    },
+    "TOP3_ENTRY_SELECTION": {
+      "observational_copy": "tuple(dict(record) for record in e1r_selected_buy)",
+      "mutates_source": false,
+      "consumes_iterator": false,
+      "changes_sort_order": false,
+      "changes_dict_order": false,
+      "changes_randomness": false,
+      "changes_account_state": false,
+      "changes_pending_orders": false,
+      "changes_execution_date": false,
+      "hazards": [],
+      "passed": true
+    },
+    "EXISTING_HOLDINGS_SEPARATION": {
+      "observational_copy": "tuple(holdings.keys())",
+      "mutates_source": false,
+      "consumes_iterator": false,
+      "changes_sort_order": false,
+      "changes_dict_order": false,
+      "changes_randomness": false,
+      "changes_account_state": false,
+      "changes_pending_orders": false,
+      "changes_execution_date": false,
+      "hazards": [],
+      "passed": true
+    },
+    "PRE_GATE_INTENT_HANDOFF": {
+      "observational_copy": "tuple(dict(record) for record in e1r_buy_candidates)",
+      "mutates_source": false,
+      "consumes_iterator": false,
+      "changes_sort_order": false,
+      "changes_dict_order": false,
+      "changes_randomness": false,
+      "changes_account_state": false,
+      "changes_pending_orders": false,
+      "changes_execution_date": false,
+      "hazards": [],
+      "passed": true
+    },
+    "POSITION_SIZING_BOUNDARY": {
+      "observational_copy": "tuple(dict(record) for record in e1r_selected_buy)",
+      "mutates_source": false,
+      "consumes_iterator": false,
+      "changes_sort_order": false,
+      "changes_dict_order": false,
+      "changes_randomness": false,
+      "changes_account_state": false,
+      "changes_pending_orders": false,
+      "changes_execution_date": false,
+      "hazards": [],
+      "passed": true
+    },
+    "PENDING_ORDER_BOUNDARY": {
+      "observational_copy": "tuple(dict(order) for order in pending_orders)",
+      "mutates_source": false,
+      "consumes_iterator": false,
+      "changes_sort_order": false,
+      "changes_dict_order": false,
+      "changes_randomness": false,
+      "changes_account_state": false,
+      "changes_pending_orders": false,
+      "changes_execution_date": false,
+      "hazards": [],
+      "passed": true
+    }
+  },
+  "side_effect_failures": [],
+  "trace_payload_schema": {
+    "schema_version": "1.0",
+    "identity": {
+      "trace_run_id": "str",
+      "date": "str",
+      "boundary": "one of REQUIRED_BOUNDARIES",
+      "source_commit": "str"
+    },
+    "source_provenance": {
+      "source_file": "str",
+      "source_function": "str",
+      "source_line": "int",
+      "source_variable": "str"
+    },
+    "market_context": {
+      "market_state": "str",
+      "entry_capacity": "int",
+      "market_entry_allowed": "bool",
+      "gate_state": "str"
+    },
+    "account_context": {
+      "cash": "float",
+      "open_positions_count": "int",
+      "open_position_symbols": "ordered tuple[str, ...]",
+      "max_live_holdings": "int"
+    },
+    "candidate_context": {
+      "raw_universe_symbols": "ordered tuple[str, ...]",
+      "eligible_candidate_records": "ordered tuple[dict, ...]",
+      "pre_rank_candidate_records": "ordered tuple[dict, ...]",
+      "ranked_candidate_records": "ordered tuple[dict, ...]",
+      "selected_candidate_records": "ordered tuple[dict, ...]"
+    },
+    "integrity": {
+      "payload_sha256": "str",
+      "source_collections_unchanged": "bool",
+      "account_state_unchanged": "bool",
+      "pending_orders_unchanged": "bool"
+    }
+  },
+  "instrumentation_rules": [
+    "Instrumentation must be disabled by default.",
+    "Trace collection must be guarded by an explicit read-only callback or trace sink.",
+    "No trace code may sort, append, pop, remove, update, or otherwise mutate strategy collections.",
+    "Trace snapshots must use tuple copies and shallow dict copies only at proven stable boundaries.",
+    "Trace code may not call strategy functions again.",
+    "Trace code may not consume generators or iterators.",
+    "Trace code may not alter logger levels, random state, dates, pending orders, cash, holdings, or signals.",
+    "Trace output must be written after snapshot creation and outside strategy condition expressions.",
+    "A no-trace run and trace-enabled run must produce byte-identical strategy result JSON."
+  ],
+  "single_day_smoke_acceptance": [
+    {
+      "check": "No-trace versus trace-enabled result",
+      "threshold": "byte-identical"
+    },
+    {
+      "check": "Holdings sequence",
+      "threshold": "exact equality"
+    },
+    {
+      "check": "Pending orders sequence",
+      "threshold": "exact equality"
+    },
+    {
+      "check": "Candidate record sequence",
+      "threshold": "exact equality"
+    },
+    {
+      "check": "Cash and equity",
+      "threshold": "exact equality"
+    },
+    {
+      "check": "Trade count and trade records",
+      "threshold": "exact equality"
+    },
+    {
+      "check": "Maximum live holdings",
+      "threshold": "<= 3"
+    },
+    {
+      "check": "Gate decision",
+      "threshold": "exact equality"
+    },
+    {
+      "check": "Trace payload integrity",
+      "threshold": "SHA256 present and stable"
+    }
+  ],
+  "recommended_smoke_dates": [
+    "2021-06-18",
+    "2021-05-12",
+    "2022-01-24"
+  ],
+  "frozen_files": {
+    "src/engine/backtest.py": {
+      "sha256_before": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "sha256_after": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "unchanged": true
+    },
+    "src/engine/e1r_composer.py": {
+      "sha256_before": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "sha256_after": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "unchanged": true
+    },
+    "src/engine/e1r_sidecar_sleeve.py": {
+      "sha256_before": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "sha256_after": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "unchanged": true
+    }
+  },
+  "decision": "BLOCKED_TRACE_POINT_NOT_PROVEN",
+  "next_stage_after_user_approval": null
+}
