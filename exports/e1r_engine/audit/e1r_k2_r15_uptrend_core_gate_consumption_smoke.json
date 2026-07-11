@@ -1,0 +1,222 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R15-UPTREND-CORE-GATE-CONSUMPTION-SMOKE",
+  "generated_at_utc": "2026-07-11T09:39:23.867738+00:00",
+  "scope": {
+    "gate_consumption_only": true,
+    "strategy_logic_extracted": false,
+    "candidate_ranking_implemented": false,
+    "candidate_selection_implemented": false,
+    "order_generation_implemented": false,
+    "position_sizing_implemented": false,
+    "account_mutation_implemented": false,
+    "gate_logic_recomputed": false,
+    "legacy_backtest_integration": false,
+    "full_5y_run": false,
+    "sideways_integration": false
+  },
+  "approved_behavior": {
+    "ALLOW": {
+      "BUY": "PRESERVE",
+      "ADD": "PRESERVE",
+      "HOLD": "PRESERVE",
+      "REDUCE": "PRESERVE",
+      "EXIT": "PRESERVE"
+    },
+    "RISK_OFF": {
+      "BUY": "BLOCK",
+      "ADD": "BLOCK",
+      "HOLD": "PRESERVE",
+      "REDUCE": "PRESERVE",
+      "EXIT": "PRESERVE"
+    },
+    "SHOCK": {
+      "BUY": "BLOCK",
+      "ADD": "BLOCK",
+      "HOLD": "PRESERVE",
+      "REDUCE": "PRESERVE",
+      "EXIT": "PRESERVE"
+    }
+  },
+  "guard_rows": {
+    "2021-06-18": {
+      "market_state": "CAUTIOUS_ON",
+      "entry_capacity": 2,
+      "expected_gate_state": "ALLOW"
+    },
+    "2021-05-12": {
+      "market_state": "CASH_MODE",
+      "entry_capacity": 0,
+      "expected_gate_state": "SHOCK"
+    }
+  },
+  "frozen_files": {
+    "src/engine/backtest.py": {
+      "sha256_before": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "expected_unchanged": true
+    },
+    "src/engine/e1r_composer.py": {
+      "sha256_before": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "expected_unchanged": true
+    },
+    "src/engine/e1r_sidecar_sleeve.py": {
+      "sha256_before": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "expected_unchanged": true
+    }
+  },
+  "decision": "PASS",
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R16-LEGACY-UPTREND-ORDER-LOGIC-EXTRACTION-PROPOSAL",
+  "test_matrix": {
+    "gate_state_count": 3,
+    "action_type_count": 5,
+    "total_tested_action_instances": 15,
+    "cases": {
+      "ALLOW": {
+        "gate_state": "ALLOW",
+        "market_state": "CAUTIOUS_ON",
+        "entry_capacity": 2,
+        "market_entry_allowed": true,
+        "input_order_count": 5,
+        "allowed_order_count": 5,
+        "blocked_order_count": 0,
+        "allowed_types": [
+          "BUY",
+          "ADD",
+          "HOLD",
+          "REDUCE",
+          "EXIT"
+        ],
+        "blocked_types": [],
+        "effective_blocked_actions": [],
+        "unaffected_actions": [
+          "HOLD",
+          "REDUCE",
+          "EXIT"
+        ],
+        "gate_logic_recomputed": false,
+        "passed": true
+      },
+      "RISK_OFF": {
+        "gate_state": "RISK_OFF",
+        "market_state": "CASH_MODE",
+        "entry_capacity": 0,
+        "market_entry_allowed": false,
+        "input_order_count": 5,
+        "allowed_order_count": 3,
+        "blocked_order_count": 2,
+        "allowed_types": [
+          "HOLD",
+          "REDUCE",
+          "EXIT"
+        ],
+        "blocked_types": [
+          "BUY",
+          "ADD"
+        ],
+        "effective_blocked_actions": [
+          "BUY",
+          "ADD"
+        ],
+        "unaffected_actions": [
+          "HOLD",
+          "REDUCE",
+          "EXIT"
+        ],
+        "gate_logic_recomputed": false,
+        "passed": true
+      },
+      "SHOCK": {
+        "gate_state": "SHOCK",
+        "market_state": "CASH_MODE",
+        "entry_capacity": 0,
+        "market_entry_allowed": false,
+        "input_order_count": 5,
+        "allowed_order_count": 3,
+        "blocked_order_count": 2,
+        "allowed_types": [
+          "HOLD",
+          "REDUCE",
+          "EXIT"
+        ],
+        "blocked_types": [
+          "BUY",
+          "ADD"
+        ],
+        "effective_blocked_actions": [
+          "BUY",
+          "ADD"
+        ],
+        "unaffected_actions": [
+          "HOLD",
+          "REDUCE",
+          "EXIT"
+        ],
+        "gate_logic_recomputed": false,
+        "passed": true
+      }
+    }
+  },
+  "guard_rows_result": {
+    "2021-06-18": {
+      "date": "2021-06-18",
+      "spx_close_below_ma50": true,
+      "market_state": "CAUTIOUS_ON",
+      "entry_capacity": 2,
+      "gate_state": "ALLOW",
+      "market_entry_allowed": true,
+      "buy_preserved": true,
+      "add_preserved": true,
+      "passed": true
+    },
+    "2021-05-12": {
+      "date": "2021-05-12",
+      "spx_day_return": -0.0214,
+      "market_state": "CASH_MODE",
+      "entry_capacity": 0,
+      "gate_state": "SHOCK",
+      "market_entry_allowed": false,
+      "buy_blocked": true,
+      "add_blocked": true,
+      "hold_preserved": true,
+      "reduce_preserved": true,
+      "exit_preserved": true,
+      "passed": true
+    }
+  },
+  "validation_summary": {
+    "python_compile_passed": true,
+    "allow_case_all_actions_preserved": true,
+    "risk_off_buy_add_blocked": true,
+    "risk_off_hold_reduce_exit_preserved": true,
+    "shock_buy_add_blocked": true,
+    "shock_hold_reduce_exit_preserved": true,
+    "order_sequence_preserved": true,
+    "gate_logic_recomputed": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "order_generation_performed": false,
+    "position_sizing_performed": false,
+    "account_mutation_performed": false,
+    "legacy_backtest_called": false,
+    "max_live_holdings_contract_unchanged": 3,
+    "frozen_files": {
+      "src/engine/backtest.py": {
+        "sha256_before": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+        "sha256_after": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+        "unchanged": true
+      },
+      "src/engine/e1r_composer.py": {
+        "sha256_before": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+        "sha256_after": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+        "unchanged": true
+      },
+      "src/engine/e1r_sidecar_sleeve.py": {
+        "sha256_before": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+        "sha256_after": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+        "unchanged": true
+      }
+    },
+    "unexpected_working_tree_paths": []
+  },
+  "conclusion": "K2_R15_PASS_UPTREND_CORE_GATE_CONSUMPTION_SMOKE_READY_FOR_R16_LEGACY_UPTREND_ORDER_LOGIC_EXTRACTION_PROPOSAL"
+}

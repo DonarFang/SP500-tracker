@@ -375,6 +375,125 @@ class UptrendCore:
     def __init__(self, mode: str = "golden_master_replay_skeleton") -> None:
         self.mode = mode
 
+    @staticmethod
+    def consume_market_gate(
+        market_gate_decision: MarketGateDecision,
+        order_intents: tuple[OrderIntent, ...],
+    ) -> tuple[
+        tuple[OrderIntent, ...],
+        tuple[OrderIntent, ...],
+        GateConsumptionTrace,
+    ]:
+        """Consume an upstream MarketGateDecision without recomputing it.
+
+        This method does not rank candidates, create order intents, size
+        positions, mutate account state, execute orders, or call legacy code.
+
+        When market_entry_allowed is false, only BUY and ADD are blocked.
+        HOLD, REDUCE, and EXIT remain unaffected.
+        """
+
+        if not isinstance(
+            market_gate_decision,
+            MarketGateDecision,
+        ):
+            raise TypeError(
+                "market_gate_decision must be MarketGateDecision"
+            )
+
+        if not isinstance(order_intents, tuple):
+            raise TypeError("order_intents must be a tuple")
+
+        validation_errors: list[str] = []
+
+        for index, order_intent in enumerate(order_intents):
+            if not isinstance(order_intent, OrderIntent):
+                validation_errors.append(
+                    f"order_intents[{index}]:must_be_OrderIntent"
+                )
+                continue
+
+            validation_errors.extend(
+                f"order_intents[{index}]:{error}"
+                for error in order_intent.validate()
+            )
+
+        if validation_errors:
+            raise ValueError(
+                "invalid order intents: "
+                + "; ".join(validation_errors)
+            )
+
+        effective_blocked_actions: tuple[str, ...]
+
+        if market_gate_decision.market_entry_allowed:
+            effective_blocked_actions = ()
+        else:
+            effective_blocked_actions = ("BUY", "ADD")
+
+        allowed: list[OrderIntent] = []
+        blocked: list[OrderIntent] = []
+
+        for order_intent in order_intents:
+            if (
+                order_intent.intent_type
+                in effective_blocked_actions
+            ):
+                blocked.append(order_intent)
+            else:
+                allowed.append(order_intent)
+
+        trace = GateConsumptionTrace(
+            date=market_gate_decision.date,
+            gate_state=market_gate_decision.gate_state,
+            market_state=market_gate_decision.market_state,
+            entry_capacity=(
+                market_gate_decision.entry_capacity
+            ),
+            market_entry_allowed=(
+                market_gate_decision.market_entry_allowed
+            ),
+            effective_blocked_actions=(
+                effective_blocked_actions
+            ),
+            unaffected_actions=(
+                market_gate_decision.unaffected_actions
+            ),
+            source="MarketGateDecision",
+            gate_logic_recomputed=False,
+            metadata={
+                "input_order_intent_count": len(
+                    order_intents
+                ),
+                "allowed_order_intent_count": len(
+                    allowed
+                ),
+                "blocked_order_intent_count": len(
+                    blocked
+                ),
+                "candidate_ranking_performed": False,
+                "candidate_selection_performed": False,
+                "order_generation_performed": False,
+                "position_sizing_performed": False,
+                "account_mutation_performed": False,
+                "legacy_backtest_called": False,
+            },
+        )
+
+        trace_errors = trace.validate()
+
+        if trace_errors:
+            raise ValueError(
+                "invalid gate consumption trace: "
+                + "; ".join(trace_errors)
+            )
+
+        return (
+            tuple(allowed),
+            tuple(blocked),
+            trace,
+        )
+
     def from_golden_master(self, golden_master: dict[str, Any]) -> UptrendCoreResult:
         raw = golden_master.get("raw_result", {})
         if not isinstance(raw, dict):
