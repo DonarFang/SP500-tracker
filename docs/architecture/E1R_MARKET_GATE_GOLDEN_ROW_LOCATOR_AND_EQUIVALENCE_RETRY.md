@@ -1,0 +1,1163 @@
+# E1R 4C-2C-4E-ENGINE-K2-R12C — Golden Row Locator And Equivalence Retry
+
+Generated At: `2026-07-11T06:05:20.970875+00:00`
+
+## Purpose
+Use the explicitly located R7 focused_rows golden data and pure Python assertions to retry standalone MarketGateEvaluator equivalence.
+
+## Golden Row Locator
+```json
+{
+  "selected_path": "equivalence_report.focused_rows",
+  "row_count": 17,
+  "candidates": [
+    {
+      "path": "equivalence_report.focused_rows",
+      "row_count": 17,
+      "sample": [
+        {
+          "date": "2021-05-03",
+          "expected_market_gate_state": "ALLOW",
+          "captured__gate_state": "ALLOW",
+          "computed_gate_state_from_captured_inputs": "ALLOW",
+          "market_entry_allowed": true,
+          "market_shock": false,
+          "market_risk_off": false,
+          "market_state": "CAUTIOUS_ON",
+          "_shock_active": false,
+          "entry_capacity": 2,
+          "spx_close_t": 4192.660156,
+          "spx_ma50_t": 4008.45681644,
+          "spx_day_return": 0.0027480906574836577,
+          "holdings_count": 3,
+          "pending_orders_count": 1,
+          "source_quality": "legacy_sys_trace_locals"
+        },
+        {
+          "date": "2021-05-04",
+          "expected_market_gate_state": "ALLOW",
+          "captured__gate_state": "ALLOW",
+          "computed_gate_state_from_captured_inputs": "ALLOW",
+          "market_entry_allowed": true,
+          "market_shock": false,
+          "market_risk_off": false,
+          "market_state": "CAUTIOUS_ON",
+          "_shock_active": false,
+          "entry_capacity": 2,
+          "spx_close_t": 4164.660156,
+          "spx_ma50_t": 4014.2200195600003,
+          "spx_day_return": -0.006678337608625392,
+          "holdings_count": 3,
+          "pending_orders_count": 1,
+          "source_quality": "legacy_sys_trace_locals"
+        },
+        {
+          "date": "2021-05-05",
+          "expected_market_gate_state": "ALLOW",
+          "captured__gate_state": "ALLOW",
+          "computed_gate_state_from_captured_inputs": "ALLOW",
+          "market_entry_allowed": true,
+          "market_shock": false,
+          "market_risk_off": false,
+          "market_state": "CAUTIOUS_ON",
+          "_shock_active": false,
+          "entry_capacity": 2,
+          "spx_close_t": 4167.589844,
+          "spx_ma50_t": 4019.9444141,
+          "spx_day_return": 0.0007034638818678605,
+          "holdings_count": 3,
+          "pending_orders_count": 1,
+          "source_quality": "legacy_sys_trace_locals"
+        }
+      ]
+    },
+    {
+      "path": "focused_rows",
+      "row_count": 17,
+      "sample": [
+        {
+          "date": "2021-05-03",
+          "expected_market_gate_state": "ALLOW",
+          "captured__gate_state": "ALLOW",
+          "computed_gate_state_from_captured_inputs": "ALLOW",
+          "market_entry_allowed": true,
+          "market_shock": false,
+          "market_risk_off": false,
+          "market_state": "CAUTIOUS_ON",
+          "_shock_active": false,
+          "entry_capacity": 2,
+          "spx_close_t": 4192.660156,
+          "spx_ma50_t": 4008.45681644,
+          "spx_day_return": 0.0027480906574836577,
+          "holdings_count": 3,
+          "pending_orders_count": 1,
+          "source_quality": "legacy_sys_trace_locals"
+        },
+        {
+          "date": "2021-05-04",
+          "expected_market_gate_state": "ALLOW",
+          "captured__gate_state": "ALLOW",
+          "computed_gate_state_from_captured_inputs": "ALLOW",
+          "market_entry_allowed": true,
+          "market_shock": false,
+          "market_risk_off": false,
+          "market_state": "CAUTIOUS_ON",
+          "_shock_active": false,
+          "entry_capacity": 2,
+          "spx_close_t": 4164.660156,
+          "spx_ma50_t": 4014.2200195600003,
+          "spx_day_return": -0.006678337608625392,
+          "holdings_count": 3,
+          "pending_orders_count": 1,
+          "source_quality": "legacy_sys_trace_locals"
+        },
+        {
+          "date": "2021-05-05",
+          "expected_market_gate_state": "ALLOW",
+          "captured__gate_state": "ALLOW",
+          "computed_gate_state_from_captured_inputs": "ALLOW",
+          "market_entry_allowed": true,
+          "market_shock": false,
+          "market_risk_off": false,
+          "market_state": "CAUTIOUS_ON",
+          "_shock_active": false,
+          "entry_capacity": 2,
+          "spx_close_t": 4167.589844,
+          "spx_ma50_t": 4019.9444141,
+          "spx_day_return": 0.0007034638818678605,
+          "holdings_count": 3,
+          "pending_orders_count": 1,
+          "source_quality": "legacy_sys_trace_locals"
+        }
+      ]
+    }
+  ],
+  "error": null,
+  "sample_normalized_rows": [
+    {
+      "idx": 0,
+      "date": "2021-05-03",
+      "market_state": "CAUTIOUS_ON",
+      "entry_capacity": 2,
+      "spx_close": 4192.660156,
+      "spx_ma50": 4008.45681644,
+      "spx_day_return": 0.0027480906574836577,
+      "expected": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "source_quality": "legacy_sys_trace_locals",
+      "raw": {
+        "date": "2021-05-03",
+        "expected_market_gate_state": "ALLOW",
+        "captured__gate_state": "ALLOW",
+        "computed_gate_state_from_captured_inputs": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false,
+        "market_state": "CAUTIOUS_ON",
+        "_shock_active": false,
+        "entry_capacity": 2,
+        "spx_close_t": 4192.660156,
+        "spx_ma50_t": 4008.45681644,
+        "spx_day_return": 0.0027480906574836577,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      }
+    },
+    {
+      "idx": 1,
+      "date": "2021-05-04",
+      "market_state": "CAUTIOUS_ON",
+      "entry_capacity": 2,
+      "spx_close": 4164.660156,
+      "spx_ma50": 4014.2200195600003,
+      "spx_day_return": -0.006678337608625392,
+      "expected": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "source_quality": "legacy_sys_trace_locals",
+      "raw": {
+        "date": "2021-05-04",
+        "expected_market_gate_state": "ALLOW",
+        "captured__gate_state": "ALLOW",
+        "computed_gate_state_from_captured_inputs": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false,
+        "market_state": "CAUTIOUS_ON",
+        "_shock_active": false,
+        "entry_capacity": 2,
+        "spx_close_t": 4164.660156,
+        "spx_ma50_t": 4014.2200195600003,
+        "spx_day_return": -0.006678337608625392,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      }
+    },
+    {
+      "idx": 2,
+      "date": "2021-05-05",
+      "market_state": "CAUTIOUS_ON",
+      "entry_capacity": 2,
+      "spx_close": 4167.589844,
+      "spx_ma50": 4019.9444141,
+      "spx_day_return": 0.0007034638818678605,
+      "expected": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "source_quality": "legacy_sys_trace_locals",
+      "raw": {
+        "date": "2021-05-05",
+        "expected_market_gate_state": "ALLOW",
+        "captured__gate_state": "ALLOW",
+        "computed_gate_state_from_captured_inputs": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false,
+        "market_state": "CAUTIOUS_ON",
+        "_shock_active": false,
+        "entry_capacity": 2,
+        "spx_close_t": 4167.589844,
+        "spx_ma50_t": 4019.9444141,
+        "spx_day_return": 0.0007034638818678605,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      }
+    },
+    {
+      "idx": 3,
+      "date": "2021-05-06",
+      "market_state": "CAUTIOUS_ON",
+      "entry_capacity": 2,
+      "spx_close": 4201.620117,
+      "spx_ma50": 4025.4682178000007,
+      "spx_day_return": 0.008165456360585254,
+      "expected": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "source_quality": "legacy_sys_trace_locals",
+      "raw": {
+        "date": "2021-05-06",
+        "expected_market_gate_state": "ALLOW",
+        "captured__gate_state": "ALLOW",
+        "computed_gate_state_from_captured_inputs": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false,
+        "market_state": "CAUTIOUS_ON",
+        "_shock_active": false,
+        "entry_capacity": 2,
+        "spx_close_t": 4201.620117,
+        "spx_ma50_t": 4025.4682178000007,
+        "spx_day_return": 0.008165456360585254,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      }
+    },
+    {
+      "idx": 4,
+      "date": "2021-05-07",
+      "market_state": "FULL_ON",
+      "entry_capacity": 3,
+      "spx_close": 4232.600098,
+      "spx_ma50": 4033.5334180000004,
+      "spx_day_return": 0.007373341743736585,
+      "expected": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "source_quality": "legacy_sys_trace_locals",
+      "raw": {
+        "date": "2021-05-07",
+        "expected_market_gate_state": "ALLOW",
+        "captured__gate_state": "ALLOW",
+        "computed_gate_state_from_captured_inputs": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false,
+        "market_state": "FULL_ON",
+        "_shock_active": false,
+        "entry_capacity": 3,
+        "spx_close_t": 4232.600098,
+        "spx_ma50_t": 4033.5334180000004,
+        "spx_day_return": 0.007373341743736585,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      }
+    },
+    {
+      "idx": 5,
+      "date": "2021-05-10",
+      "market_state": "CASH_MODE",
+      "entry_capacity": 0,
+      "spx_close": 4188.430176,
+      "spx_ma50": 4041.07902348,
+      "spx_day_return": -0.010435647350873364,
+      "expected": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "source_quality": "legacy_sys_trace_locals",
+      "raw": {
+        "date": "2021-05-10",
+        "expected_market_gate_state": "RISK_OFF",
+        "captured__gate_state": "RISK_OFF",
+        "computed_gate_state_from_captured_inputs": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true,
+        "market_state": "CASH_MODE",
+        "_shock_active": false,
+        "entry_capacity": 0,
+        "spx_close_t": 4188.430176,
+        "spx_ma50_t": 4041.07902348,
+        "spx_day_return": -0.010435647350873364,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      }
+    },
+    {
+      "idx": 6,
+      "date": "2021-05-11",
+      "market_state": "CASH_MODE",
+      "entry_capacity": 0,
+      "spx_close": 4152.100098,
+      "spx_ma50": 4046.08462408,
+      "spx_day_return": -0.008673912772421005,
+      "expected": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "source_quality": "legacy_sys_trace_locals",
+      "raw": {
+        "date": "2021-05-11",
+        "expected_market_gate_state": "RISK_OFF",
+        "captured__gate_state": "RISK_OFF",
+        "computed_gate_state_from_captured_inputs": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true,
+        "market_state": "CASH_MODE",
+        "_shock_active": false,
+        "entry_capacity": 0,
+        "spx_close_t": 4152.100098,
+        "spx_ma50_t": 4046.08462408,
+        "spx_day_return": -0.008673912772421005,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      }
+    },
+    {
+      "idx": 7,
+      "date": "2021-05-12",
+      "market_state": "CASH_MODE",
+      "entry_capacity": 0,
+      "spx_close": 4063.040039,
+      "spx_ma50": 4049.93962408,
+      "spx_day_return": -0.02144940076056902,
+      "expected": {
+        "gate_state": "SHOCK",
+        "market_entry_allowed": false,
+        "market_shock": true,
+        "market_risk_off": false
+      },
+      "source_quality": "legacy_sys_trace_locals",
+      "raw": {
+        "date": "2021-05-12",
+        "expected_market_gate_state": "SHOCK",
+        "captured__gate_state": "SHOCK",
+        "computed_gate_state_from_captured_inputs": "SHOCK",
+        "market_entry_allowed": false,
+        "market_shock": true,
+        "market_risk_off": false,
+        "market_state": "CASH_MODE",
+        "_shock_active": true,
+        "entry_capacity": 0,
+        "spx_close_t": 4063.040039,
+        "spx_ma50_t": 4049.93962408,
+        "spx_day_return": -0.02144940076056902,
+        "holdings_count": 3,
+        "pending_orders_count": 1,
+        "source_quality": "legacy_sys_trace_locals"
+      }
+    },
+    {
+      "idx": 8,
+      "date": "2021-05-13",
+      "market_state": "CASH_MODE",
+      "entry_capacity": 0,
+      "spx_close": 4112.5,
+      "spx_ma50": 4055.7952246600007,
+      "spx_day_return": 0.01217314142249338,
+      "expected": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "source_quality": "legacy_sys_trace_locals",
+      "raw": {
+        "date": "2021-05-13",
+        "expected_market_gate_state": "RISK_OFF",
+        "captured__gate_state": "RISK_OFF",
+        "computed_gate_state_from_captured_inputs": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true,
+        "market_state": "CASH_MODE",
+        "_shock_active": false,
+        "entry_capacity": 0,
+        "spx_close_t": 4112.5,
+        "spx_ma50_t": 4055.7952246600007,
+        "spx_day_return": 0.01217314142249338,
+        "holdings_count": 3,
+        "pending_orders_count": 3,
+        "source_quality": "legacy_sys_trace_locals"
+      }
+    },
+    {
+      "idx": 9,
+      "date": "2021-05-14",
+      "market_state": "CASH_MODE",
+      "entry_capacity": 0,
+      "spx_close": 4173.850098,
+      "spx_ma50": 4063.902827200001,
+      "spx_day_return": 0.014917956960486296,
+      "expected": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "source_quality": "legacy_sys_trace_locals",
+      "raw": {
+        "date": "2021-05-14",
+        "expected_market_gate_state": "RISK_OFF",
+        "captured__gate_state": "RISK_OFF",
+        "computed_gate_state_from_captured_inputs": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true,
+        "market_state": "CASH_MODE",
+        "_shock_active": false,
+        "entry_capacity": 0,
+        "spx_close_t": 4173.850098,
+        "spx_ma50_t": 4063.902827200001,
+        "spx_day_return": 0.014917956960486296,
+        "holdings_count": 3,
+        "pending_orders_count": 3,
+        "source_quality": "legacy_sys_trace_locals"
+      }
+    }
+  ]
+}
+```
+
+## Equivalence
+```json
+{
+  "row_count": 17,
+  "mismatch_count": 0,
+  "ok": true,
+  "distribution": {
+    "expected_gate_state": {
+      "ALLOW": 8,
+      "RISK_OFF": 8,
+      "SHOCK": 1
+    },
+    "actual_gate_state": {
+      "ALLOW": 8,
+      "RISK_OFF": 8,
+      "SHOCK": 1
+    },
+    "market_state": {
+      "CAUTIOUS_ON": 6,
+      "FULL_ON": 2,
+      "CASH_MODE": 9
+    },
+    "source_quality": {
+      "legacy_sys_trace_locals": 17
+    }
+  },
+  "sample_comparisons": [
+    {
+      "idx": 0,
+      "date": "2021-05-03",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-03",
+        "spx_close": 4192.660156,
+        "spx_ma50": 4008.45681644,
+        "spx_day_return": 0.0027480906574836577,
+        "market_state": "CAUTIOUS_ON",
+        "entry_capacity": 2,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "actual": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 1,
+      "date": "2021-05-04",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-04",
+        "spx_close": 4164.660156,
+        "spx_ma50": 4014.2200195600003,
+        "spx_day_return": -0.006678337608625392,
+        "market_state": "CAUTIOUS_ON",
+        "entry_capacity": 2,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "actual": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 2,
+      "date": "2021-05-05",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-05",
+        "spx_close": 4167.589844,
+        "spx_ma50": 4019.9444141,
+        "spx_day_return": 0.0007034638818678605,
+        "market_state": "CAUTIOUS_ON",
+        "entry_capacity": 2,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "actual": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 3,
+      "date": "2021-05-06",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-06",
+        "spx_close": 4201.620117,
+        "spx_ma50": 4025.4682178000007,
+        "spx_day_return": 0.008165456360585254,
+        "market_state": "CAUTIOUS_ON",
+        "entry_capacity": 2,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "actual": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 4,
+      "date": "2021-05-07",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-07",
+        "spx_close": 4232.600098,
+        "spx_ma50": 4033.5334180000004,
+        "spx_day_return": 0.007373341743736585,
+        "market_state": "FULL_ON",
+        "entry_capacity": 3,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "actual": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 5,
+      "date": "2021-05-10",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-10",
+        "spx_close": 4188.430176,
+        "spx_ma50": 4041.07902348,
+        "spx_day_return": -0.010435647350873364,
+        "market_state": "CASH_MODE",
+        "entry_capacity": 0,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "actual": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 6,
+      "date": "2021-05-11",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-11",
+        "spx_close": 4152.100098,
+        "spx_ma50": 4046.08462408,
+        "spx_day_return": -0.008673912772421005,
+        "market_state": "CASH_MODE",
+        "entry_capacity": 0,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "actual": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 7,
+      "date": "2021-05-12",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-12",
+        "spx_close": 4063.040039,
+        "spx_ma50": 4049.93962408,
+        "spx_day_return": -0.02144940076056902,
+        "market_state": "CASH_MODE",
+        "entry_capacity": 0,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "SHOCK",
+        "market_entry_allowed": false,
+        "market_shock": true,
+        "market_risk_off": false
+      },
+      "actual": {
+        "gate_state": "SHOCK",
+        "market_entry_allowed": false,
+        "market_shock": true,
+        "market_risk_off": false
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 8,
+      "date": "2021-05-13",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-13",
+        "spx_close": 4112.5,
+        "spx_ma50": 4055.7952246600007,
+        "spx_day_return": 0.01217314142249338,
+        "market_state": "CASH_MODE",
+        "entry_capacity": 0,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "actual": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 9,
+      "date": "2021-05-14",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-14",
+        "spx_close": 4173.850098,
+        "spx_ma50": 4063.902827200001,
+        "spx_day_return": 0.014917956960486296,
+        "market_state": "CASH_MODE",
+        "entry_capacity": 0,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "actual": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 10,
+      "date": "2021-05-17",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-17",
+        "spx_close": 4163.290039,
+        "spx_ma50": 4070.329829160001,
+        "spx_day_return": -0.0025300522903444855,
+        "market_state": "CASH_MODE",
+        "entry_capacity": 0,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "actual": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 11,
+      "date": "2021-05-18",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-18",
+        "spx_close": 4127.830078,
+        "spx_ma50": 4076.4594287600007,
+        "spx_day_return": -0.00851729297450479,
+        "market_state": "CASH_MODE",
+        "entry_capacity": 0,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "actual": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 12,
+      "date": "2021-05-19",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-19",
+        "spx_close": 4115.680176,
+        "spx_ma50": 4081.264233460001,
+        "spx_day_return": -0.0029434113736307027,
+        "market_state": "CASH_MODE",
+        "entry_capacity": 0,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "actual": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 13,
+      "date": "2021-05-20",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-20",
+        "spx_close": 4159.120117,
+        "spx_ma50": 4086.470434620001,
+        "spx_day_return": 0.010554741656874688,
+        "market_state": "CAUTIOUS_ON",
+        "entry_capacity": 2,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "actual": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 14,
+      "date": "2021-05-21",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-21",
+        "spx_close": 4155.859863,
+        "spx_ma50": 4090.8008301200007,
+        "spx_day_return": -0.0007838807027175632,
+        "market_state": "CASH_MODE",
+        "entry_capacity": 0,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "actual": {
+        "gate_state": "RISK_OFF",
+        "market_entry_allowed": false,
+        "market_shock": false,
+        "market_risk_off": true
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 15,
+      "date": "2021-05-24",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-05-24",
+        "spx_close": 4197.049805,
+        "spx_ma50": 4095.87502446,
+        "spx_day_return": 0.009911292333679919,
+        "market_state": "FULL_ON",
+        "entry_capacity": 3,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "actual": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    },
+    {
+      "idx": 16,
+      "date": "2021-06-18",
+      "source_quality": "legacy_sys_trace_locals",
+      "inputs": {
+        "date": "2021-06-18",
+        "spx_close": 4166.450195,
+        "spx_ma50": 4181.589023459999,
+        "spx_day_return": -0.01312446878817667,
+        "market_state": "CAUTIOUS_ON",
+        "entry_capacity": 2,
+        "existing_positions_count": 0
+      },
+      "expected": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "actual": {
+        "gate_state": "ALLOW",
+        "market_entry_allowed": true,
+        "market_shock": false,
+        "market_risk_off": false
+      },
+      "checks": {
+        "gate_state": true,
+        "market_entry_allowed": true,
+        "market_shock": true,
+        "market_risk_off": true
+      },
+      "ok": true
+    }
+  ],
+  "mismatches": []
+}
+```
+
+## Pure Python Regression Smoke
+```json
+{
+  "case_count": 2,
+  "ok": true,
+  "results": [
+    {
+      "name": "invalid_direct_formula_guard_2021_06_18",
+      "inputs": {
+        "date": "2021-06-18",
+        "spx_close": 4166.450195,
+        "spx_ma50": 4181.589023459999,
+        "spx_day_return": -0.01312446878817667,
+        "market_state": "CAUTIOUS_ON",
+        "entry_capacity": 2,
+        "existing_positions_count": 0
+      },
+      "expected_gate_state": "ALLOW",
+      "actual_gate_state": "ALLOW",
+      "ok": true
+    },
+    {
+      "name": "shock_precedence_2021_05_12",
+      "inputs": {
+        "date": "2021-05-12",
+        "spx_close": 4063.040039,
+        "spx_ma50": 4049.93962408,
+        "spx_day_return": -0.02144940076056902,
+        "market_state": "CASH_MODE",
+        "entry_capacity": 0,
+        "existing_positions_count": 0
+      },
+      "expected_gate_state": "SHOCK",
+      "actual_gate_state": "SHOCK",
+      "ok": true
+    }
+  ]
+}
+```
+
+## Validations
+```json
+{
+  "r12c_equivalence_retry_complete": true,
+  "r7_loaded": true,
+  "r8_loaded": true,
+  "r11_loaded": true,
+  "r12b_loaded": true,
+  "r12b_authorized_r12c": true,
+  "golden_rows_found": true,
+  "golden_rows_count": 17,
+  "selected_golden_path": "equivalence_report.focused_rows",
+  "equivalence_run": true,
+  "equivalence_passed": true,
+  "mismatch_count_zero": true,
+  "pure_python_regression_smoke_run": true,
+  "pure_python_regression_smoke_passed": true,
+  "pytest_required": false,
+  "strategy_logic_changed": false,
+  "standalone_module_only": true,
+  "strategy_integration_changed": false,
+  "legacy_backtest_called": false,
+  "backtest_engine_run": false,
+  "short_window_existing_engine_run": false,
+  "full_5y_backtest_run": false,
+  "forward_runner_run": false,
+  "candidate_generation_extracted": false,
+  "buy_add_reduce_exit_extracted": false,
+  "official_result_generated": false,
+  "dashboard_changed": false,
+  "formula_not_patched_in_legacy": true,
+  "strategy_files_unchanged": true
+}
+```
+
+## Decision
+```json
+{
+  "k2_r12c_market_gate_equivalence_retry_passed": true,
+  "market_gate_equivalence_ready": true,
+  "market_gate_strategy_integration_allowed_now": false,
+  "formula_patch_allowed_now": false,
+  "candidate_extraction_allowed_now": false,
+  "implementation_may_resume": false,
+  "requires_user_approval_before_next_stage": true,
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R13-UPTREND_CORE_GATE_WIRING_PROPOSAL",
+  "conclusion": "K2_R12C_PASS_MARKET_GATE_EQUIVALENCE_READY_FOR_R13_WIRING_PROPOSAL",
+  "recommended_next_action": "Review R12C and final session review. If accepted, proceed to R13 proposal only."
+}
+```
