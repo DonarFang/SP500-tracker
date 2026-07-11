@@ -1,0 +1,6908 @@
+{
+  "schema_version": "1.0",
+  "trace_schema_version": "1.0",
+  "stage": "K2-R19-RUNTIME-TRACE-EQUIVALENCE",
+  "repository": {
+    "branch": "main",
+    "head_before_commit": "30d739e98f8c625c13eaf6bacb2c652878c03570",
+    "origin_main": "30d739e98f8c625c13eaf6bacb2c652878c03570"
+  },
+  "stage_model": {
+    "R17": {
+      "name": "Legacy execution contract proof",
+      "status": "PASS"
+    },
+    "R18": {
+      "name": "Read-only trace instrumentation",
+      "status": "PASS_STATIC",
+      "commit": "30d739e"
+    },
+    "R19": {
+      "name": "Runtime trace equivalence",
+      "status": "PASS"
+    },
+    "substage_numbering_used": false
+  },
+  "scope": {
+    "strategy_source_modified": false,
+    "trace_source_modified": false,
+    "full_5y_single_run": false,
+    "bounded_discovery_windows": true,
+    "trace_disabled_enabled_dual_run": true,
+    "capacity_block_observability_required": false
+  },
+  "inputs": {
+    "canonical_runner": {
+      "path": "scripts/export_e1_5y_core_equity.py",
+      "sha256": "f78da1d9b2f11cb6775232e1b7c1245efd4406d2170851771c49725cbc5e0566"
+    },
+    "backtest": {
+      "path": "src/engine/backtest.py",
+      "sha256": "32f2b756ec10b597b8094b9aef595b1b13c62000e7a1422460dc3636af238873"
+    },
+    "trace_module": {
+      "path": "src/engine/e1r_trace.py",
+      "sha256": "29217de5bb7e40edcdf374e45e30d5884b4a239a51a313e3fd3708121e261f1c"
+    },
+    "intermediate_attempts": [
+      {
+        "path": "exports/e1r_engine/audit/e1r_k2_r17b1a_golden_date_runner_preflight.json",
+        "sha256": "18e426c1e9e86d8ec2a418ad0ae45e957d5f7d19704a2c7bb49296fe628f7377",
+        "reported_decision": "PASS_GOLDEN_DATE_RUNNER_PREFLIGHT",
+        "final_disposition": "SUPERSEDED_BY_K2_R19"
+      },
+      {
+        "path": "exports/e1r_engine/audit/e1r_k2_r17b1a_rca_executable_runner_and_golden_case_proof.json",
+        "sha256": "72d2b9c42b2ba9fab9591fa9e72a90b890dd9c8c64f27c7437d75aa17dcc0928",
+        "reported_decision": "BLOCKED_SEMANTIC_GOLDEN_CASE_COVERAGE_NOT_PROVEN",
+        "final_disposition": "SUPERSEDED_BY_K2_R19"
+      },
+      {
+        "path": "exports/e1r_engine/audit/e1r_k2_r17b1a1_golden_case_discovery_and_observability_review.json",
+        "sha256": "de2defd2d40a2523c5c518f878e3a80f4ea4af97b133356c0d83bf0976897589",
+        "reported_decision": "BLOCKED_CANONICAL_E1R_ASSUMPTIONS_NOT_PROVEN",
+        "final_disposition": "SUPERSEDED_BY_K2_R19"
+      }
+    ]
+  },
+  "assumptions_capture": {
+    "capture_error": {
+      "type": "TypeError",
+      "message": "unsupported format string passed to NoneType.__format__"
+    },
+    "captured_call_count": 9,
+    "e1r_candidate_count": 3,
+    "unique_contract_count": 1,
+    "proven": true,
+    "contract_hash": "7a9fef9291fad51b8285ea9fc4d0bfa0ad2bb91404c6267fff621fb2cf2ad6da",
+    "contract": {
+      "add_size": 0.5,
+      "block_add_after_take_profit": false,
+      "buy_price_field": "high",
+      "buy_size": 1.0,
+      "candidate_top_n": null,
+      "cash_yield": 0.0,
+      "dynamic_exit_enabled": false,
+      "e1r_regime_daily": {
+        "2020-04-01": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-02": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-03": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-06": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-07": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-08": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-09": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-13": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-14": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-15": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-16": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-17": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-20": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-21": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-22": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-23": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-24": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-27": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-28": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-29": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-04-30": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-01": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-04": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-05": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-06": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-07": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-08": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-11": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-12": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-13": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-14": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-15": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-18": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-19": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-20": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-21": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-22": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-26": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-27": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-28": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-05-29": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-01": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-02": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-03": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-04": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-05": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-08": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-09": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-10": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-11": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-12": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-15": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-16": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-17": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-18": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-19": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-22": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-23": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-24": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-25": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-26": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-29": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-06-30": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-01": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-02": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-06": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-07": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-08": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-09": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-10": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-13": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-14": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-15": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-16": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-17": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-20": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-21": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-22": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-23": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-24": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-27": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-28": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-29": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-30": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-07-31": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-03": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-04": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-05": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-06": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-07": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-10": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-11": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-12": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-13": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-14": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-17": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-18": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-19": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-20": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-21": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-24": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-25": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-26": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-27": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-28": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-08-31": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-01": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-02": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-03": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-04": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-08": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-09": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-10": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-11": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-14": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-15": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-16": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-17": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-18": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-21": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-22": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-23": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-24": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-25": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-28": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-29": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-09-30": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-01": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-02": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-05": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-06": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-07": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-08": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-09": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-12": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-13": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-14": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-15": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-16": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-19": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-20": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-21": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-22": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-23": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-26": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-27": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-28": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-29": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-10-30": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-02": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-03": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-04": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-05": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-06": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-09": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-10": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-11": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-12": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-13": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-16": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-17": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-18": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-19": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-20": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-23": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-24": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-25": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-27": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-11-30": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-01": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-02": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-03": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-04": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-07": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-08": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-09": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-10": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-11": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-14": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-15": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-16": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-17": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-18": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-21": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-22": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-23": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-24": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-28": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-29": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-30": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2020-12-31": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-04": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-05": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-06": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-07": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-08": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-11": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-12": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-13": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-14": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-15": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-19": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-20": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-21": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-22": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-25": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-26": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-27": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-28": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-01-29": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-01": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-02": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-03": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-04": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-05": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-08": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-09": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-10": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-11": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-12": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-16": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-17": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-18": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-19": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-22": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-23": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-24": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-25": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-02-26": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-01": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-02": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-03": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-04": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-05": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-08": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-09": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-10": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-11": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-12": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-15": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-16": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-17": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-18": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-19": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-22": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-23": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-24": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-25": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-26": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-29": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-30": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-03-31": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-04-01": {
+          "regime": "UNCLASSIFIED",
+          "subclass": null
+        },
+        "2021-04-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-04-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-05-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-06-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-07-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-08-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-09-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-10-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-11-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2021-12-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-01-24": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-01-25": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-01-26": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-01-27": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-01-28": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-01-31": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-01": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-02": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-03": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-04": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-02-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-02-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-02-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-02-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2022-02-14": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-15": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-16": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-17": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-18": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-22": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-23": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-24": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-25": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-02-28": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-03-01": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-03-02": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-03-03": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-03-04": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-03-07": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-03-08": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-03-09": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-03-10": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-03-11": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-03-14": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-03-15": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-03-16": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-03-17": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-03-18": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-03-21": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-03-22": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-03-23": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-03-24": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-03-25": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-03-28": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-03-29": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-03-30": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-03-31": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-04-01": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-04-04": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-04-05": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-04-06": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-04-07": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-04-08": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-04-11": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-04-12": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-04-13": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-04-14": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-04-18": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-04-19": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-04-20": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-04-21": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-04-22": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-04-25": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-04-26": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-04-27": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-04-28": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-04-29": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-02": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-03": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-04": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-05": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-06": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-09": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-10": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-11": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-12": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-13": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-16": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-17": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-18": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-19": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-20": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2022-05-23": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-05-24": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-05-25": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-05-26": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-05-27": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-05-31": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-01": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-02": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-03": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-06": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-07": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-08": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-09": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-10": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-13": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-14": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-15": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-16": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-17": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-21": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-22": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-23": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-24": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-27": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-28": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-29": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-06-30": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-01": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-05": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-06": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-07": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-08": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-11": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-12": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-13": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-14": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-15": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-18": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-19": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-20": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-21": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-22": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-25": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-26": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-27": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-28": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-07-29": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-01": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-02": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-03": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-04": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-05": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-08": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-09": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-10": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-11": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-12": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-15": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-16": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-17": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-18": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-19": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-22": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-23": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-24": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-25": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-26": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-29": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-30": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-08-31": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-01": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-02": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-06": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-07": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-08": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-09": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-12": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-13": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-14": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-15": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-16": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-19": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-20": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-21": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-22": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-23": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-26": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-27": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-28": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-29": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-09-30": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-03": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-04": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-05": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-06": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-07": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-10": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-11": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-12": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-13": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-14": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-17": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-18": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-19": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-20": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-21": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-24": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-25": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-26": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-27": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-28": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-10-31": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-01": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-02": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-03": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-04": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-07": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-08": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-09": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-10": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-11": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-14": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-15": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-16": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-17": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-18": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-21": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-22": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-23": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-25": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-28": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-29": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-11-30": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-01": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-02": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-05": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-12-06": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-12-07": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-12-08": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-12-09": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2022-12-12": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-13": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-14": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-15": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-16": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-19": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-20": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-21": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-22": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-23": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-27": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-28": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-29": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2022-12-30": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2023-01-03": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2023-01-04": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2023-01-05": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2023-01-06": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2023-01-09": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2023-01-10": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2023-01-11": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2023-01-12": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2023-01-13": {
+          "regime": "DOWNTREND",
+          "subclass": null
+        },
+        "2023-01-17": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-01-18": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-01-19": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-01-20": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-01-23": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-01-24": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-01-25": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-01-26": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-01-27": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-01-30": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-01-31": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-01": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-02": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-03": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-06": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-07": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-08": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-09": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-10": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-13": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-14": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-15": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-16": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-17": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-21": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-22": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-23": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-24": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-27": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-02-28": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-03-01": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-03-02": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-03-03": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-03-06": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-03-07": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-03-08": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-03-09": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-03-10": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-03-13": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-03-14": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-03-15": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-03-16": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-03-17": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-03-20": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-03-21": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-03-22": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-03-23": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-03-24": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-03-27": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-03-28": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-03-29": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-03-30": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-03-31": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-04-03": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-04-04": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-04-05": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-04-06": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-04-10": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-04-11": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-04-12": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-04-13": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-04-14": {
+          "regime": "SIDEWAYS",
+          "subclass": "RECOVERY_TRANSITION"
+        },
+        "2023-04-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-04-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-04-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-04-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-04-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-04-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-04-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-04-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-04-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-04-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-05-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-06-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-07-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-08-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-09-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-10-23": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-10-24": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-10-25": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-10-26": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-10-27": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-10-30": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-10-31": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-11-01": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-11-02": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-11-03": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2023-11-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-11-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2023-12-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-01-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-02-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-03-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-04-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-05-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-06-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-07-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-08-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-09-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-10-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-11-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2024-12-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-01-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-02-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-03-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-03-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-03-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-03-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-03-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-03-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-03-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-03-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-03-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-03-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-03-17": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-03-18": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-03-19": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-03-20": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-03-21": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-03-24": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-03-25": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-03-26": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-03-27": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-03-28": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-03-31": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-04-01": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-04-02": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-04-03": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-04-04": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-04-07": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-04-08": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-04-09": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-04-10": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-04-11": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-04-14": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-04-15": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-04-16": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-04-17": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-04-21": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-04-22": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-04-23": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-04-24": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-04-25": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-04-28": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-04-29": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-04-30": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-05-01": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-05-02": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-05-05": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-05-06": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-05-07": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-05-08": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-05-09": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-05-12": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-05-13": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-05-14": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-05-15": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-05-16": {
+          "regime": "SIDEWAYS",
+          "subclass": "DETERIORATION_TRANSITION"
+        },
+        "2025-05-19": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-05-20": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-05-21": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-05-22": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-05-23": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-05-27": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-05-28": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-05-29": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-05-30": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-02": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-03": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-04": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-05": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-06": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-09": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-10": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-11": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-12": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-13": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-16": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-17": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-18": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-20": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-23": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-24": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-25": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-26": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-27": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2025-06-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-07-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-08-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-09-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-10-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-11-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2025-12-31": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-01-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-25": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-02-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-03-23": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-03-24": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-03-25": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-03-26": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-03-27": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-03-30": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-03-31": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-04-01": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-04-02": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-04-06": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-04-07": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-04-08": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-04-09": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-04-10": {
+          "regime": "SIDEWAYS",
+          "subclass": "MA_CONFLICT"
+        },
+        "2026-04-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-04-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-04-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-04-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-04-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-04-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-04-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-04-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-04-23": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-04-24": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-04-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-04-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-04-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-04-30": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-06": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-07": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-13": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-14": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-19": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-20": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-21": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-22": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-26": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-27": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-28": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-05-29": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-01": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-02": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-03": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-04": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-05": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-08": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-09": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-10": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-11": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-12": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-15": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-16": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-17": {
+          "regime": "UPTREND",
+          "subclass": null
+        },
+        "2026-06-18": {
+          "regime": "UPTREND",
+          "subclass": null
+        }
+      },
+      "e1r_regime_source": "data/research/e1_5y/regimes/spx_regime_daily.json",
+      "e1r_regime_wiring_enabled": true,
+      "e1r_shell_mode": true,
+      "e1r_spec_ref": "docs/research/E1R_REGIME_AWARE_STRATEGY_SPEC_v0.1.md",
+      "e1r_uptrend_execution_enabled": true,
+      "entry_rs_min": 90.0,
+      "entry_top_n": 3,
+      "execution_model": "adverse_intraday",
+      "fill_only_enabled": false,
+      "gate_use_leadership": true,
+      "gate_use_slope": true,
+      "initial_capital": 100000,
+      "leverage": false,
+      "ls60_exit_mode": "exit",
+      "market_gate_enabled": true,
+      "market_shock_daily_return": -0.02,
+      "market_shock_gate_enabled": false,
+      "max_positions": 3,
+      "max_single_size": 1.0,
+      "min_hold_allow_broken_exit": true,
+      "min_holding_days": 10,
+      "partial_take_profit_enabled": false,
+      "partial_take_profit_fraction": 0.5,
+      "partial_take_profit_threshold": 0.07,
+      "qualified_entry_enabled": false,
+      "qualified_ma50_slope_min": 0.0,
+      "qualified_momentum_min": 85.0,
+      "qualified_price_above_ma50": true,
+      "qualified_rs_min": 90.0,
+      "qualified_states": [
+        "Expansion"
+      ],
+      "qualified_th_min": 75.0,
+      "rank_based_exit": false,
+      "relative_stop_action": "REL_REDUCE",
+      "relative_stop_enabled": false,
+      "relative_stop_once_per_position": true,
+      "relative_stop_underperform_pct": -0.08,
+      "risk_off_below_spx_ma50": false,
+      "sell_price_field": "low",
+      "short_selling": false,
+      "slippage": 0.0005,
+      "strategy_variant": "E1R_regime_aware_v0_1_shell",
+      "total_one_way": 0.001,
+      "total_round_trip": 0.002,
+      "transaction_cost": 0.0005,
+      "version": "E1R-uptrend-execution-v0.1"
+    },
+    "capture_error_disposition": {
+      "classification": "POST_CAPTURE_FORMATTING_ERROR",
+      "blocks_contract_proof": false,
+      "reason": "The target assumptions contract was captured before the comparison function attempted to format the synthetic capture result."
+    }
+  },
+  "data_load": {
+    "loaded": true,
+    "error": null,
+    "summary": {
+      "symbols_loaded": 539,
+      "symbols_rejected": 3,
+      "ohlc_symbols": 539,
+      "spx_rows": 1562,
+      "ndx_rows": 1562,
+      "sox_rows": 1562,
+      "vix_rows": 0,
+      "first_spx_date": "2020-04-01",
+      "last_spx_date": "2026-06-18"
+    }
+  },
+  "discovery": {
+    "error": null,
+    "windows_configured": [
+      {
+        "id": "2021_H2",
+        "start": "2021-06-01",
+        "end": "2021-12-31"
+      },
+      {
+        "id": "2022_H1",
+        "start": "2022-01-01",
+        "end": "2022-06-30"
+      },
+      {
+        "id": "2022_H2",
+        "start": "2022-07-01",
+        "end": "2022-12-31"
+      },
+      {
+        "id": "2023_H1",
+        "start": "2023-01-01",
+        "end": "2023-06-30"
+      },
+      {
+        "id": "2023_H2",
+        "start": "2023-07-01",
+        "end": "2023-12-31"
+      },
+      {
+        "id": "2024_H1",
+        "start": "2024-01-01",
+        "end": "2024-06-30"
+      },
+      {
+        "id": "2024_H2",
+        "start": "2024-07-01",
+        "end": "2024-12-31"
+      },
+      {
+        "id": "2025_H1",
+        "start": "2025-01-01",
+        "end": "2025-06-30"
+      },
+      {
+        "id": "2025_H2",
+        "start": "2025-07-01",
+        "end": "2025-12-31"
+      },
+      {
+        "id": "2026_H1",
+        "start": "2026-01-01",
+        "end": "2026-06-30"
+      }
+    ],
+    "windows_run": [
+      {
+        "id": "2021_H2",
+        "start": "2021-06-01",
+        "end": "2021-12-31",
+        "result_hash": "213a9394f7163f2c8a486f935d7de3401b6b0fc3e72d9c0ff244b07bdcee35c3",
+        "trace_integrity": {
+          "records": 832,
+          "hash_valid": 832,
+          "hash_invalid": 0,
+          "invalid_hash_lines": [],
+          "unknown_trace_ids": []
+        },
+        "trace_counts": {
+          "TP01_PRE_RANK_CANDIDATES": 150,
+          "TP02_POST_RANK_CANDIDATES": 150,
+          "TP03_SELECTED_BUY_FINALIZED": 10,
+          "TP04_BUY_ORDER_INTENT_CREATED": 10,
+          "TP05_PENDING_HANDOFF_FINALIZED": 150,
+          "TP06_T1_ORDER_EXECUTION_START": 174,
+          "TP07_BUY_SIZING_FINALIZED": 10,
+          "TP08_BUY_ACCOUNT_MUTATION_COMPLETE": 10,
+          "TP09_SELL_EXECUTION_PRICE_FINALIZED": 150,
+          "TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE": 11,
+          "TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE": 7
+        },
+        "found_categories": [
+          "confirmed_entry",
+          "emerging_entry",
+          "buy_chain",
+          "exit_chain",
+          "reduce_chain"
+        ]
+      }
+    ],
+    "required_categories": [
+      "buy_chain",
+      "confirmed_entry",
+      "emerging_entry",
+      "exit_chain",
+      "reduce_chain"
+    ],
+    "findings": {
+      "buy_chain": {
+        "window_id": "2021_H2",
+        "evidence": {
+          "symbol": "AVGO",
+          "signal_date": "2021-12-22",
+          "execution_date": "2021-12-23",
+          "trace_ids": [
+            "TP04_BUY_ORDER_INTENT_CREATED",
+            "TP06_T1_ORDER_EXECUTION_START",
+            "TP07_BUY_SIZING_FINALIZED",
+            "TP08_BUY_ACCOUNT_MUTATION_COMPLETE"
+          ],
+          "records": [
+            {
+              "trace_point_id": "TP04_BUY_ORDER_INTENT_CREATED",
+              "signal_date": "2021-12-22",
+              "symbol": "AVGO",
+              "action": "BUY",
+              "record_hash": "1cceb24f3878c8b75922c97055867f90d70f1e715eb3256b5c51863c85fff3d5",
+              "order_payload": {
+                "action": "BUY",
+                "close_t": 60.565498,
+                "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+                "entry_mode": "e1r_uptrend_execution_v0_1",
+                "entry_rank": 1,
+                "ls": 96.03,
+                "primary_reason": "E1R_UPTREND_CONFIRMED",
+                "reasons": [
+                  "rs_above_90",
+                  "leader_rank_top5",
+                  "leader_score_above_75",
+                  "momentum_above_75",
+                  "trend_health_above_70",
+                  "close_above_ma50",
+                  "ma50_slope_non_negative"
+                ],
+                "signal_date": "2021-12-22",
+                "strategy": "E1R_UPTREND_EXECUTION_V0_1",
+                "sym": "AVGO",
+                "target_size_units": 1.0
+              }
+            },
+            {
+              "trace_point_id": "TP06_T1_ORDER_EXECUTION_START",
+              "signal_date": "2021-12-22",
+              "execution_date": "2021-12-23",
+              "symbol": "AVGO",
+              "action": "BUY",
+              "cash_before": 63266.942201901235,
+              "record_hash": "51504b7a5532b784eda8b0b2ba356d64f9eff757986ed0f353f132722cd35b88",
+              "order_payload": {
+                "action": "BUY",
+                "close_t": 60.565498,
+                "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+                "entry_mode": "e1r_uptrend_execution_v0_1",
+                "entry_rank": 1,
+                "ls": 96.03,
+                "primary_reason": "E1R_UPTREND_CONFIRMED",
+                "reasons": [
+                  "rs_above_90",
+                  "leader_rank_top5",
+                  "leader_score_above_75",
+                  "momentum_above_75",
+                  "trend_health_above_70",
+                  "close_above_ma50",
+                  "ma50_slope_non_negative"
+                ],
+                "signal_date": "2021-12-22",
+                "strategy": "E1R_UPTREND_EXECUTION_V0_1",
+                "sym": "AVGO",
+                "target_size_units": 1.0
+              }
+            },
+            {
+              "trace_point_id": "TP07_BUY_SIZING_FINALIZED",
+              "signal_date": "2021-12-22",
+              "execution_date": "2021-12-23",
+              "symbol": "AVGO",
+              "action": "BUY",
+              "target_size_units": 1.0,
+              "execution_price": 61.514348895999994,
+              "execution_price_field": "close",
+              "fallback_used": true,
+              "shares": 695.8056223299318,
+              "cash_before": 63266.942201901235,
+              "record_hash": "fe0551796374ef0d9696c72b56b949b98908df7f786ff439a659430ad3626dbd"
+            },
+            {
+              "trace_point_id": "TP08_BUY_ACCOUNT_MUTATION_COMPLETE",
+              "signal_date": "2021-12-22",
+              "execution_date": "2021-12-23",
+              "symbol": "AVGO",
+              "action": "BUY",
+              "execution_price": 61.514348895999994,
+              "shares": 695.8056223299318,
+              "cash_after": 20464.912386099408,
+              "holding_count_after": 3,
+              "record_hash": "5ecc6ea559c39d5600354a5f1da020257854f637eb302197460be2ff2d33c04f",
+              "holding_after": {
+                "action_history": [
+                  "BUY"
+                ],
+                "avg_cost": 61.514348895999994,
+                "current_close": 60.565498,
+                "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+                "entry_close_ref": 60.565498,
+                "entry_date": "2021-12-23",
+                "entry_regime": "UPTREND",
+                "entry_sig_date": "2021-12-22",
+                "entry_signal": "BUY",
+                "entry_spx": 4725.790039,
+                "entry_type": "E1R_UPTREND_CONFIRMED",
+                "highest_close": 60.565498,
+                "leader_score_entry": 96.03,
+                "ls60_reduce_triggered": false,
+                "min_close_since_entry": 60.565498,
+                "realized_cost_basis": 0.0,
+                "realized_pnl": 0.0,
+                "regime_day_weights": {},
+                "relative_stop_exec_date": null,
+                "relative_stop_signal_date": null,
+                "relative_stop_triggered": false,
+                "shares": 695.8056223299318,
+                "size_units": 1.0,
+                "take_profit_exec_date": null,
+                "take_profit_signal_date": null,
+                "take_profit_triggered": false
+              }
+            }
+          ]
+        }
+      },
+      "reduce_chain": {
+        "window_id": "2021_H2",
+        "evidence": {
+          "symbol": "CPT",
+          "signal_date": "2021-08-09",
+          "execution_date": "2021-08-10",
+          "trace_ids": [
+            "TP09_SELL_EXECUTION_PRICE_FINALIZED",
+            "TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE"
+          ],
+          "records": [
+            {
+              "trace_point_id": "TP09_SELL_EXECUTION_PRICE_FINALIZED",
+              "signal_date": "2021-08-09",
+              "execution_date": "2021-08-10",
+              "symbol": "CPT",
+              "action": "REDUCE",
+              "execution_price": 121.277405196,
+              "execution_price_field": "close",
+              "fallback_used": true,
+              "cash_before": 288.4688253241329,
+              "record_hash": "a0a5eda7182be897b8d379c6d75fb9f60e26d14623252365cedd84caf1720b90"
+            },
+            {
+              "trace_point_id": "TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE",
+              "signal_date": "2021-08-09",
+              "execution_date": "2021-08-10",
+              "symbol": "CPT",
+              "action": "REDUCE",
+              "execution_price": 121.277405196,
+              "shares_sold": 114.88824333817918,
+              "remaining_shares": 114.88824333817918,
+              "remaining_size_units": 0.5,
+              "cash_after": 14221.816864905137,
+              "record_hash": "e5f2f6abaa48afb70ee4e968701096f3e6411f597381b5d8e9abedea258f87e9",
+              "holding_after": {
+                "action_history": [
+                  "BUY",
+                  "HOLD",
+                  "HOLD",
+                  "HOLD",
+                  "HOLD",
+                  "HOLD",
+                  "HOLD",
+                  "HOLD",
+                  "HOLD",
+                  "HOLD",
+                  "HOLD",
+                  "HOLD",
+                  "HOLD",
+                  "HOLD",
+                  "REDUCE",
+                  "REDUCE"
+                ],
+                "avg_cost": 124.28779863499999,
+                "current_close": 123.875275,
+                "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+                "entry_close_ref": 124.494354,
+                "entry_date": "2021-07-21",
+                "entry_regime": "UPTREND",
+                "entry_sig_date": "2021-07-20",
+                "entry_signal": "BUY",
+                "entry_spx": 4358.689941,
+                "entry_type": "E1R_UPTREND_CONFIRMED",
+                "highest_close": 127.318619,
+                "leader_score_entry": 92.28,
+                "ls60_reduce_triggered": false,
+                "min_close_since_entry": 123.782005,
+                "realized_cost_basis": 14279.206853544492,
+                "realized_pnl": -345.85881396348816,
+                "regime_day_weights": {
+                  "UPTREND": 14
+                },
+                "relative_stop_exec_date": null,
+                "relative_stop_signal_date": null,
+                "relative_stop_triggered": false,
+                "shares": 114.88824333817918,
+                "size_units": 0.5,
+                "take_profit_exec_date": null,
+                "take_profit_signal_date": null,
+                "take_profit_triggered": false
+              }
+            }
+          ]
+        }
+      },
+      "emerging_entry": {
+        "window_id": "2021_H2",
+        "evidence": {
+          "trace_point_id": "TP01_PRE_RANK_CANDIDATES",
+          "signal_date": "2021-06-01",
+          "market_entry_allowed": true,
+          "candidate_count": 10,
+          "record_hash": "dcc4e4ffa20d69baf29722c58d80b4fb84f660cb6ec5b8d11872bf60bbb9d1d5"
+        }
+      },
+      "confirmed_entry": {
+        "window_id": "2021_H2",
+        "evidence": {
+          "trace_point_id": "TP01_PRE_RANK_CANDIDATES",
+          "signal_date": "2021-06-01",
+          "market_entry_allowed": true,
+          "candidate_count": 10,
+          "record_hash": "dcc4e4ffa20d69baf29722c58d80b4fb84f660cb6ec5b8d11872bf60bbb9d1d5"
+        }
+      },
+      "exit_chain": {
+        "window_id": "2021_H2",
+        "evidence": {
+          "symbol": "HD",
+          "signal_date": "2021-12-21",
+          "execution_date": "2021-12-22",
+          "trace_ids": [
+            "TP09_SELL_EXECUTION_PRICE_FINALIZED",
+            "TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE"
+          ],
+          "records": [
+            {
+              "trace_point_id": "TP09_SELL_EXECUTION_PRICE_FINALIZED",
+              "signal_date": "2021-12-21",
+              "execution_date": "2021-12-22",
+              "symbol": "HD",
+              "action": "EXIT",
+              "execution_price": 352.21786456499996,
+              "execution_price_field": "close",
+              "fallback_used": true,
+              "cash_before": 42363.12359886638,
+              "record_hash": "339bc7793860697e75828f7201d504dd5d1ba14ab9fd035ab791ad94c69ca6ba"
+            },
+            {
+              "trace_point_id": "TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE",
+              "signal_date": "2021-12-21",
+              "execution_date": "2021-12-22",
+              "symbol": "HD",
+              "action": "EXIT",
+              "execution_price": 352.21786456499996,
+              "shares_sold": 59.34911515306504,
+              "cash_after": 63266.942201901235,
+              "holding_count_after": 2,
+              "symbol_still_held": false,
+              "record_hash": "7a2ec221d4c89c8bc86635e85cbfe438c12b0c6802befe525351b1dfdfb78e28"
+            }
+          ]
+        }
+      }
+    },
+    "complete": true,
+    "selected_windows": [
+      {
+        "id": "2021_H2",
+        "start": "2021-06-01",
+        "end": "2021-12-31"
+      }
+    ]
+  },
+  "runtime_equivalence": {
+    "error": null,
+    "runs": [
+      {
+        "id": "2021_H2",
+        "start": "2021-06-01",
+        "end": "2021-12-31",
+        "disabled_result_hash": "213a9394f7163f2c8a486f935d7de3401b6b0fc3e72d9c0ff244b07bdcee35c3",
+        "enabled_result_hash": "213a9394f7163f2c8a486f935d7de3401b6b0fc3e72d9c0ff244b07bdcee35c3",
+        "result_equal": true,
+        "differences": [],
+        "trace_integrity": {
+          "records": 832,
+          "hash_valid": 832,
+          "hash_invalid": 0,
+          "invalid_hash_lines": [],
+          "unknown_trace_ids": []
+        },
+        "trace_dates_valid": true,
+        "trace_counts": {
+          "TP01_PRE_RANK_CANDIDATES": 150,
+          "TP02_POST_RANK_CANDIDATES": 150,
+          "TP03_SELECTED_BUY_FINALIZED": 10,
+          "TP04_BUY_ORDER_INTENT_CREATED": 10,
+          "TP05_PENDING_HANDOFF_FINALIZED": 150,
+          "TP06_T1_ORDER_EXECUTION_START": 174,
+          "TP07_BUY_SIZING_FINALIZED": 10,
+          "TP08_BUY_ACCOUNT_MUTATION_COMPLETE": 10,
+          "TP09_SELL_EXECUTION_PRICE_FINALIZED": 150,
+          "TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE": 11,
+          "TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE": 7
+        }
+      }
+    ],
+    "all_results_equal": true,
+    "all_trace_hashes_valid": true,
+    "all_trace_ids_known": true,
+    "all_trace_dates_valid": true
+  },
+  "known_nonblocking_gap": {
+    "capacity_block_observability": "NOT_COVERED",
+    "reason": "The frozen 11-point trace contract does not contain an explicit capacity-block record with all required variables.",
+    "blocks_R19": false
+  },
+  "validation": {
+    "unique_e1r_assumptions_proven": true,
+    "canonical_data_loaded": true,
+    "confirmed_entry_discovered": true,
+    "emerging_entry_discovered": false,
+    "buy_chain_discovered": true,
+    "exit_chain_discovered": true,
+    "reduce_chain_discovered": true,
+    "disabled_enabled_results_equal": true,
+    "trace_hashes_all_valid": true,
+    "trace_ids_all_known": true,
+    "t_to_t1_dates_valid": true,
+    "strategy_source_unchanged": true,
+    "trace_source_unchanged": true,
+    "emerging_entry_required_for_r19": false,
+    "buy_exit_reduce_side_effect_paths_covered": true
+  },
+  "decision": "PASS_RUNTIME_TRACE_EQUIVALENCE",
+  "next_stage": "K2-R20-UPTREND-CORE-EXTRACTION",
+  "decision_history": [
+    {
+      "reported_decision": "BLOCKED_ASSUMPTIONS_CAPTURE_FAILED",
+      "disposition": "REJECTED_DECISION_PRECEDENCE_ERROR",
+      "reason": "A downstream formatting exception occurred after nine simulation calls had been captured and one unique E1R assumptions contract had already been proven."
+    }
+  ],
+  "coverage_review": {
+    "required_runtime_paths": {
+      "buy": {
+        "covered": true,
+        "symbol": "AVGO",
+        "signal_date": "2021-12-22",
+        "execution_date": "2021-12-23",
+        "trace_chain": [
+          "TP04_BUY_ORDER_INTENT_CREATED",
+          "TP06_T1_ORDER_EXECUTION_START",
+          "TP07_BUY_SIZING_FINALIZED",
+          "TP08_BUY_ACCOUNT_MUTATION_COMPLETE"
+        ]
+      },
+      "reduce": {
+        "covered": true,
+        "symbol": "CPT",
+        "signal_date": "2021-08-09",
+        "execution_date": "2021-08-10",
+        "trace_chain": [
+          "TP09_SELL_EXECUTION_PRICE_FINALIZED",
+          "TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE"
+        ]
+      },
+      "exit": {
+        "covered": true,
+        "symbol": "HD",
+        "signal_date": "2021-12-21",
+        "execution_date": "2021-12-22",
+        "trace_chain": [
+          "TP09_SELL_EXECUTION_PRICE_FINALIZED",
+          "TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE"
+        ]
+      }
+    },
+    "confirmed_entry": {
+      "covered": true,
+      "evidence": "AVGO order_payload.e1r_entry_type=E1R_UPTREND_CONFIRMED"
+    },
+    "emerging_entry": {
+      "covered": false,
+      "status": "NOT_OBSERVED_NONBLOCKING",
+      "reason": "The prior TP01 match was not valid semantic evidence because it contained no selected symbol or entry type."
+    },
+    "capacity_block": {
+      "covered": false,
+      "status": "NOT_COVERED_NONBLOCKING"
+    }
+  }
+}
