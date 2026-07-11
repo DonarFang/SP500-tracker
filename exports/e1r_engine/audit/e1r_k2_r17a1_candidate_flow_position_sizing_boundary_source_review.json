@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17A-1-CANDIDATE-FLOW-AND-POSITION-SIZING-BOUNDARY-SOURCE-REVIEW",
+  "generated_at_utc": "2026-07-11T11:38:25.905719+00:00",
+  "artifact_role": "COMPACT_AUDIT_SUMMARY",
+  "validation": {
+    "required_boundary_count": 8,
+    "proven_boundary_count": 6,
+    "missing_boundaries": [
+      "POSITION_SIZING_BEGINS",
+      "PENDING_ORDER_MUTATION_BEGINS"
+    ],
+    "candidate_sequence_proven": false,
+    "position_sizing_boundary_proven": false,
+    "pending_order_sequence_proven": false,
+    "strict_sequence_proven": false,
+    "candidate_record_event_count": 4,
+    "buy_candidate_event_count": 17,
+    "selected_buy_event_count": 14,
+    "sorting_event_count": 6,
+    "truncation_event_count": 0,
+    "sizing_event_count": 0,
+    "pending_mutation_event_count": 0,
+    "source_modified": false,
+    "instrumentation_implemented": false,
+    "strategy_logic_implemented": false,
+    "full_5y_run_performed": false,
+    "sideways_logic_added": false,
+    "frozen_files_unchanged": true
+  },
+  "boundary_lines": {
+    "ELIGIBILITY_FINALIZED": 1671,
+    "PRE_RANK_CANDIDATES_CREATED": 1699,
+    "RANK_ORDER_FINALIZED": 1671,
+    "TOP3_SELECTION_FINALIZED": 1721,
+    "EXISTING_HOLDINGS_SEPARATED": 1698,
+    "PRE_GATE_HANDOFF": 1717,
+    "POSITION_SIZING_BEGINS": null,
+    "PENDING_ORDER_MUTATION_BEGINS": null
+  },
+  "decision": "BLOCKED_POSITION_SIZING_BOUNDARY_NOT_PROVEN",
+  "next_stage_after_user_approval": null
+}
