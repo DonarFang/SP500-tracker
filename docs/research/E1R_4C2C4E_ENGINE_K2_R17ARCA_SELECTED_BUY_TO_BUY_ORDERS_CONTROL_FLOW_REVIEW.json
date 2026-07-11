@@ -1,0 +1,2511 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17A-RCA-SELECTED-BUY-TO-BUY-ORDERS-CONTROL-FLOW-REVIEW",
+  "generated_at_utc": "2026-07-11T11:51:28.413347+00:00",
+  "repository": {
+    "branch": "main",
+    "head": "bb5bee1662b3dde95844fc345acdf6e94ed6e9b0",
+    "head_short": "bb5bee1",
+    "head_subject": "Trace E1R selected buy to order handoff",
+    "origin_main": "bb5bee1662b3dde95844fc345acdf6e94ed6e9b0"
+  },
+  "scope": {
+    "formal_rca_only": true,
+    "source_modified": false,
+    "instrumentation_implemented": false,
+    "strategy_logic_implemented": false,
+    "candidate_extractor_implemented": false,
+    "ranking_logic_implemented": false,
+    "order_generation_implemented": false,
+    "position_sizing_implemented": false,
+    "account_mutation_implemented": false,
+    "full_5y_run": false,
+    "sideways_integration": false
+  },
+  "r17a2_reference": {
+    "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R17A2_SELECTED_BUY_DATAFLOW_AND_ORDER_HANDOFF_RCA.json",
+    "sha256": "28de2862120d067d7c025e951bf417025258c0c885b3900b315c31c7f7681264",
+    "decision": "BLOCKED_ORDER_CREATION_NOT_PROVEN"
+  },
+  "source_function": {
+    "path": "src/engine/backtest.py",
+    "function": "run_stateful_simulation",
+    "line_start": 763,
+    "line_end": 2486,
+    "review_window_start": 1760,
+    "review_window_end": 2150
+  },
+  "boundary_evidence": {
+    "selected_buy_finalized": {
+      "node_type": "Assign",
+      "line": 1721,
+      "end_line": 1726,
+      "targets": [
+        "e1r_selected_buy"
+      ],
+      "references": [
+        "E1R_UPTREND_CONFIRMED",
+        "_etype",
+        "_sig",
+        "_sym",
+        "e1r_selected_buy",
+        "entry_type",
+        "sig",
+        "sym",
+        "target_size_units"
+      ],
+      "source": "e1r_selected_buy = {\n                        \"sym\": _sym,\n                        \"sig\": _sig,\n                        \"entry_type\": _etype,\n                        \"target_size_units\": 1.0 if _etype == \"E1R_UPTREND_CONFIRMED\" else 0.5,\n                    }",
+      "context": [
+        {
+          "line": 1717,
+          "source": "            if e1r_buy_candidates and market_entry_allowed:"
+        },
+        {
+          "line": 1718,
+          "source": "                if len(holdings) < min(max_pos, entry_capacity):"
+        },
+        {
+          "line": 1719,
+          "source": "                    _, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]"
+        },
+        {
+          "line": 1720,
+          "source": "                    _etype = _sig.get(\"e1r_entry_type\")"
+        },
+        {
+          "line": 1721,
+          "source": "                    e1r_selected_buy = {"
+        },
+        {
+          "line": 1722,
+          "source": "                        \"sym\": _sym,"
+        },
+        {
+          "line": 1723,
+          "source": "                        \"sig\": _sig,"
+        },
+        {
+          "line": 1724,
+          "source": "                        \"entry_type\": _etype,"
+        },
+        {
+          "line": 1725,
+          "source": "                        \"target_size_units\": 1.0 if _etype == \"E1R_UPTREND_CONFIRMED\" else 0.5,"
+        }
+      ]
+    },
+    "selected_buy_consumed": {
+      "node_type": "If",
+      "line": 1782,
+      "end_line": 1804,
+      "targets": [],
+      "references": [
+        "BUY",
+        "E1R_UPTREND_EXECUTION_V0_1",
+        "_etype",
+        "action",
+        "buy_orders",
+        "buy_orders.append",
+        "close_t",
+        "date_t",
+        "e1r_candidate_buy_generated",
+        "e1r_entry_reason",
+        "e1r_entry_type",
+        "e1r_selected_buy",
+        "e1r_uptrend_execution_enabled",
+        "e1r_uptrend_execution_v0_1",
+        "entry_mode",
+        "entry_rank",
+        "entry_type",
+        "holdings",
+        "leader_rank_all",
+        "leader_rank_all.get",
+        "ls",
+        "primary_reason",
+        "reasons",
+        "sig",
+        "sig.get",
+        "signal_date",
+        "skip_reasons",
+        "strategy",
+        "sym",
+        "target_size_units",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "if (\n                e1r_uptrend_execution_enabled\n                and e1r_selected_buy\n                and sym == e1r_selected_buy[\"sym\"]\n                and sym not in holdings\n            ):\n                _etype = e1r_selected_buy[\"entry_type\"]\n                buy_orders.append({\n                    \"sym\":            sym,\n                    \"action\":         \"BUY\",\n                    \"signal_date\":    date_t,\n                    \"ls\":             ls,\n                    \"close_t\":        close_t,\n                    \"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),\n                    \"strategy\":       \"E1R_UPTREND_EXECUTION_V0_1\",\n                    \"entry_mode\":     \"e1r_uptrend_execution_v0_1\",\n                    \"primary_reason\": _etype,\n                    \"reasons\":        sig.get(\"e1r_entry_reason\", []),\n                    \"e1r_entry_type\": _etype,\n                    \"target_size_units\": e1r_selected_buy[\"target_size_units\"],\n                })\n                skip_reasons[\"e1r_candidate_buy_generated\"] += 1\n                continue",
+      "context": [
+        {
+          "line": 1778,
+          "source": "            # ── 新开仓逻辑 ────────────────────────────────────────"
+        },
+        {
+          "line": 1779,
+          "source": "            # 职责拆分："
+        },
+        {
+          "line": 1780,
+          "source": "            #   Entry Engine  → 由 Qualified Pool 或旧 trade_action BUY 决定"
+        },
+        {
+          "line": 1781,
+          "source": "            #   Position Mgmt → 由 trade_action 决定（HOLD/ADD/REDUCE/EXIT）"
+        },
+        {
+          "line": 1782,
+          "source": "            if ("
+        },
+        {
+          "line": 1783,
+          "source": "                e1r_uptrend_execution_enabled"
+        },
+        {
+          "line": 1784,
+          "source": "                and e1r_selected_buy"
+        },
+        {
+          "line": 1785,
+          "source": "                and sym == e1r_selected_buy[\"sym\"]"
+        },
+        {
+          "line": 1786,
+          "source": "                and sym not in holdings"
+        }
+      ]
+    },
+    "target_size_conversion": {
+      "node_type": "Call",
+      "line": 1789,
+      "end_line": 1802,
+      "targets": [],
+      "references": [
+        "BUY",
+        "E1R_UPTREND_EXECUTION_V0_1",
+        "_etype",
+        "action",
+        "buy_orders",
+        "buy_orders.append",
+        "close_t",
+        "date_t",
+        "e1r_entry_reason",
+        "e1r_entry_type",
+        "e1r_selected_buy",
+        "e1r_uptrend_execution_v0_1",
+        "entry_mode",
+        "entry_rank",
+        "leader_rank_all",
+        "leader_rank_all.get",
+        "ls",
+        "primary_reason",
+        "reasons",
+        "sig",
+        "sig.get",
+        "signal_date",
+        "strategy",
+        "sym",
+        "target_size_units",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "buy_orders.append({\n                    \"sym\":            sym,\n                    \"action\":         \"BUY\",\n                    \"signal_date\":    date_t,\n                    \"ls\":             ls,\n                    \"close_t\":        close_t,\n                    \"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),\n                    \"strategy\":       \"E1R_UPTREND_EXECUTION_V0_1\",\n                    \"entry_mode\":     \"e1r_uptrend_execution_v0_1\",\n                    \"primary_reason\": _etype,\n                    \"reasons\":        sig.get(\"e1r_entry_reason\", []),\n                    \"e1r_entry_type\": _etype,\n                    \"target_size_units\": e1r_selected_buy[\"target_size_units\"],\n                })",
+      "context": [
+        {
+          "line": 1785,
+          "source": "                and sym == e1r_selected_buy[\"sym\"]"
+        },
+        {
+          "line": 1786,
+          "source": "                and sym not in holdings"
+        },
+        {
+          "line": 1787,
+          "source": "            ):"
+        },
+        {
+          "line": 1788,
+          "source": "                _etype = e1r_selected_buy[\"entry_type\"]"
+        },
+        {
+          "line": 1789,
+          "source": "                buy_orders.append({"
+        },
+        {
+          "line": 1790,
+          "source": "                    \"sym\":            sym,"
+        },
+        {
+          "line": 1791,
+          "source": "                    \"action\":         \"BUY\","
+        },
+        {
+          "line": 1792,
+          "source": "                    \"signal_date\":    date_t,"
+        },
+        {
+          "line": 1793,
+          "source": "                    \"ls\":             ls,"
+        }
+      ]
+    },
+    "buy_order_creation": {
+      "node_type": "Call",
+      "line": 1789,
+      "end_line": 1802,
+      "targets": [],
+      "references": [
+        "BUY",
+        "E1R_UPTREND_EXECUTION_V0_1",
+        "_etype",
+        "action",
+        "buy_orders",
+        "buy_orders.append",
+        "close_t",
+        "date_t",
+        "e1r_entry_reason",
+        "e1r_entry_type",
+        "e1r_selected_buy",
+        "e1r_uptrend_execution_v0_1",
+        "entry_mode",
+        "entry_rank",
+        "leader_rank_all",
+        "leader_rank_all.get",
+        "ls",
+        "primary_reason",
+        "reasons",
+        "sig",
+        "sig.get",
+        "signal_date",
+        "strategy",
+        "sym",
+        "target_size_units",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "buy_orders.append({\n                    \"sym\":            sym,\n                    \"action\":         \"BUY\",\n                    \"signal_date\":    date_t,\n                    \"ls\":             ls,\n                    \"close_t\":        close_t,\n                    \"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),\n                    \"strategy\":       \"E1R_UPTREND_EXECUTION_V0_1\",\n                    \"entry_mode\":     \"e1r_uptrend_execution_v0_1\",\n                    \"primary_reason\": _etype,\n                    \"reasons\":        sig.get(\"e1r_entry_reason\", []),\n                    \"e1r_entry_type\": _etype,\n                    \"target_size_units\": e1r_selected_buy[\"target_size_units\"],\n                })",
+      "context": [
+        {
+          "line": 1785,
+          "source": "                and sym == e1r_selected_buy[\"sym\"]"
+        },
+        {
+          "line": 1786,
+          "source": "                and sym not in holdings"
+        },
+        {
+          "line": 1787,
+          "source": "            ):"
+        },
+        {
+          "line": 1788,
+          "source": "                _etype = e1r_selected_buy[\"entry_type\"]"
+        },
+        {
+          "line": 1789,
+          "source": "                buy_orders.append({"
+        },
+        {
+          "line": 1790,
+          "source": "                    \"sym\":            sym,"
+        },
+        {
+          "line": 1791,
+          "source": "                    \"action\":         \"BUY\","
+        },
+        {
+          "line": 1792,
+          "source": "                    \"signal_date\":    date_t,"
+        },
+        {
+          "line": 1793,
+          "source": "                    \"ls\":             ls,"
+        }
+      ]
+    },
+    "pending_orders_handoff": {
+      "node_type": "Assign",
+      "line": 2134,
+      "end_line": 2134,
+      "targets": [
+        "pending_orders"
+      ],
+      "references": [
+        "buy_orders",
+        "management_orders",
+        "pending_orders"
+      ],
+      "source": "pending_orders = management_orders + buy_orders",
+      "context": [
+        {
+          "line": 2130,
+          "source": "        # 最后一个或倒数第二个 sim 日不生成新 BUY（T+1 执行时会撞上 sim_end_date）"
+        },
+        {
+          "line": 2131,
+          "source": "        _is_last_sim_day = (_trade_end and _next_date and _next_date >= _trade_end)"
+        },
+        {
+          "line": 2132,
+          "source": "        if _is_last_sim_day:"
+        },
+        {
+          "line": 2133,
+          "source": "            buy_orders = []  # 不在最后一天生成新买入（防止 entry==exit invalid）"
+        },
+        {
+          "line": 2134,
+          "source": "        pending_orders = management_orders + buy_orders"
+        },
+        {
+          "line": 2135,
+          "source": ""
+        },
+        {
+          "line": 2136,
+          "source": "        if (t - min_history) % 20 == 0:"
+        },
+        {
+          "line": 2137,
+          "source": "            gate_state = \"ALLOW\" if market_entry_allowed else ("
+        },
+        {
+          "line": 2138,
+          "source": "                \"SHOCK\" if market_shock else \"RISK_OFF\""
+        }
+      ]
+    },
+    "pending_orders_execution_loop": {
+      "node_type": "For",
+      "line": 1102,
+      "end_line": 2162,
+      "targets": [],
+      "references": [
+        "",
+        " ",
+        "  ",
+        "  Layer D market-gate: ",
+        " <= entry ",
+        " SPXvsMA50=",
+        " gate=",
+        " holdings=",
+        " ls60_exit_mode=",
+        " ls=",
+        " ma50=",
+        " price=",
+        " reason_action=",
+        " sig_action=",
+        " state=",
+        " trades=",
+        "% cash=",
+        "% day=",
+        "+.1f",
+        ".0f",
+        ".1f",
+        ".2f",
+        "/",
+        ": exec ",
+        ": leverage detected",
+        ": negative cash=",
+        "ADD",
+        "ALLOW",
+        "BUY",
+        "CASH_MODE",
+        "CAUTIOUS_ON",
+        "E1R_PLACEHOLDER_LEGACY_ENTRY",
+        "E1R_UPTREND_CONFIRMED",
+        "E1R_UPTREND_EMERGING",
+        "E1R_UPTREND_EXECUTION_V0_1",
+        "EOD_MARK_TO_MARKET",
+        "EXIT",
+        "FULL_ON",
+        "HARD_EXIT",
+        "NORMAL_EXIT",
+        "REDUCE",
+        "REL_REDUCE",
+        "RISK_OFF",
+        "RuntimeError",
+        "SHOCK",
+        "SOFT_EXIT_CONFIRMED",
+        "TP_REDUCE",
+        "UPTREND",
+        "_",
+        "_add_size_units",
+        "_cash_mode",
+        "_daily_return_pct",
+        "_drawdown_pct",
+        "_e1r_dominant_regime",
+        "_e1r_mode_for_regime",
+        "_e1r_regime_on",
+        "_e1r_risk_budget_for_regime",
+        "_etype",
+        "_gate_state",
+        "_get_price_on",
+        "_h",
+        "_h.setdefault",
+        "_is_last_sim_day",
+        "_leadership_count",
+        "_leadership_ratio",
+        "_leadership_strong",
+        "_n_indices",
+        "_ndx_above",
+        "_ndx_idx",
+        "_ndx_last",
+        "_ndx_ma50",
+        "_next_date",
+        "_order_size_units",
+        "_prev_equity",
+        "_priority",
+        "_shock_active",
+        "_sig",
+        "_sig.get",
+        "_slope_ok",
+        "_sox_above",
+        "_sox_idx",
+        "_sox_last",
+        "_sox_ma50",
+        "_spx_above",
+        "_sym",
+        "_today_regime_for_positions",
+        "_trade_end",
+        "_trade_start",
+        "_vix_active",
+        "_vix_last",
+        "_weights",
+        "_weights.get",
+        "action",
+        "action_count",
+        "action_history",
+        "action_priority",
+        "action_priority.get",
+        "action_reason_buy_add_mismatch",
+        "action_reason_mismatch: ",
+        "actions_during_trade",
+        "add_blocked_after_tp",
+        "add_shares",
+        "add_size_units",
+        "adverse_intraday_v1.0",
+        "all_entry_conditions_met",
+        "all_ret60",
+        "all_ret60.append",
+        "all_ret60_prev20",
+        "all_ret60_prev20.append",
+        "already_holding",
+        "avg_cost",
+        "block_add_after_take_profit",
+        "blocked_total",
+        "buy_orders",
+        "buy_orders.append",
+        "buy_orders.sort",
+        "buy_orders_generated",
+        "buy_pct",
+        "calc_leader_score",
+        "calc_momentum",
+        "calc_trend_health",
+        "candidate_top_n",
+        "cash",
+        "cash_insufficient",
+        "close",
+        "close_above_ma20",
+        "close_above_ma50",
+        "close_ref",
+        "close_t",
+        "close_t_h",
+        "closed_trades",
+        "closed_trades.append",
+        "confirmed",
+        "confirmed_reasons",
+        "confirmed_reasons.append",
+        "current_close",
+        "current_val",
+        "d",
+        "daily_equity_peak",
+        "daily_equity_records",
+        "daily_equity_records.append",
+        "daily_records",
+        "daily_records.append",
+        "daily_return_pct",
+        "date",
+        "date_t",
+        "date_t1",
+        "day_signals",
+        "day_signals.get",
+        "day_signals.items",
+        "days_pool_ge_10",
+        "days_pool_lt_3",
+        "diagnostic_only",
+        "dict",
+        "dominant_regime",
+        "drawdown_pct",
+        "dynamic_exit_enabled",
+        "dynamic_exit_warning",
+        "dynamic_hard_exit_triggered",
+        "dynamic_soft_exit_confirmed",
+        "e1r_active_mode",
+        "e1r_buy_candidates",
+        "e1r_buy_candidates.append",
+        "e1r_buy_candidates.sort",
+        "e1r_candidate_buy_generated",
+        "e1r_candidate_records",
+        "e1r_candidate_records.append",
+        "e1r_emerging_to_confirmed_add",
+        "e1r_entry_reason",
+        "e1r_entry_type",
+        "e1r_legacy_buy_blocked",
+        "e1r_no_capacity",
+        "e1r_regime_wiring_enabled",
+        "e1r_selected_buy",
+        "e1r_shell_mode",
+        "e1r_uptrend_confirmed_eligible",
+        "e1r_uptrend_emerging_eligible",
+        "e1r_uptrend_execution_enabled",
+        "e1r_uptrend_execution_v0_1",
+        "effective_exit",
+        "emerging",
+        "emerging_reasons",
+        "emerging_reasons.append",
+        "emerging_upgraded_to_confirmed",
+        "entry_adverse_gap_pct",
+        "entry_allowed",
+        "entry_capacity",
+        "entry_close_ref",
+        "entry_date",
+        "entry_gap",
+        "entry_mode",
+        "entry_price",
+        "entry_rank",
+        "entry_regime",
+        "entry_rs_below_threshold",
+        "entry_rs_min",
+        "entry_sig_date",
+        "entry_signal",
+        "entry_spx",
+        "entry_top_n",
+        "entry_type",
+        "enumerate",
+        "equity_curve",
+        "equity_curve.append",
+        "event",
+        "exec_date",
+        "exec_price",
+        "exec_primary_reason",
+        "exec_reasons",
+        "executed",
+        "executed_exit_reason_dist",
+        "executed_exit_reason_dist.get",
+        "executed_reduce_reason_dist",
+        "executed_reduce_reason_dist.get",
+        "execution_model",
+        "exit_adverse_gap_pct",
+        "exit_date",
+        "exit_gap",
+        "exit_price",
+        "exit_reason",
+        "exit_reasons",
+        "exit_regime",
+        "exit_signal",
+        "exit_type",
+        "exit_warning",
+        "exit_warning_count",
+        "exit_warning_log",
+        "exposure_pct",
+        "fill_only_enabled",
+        "fill_only_no_empty_slot",
+        "float",
+        "gain",
+        "gate_add_blocked",
+        "gate_capacity_block",
+        "gate_state",
+        "gate_use_leadership",
+        "gate_use_slope",
+        "get_close_series_by_date",
+        "get_price_by_date",
+        "h",
+        "h.get",
+        "hard_exit",
+        "high",
+        "highest_close",
+        "holding_days",
+        "holding_days_so_far",
+        "holdings",
+        "holdings.items",
+        "holdings.values",
+        "i",
+        "init_cap",
+        "invalid_execution_price",
+        "invalid_trades",
+        "invalid_trades.append",
+        "is_broken",
+        "is_broken_trend",
+        "is_consecutive",
+        "is_sim_end",
+        "last_consecutive_date",
+        "last_warn",
+        "leader_rank",
+        "leader_rank_all",
+        "leader_rank_all.get",
+        "leader_rank_top20",
+        "leader_rank_top5",
+        "leader_score",
+        "leader_score_above_75",
+        "leader_score_below_60",
+        "leader_score_entry",
+        "legacy_trade_action",
+        "len",
+        "linreg_slope",
+        "logger",
+        "logger.info",
+        "logger.warn",
+        "low",
+        "ls",
+        "ls60_exit_mode",
+        "ls60_reduce_already_triggered",
+        "ls60_reduce_triggered",
+        "ls_below_60",
+        "ma20",
+        "ma20_sl",
+        "ma20_slope",
+        "ma20_structure_positive",
+        "ma20_v",
+        "ma20s",
+        "ma50",
+        "ma50_sl",
+        "ma50_slope",
+        "ma50_slope_non_negative",
+        "ma50_v",
+        "ma50s",
+        "management_orders",
+        "management_orders.append",
+        "management_orders.sort",
+        "market_entry_allowed",
+        "market_gate_days",
+        "market_gate_enabled",
+        "market_gate_state",
+        "market_risk_off",
+        "market_risk_off_block",
+        "market_score_default",
+        "market_shock",
+        "market_shock_block",
+        "market_shock_daily_return",
+        "market_shock_gate_enabled",
+        "market_state",
+        "master_dates",
+        "master_dates.index",
+        "max",
+        "max_dd_t",
+        "max_drawdown_in_trade",
+        "max_gain_pct",
+        "max_pct",
+        "max_pos",
+        "max_positions_reached",
+        "max_single_size_reached",
+        "min",
+        "min_close_since_entry",
+        "min_history",
+        "min_hold_allow_broken_exit",
+        "min_hold_block",
+        "min_holding_days",
+        "mode",
+        "mom",
+        "mom_above_",
+        "mom_acc",
+        "mom_d",
+        "momentum_above_70",
+        "momentum_above_75",
+        "momentum_acceleration",
+        "momentum_acceleration_non_negative",
+        "momentum_acceleration_positive",
+        "momentum_score",
+        "moving_average",
+        "n_days",
+        "n_holdings",
+        "ndx_dates",
+        "ndx_lookup",
+        "ndx_prices",
+        "new_total",
+        "next",
+        "no_t1_price",
+        "not_holding",
+        "not_in_entry_top_n",
+        "not_in_qualified_candidate_pool",
+        "o",
+        "o.get",
+        "old_c",
+        "old_s",
+        "one_way",
+        "open_positions_count",
+        "order",
+        "order.get",
+        "orders_executed",
+        "p",
+        "p_s",
+        "pending_orders",
+        "pending_orders_count",
+        "pending_signal_reason_dist",
+        "pending_signal_reason_dist.get",
+        "period_return",
+        "pool_days",
+        "pool_size",
+        "pool_size_sum",
+        "port_val",
+        "portfolio_action_dist",
+        "pos_ret",
+        "position_return_above_3pct",
+        "position_value",
+        "positions_value",
+        "pr",
+        "prev_date",
+        "price",
+        "price_above_ma50",
+        "price_below_ma50",
+        "price_vs_ma50_pct",
+        "primary_reason",
+        "proceeds",
+        "qp_diag",
+        "qual_reasons",
+        "qualified",
+        "qualified.append",
+        "qualified.sort",
+        "qualified_candidate_generated",
+        "qualified_entry_enabled",
+        "qualified_ma50_slope_min",
+        "qualified_momentum_min",
+        "qualified_pool",
+        "qualified_pool_entry",
+        "qualified_price_above_ma50",
+        "qualified_rs_min",
+        "qualified_states",
+        "qualified_th_min",
+        "r",
+        "r_prev",
+        "range",
+        "rank_all",
+        "raw",
+        "realized_cost_basis",
+        "realized_pnl",
+        "realized_pnl_before_exit",
+        "reason",
+        "reason_action",
+        "reason_info",
+        "reason_info.get",
+        "reasons",
+        "reduce_primary",
+        "regime_day_weights",
+        "relative_perf",
+        "relative_stop_action",
+        "relative_stop_enabled",
+        "relative_stop_exec_date",
+        "relative_stop_once",
+        "relative_stop_signal_date",
+        "relative_stop_stats",
+        "relative_stop_triggered",
+        "relative_stop_underperform",
+        "remaining_pnl",
+        "ret",
+        "ret60",
+        "ret60_prev20",
+        "return_pct",
+        "risk_actions",
+        "risk_budget",
+        "risk_budget_mode",
+        "risk_off",
+        "round",
+        "rs",
+        "rs_20d_improvement",
+        "rs_20d_improvement_above_10",
+        "rs_above_",
+        "rs_above_80",
+        "rs_above_90",
+        "rs_percentile",
+        "rs_prev20",
+        "rs_score",
+        "s",
+        "scheduled_management",
+        "scheduled_management.get",
+        "sell_fraction",
+        "sell_shares",
+        "set",
+        "shares",
+        "sig",
+        "sig.get",
+        "sig_date",
+        "signal_date",
+        "signals",
+        "size_at_minimum",
+        "size_units",
+        "size_units_at_exit",
+        "skip_reasons",
+        "skip_reasons.get",
+        "slope_negative",
+        "sorted",
+        "sox_dates",
+        "sox_lookup",
+        "sox_prices",
+        "spx_close",
+        "spx_close_t",
+        "spx_curve",
+        "spx_curve.append",
+        "spx_day_return",
+        "spx_day_return_pct",
+        "spx_entry",
+        "spx_entry_h",
+        "spx_ma50",
+        "spx_ma50_slope",
+        "spx_ma50_t",
+        "spx_ma50_t10",
+        "spx_prices",
+        "spx_regime",
+        "spx_ret",
+        "state",
+        "stock_ma50",
+        "stock_ret",
+        "stock_slope",
+        "str",
+        "strategy",
+        "strategy_variant",
+        "sum",
+        "sym",
+        "symbol",
+        "symbols",
+        "t",
+        "take_profit_enabled",
+        "take_profit_exec_date",
+        "take_profit_fraction",
+        "take_profit_signal_date",
+        "take_profit_stats",
+        "take_profit_threshold",
+        "take_profit_triggered",
+        "target",
+        "target_add",
+        "target_size_units",
+        "th",
+        "th_above_",
+        "th_d",
+        "top_entry_rank",
+        "top_entry_rank.get",
+        "top_entry_symbols",
+        "top_ranked",
+        "total_cost",
+        "total_equity",
+        "total_execution_drag_pct",
+        "total_pnl",
+        "trade_action",
+        "trade_action_reason",
+        "trend_health",
+        "trend_health_above_65",
+        "trend_health_above_70",
+        "trend_lifecycle",
+        "trend_state",
+        "trend_state_expansion",
+        "v",
+        "v.get",
+        "vix_lookup",
+        "warning_day",
+        "x"
+      ],
+      "source": "for t in range(min_history, n_days - 2):\n        date_t  = master_dates[t]   if t   < len(master_dates) else None\n        date_t1 = master_dates[t+1] if t+1 < len(master_dates) else None\n        if not date_t or not date_t1:\n            continue\n\n        # ── 交易执行区间过滤 ────────────────────────────\n        # master_dates 保持完整（指标计算不受影响）；\n        # 只有在 [_trade_start, _trade_end] 区间内才执行交易和统计\n        if _trade_start and date_t < _trade_start:\n            pending_orders = []   # 不生成订单\n            continue\n        if _trade_end and date_t > _trade_end:\n            break\n\n        # ════════════════════════════════════════════════\n        # STEP 1: 执行前一日 pending orders（T-1信号 → T日执行）\n        # ════════════════════════════════════════════════\n        for order in pending_orders:\n            sym       = order[\"sym\"]\n            action    = order[\"action\"]\n            sig_date  = order[\"signal_date\"]   # 信号日期\n            exec_date = date_t                 # 执行日期 = 今天\n            ls        = order[\"ls\"]\n            close_ref = order[\"close_t\"]       # 信号日收盘（参考价）\n\n            if action in (\"BUY\", \"ADD\"):\n                # Adverse: 执行日最高价买入\n                raw = get_price_by_date(sym, exec_date, \"high\")\n                if raw <= 0:\n                    raw = get_price_by_date(sym, exec_date, \"close\")\n                if raw <= 0:\n                    skip_reasons[\"no_t1_price\"] += 1\n                    continue\n                exec_price = raw * (1 + one_way)\n\n                port_val = cash + sum(\n                    h[\"shares\"] * h.get(\"current_close\", h[\"avg_cost\"])\n                    for h in holdings.values()\n                )\n\n                if action == \"BUY\":\n                    if sym in holdings:\n                        skip_reasons[\"already_holding\"] += 1\n                        continue\n                    if len(holdings) >= max_pos:\n                        skip_reasons[\"max_positions_reached\"] += 1\n                        continue\n                    _order_size_units = float(order.get(\"target_size_units\", 1.0))\n                    _order_size_units = max(0.0, min(_order_size_units, 1.0))\n                    target = port_val * buy_pct * _order_size_units\n                    if port_val > 0 and target / port_val > max_pct:\n                        target = port_val * max_pct\n                        skip_reasons[\"max_single_size_reached\"] += 1\n                    if target > cash:\n                        if cash * 0.99 < 10:\n                            skip_reasons[\"cash_insufficient\"] += 1\n                            continue\n                        target = cash * 0.99\n\n                    shares = target / exec_price\n                    cash  -= shares * exec_price\n                    orders_executed += 1\n                    holdings[sym] = {\n                        \"shares\":                shares,\n                        \"avg_cost\":              exec_price,\n                        \"size_units\":            _order_size_units,\n                        \"entry_close_ref\":       close_ref,\n                        \"entry_date\":            exec_date,\n                        \"entry_sig_date\":        sig_date,\n                        \"entry_signal\":          \"BUY\",\n                        \"e1r_entry_type\":       order.get(\"e1r_entry_type\"),\n                        \"highest_close\":         close_ref,\n                        \"min_close_since_entry\": close_ref,\n                        \"current_close\":         close_ref,\n                        \"leader_score_entry\":    ls,\n                        \"entry_spx\":             spx_prices[master_dates.index(exec_date)] if exec_date in master_dates else spx_close_t,\n                        \"relative_stop_triggered\": False,\n                        \"relative_stop_signal_date\": None,\n                        \"relative_stop_exec_date\": None,\n                        \"take_profit_triggered\": False,\n                        \"take_profit_signal_date\": None,\n                        \"take_profit_exec_date\": None,\n...TRUNCATED...",
+      "context": [
+        {
+          "line": 1098,
+          "source": "        \"buy_orders_generated\": 0,   # qualified_pool BUY 生成数"
+        },
+        {
+          "line": 1099,
+          "source": "    }"
+        },
+        {
+          "line": 1100,
+          "source": ""
+        },
+        {
+          "line": 1101,
+          "source": "    # ── 日循环（以 SPX master calendar 为准）────────────"
+        },
+        {
+          "line": 1102,
+          "source": "    for t in range(min_history, n_days - 2):"
+        },
+        {
+          "line": 1103,
+          "source": "        date_t  = master_dates[t]   if t   < len(master_dates) else None"
+        },
+        {
+          "line": 1104,
+          "source": "        date_t1 = master_dates[t+1] if t+1 < len(master_dates) else None"
+        },
+        {
+          "line": 1105,
+          "source": "        if not date_t or not date_t1:"
+        },
+        {
+          "line": 1106,
+          "source": "            continue"
+        }
+      ]
+    },
+    "holdings_buy_mutation": {
+      "node_type": "Assign",
+      "line": 1165,
+      "end_line": 1193,
+      "targets": [
+        "holdings[...]"
+      ],
+      "references": [
+        "BUY",
+        "E1R_PLACEHOLDER_LEGACY_ENTRY",
+        "_e1r_regime_on",
+        "_order_size_units",
+        "action_history",
+        "avg_cost",
+        "close_ref",
+        "current_close",
+        "e1r_entry_type",
+        "e1r_regime_wiring_enabled",
+        "entry_close_ref",
+        "entry_date",
+        "entry_regime",
+        "entry_sig_date",
+        "entry_signal",
+        "entry_spx",
+        "entry_type",
+        "exec_date",
+        "exec_price",
+        "highest_close",
+        "holdings",
+        "leader_score_entry",
+        "ls",
+        "ls60_reduce_triggered",
+        "master_dates",
+        "master_dates.index",
+        "min_close_since_entry",
+        "order",
+        "order.get",
+        "realized_cost_basis",
+        "realized_pnl",
+        "regime_day_weights",
+        "relative_stop_exec_date",
+        "relative_stop_signal_date",
+        "relative_stop_triggered",
+        "shares",
+        "sig_date",
+        "size_units",
+        "spx_close_t",
+        "spx_prices",
+        "sym",
+        "take_profit_exec_date",
+        "take_profit_signal_date",
+        "take_profit_triggered"
+      ],
+      "source": "holdings[sym] = {\n                        \"shares\":                shares,\n                        \"avg_cost\":              exec_price,\n                        \"size_units\":            _order_size_units,\n                        \"entry_close_ref\":       close_ref,\n                        \"entry_date\":            exec_date,\n                        \"entry_sig_date\":        sig_date,\n                        \"entry_signal\":          \"BUY\",\n                        \"e1r_entry_type\":       order.get(\"e1r_entry_type\"),\n                        \"highest_close\":         close_ref,\n                        \"min_close_since_entry\": close_ref,\n                        \"current_close\":         close_ref,\n                        \"leader_score_entry\":    ls,\n                        \"entry_spx\":             spx_prices[master_dates.index(exec_date)] if exec_date in master_dates else spx_close_t,\n                        \"relative_stop_triggered\": False,\n                        \"relative_stop_signal_date\": None,\n                        \"relative_stop_exec_date\": None,\n                        \"take_profit_triggered\": False,\n                        \"take_profit_signal_date\": None,\n                        \"take_profit_exec_date\": None,\n                        \"realized_pnl\":          0.0,\n                        \"realized_cost_basis\":   0.0,\n                        \"action_history\":        [\"BUY\"],\n                        \"ls60_reduce_triggered\": False,  # 方案A：LS<60 REDUCE 一次性保护\n                        # E1-R Phase 2 regime wiring telemetry. Observer-only.\n                        \"entry_regime\": _e1r_regime_on(exec_date),\n                        \"entry_type\": order.get(\"e1r_entry_type\") or (\"E1R_PLACEHOLDER_LEGACY_ENTRY\" if e1r_regime_wiring_enabled else None),\n                        \"regime_day_weights\": {},\n                    }",
+      "context": [
+        {
+          "line": 1161,
+          "source": ""
+        },
+        {
+          "line": 1162,
+          "source": "                    shares = target / exec_price"
+        },
+        {
+          "line": 1163,
+          "source": "                    cash  -= shares * exec_price"
+        },
+        {
+          "line": 1164,
+          "source": "                    orders_executed += 1"
+        },
+        {
+          "line": 1165,
+          "source": "                    holdings[sym] = {"
+        },
+        {
+          "line": 1166,
+          "source": "                        \"shares\":                shares,"
+        },
+        {
+          "line": 1167,
+          "source": "                        \"avg_cost\":              exec_price,"
+        },
+        {
+          "line": 1168,
+          "source": "                        \"size_units\":            _order_size_units,"
+        },
+        {
+          "line": 1169,
+          "source": "                        \"entry_close_ref\":       close_ref,"
+        }
+      ]
+    }
+  },
+  "control_flow_checks": [
+    {
+      "left": "candidate_sort",
+      "left_line": 1716,
+      "operator": "<",
+      "right": "best_entry_selection",
+      "right_line": 1719,
+      "passed": true
+    },
+    {
+      "left": "best_entry_selection",
+      "left_line": 1719,
+      "operator": "<",
+      "right": "selected_buy_finalized",
+      "right_line": 1721,
+      "passed": true
+    },
+    {
+      "left": "selected_buy_finalized",
+      "left_line": 1721,
+      "operator": "<",
+      "right": "selected_buy_consumed",
+      "right_line": 1782,
+      "passed": true
+    },
+    {
+      "left": "selected_buy_consumed",
+      "left_line": 1782,
+      "operator": "<=",
+      "right": "buy_order_creation",
+      "right_line": 1789,
+      "passed": true
+    },
+    {
+      "left": "buy_order_creation",
+      "left_line": 1789,
+      "operator": "<",
+      "right": "pending_orders_handoff",
+      "right_line": 2134,
+      "passed": true
+    }
+  ],
+  "selected_buy_to_order_link_nodes": [
+    {
+      "node_type": "If",
+      "line": 1782,
+      "end_line": 1804,
+      "targets": [],
+      "references": [
+        "BUY",
+        "E1R_UPTREND_EXECUTION_V0_1",
+        "_etype",
+        "action",
+        "buy_orders",
+        "buy_orders.append",
+        "close_t",
+        "date_t",
+        "e1r_candidate_buy_generated",
+        "e1r_entry_reason",
+        "e1r_entry_type",
+        "e1r_selected_buy",
+        "e1r_uptrend_execution_enabled",
+        "e1r_uptrend_execution_v0_1",
+        "entry_mode",
+        "entry_rank",
+        "entry_type",
+        "holdings",
+        "leader_rank_all",
+        "leader_rank_all.get",
+        "ls",
+        "primary_reason",
+        "reasons",
+        "sig",
+        "sig.get",
+        "signal_date",
+        "skip_reasons",
+        "strategy",
+        "sym",
+        "target_size_units",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "if (\n                e1r_uptrend_execution_enabled\n                and e1r_selected_buy\n                and sym == e1r_selected_buy[\"sym\"]\n                and sym not in holdings\n            ):\n                _etype = e1r_selected_buy[\"entry_type\"]\n                buy_orders.append({\n                    \"sym\":            sym,\n                    \"action\":         \"BUY\",\n                    \"signal_date\":    date_t,\n                    \"ls\":             ls,\n                    \"close_t\":        close_t,\n                    \"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),\n                    \"strategy\":       \"E1R_UPTREND_EXECUTION_V0_1\",\n                    \"entry_mode\":     \"e1r_uptrend_execution_v0_1\",\n                    \"primary_reason\": _etype,\n                    \"reasons\":        sig.get(\"e1r_entry_reason\", []),\n                    \"e1r_entry_type\": _etype,\n                    \"target_size_units\": e1r_selected_buy[\"target_size_units\"],\n                })\n                skip_reasons[\"e1r_candidate_buy_generated\"] += 1\n                continue",
+      "context": [
+        {
+          "line": 1778,
+          "source": "            # ── 新开仓逻辑 ────────────────────────────────────────"
+        },
+        {
+          "line": 1779,
+          "source": "            # 职责拆分："
+        },
+        {
+          "line": 1780,
+          "source": "            #   Entry Engine  → 由 Qualified Pool 或旧 trade_action BUY 决定"
+        },
+        {
+          "line": 1781,
+          "source": "            #   Position Mgmt → 由 trade_action 决定（HOLD/ADD/REDUCE/EXIT）"
+        },
+        {
+          "line": 1782,
+          "source": "            if ("
+        },
+        {
+          "line": 1783,
+          "source": "                e1r_uptrend_execution_enabled"
+        },
+        {
+          "line": 1784,
+          "source": "                and e1r_selected_buy"
+        },
+        {
+          "line": 1785,
+          "source": "                and sym == e1r_selected_buy[\"sym\"]"
+        },
+        {
+          "line": 1786,
+          "source": "                and sym not in holdings"
+        }
+      ]
+    },
+    {
+      "node_type": "Assign",
+      "line": 1788,
+      "end_line": 1788,
+      "targets": [
+        "_etype"
+      ],
+      "references": [
+        "_etype",
+        "e1r_selected_buy",
+        "entry_type"
+      ],
+      "source": "_etype = e1r_selected_buy[\"entry_type\"]",
+      "context": [
+        {
+          "line": 1784,
+          "source": "                and e1r_selected_buy"
+        },
+        {
+          "line": 1785,
+          "source": "                and sym == e1r_selected_buy[\"sym\"]"
+        },
+        {
+          "line": 1786,
+          "source": "                and sym not in holdings"
+        },
+        {
+          "line": 1787,
+          "source": "            ):"
+        },
+        {
+          "line": 1788,
+          "source": "                _etype = e1r_selected_buy[\"entry_type\"]"
+        },
+        {
+          "line": 1789,
+          "source": "                buy_orders.append({"
+        },
+        {
+          "line": 1790,
+          "source": "                    \"sym\":            sym,"
+        },
+        {
+          "line": 1791,
+          "source": "                    \"action\":         \"BUY\","
+        },
+        {
+          "line": 1792,
+          "source": "                    \"signal_date\":    date_t,"
+        }
+      ]
+    },
+    {
+      "node_type": "Call",
+      "line": 1789,
+      "end_line": 1802,
+      "targets": [],
+      "references": [
+        "BUY",
+        "E1R_UPTREND_EXECUTION_V0_1",
+        "_etype",
+        "action",
+        "buy_orders",
+        "buy_orders.append",
+        "close_t",
+        "date_t",
+        "e1r_entry_reason",
+        "e1r_entry_type",
+        "e1r_selected_buy",
+        "e1r_uptrend_execution_v0_1",
+        "entry_mode",
+        "entry_rank",
+        "leader_rank_all",
+        "leader_rank_all.get",
+        "ls",
+        "primary_reason",
+        "reasons",
+        "sig",
+        "sig.get",
+        "signal_date",
+        "strategy",
+        "sym",
+        "target_size_units",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "buy_orders.append({\n                    \"sym\":            sym,\n                    \"action\":         \"BUY\",\n                    \"signal_date\":    date_t,\n                    \"ls\":             ls,\n                    \"close_t\":        close_t,\n                    \"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),\n                    \"strategy\":       \"E1R_UPTREND_EXECUTION_V0_1\",\n                    \"entry_mode\":     \"e1r_uptrend_execution_v0_1\",\n                    \"primary_reason\": _etype,\n                    \"reasons\":        sig.get(\"e1r_entry_reason\", []),\n                    \"e1r_entry_type\": _etype,\n                    \"target_size_units\": e1r_selected_buy[\"target_size_units\"],\n                })",
+      "context": [
+        {
+          "line": 1785,
+          "source": "                and sym == e1r_selected_buy[\"sym\"]"
+        },
+        {
+          "line": 1786,
+          "source": "                and sym not in holdings"
+        },
+        {
+          "line": 1787,
+          "source": "            ):"
+        },
+        {
+          "line": 1788,
+          "source": "                _etype = e1r_selected_buy[\"entry_type\"]"
+        },
+        {
+          "line": 1789,
+          "source": "                buy_orders.append({"
+        },
+        {
+          "line": 1790,
+          "source": "                    \"sym\":            sym,"
+        },
+        {
+          "line": 1791,
+          "source": "                    \"action\":         \"BUY\","
+        },
+        {
+          "line": 1792,
+          "source": "                    \"signal_date\":    date_t,"
+        },
+        {
+          "line": 1793,
+          "source": "                    \"ls\":             ls,"
+        }
+      ]
+    }
+  ],
+  "buy_orders_mutations": [
+    {
+      "node_type": "Call",
+      "line": 1789,
+      "end_line": 1802,
+      "targets": [],
+      "references": [
+        "BUY",
+        "E1R_UPTREND_EXECUTION_V0_1",
+        "_etype",
+        "action",
+        "buy_orders",
+        "buy_orders.append",
+        "close_t",
+        "date_t",
+        "e1r_entry_reason",
+        "e1r_entry_type",
+        "e1r_selected_buy",
+        "e1r_uptrend_execution_v0_1",
+        "entry_mode",
+        "entry_rank",
+        "leader_rank_all",
+        "leader_rank_all.get",
+        "ls",
+        "primary_reason",
+        "reasons",
+        "sig",
+        "sig.get",
+        "signal_date",
+        "strategy",
+        "sym",
+        "target_size_units",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "buy_orders.append({\n                    \"sym\":            sym,\n                    \"action\":         \"BUY\",\n                    \"signal_date\":    date_t,\n                    \"ls\":             ls,\n                    \"close_t\":        close_t,\n                    \"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),\n                    \"strategy\":       \"E1R_UPTREND_EXECUTION_V0_1\",\n                    \"entry_mode\":     \"e1r_uptrend_execution_v0_1\",\n                    \"primary_reason\": _etype,\n                    \"reasons\":        sig.get(\"e1r_entry_reason\", []),\n                    \"e1r_entry_type\": _etype,\n                    \"target_size_units\": e1r_selected_buy[\"target_size_units\"],\n                })",
+      "context": [
+        {
+          "line": 1785,
+          "source": "                and sym == e1r_selected_buy[\"sym\"]"
+        },
+        {
+          "line": 1786,
+          "source": "                and sym not in holdings"
+        },
+        {
+          "line": 1787,
+          "source": "            ):"
+        },
+        {
+          "line": 1788,
+          "source": "                _etype = e1r_selected_buy[\"entry_type\"]"
+        },
+        {
+          "line": 1789,
+          "source": "                buy_orders.append({"
+        },
+        {
+          "line": 1790,
+          "source": "                    \"sym\":            sym,"
+        },
+        {
+          "line": 1791,
+          "source": "                    \"action\":         \"BUY\","
+        },
+        {
+          "line": 1792,
+          "source": "                    \"signal_date\":    date_t,"
+        },
+        {
+          "line": 1793,
+          "source": "                    \"ls\":             ls,"
+        }
+      ]
+    },
+    {
+      "node_type": "Call",
+      "line": 1836,
+      "end_line": 1848,
+      "targets": [],
+      "references": [
+        "BUY",
+        "action",
+        "buy_orders",
+        "buy_orders.append",
+        "candidate_top_n",
+        "close_t",
+        "date_t",
+        "entry_mode",
+        "entry_rank",
+        "ls",
+        "primary_reason",
+        "qual_reasons",
+        "qualified_pool",
+        "qualified_pool_entry",
+        "reasons",
+        "signal_date",
+        "strategy",
+        "strategy_variant",
+        "sym",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "buy_orders.append({\n                        \"sym\":            sym,\n                        \"action\":         \"BUY\",    # 强制 BUY，不依赖 trade_action()\n                        \"signal_date\":    date_t,\n                        \"ls\":             ls,\n                        \"close_t\":        close_t,\n                        \"entry_rank\":     top_entry_rank.get(sym),\n                        \"strategy\":       strategy_variant,\n                        \"entry_mode\":     \"qualified_pool\",\n                        \"primary_reason\": \"qualified_pool_entry\",\n                        \"reasons\":        qual_reasons,\n                        \"candidate_top_n\": candidate_top_n,\n                    })",
+      "context": [
+        {
+          "line": 1832,
+          "source": "                        \"trend_state_expansion\","
+        },
+        {
+          "line": 1833,
+          "source": "                        \"price_above_ma50\","
+        },
+        {
+          "line": 1834,
+          "source": "                        \"ma50_slope_non_negative\","
+        },
+        {
+          "line": 1835,
+          "source": "                    ]"
+        },
+        {
+          "line": 1836,
+          "source": "                    buy_orders.append({"
+        },
+        {
+          "line": 1837,
+          "source": "                        \"sym\":            sym,"
+        },
+        {
+          "line": 1838,
+          "source": "                        \"action\":         \"BUY\",    # 强制 BUY，不依赖 trade_action()"
+        },
+        {
+          "line": 1839,
+          "source": "                        \"signal_date\":    date_t,"
+        },
+        {
+          "line": 1840,
+          "source": "                        \"ls\":             ls,"
+        }
+      ]
+    },
+    {
+      "node_type": "Call",
+      "line": 1879,
+      "end_line": 1890,
+      "targets": [],
+      "references": [
+        "BUY",
+        "action",
+        "all_entry_conditions_met",
+        "buy_orders",
+        "buy_orders.append",
+        "close_t",
+        "date_t",
+        "entry_mode",
+        "entry_rank",
+        "legacy_trade_action",
+        "ls",
+        "primary_reason",
+        "reasons",
+        "signal_date",
+        "strategy",
+        "strategy_variant",
+        "sym",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "buy_orders.append({\n                        \"sym\":            sym,\n                        \"action\":         \"BUY\",\n                        \"signal_date\":    date_t,\n                        \"ls\":             ls,\n                        \"close_t\":        close_t,\n                        \"entry_rank\":     top_entry_rank.get(sym),\n                        \"strategy\":       strategy_variant,\n                        \"entry_mode\":     \"legacy_trade_action\",\n                        \"primary_reason\": \"all_entry_conditions_met\",\n                        \"reasons\":        [\"all_entry_conditions_met\"],\n                    })",
+      "context": [
+        {
+          "line": 1875,
+          "source": "                    if not market_entry_allowed:"
+        },
+        {
+          "line": 1876,
+          "source": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+        },
+        {
+          "line": 1877,
+          "source": "                        skip_reasons[reason] += 1"
+        },
+        {
+          "line": 1878,
+          "source": "                        continue"
+        },
+        {
+          "line": 1879,
+          "source": "                    buy_orders.append({"
+        },
+        {
+          "line": 1880,
+          "source": "                        \"sym\":            sym,"
+        },
+        {
+          "line": 1881,
+          "source": "                        \"action\":         \"BUY\","
+        },
+        {
+          "line": 1882,
+          "source": "                        \"signal_date\":    date_t,"
+        },
+        {
+          "line": 1883,
+          "source": "                        \"ls\":             ls,"
+        }
+      ]
+    },
+    {
+      "node_type": "Assign",
+      "line": 2133,
+      "end_line": 2133,
+      "targets": [
+        "buy_orders"
+      ],
+      "references": [
+        "buy_orders"
+      ],
+      "source": "buy_orders = []",
+      "context": [
+        {
+          "line": 2129,
+          "source": "        _next_date = master_dates[t+1] if t+1 < len(master_dates) else None"
+        },
+        {
+          "line": 2130,
+          "source": "        # 最后一个或倒数第二个 sim 日不生成新 BUY（T+1 执行时会撞上 sim_end_date）"
+        },
+        {
+          "line": 2131,
+          "source": "        _is_last_sim_day = (_trade_end and _next_date and _next_date >= _trade_end)"
+        },
+        {
+          "line": 2132,
+          "source": "        if _is_last_sim_day:"
+        },
+        {
+          "line": 2133,
+          "source": "            buy_orders = []  # 不在最后一天生成新买入（防止 entry==exit invalid）"
+        },
+        {
+          "line": 2134,
+          "source": "        pending_orders = management_orders + buy_orders"
+        },
+        {
+          "line": 2135,
+          "source": ""
+        },
+        {
+          "line": 2136,
+          "source": "        if (t - min_history) % 20 == 0:"
+        },
+        {
+          "line": 2137,
+          "source": "            gate_state = \"ALLOW\" if market_entry_allowed else ("
+        }
+      ]
+    }
+  ],
+  "buy_orders_append_payloads": [
+    {
+      "append_call": {
+        "node_type": "Call",
+        "line": 1789,
+        "end_line": 1802,
+        "targets": [],
+        "references": [
+          "BUY",
+          "E1R_UPTREND_EXECUTION_V0_1",
+          "_etype",
+          "action",
+          "buy_orders",
+          "buy_orders.append",
+          "close_t",
+          "date_t",
+          "e1r_entry_reason",
+          "e1r_entry_type",
+          "e1r_selected_buy",
+          "e1r_uptrend_execution_v0_1",
+          "entry_mode",
+          "entry_rank",
+          "leader_rank_all",
+          "leader_rank_all.get",
+          "ls",
+          "primary_reason",
+          "reasons",
+          "sig",
+          "sig.get",
+          "signal_date",
+          "strategy",
+          "sym",
+          "target_size_units",
+          "top_entry_rank",
+          "top_entry_rank.get"
+        ],
+        "source": "buy_orders.append({\n                    \"sym\":            sym,\n                    \"action\":         \"BUY\",\n                    \"signal_date\":    date_t,\n                    \"ls\":             ls,\n                    \"close_t\":        close_t,\n                    \"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),\n                    \"strategy\":       \"E1R_UPTREND_EXECUTION_V0_1\",\n                    \"entry_mode\":     \"e1r_uptrend_execution_v0_1\",\n                    \"primary_reason\": _etype,\n                    \"reasons\":        sig.get(\"e1r_entry_reason\", []),\n                    \"e1r_entry_type\": _etype,\n                    \"target_size_units\": e1r_selected_buy[\"target_size_units\"],\n                })",
+        "context": [
+          {
+            "line": 1785,
+            "source": "                and sym == e1r_selected_buy[\"sym\"]"
+          },
+          {
+            "line": 1786,
+            "source": "                and sym not in holdings"
+          },
+          {
+            "line": 1787,
+            "source": "            ):"
+          },
+          {
+            "line": 1788,
+            "source": "                _etype = e1r_selected_buy[\"entry_type\"]"
+          },
+          {
+            "line": 1789,
+            "source": "                buy_orders.append({"
+          },
+          {
+            "line": 1790,
+            "source": "                    \"sym\":            sym,"
+          },
+          {
+            "line": 1791,
+            "source": "                    \"action\":         \"BUY\","
+          },
+          {
+            "line": 1792,
+            "source": "                    \"signal_date\":    date_t,"
+          },
+          {
+            "line": 1793,
+            "source": "                    \"ls\":             ls,"
+          }
+        ]
+      },
+      "payload": {
+        "node_type": "Dict",
+        "line": 1789,
+        "end_line": 1802,
+        "targets": [],
+        "references": [
+          "BUY",
+          "E1R_UPTREND_EXECUTION_V0_1",
+          "_etype",
+          "action",
+          "close_t",
+          "date_t",
+          "e1r_entry_reason",
+          "e1r_entry_type",
+          "e1r_selected_buy",
+          "e1r_uptrend_execution_v0_1",
+          "entry_mode",
+          "entry_rank",
+          "leader_rank_all",
+          "leader_rank_all.get",
+          "ls",
+          "primary_reason",
+          "reasons",
+          "sig",
+          "sig.get",
+          "signal_date",
+          "strategy",
+          "sym",
+          "target_size_units",
+          "top_entry_rank",
+          "top_entry_rank.get"
+        ],
+        "source": "{\n                    \"sym\":            sym,\n                    \"action\":         \"BUY\",\n                    \"signal_date\":    date_t,\n                    \"ls\":             ls,\n                    \"close_t\":        close_t,\n                    \"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),\n                    \"strategy\":       \"E1R_UPTREND_EXECUTION_V0_1\",\n                    \"entry_mode\":     \"e1r_uptrend_execution_v0_1\",\n                    \"primary_reason\": _etype,\n                    \"reasons\":        sig.get(\"e1r_entry_reason\", []),\n                    \"e1r_entry_type\": _etype,\n                    \"target_size_units\": e1r_selected_buy[\"target_size_units\"],\n                }",
+        "context": [
+          {
+            "line": 1785,
+            "source": "                and sym == e1r_selected_buy[\"sym\"]"
+          },
+          {
+            "line": 1786,
+            "source": "                and sym not in holdings"
+          },
+          {
+            "line": 1787,
+            "source": "            ):"
+          },
+          {
+            "line": 1788,
+            "source": "                _etype = e1r_selected_buy[\"entry_type\"]"
+          },
+          {
+            "line": 1789,
+            "source": "                buy_orders.append({"
+          },
+          {
+            "line": 1790,
+            "source": "                    \"sym\":            sym,"
+          },
+          {
+            "line": 1791,
+            "source": "                    \"action\":         \"BUY\","
+          },
+          {
+            "line": 1792,
+            "source": "                    \"signal_date\":    date_t,"
+          },
+          {
+            "line": 1793,
+            "source": "                    \"ls\":             ls,"
+          }
+        ]
+      }
+    },
+    {
+      "append_call": {
+        "node_type": "Call",
+        "line": 1879,
+        "end_line": 1890,
+        "targets": [],
+        "references": [
+          "BUY",
+          "action",
+          "all_entry_conditions_met",
+          "buy_orders",
+          "buy_orders.append",
+          "close_t",
+          "date_t",
+          "entry_mode",
+          "entry_rank",
+          "legacy_trade_action",
+          "ls",
+          "primary_reason",
+          "reasons",
+          "signal_date",
+          "strategy",
+          "strategy_variant",
+          "sym",
+          "top_entry_rank",
+          "top_entry_rank.get"
+        ],
+        "source": "buy_orders.append({\n                        \"sym\":            sym,\n                        \"action\":         \"BUY\",\n                        \"signal_date\":    date_t,\n                        \"ls\":             ls,\n                        \"close_t\":        close_t,\n                        \"entry_rank\":     top_entry_rank.get(sym),\n                        \"strategy\":       strategy_variant,\n                        \"entry_mode\":     \"legacy_trade_action\",\n                        \"primary_reason\": \"all_entry_conditions_met\",\n                        \"reasons\":        [\"all_entry_conditions_met\"],\n                    })",
+        "context": [
+          {
+            "line": 1875,
+            "source": "                    if not market_entry_allowed:"
+          },
+          {
+            "line": 1876,
+            "source": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+          },
+          {
+            "line": 1877,
+            "source": "                        skip_reasons[reason] += 1"
+          },
+          {
+            "line": 1878,
+            "source": "                        continue"
+          },
+          {
+            "line": 1879,
+            "source": "                    buy_orders.append({"
+          },
+          {
+            "line": 1880,
+            "source": "                        \"sym\":            sym,"
+          },
+          {
+            "line": 1881,
+            "source": "                        \"action\":         \"BUY\","
+          },
+          {
+            "line": 1882,
+            "source": "                        \"signal_date\":    date_t,"
+          },
+          {
+            "line": 1883,
+            "source": "                        \"ls\":             ls,"
+          }
+        ]
+      },
+      "payload": {
+        "node_type": "Dict",
+        "line": 1879,
+        "end_line": 1890,
+        "targets": [],
+        "references": [
+          "BUY",
+          "action",
+          "all_entry_conditions_met",
+          "close_t",
+          "date_t",
+          "entry_mode",
+          "entry_rank",
+          "legacy_trade_action",
+          "ls",
+          "primary_reason",
+          "reasons",
+          "signal_date",
+          "strategy",
+          "strategy_variant",
+          "sym",
+          "top_entry_rank",
+          "top_entry_rank.get"
+        ],
+        "source": "{\n                        \"sym\":            sym,\n                        \"action\":         \"BUY\",\n                        \"signal_date\":    date_t,\n                        \"ls\":             ls,\n                        \"close_t\":        close_t,\n                        \"entry_rank\":     top_entry_rank.get(sym),\n                        \"strategy\":       strategy_variant,\n                        \"entry_mode\":     \"legacy_trade_action\",\n                        \"primary_reason\": \"all_entry_conditions_met\",\n                        \"reasons\":        [\"all_entry_conditions_met\"],\n                    }",
+        "context": [
+          {
+            "line": 1875,
+            "source": "                    if not market_entry_allowed:"
+          },
+          {
+            "line": 1876,
+            "source": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+          },
+          {
+            "line": 1877,
+            "source": "                        skip_reasons[reason] += 1"
+          },
+          {
+            "line": 1878,
+            "source": "                        continue"
+          },
+          {
+            "line": 1879,
+            "source": "                    buy_orders.append({"
+          },
+          {
+            "line": 1880,
+            "source": "                        \"sym\":            sym,"
+          },
+          {
+            "line": 1881,
+            "source": "                        \"action\":         \"BUY\","
+          },
+          {
+            "line": 1882,
+            "source": "                        \"signal_date\":    date_t,"
+          },
+          {
+            "line": 1883,
+            "source": "                        \"ls\":             ls,"
+          }
+        ]
+      }
+    },
+    {
+      "append_call": {
+        "node_type": "Call",
+        "line": 1836,
+        "end_line": 1848,
+        "targets": [],
+        "references": [
+          "BUY",
+          "action",
+          "buy_orders",
+          "buy_orders.append",
+          "candidate_top_n",
+          "close_t",
+          "date_t",
+          "entry_mode",
+          "entry_rank",
+          "ls",
+          "primary_reason",
+          "qual_reasons",
+          "qualified_pool",
+          "qualified_pool_entry",
+          "reasons",
+          "signal_date",
+          "strategy",
+          "strategy_variant",
+          "sym",
+          "top_entry_rank",
+          "top_entry_rank.get"
+        ],
+        "source": "buy_orders.append({\n                        \"sym\":            sym,\n                        \"action\":         \"BUY\",    # 强制 BUY，不依赖 trade_action()\n                        \"signal_date\":    date_t,\n                        \"ls\":             ls,\n                        \"close_t\":        close_t,\n                        \"entry_rank\":     top_entry_rank.get(sym),\n                        \"strategy\":       strategy_variant,\n                        \"entry_mode\":     \"qualified_pool\",\n                        \"primary_reason\": \"qualified_pool_entry\",\n                        \"reasons\":        qual_reasons,\n                        \"candidate_top_n\": candidate_top_n,\n                    })",
+        "context": [
+          {
+            "line": 1832,
+            "source": "                        \"trend_state_expansion\","
+          },
+          {
+            "line": 1833,
+            "source": "                        \"price_above_ma50\","
+          },
+          {
+            "line": 1834,
+            "source": "                        \"ma50_slope_non_negative\","
+          },
+          {
+            "line": 1835,
+            "source": "                    ]"
+          },
+          {
+            "line": 1836,
+            "source": "                    buy_orders.append({"
+          },
+          {
+            "line": 1837,
+            "source": "                        \"sym\":            sym,"
+          },
+          {
+            "line": 1838,
+            "source": "                        \"action\":         \"BUY\",    # 强制 BUY，不依赖 trade_action()"
+          },
+          {
+            "line": 1839,
+            "source": "                        \"signal_date\":    date_t,"
+          },
+          {
+            "line": 1840,
+            "source": "                        \"ls\":             ls,"
+          }
+        ]
+      },
+      "payload": {
+        "node_type": "Dict",
+        "line": 1836,
+        "end_line": 1848,
+        "targets": [],
+        "references": [
+          "BUY",
+          "action",
+          "candidate_top_n",
+          "close_t",
+          "date_t",
+          "entry_mode",
+          "entry_rank",
+          "ls",
+          "primary_reason",
+          "qual_reasons",
+          "qualified_pool",
+          "qualified_pool_entry",
+          "reasons",
+          "signal_date",
+          "strategy",
+          "strategy_variant",
+          "sym",
+          "top_entry_rank",
+          "top_entry_rank.get"
+        ],
+        "source": "{\n                        \"sym\":            sym,\n                        \"action\":         \"BUY\",    # 强制 BUY，不依赖 trade_action()\n                        \"signal_date\":    date_t,\n                        \"ls\":             ls,\n                        \"close_t\":        close_t,\n                        \"entry_rank\":     top_entry_rank.get(sym),\n                        \"strategy\":       strategy_variant,\n                        \"entry_mode\":     \"qualified_pool\",\n                        \"primary_reason\": \"qualified_pool_entry\",\n                        \"reasons\":        qual_reasons,\n                        \"candidate_top_n\": candidate_top_n,\n                    }",
+        "context": [
+          {
+            "line": 1832,
+            "source": "                        \"trend_state_expansion\","
+          },
+          {
+            "line": 1833,
+            "source": "                        \"price_above_ma50\","
+          },
+          {
+            "line": 1834,
+            "source": "                        \"ma50_slope_non_negative\","
+          },
+          {
+            "line": 1835,
+            "source": "                    ]"
+          },
+          {
+            "line": 1836,
+            "source": "                    buy_orders.append({"
+          },
+          {
+            "line": 1837,
+            "source": "                        \"sym\":            sym,"
+          },
+          {
+            "line": 1838,
+            "source": "                        \"action\":         \"BUY\",    # 强制 BUY，不依赖 trade_action()"
+          },
+          {
+            "line": 1839,
+            "source": "                        \"signal_date\":    date_t,"
+          },
+          {
+            "line": 1840,
+            "source": "                        \"ls\":             ls,"
+          }
+        ]
+      }
+    }
+  ],
+  "order_dict_candidates": [
+    {
+      "node_type": "Dict",
+      "line": 1789,
+      "end_line": 1802,
+      "targets": [],
+      "references": [
+        "BUY",
+        "E1R_UPTREND_EXECUTION_V0_1",
+        "_etype",
+        "action",
+        "close_t",
+        "date_t",
+        "e1r_entry_reason",
+        "e1r_entry_type",
+        "e1r_selected_buy",
+        "e1r_uptrend_execution_v0_1",
+        "entry_mode",
+        "entry_rank",
+        "leader_rank_all",
+        "leader_rank_all.get",
+        "ls",
+        "primary_reason",
+        "reasons",
+        "sig",
+        "sig.get",
+        "signal_date",
+        "strategy",
+        "sym",
+        "target_size_units",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "{\n                    \"sym\":            sym,\n                    \"action\":         \"BUY\",\n                    \"signal_date\":    date_t,\n                    \"ls\":             ls,\n                    \"close_t\":        close_t,\n                    \"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),\n                    \"strategy\":       \"E1R_UPTREND_EXECUTION_V0_1\",\n                    \"entry_mode\":     \"e1r_uptrend_execution_v0_1\",\n                    \"primary_reason\": _etype,\n                    \"reasons\":        sig.get(\"e1r_entry_reason\", []),\n                    \"e1r_entry_type\": _etype,\n                    \"target_size_units\": e1r_selected_buy[\"target_size_units\"],\n                }",
+      "context": [
+        {
+          "line": 1785,
+          "source": "                and sym == e1r_selected_buy[\"sym\"]"
+        },
+        {
+          "line": 1786,
+          "source": "                and sym not in holdings"
+        },
+        {
+          "line": 1787,
+          "source": "            ):"
+        },
+        {
+          "line": 1788,
+          "source": "                _etype = e1r_selected_buy[\"entry_type\"]"
+        },
+        {
+          "line": 1789,
+          "source": "                buy_orders.append({"
+        },
+        {
+          "line": 1790,
+          "source": "                    \"sym\":            sym,"
+        },
+        {
+          "line": 1791,
+          "source": "                    \"action\":         \"BUY\","
+        },
+        {
+          "line": 1792,
+          "source": "                    \"signal_date\":    date_t,"
+        },
+        {
+          "line": 1793,
+          "source": "                    \"ls\":             ls,"
+        }
+      ]
+    },
+    {
+      "node_type": "Dict",
+      "line": 1836,
+      "end_line": 1848,
+      "targets": [],
+      "references": [
+        "BUY",
+        "action",
+        "candidate_top_n",
+        "close_t",
+        "date_t",
+        "entry_mode",
+        "entry_rank",
+        "ls",
+        "primary_reason",
+        "qual_reasons",
+        "qualified_pool",
+        "qualified_pool_entry",
+        "reasons",
+        "signal_date",
+        "strategy",
+        "strategy_variant",
+        "sym",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "{\n                        \"sym\":            sym,\n                        \"action\":         \"BUY\",    # 强制 BUY，不依赖 trade_action()\n                        \"signal_date\":    date_t,\n                        \"ls\":             ls,\n                        \"close_t\":        close_t,\n                        \"entry_rank\":     top_entry_rank.get(sym),\n                        \"strategy\":       strategy_variant,\n                        \"entry_mode\":     \"qualified_pool\",\n                        \"primary_reason\": \"qualified_pool_entry\",\n                        \"reasons\":        qual_reasons,\n                        \"candidate_top_n\": candidate_top_n,\n                    }",
+      "context": [
+        {
+          "line": 1832,
+          "source": "                        \"trend_state_expansion\","
+        },
+        {
+          "line": 1833,
+          "source": "                        \"price_above_ma50\","
+        },
+        {
+          "line": 1834,
+          "source": "                        \"ma50_slope_non_negative\","
+        },
+        {
+          "line": 1835,
+          "source": "                    ]"
+        },
+        {
+          "line": 1836,
+          "source": "                    buy_orders.append({"
+        },
+        {
+          "line": 1837,
+          "source": "                        \"sym\":            sym,"
+        },
+        {
+          "line": 1838,
+          "source": "                        \"action\":         \"BUY\",    # 强制 BUY，不依赖 trade_action()"
+        },
+        {
+          "line": 1839,
+          "source": "                        \"signal_date\":    date_t,"
+        },
+        {
+          "line": 1840,
+          "source": "                        \"ls\":             ls,"
+        }
+      ]
+    },
+    {
+      "node_type": "Dict",
+      "line": 1879,
+      "end_line": 1890,
+      "targets": [],
+      "references": [
+        "BUY",
+        "action",
+        "all_entry_conditions_met",
+        "close_t",
+        "date_t",
+        "entry_mode",
+        "entry_rank",
+        "legacy_trade_action",
+        "ls",
+        "primary_reason",
+        "reasons",
+        "signal_date",
+        "strategy",
+        "strategy_variant",
+        "sym",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "{\n                        \"sym\":            sym,\n                        \"action\":         \"BUY\",\n                        \"signal_date\":    date_t,\n                        \"ls\":             ls,\n                        \"close_t\":        close_t,\n                        \"entry_rank\":     top_entry_rank.get(sym),\n                        \"strategy\":       strategy_variant,\n                        \"entry_mode\":     \"legacy_trade_action\",\n                        \"primary_reason\": \"all_entry_conditions_met\",\n                        \"reasons\":        [\"all_entry_conditions_met\"],\n                    }",
+      "context": [
+        {
+          "line": 1875,
+          "source": "                    if not market_entry_allowed:"
+        },
+        {
+          "line": 1876,
+          "source": "                        reason = \"market_shock_block\" if market_shock else \"market_risk_off_block\""
+        },
+        {
+          "line": 1877,
+          "source": "                        skip_reasons[reason] += 1"
+        },
+        {
+          "line": 1878,
+          "source": "                        continue"
+        },
+        {
+          "line": 1879,
+          "source": "                    buy_orders.append({"
+        },
+        {
+          "line": 1880,
+          "source": "                        \"sym\":            sym,"
+        },
+        {
+          "line": 1881,
+          "source": "                        \"action\":         \"BUY\","
+        },
+        {
+          "line": 1882,
+          "source": "                        \"signal_date\":    date_t,"
+        },
+        {
+          "line": 1883,
+          "source": "                        \"ls\":             ls,"
+        }
+      ]
+    },
+    {
+      "node_type": "Dict",
+      "line": 2013,
+      "end_line": 2023,
+      "targets": [],
+      "references": [
+        "",
+        "action",
+        "close_t",
+        "date_t",
+        "entry_rank",
+        "ls",
+        "primary_reason",
+        "reason_info",
+        "reason_info.get",
+        "reasons",
+        "signal_date",
+        "strategy",
+        "strategy_variant",
+        "sym",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "{\n                    \"sym\":           sym,\n                    \"action\":        action,\n                    \"signal_date\":   date_t,\n                    \"ls\":            ls,\n                    \"close_t\":       close_t,\n                    \"entry_rank\":    top_entry_rank.get(sym),\n                    \"strategy\":      strategy_variant,\n                    \"primary_reason\": reason_info.get(\"primary_reason\", \"\"),\n                    \"reasons\":       reason_info.get(\"reasons\", []),\n                }",
+      "context": [
+        {
+          "line": 2009,
+          "source": "                        and holdings[sym].get(\"ls60_reduce_triggered\")):"
+        },
+        {
+          "line": 2010,
+          "source": "                    skip_reasons[\"ls60_reduce_already_triggered\"] += 1"
+        },
+        {
+          "line": 2011,
+          "source": "                    continue"
+        },
+        {
+          "line": 2012,
+          "source": ""
+        },
+        {
+          "line": 2013,
+          "source": "                management_orders.append({"
+        },
+        {
+          "line": 2014,
+          "source": "                    \"sym\":           sym,"
+        },
+        {
+          "line": 2015,
+          "source": "                    \"action\":        action,"
+        },
+        {
+          "line": 2016,
+          "source": "                    \"signal_date\":   date_t,"
+        },
+        {
+          "line": 2017,
+          "source": "                    \"ls\":            ls,"
+        }
+      ]
+    },
+    {
+      "node_type": "Dict",
+      "line": 2048,
+      "end_line": 2060,
+      "targets": [],
+      "references": [
+        "ADD",
+        "E1R_UPTREND_CONFIRMED",
+        "E1R_UPTREND_EXECUTION_V0_1",
+        "action",
+        "add_size_units",
+        "close_above_ma20",
+        "close_t",
+        "close_t_h",
+        "date_t",
+        "e1r_entry_type",
+        "emerging_upgraded_to_confirmed",
+        "entry_rank",
+        "h",
+        "h.get",
+        "leader_rank_all",
+        "leader_rank_all.get",
+        "leader_score",
+        "leader_score_entry",
+        "ls",
+        "momentum_acceleration_non_negative",
+        "position_return_above_3pct",
+        "primary_reason",
+        "reasons",
+        "sig",
+        "sig.get",
+        "signal_date",
+        "strategy",
+        "sym",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "{\n                    \"sym\": sym,\n                    \"action\": \"ADD\",\n                    \"signal_date\": date_t,\n                    \"ls\": sig.get(\"leader_score\", h.get(\"leader_score_entry\", 0)),\n                    \"close_t\": close_t_h,\n                    \"entry_rank\": top_entry_rank.get(sym) or leader_rank_all.get(sym),\n                    \"strategy\": \"E1R_UPTREND_EXECUTION_V0_1\",\n                    \"primary_reason\": \"emerging_upgraded_to_confirmed\",\n                    \"reasons\": [\"emerging_upgraded_to_confirmed\", \"position_return_above_3pct\", \"close_above_ma20\", \"momentum_acceleration_non_negative\"],\n                    \"e1r_entry_type\": \"E1R_UPTREND_CONFIRMED\",\n                    \"add_size_units\": 0.5,\n                }",
+      "context": [
+        {
+          "line": 2044,
+          "source": "                if close_t_h <= sig.get(\"ma20\", close_t_h):"
+        },
+        {
+          "line": 2045,
+          "source": "                    continue"
+        },
+        {
+          "line": 2046,
+          "source": "                if sig.get(\"momentum_acceleration\", 0) < 0:"
+        },
+        {
+          "line": 2047,
+          "source": "                    continue"
+        },
+        {
+          "line": 2048,
+          "source": "                management_orders.append({"
+        },
+        {
+          "line": 2049,
+          "source": "                    \"sym\": sym,"
+        },
+        {
+          "line": 2050,
+          "source": "                    \"action\": \"ADD\","
+        },
+        {
+          "line": 2051,
+          "source": "                    \"signal_date\": date_t,"
+        },
+        {
+          "line": 2052,
+          "source": "                    \"ls\": sig.get(\"leader_score\", h.get(\"leader_score_entry\", 0)),"
+        }
+      ]
+    },
+    {
+      "node_type": "Dict",
+      "line": 2083,
+      "end_line": 2091,
+      "targets": [],
+      "references": [
+        "action",
+        "close_t",
+        "date_t",
+        "day_signals",
+        "day_signals.get",
+        "entry_rank",
+        "h",
+        "h.get",
+        "leader_score",
+        "leader_score_entry",
+        "ls",
+        "relative_stop_action",
+        "signal_date",
+        "strategy",
+        "strategy_variant",
+        "sym",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "{\n                        \"sym\": sym,\n                        \"action\": relative_stop_action,\n                        \"signal_date\": date_t,\n                        \"ls\": day_signals.get(sym, {}).get(\"leader_score\", h.get(\"leader_score_entry\", 0)),\n                        \"close_t\": close_t,\n                        \"entry_rank\": top_entry_rank.get(sym),\n                        \"strategy\": strategy_variant,\n                    }",
+      "context": [
+        {
+          "line": 2079,
+          "source": "                if relative_perf <= relative_stop_underperform:"
+        },
+        {
+          "line": 2080,
+          "source": "                    h[\"relative_stop_triggered\"] = True"
+        },
+        {
+          "line": 2081,
+          "source": "                    h[\"relative_stop_signal_date\"] = date_t"
+        },
+        {
+          "line": 2082,
+          "source": "                    relative_stop_stats[\"signals\"] += 1"
+        },
+        {
+          "line": 2083,
+          "source": "                    management_orders.append({"
+        },
+        {
+          "line": 2084,
+          "source": "                        \"sym\": sym,"
+        },
+        {
+          "line": 2085,
+          "source": "                        \"action\": relative_stop_action,"
+        },
+        {
+          "line": 2086,
+          "source": "                        \"signal_date\": date_t,"
+        },
+        {
+          "line": 2087,
+          "source": "                        \"ls\": day_signals.get(sym, {}).get(\"leader_score\", h.get(\"leader_score_entry\", 0)),"
+        }
+      ]
+    },
+    {
+      "node_type": "Dict",
+      "line": 2114,
+      "end_line": 2122,
+      "targets": [],
+      "references": [
+        "TP_REDUCE",
+        "action",
+        "close_t",
+        "date_t",
+        "day_signals",
+        "day_signals.get",
+        "entry_rank",
+        "h",
+        "h.get",
+        "leader_score",
+        "leader_score_entry",
+        "ls",
+        "signal_date",
+        "strategy",
+        "strategy_variant",
+        "sym",
+        "top_entry_rank",
+        "top_entry_rank.get"
+      ],
+      "source": "{\n                        \"sym\": sym,\n                        \"action\": \"TP_REDUCE\",\n                        \"signal_date\": date_t,\n                        \"ls\": day_signals.get(sym, {}).get(\"leader_score\", h.get(\"leader_score_entry\", 0)),\n                        \"close_t\": close_t,\n                        \"entry_rank\": top_entry_rank.get(sym),\n                        \"strategy\": strategy_variant,\n                    }",
+      "context": [
+        {
+          "line": 2110,
+          "source": "                    management_orders = ["
+        },
+        {
+          "line": 2111,
+          "source": "                        o for o in management_orders"
+        },
+        {
+          "line": 2112,
+          "source": "                        if not (o[\"sym\"] == sym and o[\"action\"] == \"ADD\")"
+        },
+        {
+          "line": 2113,
+          "source": "                    ]"
+        },
+        {
+          "line": 2114,
+          "source": "                    management_orders.append({"
+        },
+        {
+          "line": 2115,
+          "source": "                        \"sym\": sym,"
+        },
+        {
+          "line": 2116,
+          "source": "                        \"action\": \"TP_REDUCE\","
+        },
+        {
+          "line": 2117,
+          "source": "                        \"signal_date\": date_t,"
+        },
+        {
+          "line": 2118,
+          "source": "                        \"ls\": day_signals.get(sym, {}).get(\"leader_score\", h.get(\"leader_score_entry\", 0)),"
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "selected_buy_finalized_count": 1,
+    "selected_buy_consuming_if_count": 1,
+    "target_size_node_count": 7,
+    "target_size_conversion_candidate_count": 1,
+    "buy_action_node_count": 10,
+    "buy_orders_assignment_count": 1,
+    "buy_orders_append_count": 3,
+    "buy_orders_extend_count": 0,
+    "order_dict_candidate_count": 7,
+    "pending_orders_assignment_count": 3,
+    "pending_execution_loop_candidate_count": 2,
+    "holdings_mutation_count": 1,
+    "buy_holdings_mutation_count": 1,
+    "candidate_selection_chain_proven": true,
+    "selected_buy_to_order_proven": true,
+    "target_size_conversion_proven": true,
+    "buy_order_payload_proven": true,
+    "buy_orders_to_pending_proven": true,
+    "pending_to_execution_proven": true,
+    "execution_to_holdings_proven": true,
+    "full_chain_proven": true,
+    "source_modified": false,
+    "instrumentation_implemented": false,
+    "strategy_logic_implemented": false,
+    "full_5y_run_performed": false,
+    "sideways_logic_added": false,
+    "frozen_files_unchanged": true
+  },
+  "root_cause_analysis": {
+    "repeated_objective": "Prove the complete legacy boundary from e1r_selected_buy through order creation, pending handoff, T+1 execution, and holdings mutation.",
+    "previous_failures": [
+      {
+        "stage": "R17A",
+        "failure": "POSITION_SIZING_BOUNDARY not proven"
+      },
+      {
+        "stage": "R17A-1",
+        "failure": "POSITION_SIZING and PENDING ORDER boundaries not proven"
+      },
+      {
+        "stage": "R17A-2",
+        "failure": "ORDER CREATION not proven"
+      }
+    ],
+    "corrective_method": [
+      "Use complete AST nodes instead of single-line text matches.",
+      "Inspect buy_orders definitions and mutation payloads directly.",
+      "Trace pending_orders assignment separately from comments and initialization.",
+      "Locate the actual pending-orders execution loop and holdings mutation.",
+      "Store only high-value nodes and source context."
+    ]
+  },
+  "frozen_files": {
+    "src/engine/backtest.py": {
+      "sha256_before": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "sha256_after": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "unchanged": true
+    },
+    "src/engine/e1r_composer.py": {
+      "sha256_before": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "sha256_after": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "unchanged": true
+    },
+    "src/engine/e1r_sidecar_sleeve.py": {
+      "sha256_before": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "sha256_after": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "unchanged": true
+    }
+  },
+  "decision": "PASS_SELECTED_BUY_TO_BUY_ORDERS_CONTROL_FLOW_PROVEN",
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R17A-3-TRACE-POINT-FINALIZATION-REVIEW"
+}

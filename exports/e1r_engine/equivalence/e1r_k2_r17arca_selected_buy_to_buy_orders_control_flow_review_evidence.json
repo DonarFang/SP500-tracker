@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17A-RCA-SELECTED-BUY-TO-BUY-ORDERS-CONTROL-FLOW-REVIEW",
+  "decision": "PASS_SELECTED_BUY_TO_BUY_ORDERS_CONTROL_FLOW_PROVEN",
+  "validation": {
+    "selected_buy_finalized_count": 1,
+    "selected_buy_consuming_if_count": 1,
+    "target_size_node_count": 7,
+    "target_size_conversion_candidate_count": 1,
+    "buy_action_node_count": 10,
+    "buy_orders_assignment_count": 1,
+    "buy_orders_append_count": 3,
+    "buy_orders_extend_count": 0,
+    "order_dict_candidate_count": 7,
+    "pending_orders_assignment_count": 3,
+    "pending_execution_loop_candidate_count": 2,
+    "holdings_mutation_count": 1,
+    "buy_holdings_mutation_count": 1,
+    "candidate_selection_chain_proven": true,
+    "selected_buy_to_order_proven": true,
+    "target_size_conversion_proven": true,
+    "buy_order_payload_proven": true,
+    "buy_orders_to_pending_proven": true,
+    "pending_to_execution_proven": true,
+    "execution_to_holdings_proven": true,
+    "full_chain_proven": true,
+    "source_modified": false,
+    "instrumentation_implemented": false,
+    "strategy_logic_implemented": false,
+    "full_5y_run_performed": false,
+    "sideways_logic_added": false,
+    "frozen_files_unchanged": true
+  },
+  "boundary_lines": {
+    "selected_buy_finalized": 1721,
+    "selected_buy_consumed": 1782,
+    "target_size_conversion": 1789,
+    "buy_order_creation": 1789,
+    "pending_orders_handoff": 2134,
+    "pending_orders_execution_loop": 1102,
+    "holdings_buy_mutation": 1165
+  },
+  "control_flow_checks": [
+    {
+      "left": "candidate_sort",
+      "left_line": 1716,
+      "operator": "<",
+      "right": "best_entry_selection",
+      "right_line": 1719,
+      "passed": true
+    },
+    {
+      "left": "best_entry_selection",
+      "left_line": 1719,
+      "operator": "<",
+      "right": "selected_buy_finalized",
+      "right_line": 1721,
+      "passed": true
+    },
+    {
+      "left": "selected_buy_finalized",
+      "left_line": 1721,
+      "operator": "<",
+      "right": "selected_buy_consumed",
+      "right_line": 1782,
+      "passed": true
+    },
+    {
+      "left": "selected_buy_consumed",
+      "left_line": 1782,
+      "operator": "<=",
+      "right": "buy_order_creation",
+      "right_line": 1789,
+      "passed": true
+    },
+    {
+      "left": "buy_order_creation",
+      "left_line": 1789,
+      "operator": "<",
+      "right": "pending_orders_handoff",
+      "right_line": 2134,
+      "passed": true
+    }
+  ],
+  "conclusion": "K2_R17ARCA_PASS_SELECTED_BUY_TO_BUY_ORDERS_CONTROL_FLOW_PROVEN",
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R17A-3-TRACE-POINT-FINALIZATION-REVIEW"
+}
