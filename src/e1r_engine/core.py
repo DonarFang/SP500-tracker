@@ -11,6 +11,11 @@ from e1r_engine.state import (
     DecisionTrace,
     OrderIntent,
 )
+from e1r_engine.uptrend_consumer import (
+    UptrendConsumerInputs,
+    UptrendConsumerResult,
+    UptrendDecisionConsumer,
+)
 
 
 @dataclass(frozen=True)
@@ -42,9 +47,32 @@ class E1RCoreEngine:
         self.config = config or E1RCoreEngineConfig()
         self.router = router or RegimeRouter()
 
-    def step(self, snapshot: MarketSnapshot, account: AccountState) -> DailyEngineResult:
+    def step(
+        self,
+        snapshot: MarketSnapshot,
+        account: AccountState,
+        *,
+        uptrend_inputs: UptrendConsumerInputs | None = None,
+    ) -> DailyEngineResult:
         route = self._route(snapshot)
         account_before = account
+
+        if (
+            uptrend_inputs is not None
+            and route.branch != "UPTREND"
+        ):
+            raise ValueError(
+                "uptrend_inputs supplied for non-UPTREND route: "
+                + route.branch
+            )
+
+        if (
+            uptrend_inputs is not None
+            and uptrend_inputs.date != snapshot.date
+        ):
+            raise ValueError(
+                "uptrend_inputs date does not match snapshot date"
+            )
 
         prices = {
             symbol: bar.close
@@ -53,6 +81,15 @@ class E1RCoreEngine:
         }
 
         account_after = account.mark_to_market(prices=prices, date=snapshot.date)
+
+        if uptrend_inputs is not None:
+            return self._step_uptrend(
+                snapshot=snapshot,
+                route=route,
+                account_before=account_before,
+                account_after=account_after,
+                uptrend_inputs=uptrend_inputs,
+            )
 
         order_intents = self._noop_or_hold_orders(snapshot=snapshot, route=route, account_after=account_after)
 
@@ -94,6 +131,94 @@ class E1RCoreEngine:
                 "engine": "E1RCoreEngine",
                 "stage": "ENGINE-F",
                 "shell_mode": True,
+            },
+        )
+
+    def _step_uptrend(
+        self,
+        *,
+        snapshot: MarketSnapshot,
+        route: RegimeRoute,
+        account_before: AccountState,
+        account_after: AccountState,
+        uptrend_inputs: UptrendConsumerInputs,
+    ) -> DailyEngineResult:
+        uptrend_result: UptrendConsumerResult = (
+            UptrendDecisionConsumer.consume(
+                inputs=uptrend_inputs,
+                account_state=account_after,
+                max_positions=self.config.max_positions,
+            )
+        )
+
+        base_orders = self._noop_or_hold_orders(
+            snapshot=snapshot,
+            route=route,
+            account_after=account_after,
+        )
+
+        if uptrend_result.order_intents:
+            order_intents = [
+                order
+                for order in base_orders
+                if order.intent_type != "NOOP"
+            ]
+            order_intents.extend(
+                uptrend_result.order_intents
+            )
+        else:
+            order_intents = base_orders
+
+        trace = DecisionTrace(
+            date=snapshot.date,
+            branch=route.branch,
+            market_regime=route.spx_regime,
+            regime_subclass=route.subclass,
+            inputs={
+                "shell_mode": False,
+                "no_strategy_logic": False,
+                "no_candidate_ranking": False,
+                "no_sizing": True,
+                "no_market_gate_recomputation": True,
+                "route_reason": route.reason,
+                "uptrend_consumer_active": True,
+            },
+            candidate_count=(
+                uptrend_result.decision.candidate_count
+            ),
+            selected_symbols=list(
+                uptrend_result.metadata["selected_symbols"]
+            ),
+            order_intents=order_intents,
+            reasons=[
+                "uptrend_core_consumer",
+                route.reason,
+                "mark_to_market_only",
+                "standard_order_intent_only",
+                "no_order_execution",
+            ],
+            metadata={
+                "route": route.__dict__,
+                "max_positions": self.config.max_positions,
+                "uptrend_consumer": uptrend_result.metadata,
+            },
+        )
+
+        return DailyEngineResult(
+            date=snapshot.date,
+            account_before=account_before,
+            account_after=account_after,
+            decision_trace=trace,
+            order_intents=order_intents,
+            fills=[],
+            metadata={
+                "engine": "E1RCoreEngine",
+                "stage": "K2-R21",
+                "shell_mode": False,
+                "uptrend_consumer_active": True,
+                "legacy_order_payload_constructed": False,
+                "order_execution_performed": False,
+                "account_trade_mutation_performed": False,
             },
         )
 
