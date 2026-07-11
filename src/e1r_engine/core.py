@@ -16,6 +16,11 @@ from e1r_engine.uptrend_consumer import (
     UptrendConsumerResult,
     UptrendDecisionConsumer,
 )
+from e1r_engine.uptrend_pipeline import (
+    UptrendPipelineInputs,
+    UptrendSignalConsumerPipeline,
+    UptrendSignalConsumerPipelineResult,
+)
 
 
 @dataclass(frozen=True)
@@ -53,9 +58,19 @@ class E1RCoreEngine:
         account: AccountState,
         *,
         uptrend_inputs: UptrendConsumerInputs | None = None,
+        uptrend_pipeline_inputs: UptrendPipelineInputs | None = None,
     ) -> DailyEngineResult:
         route = self._route(snapshot)
         account_before = account
+
+        if (
+            uptrend_inputs is not None
+            and uptrend_pipeline_inputs is not None
+        ):
+            raise ValueError(
+                "uptrend_inputs and uptrend_pipeline_inputs "
+                "are mutually exclusive"
+            )
 
         if (
             uptrend_inputs is not None
@@ -67,12 +82,42 @@ class E1RCoreEngine:
             )
 
         if (
+            uptrend_pipeline_inputs is not None
+            and route.branch != "UPTREND"
+        ):
+            raise ValueError(
+                "uptrend_pipeline_inputs supplied for "
+                "non-UPTREND route: "
+                + route.branch
+            )
+
+        if (
             uptrend_inputs is not None
             and uptrend_inputs.date != snapshot.date
         ):
             raise ValueError(
                 "uptrend_inputs date does not match snapshot date"
             )
+
+        if uptrend_pipeline_inputs is not None:
+            pipeline_errors = (
+                uptrend_pipeline_inputs.validate()
+            )
+
+            if pipeline_errors:
+                raise ValueError(
+                    "invalid uptrend_pipeline_inputs: "
+                    + "; ".join(pipeline_errors)
+                )
+
+            if (
+                uptrend_pipeline_inputs.date
+                != snapshot.date
+            ):
+                raise ValueError(
+                    "uptrend_pipeline_inputs date does not "
+                    "match snapshot date"
+                )
 
         prices = {
             symbol: bar.close
@@ -81,6 +126,15 @@ class E1RCoreEngine:
         }
 
         account_after = account.mark_to_market(prices=prices, date=snapshot.date)
+
+        if uptrend_pipeline_inputs is not None:
+            return self._step_uptrend_pipeline(
+                snapshot=snapshot,
+                route=route,
+                account_before=account_before,
+                account_after=account_after,
+                pipeline_inputs=uptrend_pipeline_inputs,
+            )
 
         if uptrend_inputs is not None:
             return self._step_uptrend(
@@ -215,6 +269,130 @@ class E1RCoreEngine:
                 "engine": "E1RCoreEngine",
                 "stage": "K2-R21",
                 "shell_mode": False,
+                "uptrend_consumer_active": True,
+                "legacy_order_payload_constructed": False,
+                "order_execution_performed": False,
+                "account_trade_mutation_performed": False,
+            },
+        )
+
+    def _step_uptrend_pipeline(
+        self,
+        *,
+        snapshot: MarketSnapshot,
+        route: RegimeRoute,
+        account_before: AccountState,
+        account_after: AccountState,
+        pipeline_inputs: UptrendPipelineInputs,
+    ) -> DailyEngineResult:
+        pipeline_result: (
+            UptrendSignalConsumerPipelineResult
+        ) = UptrendSignalConsumerPipeline.run(
+            date=pipeline_inputs.date,
+            symbols=pipeline_inputs.symbols,
+            prices_by_symbol=(
+                pipeline_inputs.prices_by_symbol
+            ),
+            market_gate_decision=(
+                pipeline_inputs.market_gate_decision
+            ),
+            account_state=account_after,
+            max_positions=self.config.max_positions,
+            market_score_default=(
+                pipeline_inputs.market_score_default
+            ),
+            ls60_exit_mode=(
+                pipeline_inputs.ls60_exit_mode
+            ),
+            metadata={
+                "engine_entry": "E1RCoreEngine.step",
+                **dict(pipeline_inputs.metadata),
+            },
+        )
+
+        uptrend_result = (
+            pipeline_result.consumer_result
+        )
+
+        base_orders = self._noop_or_hold_orders(
+            snapshot=snapshot,
+            route=route,
+            account_after=account_after,
+        )
+
+        if uptrend_result.order_intents:
+            order_intents = [
+                order
+                for order in base_orders
+                if order.intent_type != "NOOP"
+            ]
+            order_intents.extend(
+                uptrend_result.order_intents
+            )
+        else:
+            order_intents = base_orders
+
+        trace = DecisionTrace(
+            date=snapshot.date,
+            branch=route.branch,
+            market_regime=route.spx_regime,
+            regime_subclass=route.subclass,
+            inputs={
+                "shell_mode": False,
+                "no_strategy_logic": False,
+                "no_candidate_ranking": False,
+                "no_sizing": True,
+                "no_market_gate_recomputation": True,
+                "route_reason": route.reason,
+                "uptrend_pipeline_active": True,
+                "uptrend_consumer_active": True,
+            },
+            candidate_count=(
+                uptrend_result.decision.candidate_count
+            ),
+            selected_symbols=list(
+                uptrend_result.metadata[
+                    "selected_symbols"
+                ]
+            ),
+            order_intents=order_intents,
+            reasons=[
+                "uptrend_signal_adapter_pipeline",
+                "uptrend_core_consumer",
+                route.reason,
+                "mark_to_market_only",
+                "standard_order_intent_only",
+                "no_order_execution",
+            ],
+            metadata={
+                "route": route.__dict__,
+                "max_positions": self.config.max_positions,
+                "uptrend_pipeline": (
+                    pipeline_result.metadata
+                ),
+                "uptrend_adapter": (
+                    pipeline_result
+                    .adapter_result
+                    .metadata
+                ),
+                "uptrend_consumer": (
+                    uptrend_result.metadata
+                ),
+            },
+        )
+
+        return DailyEngineResult(
+            date=snapshot.date,
+            account_before=account_before,
+            account_after=account_after,
+            decision_trace=trace,
+            order_intents=order_intents,
+            fills=[],
+            metadata={
+                "engine": "E1RCoreEngine",
+                "stage": "K2-R24",
+                "shell_mode": False,
+                "uptrend_pipeline_active": True,
                 "uptrend_consumer_active": True,
                 "legacy_order_payload_constructed": False,
                 "order_execution_performed": False,

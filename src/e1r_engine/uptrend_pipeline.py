@@ -16,6 +16,56 @@ from e1r_engine.uptrend_signal_adapter import (
 
 
 @dataclass(frozen=True)
+class UptrendPipelineInputs:
+    date: str
+    symbols: Sequence[str]
+    prices_by_symbol: Mapping[
+        str,
+        Sequence[float],
+    ]
+    market_gate_decision: MarketGateDecision
+    market_score_default: float = 60.0
+    ls60_exit_mode: str = "reduce"
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def validate(self) -> list[str]:
+        errors: list[str] = []
+
+        if not self.date:
+            errors.append("missing_date")
+
+        if self.market_gate_decision.date != self.date:
+            errors.append(
+                "market_gate_decision_date_mismatch"
+            )
+
+        symbol_order = tuple(self.symbols)
+
+        if len(set(symbol_order)) != len(symbol_order):
+            errors.append("duplicate_symbols")
+
+        missing_histories = [
+            symbol
+            for symbol in symbol_order
+            if symbol not in self.prices_by_symbol
+        ]
+
+        if missing_histories:
+            errors.append(
+                "missing_price_histories:"
+                + ",".join(missing_histories)
+            )
+
+        if self.ls60_exit_mode not in {
+            "reduce",
+            "exit",
+        }:
+            errors.append("invalid_ls60_exit_mode")
+
+        return errors
+
+
+@dataclass(frozen=True)
 class UptrendSignalConsumerPipelineResult:
     date: str
     adapter_result: UptrendSignalAdapterResult
@@ -141,6 +191,7 @@ class UptrendSignalConsumerPipeline:
 
 
 __all__ = [
+    "UptrendPipelineInputs",
     "UptrendSignalConsumerPipeline",
     "UptrendSignalConsumerPipelineResult",
 ]

@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "stage": "K2-R24-UPTREND-PIPELINE-ENGINE-ENTRY-WIRING",
+  "decision": "PASS_UPTREND_PIPELINE_ENGINE_ENTRY_WIRING",
+  "call_chain": [
+    "E1RCoreEngine.step",
+    "E1RCoreEngine._step_uptrend_pipeline",
+    "UptrendSignalConsumerPipeline.run",
+    "UptrendSignalAdapter.build",
+    "UptrendSignalAdapterResult.to_consumer_inputs",
+    "UptrendDecisionConsumer.consume",
+    "UptrendCore.decide_uptrend_buy",
+    "OrderIntent"
+  ],
+  "validation": {
+    "step_accepts_pipeline_inputs": true,
+    "pipeline_input_contract_exists": true,
+    "core_calls_pipeline": true,
+    "core_calls_adapter_directly": false,
+    "core_calls_market_gate_evaluator": false,
+    "core_calls_uptrend_core_directly": false,
+    "core_imports_backtest": false,
+    "core_calls_order_execution": false
+  },
+  "behavior_contract": {
+    "pipeline_and_manual_inputs_mutually_exclusive": true,
+    "non_uptrend_pipeline_input_rejected": true,
+    "pipeline_date_validated": true,
+    "market_gate_recomputed": false,
+    "account_trade_mutated": false,
+    "order_execution_performed": false,
+    "legacy_backtest_called": false,
+    "legacy_order_payload_constructed": false,
+    "shell_behavior_byte_equivalent": true,
+    "engine_noop_contract_preserved": true,
+    "protected_sources_modified": false
+  },
+  "tests": {
+    "r24_engine_entry_tests": 7,
+    "r23_wiring_regression_tests": 7,
+    "r22_adapter_regression_tests": 8,
+    "r21_consumer_regression_tests": 8,
+    "r20_core_regression_tests": 7,
+    "shell_golden_cases": 4,
+    "total_unit_tests": 37,
+    "status": "PASS"
+  },
+  "failure_review": {
+    "initial_failures": 2,
+    "root_cause": "Tests compared strategy-only pipeline orders against engine-level orders without accounting for the preserved NOOP fallback contract.",
+    "implementation_change_required": false,
+    "test_contract_corrected": true
+  },
+  "backtest": {
+    "short_window_run_performed": false,
+    "full_5y_run_performed": false
+  },
+  "next_stage": "K2-R25-UPTREND-ENGINE-ENTRY-EQUIVALENCE-SMOKE"
+}
