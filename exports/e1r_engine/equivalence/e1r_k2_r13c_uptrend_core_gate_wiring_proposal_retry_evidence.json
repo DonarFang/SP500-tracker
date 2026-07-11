@@ -1,0 +1,324 @@
+{
+  "generated_at": "2026-07-11T08:41:38.152784+00:00",
+  "elapsed_seconds": 0.450585,
+  "stage": "4C-2C-4E-ENGINE-K2-R13C-UPTREND_CORE_GATE_WIRING_PROPOSAL_RETRY_WITH_HISTORICAL_SHELL_AWARE_VALIDATION",
+  "status": "UPTREND_CORE_GATE_WIRING_PROPOSAL_RETRY_COMPLETE",
+  "purpose": "Retry R13 proposal with historical-shell-aware validation. Proposal only; no implementation.",
+  "source_reports": {
+    "r12c": {
+      "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R12C_MARKET_GATE_GOLDEN_ROW_LOCATOR_AND_EQUIVALENCE_RETRY.json",
+      "sha256": "caf052914f9c2e9a21aa015983b949481592295528c693751ee57426211a4c1c"
+    },
+    "r13b": {
+      "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R13B_UPTREND_CORE_WIRING_PROPOSAL_GAP_RCA.json",
+      "sha256": "acab700e702d2c2d927cda8f3fa543af35b0f29abb6bd6ea7b4cf4c91bcca65b"
+    },
+    "market_gate": {
+      "path": "src/e1r_engine/market_gate.py",
+      "sha256": "9c974fe678e32b0d621f16276d1f9c672b14c0bf217ec643c0c3827781916cf8"
+    }
+  },
+  "historical_shell_audit": [
+    {
+      "path": "src/e1r_engine/uptrend_core.py",
+      "exists": true,
+      "tracked": true,
+      "sha256": "cdbcff0bfa79fb14e6a7042eeeb8d46208e93c4613932487c2987fc728f15113",
+      "git_status_porcelain": "",
+      "git_diff_name": "",
+      "git_cached_diff_name": "",
+      "creation_log": [
+        "e721ee0b6dfcbbaa3db0a2aafc30ab32e2958525 2026-07-10T19:29:40+08:00 Add E1R uptrend extraction skeleton"
+      ],
+      "recent_log": [
+        "678c781d6b67537f4b245af3b01818e56d35a90e 2026-07-10T19:34:27+08:00 Extract E1R uptrend legacy result boundary",
+        "e721ee0b6dfcbbaa3db0a2aafc30ab32e2958525 2026-07-10T19:29:40+08:00 Add E1R uptrend extraction skeleton"
+      ],
+      "classification": "HISTORICAL_TRACKED_UNCHANGED"
+    },
+    {
+      "path": "src/e1r_engine/regime_router.py",
+      "exists": true,
+      "tracked": true,
+      "sha256": "9d4417229547b49330e66f368f361bd1a1c65b761a47d6c11bce24a585e4db89",
+      "git_status_porcelain": "",
+      "git_diff_name": "",
+      "git_cached_diff_name": "",
+      "creation_log": [
+        "3e96fb8a55d9b4feb54cf119c4d42490578c1e91 2026-07-10T14:05:14+08:00 Add E1R core engine shell"
+      ],
+      "recent_log": [
+        "3e96fb8a55d9b4feb54cf119c4d42490578c1e91 2026-07-10T14:05:14+08:00 Add E1R core engine shell"
+      ],
+      "classification": "HISTORICAL_TRACKED_UNCHANGED"
+    },
+    {
+      "path": "src/e1r_engine/core_engine.py",
+      "exists": false,
+      "tracked": false,
+      "sha256": null,
+      "git_status_porcelain": "",
+      "git_diff_name": "",
+      "git_cached_diff_name": "",
+      "creation_log": [],
+      "recent_log": [],
+      "classification": "ABSENT_OK"
+    },
+    {
+      "path": "tests/e1r_engine/test_uptrend_core_gate_wiring.py",
+      "exists": false,
+      "tracked": false,
+      "sha256": null,
+      "git_status_porcelain": "",
+      "git_diff_name": "",
+      "git_cached_diff_name": "",
+      "creation_log": [],
+      "recent_log": [],
+      "classification": "ABSENT_OK"
+    }
+  ],
+  "blocking_shell_paths": [],
+  "proposal": {
+    "proposal_id": "E1R_UPTREND_CORE_GATE_WIRING_PROPOSAL_V2_HISTORICAL_SHELL_AWARE",
+    "proposal_scope": "Design only. No implementation in R13C.",
+    "why_retry": {
+      "r13_failure": "Original R13 used future_modules_not_created=all(not exists(path)), which conflicted with historical standalone shell files.",
+      "r13b_root_cause": "R13 validation rule was too strict: it treated historical standalone engine shell files as forbidden new future implementation files.",
+      "corrected_rule": "Historical tracked unchanged shell files may exist; new or modified implementation paths remain blocking."
+    },
+    "prerequisite_evidence": {
+      "market_gate_module": "src/e1r_engine/market_gate.py",
+      "r12c_selected_golden_path": "equivalence_report.focused_rows",
+      "r12c_row_count": 17,
+      "r12c_mismatch_count": 0,
+      "r12c_equivalence_ok": true,
+      "r13b_gap_rca_passed": true
+    },
+    "historical_shell_aware_audit": [
+      {
+        "path": "src/e1r_engine/uptrend_core.py",
+        "exists": true,
+        "tracked": true,
+        "sha256": "cdbcff0bfa79fb14e6a7042eeeb8d46208e93c4613932487c2987fc728f15113",
+        "git_status_porcelain": "",
+        "git_diff_name": "",
+        "git_cached_diff_name": "",
+        "creation_log": [
+          "e721ee0b6dfcbbaa3db0a2aafc30ab32e2958525 2026-07-10T19:29:40+08:00 Add E1R uptrend extraction skeleton"
+        ],
+        "recent_log": [
+          "678c781d6b67537f4b245af3b01818e56d35a90e 2026-07-10T19:34:27+08:00 Extract E1R uptrend legacy result boundary",
+          "e721ee0b6dfcbbaa3db0a2aafc30ab32e2958525 2026-07-10T19:29:40+08:00 Add E1R uptrend extraction skeleton"
+        ],
+        "classification": "HISTORICAL_TRACKED_UNCHANGED"
+      },
+      {
+        "path": "src/e1r_engine/regime_router.py",
+        "exists": true,
+        "tracked": true,
+        "sha256": "9d4417229547b49330e66f368f361bd1a1c65b761a47d6c11bce24a585e4db89",
+        "git_status_porcelain": "",
+        "git_diff_name": "",
+        "git_cached_diff_name": "",
+        "creation_log": [
+          "3e96fb8a55d9b4feb54cf119c4d42490578c1e91 2026-07-10T14:05:14+08:00 Add E1R core engine shell"
+        ],
+        "recent_log": [
+          "3e96fb8a55d9b4feb54cf119c4d42490578c1e91 2026-07-10T14:05:14+08:00 Add E1R core engine shell"
+        ],
+        "classification": "HISTORICAL_TRACKED_UNCHANGED"
+      },
+      {
+        "path": "src/e1r_engine/core_engine.py",
+        "exists": false,
+        "tracked": false,
+        "sha256": null,
+        "git_status_porcelain": "",
+        "git_diff_name": "",
+        "git_cached_diff_name": "",
+        "creation_log": [],
+        "recent_log": [],
+        "classification": "ABSENT_OK"
+      },
+      {
+        "path": "tests/e1r_engine/test_uptrend_core_gate_wiring.py",
+        "exists": false,
+        "tracked": false,
+        "sha256": null,
+        "git_status_porcelain": "",
+        "git_diff_name": "",
+        "git_cached_diff_name": "",
+        "creation_log": [],
+        "recent_log": [],
+        "classification": "ABSENT_OK"
+      }
+    ],
+    "wiring_boundary": {
+      "MarketGateEvaluator": {
+        "responsibility": [
+          "Receive MarketGateInputs.",
+          "Return MarketGateDecision.",
+          "Expose gate_state, market_entry_allowed, market_shock, market_risk_off, entry_capacity."
+        ],
+        "must_not_do": [
+          "No candidate ranking.",
+          "No BUY/ADD/REDUCE/EXIT generation.",
+          "No position sizing.",
+          "No account mutation.",
+          "No regime routing."
+        ]
+      },
+      "FutureUptrendCore": {
+        "responsibility": [
+          "Consume MarketGateDecision.",
+          "Preserve existing legacy UPTREND candidate ranking and order semantics.",
+          "Block new entry actions only when market_entry_allowed is false.",
+          "Respect entry_capacity as the future max intended new-exposure capacity.",
+          "Keep HOLD/REDUCE/EXIT unaffected by market_entry_allowed=false."
+        ],
+        "must_not_do": [
+          "Must not recompute gate_state from SPX close < MA50.",
+          "Must not change legacy rank/RS/exit/take-profit logic.",
+          "Must not increase live holdings above 3.",
+          "Must not use SIDEWAYS Top10 sidecar as live holdings."
+        ]
+      }
+    },
+    "action_contract": {
+      "blocked_by_gate_when_market_entry_allowed_false": [
+        "BUY",
+        "ADD"
+      ],
+      "unaffected_by_gate": [
+        "HOLD",
+        "REDUCE",
+        "EXIT"
+      ],
+      "max_live_holdings": 3,
+      "entry_capacity_contract": {
+        "FULL_ON": 3,
+        "CAUTIOUS_ON": 2,
+        "CASH_MODE": 0,
+        "note": "Future UptrendCore consumes entry_capacity from MarketGateDecision. It does not recalculate direct gate_state from SPX/MA50."
+      }
+    },
+    "future_interface_sketch": {
+      "UptrendCoreInputs": {
+        "date": "YYYY-MM-DD",
+        "account_state": "positions/cash/equity snapshot",
+        "candidate_snapshot": "pre-ranked candidate data from future candidate engine",
+        "market_gate_decision": "MarketGateDecision",
+        "legacy_config": "frozen legacy uptrend assumptions"
+      },
+      "UptrendCoreOutputs": {
+        "orders": "list[OrderIntent]",
+        "post_decision_trace": "dict with market_gate_state and gate block reason"
+      },
+      "pseudocode": [
+        "gate = MarketGateEvaluator.evaluate(config, market_inputs)",
+        "candidate_orders = legacy_uptrend_candidate_order_logic(inputs)",
+        "if not gate.market_entry_allowed: remove BUY and ADD from candidate_orders",
+        "preserve HOLD/REDUCE/EXIT candidate decisions",
+        "enforce open_positions_after_orders <= 3",
+        "record gate trace for audit"
+      ]
+    },
+    "future_test_plan": {
+      "before_any_full_5y": [
+        "R14 standalone contract skeleton only.",
+        "R15 gate consumption smoke with synthetic orders.",
+        "No legacy strategy file diffs.",
+        "No direct SPX/MA50 gate formula.",
+        "No candidate extraction unless approved."
+      ],
+      "guard_rows": [
+        "2021-06-18 remains ALLOW despite close < MA50.",
+        "2021-05-12 remains SHOCK."
+      ]
+    },
+    "explicit_non_goals": [
+      "No direct patch to src/engine/backtest.py.",
+      "No modifications to historical shell files in R13C.",
+      "No full 5Y run.",
+      "No official result generation.",
+      "No dashboard changes.",
+      "No candidate extraction.",
+      "No live-holding behavior change.",
+      "No SIDEWAYS sidecar integration."
+    ],
+    "implementation_sequence_after_approval": [
+      {
+        "stage": "4C-2C-4E-ENGINE-K2-R14-UPTREND_CORE_CONTRACT_SKELETON",
+        "allowed": "Create or update standalone UptrendCore contract skeleton only if required; no legacy strategy integration."
+      },
+      {
+        "stage": "4C-2C-4E-ENGINE-K2-R15-UPTREND_CORE_GATE_CONSUMPTION_SMOKE",
+        "allowed": "Pure Python smoke for gate consumption only, with synthetic order intents."
+      },
+      {
+        "stage": "4C-2C-4E-ENGINE-K2-R16-LEGACY_UPTREND_ORDER_LOGIC_EXTRACTION_PROPOSAL",
+        "allowed": "Proposal only for extracting legacy UPTREND order logic."
+      }
+    ]
+  },
+  "policy": {
+    "proposal_only": true,
+    "historical_shell_aware_validation": true,
+    "strategy_logic_changed": false,
+    "standalone_module_only": true,
+    "strategy_integration_changed": false,
+    "legacy_backtest_called": false,
+    "backtest_engine_run": false,
+    "short_window_existing_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "formula_not_patched_in_legacy": true,
+    "frozen_strategy_files_changed": false
+  },
+  "validations": {
+    "r13c_wiring_proposal_retry_complete": true,
+    "r12c_loaded": true,
+    "r13b_loaded": true,
+    "r13b_authorized_r13c": true,
+    "market_gate_module_exists": true,
+    "r12c_equivalence_ready": true,
+    "r12c_row_count_positive": true,
+    "r12c_mismatch_count_zero": true,
+    "historical_shell_aware_validation_used": true,
+    "shell_audit_path_count": 4,
+    "blocking_shell_path_count": 0,
+    "future_shell_paths_historical_or_absent": true,
+    "proposal_only": true,
+    "strategy_logic_changed": false,
+    "standalone_module_only": true,
+    "strategy_integration_changed": false,
+    "legacy_backtest_called": false,
+    "backtest_engine_run": false,
+    "short_window_existing_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "formula_not_patched_in_legacy": true,
+    "strategy_files_unchanged": true
+  },
+  "decision": {
+    "k2_r13c_uptrend_core_gate_wiring_proposal_retry_passed": true,
+    "uptrend_core_gate_wiring_proposal_ready": true,
+    "uptrend_core_implementation_allowed_now": false,
+    "market_gate_strategy_integration_allowed_now": false,
+    "formula_patch_allowed_now": false,
+    "candidate_extraction_allowed_now": false,
+    "implementation_may_resume": false,
+    "requires_user_approval_before_next_stage": true,
+    "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R14-UPTREND_CORE_CONTRACT_SKELETON",
+    "conclusion": "K2_R13C_PASS_UPTREND_CORE_GATE_WIRING_PROPOSAL_READY_FOR_R14_CONTRACT_SKELETON",
+    "recommended_next_action": "Review R13C proposal. If accepted, proceed to R14 contract skeleton only."
+  }
+}
