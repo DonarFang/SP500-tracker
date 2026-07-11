@@ -1,0 +1,423 @@
+{
+  "generated_at": "2026-07-11T05:18:07.159325+00:00",
+  "elapsed_seconds": 0.003794,
+  "stage": "4C-2C-4E-ENGINE-K2-R11-MARKET_GATE_STANDALONE_SKELETON",
+  "status": "MARKET_GATE_STANDALONE_SKELETON_COMPLETE",
+  "purpose": "Add standalone market gate dataclasses and pure evaluator skeleton with smoke checks, without strategy integration.",
+  "policy": {
+    "strategy_logic_changed": false,
+    "standalone_module_only": true,
+    "strategy_integration_changed": false,
+    "legacy_backtest_called": false,
+    "backtest_engine_run": false,
+    "short_window_existing_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "formula_not_patched_in_legacy": true,
+    "frozen_strategy_files_changed": false
+  },
+  "source_reports": {
+    "r10": {
+      "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R10_MARKET_GATE_STANDALONE_REPLICATION_PROPOSAL.json",
+      "sha256": "5223356d777271f5bb1ab3b713e8cf362f408bf93296766bf90af73c06de8b71"
+    },
+    "r9d": {
+      "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R9D_MARKET_PARAM_SOURCE_LINE_TRACE.json",
+      "sha256": "aef0048c67a220860f232fdbe02e5d95ba27153a62f1b9e5bee8e30e423b0153"
+    }
+  },
+  "created_files": [
+    {
+      "path": "src/e1r_engine/market_gate.py",
+      "sha256": "9c974fe678e32b0d621f16276d1f9c672b14c0bf217ec643c0c3827781916cf8"
+    }
+  ],
+  "module_inspection": {
+    "path": "src/e1r_engine/market_gate.py",
+    "exists": true,
+    "sha256": "9c974fe678e32b0d621f16276d1f9c672b14c0bf217ec643c0c3827781916cf8",
+    "required_tokens": {
+      "class MarketGateConfig": true,
+      "class MarketGateInputs": true,
+      "class MarketGateDecision": true,
+      "class MarketGateEvaluator": true,
+      "market_entry_allowed = int(inputs.entry_capacity) > 0": true,
+      "gate_state = \"ALLOW\" if market_entry_allowed else \"SHOCK\" if market_shock else \"RISK_OFF\"": true,
+      "spx_close < spx_ma50": true
+    },
+    "line_count": 150
+  },
+  "smoke": {
+    "case_count": 5,
+    "ok": true,
+    "results": [
+      {
+        "name": "full_on_allow",
+        "note": null,
+        "inputs": {
+          "date": "2021-04-05",
+          "spx_close": 4077.91,
+          "spx_ma50": 3900.0,
+          "spx_day_return": 0.004,
+          "market_state": "FULL_ON",
+          "entry_capacity": 3,
+          "existing_positions_count": 0
+        },
+        "config": {
+          "variant": "D3_RISK_OFF_PLUS_SHOCK_GATE",
+          "market_gate_enabled": true,
+          "risk_off_below_spx_ma50": true,
+          "market_shock_gate_enabled": true,
+          "market_shock_daily_return": -0.02
+        },
+        "decision": {
+          "date": "2021-04-05",
+          "market_state": "FULL_ON",
+          "entry_capacity": 3,
+          "market_shock": false,
+          "market_risk_off": false,
+          "market_entry_allowed": true,
+          "gate_state": "ALLOW",
+          "blocked_actions": [
+            "BUY",
+            "ADD"
+          ],
+          "unaffected_actions": [
+            "HOLD",
+            "REDUCE",
+            "EXIT"
+          ],
+          "trace": {
+            "variant": "D3_RISK_OFF_PLUS_SHOCK_GATE",
+            "market_gate_enabled": true,
+            "risk_off_below_spx_ma50": true,
+            "market_shock_gate_enabled": true,
+            "market_shock_daily_return": -0.02,
+            "spx_close": 4077.91,
+            "spx_ma50": 3900.0,
+            "spx_day_return": 0.004,
+            "source_equivalent_formula": "ALLOW if entry_capacity > 0 else SHOCK if market_shock else RISK_OFF",
+            "not_used_as_gate_state_formula": "spx_close < spx_ma50"
+          }
+        },
+        "expected": {
+          "gate_state": "ALLOW",
+          "market_entry_allowed": true,
+          "market_shock": false,
+          "market_risk_off": false
+        },
+        "checks": {
+          "gate_state": true,
+          "market_entry_allowed": true,
+          "market_shock": true,
+          "market_risk_off": true,
+          "blocked_actions": true,
+          "unaffected_actions": true
+        },
+        "ok": true
+      },
+      {
+        "name": "cautious_on_allow",
+        "note": "This guards against the invalid direct formula close < MA50 => RISK_OFF.",
+        "inputs": {
+          "date": "2021-06-18",
+          "spx_close": 4166.45,
+          "spx_ma50": 4181.59,
+          "spx_day_return": -0.013124,
+          "market_state": "CAUTIOUS_ON",
+          "entry_capacity": 2,
+          "existing_positions_count": 0
+        },
+        "config": {
+          "variant": "D3_RISK_OFF_PLUS_SHOCK_GATE",
+          "market_gate_enabled": true,
+          "risk_off_below_spx_ma50": true,
+          "market_shock_gate_enabled": true,
+          "market_shock_daily_return": -0.02
+        },
+        "decision": {
+          "date": "2021-06-18",
+          "market_state": "CAUTIOUS_ON",
+          "entry_capacity": 2,
+          "market_shock": false,
+          "market_risk_off": false,
+          "market_entry_allowed": true,
+          "gate_state": "ALLOW",
+          "blocked_actions": [
+            "BUY",
+            "ADD"
+          ],
+          "unaffected_actions": [
+            "HOLD",
+            "REDUCE",
+            "EXIT"
+          ],
+          "trace": {
+            "variant": "D3_RISK_OFF_PLUS_SHOCK_GATE",
+            "market_gate_enabled": true,
+            "risk_off_below_spx_ma50": true,
+            "market_shock_gate_enabled": true,
+            "market_shock_daily_return": -0.02,
+            "spx_close": 4166.45,
+            "spx_ma50": 4181.59,
+            "spx_day_return": -0.013124,
+            "source_equivalent_formula": "ALLOW if entry_capacity > 0 else SHOCK if market_shock else RISK_OFF",
+            "not_used_as_gate_state_formula": "spx_close < spx_ma50"
+          }
+        },
+        "expected": {
+          "gate_state": "ALLOW",
+          "market_entry_allowed": true,
+          "market_shock": false,
+          "market_risk_off": false
+        },
+        "checks": {
+          "gate_state": true,
+          "market_entry_allowed": true,
+          "market_shock": true,
+          "market_risk_off": true,
+          "blocked_actions": true,
+          "unaffected_actions": true
+        },
+        "ok": true
+      },
+      {
+        "name": "cash_mode_risk_off",
+        "note": null,
+        "inputs": {
+          "date": "2021-05-10",
+          "spx_close": 4188.43,
+          "spx_ma50": 4041.08,
+          "spx_day_return": -0.0104,
+          "market_state": "CASH_MODE",
+          "entry_capacity": 0,
+          "existing_positions_count": 0
+        },
+        "config": {
+          "variant": "D3_RISK_OFF_PLUS_SHOCK_GATE",
+          "market_gate_enabled": true,
+          "risk_off_below_spx_ma50": true,
+          "market_shock_gate_enabled": true,
+          "market_shock_daily_return": -0.02
+        },
+        "decision": {
+          "date": "2021-05-10",
+          "market_state": "CASH_MODE",
+          "entry_capacity": 0,
+          "market_shock": false,
+          "market_risk_off": true,
+          "market_entry_allowed": false,
+          "gate_state": "RISK_OFF",
+          "blocked_actions": [
+            "BUY",
+            "ADD"
+          ],
+          "unaffected_actions": [
+            "HOLD",
+            "REDUCE",
+            "EXIT"
+          ],
+          "trace": {
+            "variant": "D3_RISK_OFF_PLUS_SHOCK_GATE",
+            "market_gate_enabled": true,
+            "risk_off_below_spx_ma50": true,
+            "market_shock_gate_enabled": true,
+            "market_shock_daily_return": -0.02,
+            "spx_close": 4188.43,
+            "spx_ma50": 4041.08,
+            "spx_day_return": -0.0104,
+            "source_equivalent_formula": "ALLOW if entry_capacity > 0 else SHOCK if market_shock else RISK_OFF",
+            "not_used_as_gate_state_formula": "spx_close < spx_ma50"
+          }
+        },
+        "expected": {
+          "gate_state": "RISK_OFF",
+          "market_entry_allowed": false,
+          "market_shock": false,
+          "market_risk_off": true
+        },
+        "checks": {
+          "gate_state": true,
+          "market_entry_allowed": true,
+          "market_shock": true,
+          "market_risk_off": true,
+          "blocked_actions": true,
+          "unaffected_actions": true
+        },
+        "ok": true
+      },
+      {
+        "name": "shock_precedence",
+        "note": null,
+        "inputs": {
+          "date": "2021-05-12",
+          "spx_close": 4063.04,
+          "spx_ma50": 4045.0,
+          "spx_day_return": -0.021449,
+          "market_state": "CASH_MODE",
+          "entry_capacity": 0,
+          "existing_positions_count": 0
+        },
+        "config": {
+          "variant": "D3_RISK_OFF_PLUS_SHOCK_GATE",
+          "market_gate_enabled": true,
+          "risk_off_below_spx_ma50": true,
+          "market_shock_gate_enabled": true,
+          "market_shock_daily_return": -0.02
+        },
+        "decision": {
+          "date": "2021-05-12",
+          "market_state": "CASH_MODE",
+          "entry_capacity": 0,
+          "market_shock": true,
+          "market_risk_off": false,
+          "market_entry_allowed": false,
+          "gate_state": "SHOCK",
+          "blocked_actions": [
+            "BUY",
+            "ADD"
+          ],
+          "unaffected_actions": [
+            "HOLD",
+            "REDUCE",
+            "EXIT"
+          ],
+          "trace": {
+            "variant": "D3_RISK_OFF_PLUS_SHOCK_GATE",
+            "market_gate_enabled": true,
+            "risk_off_below_spx_ma50": true,
+            "market_shock_gate_enabled": true,
+            "market_shock_daily_return": -0.02,
+            "spx_close": 4063.04,
+            "spx_ma50": 4045.0,
+            "spx_day_return": -0.021449,
+            "source_equivalent_formula": "ALLOW if entry_capacity > 0 else SHOCK if market_shock else RISK_OFF",
+            "not_used_as_gate_state_formula": "spx_close < spx_ma50"
+          }
+        },
+        "expected": {
+          "gate_state": "SHOCK",
+          "market_entry_allowed": false,
+          "market_shock": true,
+          "market_risk_off": false
+        },
+        "checks": {
+          "gate_state": true,
+          "market_entry_allowed": true,
+          "market_shock": true,
+          "market_risk_off": true,
+          "blocked_actions": true,
+          "unaffected_actions": true
+        },
+        "ok": true
+      },
+      {
+        "name": "gate_disabled_allow",
+        "note": null,
+        "inputs": {
+          "date": "2099-01-01",
+          "spx_close": null,
+          "spx_ma50": null,
+          "spx_day_return": -0.1,
+          "market_state": "CASH_MODE",
+          "entry_capacity": 0,
+          "existing_positions_count": 0
+        },
+        "config": {
+          "variant": "D3_RISK_OFF_PLUS_SHOCK_GATE",
+          "market_gate_enabled": false,
+          "risk_off_below_spx_ma50": true,
+          "market_shock_gate_enabled": true,
+          "market_shock_daily_return": -0.02
+        },
+        "decision": {
+          "date": "2099-01-01",
+          "market_state": "CASH_MODE",
+          "entry_capacity": 0,
+          "market_shock": false,
+          "market_risk_off": false,
+          "market_entry_allowed": true,
+          "gate_state": "ALLOW",
+          "blocked_actions": [
+            "BUY",
+            "ADD"
+          ],
+          "unaffected_actions": [
+            "HOLD",
+            "REDUCE",
+            "EXIT"
+          ],
+          "trace": {
+            "variant": "D3_RISK_OFF_PLUS_SHOCK_GATE",
+            "market_gate_enabled": false,
+            "risk_off_below_spx_ma50": true,
+            "market_shock_gate_enabled": true,
+            "market_shock_daily_return": -0.02,
+            "spx_close": null,
+            "spx_ma50": null,
+            "spx_day_return": -0.1,
+            "source_equivalent_formula": "ALLOW if entry_capacity > 0 else SHOCK if market_shock else RISK_OFF",
+            "not_used_as_gate_state_formula": "spx_close < spx_ma50"
+          }
+        },
+        "expected": {
+          "gate_state": "ALLOW",
+          "market_entry_allowed": true,
+          "market_shock": false,
+          "market_risk_off": false
+        },
+        "checks": {
+          "gate_state": true,
+          "market_entry_allowed": true,
+          "market_shock": true,
+          "market_risk_off": true,
+          "blocked_actions": true,
+          "unaffected_actions": true
+        },
+        "ok": true
+      }
+    ]
+  },
+  "validations": {
+    "market_gate_standalone_skeleton_complete": true,
+    "r10_loaded": true,
+    "r9d_loaded": true,
+    "r10_authorized_r11": true,
+    "module_created": true,
+    "module_required_tokens_present": true,
+    "smoke_run": true,
+    "smoke_passed": true,
+    "strategy_logic_changed": false,
+    "standalone_module_only": true,
+    "strategy_integration_changed": false,
+    "legacy_backtest_called": false,
+    "backtest_engine_run": false,
+    "short_window_existing_engine_run": false,
+    "full_5y_backtest_run": false,
+    "forward_runner_run": false,
+    "candidate_generation_extracted": false,
+    "buy_add_reduce_exit_extracted": false,
+    "official_result_generated": false,
+    "dashboard_changed": false,
+    "formula_not_patched_in_legacy": true,
+    "strategy_files_unchanged": true,
+    "prohibited_test_file_not_created": true
+  },
+  "decision": {
+    "k2_r11_market_gate_standalone_skeleton_passed": true,
+    "market_gate_skeleton_ready": true,
+    "market_gate_equivalence_ready": false,
+    "market_gate_strategy_integration_allowed_now": false,
+    "formula_patch_allowed_now": false,
+    "candidate_extraction_allowed_now": false,
+    "implementation_may_resume": false,
+    "requires_user_approval_before_next_stage": true,
+    "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R12-MARKET_GATE_EQUIVALENCE_SMOKE",
+    "conclusion": "K2_R11_PASS_MARKET_GATE_STANDALONE_SKELETON_READY_FOR_R12_EQUIVALENCE_SMOKE",
+    "recommended_next_action": "Review skeleton. If accepted, proceed to R12 equivalence smoke against R7/R8 golden rows. Do not integrate into strategy yet."
+  }
+}
