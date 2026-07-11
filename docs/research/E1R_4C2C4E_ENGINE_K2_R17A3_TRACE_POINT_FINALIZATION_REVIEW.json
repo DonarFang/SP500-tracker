@@ -1,0 +1,873 @@
+{
+  "schema_version": "1.0",
+  "trace_schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17A-3-TRACE-POINT-FINALIZATION-REVIEW",
+  "generated_at_utc": "2026-07-11T12:08:28.020638+00:00",
+  "repository": {
+    "branch": "main",
+    "head": "9d11f0b81031d8da1a5af9e32b60fee9303f4a66",
+    "head_short": "9d11f0b",
+    "origin_main": "9d11f0b81031d8da1a5af9e32b60fee9303f4a66"
+  },
+  "scope": {
+    "design_review_only": true,
+    "source_modified": false,
+    "instrumentation_implemented": false,
+    "strategy_logic_implemented": false,
+    "execution_logic_modified": false,
+    "full_5y_run": false
+  },
+  "prerequisites": {
+    "control_flow_review": {
+      "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R17ARCA_SELECTED_BUY_TO_BUY_ORDERS_CONTROL_FLOW_REVIEW.json",
+      "sha256": "6dde48908df9f81931ec800483bd928c810d4bba154133f8501f6810fc4b948d",
+      "decision": "PASS_SELECTED_BUY_TO_BUY_ORDERS_CONTROL_FLOW_PROVEN"
+    },
+    "execution_price_review": {
+      "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R17ARCA1_T1_EXECUTION_PRICE_CONTRACT_SOURCE_REVIEW.json",
+      "sha256": "2c2556c7160ab095dc0c933ee2accde56a5fd8b0928609dfaddeca4eb00c2a15",
+      "decision": "PASS_T1_HIGH_BUY_LOW_SELL_EXECUTION_CONTRACT_PROVEN"
+    }
+  },
+  "trace_points": [
+    {
+      "id": "TP01_PRE_RANK_CANDIDATES",
+      "phase": "SIGNAL_DAY_T",
+      "placement": {
+        "after_line": 1715,
+        "before_line": 1716
+      },
+      "anchor": {
+        "node_type": "Call",
+        "line": 1707,
+        "end_line": 1715,
+        "source": "e1r_buy_candidates.append((\n                    _priority,\n                    leader_rank_all.get(s, 9999),\n                    -v.get(\"leader_score\", 0),\n                    -v.get(\"momentum_acceleration\", 0),\n                    -v.get(\"rs_20d_improvement\", 0),\n                    s,\n                    v,\n                ))",
+        "context": [
+          {
+            "line": 1704,
+            "source": "                    continue"
+          },
+          {
+            "line": 1705,
+            "source": "                _etype = v.get(\"e1r_entry_type\")"
+          },
+          {
+            "line": 1706,
+            "source": "                _priority = 0 if _etype == \"E1R_UPTREND_CONFIRMED\" else 1"
+          },
+          {
+            "line": 1707,
+            "source": "                e1r_buy_candidates.append(("
+          },
+          {
+            "line": 1708,
+            "source": "                    _priority,"
+          },
+          {
+            "line": 1709,
+            "source": "                    leader_rank_all.get(s, 9999),"
+          },
+          {
+            "line": 1710,
+            "source": "                    -v.get(\"leader_score\", 0),"
+          }
+        ]
+      },
+      "purpose": "Capture the complete unsorted eligible candidate tuple collection.",
+      "payload_fields": [
+        "signal_date",
+        "market_gate_state",
+        "holdings_symbols",
+        "candidate_count",
+        "candidate_tuples"
+      ],
+      "candidate_tuple_fields": [
+        "entry_priority",
+        "leader_rank_all",
+        "negative_leader_score",
+        "negative_momentum_acceleration",
+        "negative_rs_20d_improvement",
+        "symbol",
+        "entry_type"
+      ]
+    },
+    {
+      "id": "TP02_POST_RANK_CANDIDATES",
+      "phase": "SIGNAL_DAY_T",
+      "placement": {
+        "after_line": 1716,
+        "before_line": 1719
+      },
+      "anchor": {
+        "node_type": "Call",
+        "line": 1716,
+        "end_line": 1716,
+        "source": "e1r_buy_candidates.sort()",
+        "context": [
+          {
+            "line": 1713,
+            "source": "                    s,"
+          },
+          {
+            "line": 1714,
+            "source": "                    v,"
+          },
+          {
+            "line": 1715,
+            "source": "                ))"
+          },
+          {
+            "line": 1716,
+            "source": "            e1r_buy_candidates.sort()"
+          },
+          {
+            "line": 1717,
+            "source": "            if e1r_buy_candidates and market_entry_allowed:"
+          },
+          {
+            "line": 1718,
+            "source": "                if len(holdings) < min(max_pos, entry_capacity):"
+          },
+          {
+            "line": 1719,
+            "source": "                    _, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]"
+          }
+        ]
+      },
+      "purpose": "Capture exact deterministic candidate order after in-place tuple sorting.",
+      "payload_fields": [
+        "signal_date",
+        "ranked_candidate_count",
+        "ranked_candidate_tuples"
+      ]
+    },
+    {
+      "id": "TP03_SELECTED_BUY_FINALIZED",
+      "phase": "SIGNAL_DAY_T",
+      "placement": {
+        "after_line": 1726,
+        "before_line": 1789
+      },
+      "anchor": {
+        "node_type": "Assign",
+        "line": 1721,
+        "end_line": 1726,
+        "source": "e1r_selected_buy = {\n                        \"sym\": _sym,\n                        \"sig\": _sig,\n                        \"entry_type\": _etype,\n                        \"target_size_units\": 1.0 if _etype == \"E1R_UPTREND_CONFIRMED\" else 0.5,\n                    }",
+        "context": [
+          {
+            "line": 1718,
+            "source": "                if len(holdings) < min(max_pos, entry_capacity):"
+          },
+          {
+            "line": 1719,
+            "source": "                    _, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]"
+          },
+          {
+            "line": 1720,
+            "source": "                    _etype = _sig.get(\"e1r_entry_type\")"
+          },
+          {
+            "line": 1721,
+            "source": "                    e1r_selected_buy = {"
+          },
+          {
+            "line": 1722,
+            "source": "                        \"sym\": _sym,"
+          },
+          {
+            "line": 1723,
+            "source": "                        \"sig\": _sig,"
+          },
+          {
+            "line": 1724,
+            "source": "                        \"entry_type\": _etype,"
+          }
+        ]
+      },
+      "purpose": "Capture the unique selected entry before order-intent construction.",
+      "payload_fields": [
+        "signal_date",
+        "selected_symbol",
+        "entry_type",
+        "target_size_units",
+        "leader_rank",
+        "leader_score",
+        "market_entry_allowed",
+        "holding_count",
+        "entry_capacity",
+        "max_pos"
+      ]
+    },
+    {
+      "id": "TP04_BUY_ORDER_INTENT_CREATED",
+      "phase": "SIGNAL_DAY_T",
+      "placement": {
+        "after_line": 1802,
+        "before_line": 2134
+      },
+      "anchor": {
+        "node_type": "Call",
+        "line": 1789,
+        "end_line": 1802,
+        "source": "buy_orders.append({\n                    \"sym\":            sym,\n                    \"action\":         \"BUY\",\n                    \"signal_date\":    date_t,\n                    \"ls\":             ls,\n                    \"close_t\":        close_t,\n                    \"entry_rank\":     top_entry_rank.get(sym) or leader_rank_all.get(sym),\n                    \"strategy\":       \"E1R_UPTREND_EXECUTION_V0_1\",\n                    \"entry_mode\":     \"e1r_uptrend_execution_v0_1\",\n                    \"primary_reason\": _etype,\n                    \"reasons\":        sig.get(\"e1r_entry_reason\", []),\n                    \"e1r_entry_type\": _etype,\n                    \"target_size_units\": e1r_selected_buy[\"target_size_units\"],\n                })",
+        "context": [
+          {
+            "line": 1786,
+            "source": "                and sym not in holdings"
+          },
+          {
+            "line": 1787,
+            "source": "            ):"
+          },
+          {
+            "line": 1788,
+            "source": "                _etype = e1r_selected_buy[\"entry_type\"]"
+          },
+          {
+            "line": 1789,
+            "source": "                buy_orders.append({"
+          },
+          {
+            "line": 1790,
+            "source": "                    \"sym\":            sym,"
+          },
+          {
+            "line": 1791,
+            "source": "                    \"action\":         \"BUY\","
+          },
+          {
+            "line": 1792,
+            "source": "                    \"signal_date\":    date_t,"
+          }
+        ]
+      },
+      "purpose": "Capture the exact immutable E1R BUY order-intent payload.",
+      "payload_fields": [
+        "sym",
+        "action",
+        "signal_date",
+        "ls",
+        "close_t",
+        "entry_rank",
+        "strategy",
+        "entry_mode",
+        "primary_reason",
+        "reasons",
+        "e1r_entry_type",
+        "target_size_units"
+      ]
+    },
+    {
+      "id": "TP05_PENDING_HANDOFF_FINALIZED",
+      "phase": "SIGNAL_DAY_T",
+      "placement": {
+        "after_line": 2134,
+        "before_line": null
+      },
+      "anchor": {
+        "node_type": "Assign",
+        "line": 2134,
+        "end_line": 2134,
+        "source": "pending_orders = management_orders + buy_orders",
+        "context": [
+          {
+            "line": 2131,
+            "source": "        _is_last_sim_day = (_trade_end and _next_date and _next_date >= _trade_end)"
+          },
+          {
+            "line": 2132,
+            "source": "        if _is_last_sim_day:"
+          },
+          {
+            "line": 2133,
+            "source": "            buy_orders = []  # 不在最后一天生成新买入（防止 entry==exit invalid）"
+          },
+          {
+            "line": 2134,
+            "source": "        pending_orders = management_orders + buy_orders"
+          },
+          {
+            "line": 2135,
+            "source": ""
+          },
+          {
+            "line": 2136,
+            "source": "        if (t - min_history) % 20 == 0:"
+          },
+          {
+            "line": 2137,
+            "source": "            gate_state = \"ALLOW\" if market_entry_allowed else ("
+          }
+        ]
+      },
+      "purpose": "Capture final ordered pending queue that will execute on the next trading-day loop.",
+      "payload_fields": [
+        "signal_date",
+        "management_order_count",
+        "buy_order_count",
+        "pending_order_count",
+        "ordered_pending_orders"
+      ]
+    },
+    {
+      "id": "TP06_T1_ORDER_EXECUTION_START",
+      "phase": "EXECUTION_DAY_T_PLUS_1",
+      "placement": {
+        "after_line": 1124,
+        "before_line": 1128
+      },
+      "anchor": {
+        "node_type": "For",
+        "line": 1120,
+        "end_line": 1339,
+        "source": "for order in pending_orders:\n            sym       = order[\"sym\"]\n            action    = order[\"action\"]\n            sig_date  = order[\"signal_date\"]   # 信号日期\n            exec_date = date_t                 # 执行日期 = 今天\n            ls        = order[\"ls\"]\n            close_ref = order[\"close_t\"]       # 信号日收盘（参考价）\n\n            if action in (\"BUY\", \"ADD\"):\n                # Adverse: 执行日最高价买入\n                raw = get_price_by_date(sym, exec_date, \"high\")\n                if raw <= 0:\n                    raw = get_price_by_date(sym, exec_date, \"close\")\n                if raw <= 0:\n                    skip_reasons[\"no_t1_price\"] += 1\n                    continue\n                exec_price = raw * (1 + one_way)\n\n                port_val = cash + sum(\n                    h[\"shares\"] * h.get(\"current_close\", h[\"avg_cost\"])\n                    for h in holdings.values()\n                )\n\n                if action == \"BUY\":\n                    if sym in holdings:\n                        skip_reasons[\"already_holding\"] += 1\n                        continue\n                    if len(holdings) >= max_pos:\n                        skip_reasons[\"max_positions_reached\"] += 1\n                        continue\n                    _order_size_units = float(order.get(\"target_size_units\", 1.0))\n                    _order_size_units = max(0.0, min(_order_size_units, 1.0))\n                    target = port_val * buy_pct * _order_size_units\n                    if port_val > 0 and target / port_val > max_pct:\n                        target = port_val * max_pct\n                        skip_reasons[\"max_single_size_reached\"] += 1\n                    if target > cash:\n                        if cash * 0.99 < 10:\n                            skip_reasons[\"cash_insufficient\"] += 1\n                            continue\n                        target = cash * 0.99\n\n                    shares = target / exec_price\n                    cash  -= shares * exec_price\n                    orders_executed += 1\n                    holdings[sym] = {\n                        \"shares\":                shares,\n                        \"avg_cost\":              exec_price,\n                        \"size_units\":            _order_size_units,\n                        \"entry_close_ref\":       close_ref,\n                        \"entry_date\":            exec_date,\n                        \"entry_sig_date\":        sig_date,\n                        \"entry_signal\":          \"BUY\",\n                        \"e1r_entry_type\":       order.get(\"e1r_entry_type\"),\n                        \"highest_close\":         close_ref,\n                        \"min_close_since_entry\": close_ref,\n                        \"current_close\":         close_ref,\n                        \"leader_score_entry\":    ls,\n                        \"entry_spx\":             spx_prices[master_dates.index(exec_date)] if exec_date in master_dates else spx_close_t,\n                        \"relative_stop_triggered\": False,\n                        \"relativ\n...TRUNCATED...",
+        "context": [
+          {
+            "line": 1117,
+            "source": "        # ════════════════════════════════════════════════"
+          },
+          {
+            "line": 1118,
+            "source": "        # STEP 1: 执行前一日 pending orders（T-1信号 → T日执行）"
+          },
+          {
+            "line": 1119,
+            "source": "        # ════════════════════════════════════════════════"
+          },
+          {
+            "line": 1120,
+            "source": "        for order in pending_orders:"
+          },
+          {
+            "line": 1121,
+            "source": "            sym       = order[\"sym\"]"
+          },
+          {
+            "line": 1122,
+            "source": "            action    = order[\"action\"]"
+          },
+          {
+            "line": 1123,
+            "source": "            sig_date  = order[\"signal_date\"]   # 信号日期"
+          }
+        ]
+      },
+      "purpose": "Capture each frozen pending order with signal date T and execution date T+1.",
+      "payload_fields": [
+        "signal_date",
+        "execution_date",
+        "symbol",
+        "action",
+        "close_ref",
+        "order_payload",
+        "cash_before",
+        "holdings_before"
+      ]
+    },
+    {
+      "id": "TP07_BUY_SIZING_FINALIZED",
+      "phase": "EXECUTION_DAY_T_PLUS_1",
+      "placement": {
+        "after_line": 1162,
+        "before_line": 1163
+      },
+      "anchor": {
+        "node_type": "Assign",
+        "line": 1162,
+        "end_line": 1162,
+        "source": "shares = target / exec_price",
+        "context": [
+          {
+            "line": 1159,
+            "source": "                            continue"
+          },
+          {
+            "line": 1160,
+            "source": "                        target = cash * 0.99"
+          },
+          {
+            "line": 1161,
+            "source": ""
+          },
+          {
+            "line": 1162,
+            "source": "                    shares = target / exec_price"
+          },
+          {
+            "line": 1163,
+            "source": "                    cash  -= shares * exec_price"
+          },
+          {
+            "line": 1164,
+            "source": "                    orders_executed += 1"
+          },
+          {
+            "line": 1165,
+            "source": "                    holdings[sym] = {"
+          }
+        ]
+      },
+      "purpose": "Capture BUY price and sizing after all caps but before cash or holdings mutation.",
+      "payload_fields": [
+        "signal_date",
+        "execution_date",
+        "symbol",
+        "raw_execution_price",
+        "execution_price",
+        "execution_price_field",
+        "fallback_used",
+        "one_way",
+        "portfolio_value",
+        "buy_pct",
+        "max_pct",
+        "target_size_units",
+        "target_cash",
+        "shares",
+        "cash_before"
+      ]
+    },
+    {
+      "id": "TP08_BUY_ACCOUNT_MUTATION_COMPLETE",
+      "phase": "EXECUTION_DAY_T_PLUS_1",
+      "placement": {
+        "after_line": 1193,
+        "before_line": null
+      },
+      "anchor": {
+        "node_type": "Assign",
+        "line": 1165,
+        "end_line": 1193,
+        "source": "holdings[sym] = {\n                        \"shares\":                shares,\n                        \"avg_cost\":              exec_price,\n                        \"size_units\":            _order_size_units,\n                        \"entry_close_ref\":       close_ref,\n                        \"entry_date\":            exec_date,\n                        \"entry_sig_date\":        sig_date,\n                        \"entry_signal\":          \"BUY\",\n                        \"e1r_entry_type\":       order.get(\"e1r_entry_type\"),\n                        \"highest_close\":         close_ref,\n                        \"min_close_since_entry\": close_ref,\n                        \"current_close\":         close_ref,\n                        \"leader_score_entry\":    ls,\n                        \"entry_spx\":             spx_prices[master_dates.index(exec_date)] if exec_date in master_dates else spx_close_t,\n                        \"relative_stop_triggered\": False,\n                        \"relative_stop_signal_date\": None,\n                        \"relative_stop_exec_date\": None,\n                        \"take_profit_triggered\": False,\n                        \"take_profit_signal_date\": None,\n                        \"take_profit_exec_date\": None,\n                        \"realized_pnl\":          0.0,\n                        \"realized_cost_basis\":   0.0,\n                        \"action_history\":        [\"BUY\"],\n                        \"ls60_reduce_triggered\": False,  # 方案A：LS<60 REDUCE 一次性保护\n                        # E1-R Phase 2 regime wiring telemetry. Observer-only.\n                        \"entry_regime\": _e1r_regime_on(exec_date),\n                        \"entry_type\": order.get(\"e1r_entry_type\") or (\"E1R_PLACEHOLDER_LEGACY_ENTRY\" if e1r_regime_wiring_enabled else None),\n                        \"regime_day_weights\": {},\n                    }",
+        "context": [
+          {
+            "line": 1162,
+            "source": "                    shares = target / exec_price"
+          },
+          {
+            "line": 1163,
+            "source": "                    cash  -= shares * exec_price"
+          },
+          {
+            "line": 1164,
+            "source": "                    orders_executed += 1"
+          },
+          {
+            "line": 1165,
+            "source": "                    holdings[sym] = {"
+          },
+          {
+            "line": 1166,
+            "source": "                        \"shares\":                shares,"
+          },
+          {
+            "line": 1167,
+            "source": "                        \"avg_cost\":              exec_price,"
+          },
+          {
+            "line": 1168,
+            "source": "                        \"size_units\":            _order_size_units,"
+          }
+        ]
+      },
+      "purpose": "Capture final BUY account state after cash deduction and holdings creation.",
+      "payload_fields": [
+        "signal_date",
+        "execution_date",
+        "symbol",
+        "execution_price",
+        "shares",
+        "cash_after",
+        "holding_after",
+        "holding_count_after",
+        "orders_executed"
+      ]
+    },
+    {
+      "id": "TP09_SELL_EXECUTION_PRICE_FINALIZED",
+      "phase": "EXECUTION_DAY_T_PLUS_1",
+      "placement": {
+        "after_line": 1242,
+        "before_line": 1259
+      },
+      "anchor": {
+        "node_type": "Assign",
+        "line": 1242,
+        "end_line": 1242,
+        "source": "exec_price = raw * (1 - one_way)",
+        "context": [
+          {
+            "line": 1239,
+            "source": "                if raw <= 0:"
+          },
+          {
+            "line": 1240,
+            "source": "                    skip_reasons[\"no_t1_price\"] += 1"
+          },
+          {
+            "line": 1241,
+            "source": "                    continue"
+          },
+          {
+            "line": 1242,
+            "source": "                exec_price = raw * (1 - one_way)"
+          },
+          {
+            "line": 1243,
+            "source": "                if exec_price <= 0:"
+          },
+          {
+            "line": 1244,
+            "source": "                    skip_reasons[\"invalid_execution_price\"] += 1"
+          },
+          {
+            "line": 1245,
+            "source": "                    continue"
+          }
+        ]
+      },
+      "purpose": "Capture adverse low-price sell execution before EXIT or reduction account mutation.",
+      "payload_fields": [
+        "signal_date",
+        "execution_date",
+        "symbol",
+        "action",
+        "raw_execution_price",
+        "execution_price",
+        "execution_price_field",
+        "fallback_used",
+        "one_way",
+        "holding_before",
+        "cash_before"
+      ]
+    },
+    {
+      "id": "TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE",
+      "phase": "EXECUTION_DAY_T_PLUS_1",
+      "placement": {
+        "after_line": 1313,
+        "before_line": null
+      },
+      "anchor": {
+        "node_type": "Delete",
+        "line": 1313,
+        "end_line": 1313,
+        "source": "del holdings[sym]",
+        "context": [
+          {
+            "line": 1310,
+            "source": "                        \"exit_warning_log\":     h.get(\"exit_warning_log\", []),"
+          },
+          {
+            "line": 1311,
+            "source": "                        \"exit_warning_count\":   len(h.get(\"exit_warning_log\", [])),"
+          },
+          {
+            "line": 1312,
+            "source": "                    })"
+          },
+          {
+            "line": 1313,
+            "source": "                    del holdings[sym]"
+          },
+          {
+            "line": 1314,
+            "source": ""
+          },
+          {
+            "line": 1315,
+            "source": "                elif action in (\"REDUCE\", \"REL_REDUCE\", \"TP_REDUCE\"):"
+          },
+          {
+            "line": 1316,
+            "source": "                    if h[\"size_units\"] <= 0.5:"
+          }
+        ]
+      },
+      "purpose": "Capture complete EXIT after proceeds are credited and holdings[sym] is deleted.",
+      "payload_fields": [
+        "signal_date",
+        "execution_date",
+        "symbol",
+        "action",
+        "execution_price",
+        "shares_sold",
+        "proceeds",
+        "realized_pnl",
+        "cash_after",
+        "symbol_still_held",
+        "holding_count_after"
+      ]
+    },
+    {
+      "id": "TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE",
+      "phase": "EXECUTION_DAY_T_PLUS_1",
+      "placement": {
+        "after_line": 1322,
+        "before_line": null
+      },
+      "anchor": {
+        "node_type": "AugAssign",
+        "line": 1322,
+        "end_line": 1322,
+        "source": "h[\"shares\"]     -= sell_shares",
+        "context": [
+          {
+            "line": 1319,
+            "source": "                    sell_fraction = take_profit_fraction if action == \"TP_REDUCE\" else 0.50"
+          },
+          {
+            "line": 1320,
+            "source": "                    sell_shares      = h[\"shares\"] * sell_fraction"
+          },
+          {
+            "line": 1321,
+            "source": "                    cash            += sell_shares * exec_price"
+          },
+          {
+            "line": 1322,
+            "source": "                    h[\"shares\"]     -= sell_shares"
+          },
+          {
+            "line": 1323,
+            "source": "                    h[\"size_units\"]  = max(0.5, h[\"size_units\"] - 0.5)"
+          },
+          {
+            "line": 1324,
+            "source": "                    h[\"realized_pnl\"] = h.get(\"realized_pnl\", 0.0) + sell_shares * (exec_price - h[\"avg_cost\"])"
+          },
+          {
+            "line": 1325,
+            "source": "                    h[\"realized_cost_basis\"] = h.get(\"realized_cost_basis\", 0.0) + sell_shares * h[\"avg_cost\"]"
+          }
+        ]
+      },
+      "purpose": "Capture REDUCE/REL_REDUCE/TP_REDUCE after share count and cash are updated.",
+      "payload_fields": [
+        "signal_date",
+        "execution_date",
+        "symbol",
+        "action",
+        "execution_price",
+        "sell_fraction",
+        "shares_sold",
+        "proceeds",
+        "cash_after",
+        "remaining_shares",
+        "remaining_size_units",
+        "holding_after"
+      ]
+    }
+  ],
+  "serialization_contract": {
+    "format": "canonical_json_lines",
+    "one_record_per_line": true,
+    "encoding": "UTF-8",
+    "json_options": {
+      "ensure_ascii": false,
+      "sort_keys": true,
+      "separators": [
+        ",",
+        ":"
+      ],
+      "allow_nan": false
+    },
+    "normalization": {
+      "dates": "YYYY-MM-DD strings",
+      "symbols": "uppercase strings",
+      "sets": "sorted lists",
+      "dictionary_keys": "lexicographically sorted",
+      "candidate_order": "preserve exact runtime list order",
+      "pending_order_order": "preserve exact runtime list order",
+      "floats": "serialize raw Python finite float values; do not round before hashing",
+      "none": "JSON null"
+    },
+    "record_identity": [
+      "trace_schema_version",
+      "trace_point_id",
+      "signal_date",
+      "execution_date",
+      "symbol",
+      "action",
+      "sequence_number"
+    ],
+    "hash": {
+      "algorithm": "SHA-256",
+      "input": "canonical UTF-8 JSON bytes excluding the record_hash field",
+      "field": "record_hash"
+    }
+  },
+  "observer_safety_contract": {
+    "observer_only": true,
+    "trace_disabled_default": true,
+    "no_strategy_branch_changes": true,
+    "no_candidate_mutation": true,
+    "no_candidate_resort": true,
+    "no_order_mutation": true,
+    "no_pending_queue_mutation": true,
+    "no_holdings_mutation_by_tracer": true,
+    "no_cash_mutation_by_tracer": true,
+    "copy_rules": {
+      "lists": "snapshot with list(...)",
+      "dicts": "deep immutable serialization snapshot",
+      "holdings": "serialize selected scalar fields only; never pass live holdings references",
+      "signals": "serialize whitelisted scalar fields only; never retain live signal dictionaries"
+    },
+    "exception_policy": "Tracing failures must fail the smoke/test run; they must never silently alter or skip strategy execution."
+  },
+  "equivalence_contract": {
+    "trace_disabled": {
+      "requirement": "Byte-for-byte identical canonical result artifacts versus pre-instrumentation baseline.",
+      "strict_fields": [
+        "daily_equity_records",
+        "closed_trades",
+        "action_history",
+        "pending order behavior",
+        "holdings",
+        "cash",
+        "skip_reasons",
+        "summary metrics"
+      ]
+    },
+    "trace_enabled": {
+      "requirement": "Strategy outputs and portfolio state must remain identical to trace-disabled run.",
+      "allowed_difference": [
+        "trace files",
+        "trace counters",
+        "trace timing overhead"
+      ],
+      "forbidden_difference": [
+        "candidate values",
+        "candidate ordering",
+        "selected symbol",
+        "actions",
+        "orders",
+        "execution price",
+        "shares",
+        "cash",
+        "holdings",
+        "equity",
+        "trades"
+      ]
+    },
+    "initial_smoke_scope": {
+      "golden_dates_only": true,
+      "full_5y_run": false,
+      "required_classes": [
+        "confirmed_entry",
+        "emerging_entry",
+        "market_gate_block",
+        "capacity_block",
+        "T1_buy_execution",
+        "T1_exit_execution",
+        "T1_reduce_execution"
+      ]
+    }
+  },
+  "source_order_checks": [
+    {
+      "left": "candidate_append_end",
+      "left_line": 1715,
+      "operator": "<",
+      "right": "candidate_sort",
+      "right_line": 1716,
+      "passed": true
+    },
+    {
+      "left": "candidate_sort",
+      "left_line": 1716,
+      "operator": "<",
+      "right": "best_entry_selection",
+      "right_line": 1719,
+      "passed": true
+    },
+    {
+      "left": "best_entry_selection",
+      "left_line": 1719,
+      "operator": "<",
+      "right": "selected_buy_assignment",
+      "right_line": 1721,
+      "passed": true
+    },
+    {
+      "left": "selected_buy_assignment_end",
+      "left_line": 1726,
+      "operator": "<",
+      "right": "buy_order_append",
+      "right_line": 1789,
+      "passed": true
+    },
+    {
+      "left": "buy_order_append_end",
+      "left_line": 1802,
+      "operator": "<",
+      "right": "pending_handoff",
+      "right_line": 2134,
+      "passed": true
+    },
+    {
+      "left": "buy_shares_assignment",
+      "left_line": 1162,
+      "operator": "<",
+      "right": "buy_cash_mutation",
+      "right_line": 1163,
+      "passed": true
+    },
+    {
+      "left": "buy_cash_mutation",
+      "left_line": 1163,
+      "operator": "<",
+      "right": "buy_holdings_mutation",
+      "right_line": 1165,
+      "passed": true
+    },
+    {
+      "left": "sell_exec_price_assignment",
+      "left_line": 1242,
+      "operator": "<",
+      "right": "exit_proceeds_assignment",
+      "right_line": 1259,
+      "passed": true
+    }
+  ],
+  "validation": {
+    "trace_point_count": 11,
+    "expected_trace_point_count": 11,
+    "all_trace_points_have_payload": true,
+    "all_trace_points_have_anchors": true,
+    "all_source_order_checks_pass": true,
+    "sell_exit_delete_boundary_proven": true,
+    "sell_reduce_share_mutation_proven": true,
+    "sell_mutation_boundaries_corrected": true,
+    "serialization_contract_finalized": true,
+    "hash_contract_finalized": true,
+    "observer_safety_contract_finalized": true,
+    "equivalence_contract_finalized": true,
+    "finalization_proven": true,
+    "source_modified": false,
+    "instrumentation_implemented": false,
+    "strategy_logic_implemented": false,
+    "execution_logic_modified": false,
+    "full_5y_run_performed": false,
+    "sideways_logic_added": false,
+    "frozen_files_unchanged": true
+  },
+  "frozen_files": {
+    "src/engine/backtest.py": {
+      "sha256_before": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "sha256_after": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "unchanged": true
+    },
+    "src/engine/e1r_composer.py": {
+      "sha256_before": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "sha256_after": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "unchanged": true
+    },
+    "src/engine/e1r_sidecar_sleeve.py": {
+      "sha256_before": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "sha256_after": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "unchanged": true
+    }
+  },
+  "decision": "PASS_TRACE_POINT_CONTRACT_FINALIZED",
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R17B-READ-ONLY-INSTRUMENTATION-SMOKE"
+}

@@ -1,0 +1,197 @@
+{
+  "schema_version": "1.0",
+  "trace_schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17A-3-TRACE-POINT-FINALIZATION-REVIEW",
+  "decision": "PASS_TRACE_POINT_CONTRACT_FINALIZED",
+  "validation": {
+    "trace_point_count": 11,
+    "expected_trace_point_count": 11,
+    "all_trace_points_have_payload": true,
+    "all_trace_points_have_anchors": true,
+    "all_source_order_checks_pass": true,
+    "sell_exit_delete_boundary_proven": true,
+    "sell_reduce_share_mutation_proven": true,
+    "sell_mutation_boundaries_corrected": true,
+    "serialization_contract_finalized": true,
+    "hash_contract_finalized": true,
+    "observer_safety_contract_finalized": true,
+    "equivalence_contract_finalized": true,
+    "finalization_proven": true,
+    "source_modified": false,
+    "instrumentation_implemented": false,
+    "strategy_logic_implemented": false,
+    "execution_logic_modified": false,
+    "full_5y_run_performed": false,
+    "sideways_logic_added": false,
+    "frozen_files_unchanged": true
+  },
+  "trace_point_summary": [
+    {
+      "id": "TP01_PRE_RANK_CANDIDATES",
+      "phase": "SIGNAL_DAY_T",
+      "placement": {
+        "after_line": 1715,
+        "before_line": 1716
+      },
+      "payload_field_count": 5
+    },
+    {
+      "id": "TP02_POST_RANK_CANDIDATES",
+      "phase": "SIGNAL_DAY_T",
+      "placement": {
+        "after_line": 1716,
+        "before_line": 1719
+      },
+      "payload_field_count": 3
+    },
+    {
+      "id": "TP03_SELECTED_BUY_FINALIZED",
+      "phase": "SIGNAL_DAY_T",
+      "placement": {
+        "after_line": 1726,
+        "before_line": 1789
+      },
+      "payload_field_count": 10
+    },
+    {
+      "id": "TP04_BUY_ORDER_INTENT_CREATED",
+      "phase": "SIGNAL_DAY_T",
+      "placement": {
+        "after_line": 1802,
+        "before_line": 2134
+      },
+      "payload_field_count": 12
+    },
+    {
+      "id": "TP05_PENDING_HANDOFF_FINALIZED",
+      "phase": "SIGNAL_DAY_T",
+      "placement": {
+        "after_line": 2134,
+        "before_line": null
+      },
+      "payload_field_count": 5
+    },
+    {
+      "id": "TP06_T1_ORDER_EXECUTION_START",
+      "phase": "EXECUTION_DAY_T_PLUS_1",
+      "placement": {
+        "after_line": 1124,
+        "before_line": 1128
+      },
+      "payload_field_count": 8
+    },
+    {
+      "id": "TP07_BUY_SIZING_FINALIZED",
+      "phase": "EXECUTION_DAY_T_PLUS_1",
+      "placement": {
+        "after_line": 1162,
+        "before_line": 1163
+      },
+      "payload_field_count": 15
+    },
+    {
+      "id": "TP08_BUY_ACCOUNT_MUTATION_COMPLETE",
+      "phase": "EXECUTION_DAY_T_PLUS_1",
+      "placement": {
+        "after_line": 1193,
+        "before_line": null
+      },
+      "payload_field_count": 9
+    },
+    {
+      "id": "TP09_SELL_EXECUTION_PRICE_FINALIZED",
+      "phase": "EXECUTION_DAY_T_PLUS_1",
+      "placement": {
+        "after_line": 1242,
+        "before_line": 1259
+      },
+      "payload_field_count": 11
+    },
+    {
+      "id": "TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE",
+      "phase": "EXECUTION_DAY_T_PLUS_1",
+      "placement": {
+        "after_line": 1313,
+        "before_line": null
+      },
+      "payload_field_count": 11
+    },
+    {
+      "id": "TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE",
+      "phase": "EXECUTION_DAY_T_PLUS_1",
+      "placement": {
+        "after_line": 1322,
+        "before_line": null
+      },
+      "payload_field_count": 12
+    }
+  ],
+  "source_order_checks": [
+    {
+      "left": "candidate_append_end",
+      "left_line": 1715,
+      "operator": "<",
+      "right": "candidate_sort",
+      "right_line": 1716,
+      "passed": true
+    },
+    {
+      "left": "candidate_sort",
+      "left_line": 1716,
+      "operator": "<",
+      "right": "best_entry_selection",
+      "right_line": 1719,
+      "passed": true
+    },
+    {
+      "left": "best_entry_selection",
+      "left_line": 1719,
+      "operator": "<",
+      "right": "selected_buy_assignment",
+      "right_line": 1721,
+      "passed": true
+    },
+    {
+      "left": "selected_buy_assignment_end",
+      "left_line": 1726,
+      "operator": "<",
+      "right": "buy_order_append",
+      "right_line": 1789,
+      "passed": true
+    },
+    {
+      "left": "buy_order_append_end",
+      "left_line": 1802,
+      "operator": "<",
+      "right": "pending_handoff",
+      "right_line": 2134,
+      "passed": true
+    },
+    {
+      "left": "buy_shares_assignment",
+      "left_line": 1162,
+      "operator": "<",
+      "right": "buy_cash_mutation",
+      "right_line": 1163,
+      "passed": true
+    },
+    {
+      "left": "buy_cash_mutation",
+      "left_line": 1163,
+      "operator": "<",
+      "right": "buy_holdings_mutation",
+      "right_line": 1165,
+      "passed": true
+    },
+    {
+      "left": "sell_exec_price_assignment",
+      "left_line": 1242,
+      "operator": "<",
+      "right": "exit_proceeds_assignment",
+      "right_line": 1259,
+      "passed": true
+    }
+  ],
+  "conclusion": "K2_R17A3_PASS_TRACE_POINT_CONTRACT_FINALIZED",
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R17B-READ-ONLY-INSTRUMENTATION-SMOKE"
+}
