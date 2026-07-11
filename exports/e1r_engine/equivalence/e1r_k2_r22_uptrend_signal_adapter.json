@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "stage": "K2-R22-UPTREND-SIGNAL-ADAPTER",
+  "decision": "PASS_UPTREND_SIGNAL_ADAPTER",
+  "architecture": {
+    "input": [
+      "date",
+      "ordered symbols",
+      "price history by symbol",
+      "market_score_default",
+      "ls60_exit_mode"
+    ],
+    "reused_sources": [
+      "features.rs.period_return",
+      "features.rs.rs_percentile",
+      "features.momentum.momentum_score",
+      "features.momentum.moving_average",
+      "features.momentum.linreg_slope",
+      "features.momentum.momentum_acceleration",
+      "features.trend_health.trend_health_score",
+      "features.trend_health.trend_lifecycle",
+      "engine.leader_ranking.leader_score",
+      "engine.trade_decision.trade_action"
+    ],
+    "output": [
+      "day_signals",
+      "leader_rank_all",
+      "UptrendConsumerInputs"
+    ]
+  },
+  "validation": {
+    "required_imports_present": true,
+    "imports_backtest": false,
+    "calls_uptrend_core": false,
+    "calls_market_gate_evaluator": false,
+    "calls_legacy_order_builder": false,
+    "calls_trade_execution": false,
+    "builds_consumer_inputs": true
+  },
+  "behavior_contract": {
+    "symbol_order_preserved_for_rank_ties": true,
+    "legacy_thresholds_preserved": true,
+    "legacy_signal_formulas_reused": true,
+    "legacy_backtest_imported": false,
+    "market_gate_recomputed": false,
+    "candidate_selection_performed": false,
+    "buy_selection_performed": false,
+    "order_execution_performed": false,
+    "protected_sources_modified": false
+  },
+  "tests": {
+    "r22_adapter_tests": 8,
+    "r21_consumer_regression_tests": 8,
+    "r20_core_regression_tests": 7,
+    "total": 23,
+    "status": "PASS"
+  },
+  "backtest": {
+    "short_window_run_performed": false,
+    "full_5y_run_performed": false
+  },
+  "next_stage": "K2-R23-UPTREND-SIGNAL-ADAPTER-CONSUMER-WIRING"
+}
