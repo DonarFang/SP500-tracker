@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "stage": "K2-R23-UPTREND-SIGNAL-ADAPTER-CONSUMER-WIRING",
+  "decision": "PASS_UPTREND_SIGNAL_ADAPTER_CONSUMER_WIRING",
+  "call_chain": [
+    "UptrendSignalConsumerPipeline.run",
+    "UptrendSignalAdapter.build",
+    "UptrendSignalAdapterResult.to_consumer_inputs",
+    "UptrendDecisionConsumer.consume",
+    "UptrendCore.decide_uptrend_buy",
+    "OrderIntent"
+  ],
+  "validation": {
+    "calls_signal_adapter_build": true,
+    "calls_to_consumer_inputs": true,
+    "calls_decision_consumer": true,
+    "imports_backtest": false,
+    "calls_market_gate_evaluator": false,
+    "calls_uptrend_core_directly": false,
+    "calls_order_execution": false
+  },
+  "behavior_contract": {
+    "adapter_and_consumer_wired": true,
+    "manual_chain_equivalent": true,
+    "market_gate_recomputed": false,
+    "account_mutated": false,
+    "order_execution_performed": false,
+    "legacy_backtest_called": false,
+    "legacy_order_payload_constructed": false,
+    "protected_sources_modified": false,
+    "engine_core_modified": false
+  },
+  "tests": {
+    "r23_wiring_tests": 7,
+    "r22_adapter_regression_tests": 8,
+    "r21_consumer_regression_tests": 8,
+    "r20_core_regression_tests": 7,
+    "total": 30,
+    "status": "PASS"
+  },
+  "backtest": {
+    "short_window_run_performed": false,
+    "full_5y_run_performed": false
+  },
+  "next_stage": "K2-R24-UPTREND-PIPELINE-ENGINE-ENTRY-WIRING"
+}
