@@ -1,0 +1,1763 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R16A-LEGACY-UPTREND-EXTRACTION-PROPOSAL-QUALITY-REVIEW",
+  "generated_at_utc": "2026-07-11T09:52:40.546918+00:00",
+  "repository": {
+    "branch": "main",
+    "head": "a8d1305a2ccffc7d413721f744e8bb4c48405f59",
+    "head_short": "a8d1305",
+    "head_subject": "Propose E1R legacy uptrend order extraction",
+    "origin_main": "a8d1305a2ccffc7d413721f744e8bb4c48405f59"
+  },
+  "scope": {
+    "quality_review_only": true,
+    "strategy_source_modified": false,
+    "legacy_source_modified": false,
+    "standalone_engine_modified": false,
+    "strategy_logic_implemented": false,
+    "full_5y_run": false,
+    "sideways_integration": false
+  },
+  "r16_original_result": {
+    "decision": "PASS_PROPOSAL_READY_FOR_USER_REVIEW_BEFORE_R17",
+    "source_line_inventory_ready": true,
+    "missing_required_categories": [],
+    "evidence_decision": "PASS_PROPOSAL_READY_FOR_USER_REVIEW_BEFORE_R17"
+  },
+  "artifact_metrics": {
+    "files": {
+      "research_json": {
+        "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R16_LEGACY_UPTREND_ORDER_LOGIC_EXTRACTION_PROPOSAL.json",
+        "bytes": 977153,
+        "lines": 29755,
+        "sha256": "079dcb28f2a2ba27f095b6d44f562bd6c67a9dbf7ea70510acd4555b27c5e5d6"
+      },
+      "research_md": {
+        "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R16_LEGACY_UPTREND_ORDER_LOGIC_EXTRACTION_PROPOSAL.md",
+        "bytes": 40320,
+        "lines": 411,
+        "sha256": "17a55beaa04a02b9b63686a9fc0976fc23e4cd420f3058cbd9baf55e5baec6a9"
+      },
+      "architecture_md": {
+        "path": "docs/architecture/E1R_4C2C4E_ENGINE_K2_R16_LEGACY_UPTREND_ORDER_LOGIC_EXTRACTION_PROPOSAL.md",
+        "bytes": 40320,
+        "lines": 411,
+        "sha256": "17a55beaa04a02b9b63686a9fc0976fc23e4cd420f3058cbd9baf55e5baec6a9"
+      },
+      "audit_json": {
+        "path": "exports/e1r_engine/audit/e1r_k2_r16_legacy_uptrend_order_logic_extraction_proposal.json",
+        "bytes": 977153,
+        "lines": 29755,
+        "sha256": "079dcb28f2a2ba27f095b6d44f562bd6c67a9dbf7ea70510acd4555b27c5e5d6"
+      },
+      "evidence_json": {
+        "path": "exports/e1r_engine/equivalence/e1r_k2_r16_legacy_uptrend_order_logic_extraction_proposal_evidence.json",
+        "bytes": 655,
+        "lines": 18,
+        "sha256": "40d4fde76fc9e18129528b47026aad8ba2ec72e6fdbac8d431aa323f5122c0b4"
+      }
+    },
+    "total_bytes": 2035601,
+    "total_lines": 60350,
+    "artifact_size_excessive": true
+  },
+  "duplicate_analysis": {
+    "research_json_vs_audit_json": {
+      "left": "research_json",
+      "right": "audit_json",
+      "exact_bytes_equal": true,
+      "normalized_text_equal": true,
+      "left_bytes": 977153,
+      "right_bytes": 977153,
+      "size_ratio": 1.0
+    },
+    "research_md_vs_architecture_md": {
+      "left": "research_md",
+      "right": "architecture_md",
+      "exact_bytes_equal": true,
+      "normalized_text_equal": true,
+      "left_bytes": 40320,
+      "right_bytes": 40320,
+      "size_ratio": 1.0
+    }
+  },
+  "artifact_duplication_detected": true,
+  "category_quality": {
+    "candidate_generation": {
+      "total_hits": 91,
+      "legacy_hits": 60,
+      "standalone_hits": 31,
+      "other_hits": 0,
+      "legacy_share": 0.659341,
+      "standalone_share": 0.340659,
+      "legacy_files": {
+        "src/engine/backtest.py": 60,
+        "src/engine/trade_decision.py": 0,
+        "src/engine/leader_ranking.py": 0,
+        "src/features/rs.py": 0,
+        "src/features/momentum.py": 0,
+        "src/features/trend_health.py": 0
+      },
+      "standalone_files": {
+        "src/e1r_engine/uptrend_core.py": 27,
+        "src/e1r_engine/market_gate.py": 2,
+        "src/e1r_engine/state.py": 2
+      },
+      "top_legacy_functions": [
+        {
+          "function": "src/engine/backtest.py:run_stateful_simulation",
+          "hits": 45
+        },
+        {
+          "function": "src/engine/backtest.py:MODULE",
+          "hits": 13
+        },
+        {
+          "function": "src/engine/backtest.py:run_promotion_engine_validation",
+          "hits": 2
+        }
+      ],
+      "top_standalone_functions": [
+        {
+          "function": "src/e1r_engine/uptrend_core.py:validate",
+          "hits": 14
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:MODULE",
+          "hits": 7
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:consume_market_gate",
+          "hits": 3
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:candidate_count",
+          "hits": 2
+        },
+        {
+          "function": "src/e1r_engine/market_gate.py:MODULE",
+          "hits": 2
+        }
+      ],
+      "sample_legacy_hits": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 81,
+          "function": "MODULE",
+          "text": "# Qualified Candidate Pool（v1.7+）"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 82,
+          "function": "MODULE",
+          "text": "# candidate_top_n：Qualified Pool 内最多取 N 个候选（None = 用旧 entry_top_n 逻辑）"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 84,
+          "function": "MODULE",
+          "text": "# qualified_entry_enabled：是否启用资格过滤"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 85,
+          "function": "MODULE",
+          "text": "# qualified_states：允许的 trend_state"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 86,
+          "function": "MODULE",
+          "text": "\"candidate_top_n\":          None,    # None = 沿用旧 entry_top_n=3 逻辑"
+        }
+      ],
+      "sample_standalone_hits": [
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 84,
+          "function": "MODULE",
+          "text": "class CandidateSnapshot:"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 85,
+          "function": "MODULE",
+          "text": "\"\"\"Opaque placeholder for future candidate extraction."
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 87,
+          "function": "MODULE",
+          "text": "R14 does not rank, filter, select, or score candidates."
+        }
+      ],
+      "evidence_classification": "MIXED_LEGACY_AND_STANDALONE",
+      "legacy_evidence_present": true
+    },
+    "ranking_and_top3_selection": {
+      "total_hits": 104,
+      "legacy_hits": 86,
+      "standalone_hits": 18,
+      "other_hits": 0,
+      "legacy_share": 0.826923,
+      "standalone_share": 0.173077,
+      "legacy_files": {
+        "src/engine/backtest.py": 60,
+        "src/engine/trade_decision.py": 20,
+        "src/engine/leader_ranking.py": 5,
+        "src/features/momentum.py": 1,
+        "src/features/rs.py": 0,
+        "src/features/trend_health.py": 0
+      },
+      "standalone_files": {
+        "src/e1r_engine/state.py": 9,
+        "src/e1r_engine/uptrend_core.py": 8,
+        "src/e1r_engine/market_gate.py": 1
+      },
+      "top_legacy_functions": [
+        {
+          "function": "src/engine/backtest.py:run_stateful_simulation",
+          "hits": 26
+        },
+        {
+          "function": "src/engine/backtest.py:MODULE",
+          "hits": 12
+        },
+        {
+          "function": "src/engine/backtest.py:run_promotion_engine_validation",
+          "hits": 10
+        },
+        {
+          "function": "src/engine/trade_decision.py:trade_action_reason",
+          "hits": 10
+        },
+        {
+          "function": "src/engine/trade_decision.py:trade_action",
+          "hits": 7
+        },
+        {
+          "function": "src/engine/backtest.py:_e1r_risk_budget_for_regime",
+          "hits": 5
+        },
+        {
+          "function": "src/engine/leader_ranking.py:rank_stocks",
+          "hits": 4
+        },
+        {
+          "function": "src/engine/backtest.py:run_leader_engine_validation",
+          "hits": 3
+        }
+      ],
+      "top_standalone_functions": [
+        {
+          "function": "src/e1r_engine/state.py:validate",
+          "hits": 9
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:MODULE",
+          "hits": 3
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:validate",
+          "hits": 3
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:consume_market_gate",
+          "hits": 1
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:extract_from_legacy_result",
+          "hits": 1
+        }
+      ],
+      "sample_legacy_hits": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 24,
+          "function": "MODULE",
+          "text": "from ..engine.leader_ranking import leader_score as calc_leader_score"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 35,
+          "function": "MODULE",
+          "text": "\"max_positions\":      3,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 36,
+          "function": "MODULE",
+          "text": "\"buy_size\":          1.0,    # Top3: 1/3 portfolio full position"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 37,
+          "function": "MODULE",
+          "text": "\"add_size\":          0.5,    # Top3: +1/6 portfolio, used only after REDUCE if allowed"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 38,
+          "function": "MODULE",
+          "text": "\"max_single_size\":   1.0,    # Top3 strategy: 1/3 max per position"
+        }
+      ],
+      "sample_standalone_hits": [
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 87,
+          "function": "MODULE",
+          "text": "R14 does not rank, filter, select, or score candidates."
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 94,
+          "function": "MODULE",
+          "text": "ranking_performed: bool = False"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 111,
+          "function": "validate",
+          "text": "if self.ranking_performed:"
+        }
+      ],
+      "evidence_classification": "MIXED_LEGACY_AND_STANDALONE",
+      "legacy_evidence_present": true
+    },
+    "buy_generation": {
+      "total_hits": 75,
+      "legacy_hits": 59,
+      "standalone_hits": 16,
+      "other_hits": 0,
+      "legacy_share": 0.786667,
+      "standalone_share": 0.213333,
+      "legacy_files": {
+        "src/engine/backtest.py": 52,
+        "src/engine/trade_decision.py": 7,
+        "src/engine/leader_ranking.py": 0,
+        "src/features/rs.py": 0,
+        "src/features/momentum.py": 0,
+        "src/features/trend_health.py": 0
+      },
+      "standalone_files": {
+        "src/e1r_engine/uptrend_core.py": 9,
+        "src/e1r_engine/state.py": 4,
+        "src/e1r_engine/market_gate.py": 3
+      },
+      "top_legacy_functions": [
+        {
+          "function": "src/engine/backtest.py:run_stateful_simulation",
+          "hits": 39
+        },
+        {
+          "function": "src/engine/backtest.py:run_trade_rule_validation",
+          "hits": 6
+        },
+        {
+          "function": "src/engine/backtest.py:run_action_forward_validation",
+          "hits": 5
+        },
+        {
+          "function": "src/engine/trade_decision.py:trade_action",
+          "hits": 3
+        },
+        {
+          "function": "src/engine/trade_decision.py:trade_action_reason",
+          "hits": 3
+        },
+        {
+          "function": "src/engine/backtest.py:MODULE",
+          "hits": 2
+        },
+        {
+          "function": "src/engine/trade_decision.py:MODULE",
+          "hits": 1
+        }
+      ],
+      "top_standalone_functions": [
+        {
+          "function": "src/e1r_engine/uptrend_core.py:MODULE",
+          "hits": 3
+        },
+        {
+          "function": "src/e1r_engine/market_gate.py:MODULE",
+          "hits": 3
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:consume_market_gate",
+          "hits": 2
+        },
+        {
+          "function": "src/e1r_engine/state.py:MODULE",
+          "hits": 2
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:to_comparable_dict",
+          "hits": 1
+        }
+      ],
+      "sample_legacy_hits": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 42,
+          "function": "MODULE",
+          "text": "\"total_round_trip\":  0.0020, # buy + sell total"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 45,
+          "function": "MODULE",
+          "text": "# BUY/ADD:     next_day_high  × (1 + cost + slippage)  ← worst buy"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 325,
+          "function": "run_trade_rule_validation",
+          "text": "对每个 BUY/EXIT 信号，测量信号后的前向收益，"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 331,
+          "function": "run_trade_rule_validation",
+          "text": "\"BUY\":  {d: [] for d in forward_days},"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 340,
+          "function": "run_trade_rule_validation",
+          "text": "signal_counts = {\"BUY\": 0, \"ADD\": 0, \"HOLD\": 0, \"REDUCE\": 0, \"EXIT\": 0}"
+        }
+      ],
+      "sample_standalone_hits": [
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 30,
+          "function": "MODULE",
+          "text": "entry_signal: str | None"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 70,
+          "function": "to_comparable_dict",
+          "text": "\"entry_signal\": r.entry_signal,"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 148,
+          "function": "MODULE",
+          "text": "R15 will test BUY/ADD blocking behavior separately."
+        }
+      ],
+      "evidence_classification": "MIXED_LEGACY_AND_STANDALONE",
+      "legacy_evidence_present": true
+    },
+    "add_generation": {
+      "total_hits": 53,
+      "legacy_hits": 42,
+      "standalone_hits": 11,
+      "other_hits": 0,
+      "legacy_share": 0.792453,
+      "standalone_share": 0.207547,
+      "legacy_files": {
+        "src/engine/backtest.py": 36,
+        "src/engine/trade_decision.py": 6,
+        "src/engine/leader_ranking.py": 0,
+        "src/features/rs.py": 0,
+        "src/features/momentum.py": 0,
+        "src/features/trend_health.py": 0
+      },
+      "standalone_files": {
+        "src/e1r_engine/uptrend_core.py": 6,
+        "src/e1r_engine/market_gate.py": 3,
+        "src/e1r_engine/state.py": 2
+      },
+      "top_legacy_functions": [
+        {
+          "function": "src/engine/backtest.py:run_stateful_simulation",
+          "hits": 27
+        },
+        {
+          "function": "src/engine/backtest.py:run_action_forward_validation",
+          "hits": 4
+        },
+        {
+          "function": "src/engine/trade_decision.py:trade_action",
+          "hits": 3
+        },
+        {
+          "function": "src/engine/backtest.py:run_trade_rule_validation",
+          "hits": 2
+        },
+        {
+          "function": "src/engine/backtest.py:run_strategy_variant_comparison",
+          "hits": 2
+        },
+        {
+          "function": "src/engine/trade_decision.py:trade_action_reason",
+          "hits": 2
+        },
+        {
+          "function": "src/engine/backtest.py:MODULE",
+          "hits": 1
+        },
+        {
+          "function": "src/engine/trade_decision.py:MODULE",
+          "hits": 1
+        }
+      ],
+      "top_standalone_functions": [
+        {
+          "function": "src/e1r_engine/market_gate.py:MODULE",
+          "hits": 3
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:MODULE",
+          "hits": 2
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:consume_market_gate",
+          "hits": 2
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:validate",
+          "hits": 1
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:extract_from_legacy_result",
+          "hits": 1
+        }
+      ],
+      "sample_legacy_hits": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 45,
+          "function": "MODULE",
+          "text": "# BUY/ADD:     next_day_high  × (1 + cost + slippage)  ← worst buy"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 332,
+          "function": "run_trade_rule_validation",
+          "text": "\"ADD\":  {d: [] for d in forward_days},"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 340,
+          "function": "run_trade_rule_validation",
+          "text": "signal_counts = {\"BUY\": 0, \"ADD\": 0, \"HOLD\": 0, \"REDUCE\": 0, \"EXIT\": 0}"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 611,
+          "function": "run_action_forward_validation",
+          "text": "- ADD  → 加仓后是否继续超额？"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 621,
+          "function": "run_action_forward_validation",
+          "text": "for a in [\"BUY\",\"ADD\",\"HOLD\",\"REDUCE\",\"EXIT\"]"
+        }
+      ],
+      "sample_standalone_hits": [
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 148,
+          "function": "MODULE",
+          "text": "R15 will test BUY/ADD blocking behavior separately."
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 188,
+          "function": "validate",
+          "text": "\"ADD\","
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 369,
+          "function": "MODULE",
+          "text": "- It does not decide BUY/ADD/REDUCE/EXIT."
+        }
+      ],
+      "evidence_classification": "MIXED_LEGACY_AND_STANDALONE",
+      "legacy_evidence_present": true
+    },
+    "hold_behavior": {
+      "total_hits": 77,
+      "legacy_hits": 68,
+      "standalone_hits": 9,
+      "other_hits": 0,
+      "legacy_share": 0.883117,
+      "standalone_share": 0.116883,
+      "legacy_files": {
+        "src/engine/backtest.py": 60,
+        "src/engine/trade_decision.py": 8,
+        "src/engine/leader_ranking.py": 0,
+        "src/features/rs.py": 0,
+        "src/features/momentum.py": 0,
+        "src/features/trend_health.py": 0
+      },
+      "standalone_files": {
+        "src/e1r_engine/uptrend_core.py": 5,
+        "src/e1r_engine/market_gate.py": 2,
+        "src/e1r_engine/state.py": 2
+      },
+      "top_legacy_functions": [
+        {
+          "function": "src/engine/backtest.py:run_stateful_simulation",
+          "hits": 39
+        },
+        {
+          "function": "src/engine/backtest.py:run_action_forward_validation",
+          "hits": 14
+        },
+        {
+          "function": "src/engine/backtest.py:MODULE",
+          "hits": 5
+        },
+        {
+          "function": "src/engine/trade_decision.py:trade_action",
+          "hits": 4
+        },
+        {
+          "function": "src/engine/backtest.py:run_trade_rule_validation",
+          "hits": 2
+        },
+        {
+          "function": "src/engine/trade_decision.py:MODULE",
+          "hits": 2
+        },
+        {
+          "function": "src/engine/trade_decision.py:trade_action_reason",
+          "hits": 2
+        }
+      ],
+      "top_standalone_functions": [
+        {
+          "function": "src/e1r_engine/market_gate.py:MODULE",
+          "hits": 2
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:MODULE",
+          "hits": 1
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:to_comparable_dict",
+          "hits": 1
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:validate",
+          "hits": 1
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:consume_market_gate",
+          "hits": 1
+        }
+      ],
+      "sample_legacy_hits": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 47,
+          "function": "MODULE",
+          "text": "# HOLD:        mark-to-market at close, no transaction"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 58,
+          "function": "MODULE",
+          "text": "# the impact of RS threshold, minimum holding period, and relative SPX stop."
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 64,
+          "function": "MODULE",
+          "text": "# Entry / holding / relative-risk controls tested by v1.6 variants."
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 66,
+          "function": "MODULE",
+          "text": "\"min_holding_days\": 0,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 67,
+          "function": "MODULE",
+          "text": "\"min_hold_allow_broken_exit\": True,"
+        }
+      ],
+      "sample_standalone_hits": [
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 35,
+          "function": "MODULE",
+          "text": "holding_days: int | float | None"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 75,
+          "function": "to_comparable_dict",
+          "text": "\"holding_days\": r.holding_days,"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 189,
+          "function": "validate",
+          "text": "\"HOLD\","
+        }
+      ],
+      "evidence_classification": "MIXED_LEGACY_AND_STANDALONE",
+      "legacy_evidence_present": true
+    },
+    "reduce_behavior": {
+      "total_hits": 86,
+      "legacy_hits": 77,
+      "standalone_hits": 9,
+      "other_hits": 0,
+      "legacy_share": 0.895349,
+      "standalone_share": 0.104651,
+      "legacy_files": {
+        "src/engine/backtest.py": 54,
+        "src/engine/trade_decision.py": 23,
+        "src/engine/leader_ranking.py": 0,
+        "src/features/rs.py": 0,
+        "src/features/momentum.py": 0,
+        "src/features/trend_health.py": 0
+      },
+      "standalone_files": {
+        "src/e1r_engine/uptrend_core.py": 4,
+        "src/e1r_engine/market_gate.py": 3,
+        "src/e1r_engine/state.py": 2
+      },
+      "top_legacy_functions": [
+        {
+          "function": "src/engine/backtest.py:run_stateful_simulation",
+          "hits": 36
+        },
+        {
+          "function": "src/engine/backtest.py:run_action_forward_validation",
+          "hits": 11
+        },
+        {
+          "function": "src/engine/trade_decision.py:trade_action_reason",
+          "hits": 11
+        },
+        {
+          "function": "src/engine/trade_decision.py:trade_action",
+          "hits": 9
+        },
+        {
+          "function": "src/engine/backtest.py:MODULE",
+          "hits": 4
+        },
+        {
+          "function": "src/engine/trade_decision.py:MODULE",
+          "hits": 3
+        },
+        {
+          "function": "src/engine/backtest.py:run_strategy_variant_comparison",
+          "hits": 2
+        },
+        {
+          "function": "src/engine/backtest.py:run_trade_rule_validation",
+          "hits": 1
+        }
+      ],
+      "top_standalone_functions": [
+        {
+          "function": "src/e1r_engine/market_gate.py:MODULE",
+          "hits": 3
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:validate",
+          "hits": 1
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:MODULE",
+          "hits": 1
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:consume_market_gate",
+          "hits": 1
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:extract_from_legacy_result",
+          "hits": 1
+        }
+      ],
+      "sample_legacy_hits": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 37,
+          "function": "MODULE",
+          "text": "\"add_size\":          0.5,    # Top3: +1/6 portfolio, used only after REDUCE if allowed"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 46,
+          "function": "MODULE",
+          "text": "# REDUCE/EXIT: next_day_low   × (1 - cost - slippage)  ← worst sell"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 70,
+          "function": "MODULE",
+          "text": "\"relative_stop_action\": \"REL_REDUCE\",   # reduce 50%, once per position"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 79,
+          "function": "MODULE",
+          "text": "\"ls60_exit_mode\":    \"reduce\",   # \"exit\"=旧规则 \"reduce\"=新规则（默认）"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 340,
+          "function": "run_trade_rule_validation",
+          "text": "signal_counts = {\"BUY\": 0, \"ADD\": 0, \"HOLD\": 0, \"REDUCE\": 0, \"EXIT\": 0}"
+        }
+      ],
+      "sample_standalone_hits": [
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 190,
+          "function": "validate",
+          "text": "\"REDUCE\","
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 369,
+          "function": "MODULE",
+          "text": "- It does not decide BUY/ADD/REDUCE/EXIT."
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 393,
+          "function": "consume_market_gate",
+          "text": "HOLD, REDUCE, and EXIT remain unaffected."
+        }
+      ],
+      "evidence_classification": "MIXED_LEGACY_AND_STANDALONE",
+      "legacy_evidence_present": true
+    },
+    "exit_behavior": {
+      "total_hits": 110,
+      "legacy_hits": 89,
+      "standalone_hits": 21,
+      "other_hits": 0,
+      "legacy_share": 0.809091,
+      "standalone_share": 0.190909,
+      "legacy_files": {
+        "src/engine/backtest.py": 60,
+        "src/engine/trade_decision.py": 29,
+        "src/engine/leader_ranking.py": 0,
+        "src/features/rs.py": 0,
+        "src/features/momentum.py": 0,
+        "src/features/trend_health.py": 0
+      },
+      "standalone_files": {
+        "src/e1r_engine/uptrend_core.py": 16,
+        "src/e1r_engine/market_gate.py": 3,
+        "src/e1r_engine/state.py": 2
+      },
+      "top_legacy_functions": [
+        {
+          "function": "src/engine/backtest.py:run_stateful_simulation",
+          "hits": 44
+        },
+        {
+          "function": "src/engine/trade_decision.py:trade_action_reason",
+          "hits": 16
+        },
+        {
+          "function": "src/engine/backtest.py:run_action_forward_validation",
+          "hits": 11
+        },
+        {
+          "function": "src/engine/trade_decision.py:trade_action",
+          "hits": 9
+        },
+        {
+          "function": "src/engine/trade_decision.py:MODULE",
+          "hits": 4
+        },
+        {
+          "function": "src/engine/backtest.py:run_trade_rule_validation",
+          "hits": 3
+        },
+        {
+          "function": "src/engine/backtest.py:MODULE",
+          "hits": 2
+        }
+      ],
+      "top_standalone_functions": [
+        {
+          "function": "src/e1r_engine/uptrend_core.py:MODULE",
+          "hits": 5
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:to_comparable_dict",
+          "hits": 4
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:_normalize_trade_row",
+          "hits": 4
+        },
+        {
+          "function": "src/e1r_engine/market_gate.py:MODULE",
+          "hits": 3
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:validate",
+          "hits": 1
+        }
+      ],
+      "sample_legacy_hits": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 46,
+          "function": "MODULE",
+          "text": "# REDUCE/EXIT: next_day_low   × (1 - cost - slippage)  ← worst sell"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 79,
+          "function": "MODULE",
+          "text": "\"ls60_exit_mode\":    \"reduce\",   # \"exit\"=旧规则 \"reduce\"=新规则（默认）"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 325,
+          "function": "run_trade_rule_validation",
+          "text": "对每个 BUY/EXIT 信号，测量信号后的前向收益，"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 333,
+          "function": "run_trade_rule_validation",
+          "text": "\"EXIT\": {d: [] for d in forward_days},"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 340,
+          "function": "run_trade_rule_validation",
+          "text": "signal_counts = {\"BUY\": 0, \"ADD\": 0, \"HOLD\": 0, \"REDUCE\": 0, \"EXIT\": 0}"
+        }
+      ],
+      "sample_standalone_hits": [
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 28,
+          "function": "MODULE",
+          "text": "exit_date: str | None"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 29,
+          "function": "MODULE",
+          "text": "exit_price: float | None"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 31,
+          "function": "MODULE",
+          "text": "exit_signal: str | None"
+        }
+      ],
+      "evidence_classification": "MIXED_LEGACY_AND_STANDALONE",
+      "legacy_evidence_present": true
+    },
+    "position_sizing": {
+      "total_hits": 9,
+      "legacy_hits": 6,
+      "standalone_hits": 3,
+      "other_hits": 0,
+      "legacy_share": 0.666667,
+      "standalone_share": 0.333333,
+      "legacy_files": {
+        "src/engine/backtest.py": 5,
+        "src/features/momentum.py": 1,
+        "src/engine/trade_decision.py": 0,
+        "src/engine/leader_ranking.py": 0,
+        "src/features/rs.py": 0,
+        "src/features/trend_health.py": 0
+      },
+      "standalone_files": {
+        "src/e1r_engine/state.py": 3,
+        "src/e1r_engine/uptrend_core.py": 0,
+        "src/e1r_engine/market_gate.py": 0
+      },
+      "top_legacy_functions": [
+        {
+          "function": "src/engine/backtest.py:_e1r_dominant_regime",
+          "hits": 3
+        },
+        {
+          "function": "src/engine/backtest.py:run_stateful_simulation",
+          "hits": 2
+        },
+        {
+          "function": "src/features/momentum.py:MODULE",
+          "hits": 1
+        }
+      ],
+      "top_standalone_functions": [
+        {
+          "function": "src/e1r_engine/state.py:MODULE",
+          "hits": 2
+        },
+        {
+          "function": "src/e1r_engine/state.py:validate",
+          "hits": 1
+        }
+      ],
+      "sample_legacy_hits": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 840,
+          "function": "_e1r_dominant_regime",
+          "text": "def _e1r_dominant_regime(weights: dict) -> str:"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 841,
+          "function": "_e1r_dominant_regime",
+          "text": "if not weights:"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 843,
+          "function": "_e1r_dominant_regime",
+          "text": "return max(weights.items(), key=lambda kv: kv[1])[0]"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1030,
+          "function": "run_stateful_simulation",
+          "text": "\"size_at_minimum\":          0,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1317,
+          "function": "run_stateful_simulation",
+          "text": "skip_reasons[\"size_at_minimum\"] += 1"
+        }
+      ],
+      "sample_standalone_hits": [
+        {
+          "path": "src/e1r_engine/state.py",
+          "line": 152,
+          "function": "MODULE",
+          "text": "target_quantity: float | None"
+        },
+        {
+          "path": "src/e1r_engine/state.py",
+          "line": 153,
+          "function": "MODULE",
+          "text": "quantity_delta: float | None"
+        },
+        {
+          "path": "src/e1r_engine/state.py",
+          "line": 166,
+          "function": "validate",
+          "text": "if self.target_quantity is not None and self.target_quantity < 0:"
+        }
+      ],
+      "evidence_classification": "MIXED_LEGACY_AND_STANDALONE",
+      "legacy_evidence_present": true
+    },
+    "pending_order_boundary": {
+      "total_hits": 17,
+      "legacy_hits": 17,
+      "standalone_hits": 0,
+      "other_hits": 0,
+      "legacy_share": 1.0,
+      "standalone_share": 0.0,
+      "legacy_files": {
+        "src/engine/backtest.py": 17,
+        "src/engine/trade_decision.py": 0,
+        "src/engine/leader_ranking.py": 0,
+        "src/features/rs.py": 0,
+        "src/features/momentum.py": 0,
+        "src/features/trend_health.py": 0
+      },
+      "standalone_files": {
+        "src/e1r_engine/uptrend_core.py": 0,
+        "src/e1r_engine/market_gate.py": 0,
+        "src/e1r_engine/state.py": 0
+      },
+      "top_legacy_functions": [
+        {
+          "function": "src/engine/backtest.py:run_stateful_simulation",
+          "hits": 17
+        }
+      ],
+      "top_standalone_functions": [],
+      "sample_legacy_hits": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1018,
+          "function": "run_stateful_simulation",
+          "text": "pending_orders: list[dict] = []"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1112,
+          "function": "run_stateful_simulation",
+          "text": "pending_orders = []   # 不生成订单"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1120,
+          "function": "run_stateful_simulation",
+          "text": "for order in pending_orders:"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1123,
+          "function": "run_stateful_simulation",
+          "text": "sig_date  = order[\"signal_date\"]   # 信号日期"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1377,
+          "function": "run_stateful_simulation",
+          "text": "# STEP 3: 生成 T 日信号 → pending_orders for T+1"
+        }
+      ],
+      "sample_standalone_hits": [],
+      "evidence_classification": "LEGACY_ONLY",
+      "legacy_evidence_present": true
+    },
+    "next_day_execution": {
+      "total_hits": 32,
+      "legacy_hits": 32,
+      "standalone_hits": 0,
+      "other_hits": 0,
+      "legacy_share": 1.0,
+      "standalone_share": 0.0,
+      "legacy_files": {
+        "src/engine/backtest.py": 32,
+        "src/engine/trade_decision.py": 0,
+        "src/engine/leader_ranking.py": 0,
+        "src/features/rs.py": 0,
+        "src/features/momentum.py": 0,
+        "src/features/trend_health.py": 0
+      },
+      "standalone_files": {
+        "src/e1r_engine/uptrend_core.py": 0,
+        "src/e1r_engine/market_gate.py": 0,
+        "src/e1r_engine/state.py": 0
+      },
+      "top_legacy_functions": [
+        {
+          "function": "src/engine/backtest.py:run_stateful_simulation",
+          "hits": 12
+        },
+        {
+          "function": "src/engine/backtest.py:MODULE",
+          "hits": 10
+        },
+        {
+          "function": "src/engine/backtest.py:_rebuild_leader_score",
+          "hits": 3
+        },
+        {
+          "function": "src/engine/backtest.py:run_action_forward_validation",
+          "hits": 3
+        },
+        {
+          "function": "src/engine/backtest.py:run_trade_rule_validation",
+          "hits": 2
+        },
+        {
+          "function": "src/engine/backtest.py:run_promotion_engine_validation",
+          "hits": 2
+        }
+      ],
+      "top_standalone_functions": [],
+      "sample_legacy_hits": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 39,
+          "function": "MODULE",
+          "text": "\"transaction_cost\":  0.0005, # 0.05% one-way"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 40,
+          "function": "MODULE",
+          "text": "\"slippage\":          0.0005, # 0.05% one-way"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 41,
+          "function": "MODULE",
+          "text": "\"total_one_way\":     0.0010, # cost + slippage per direction"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 43,
+          "function": "MODULE",
+          "text": "# Primary Execution Model: Adverse Intraday Execution v1.0"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 44,
+          "function": "MODULE",
+          "text": "# Signal Day T → Execute Day T+1"
+        }
+      ],
+      "sample_standalone_hits": [],
+      "evidence_classification": "LEGACY_ONLY",
+      "legacy_evidence_present": true
+    },
+    "market_gate_consumption": {
+      "total_hits": 116,
+      "legacy_hits": 60,
+      "standalone_hits": 56,
+      "other_hits": 0,
+      "legacy_share": 0.517241,
+      "standalone_share": 0.482759,
+      "legacy_files": {
+        "src/engine/backtest.py": 60,
+        "src/engine/trade_decision.py": 0,
+        "src/engine/leader_ranking.py": 0,
+        "src/features/rs.py": 0,
+        "src/features/momentum.py": 0,
+        "src/features/trend_health.py": 0
+      },
+      "standalone_files": {
+        "src/e1r_engine/market_gate.py": 33,
+        "src/e1r_engine/uptrend_core.py": 23,
+        "src/e1r_engine/state.py": 0
+      },
+      "top_legacy_functions": [
+        {
+          "function": "src/engine/backtest.py:run_stateful_simulation",
+          "hits": 57
+        },
+        {
+          "function": "src/engine/backtest.py:MODULE",
+          "hits": 3
+        }
+      ],
+      "top_standalone_functions": [
+        {
+          "function": "src/e1r_engine/market_gate.py:evaluate",
+          "hits": 20
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:consume_market_gate",
+          "hits": 13
+        },
+        {
+          "function": "src/e1r_engine/market_gate.py:MODULE",
+          "hits": 13
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:MODULE",
+          "hits": 5
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:validate",
+          "hits": 3
+        }
+      ],
+      "sample_legacy_hits": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 59,
+          "function": "MODULE",
+          "text": "\"market_gate_enabled\": False,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 61,
+          "function": "MODULE",
+          "text": "\"market_shock_gate_enabled\": False,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 62,
+          "function": "MODULE",
+          "text": "\"market_shock_daily_return\": -0.02,"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 847,
+          "function": "run_stateful_simulation",
+          "text": "market_gate_enabled = bool(a.get(\"market_gate_enabled\", True))"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 896,
+          "function": "run_stateful_simulation",
+          "text": "market_shock_gate_enabled = bool(a.get(\"market_shock_gate_enabled\", True))"
+        }
+      ],
+      "sample_standalone_hits": [
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 7,
+          "function": "MODULE",
+          "text": "from e1r_engine.market_gate import MarketGateDecision"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 18,
+          "function": "MODULE",
+          "text": "market_gate_state: str | None"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 58,
+          "function": "to_comparable_dict",
+          "text": "\"market_gate_state\": r.market_gate_state,"
+        }
+      ],
+      "evidence_classification": "MIXED_LEGACY_AND_STANDALONE",
+      "legacy_evidence_present": true
+    },
+    "account_mutation": {
+      "total_hits": 68,
+      "legacy_hits": 25,
+      "standalone_hits": 43,
+      "other_hits": 0,
+      "legacy_share": 0.367647,
+      "standalone_share": 0.632353,
+      "legacy_files": {
+        "src/engine/backtest.py": 25,
+        "src/engine/trade_decision.py": 0,
+        "src/engine/leader_ranking.py": 0,
+        "src/features/rs.py": 0,
+        "src/features/momentum.py": 0,
+        "src/features/trend_health.py": 0
+      },
+      "standalone_files": {
+        "src/e1r_engine/state.py": 33,
+        "src/e1r_engine/uptrend_core.py": 10,
+        "src/e1r_engine/market_gate.py": 0
+      },
+      "top_legacy_functions": [
+        {
+          "function": "src/engine/backtest.py:run_stateful_simulation",
+          "hits": 25
+        }
+      ],
+      "top_standalone_functions": [
+        {
+          "function": "src/e1r_engine/state.py:apply_fills_contract_only",
+          "hits": 11
+        },
+        {
+          "function": "src/e1r_engine/state.py:validate",
+          "hits": 9
+        },
+        {
+          "function": "src/e1r_engine/state.py:mark_to_market",
+          "hits": 6
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:_normalize_daily_account_row",
+          "hits": 4
+        },
+        {
+          "function": "src/e1r_engine/state.py:empty",
+          "hits": 4
+        }
+      ],
+      "sample_legacy_hits": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 940,
+          "function": "run_stateful_simulation",
+          "text": "logger.info(f\"  Dynamic Exit v2: ON | Hard=Close<MA50+slope<0 | FULL_ON=needs structure | CAUTIOUS/CASH=LS<60 exits\")"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1016,
+          "function": "run_stateful_simulation",
+          "text": "cash            = init_cap"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1163,
+          "function": "run_stateful_simulation",
+          "text": "cash  -= shares * exec_price"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1228,
+          "function": "run_stateful_simulation",
+          "text": "cash -= target_add"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 1264,
+          "function": "run_stateful_simulation",
+          "text": "cash    += proceeds"
+        }
+      ],
+      "sample_standalone_hits": [
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 15,
+          "function": "MODULE",
+          "text": "positions_value: float"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 16,
+          "function": "MODULE",
+          "text": "total_equity: float"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 17,
+          "function": "MODULE",
+          "text": "open_positions_count: int"
+        }
+      ],
+      "evidence_classification": "MIXED_LEGACY_AND_STANDALONE",
+      "legacy_evidence_present": true
+    },
+    "uptrend_branch": {
+      "total_hits": 102,
+      "legacy_hits": 60,
+      "standalone_hits": 42,
+      "other_hits": 0,
+      "legacy_share": 0.588235,
+      "standalone_share": 0.411765,
+      "legacy_files": {
+        "src/engine/backtest.py": 60,
+        "src/engine/trade_decision.py": 0,
+        "src/engine/leader_ranking.py": 0,
+        "src/features/rs.py": 0,
+        "src/features/momentum.py": 0,
+        "src/features/trend_health.py": 0
+      },
+      "standalone_files": {
+        "src/e1r_engine/uptrend_core.py": 38,
+        "src/e1r_engine/state.py": 3,
+        "src/e1r_engine/market_gate.py": 1
+      },
+      "top_legacy_functions": [
+        {
+          "function": "src/engine/backtest.py:run_stateful_simulation",
+          "hits": 42
+        },
+        {
+          "function": "src/engine/backtest.py:_e1r_mode_for_regime",
+          "hits": 6
+        },
+        {
+          "function": "src/engine/backtest.py:_e1r_risk_budget_for_regime",
+          "hits": 6
+        },
+        {
+          "function": "src/engine/backtest.py:_load_e1r_regime_daily",
+          "hits": 5
+        },
+        {
+          "function": "src/engine/backtest.py:_e1r_regime_on",
+          "hits": 1
+        }
+      ],
+      "top_standalone_functions": [
+        {
+          "function": "src/e1r_engine/uptrend_core.py:validate",
+          "hits": 17
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:MODULE",
+          "hits": 11
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:extract_from_legacy_result",
+          "hits": 4
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:from_golden_master",
+          "hits": 2
+        },
+        {
+          "function": "src/e1r_engine/uptrend_core.py:_normalize_daily_account_row",
+          "hits": 2
+        }
+      ],
+      "sample_legacy_hits": [
+        {
+          "path": "src/engine/backtest.py",
+          "line": 805,
+          "function": "run_stateful_simulation",
+          "text": "e1r_uptrend_execution_enabled = bool(a.get(\"e1r_uptrend_execution_enabled\", False))"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 813,
+          "function": "_e1r_regime_on",
+          "text": "return rec.get(\"regime\") or rec.get(\"spx_regime\") or rec.get(\"weekly_regime\") or \"UNCLASSIFIED\""
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 818,
+          "function": "_e1r_mode_for_regime",
+          "text": "def _e1r_mode_for_regime(regime: str) -> str:"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 819,
+          "function": "_e1r_mode_for_regime",
+          "text": "if regime == \"UPTREND\":"
+        },
+        {
+          "path": "src/engine/backtest.py",
+          "line": 820,
+          "function": "_e1r_mode_for_regime",
+          "text": "return \"UPTREND_EMERGING_CONFIRMED_ENABLED\""
+        }
+      ],
+      "sample_standalone_hits": [
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 12,
+          "function": "MODULE",
+          "text": "class UptrendDailyAccountRow:"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 24,
+          "function": "MODULE",
+          "text": "class UptrendTradeRow:"
+        },
+        {
+          "path": "src/e1r_engine/uptrend_core.py",
+          "line": 40,
+          "function": "MODULE",
+          "text": "class UptrendCoreResult:"
+        }
+      ],
+      "evidence_classification": "MIXED_LEGACY_AND_STANDALONE",
+      "legacy_evidence_present": true
+    }
+  },
+  "category_summary": {
+    "required_category_count": 13,
+    "categories_with_legacy_evidence": 13,
+    "categories_without_legacy_evidence": [],
+    "categories_with_standalone_contamination": [
+      "candidate_generation",
+      "ranking_and_top3_selection",
+      "buy_generation",
+      "add_generation",
+      "hold_behavior",
+      "reduce_behavior",
+      "exit_behavior",
+      "position_sizing",
+      "market_gate_consumption",
+      "account_mutation",
+      "uptrend_branch"
+    ],
+    "categories_standalone_only": []
+  },
+  "top_functions_overall": [
+    {
+      "function": "src/engine/backtest.py:run_stateful_simulation",
+      "hits": 411,
+      "source_type": "legacy"
+    },
+    {
+      "function": "src/engine/backtest.py:MODULE",
+      "hits": 52,
+      "source_type": "legacy"
+    },
+    {
+      "function": "src/engine/backtest.py:run_action_forward_validation",
+      "hits": 48,
+      "source_type": "legacy"
+    },
+    {
+      "function": "src/engine/trade_decision.py:trade_action_reason",
+      "hits": 44,
+      "source_type": "legacy"
+    },
+    {
+      "function": "src/e1r_engine/uptrend_core.py:validate",
+      "hits": 42,
+      "source_type": "standalone"
+    },
+    {
+      "function": "src/e1r_engine/uptrend_core.py:MODULE",
+      "hits": 41,
+      "source_type": "standalone"
+    },
+    {
+      "function": "src/engine/trade_decision.py:trade_action",
+      "hits": 35,
+      "source_type": "legacy"
+    },
+    {
+      "function": "src/e1r_engine/market_gate.py:MODULE",
+      "hits": 31,
+      "source_type": "standalone"
+    },
+    {
+      "function": "src/e1r_engine/state.py:validate",
+      "hits": 25,
+      "source_type": "standalone"
+    },
+    {
+      "function": "src/e1r_engine/uptrend_core.py:consume_market_gate",
+      "hits": 24,
+      "source_type": "standalone"
+    },
+    {
+      "function": "src/e1r_engine/market_gate.py:evaluate",
+      "hits": 20,
+      "source_type": "standalone"
+    },
+    {
+      "function": "src/engine/backtest.py:run_trade_rule_validation",
+      "hits": 16,
+      "source_type": "legacy"
+    },
+    {
+      "function": "src/engine/backtest.py:run_promotion_engine_validation",
+      "hits": 14,
+      "source_type": "legacy"
+    },
+    {
+      "function": "src/e1r_engine/state.py:MODULE",
+      "hits": 14,
+      "source_type": "standalone"
+    },
+    {
+      "function": "src/engine/trade_decision.py:MODULE",
+      "hits": 13,
+      "source_type": "legacy"
+    },
+    {
+      "function": "src/e1r_engine/state.py:apply_fills_contract_only",
+      "hits": 13,
+      "source_type": "standalone"
+    },
+    {
+      "function": "src/engine/backtest.py:_e1r_risk_budget_for_regime",
+      "hits": 11,
+      "source_type": "legacy"
+    },
+    {
+      "function": "src/e1r_engine/uptrend_core.py:extract_from_legacy_result",
+      "hits": 10,
+      "source_type": "standalone"
+    },
+    {
+      "function": "src/e1r_engine/uptrend_core.py:to_comparable_dict",
+      "hits": 10,
+      "source_type": "standalone"
+    },
+    {
+      "function": "src/e1r_engine/uptrend_core.py:_normalize_trade_row",
+      "hits": 8,
+      "source_type": "standalone"
+    },
+    {
+      "function": "src/e1r_engine/uptrend_core.py:_normalize_daily_account_row",
+      "hits": 7,
+      "source_type": "standalone"
+    },
+    {
+      "function": "src/e1r_engine/state.py:mark_to_market",
+      "hits": 6,
+      "source_type": "standalone"
+    },
+    {
+      "function": "src/engine/backtest.py:_e1r_mode_for_regime",
+      "hits": 6,
+      "source_type": "legacy"
+    },
+    {
+      "function": "src/engine/backtest.py:_load_e1r_regime_daily",
+      "hits": 5,
+      "source_type": "legacy"
+    },
+    {
+      "function": "src/engine/backtest.py:_rebuild_leader_score",
+      "hits": 4,
+      "source_type": "legacy"
+    }
+  ],
+  "top_legacy_files": [
+    {
+      "path": "src/engine/backtest.py",
+      "hits": 581
+    },
+    {
+      "path": "src/engine/trade_decision.py",
+      "hits": 93
+    },
+    {
+      "path": "src/engine/leader_ranking.py",
+      "hits": 5
+    },
+    {
+      "path": "src/features/momentum.py",
+      "hits": 2
+    },
+    {
+      "path": "src/features/rs.py",
+      "hits": 0
+    },
+    {
+      "path": "src/features/trend_health.py",
+      "hits": 0
+    }
+  ],
+  "top_standalone_files": [
+    {
+      "path": "src/e1r_engine/uptrend_core.py",
+      "hits": 146
+    },
+    {
+      "path": "src/e1r_engine/state.py",
+      "hits": 62
+    },
+    {
+      "path": "src/e1r_engine/market_gate.py",
+      "hits": 51
+    }
+  ],
+  "quality_findings": [
+    "R16 research JSON and audit JSON are byte-for-byte duplicates.",
+    "R16 research Markdown and architecture Markdown are byte-for-byte duplicates.",
+    "R16 artifacts exceed the compact-review threshold.",
+    "Standalone engine hits are mixed into the legacy evidence index."
+  ],
+  "recommended_actions": [
+    "Compact R16 artifacts before or together with the next evidence stage.",
+    "Keep one canonical detailed JSON and one compact human-review Markdown.",
+    "Replace duplicated audit and architecture payloads with summaries and references.",
+    "Use legacy-only function and variable traces for R17; do not treat standalone R14/R15 code as legacy proof."
+  ],
+  "frozen_files": {
+    "src/engine/backtest.py": {
+      "sha256_before": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "sha256_after": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "unchanged": true
+    },
+    "src/engine/e1r_composer.py": {
+      "sha256_before": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "sha256_after": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "unchanged": true
+    },
+    "src/engine/e1r_sidecar_sleeve.py": {
+      "sha256_before": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "sha256_after": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "unchanged": true
+    }
+  },
+  "decision": "PASS_WITH_ARTIFACT_COMPACTION_REQUIRED",
+  "next_stage": "R16B_ARTIFACT_COMPACTION_AND_LEGACY_ONLY_EVIDENCE_INDEX"
+}
