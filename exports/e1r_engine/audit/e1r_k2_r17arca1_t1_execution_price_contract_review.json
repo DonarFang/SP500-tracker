@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17A-RCA-1-T1-EXECUTION-PRICE-CONTRACT-SOURCE-REVIEW",
+  "generated_at_utc": "2026-07-11T12:02:50.998464+00:00",
+  "artifact_role": "COMPACT_AUDIT_SUMMARY",
+  "execution_price_contract": {
+    "signal_execution_timing": {
+      "signal_date": "order['signal_date']",
+      "execution_date": "date_t",
+      "contract": "Order generated on signal day T and consumed from pending_orders on next loop day T+1."
+    },
+    "buy_add": {
+      "primary_price_field": "high",
+      "fallback_price_field": "close",
+      "cost_adjustment": "exec_price = raw * (1 + one_way)",
+      "applies_to": [
+        "BUY",
+        "ADD"
+      ]
+    },
+    "reduce_exit": {
+      "primary_price_field": "low",
+      "fallback_price_field": "close",
+      "cost_adjustment": "exec_price = raw * (1 - one_way)",
+      "applies_to": [
+        "REDUCE",
+        "EXIT"
+      ]
+    }
+  },
+  "validation": {
+    "pending_execution_loop_count": 1,
+    "buy_add_branch_count": 1,
+    "sell_branch_count": 1,
+    "buy_high_call_count": 1,
+    "buy_close_call_count": 2,
+    "sell_low_call_count": 1,
+    "sell_close_call_count": 1,
+    "buy_exec_price_assignment_count": 2,
+    "sell_exec_price_assignment_count": 1,
+    "buy_high_proven": true,
+    "buy_close_fallback_proven": true,
+    "buy_positive_one_way_cost_proven": true,
+    "sell_low_proven": true,
+    "sell_close_fallback_proven": true,
+    "sell_negative_one_way_cost_proven": true,
+    "signal_to_execution_date_proven": true,
+    "buy_cash_and_holdings_proven": true,
+    "sell_cash_and_holdings_proven": true,
+    "full_execution_price_contract_proven": true,
+    "source_modified": false,
+    "instrumentation_implemented": false,
+    "strategy_logic_implemented": false,
+    "full_5y_run_performed": false,
+    "sideways_logic_added": false,
+    "frozen_files_unchanged": true
+  },
+  "boundary_lines": {
+    "pending_execution_loop": 1120,
+    "signal_date_assignment": 1123,
+    "execution_date_assignment": 1124,
+    "buy_add_branch": 1128,
+    "buy_high_price_read": 1130,
+    "buy_close_fallback": 1132,
+    "buy_exec_price_assignment": 1136,
+    "sell_branch": 1231,
+    "sell_low_price_read": 1236,
+    "sell_close_fallback": 1238,
+    "sell_exec_price_assignment": 1242,
+    "first_buy_shares_assignment": 1162,
+    "first_buy_cash_mutation": 1163,
+    "first_buy_holdings_mutation": 1165,
+    "first_sell_size_or_proceeds_assignment": 1259,
+    "first_sell_cash_mutation": 1264,
+    "first_sell_holdings_mutation": 1235
+  },
+  "decision": "PASS_T1_HIGH_BUY_LOW_SELL_EXECUTION_CONTRACT_PROVEN",
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R17A-3-TRACE-POINT-FINALIZATION-REVIEW"
+}

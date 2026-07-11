@@ -1,0 +1,1568 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17A-RCA-1-T1-EXECUTION-PRICE-CONTRACT-SOURCE-REVIEW",
+  "generated_at_utc": "2026-07-11T12:02:50.998464+00:00",
+  "repository": {
+    "branch": "main",
+    "head": "93e929fbd54ded78c60462e49a9fc3118206bac4",
+    "head_short": "93e929f",
+    "head_subject": "Review E1R selected buy control flow",
+    "origin_main": "93e929fbd54ded78c60462e49a9fc3118206bac4"
+  },
+  "scope": {
+    "source_review_only": true,
+    "source_modified": false,
+    "instrumentation_implemented": false,
+    "strategy_logic_implemented": false,
+    "execution_logic_modified": false,
+    "account_logic_modified": false,
+    "full_5y_run": false,
+    "sideways_integration": false
+  },
+  "r17arca_reference": {
+    "path": "docs/research/E1R_4C2C4E_ENGINE_K2_R17ARCA_SELECTED_BUY_TO_BUY_ORDERS_CONTROL_FLOW_REVIEW.json",
+    "sha256": "6dde48908df9f81931ec800483bd928c810d4bba154133f8501f6810fc4b948d",
+    "decision": "PASS_SELECTED_BUY_TO_BUY_ORDERS_CONTROL_FLOW_PROVEN"
+  },
+  "execution_price_contract": {
+    "signal_execution_timing": {
+      "signal_date": "order['signal_date']",
+      "execution_date": "date_t",
+      "contract": "Order generated on signal day T and consumed from pending_orders on next loop day T+1."
+    },
+    "buy_add": {
+      "primary_price_field": "high",
+      "fallback_price_field": "close",
+      "cost_adjustment": "exec_price = raw * (1 + one_way)",
+      "applies_to": [
+        "BUY",
+        "ADD"
+      ]
+    },
+    "reduce_exit": {
+      "primary_price_field": "low",
+      "fallback_price_field": "close",
+      "cost_adjustment": "exec_price = raw * (1 - one_way)",
+      "applies_to": [
+        "REDUCE",
+        "EXIT"
+      ]
+    }
+  },
+  "boundary_evidence": {
+    "pending_execution_loop": {
+      "node_type": "For",
+      "line": 1120,
+      "end_line": 1339,
+      "targets": [
+        "order"
+      ],
+      "references": [
+        "",
+        " <= entry ",
+        ": exec ",
+        "ADD",
+        "BUY",
+        "E1R_PLACEHOLDER_LEGACY_ENTRY",
+        "EXIT",
+        "NORMAL_EXIT",
+        "REDUCE",
+        "REL_REDUCE",
+        "TP_REDUCE",
+        "_add_size_units",
+        "_e1r_dominant_regime",
+        "_e1r_regime_on",
+        "_order_size_units",
+        "action",
+        "action_count",
+        "action_history",
+        "actions_during_trade",
+        "add_blocked_after_tp",
+        "add_shares",
+        "add_size_units",
+        "adverse_intraday_v1.0",
+        "already_holding",
+        "avg_cost",
+        "block_add_after_take_profit",
+        "buy_pct",
+        "cash",
+        "cash_insufficient",
+        "close",
+        "close_ref",
+        "close_t",
+        "closed_trades",
+        "closed_trades.append",
+        "current_close",
+        "current_val",
+        "d",
+        "date_t",
+        "dominant_regime",
+        "e1r_entry_type",
+        "e1r_regime_wiring_enabled",
+        "e1r_uptrend_execution_enabled",
+        "effective_exit",
+        "entry_adverse_gap_pct",
+        "entry_close_ref",
+        "entry_date",
+        "entry_gap",
+        "entry_price",
+        "entry_regime",
+        "entry_sig_date",
+        "entry_signal",
+        "entry_spx",
+        "entry_type",
+        "exec_date",
+        "exec_price",
+        "exec_primary_reason",
+        "exec_reasons",
+        "executed",
+        "executed_exit_reason_dist",
+        "executed_exit_reason_dist.get",
+        "executed_reduce_reason_dist",
+        "executed_reduce_reason_dist.get",
+        "execution_model",
+        "exit_adverse_gap_pct",
+        "exit_date",
+        "exit_gap",
+        "exit_price",
+        "exit_reason",
+        "exit_reasons",
+        "exit_regime",
+        "exit_signal",
+        "exit_type",
+        "exit_warning_count",
+        "exit_warning_log",
+        "float",
+        "get_price_by_date",
+        "h",
+        "h.get",
+        "high",
+        "highest_close",
+        "holding_days",
+        "holdings",
+        "holdings.values",
+        "invalid_execution_price",
+        "invalid_trades",
+        "invalid_trades.append",
+        "is_sim_end",
+        "leader_score_below_60",
+        "leader_score_entry",
+        "len",
+        "low",
+        "ls",
+        "ls60_reduce_triggered",
+        "master_dates",
+        "master_dates.index",
+        "max",
+        "max_dd_t",
+        "max_drawdown_in_trade",
+        "max_gain_pct",
+        "max_pct",
+        "max_pos",
+        "max_positions_reached",
+        "max_single_size_reached",
+        "min",
+        "min_close_since_entry",
+        "new_total",
+        "no_t1_price",
+        "not_holding",
+        "old_c",
+        "old_s",
+        "one_way",
+        "order",
+        "order.get",
+        "orders_executed",
+        "pending_orders",
+        "port_val",
+        "primary_reason",
+        "proceeds",
+        "raw",
+        "realized_cost_basis",
+        "realized_pnl",
+        "realized_pnl_before_exit",
+        "reasons",
+        "reduce_primary",
+        "regime_day_weights",
+        "relative_stop_exec_date",
+        "relative_stop_signal_date",
+        "relative_stop_stats",
+        "relative_stop_triggered",
+        "remaining_pnl",
+        "ret",
+        "return_pct",
+        "round",
+        "sell_fraction",
+        "sell_shares",
+        "shares",
+        "sig_date",
+        "signal_date",
+        "size_at_minimum",
+        "size_units",
+        "size_units_at_exit",
+        "skip_reasons",
+        "spx_close_t",
+        "spx_prices",
+        "sum",
+        "sym",
+        "symbol",
+        "take_profit_exec_date",
+        "take_profit_fraction",
+        "take_profit_signal_date",
+        "take_profit_stats",
+        "take_profit_triggered",
+        "target",
+        "target_add",
+        "target_size_units",
+        "total_cost",
+        "total_execution_drag_pct",
+        "total_pnl"
+      ],
+      "source": "for order in pending_orders:\n            sym       = order[\"sym\"]\n            action    = order[\"action\"]\n            sig_date  = order[\"signal_date\"]   # 信号日期\n            exec_date = date_t                 # 执行日期 = 今天\n            ls        = order[\"ls\"]\n            close_ref = order[\"close_t\"]       # 信号日收盘（参考价）\n\n            if action in (\"BUY\", \"ADD\"):\n                # Adverse: 执行日最高价买入\n                raw = get_price_by_date(sym, exec_date, \"high\")\n                if raw <= 0:\n                    raw = get_price_by_date(sym, exec_date, \"close\")\n                if raw <= 0:\n                    skip_reasons[\"no_t1_price\"] += 1\n                    continue\n                exec_price = raw * (1 + one_way)\n\n                port_val = cash + sum(\n                    h[\"shares\"] * h.get(\"current_close\", h[\"avg_cost\"])\n                    for h in holdings.values()\n                )\n\n                if action == \"BUY\":\n                    if sym in holdings:\n                        skip_reasons[\"already_holding\"] += 1\n                        continue\n                    if len(holdings) >= max_pos:\n                        skip_reasons[\"max_positions_reached\"] += 1\n                        continue\n                    _order_size_units = float(order.get(\"target_size_units\", 1.0))\n                    _order_size_units = max(0.0, min(_order_size_units, 1.0))\n                    target = port_val * buy_pct * _order_size_units\n                    if port_val > 0 and target / port_val > max_pct:\n                        target = port_val * max_pct\n                        skip_reasons[\"max_single_size_reached\"] += 1\n                    if target > cash:\n                        if cash * 0.99 < 10:\n                            skip_reasons[\"cash_insufficient\"] += 1\n                            continue\n                        target = cash * 0.99\n\n                    shares = target / exec_price\n                    cash  -= shares * exec_price\n                    orders_executed += 1\n                    holdings[sym] = {\n                        \"shares\":                shares,\n                        \"avg_cost\":              exec_price,\n                        \"size_units\":            _order_size_units,\n                        \"entry_close_ref\":       close_ref,\n                        \"entry_date\":            exec_date,\n                        \"entry_sig_date\":        sig_date,\n                        \"entry_signal\":          \"BUY\",\n                        \"e1r_entry_type\":       order.get(\"e1r_entry_type\"),\n                        \"highest_close\":         close_ref,\n                        \"min_close_since_entry\": close_ref,\n                        \"current_close\":         close_ref,\n                        \"leader_score_entry\":    ls,\n                        \"entry_spx\":             spx_prices[master_dates.index(exec_date)] if exec_date in master_dates else spx_close_t,\n                        \"relative_stop_triggered\": False,\n                        \"relative_stop_signal_date\": None,\n                        \"relative_stop_exec_date\": None,\n                        \"take_profit_triggered\": False,\n                        \"take_profit_signal_date\": None,\n                        \"take_profit_exec_date\": None,\n                        \"realized_pnl\":          0.0,\n                        \"realized_cost_basis\":   0.0,\n                        \"action_history\":        [\"BUY\"],\n                        \"ls60_reduce_triggered\": False,  # 方案A：LS<60 REDUCE 一次性保护\n                        # E1-R Phase 2 regime wiring telemetry. Observer-only.\n                        \"entry_regime\": _e1r_regime_on(exec_date),\n                        \"entry_type\": order.get(\"e1r_entry_type\") or (\"E1R_PLACEHOLDER_LEGACY_ENTRY\" if e1r_regime_wiring_enabled else None),\n                        \"regime_day_weights\": {},\n                    }\n\n                elif action == \"ADD\":\n                    if sym not in holdings:\n                        skip_reasons[\"not_holding\"] += 1\n                        continue\n                    h = holdings[sym]\n                    if block_add_after_take_profit and h.get(\"take_profit_triggered\"):\n                        skip_reasons[\"add_blocked_after_tp\"] += 1\n                        continue\n                    if h[\"size_units\"] >= 1.5:\n                        skip_reasons[\"max_single_size_reached\"] += 1\n                        continue\n                    current_val = h[\"shares\"] * exec_price\n                    _add_size_units = float(order.get(\"add_size_units\", 0.5))\n                    _add_size_units = max(0.0, min(_add_size_units, 0.5))\n                    target_add  = port_val * buy_pct * _add_size_units\n                    new_total   = current_val + target_add\n                    if port_val > 0 and new_total / port_val > max_pct:\n                        target_add = max(0, port_val * max_pct - current_val)\n                    if target_add > cash:\n                        if cash * 0.99 < 10:\n                \n...TRUNCATED...",
+      "context": [
+        {
+          "line": 1115,
+          "source": "            break"
+        },
+        {
+          "line": 1116,
+          "source": ""
+        },
+        {
+          "line": 1117,
+          "source": "        # ════════════════════════════════════════════════"
+        },
+        {
+          "line": 1118,
+          "source": "        # STEP 1: 执行前一日 pending orders（T-1信号 → T日执行）"
+        },
+        {
+          "line": 1119,
+          "source": "        # ════════════════════════════════════════════════"
+        },
+        {
+          "line": 1120,
+          "source": "        for order in pending_orders:"
+        },
+        {
+          "line": 1121,
+          "source": "            sym       = order[\"sym\"]"
+        },
+        {
+          "line": 1122,
+          "source": "            action    = order[\"action\"]"
+        },
+        {
+          "line": 1123,
+          "source": "            sig_date  = order[\"signal_date\"]   # 信号日期"
+        },
+        {
+          "line": 1124,
+          "source": "            exec_date = date_t                 # 执行日期 = 今天"
+        },
+        {
+          "line": 1125,
+          "source": "            ls        = order[\"ls\"]"
+        }
+      ]
+    },
+    "signal_date_assignment": {
+      "node_type": "Assign",
+      "line": 1123,
+      "end_line": 1123,
+      "targets": [
+        "sig_date"
+      ],
+      "references": [
+        "order",
+        "sig_date",
+        "signal_date"
+      ],
+      "source": "sig_date  = order[\"signal_date\"]",
+      "context": [
+        {
+          "line": 1118,
+          "source": "        # STEP 1: 执行前一日 pending orders（T-1信号 → T日执行）"
+        },
+        {
+          "line": 1119,
+          "source": "        # ════════════════════════════════════════════════"
+        },
+        {
+          "line": 1120,
+          "source": "        for order in pending_orders:"
+        },
+        {
+          "line": 1121,
+          "source": "            sym       = order[\"sym\"]"
+        },
+        {
+          "line": 1122,
+          "source": "            action    = order[\"action\"]"
+        },
+        {
+          "line": 1123,
+          "source": "            sig_date  = order[\"signal_date\"]   # 信号日期"
+        },
+        {
+          "line": 1124,
+          "source": "            exec_date = date_t                 # 执行日期 = 今天"
+        },
+        {
+          "line": 1125,
+          "source": "            ls        = order[\"ls\"]"
+        },
+        {
+          "line": 1126,
+          "source": "            close_ref = order[\"close_t\"]       # 信号日收盘（参考价）"
+        },
+        {
+          "line": 1127,
+          "source": ""
+        },
+        {
+          "line": 1128,
+          "source": "            if action in (\"BUY\", \"ADD\"):"
+        }
+      ]
+    },
+    "execution_date_assignment": {
+      "node_type": "Assign",
+      "line": 1124,
+      "end_line": 1124,
+      "targets": [
+        "exec_date"
+      ],
+      "references": [
+        "date_t",
+        "exec_date"
+      ],
+      "source": "exec_date = date_t",
+      "context": [
+        {
+          "line": 1119,
+          "source": "        # ════════════════════════════════════════════════"
+        },
+        {
+          "line": 1120,
+          "source": "        for order in pending_orders:"
+        },
+        {
+          "line": 1121,
+          "source": "            sym       = order[\"sym\"]"
+        },
+        {
+          "line": 1122,
+          "source": "            action    = order[\"action\"]"
+        },
+        {
+          "line": 1123,
+          "source": "            sig_date  = order[\"signal_date\"]   # 信号日期"
+        },
+        {
+          "line": 1124,
+          "source": "            exec_date = date_t                 # 执行日期 = 今天"
+        },
+        {
+          "line": 1125,
+          "source": "            ls        = order[\"ls\"]"
+        },
+        {
+          "line": 1126,
+          "source": "            close_ref = order[\"close_t\"]       # 信号日收盘（参考价）"
+        },
+        {
+          "line": 1127,
+          "source": ""
+        },
+        {
+          "line": 1128,
+          "source": "            if action in (\"BUY\", \"ADD\"):"
+        },
+        {
+          "line": 1129,
+          "source": "                # Adverse: 执行日最高价买入"
+        }
+      ]
+    },
+    "buy_add_branch": {
+      "node_type": "If",
+      "line": 1128,
+      "end_line": 1339,
+      "targets": [],
+      "references": [
+        "",
+        " <= entry ",
+        ": exec ",
+        "ADD",
+        "BUY",
+        "E1R_PLACEHOLDER_LEGACY_ENTRY",
+        "EXIT",
+        "NORMAL_EXIT",
+        "REDUCE",
+        "REL_REDUCE",
+        "TP_REDUCE",
+        "_add_size_units",
+        "_e1r_dominant_regime",
+        "_e1r_regime_on",
+        "_order_size_units",
+        "action",
+        "action_count",
+        "action_history",
+        "actions_during_trade",
+        "add_blocked_after_tp",
+        "add_shares",
+        "add_size_units",
+        "adverse_intraday_v1.0",
+        "already_holding",
+        "avg_cost",
+        "block_add_after_take_profit",
+        "buy_pct",
+        "cash",
+        "cash_insufficient",
+        "close",
+        "close_ref",
+        "closed_trades",
+        "closed_trades.append",
+        "current_close",
+        "current_val",
+        "d",
+        "dominant_regime",
+        "e1r_entry_type",
+        "e1r_regime_wiring_enabled",
+        "e1r_uptrend_execution_enabled",
+        "effective_exit",
+        "entry_adverse_gap_pct",
+        "entry_close_ref",
+        "entry_date",
+        "entry_gap",
+        "entry_price",
+        "entry_regime",
+        "entry_sig_date",
+        "entry_signal",
+        "entry_spx",
+        "entry_type",
+        "exec_date",
+        "exec_price",
+        "exec_primary_reason",
+        "exec_reasons",
+        "executed",
+        "executed_exit_reason_dist",
+        "executed_exit_reason_dist.get",
+        "executed_reduce_reason_dist",
+        "executed_reduce_reason_dist.get",
+        "execution_model",
+        "exit_adverse_gap_pct",
+        "exit_date",
+        "exit_gap",
+        "exit_price",
+        "exit_reason",
+        "exit_reasons",
+        "exit_regime",
+        "exit_signal",
+        "exit_type",
+        "exit_warning_count",
+        "exit_warning_log",
+        "float",
+        "get_price_by_date",
+        "h",
+        "h.get",
+        "high",
+        "highest_close",
+        "holding_days",
+        "holdings",
+        "holdings.values",
+        "invalid_execution_price",
+        "invalid_trades",
+        "invalid_trades.append",
+        "is_sim_end",
+        "leader_score_below_60",
+        "leader_score_entry",
+        "len",
+        "low",
+        "ls",
+        "ls60_reduce_triggered",
+        "master_dates",
+        "master_dates.index",
+        "max",
+        "max_dd_t",
+        "max_drawdown_in_trade",
+        "max_gain_pct",
+        "max_pct",
+        "max_pos",
+        "max_positions_reached",
+        "max_single_size_reached",
+        "min",
+        "min_close_since_entry",
+        "new_total",
+        "no_t1_price",
+        "not_holding",
+        "old_c",
+        "old_s",
+        "one_way",
+        "order",
+        "order.get",
+        "orders_executed",
+        "port_val",
+        "primary_reason",
+        "proceeds",
+        "raw",
+        "realized_cost_basis",
+        "realized_pnl",
+        "realized_pnl_before_exit",
+        "reasons",
+        "reduce_primary",
+        "regime_day_weights",
+        "relative_stop_exec_date",
+        "relative_stop_signal_date",
+        "relative_stop_stats",
+        "relative_stop_triggered",
+        "remaining_pnl",
+        "ret",
+        "return_pct",
+        "round",
+        "sell_fraction",
+        "sell_shares",
+        "shares",
+        "sig_date",
+        "size_at_minimum",
+        "size_units",
+        "size_units_at_exit",
+        "skip_reasons",
+        "spx_close_t",
+        "spx_prices",
+        "sum",
+        "sym",
+        "symbol",
+        "take_profit_exec_date",
+        "take_profit_fraction",
+        "take_profit_signal_date",
+        "take_profit_stats",
+        "take_profit_triggered",
+        "target",
+        "target_add",
+        "target_size_units",
+        "total_cost",
+        "total_execution_drag_pct",
+        "total_pnl"
+      ],
+      "source": "if action in (\"BUY\", \"ADD\"):\n                # Adverse: 执行日最高价买入\n                raw = get_price_by_date(sym, exec_date, \"high\")\n                if raw <= 0:\n                    raw = get_price_by_date(sym, exec_date, \"close\")\n                if raw <= 0:\n                    skip_reasons[\"no_t1_price\"] += 1\n                    continue\n                exec_price = raw * (1 + one_way)\n\n                port_val = cash + sum(\n                    h[\"shares\"] * h.get(\"current_close\", h[\"avg_cost\"])\n                    for h in holdings.values()\n                )\n\n                if action == \"BUY\":\n                    if sym in holdings:\n                        skip_reasons[\"already_holding\"] += 1\n                        continue\n                    if len(holdings) >= max_pos:\n                        skip_reasons[\"max_positions_reached\"] += 1\n                        continue\n                    _order_size_units = float(order.get(\"target_size_units\", 1.0))\n                    _order_size_units = max(0.0, min(_order_size_units, 1.0))\n                    target = port_val * buy_pct * _order_size_units\n                    if port_val > 0 and target / port_val > max_pct:\n                        target = port_val * max_pct\n                        skip_reasons[\"max_single_size_reached\"] += 1\n                    if target > cash:\n                        if cash * 0.99 < 10:\n                            skip_reasons[\"cash_insufficient\"] += 1\n                            continue\n                        target = cash * 0.99\n\n                    shares = target / exec_price\n                    cash  -= shares * exec_price\n                    orders_executed += 1\n                    holdings[sym] = {\n                        \"shares\":                shares,\n                        \"avg_cost\":              exec_price,\n                        \"size_units\":            _order_size_units,\n                        \"entry_close_ref\":       close_ref,\n                        \"entry_date\":            exec_date,\n                        \"entry_sig_date\":        sig_date,\n                        \"entry_signal\":          \"BUY\",\n                        \"e1r_entry_type\":       order.get(\"e1r_entry_type\"),\n                        \"highest_close\":         close_ref,\n                        \"min_close_since_entry\": close_ref,\n                        \"current_close\":         close_ref,\n                        \"leader_score_entry\":    ls,\n                        \"entry_spx\":             spx_prices[master_dates.index(exec_date)] if exec_date in master_dates else spx_close_t,\n                        \"relative_stop_triggered\": False,\n                        \"relative_stop_signal_date\": None,\n                        \"relative_stop_exec_date\": None,\n                        \"take_profit_triggered\": False,\n                        \"take_profit_signal_date\": None,\n                        \"take_profit_exec_date\": None,\n                        \"realized_pnl\":          0.0,\n                        \"realized_cost_basis\":   0.0,\n                        \"action_history\":        [\"BUY\"],\n                        \"ls60_reduce_triggered\": False,  # 方案A：LS<60 REDUCE 一次性保护\n                        # E1-R Phase 2 regime wiring telemetry. Observer-only.\n                        \"entry_regime\": _e1r_regime_on(exec_date),\n                        \"entry_type\": order.get(\"e1r_entry_type\") or (\"E1R_PLACEHOLDER_LEGACY_ENTRY\" if e1r_regime_wiring_enabled else None),\n                        \"regime_day_weights\": {},\n                    }\n\n                elif action == \"ADD\":\n                    if sym not in holdings:\n                        skip_reasons[\"not_holding\"] += 1\n                        continue\n                    h = holdings[sym]\n                    if block_add_after_take_profit and h.get(\"take_profit_triggered\"):\n                        skip_reasons[\"add_blocked_after_tp\"] += 1\n                        continue\n                    if h[\"size_units\"] >= 1.5:\n                        skip_reasons[\"max_single_size_reached\"] += 1\n                        continue\n                    current_val = h[\"shares\"] * exec_price\n                    _add_size_units = float(order.get(\"add_size_units\", 0.5))\n                    _add_size_units = max(0.0, min(_add_size_units, 0.5))\n                    target_add  = port_val * buy_pct * _add_size_units\n                    new_total   = current_val + target_add\n                    if port_val > 0 and new_total / port_val > max_pct:\n                        target_add = max(0, port_val * max_pct - current_val)\n                    if target_add > cash:\n                        if cash * 0.99 < 10:\n                            skip_reasons[\"cash_insufficient\"] += 1\n                            continue\n                        target_add = cash * 0.99\n                    add_shares   = target_add / exec_price\n                    old_c, old_s = h[\"avg_cost\"], h[\"shares\"]\n                    h[\"avg_cost\"]   = (old_s * old_c + add_shares * ex\n...TRUNCATED...",
+      "context": [
+        {
+          "line": 1123,
+          "source": "            sig_date  = order[\"signal_date\"]   # 信号日期"
+        },
+        {
+          "line": 1124,
+          "source": "            exec_date = date_t                 # 执行日期 = 今天"
+        },
+        {
+          "line": 1125,
+          "source": "            ls        = order[\"ls\"]"
+        },
+        {
+          "line": 1126,
+          "source": "            close_ref = order[\"close_t\"]       # 信号日收盘（参考价）"
+        },
+        {
+          "line": 1127,
+          "source": ""
+        },
+        {
+          "line": 1128,
+          "source": "            if action in (\"BUY\", \"ADD\"):"
+        },
+        {
+          "line": 1129,
+          "source": "                # Adverse: 执行日最高价买入"
+        },
+        {
+          "line": 1130,
+          "source": "                raw = get_price_by_date(sym, exec_date, \"high\")"
+        },
+        {
+          "line": 1131,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1132,
+          "source": "                    raw = get_price_by_date(sym, exec_date, \"close\")"
+        },
+        {
+          "line": 1133,
+          "source": "                if raw <= 0:"
+        }
+      ]
+    },
+    "buy_high_price_read": {
+      "node_type": "Call",
+      "line": 1130,
+      "end_line": 1130,
+      "targets": [],
+      "references": [
+        "exec_date",
+        "get_price_by_date",
+        "high",
+        "sym"
+      ],
+      "source": "get_price_by_date(sym, exec_date, \"high\")",
+      "context": [
+        {
+          "line": 1125,
+          "source": "            ls        = order[\"ls\"]"
+        },
+        {
+          "line": 1126,
+          "source": "            close_ref = order[\"close_t\"]       # 信号日收盘（参考价）"
+        },
+        {
+          "line": 1127,
+          "source": ""
+        },
+        {
+          "line": 1128,
+          "source": "            if action in (\"BUY\", \"ADD\"):"
+        },
+        {
+          "line": 1129,
+          "source": "                # Adverse: 执行日最高价买入"
+        },
+        {
+          "line": 1130,
+          "source": "                raw = get_price_by_date(sym, exec_date, \"high\")"
+        },
+        {
+          "line": 1131,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1132,
+          "source": "                    raw = get_price_by_date(sym, exec_date, \"close\")"
+        },
+        {
+          "line": 1133,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1134,
+          "source": "                    skip_reasons[\"no_t1_price\"] += 1"
+        },
+        {
+          "line": 1135,
+          "source": "                    continue"
+        }
+      ]
+    },
+    "buy_close_fallback": {
+      "node_type": "Call",
+      "line": 1132,
+      "end_line": 1132,
+      "targets": [],
+      "references": [
+        "close",
+        "exec_date",
+        "get_price_by_date",
+        "sym"
+      ],
+      "source": "get_price_by_date(sym, exec_date, \"close\")",
+      "context": [
+        {
+          "line": 1127,
+          "source": ""
+        },
+        {
+          "line": 1128,
+          "source": "            if action in (\"BUY\", \"ADD\"):"
+        },
+        {
+          "line": 1129,
+          "source": "                # Adverse: 执行日最高价买入"
+        },
+        {
+          "line": 1130,
+          "source": "                raw = get_price_by_date(sym, exec_date, \"high\")"
+        },
+        {
+          "line": 1131,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1132,
+          "source": "                    raw = get_price_by_date(sym, exec_date, \"close\")"
+        },
+        {
+          "line": 1133,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1134,
+          "source": "                    skip_reasons[\"no_t1_price\"] += 1"
+        },
+        {
+          "line": 1135,
+          "source": "                    continue"
+        },
+        {
+          "line": 1136,
+          "source": "                exec_price = raw * (1 + one_way)"
+        },
+        {
+          "line": 1137,
+          "source": ""
+        }
+      ]
+    },
+    "buy_exec_price_assignment": {
+      "node_type": "Assign",
+      "line": 1136,
+      "end_line": 1136,
+      "targets": [
+        "exec_price"
+      ],
+      "references": [
+        "exec_price",
+        "one_way",
+        "raw"
+      ],
+      "source": "exec_price = raw * (1 + one_way)",
+      "context": [
+        {
+          "line": 1131,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1132,
+          "source": "                    raw = get_price_by_date(sym, exec_date, \"close\")"
+        },
+        {
+          "line": 1133,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1134,
+          "source": "                    skip_reasons[\"no_t1_price\"] += 1"
+        },
+        {
+          "line": 1135,
+          "source": "                    continue"
+        },
+        {
+          "line": 1136,
+          "source": "                exec_price = raw * (1 + one_way)"
+        },
+        {
+          "line": 1137,
+          "source": ""
+        },
+        {
+          "line": 1138,
+          "source": "                port_val = cash + sum("
+        },
+        {
+          "line": 1139,
+          "source": "                    h[\"shares\"] * h.get(\"current_close\", h[\"avg_cost\"])"
+        },
+        {
+          "line": 1140,
+          "source": "                    for h in holdings.values()"
+        },
+        {
+          "line": 1141,
+          "source": "                )"
+        }
+      ]
+    },
+    "sell_branch": {
+      "node_type": "If",
+      "line": 1231,
+      "end_line": 1339,
+      "targets": [],
+      "references": [
+        "",
+        " <= entry ",
+        ": exec ",
+        "EXIT",
+        "NORMAL_EXIT",
+        "REDUCE",
+        "REL_REDUCE",
+        "TP_REDUCE",
+        "_e1r_dominant_regime",
+        "_e1r_regime_on",
+        "action",
+        "action_count",
+        "action_history",
+        "actions_during_trade",
+        "adverse_intraday_v1.0",
+        "avg_cost",
+        "cash",
+        "close",
+        "closed_trades",
+        "closed_trades.append",
+        "current_close",
+        "d",
+        "dominant_regime",
+        "effective_exit",
+        "entry_adverse_gap_pct",
+        "entry_close_ref",
+        "entry_date",
+        "entry_gap",
+        "entry_price",
+        "entry_regime",
+        "entry_signal",
+        "entry_type",
+        "exec_date",
+        "exec_price",
+        "exec_primary_reason",
+        "exec_reasons",
+        "executed",
+        "executed_exit_reason_dist",
+        "executed_exit_reason_dist.get",
+        "executed_reduce_reason_dist",
+        "executed_reduce_reason_dist.get",
+        "execution_model",
+        "exit_adverse_gap_pct",
+        "exit_date",
+        "exit_gap",
+        "exit_price",
+        "exit_reason",
+        "exit_reasons",
+        "exit_regime",
+        "exit_signal",
+        "exit_type",
+        "exit_warning_count",
+        "exit_warning_log",
+        "get_price_by_date",
+        "h",
+        "h.get",
+        "highest_close",
+        "holding_days",
+        "holdings",
+        "invalid_execution_price",
+        "invalid_trades",
+        "invalid_trades.append",
+        "is_sim_end",
+        "leader_score_below_60",
+        "leader_score_entry",
+        "len",
+        "low",
+        "ls60_reduce_triggered",
+        "master_dates",
+        "max",
+        "max_dd_t",
+        "max_drawdown_in_trade",
+        "max_gain_pct",
+        "min_close_since_entry",
+        "no_t1_price",
+        "not_holding",
+        "one_way",
+        "order",
+        "order.get",
+        "orders_executed",
+        "primary_reason",
+        "proceeds",
+        "raw",
+        "realized_cost_basis",
+        "realized_pnl",
+        "realized_pnl_before_exit",
+        "reasons",
+        "reduce_primary",
+        "regime_day_weights",
+        "relative_stop_exec_date",
+        "relative_stop_stats",
+        "relative_stop_triggered",
+        "remaining_pnl",
+        "ret",
+        "return_pct",
+        "round",
+        "sell_fraction",
+        "sell_shares",
+        "shares",
+        "size_at_minimum",
+        "size_units",
+        "size_units_at_exit",
+        "skip_reasons",
+        "sum",
+        "sym",
+        "symbol",
+        "take_profit_exec_date",
+        "take_profit_fraction",
+        "take_profit_stats",
+        "take_profit_triggered",
+        "total_cost",
+        "total_execution_drag_pct",
+        "total_pnl"
+      ],
+      "source": "elif action in (\"REDUCE\", \"REL_REDUCE\", \"TP_REDUCE\", \"EXIT\"):\n                if sym not in holdings:\n                    skip_reasons[\"not_holding\"] += 1\n                    continue\n                h = holdings[sym]\n                raw = get_price_by_date(sym, exec_date, \"low\")\n                if raw <= 0:\n                    raw = get_price_by_date(sym, exec_date, \"close\")\n                if raw <= 0:\n                    skip_reasons[\"no_t1_price\"] += 1\n                    continue\n                exec_price = raw * (1 - one_way)\n                if exec_price <= 0:\n                    skip_reasons[\"invalid_execution_price\"] += 1\n                    continue\n\n                entry_date   = h[\"entry_date\"]\n                holding_days = sum(\n                    1 for d in master_dates\n                    if entry_date <= d <= exec_date\n                )\n\n                # P0: exit_date > entry_date\n                if exec_date <= entry_date or holding_days <= 0:\n                    invalid_trades.append(f\"{sym}: exec {exec_date} <= entry {entry_date}\")\n                    continue\n\n                if action == \"EXIT\":\n                    proceeds = h[\"shares\"] * exec_price\n                    remaining_pnl = h[\"shares\"] * (exec_price - h[\"avg_cost\"])\n                    total_pnl = h.get(\"realized_pnl\", 0.0) + remaining_pnl\n                    total_cost = h.get(\"realized_cost_basis\", 0.0) + h[\"shares\"] * h[\"avg_cost\"]\n                    ret = total_pnl / total_cost if total_cost > 0 else 0\n                    cash    += proceeds\n                    entry_gap = (h[\"avg_cost\"] - h[\"entry_close_ref\"]) / h[\"entry_close_ref\"] if h[\"entry_close_ref\"] > 0 else 0\n                    exit_gap  = (h.get(\"current_close\", exec_price) - exec_price) / max(h.get(\"current_close\", exec_price), 0.01)\n                    max_dd_t  = (h[\"highest_close\"] - h.get(\"min_close_since_entry\", h[\"avg_cost\"])) / h[\"highest_close\"] if h[\"highest_close\"] > 0 else 0\n                    orders_executed += 1\n                    # 记录真实成交退出的原因（from pending order reason，T日冻结）\n                    exec_primary_reason = order.get(\"primary_reason\", \"\")\n                    exec_reasons        = order.get(\"reasons\", [])\n                    # 此处不再需要 warn+reclassify 防御，因为上游已有 raise 检查\n                    executed_exit_reason_dist[exec_primary_reason] =                         executed_exit_reason_dist.get(exec_primary_reason, 0) + 1\n                    closed_trades.append({\n                        \"symbol\":               sym,\n                        \"entry_date\":           entry_date,\n                        \"exit_date\":            exec_date,\n                        \"entry_signal\":         h[\"entry_signal\"],\n                        \"exit_signal\":          \"EXIT\",\n                        \"entry_price\":          round(h[\"entry_close_ref\"], 2),\n                        \"avg_cost\":             round(h[\"avg_cost\"], 2),\n                        \"exit_price\":           round(h.get(\"current_close\", exec_price), 2),\n                        \"effective_exit\":       round(exec_price, 2),\n                        \"return_pct\":           round(ret * 100, 2),\n                        \"max_gain_pct\":         round((h[\"highest_close\"]-h[\"avg_cost\"])/h[\"avg_cost\"]*100, 2) if h[\"avg_cost\"] > 0 else 0,\n                        \"max_drawdown_in_trade\": round(max_dd_t * 100, 2),\n                        \"holding_days\":         holding_days,\n                        \"size_units_at_exit\":   h[\"size_units\"],\n                        \"leader_score_entry\":   round(h.get(\"leader_score_entry\", 0), 1),\n                        \"relative_stop_triggered\": h.get(\"relative_stop_triggered\", False),\n                        \"relative_stop_exec_date\": h.get(\"relative_stop_exec_date\"),\n                        \"take_profit_triggered\": h.get(\"take_profit_triggered\", False),\n                        \"take_profit_exec_date\": h.get(\"take_profit_exec_date\"),\n                        \"realized_pnl_before_exit\": round(h.get(\"realized_pnl\", 0.0), 2),\n                        \"actions_during_trade\": h[\"action_history\"],\n                        \"action_count\":         len(h[\"action_history\"]),\n                        \"execution_model\":      \"adverse_intraday_v1.0\",\n                        \"entry_adverse_gap_pct\": round(entry_gap * 100, 3),\n                        \"exit_adverse_gap_pct\":  round(exit_gap * 100, 3),\n                        \"total_execution_drag_pct\": round((entry_gap + exit_gap) * 100, 3),\n                        \"is_sim_end\":           False,\n                        \"entry_regime\":         h.get(\"entry_regime\", _e1r_regime_on(entry_date)),\n                        \"exit_regime\":          _e1r_regime_on(exec_date),\n                        \"dominant_regime\":      _e1r_dominant_regime(h.get(\"regime_day_weights\", {})),\n                        \"entry_type\":           h.get(\"entry_type\"),\n                        \"regime_day_weights\":   h.get(\"regime_day_weights\", {}),\n                        \"exit_re\n...TRUNCATED...",
+      "context": [
+        {
+          "line": 1226,
+          "source": "                    h[\"action_history\"].append(\"ADD\")"
+        },
+        {
+          "line": 1227,
+          "source": "                    h[\"ls60_reduce_triggered\"] = False  # ADD 后清零 ls60 保护"
+        },
+        {
+          "line": 1228,
+          "source": "                    cash -= target_add"
+        },
+        {
+          "line": 1229,
+          "source": "                    orders_executed += 1"
+        },
+        {
+          "line": 1230,
+          "source": ""
+        },
+        {
+          "line": 1231,
+          "source": "            elif action in (\"REDUCE\", \"REL_REDUCE\", \"TP_REDUCE\", \"EXIT\"):"
+        },
+        {
+          "line": 1232,
+          "source": "                if sym not in holdings:"
+        },
+        {
+          "line": 1233,
+          "source": "                    skip_reasons[\"not_holding\"] += 1"
+        },
+        {
+          "line": 1234,
+          "source": "                    continue"
+        },
+        {
+          "line": 1235,
+          "source": "                h = holdings[sym]"
+        },
+        {
+          "line": 1236,
+          "source": "                raw = get_price_by_date(sym, exec_date, \"low\")"
+        }
+      ]
+    },
+    "sell_low_price_read": {
+      "node_type": "Call",
+      "line": 1236,
+      "end_line": 1236,
+      "targets": [],
+      "references": [
+        "exec_date",
+        "get_price_by_date",
+        "low",
+        "sym"
+      ],
+      "source": "get_price_by_date(sym, exec_date, \"low\")",
+      "context": [
+        {
+          "line": 1231,
+          "source": "            elif action in (\"REDUCE\", \"REL_REDUCE\", \"TP_REDUCE\", \"EXIT\"):"
+        },
+        {
+          "line": 1232,
+          "source": "                if sym not in holdings:"
+        },
+        {
+          "line": 1233,
+          "source": "                    skip_reasons[\"not_holding\"] += 1"
+        },
+        {
+          "line": 1234,
+          "source": "                    continue"
+        },
+        {
+          "line": 1235,
+          "source": "                h = holdings[sym]"
+        },
+        {
+          "line": 1236,
+          "source": "                raw = get_price_by_date(sym, exec_date, \"low\")"
+        },
+        {
+          "line": 1237,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1238,
+          "source": "                    raw = get_price_by_date(sym, exec_date, \"close\")"
+        },
+        {
+          "line": 1239,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1240,
+          "source": "                    skip_reasons[\"no_t1_price\"] += 1"
+        },
+        {
+          "line": 1241,
+          "source": "                    continue"
+        }
+      ]
+    },
+    "sell_close_fallback": {
+      "node_type": "Call",
+      "line": 1238,
+      "end_line": 1238,
+      "targets": [],
+      "references": [
+        "close",
+        "exec_date",
+        "get_price_by_date",
+        "sym"
+      ],
+      "source": "get_price_by_date(sym, exec_date, \"close\")",
+      "context": [
+        {
+          "line": 1233,
+          "source": "                    skip_reasons[\"not_holding\"] += 1"
+        },
+        {
+          "line": 1234,
+          "source": "                    continue"
+        },
+        {
+          "line": 1235,
+          "source": "                h = holdings[sym]"
+        },
+        {
+          "line": 1236,
+          "source": "                raw = get_price_by_date(sym, exec_date, \"low\")"
+        },
+        {
+          "line": 1237,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1238,
+          "source": "                    raw = get_price_by_date(sym, exec_date, \"close\")"
+        },
+        {
+          "line": 1239,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1240,
+          "source": "                    skip_reasons[\"no_t1_price\"] += 1"
+        },
+        {
+          "line": 1241,
+          "source": "                    continue"
+        },
+        {
+          "line": 1242,
+          "source": "                exec_price = raw * (1 - one_way)"
+        },
+        {
+          "line": 1243,
+          "source": "                if exec_price <= 0:"
+        }
+      ]
+    },
+    "sell_exec_price_assignment": {
+      "node_type": "Assign",
+      "line": 1242,
+      "end_line": 1242,
+      "targets": [
+        "exec_price"
+      ],
+      "references": [
+        "exec_price",
+        "one_way",
+        "raw"
+      ],
+      "source": "exec_price = raw * (1 - one_way)",
+      "context": [
+        {
+          "line": 1237,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1238,
+          "source": "                    raw = get_price_by_date(sym, exec_date, \"close\")"
+        },
+        {
+          "line": 1239,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1240,
+          "source": "                    skip_reasons[\"no_t1_price\"] += 1"
+        },
+        {
+          "line": 1241,
+          "source": "                    continue"
+        },
+        {
+          "line": 1242,
+          "source": "                exec_price = raw * (1 - one_way)"
+        },
+        {
+          "line": 1243,
+          "source": "                if exec_price <= 0:"
+        },
+        {
+          "line": 1244,
+          "source": "                    skip_reasons[\"invalid_execution_price\"] += 1"
+        },
+        {
+          "line": 1245,
+          "source": "                    continue"
+        },
+        {
+          "line": 1246,
+          "source": ""
+        },
+        {
+          "line": 1247,
+          "source": "                entry_date   = h[\"entry_date\"]"
+        }
+      ]
+    },
+    "first_buy_shares_assignment": {
+      "node_type": "Assign",
+      "line": 1162,
+      "end_line": 1162,
+      "targets": [
+        "shares"
+      ],
+      "references": [
+        "exec_price",
+        "shares",
+        "target"
+      ],
+      "source": "shares = target / exec_price",
+      "context": [
+        {
+          "line": 1157,
+          "source": "                        if cash * 0.99 < 10:"
+        },
+        {
+          "line": 1158,
+          "source": "                            skip_reasons[\"cash_insufficient\"] += 1"
+        },
+        {
+          "line": 1159,
+          "source": "                            continue"
+        },
+        {
+          "line": 1160,
+          "source": "                        target = cash * 0.99"
+        },
+        {
+          "line": 1161,
+          "source": ""
+        },
+        {
+          "line": 1162,
+          "source": "                    shares = target / exec_price"
+        },
+        {
+          "line": 1163,
+          "source": "                    cash  -= shares * exec_price"
+        },
+        {
+          "line": 1164,
+          "source": "                    orders_executed += 1"
+        },
+        {
+          "line": 1165,
+          "source": "                    holdings[sym] = {"
+        },
+        {
+          "line": 1166,
+          "source": "                        \"shares\":                shares,"
+        },
+        {
+          "line": 1167,
+          "source": "                        \"avg_cost\":              exec_price,"
+        }
+      ]
+    },
+    "first_buy_cash_mutation": {
+      "node_type": "AugAssign",
+      "line": 1163,
+      "end_line": 1163,
+      "targets": [
+        "cash"
+      ],
+      "references": [
+        "cash",
+        "exec_price",
+        "shares"
+      ],
+      "source": "cash  -= shares * exec_price",
+      "context": [
+        {
+          "line": 1158,
+          "source": "                            skip_reasons[\"cash_insufficient\"] += 1"
+        },
+        {
+          "line": 1159,
+          "source": "                            continue"
+        },
+        {
+          "line": 1160,
+          "source": "                        target = cash * 0.99"
+        },
+        {
+          "line": 1161,
+          "source": ""
+        },
+        {
+          "line": 1162,
+          "source": "                    shares = target / exec_price"
+        },
+        {
+          "line": 1163,
+          "source": "                    cash  -= shares * exec_price"
+        },
+        {
+          "line": 1164,
+          "source": "                    orders_executed += 1"
+        },
+        {
+          "line": 1165,
+          "source": "                    holdings[sym] = {"
+        },
+        {
+          "line": 1166,
+          "source": "                        \"shares\":                shares,"
+        },
+        {
+          "line": 1167,
+          "source": "                        \"avg_cost\":              exec_price,"
+        },
+        {
+          "line": 1168,
+          "source": "                        \"size_units\":            _order_size_units,"
+        }
+      ]
+    },
+    "first_buy_holdings_mutation": {
+      "node_type": "Assign",
+      "line": 1165,
+      "end_line": 1193,
+      "targets": [
+        "holdings[...]"
+      ],
+      "references": [
+        "BUY",
+        "E1R_PLACEHOLDER_LEGACY_ENTRY",
+        "_e1r_regime_on",
+        "_order_size_units",
+        "action_history",
+        "avg_cost",
+        "close_ref",
+        "current_close",
+        "e1r_entry_type",
+        "e1r_regime_wiring_enabled",
+        "entry_close_ref",
+        "entry_date",
+        "entry_regime",
+        "entry_sig_date",
+        "entry_signal",
+        "entry_spx",
+        "entry_type",
+        "exec_date",
+        "exec_price",
+        "highest_close",
+        "holdings",
+        "leader_score_entry",
+        "ls",
+        "ls60_reduce_triggered",
+        "master_dates",
+        "master_dates.index",
+        "min_close_since_entry",
+        "order",
+        "order.get",
+        "realized_cost_basis",
+        "realized_pnl",
+        "regime_day_weights",
+        "relative_stop_exec_date",
+        "relative_stop_signal_date",
+        "relative_stop_triggered",
+        "shares",
+        "sig_date",
+        "size_units",
+        "spx_close_t",
+        "spx_prices",
+        "sym",
+        "take_profit_exec_date",
+        "take_profit_signal_date",
+        "take_profit_triggered"
+      ],
+      "source": "holdings[sym] = {\n                        \"shares\":                shares,\n                        \"avg_cost\":              exec_price,\n                        \"size_units\":            _order_size_units,\n                        \"entry_close_ref\":       close_ref,\n                        \"entry_date\":            exec_date,\n                        \"entry_sig_date\":        sig_date,\n                        \"entry_signal\":          \"BUY\",\n                        \"e1r_entry_type\":       order.get(\"e1r_entry_type\"),\n                        \"highest_close\":         close_ref,\n                        \"min_close_since_entry\": close_ref,\n                        \"current_close\":         close_ref,\n                        \"leader_score_entry\":    ls,\n                        \"entry_spx\":             spx_prices[master_dates.index(exec_date)] if exec_date in master_dates else spx_close_t,\n                        \"relative_stop_triggered\": False,\n                        \"relative_stop_signal_date\": None,\n                        \"relative_stop_exec_date\": None,\n                        \"take_profit_triggered\": False,\n                        \"take_profit_signal_date\": None,\n                        \"take_profit_exec_date\": None,\n                        \"realized_pnl\":          0.0,\n                        \"realized_cost_basis\":   0.0,\n                        \"action_history\":        [\"BUY\"],\n                        \"ls60_reduce_triggered\": False,  # 方案A：LS<60 REDUCE 一次性保护\n                        # E1-R Phase 2 regime wiring telemetry. Observer-only.\n                        \"entry_regime\": _e1r_regime_on(exec_date),\n                        \"entry_type\": order.get(\"e1r_entry_type\") or (\"E1R_PLACEHOLDER_LEGACY_ENTRY\" if e1r_regime_wiring_enabled else None),\n                        \"regime_day_weights\": {},\n                    }",
+      "context": [
+        {
+          "line": 1160,
+          "source": "                        target = cash * 0.99"
+        },
+        {
+          "line": 1161,
+          "source": ""
+        },
+        {
+          "line": 1162,
+          "source": "                    shares = target / exec_price"
+        },
+        {
+          "line": 1163,
+          "source": "                    cash  -= shares * exec_price"
+        },
+        {
+          "line": 1164,
+          "source": "                    orders_executed += 1"
+        },
+        {
+          "line": 1165,
+          "source": "                    holdings[sym] = {"
+        },
+        {
+          "line": 1166,
+          "source": "                        \"shares\":                shares,"
+        },
+        {
+          "line": 1167,
+          "source": "                        \"avg_cost\":              exec_price,"
+        },
+        {
+          "line": 1168,
+          "source": "                        \"size_units\":            _order_size_units,"
+        },
+        {
+          "line": 1169,
+          "source": "                        \"entry_close_ref\":       close_ref,"
+        },
+        {
+          "line": 1170,
+          "source": "                        \"entry_date\":            exec_date,"
+        }
+      ]
+    },
+    "first_sell_size_or_proceeds_assignment": {
+      "node_type": "Assign",
+      "line": 1259,
+      "end_line": 1259,
+      "targets": [
+        "proceeds"
+      ],
+      "references": [
+        "exec_price",
+        "h",
+        "proceeds",
+        "shares"
+      ],
+      "source": "proceeds = h[\"shares\"] * exec_price",
+      "context": [
+        {
+          "line": 1254,
+          "source": "                if exec_date <= entry_date or holding_days <= 0:"
+        },
+        {
+          "line": 1255,
+          "source": "                    invalid_trades.append(f\"{sym}: exec {exec_date} <= entry {entry_date}\")"
+        },
+        {
+          "line": 1256,
+          "source": "                    continue"
+        },
+        {
+          "line": 1257,
+          "source": ""
+        },
+        {
+          "line": 1258,
+          "source": "                if action == \"EXIT\":"
+        },
+        {
+          "line": 1259,
+          "source": "                    proceeds = h[\"shares\"] * exec_price"
+        },
+        {
+          "line": 1260,
+          "source": "                    remaining_pnl = h[\"shares\"] * (exec_price - h[\"avg_cost\"])"
+        },
+        {
+          "line": 1261,
+          "source": "                    total_pnl = h.get(\"realized_pnl\", 0.0) + remaining_pnl"
+        },
+        {
+          "line": 1262,
+          "source": "                    total_cost = h.get(\"realized_cost_basis\", 0.0) + h[\"shares\"] * h[\"avg_cost\"]"
+        },
+        {
+          "line": 1263,
+          "source": "                    ret = total_pnl / total_cost if total_cost > 0 else 0"
+        },
+        {
+          "line": 1264,
+          "source": "                    cash    += proceeds"
+        }
+      ]
+    },
+    "first_sell_cash_mutation": {
+      "node_type": "AugAssign",
+      "line": 1264,
+      "end_line": 1264,
+      "targets": [
+        "cash"
+      ],
+      "references": [
+        "cash",
+        "proceeds"
+      ],
+      "source": "cash    += proceeds",
+      "context": [
+        {
+          "line": 1259,
+          "source": "                    proceeds = h[\"shares\"] * exec_price"
+        },
+        {
+          "line": 1260,
+          "source": "                    remaining_pnl = h[\"shares\"] * (exec_price - h[\"avg_cost\"])"
+        },
+        {
+          "line": 1261,
+          "source": "                    total_pnl = h.get(\"realized_pnl\", 0.0) + remaining_pnl"
+        },
+        {
+          "line": 1262,
+          "source": "                    total_cost = h.get(\"realized_cost_basis\", 0.0) + h[\"shares\"] * h[\"avg_cost\"]"
+        },
+        {
+          "line": 1263,
+          "source": "                    ret = total_pnl / total_cost if total_cost > 0 else 0"
+        },
+        {
+          "line": 1264,
+          "source": "                    cash    += proceeds"
+        },
+        {
+          "line": 1265,
+          "source": "                    entry_gap = (h[\"avg_cost\"] - h[\"entry_close_ref\"]) / h[\"entry_close_ref\"] if h[\"entry_close_ref\"] > 0 else 0"
+        },
+        {
+          "line": 1266,
+          "source": "                    exit_gap  = (h.get(\"current_close\", exec_price) - exec_price) / max(h.get(\"current_close\", exec_price), 0.01)"
+        },
+        {
+          "line": 1267,
+          "source": "                    max_dd_t  = (h[\"highest_close\"] - h.get(\"min_close_since_entry\", h[\"avg_cost\"])) / h[\"highest_close\"] if h[\"highest_close\"] > 0 else 0"
+        },
+        {
+          "line": 1268,
+          "source": "                    orders_executed += 1"
+        },
+        {
+          "line": 1269,
+          "source": "                    # 记录真实成交退出的原因（from pending order reason，T日冻结）"
+        }
+      ]
+    },
+    "first_sell_holdings_mutation": {
+      "node_type": "Assign",
+      "line": 1235,
+      "end_line": 1235,
+      "targets": [
+        "h"
+      ],
+      "references": [
+        "h",
+        "holdings",
+        "sym"
+      ],
+      "source": "h = holdings[sym]",
+      "context": [
+        {
+          "line": 1230,
+          "source": ""
+        },
+        {
+          "line": 1231,
+          "source": "            elif action in (\"REDUCE\", \"REL_REDUCE\", \"TP_REDUCE\", \"EXIT\"):"
+        },
+        {
+          "line": 1232,
+          "source": "                if sym not in holdings:"
+        },
+        {
+          "line": 1233,
+          "source": "                    skip_reasons[\"not_holding\"] += 1"
+        },
+        {
+          "line": 1234,
+          "source": "                    continue"
+        },
+        {
+          "line": 1235,
+          "source": "                h = holdings[sym]"
+        },
+        {
+          "line": 1236,
+          "source": "                raw = get_price_by_date(sym, exec_date, \"low\")"
+        },
+        {
+          "line": 1237,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1238,
+          "source": "                    raw = get_price_by_date(sym, exec_date, \"close\")"
+        },
+        {
+          "line": 1239,
+          "source": "                if raw <= 0:"
+        },
+        {
+          "line": 1240,
+          "source": "                    skip_reasons[\"no_t1_price\"] += 1"
+        }
+      ]
+    }
+  },
+  "validation": {
+    "pending_execution_loop_count": 1,
+    "buy_add_branch_count": 1,
+    "sell_branch_count": 1,
+    "buy_high_call_count": 1,
+    "buy_close_call_count": 2,
+    "sell_low_call_count": 1,
+    "sell_close_call_count": 1,
+    "buy_exec_price_assignment_count": 2,
+    "sell_exec_price_assignment_count": 1,
+    "buy_high_proven": true,
+    "buy_close_fallback_proven": true,
+    "buy_positive_one_way_cost_proven": true,
+    "sell_low_proven": true,
+    "sell_close_fallback_proven": true,
+    "sell_negative_one_way_cost_proven": true,
+    "signal_to_execution_date_proven": true,
+    "buy_cash_and_holdings_proven": true,
+    "sell_cash_and_holdings_proven": true,
+    "full_execution_price_contract_proven": true,
+    "source_modified": false,
+    "instrumentation_implemented": false,
+    "strategy_logic_implemented": false,
+    "full_5y_run_performed": false,
+    "sideways_logic_added": false,
+    "frozen_files_unchanged": true
+  },
+  "frozen_files": {
+    "src/engine/backtest.py": {
+      "sha256_before": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "sha256_after": "906605eacae917f8288a3cf5d76bea5596b01f774d810ae24c3df9ef46230aea",
+      "unchanged": true
+    },
+    "src/engine/e1r_composer.py": {
+      "sha256_before": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "sha256_after": "d65f48f7d34b0e3bb30544fcd36b2abf64435469c3a1bb695e9df05587eaf63f",
+      "unchanged": true
+    },
+    "src/engine/e1r_sidecar_sleeve.py": {
+      "sha256_before": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "sha256_after": "f5465d6d406cf6cf2d76ced8949fea04ebae825a119de51149104ce952fd6995",
+      "unchanged": true
+    }
+  },
+  "decision": "PASS_T1_HIGH_BUY_LOW_SELL_EXECUTION_CONTRACT_PROVEN",
+  "next_stage_after_user_approval": "4C-2C-4E-ENGINE-K2-R17A-3-TRACE-POINT-FINALIZATION-REVIEW"
+}
