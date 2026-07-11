@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "stage": "4C-2C-4E-ENGINE-K2-R17A-2-SELECTED-BUY-DATAFLOW-AND-ORDER-HANDOFF-RCA",
+  "decision": "BLOCKED_ORDER_CREATION_NOT_PROVEN",
+  "validation": {
+    "candidate_append_count": 1,
+    "candidate_sort_count": 1,
+    "candidate_index_zero_count": 1,
+    "selected_buy_assignment_count": 1,
+    "selected_buy_post_assignment_use_count": 4,
+    "target_size_post_selection_use_count": 2,
+    "order_related_post_selection_count": 22,
+    "selected_or_target_order_link_count": 2,
+    "order_creation_candidate_count": 0,
+    "pending_handoff_candidate_count": 2,
+    "execution_handoff_candidate_count": 1,
+    "candidate_chain_proven": true,
+    "selected_buy_consumption_proven": true,
+    "target_size_dataflow_proven": true,
+    "order_creation_proven": false,
+    "pending_handoff_proven": true,
+    "execution_handoff_proven": true,
+    "source_modified": false,
+    "instrumentation_implemented": false,
+    "strategy_logic_implemented": false,
+    "full_5y_run_performed": false,
+    "sideways_logic_added": false,
+    "frozen_files_unchanged": true
+  },
+  "candidate_chain_checks": [
+    {
+      "left": "CANDIDATE_APPEND_COMPLETE",
+      "left_line": 1707,
+      "operator": "<",
+      "right": "CANDIDATE_SORT",
+      "right_line": 1716,
+      "passed": true
+    },
+    {
+      "left": "CANDIDATE_SORT",
+      "left_line": 1716,
+      "operator": "<",
+      "right": "BEST_ENTRY_SELECTION",
+      "right_line": 1719,
+      "passed": true
+    },
+    {
+      "left": "BEST_ENTRY_SELECTION",
+      "left_line": 1719,
+      "operator": "<",
+      "right": "SELECTED_BUY_FINALIZED",
+      "right_line": 1721,
+      "passed": true
+    }
+  ],
+  "boundary_lines": {
+    "candidate_append_complete": 1707,
+    "candidate_sort": 1716,
+    "best_entry_selection": 1719,
+    "selected_buy_finalized": 1721,
+    "first_selected_buy_consumption": 1784,
+    "first_target_size_use": 1725,
+    "first_selected_or_target_order_link": 1725,
+    "order_creation": null,
+    "pending_handoff": 2130,
+    "execution_handoff": 2130
+  },
+  "conclusion": "K2_R17A2_BLOCKED_ORDER_CREATION_NOT_PROVEN",
+  "next_stage_after_user_approval": null
+}
