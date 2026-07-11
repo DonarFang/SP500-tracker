@@ -355,6 +355,41 @@ class UptrendCoreOutputs:
         return errors
 
 
+@dataclass(frozen=True)
+class UptrendBuyDecision:
+    """Pure UPTREND entry-decision result.
+
+    The object contains no account mutation, execution-price lookup,
+    pending-order state, or T+1 execution behavior.
+    """
+
+    pre_rank_candidates: tuple[tuple[Any, ...], ...]
+    ranked_candidates: tuple[tuple[Any, ...], ...]
+    selected_buy: dict[str, Any] | None
+    no_capacity_count: int = 0
+
+    @property
+    def candidate_count(self) -> int:
+        return len(self.pre_rank_candidates)
+
+    @staticmethod
+    def trace_rows(
+        candidates: tuple[tuple[Any, ...], ...],
+    ) -> list[dict[str, Any]]:
+        return [
+            {
+                "entry_priority": row[0],
+                "leader_rank_all": row[1],
+                "negative_leader_score": row[2],
+                "negative_momentum_acceleration": row[3],
+                "negative_rs_20d_improvement": row[4],
+                "symbol": row[5],
+                "entry_type": row[6].get("e1r_entry_type"),
+            }
+            for row in candidates
+        ]
+
+
 class UptrendCore:
     """
     ENGINE-J UPTREND extraction skeleton.
@@ -374,6 +409,192 @@ class UptrendCore:
 
     def __init__(self, mode: str = "golden_master_replay_skeleton") -> None:
         self.mode = mode
+
+    @staticmethod
+    def decide_uptrend_buy(
+        *,
+        day_signals: dict[str, dict[str, Any]],
+        holdings_symbols: set[str] | frozenset[str],
+        leader_rank_all: dict[str, int],
+        market_entry_allowed: bool,
+        entry_capacity: int,
+        max_positions: int,
+    ) -> UptrendBuyDecision:
+        """Rank and select one E1R UPTREND BUY candidate.
+
+        This method is deliberately pure:
+        - it does not mutate day_signals;
+        - it does not mutate account state;
+        - it does not generate pending orders;
+        - it does not read T+1 prices;
+        - it does not execute or size an order.
+        """
+
+        if not isinstance(day_signals, dict):
+            raise TypeError("day_signals must be a dict")
+
+        if not isinstance(
+            holdings_symbols,
+            (set, frozenset),
+        ):
+            raise TypeError(
+                "holdings_symbols must be set or frozenset"
+            )
+
+        if entry_capacity < 0:
+            raise ValueError(
+                "entry_capacity must be non-negative"
+            )
+
+        if max_positions < 0:
+            raise ValueError(
+                "max_positions must be non-negative"
+            )
+
+        candidates: list[tuple[Any, ...]] = []
+
+        for symbol, signal in day_signals.items():
+            if symbol in holdings_symbols:
+                continue
+
+            entry_type = signal.get(
+                "e1r_entry_type"
+            )
+
+            if not entry_type:
+                continue
+
+            priority = (
+                0
+                if entry_type
+                == "E1R_UPTREND_CONFIRMED"
+                else 1
+            )
+
+            candidates.append(
+                (
+                    priority,
+                    leader_rank_all.get(
+                        symbol,
+                        9999,
+                    ),
+                    -signal.get(
+                        "leader_score",
+                        0,
+                    ),
+                    -signal.get(
+                        "momentum_acceleration",
+                        0,
+                    ),
+                    -signal.get(
+                        "rs_20d_improvement",
+                        0,
+                    ),
+                    symbol,
+                    signal,
+                )
+            )
+
+        pre_rank = tuple(candidates)
+        ranked = tuple(sorted(candidates))
+
+        selected_buy: dict[str, Any] | None = None
+        no_capacity_count = 0
+
+        if ranked and market_entry_allowed:
+            effective_capacity = min(
+                max_positions,
+                entry_capacity,
+            )
+
+            if len(holdings_symbols) < effective_capacity:
+                (
+                    _,
+                    _,
+                    _,
+                    _,
+                    _,
+                    symbol,
+                    signal,
+                ) = ranked[0]
+
+                entry_type = signal.get(
+                    "e1r_entry_type"
+                )
+
+                selected_buy = {
+                    "sym": symbol,
+                    "sig": signal,
+                    "entry_type": entry_type,
+                    "target_size_units": (
+                        1.0
+                        if entry_type
+                        == "E1R_UPTREND_CONFIRMED"
+                        else 0.5
+                    ),
+                }
+
+            else:
+                no_capacity_count = len(
+                    ranked
+                )
+
+        return UptrendBuyDecision(
+            pre_rank_candidates=pre_rank,
+            ranked_candidates=ranked,
+            selected_buy=selected_buy,
+            no_capacity_count=no_capacity_count,
+        )
+
+    @staticmethod
+    def build_uptrend_buy_order(
+        *,
+        date: str,
+        symbol: str,
+        signal: dict[str, Any],
+        selected_buy: dict[str, Any],
+        top_entry_rank: dict[str, int],
+        leader_rank_all: dict[str, int],
+    ) -> dict[str, Any]:
+        """Build the legacy-equivalent E1R BUY order payload."""
+
+        if symbol != selected_buy.get("sym"):
+            raise ValueError(
+                "symbol does not match selected_buy"
+            )
+
+        entry_type = selected_buy.get(
+            "entry_type"
+        )
+
+        return {
+            "sym": symbol,
+            "action": "BUY",
+            "signal_date": date,
+            "ls": signal["leader_score"],
+            "close_t": signal["close_t"],
+            "entry_rank": (
+                top_entry_rank.get(symbol)
+                or leader_rank_all.get(symbol)
+            ),
+            "strategy": (
+                "E1R_UPTREND_EXECUTION_V0_1"
+            ),
+            "entry_mode": (
+                "e1r_uptrend_execution_v0_1"
+            ),
+            "primary_reason": entry_type,
+            "reasons": signal.get(
+                "e1r_entry_reason",
+                [],
+            ),
+            "e1r_entry_type": entry_type,
+            "target_size_units": (
+                selected_buy[
+                    "target_size_units"
+                ]
+            ),
+        }
 
     @staticmethod
     def consume_market_gate(

@@ -24,6 +24,10 @@ from ..features.trend_health import trend_health_score as calc_trend_health
 from ..engine.leader_ranking import leader_score as calc_leader_score
 from ..engine.trade_decision import trade_action, trade_action_reason
 from ..utils import logger
+from e1r_engine.uptrend_core import (
+    UptrendBuyDecision,
+    UptrendCore,
+)
 
 try:
     from .e1r_trace import emit_trace as _e1r_emit_trace
@@ -1796,89 +1800,98 @@ def run_stateful_simulation(
         # E1-R Phase 3B: UPTREND Execution v0.1 candidate selection.
         # Only entry execution is changed; existing E1 reduce/exit logic remains intact.
         e1r_selected_buy: dict | None = None
-        if e1r_uptrend_execution_enabled and _e1r_regime_on(date_t) == "UPTREND":
-            e1r_buy_candidates = []
-            for s, v in day_signals.items():
-                if s in holdings:
-                    continue
-                if not v.get("e1r_entry_type"):
-                    continue
-                _etype = v.get("e1r_entry_type")
-                _priority = 0 if _etype == "E1R_UPTREND_CONFIRMED" else 1
-                e1r_buy_candidates.append((
-                    _priority,
-                    leader_rank_all.get(s, 9999),
-                    -v.get("leader_score", 0),
-                    -v.get("momentum_acceleration", 0),
-                    -v.get("rs_20d_improvement", 0),
-                    s,
-                    v,
-                ))
+        if (
+            e1r_uptrend_execution_enabled
+            and _e1r_regime_on(date_t) == "UPTREND"
+        ):
+            e1r_decision = UptrendCore.decide_uptrend_buy(
+                day_signals=day_signals,
+                holdings_symbols=set(holdings.keys()),
+                leader_rank_all=leader_rank_all,
+                market_entry_allowed=market_entry_allowed,
+                entry_capacity=entry_capacity,
+                max_positions=max_pos,
+            )
+
+            e1r_buy_candidates = list(
+                e1r_decision.ranked_candidates
+            )
+
             if _e1r_trace_enabled():
                 _e1r_emit_trace(
-                    'TP01_PRE_RANK_CANDIDATES',
+                    "TP01_PRE_RANK_CANDIDATES",
                     signal_date=date_t,
                     market_entry_allowed=market_entry_allowed,
                     holdings_symbols=sorted(holdings.keys()),
-                    candidate_count=len(e1r_buy_candidates),
-                    candidate_tuples=[
-                        {
-                            'entry_priority': row[0],
-                            'leader_rank_all': row[1],
-                            'negative_leader_score': row[2],
-                            'negative_momentum_acceleration': row[3],
-                            'negative_rs_20d_improvement': row[4],
-                            'symbol': row[5],
-                            'entry_type': row[6].get('e1r_entry_type'),
-                        }
-                        for row in e1r_buy_candidates
-                    ],
-                )
-            e1r_buy_candidates.sort()
-            if _e1r_trace_enabled():
-                _e1r_emit_trace(
-                    'TP02_POST_RANK_CANDIDATES',
-                    signal_date=date_t,
-                    ranked_candidate_count=len(e1r_buy_candidates),
-                    ranked_candidate_tuples=[
-                        {
-                            'entry_priority': row[0],
-                            'leader_rank_all': row[1],
-                            'negative_leader_score': row[2],
-                            'negative_momentum_acceleration': row[3],
-                            'negative_rs_20d_improvement': row[4],
-                            'symbol': row[5],
-                            'entry_type': row[6].get('e1r_entry_type'),
-                        }
-                        for row in e1r_buy_candidates
-                    ],
-                )
-            if e1r_buy_candidates and market_entry_allowed:
-                if len(holdings) < min(max_pos, entry_capacity):
-                    _, _, _, _, _, _sym, _sig = e1r_buy_candidates[0]
-                    _etype = _sig.get("e1r_entry_type")
-                    e1r_selected_buy = {
-                        "sym": _sym,
-                        "sig": _sig,
-                        "entry_type": _etype,
-                        "target_size_units": 1.0 if _etype == "E1R_UPTREND_CONFIRMED" else 0.5,
-                    }
-                    if _e1r_trace_enabled():
-                        _e1r_emit_trace(
-                            'TP03_SELECTED_BUY_FINALIZED',
-                            signal_date=date_t,
-                            selected_symbol=e1r_selected_buy['sym'],
-                            entry_type=e1r_selected_buy['entry_type'],
-                            target_size_units=e1r_selected_buy['target_size_units'],
-                            leader_rank=leader_rank_all.get(e1r_selected_buy['sym']),
-                            leader_score=e1r_selected_buy['sig'].get('leader_score'),
-                            market_entry_allowed=market_entry_allowed,
-                            holding_count=len(holdings),
-                            entry_capacity=entry_capacity,
-                            max_pos=max_pos,
+                    candidate_count=len(
+                        e1r_decision.pre_rank_candidates
+                    ),
+                    candidate_tuples=(
+                        UptrendBuyDecision.trace_rows(
+                            e1r_decision.pre_rank_candidates
                         )
-                else:
-                    skip_reasons["e1r_no_capacity"] += len(e1r_buy_candidates)
+                    ),
+                )
+
+                _e1r_emit_trace(
+                    "TP02_POST_RANK_CANDIDATES",
+                    signal_date=date_t,
+                    ranked_candidate_count=len(
+                        e1r_decision.ranked_candidates
+                    ),
+                    ranked_candidate_tuples=(
+                        UptrendBuyDecision.trace_rows(
+                            e1r_decision.ranked_candidates
+                        )
+                    ),
+                )
+
+            e1r_selected_buy = (
+                e1r_decision.selected_buy
+            )
+
+            if (
+                e1r_selected_buy
+                and _e1r_trace_enabled()
+            ):
+                _e1r_emit_trace(
+                    "TP03_SELECTED_BUY_FINALIZED",
+                    signal_date=date_t,
+                    selected_symbol=(
+                        e1r_selected_buy["sym"]
+                    ),
+                    entry_type=(
+                        e1r_selected_buy[
+                            "entry_type"
+                        ]
+                    ),
+                    target_size_units=(
+                        e1r_selected_buy[
+                            "target_size_units"
+                        ]
+                    ),
+                    leader_rank=leader_rank_all.get(
+                        e1r_selected_buy["sym"]
+                    ),
+                    leader_score=(
+                        e1r_selected_buy[
+                            "sig"
+                        ].get("leader_score")
+                    ),
+                    market_entry_allowed=(
+                        market_entry_allowed
+                    ),
+                    holding_count=len(holdings),
+                    entry_capacity=entry_capacity,
+                    max_pos=max_pos,
+                )
+
+            if e1r_decision.no_capacity_count:
+                skip_reasons[
+                    "e1r_no_capacity"
+                ] += (
+                    e1r_decision.no_capacity_count
+                )
 
         if qualified_entry_enabled and candidate_top_n is not None:
             # Qualified Candidate Pool 逻辑：
@@ -1938,21 +1951,16 @@ def run_stateful_simulation(
                 and sym == e1r_selected_buy["sym"]
                 and sym not in holdings
             ):
-                _etype = e1r_selected_buy["entry_type"]
-                buy_orders.append({
-                    "sym":            sym,
-                    "action":         "BUY",
-                    "signal_date":    date_t,
-                    "ls":             ls,
-                    "close_t":        close_t,
-                    "entry_rank":     top_entry_rank.get(sym) or leader_rank_all.get(sym),
-                    "strategy":       "E1R_UPTREND_EXECUTION_V0_1",
-                    "entry_mode":     "e1r_uptrend_execution_v0_1",
-                    "primary_reason": _etype,
-                    "reasons":        sig.get("e1r_entry_reason", []),
-                    "e1r_entry_type": _etype,
-                    "target_size_units": e1r_selected_buy["target_size_units"],
-                })
+                buy_orders.append(
+                    UptrendCore.build_uptrend_buy_order(
+                        date=date_t,
+                        symbol=sym,
+                        signal=sig,
+                        selected_buy=e1r_selected_buy,
+                        top_entry_rank=top_entry_rank,
+                        leader_rank_all=leader_rank_all,
+                    )
+                )
                 if _e1r_trace_enabled():
                     _e1r_emit_trace(
                         'TP04_BUY_ORDER_INTENT_CREATED',

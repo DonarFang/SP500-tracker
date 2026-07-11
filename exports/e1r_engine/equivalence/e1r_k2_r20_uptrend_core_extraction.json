@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "stage": "K2-R20-UPTREND-CORE-EXTRACTION",
+  "decision": "PASS_UPTREND_CORE_EXTRACTION",
+  "scope": {
+    "full_5y_run": false,
+    "short_window_run": true,
+    "window": {
+      "start": "2021-06-01",
+      "end": "2021-12-31"
+    },
+    "extracted_logic": [
+      "candidate filtering",
+      "candidate ranking",
+      "selected BUY finalization",
+      "BUY order payload construction"
+    ],
+    "preserved_legacy_behavior": [
+      "daily timeline loop",
+      "existing continue behavior",
+      "skip reason mutation",
+      "buy_orders append",
+      "pending-order handoff",
+      "T+1 execution price",
+      "position sizing",
+      "cash mutation",
+      "holding mutation",
+      "REDUCE execution",
+      "EXIT execution"
+    ]
+  },
+  "unit_validation": {
+    "tests_run": 7,
+    "tests_passed": 7,
+    "status": "PASS"
+  },
+  "equivalence": {
+    "r19_expected_result_hash": "213a9394f7163f2c8a486f935d7de3401b6b0fc3e72d9c0ff244b07bdcee35c3",
+    "r20_actual_result_hash": "213a9394f7163f2c8a486f935d7de3401b6b0fc3e72d9c0ff244b07bdcee35c3",
+    "result_hash_match": true,
+    "expected_tp01_tp04_counts": {
+      "TP01_PRE_RANK_CANDIDATES": 150,
+      "TP02_POST_RANK_CANDIDATES": 150,
+      "TP03_SELECTED_BUY_FINALIZED": 10,
+      "TP04_BUY_ORDER_INTENT_CREATED": 10
+    },
+    "actual_tp01_tp04_counts": {
+      "TP01_PRE_RANK_CANDIDATES": 150,
+      "TP02_POST_RANK_CANDIDATES": 150,
+      "TP03_SELECTED_BUY_FINALIZED": 10,
+      "TP04_BUY_ORDER_INTENT_CREATED": 10
+    },
+    "trace_counts_match": true,
+    "total_trace_records": 832,
+    "null_trace_ids": 0
+  },
+  "validation": {
+    "pure_core_has_no_account_mutation": true,
+    "pure_core_has_no_pending_order_mutation": true,
+    "pure_core_has_no_t1_price_lookup": true,
+    "legacy_loop_control_flow_preserved": true,
+    "legacy_result_hash_preserved": true,
+    "tp01_tp04_counts_preserved": true
+  },
+  "next_stage": "K2-R21-UPTREND-CORE-CONSUMER-INTEGRATION"
+}
