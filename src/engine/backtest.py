@@ -1280,10 +1280,35 @@ def run_stateful_simulation(
                         # E1-R Phase 2 regime wiring telemetry. Observer-only.
                         "entry_regime": _e1r_regime_on(exec_date),
                         "entry_subclass": _e1r_subclass_on(exec_date),
+                        "entry_signal_date": order.get("signal_date"),
+                        "entry_signal_regime": order.get("entry_regime"),
+                        "entry_signal_subclass": order.get("entry_subclass"),
+                        "entry_execution_date": exec_date,
                         "entry_type": order.get("entry_type") or order.get("e1r_entry_type") or ("E1R_PLACEHOLDER_LEGACY_ENTRY" if e1r_regime_wiring_enabled else None),
                         "origin_branch": order.get("origin_branch") or ("UPTREND" if e1r_sideways_execution_enabled else None),
                         "sideways_entry_rank": order.get("sideways_entry_rank"),
                         "sideways_entry_score": order.get("sideways_entry_score"),
+                        "entry_tradable_cash_base": (
+                            _sideways_tradable_cash_base
+                            if order.get("origin_branch") == "SIDEWAYS_MA_CONFLICT"
+                            else None
+                        ),
+                        "entry_sideways_total_budget": (
+                            _sideways_tradable_cash_base
+                            * float(order.get("capital_fraction_of_tradable_cash", 0.30))
+                            if (
+                                order.get("origin_branch") == "SIDEWAYS_MA_CONFLICT"
+                                and _sideways_tradable_cash_base is not None
+                            )
+                            else None
+                        ),
+                        "entry_target_cash": (
+                            shares * exec_price
+                            if order.get("origin_branch") == "SIDEWAYS_MA_CONFLICT"
+                            else None
+                        ),
+                        "entry_shares": shares,
+                        "entry_execution_price": exec_price,
                         "regime_day_weights": {},
                     }
                     if _e1r_trace_enabled():
@@ -1424,9 +1449,25 @@ def run_stateful_simulation(
                         "total_execution_drag_pct": round((entry_gap + exit_gap) * 100, 3),
                         "is_sim_end":           False,
                         "entry_regime":         h.get("entry_regime", _e1r_regime_on(entry_date)),
+                        "entry_subclass":       h.get("entry_subclass"),
+                        "entry_signal_date":    h.get("entry_signal_date"),
+                        "entry_signal_regime":  h.get("entry_signal_regime"),
+                        "entry_signal_subclass": h.get("entry_signal_subclass"),
+                        "entry_execution_date": h.get("entry_execution_date", entry_date),
                         "exit_regime":          _e1r_regime_on(exec_date),
+                        "exit_subclass":        _e1r_subclass_on(exec_date),
                         "dominant_regime":      _e1r_dominant_regime(h.get("regime_day_weights", {})),
                         "entry_type":           h.get("entry_type"),
+                        "origin_branch":        h.get("origin_branch") or "UPTREND",
+                        "sideways_entry_rank":  h.get("sideways_entry_rank"),
+                        "sideways_entry_score": h.get("sideways_entry_score"),
+                        "entry_tradable_cash_base": h.get("entry_tradable_cash_base"),
+                        "entry_sideways_total_budget": h.get("entry_sideways_total_budget"),
+                        "entry_target_cash":    h.get("entry_target_cash"),
+                        "entry_shares":         h.get("entry_shares"),
+                        "entry_execution_price": h.get("entry_execution_price"),
+                        "total_cost_basis":     total_cost,
+                        "total_realized_pnl":   total_pnl,
                         "regime_day_weights":   h.get("regime_day_weights", {}),
                         "exit_reason":          exec_primary_reason,
                         "exit_reasons":         exec_reasons,
@@ -1667,6 +1708,22 @@ def run_stateful_simulation(
             "SHOCK" if market_shock else "RISK_OFF"
         )
 
+        _position_origin_counts = {
+            "UPTREND": sum(
+                1 for h in holdings.values()
+                if (h.get("origin_branch") or "UPTREND") == "UPTREND"
+            ),
+            "SIDEWAYS_MA_CONFLICT": sum(
+                1 for h in holdings.values()
+                if h.get("origin_branch") == "SIDEWAYS_MA_CONFLICT"
+            ),
+        }
+        _sideways_positions_value = sum(
+            h["shares"] * h.get("current_close", h["avg_cost"])
+            for h in holdings.values()
+            if h.get("origin_branch") == "SIDEWAYS_MA_CONFLICT"
+        )
+
         daily_equity_records.append({
             "date": date_t,
             "cash": round(cash, 2),
@@ -1676,6 +1733,10 @@ def run_stateful_simulation(
             "drawdown_pct": round(_drawdown_pct, 4),
             "exposure_pct": round(position_value / total_equity * 100, 2) if total_equity > 0 else 0.0,
             "open_positions_count": len(holdings),
+            "uptrend_positions_count": _position_origin_counts["UPTREND"],
+            "sideways_positions_count": _position_origin_counts["SIDEWAYS_MA_CONFLICT"],
+            "position_origin_counts": _position_origin_counts,
+            "sideways_positions_value": round(_sideways_positions_value, 2),
             "pending_orders_count": len(pending_orders),
             "market_gate_state": _gate_state,
             "spx_regime": _e1r_regime_on(date_t) if e1r_regime_wiring_enabled else None,
@@ -2730,9 +2791,25 @@ def run_stateful_simulation(
             "execution_model":      "adverse_intraday_v1.0",
             "is_sim_end":           True,
             "entry_regime":         h.get("entry_regime", _e1r_regime_on(entry_date)),
+            "entry_subclass":       h.get("entry_subclass"),
+            "entry_signal_date":    h.get("entry_signal_date"),
+            "entry_signal_regime":  h.get("entry_signal_regime"),
+            "entry_signal_subclass": h.get("entry_signal_subclass"),
+            "entry_execution_date": h.get("entry_execution_date", entry_date),
             "exit_regime":          _e1r_regime_on(last_date),
+            "exit_subclass":        _e1r_subclass_on(last_date),
             "dominant_regime":      _e1r_dominant_regime(h.get("regime_day_weights", {})),
             "entry_type":           h.get("entry_type"),
+            "origin_branch":        h.get("origin_branch") or "UPTREND",
+            "sideways_entry_rank":  h.get("sideways_entry_rank"),
+            "sideways_entry_score": h.get("sideways_entry_score"),
+            "entry_tradable_cash_base": h.get("entry_tradable_cash_base"),
+            "entry_sideways_total_budget": h.get("entry_sideways_total_budget"),
+            "entry_target_cash":    h.get("entry_target_cash"),
+            "entry_shares":         h.get("entry_shares"),
+            "entry_execution_price": h.get("entry_execution_price"),
+            "total_cost_basis":     total_cost,
+            "total_realized_pnl":   total_pnl,
             "regime_day_weights":   h.get("regime_day_weights", {}),
             "exit_type":            h.get("exit_type", "SIM_END"),
             "exit_warning_log":     h.get("exit_warning_log", []),
@@ -2991,6 +3068,7 @@ def run_stateful_simulation(
         "e1r_candidates": e1r_candidate_records if e1r_shell_mode else [],
         "e1r_candidate_count": len(e1r_candidate_records) if e1r_shell_mode else 0,
         "e1r_uptrend_execution_enabled": e1r_uptrend_execution_enabled,
+        "e1r_sideways_execution_enabled": e1r_sideways_execution_enabled,
         # 交易记录
         "trades":            closed_trades,
         "total_trades_all":  total_trades,
@@ -3101,6 +3179,23 @@ def run_strategy_variant_comparison(
             "e1r_regime_source":     "data/research/e1_5y/regimes/spx_regime_daily.json",
             "e1r_spec_ref":          "docs/research/E1R_REGIME_AWARE_STRATEGY_SPEC_v0.1.md",
         },
+        # E1-R v0.2 formal replacement:
+        # frozen UPTREND execution plus stateful SIDEWAYS/MA_CONFLICT max3.
+        "E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3": {
+            **base, **_gate_g4,
+            "strategy_variant":      "E1R_regime_aware_v0_2_stateful_max3",
+            "min_holding_days":      10,
+            "dynamic_exit_enabled":  False,
+            "relative_stop_enabled": False,
+            "version":               "E1R-sideways-stateful-max3-v0.2",
+            "e1r_shell_mode":        True,
+            "e1r_uptrend_execution_enabled": True,
+            "e1r_sideways_execution_enabled": True,
+            "e1r_regime_wiring_enabled": True,
+            "e1r_regime_daily":      _e1r_regime_daily,
+            "e1r_regime_source":     "data/research/e1_5y/regimes/spx_regime_daily.json",
+            "e1r_spec_ref":          "docs/research/E1R_REGIME_AWARE_STRATEGY_SPEC_v0.1.md",
+        },
         # E2v2: Gate G4 + Dynamic Exit v2（CAUTIOUS/CASH_MODE 下 LS<60 直接退出）
         "E2_DYNAMIC_EXIT_V2": {
             **base, **_gate_g4,
@@ -3189,6 +3284,23 @@ def run_strategy_variant_comparison(
                     _result["strategy_controls"]["e1r_candidate_tagging_enabled"] = True
                     _result["strategy_controls"]["e1r_uptrend_execution_enabled"] = True
                     _result["strategy_controls"]["exit_reduce_logic"] = "LEGACY_E1_UNCHANGED"
+                    if assumptions.get("e1r_sideways_execution_enabled"):
+                        _result["strategy_id"] = "E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3"
+                        _result["research_status"] = "FORMAL_STATEFUL_SIDEWAYS_MAX3"
+                        _result["e1r_sideways_execution_enabled"] = True
+                        _result["strategy_controls"]["e1r_sideways_execution_enabled"] = True
+                        _result["strategy_controls"]["regime_aware_logic"] = (
+                            "UPTREND_V0_1_PLUS_SIDEWAYS_MA_CONFLICT_STATEFUL_MAX3"
+                        )
+                        _result["strategy_controls"]["sideways_candidate_top_n"] = 10
+                        _result["strategy_controls"]["sideways_global_max_positions"] = 3
+                        _result["strategy_controls"]["sideways_tradable_cash_fraction"] = 0.30
+                        _result["strategy_controls"]["sideways_per_position_cash_fraction"] = 0.10
+                        _result["strategy_controls"]["sideways_add_enabled"] = False
+                        _result["strategy_controls"]["sideways_branch_exit"] = (
+                            "T_SIGNAL_T1_EXECUTION_ON_DEACTIVATION"
+                        )
+                        _result["resolved_assumptions"] = assumptions
                 else:
                     _result["strategy_controls"]["regime_aware_logic"] = "NOT_IMPLEMENTED_PHASE_3A_CANDIDATE_TAGGING_ONLY"
                     _result["research_status"] = "UPTREND_CANDIDATE_TAGGING_ONLY_NOT_EXECUTED"
@@ -3245,11 +3357,24 @@ def run_strategy_variant_comparison(
                 config=_sidecar_cfg,
             )
 
-            variant_results["E1R_REGIME_AWARE_V0_2"] = compose_e1r_v0_2_variant(
+            _legacy_sidecar_reference = compose_e1r_v0_2_variant(
                 core_variant_result=_core_e1r,
                 sidecar_result=_sidecar_result,
                 initial_equity=float(base.get("initial_capital", 100000)),
             )
+            _legacy_sidecar_reference["strategy_id"] = (
+                "E1R_REGIME_AWARE_V0_2_LEGACY_SIDECAR_REFERENCE"
+            )
+            _legacy_sidecar_reference["strategy_variant"] = (
+                "E1R_regime_aware_v0_2_legacy_virtual_sidecar_reference"
+            )
+            _legacy_sidecar_reference["research_status"] = (
+                "LEGACY_VIRTUAL_SIDECAR_REFERENCE_NOT_FORMAL"
+            )
+            _legacy_sidecar_reference["formal_selection_eligible"] = False
+            variant_results[
+                "E1R_REGIME_AWARE_V0_2_LEGACY_SIDECAR_REFERENCE"
+            ] = _legacy_sidecar_reference
 
             _sidecar_summary = _sidecar_result.get("summary", {}) or {}
             logger.info(
@@ -3286,7 +3411,13 @@ def run_strategy_variant_comparison(
             -result.get("max_drawdown_pct", 10_000),
         )
 
-    selected_id, selected_result = max(variant_results.items(), key=selection_key)
+    _formal_stateful_id = "E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3"
+    if _formal_stateful_id not in variant_results:
+        raise RuntimeError(
+            "formal stateful SIDEWAYS variant missing from full-period results"
+        )
+    selected_id = _formal_stateful_id
+    selected_result = variant_results[selected_id]
     comparison_rows = []
     for variant_id, result in variant_results.items():
         controls = result.get("strategy_controls", {})
