@@ -1,0 +1,447 @@
+{
+  "schema_version": "1.0",
+  "stage": "K2-R25-UPTREND-ENGINE-ENTRY-EQUIVALENCE-SMOKE",
+  "decision": "PASS_UPTREND_ENGINE_ENTRY_EQUIVALENCE_SMOKE",
+  "window": {
+    "id": "2021_H2",
+    "start": "2021-06-01",
+    "end": "2021-12-31"
+  },
+  "legacy_runtime": {
+    "loader_path": "scripts/export_e1_5y_core_equity.py",
+    "assumptions_source": "exports/e1r_engine/equivalence/e1r_k2_r19_runtime_trace_equivalence.json#assumptions_capture.contract",
+    "assumptions_hash": "7a9fef9291fad51b8285ea9fc4d0bfa0ad2bb91404c6267fff621fb2cf2ad6da",
+    "symbol_count": 539,
+    "run_signature": "(symbols: 'list[str]', prices_map: 'dict[str, list[float]]', dates_map: 'dict[str, list[str]]', spx_prices: 'list[float]', spx_dates: 'list[str]', ohlc_map: 'dict' = None, assumptions: 'dict' = None, step: 'int' = 1, min_history: 'int' = 120, market_score_default: 'float' = 60.0, sim_start_date: 'str' = None, sim_end_date: 'str' = None, ndx_prices: 'list' = None, ndx_dates: 'list' = None, sox_prices: 'list' = None, sox_dates: 'list' = None, vix_prices: 'list' = None, vix_dates: 'list' = None) -> 'dict'",
+    "result_hash": "5bf30bc1518554e65ea820d8982581579c30e69fc2ec04b5076f52e1084de766",
+    "trace_diagnostics": {
+      "raw_trace_ids": {
+        "TP01_PRE_RANK_CANDIDATES": 150,
+        "TP02_POST_RANK_CANDIDATES": 150,
+        "TP03_SELECTED_BUY_FINALIZED": 10,
+        "TP04_BUY_ORDER_INTENT_CREATED": 10,
+        "TP05_PENDING_HANDOFF_FINALIZED": 150,
+        "TP06_T1_ORDER_EXECUTION_START": 174,
+        "TP07_BUY_SIZING_FINALIZED": 10,
+        "TP08_BUY_ACCOUNT_MUTATION_COMPLETE": 10,
+        "TP09_SELL_EXECUTION_PRICE_FINALIZED": 150,
+        "TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE": 7,
+        "TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE": 11
+      },
+      "top_level_keys": {
+        "action": 372,
+        "buy_order_count": 150,
+        "buy_pct": 10,
+        "candidate_count": 150,
+        "candidate_tuples": 150,
+        "cash_after": 28,
+        "cash_before": 334,
+        "entry_capacity": 10,
+        "entry_type": 10,
+        "execution_date": 362,
+        "execution_price": 188,
+        "execution_price_field": 160,
+        "fallback_used": 160,
+        "holding_after": 21,
+        "holding_before": 150,
+        "holding_count": 10,
+        "holding_count_after": 17,
+        "holdings_before": 174,
+        "holdings_symbols": 150,
+        "leader_rank": 10,
+        "leader_score": 10,
+        "management_order_count": 150,
+        "market_entry_allowed": 160,
+        "max_pct": 10,
+        "max_pos": 10,
+        "one_way": 160,
+        "order_payload": 184,
+        "ordered_pending_orders": 150,
+        "orders_executed": 10,
+        "pending_order_count": 150,
+        "portfolio_value": 10,
+        "proceeds": 18,
+        "ranked_candidate_count": 150,
+        "ranked_candidate_tuples": 150,
+        "raw_execution_price": 160,
+        "realized_pnl": 7,
+        "record_hash": 832,
+        "remaining_shares": 11,
+        "remaining_size_units": 11,
+        "selected_symbol": 10,
+        "sell_fraction": 11,
+        "shares": 20,
+        "shares_sold": 18,
+        "signal_date": 832,
+        "symbol": 372,
+        "symbol_still_held": 7,
+        "target_cash": 10,
+        "target_size_units": 20,
+        "trace_point_id": 832,
+        "trace_schema_version": 832
+      },
+      "raw_record_count": 832,
+      "normalized_tp01_tp04_count": 320,
+      "legacy_uptrend_core_call_count": 150,
+      "captured_entry_capacity_distribution": {
+        "3": 118,
+        "2": 13,
+        "0": 19
+      }
+    },
+    "historical_r19_result_hash": "213a9394f7163f2c8a486f935d7de3401b6b0fc3e72d9c0ff244b07bdcee35c3",
+    "local_projection_hash_matches_historical": false,
+    "trace_record_count": 832,
+    "normalized_tp01_tp04_record_count": 320,
+    "focused_trace_counts": {
+      "TP01_PRE_RANK_CANDIDATES": 150,
+      "TP02_POST_RANK_CANDIDATES": 150,
+      "TP03_SELECTED_BUY_FINALIZED": 10,
+      "TP04_BUY_ORDER_INTENT_CREATED": 10
+    },
+    "focused_trace_counts_match_r19": true
+  },
+  "comparison_scope": {
+    "legacy_boundary": [
+      "TP01_PRE_RANK_CANDIDATES",
+      "TP02_POST_RANK_CANDIDATES",
+      "TP03_SELECTED_BUY_FINALIZED",
+      "TP04_BUY_ORDER_INTENT_CREATED"
+    ],
+    "engine_entry": "E1RCoreEngine.step(uptrend_inputs=...)",
+    "fields": [
+      "candidate_count",
+      "candidate_symbols",
+      "selected_symbols",
+      "entry_type",
+      "target_size_units",
+      "gate_state",
+      "order_intent_semantics"
+    ],
+    "transitive_pipeline_coverage": "R22-R24 already prove adapter -> consumer -> core -> engine pipeline wiring. R25 compares the legacy frozen decision boundary with the engine entry."
+  },
+  "equivalence": {
+    "compared_day_count": 150,
+    "differences": [],
+    "mismatch_count": 0,
+    "day_results_hash": "0c668f577e02931302770106f0b378c76c5249cfd3feaa04937e63e82ccf2d5a",
+    "selected_day_count": 10,
+    "buy_order_day_count": 10,
+    "gate_blocked_day_count": 19,
+    "sample_rows": [
+      {
+        "date": "2021-06-01",
+        "candidate_count": 10,
+        "candidate_symbols": [
+          "BEN",
+          "CARR",
+          "COF",
+          "CRWD",
+          "F",
+          "MRNA",
+          "NET",
+          "NUE",
+          "NVDA",
+          "SYF"
+        ],
+        "legacy_selected": {
+          "symbol": "NVDA",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "target_size_units": 1.0
+        },
+        "engine_selected_symbols": [
+          "NVDA"
+        ],
+        "legacy_order": {
+          "symbol": "NVDA",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "target_size_units": 1.0
+        },
+        "engine_buy_orders": [
+          {
+            "symbol": "NVDA",
+            "entry_type": "E1R_UPTREND_CONFIRMED",
+            "target_size_units": 1.0
+          }
+        ],
+        "market_entry_allowed": true,
+        "entry_capacity": 3,
+        "max_positions": 3,
+        "gate_state": "ALLOW",
+        "legacy_holdings_symbols": [],
+        "engine_account_holdings_symbols": []
+      },
+      {
+        "date": "2021-06-02",
+        "candidate_count": 12,
+        "candidate_symbols": [
+          "AMT",
+          "BEN",
+          "CARR",
+          "CCI",
+          "CPT",
+          "GEN",
+          "MAA",
+          "MRNA",
+          "NET",
+          "PLD",
+          "SBAC",
+          "SYF"
+        ],
+        "legacy_selected": {
+          "symbol": "MRNA",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "target_size_units": 1.0
+        },
+        "engine_selected_symbols": [
+          "MRNA"
+        ],
+        "legacy_order": {
+          "symbol": "MRNA",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "target_size_units": 1.0
+        },
+        "engine_buy_orders": [
+          {
+            "symbol": "MRNA",
+            "entry_type": "E1R_UPTREND_CONFIRMED",
+            "target_size_units": 1.0
+          }
+        ],
+        "market_entry_allowed": true,
+        "entry_capacity": 3,
+        "max_positions": 3,
+        "gate_state": "ALLOW",
+        "legacy_holdings_symbols": [
+          "NVDA"
+        ],
+        "engine_account_holdings_symbols": [
+          "NVDA"
+        ]
+      },
+      {
+        "date": "2021-06-01",
+        "candidate_count": 10,
+        "candidate_symbols": [
+          "BEN",
+          "CARR",
+          "COF",
+          "CRWD",
+          "F",
+          "MRNA",
+          "NET",
+          "NUE",
+          "NVDA",
+          "SYF"
+        ],
+        "legacy_selected": {
+          "symbol": "NVDA",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "target_size_units": 1.0
+        },
+        "engine_selected_symbols": [
+          "NVDA"
+        ],
+        "legacy_order": {
+          "symbol": "NVDA",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "target_size_units": 1.0
+        },
+        "engine_buy_orders": [
+          {
+            "symbol": "NVDA",
+            "entry_type": "E1R_UPTREND_CONFIRMED",
+            "target_size_units": 1.0
+          }
+        ],
+        "market_entry_allowed": true,
+        "entry_capacity": 3,
+        "max_positions": 3,
+        "gate_state": "ALLOW",
+        "legacy_holdings_symbols": [],
+        "engine_account_holdings_symbols": []
+      },
+      {
+        "date": "2021-06-02",
+        "candidate_count": 12,
+        "candidate_symbols": [
+          "AMT",
+          "BEN",
+          "CARR",
+          "CCI",
+          "CPT",
+          "GEN",
+          "MAA",
+          "MRNA",
+          "NET",
+          "PLD",
+          "SBAC",
+          "SYF"
+        ],
+        "legacy_selected": {
+          "symbol": "MRNA",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "target_size_units": 1.0
+        },
+        "engine_selected_symbols": [
+          "MRNA"
+        ],
+        "legacy_order": {
+          "symbol": "MRNA",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "target_size_units": 1.0
+        },
+        "engine_buy_orders": [
+          {
+            "symbol": "MRNA",
+            "entry_type": "E1R_UPTREND_CONFIRMED",
+            "target_size_units": 1.0
+          }
+        ],
+        "market_entry_allowed": true,
+        "entry_capacity": 3,
+        "max_positions": 3,
+        "gate_state": "ALLOW",
+        "legacy_holdings_symbols": [
+          "NVDA"
+        ],
+        "engine_account_holdings_symbols": [
+          "NVDA"
+        ]
+      },
+      {
+        "date": "2021-06-04",
+        "candidate_count": 12,
+        "candidate_symbols": [
+          "AMT",
+          "ANET",
+          "CCI",
+          "DVN",
+          "EQIX",
+          "INTU",
+          "PLD",
+          "SBAC",
+          "SLB",
+          "SYF",
+          "TAP",
+          "TRGP"
+        ],
+        "legacy_selected": {
+          "symbol": "TRGP",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "target_size_units": 1.0
+        },
+        "engine_selected_symbols": [
+          "TRGP"
+        ],
+        "legacy_order": {
+          "symbol": "TRGP",
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "target_size_units": 1.0
+        },
+        "engine_buy_orders": [
+          {
+            "symbol": "TRGP",
+            "entry_type": "E1R_UPTREND_CONFIRMED",
+            "target_size_units": 1.0
+          }
+        ],
+        "market_entry_allowed": true,
+        "entry_capacity": 3,
+        "max_positions": 3,
+        "gate_state": "ALLOW",
+        "legacy_holdings_symbols": [
+          "MRNA",
+          "NVDA"
+        ],
+        "engine_account_holdings_symbols": [
+          "MRNA",
+          "NVDA"
+        ]
+      },
+      {
+        "date": "2021-12-30",
+        "candidate_count": 14,
+        "candidate_symbols": [
+          "ACN",
+          "BLDR",
+          "CCI",
+          "CHRW",
+          "ELV",
+          "EXR",
+          "GDDY",
+          "LEN",
+          "MCK",
+          "MTD",
+          "PHM",
+          "PLD",
+          "PSA",
+          "STX"
+        ],
+        "legacy_selected": null,
+        "engine_selected_symbols": [],
+        "legacy_order": null,
+        "engine_buy_orders": [],
+        "market_entry_allowed": true,
+        "entry_capacity": 3,
+        "max_positions": 3,
+        "gate_state": "ALLOW",
+        "legacy_holdings_symbols": [
+          "AVGO",
+          "CPT",
+          "HPQ"
+        ],
+        "engine_account_holdings_symbols": [
+          "AVGO",
+          "CPT",
+          "HPQ"
+        ]
+      },
+      {
+        "date": "2021-12-31",
+        "candidate_count": 12,
+        "candidate_symbols": [
+          "AOS",
+          "BLDR",
+          "CHRW",
+          "DHI",
+          "EXC",
+          "EXR",
+          "GDDY",
+          "MCK",
+          "MTD",
+          "PHM",
+          "PLD",
+          "VST"
+        ],
+        "legacy_selected": null,
+        "engine_selected_symbols": [],
+        "legacy_order": null,
+        "engine_buy_orders": [],
+        "market_entry_allowed": true,
+        "entry_capacity": 3,
+        "max_positions": 3,
+        "gate_state": "ALLOW",
+        "legacy_holdings_symbols": [
+          "AVGO",
+          "CPT",
+          "HPQ"
+        ],
+        "engine_account_holdings_symbols": [
+          "AVGO",
+          "CPT",
+          "HPQ"
+        ]
+      }
+    ]
+  },
+  "validation": {
+    "legacy_short_window_run_performed": true,
+    "full_5y_run_performed": false,
+    "strategy_source_modified": false,
+    "engine_source_modified": false,
+    "input_mutation_detected": false,
+    "account_mutation_detected": false
+  },
+  "next_stage": "K2-R26-SIDEWAYS-LEGACY-CONTRACT-CAPTURE"
+}
