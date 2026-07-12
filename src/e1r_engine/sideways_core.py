@@ -263,6 +263,46 @@ class SidewaysCore:
     def __init__(self, config: SidewaysConfig | None = None) -> None:
         self.config = config or SidewaysConfig()
 
+    def rank_date(
+        self,
+        *,
+        stocks: Mapping[str, Mapping[str, Any]],
+        spx: Mapping[str, Any],
+        date: str,
+        regime: str,
+        subclass: str,
+    ) -> tuple[SidewaysCandidate, ...]:
+        """Rank using information available at the signal-day close."""
+        if regime != "SIDEWAYS":
+            return ()
+        candidates: list[SidewaysCandidate] = []
+        excluded = set(self.config.excluded_symbols)
+        for asset in stocks.values():
+            symbol = str(asset.get("symbol", ""))
+            if symbol in excluded:
+                continue
+            if len(asset.get("bars", ())) < self.config.min_history_days:
+                continue
+            if date not in asset["by_date"]:
+                continue
+            scored = score_candidate(asset, spx, date, self.config)
+            if scored is None:
+                continue
+            candidates.append(SidewaysCandidate(
+                symbol=scored["symbol"],
+                score=scored["score"],
+                close=scored["close"],
+                mom20_pct=scored["mom20_pct"],
+                mom60_pct=scored["mom60_pct"],
+                rs20_vs_spx_pct=scored["rs20_vs_spx_pct"],
+                rs60_vs_spx_pct=scored["rs60_vs_spx_pct"],
+                trend_points_0_to_6=scored["trend_points_0_to_6"],
+                drawdown_60d_pct=scored["drawdown_60d_pct"],
+                one_day_return=0.0,
+            ))
+        candidates.sort(key=lambda row: row.score, reverse=True)
+        return tuple(candidates)
+
     def rank_interval(
         self,
         *,

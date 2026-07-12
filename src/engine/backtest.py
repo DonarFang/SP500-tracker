@@ -814,6 +814,7 @@ def run_stateful_simulation(
     e1r_shell_mode = bool(a.get("e1r_shell_mode", False))
     e1r_regime_wiring_enabled = bool(a.get("e1r_regime_wiring_enabled", False))
     e1r_uptrend_execution_enabled = bool(a.get("e1r_uptrend_execution_enabled", False))
+    e1r_sideways_execution_enabled = bool(a.get("e1r_sideways_execution_enabled", False))
     e1r_regime_daily = a.get("e1r_regime_daily", {}) or {}
 
     def _e1r_regime_on(date: str) -> str:
@@ -825,6 +826,14 @@ def run_stateful_simulation(
         if isinstance(rec, str):
             return rec
         return "UNCLASSIFIED"
+
+    def _e1r_subclass_on(date: str) -> str:
+        if not e1r_regime_wiring_enabled or not date:
+            return "NO_SUBCLASS"
+        rec = e1r_regime_daily.get(date, {})
+        if isinstance(rec, dict):
+            return rec.get("subclass") or rec.get("regime_subclass") or "NO_SUBCLASS"
+        return "NO_SUBCLASS"
 
     def _e1r_mode_for_regime(regime: str) -> str:
         if regime == "UPTREND":
@@ -1028,6 +1037,23 @@ def run_stateful_simulation(
     holdings: dict[str, dict] = {}
     pending_orders: list[dict] = []
     closed_trades:  list[dict] = []
+    sideways_assets = None
+    sideways_spx_asset = None
+    if e1r_sideways_execution_enabled:
+        def _asset_from_series(symbol, dates, prices):
+            bars = [{"date": d, "close": float(p)} for d, p in zip(dates, prices)]
+            return {
+                "symbol": symbol,
+                "bars": bars,
+                "dates": [row["date"] for row in bars],
+                "by_date": {row["date"]: row for row in bars},
+                "date_to_idx": {row["date"]: i for i, row in enumerate(bars)},
+            }
+        sideways_assets = {
+            sym: _asset_from_series(sym, dates_map.get(sym, []), prices_map.get(sym, []))
+            for sym in sorted(symbols)
+        }
+        sideways_spx_asset = _asset_from_series("SPX", spx_dates, spx_prices)
     invalid_trades: list[str]  = []
 
     # 修正3: skipped_orders_by_reason
@@ -1128,9 +1154,13 @@ def run_stateful_simulation(
         # ════════════════════════════════════════════════
         # STEP 1: 执行前一日 pending orders（T-1信号 → T日执行）
         # ════════════════════════════════════════════════
+        _sideways_tradable_cash_base = None
+        _sideways_budget_spent = 0.0
         for order in pending_orders:
             sym       = order["sym"]
             action    = order["action"]
+            if _sideways_tradable_cash_base is None and action in ("BUY", "ADD"):
+                _sideways_tradable_cash_base = max(0.0, float(cash))
             sig_date  = order["signal_date"]   # 信号日期
             exec_date = date_t                 # 执行日期 = 今天
             if _e1r_trace_enabled():
@@ -1174,7 +1204,21 @@ def run_stateful_simulation(
                         continue
                     _order_size_units = float(order.get("target_size_units", 1.0))
                     _order_size_units = max(0.0, min(_order_size_units, 1.0))
-                    target = port_val * buy_pct * _order_size_units
+                    if order.get("origin_branch") == "SIDEWAYS_MA_CONFLICT":
+                        if _sideways_tradable_cash_base is None:
+                            _sideways_tradable_cash_base = max(0.0, float(cash))
+                        per_fraction = float(order.get("target_fraction_of_tradable_cash", 0.10))
+                        total_fraction = float(order.get("capital_fraction_of_tradable_cash", 0.30))
+                        remaining_budget = max(
+                            0.0,
+                            _sideways_tradable_cash_base * total_fraction - _sideways_budget_spent,
+                        )
+                        target = min(
+                            _sideways_tradable_cash_base * per_fraction,
+                            remaining_budget,
+                        )
+                    else:
+                        target = port_val * buy_pct * _order_size_units
                     if port_val > 0 and target / port_val > max_pct:
                         target = port_val * max_pct
                         skip_reasons["max_single_size_reached"] += 1
@@ -1206,6 +1250,8 @@ def run_stateful_simulation(
                             cash_before=cash,
                         )
                     cash  -= shares * exec_price
+                    if order.get("origin_branch") == "SIDEWAYS_MA_CONFLICT":
+                        _sideways_budget_spent += shares * exec_price
                     orders_executed += 1
                     holdings[sym] = {
                         "shares":                shares,
@@ -1233,7 +1279,11 @@ def run_stateful_simulation(
                         "ls60_reduce_triggered": False,  # 方案A：LS<60 REDUCE 一次性保护
                         # E1-R Phase 2 regime wiring telemetry. Observer-only.
                         "entry_regime": _e1r_regime_on(exec_date),
-                        "entry_type": order.get("e1r_entry_type") or ("E1R_PLACEHOLDER_LEGACY_ENTRY" if e1r_regime_wiring_enabled else None),
+                        "entry_subclass": _e1r_subclass_on(exec_date),
+                        "entry_type": order.get("entry_type") or order.get("e1r_entry_type") or ("E1R_PLACEHOLDER_LEGACY_ENTRY" if e1r_regime_wiring_enabled else None),
+                        "origin_branch": order.get("origin_branch") or ("UPTREND" if e1r_sideways_execution_enabled else None),
+                        "sideways_entry_rank": order.get("sideways_entry_rank"),
+                        "sideways_entry_score": order.get("sideways_entry_score"),
                         "regime_day_weights": {},
                     }
                     if _e1r_trace_enabled():
@@ -2092,6 +2142,15 @@ def run_stateful_simulation(
 
         management_orders = []
         buy_orders = []
+        _today_regime = _e1r_regime_on(date_t)
+        _today_subclass = _e1r_subclass_on(date_t)
+        _sideways_active = _today_regime == "SIDEWAYS" and _today_subclass == "MA_CONFLICT"
+        _forced_sideways_exit_symbols = {
+            sym for sym, h in holdings.items()
+            if e1r_sideways_execution_enabled
+            and h.get("origin_branch") == "SIDEWAYS_MA_CONFLICT"
+            and not _sideways_active
+        }
         for sym, sig in day_signals.items():
             # 从 sig 完整读取所有字段，严格避免跨 sym 的变量作用域污染
             action  = sig["action"]
@@ -2235,6 +2294,10 @@ def run_stateful_simulation(
                     continue
 
             # 已持仓股票的管理：ADD / REDUCE / EXIT 与 rank 无关
+            if sym in holdings and holdings[sym].get("origin_branch") == "SIDEWAYS_MA_CONFLICT" and action == "ADD":
+                action = "HOLD"
+            if sym in _forced_sideways_exit_symbols:
+                continue
             if action in ("ADD", "REDUCE", "EXIT"):
                 if sym not in holdings:
                     continue
@@ -2465,6 +2528,86 @@ def run_stateful_simulation(
                         "strategy": strategy_variant,
                     })
 
+        if e1r_sideways_execution_enabled:
+            from e1r_engine.sideways_core import SidewaysCore
+            from e1r_engine.sideways_execution import SidewaysExecutionPolicy
+            from e1r_engine.sideways_execution_adapter import SidewaysExecutionAdapter
+            from e1r_engine.state import AccountState, PositionState
+            for sym in sorted(_forced_sideways_exit_symbols):
+                management_orders = [row for row in management_orders if row.get("sym") != sym]
+                management_orders.append({
+                    "sym": sym,
+                    "action": "EXIT",
+                    "signal_date": date_t,
+                    "ls": day_signals.get(sym, {}).get("leader_score", holdings[sym].get("leader_score_entry", 0.0)),
+                    "close_t": holdings[sym].get("current_close", 0.0),
+                    "entry_rank": None,
+                    "strategy": "E1R_SIDEWAYS_MA_CONFLICT_EXECUTION_V0_1",
+                    "primary_reason": "sideways_ma_conflict_deactivated",
+                    "reasons": ["sideways_ma_conflict_deactivated"],
+                    "origin_branch": "SIDEWAYS_MA_CONFLICT",
+                    "entry_type": "E1R_SIDEWAYS_MA_CONFLICT",
+                })
+            if _sideways_active:
+                projected_positions = {}
+                for held_symbol, held in holdings.items():
+                    price = float(held.get("current_close", held.get("avg_cost", 0.0)))
+                    p = PositionState.create(
+                        symbol=held_symbol,
+                        quantity=float(held.get("shares", 0.0)),
+                        avg_cost=float(held.get("avg_cost", price)),
+                        price=price,
+                        date=str(held.get("entry_date", date_t)),
+                    )
+                    object.__setattr__(p, "metadata", {"origin_branch": held.get("origin_branch") or "UPTREND"})
+                    projected_positions[held_symbol] = p
+                projected_value = sum(p.market_value for p in projected_positions.values())
+                projected_account = AccountState(
+                    date=date_t,
+                    cash=float(cash),
+                    positions=projected_positions,
+                    total_equity=float(cash + projected_value),
+                    positions_value=float(projected_value),
+                    open_positions_count=len(projected_positions),
+                    metadata={},
+                )
+                ranked_sideways = SidewaysCore().rank_date(
+                    stocks=sideways_assets,
+                    spx=sideways_spx_asset,
+                    date=date_t,
+                    regime=_today_regime,
+                    subclass=_today_subclass,
+                )
+                management_actions = {
+                    sym: day_signals.get(sym, {}).get("action", "HOLD")
+                    for sym in holdings
+                }
+                intents = SidewaysExecutionPolicy().build_intents(
+                    date=date_t,
+                    regime=_today_regime,
+                    subclass=_today_subclass,
+                    ranked_candidates=ranked_sideways,
+                    account=projected_account,
+                    management_actions=management_actions,
+                )
+                for intent in intents:
+                    if intent.intent_type != "BUY":
+                        continue
+                    candidate = next(row for row in ranked_sideways if row.symbol == intent.symbol)
+                    metadata = dict(intent.metadata)
+                    metadata["close_t"] = candidate.close
+                    intent = type(intent)(
+                        date=intent.date,
+                        symbol=intent.symbol,
+                        intent_type=intent.intent_type,
+                        side=intent.side,
+                        target_quantity=intent.target_quantity,
+                        quantity_delta=intent.quantity_delta,
+                        reason=intent.reason,
+                        branch=intent.branch,
+                        metadata=metadata,
+                    )
+                    buy_orders.append(SidewaysExecutionAdapter.to_legacy_pending_order(intent))
         action_priority = {"EXIT": 0, "REDUCE": 1, "REL_REDUCE": 2, "TP_REDUCE": 3, "ADD": 4}
         management_orders.sort(key=lambda o: action_priority.get(o["action"], 9))
         buy_orders.sort(key=lambda o: o.get("entry_rank") or 999)
@@ -2485,12 +2628,10 @@ def run_stateful_simulation(
                 UptrendExecutionAdapter,
             )
 
-            pending_orders = (
-                UptrendExecutionAdapter
-                .normalize_legacy_pending_orders(
-                    management_orders + buy_orders
-                )
-            )
+            _all_pending = management_orders + buy_orders
+            _uptrend_pending = [row for row in _all_pending if row.get("origin_branch") != "SIDEWAYS_MA_CONFLICT"]
+            _sideways_pending = [row for row in _all_pending if row.get("origin_branch") == "SIDEWAYS_MA_CONFLICT"]
+            pending_orders = UptrendExecutionAdapter.normalize_legacy_pending_orders(_uptrend_pending) + _sideways_pending
         else:
             pending_orders = management_orders + buy_orders
         if _e1r_trace_enabled():
