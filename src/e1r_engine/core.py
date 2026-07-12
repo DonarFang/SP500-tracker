@@ -255,6 +255,43 @@ class E1RCoreEngine:
                 "route": route.__dict__,
                 "max_positions": self.config.max_positions,
                 "uptrend_consumer": uptrend_result.metadata,
+                "uptrend_decision": {
+                    "pre_rank_candidate_rows": (
+                        uptrend_result.decision.trace_rows(
+                            uptrend_result.decision.pre_rank_candidates
+                        )
+                    ),
+                    "ranked_candidate_rows": (
+                        uptrend_result.decision.trace_rows(
+                            uptrend_result.decision.ranked_candidates
+                        )
+                    ),
+                    "selected_symbol": (
+                        uptrend_result.decision.selected_buy["sym"]
+                        if uptrend_result.decision.selected_buy
+                        is not None
+                        else None
+                    ),
+                    "selected_entry_type": (
+                        uptrend_result.decision.selected_buy[
+                            "entry_type"
+                        ]
+                        if uptrend_result.decision.selected_buy
+                        is not None
+                        else None
+                    ),
+                    "selected_target_size_units": (
+                        uptrend_result.decision.selected_buy[
+                            "target_size_units"
+                        ]
+                        if uptrend_result.decision.selected_buy
+                        is not None
+                        else None
+                    ),
+                    "no_capacity_count": (
+                        uptrend_result.decision.no_capacity_count
+                    ),
+                },
             },
         )
 

@@ -82,6 +82,9 @@ class TestUptrendExecutionAdapter(unittest.TestCase):
                 "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
                 "target_size_units": 1.0,
                 "leader_rank_all": 1,
+                "leader_score": 95.0,
+                "close_t": 100.0,
+                "entry_reasons": ["confirmed"],
             },
         )
         payload = UptrendExecutionAdapter.to_legacy_pending_order(
@@ -91,7 +94,7 @@ class TestUptrendExecutionAdapter(unittest.TestCase):
         self.assertEqual(payload["action"], "BUY")
         self.assertEqual(payload["signal_date"], "2021-12-22")
         self.assertEqual(
-            payload["entry_type"],
+            payload["e1r_entry_type"],
             "E1R_UPTREND_CONFIRMED",
         )
         self.assertEqual(payload["target_size_units"], 1.0)

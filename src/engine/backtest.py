@@ -1797,25 +1797,188 @@ def run_stateful_simulation(
                         "diagnostic_only": True,
                     })
 
-        # E1-R Phase 3B: UPTREND Execution v0.1 candidate selection.
-        # Only entry execution is changed; existing E1 reduce/exit logic remains intact.
+        # Official UPTREND runtime decision source.
+        # Production orders use E1RCoreEngine.step only.
         e1r_selected_buy: dict | None = None
+        e1r_engine_buy_intent = None
+
         if (
             e1r_uptrend_execution_enabled
             and _e1r_regime_on(date_t) == "UPTREND"
         ):
-            e1r_decision = UptrendCore.decide_uptrend_buy(
-                day_signals=day_signals,
-                holdings_symbols=set(holdings.keys()),
-                leader_rank_all=leader_rank_all,
-                market_entry_allowed=market_entry_allowed,
-                entry_capacity=entry_capacity,
-                max_positions=max_pos,
+            from e1r_engine.contracts import (
+                DailyBar,
+                MarketSnapshot,
+                RegimeRecord,
+            )
+            from e1r_engine.core import E1RCoreEngine
+            from e1r_engine.market_gate import MarketGateDecision
+            from e1r_engine.state import (
+                AccountState,
+                PositionState,
+            )
+            from e1r_engine.uptrend_consumer import (
+                UptrendConsumerInputs,
             )
 
-            e1r_buy_candidates = list(
-                e1r_decision.ranked_candidates
+            engine_positions = {}
+            for held_symbol, held in holdings.items():
+                held_price = float(
+                    day_signals.get(
+                        held_symbol,
+                        {},
+                    ).get(
+                        "close_t",
+                        held.get(
+                            "entry_price",
+                            0.0,
+                        ),
+                    )
+                )
+                held_shares = float(held.get("shares", 0.0))
+                held_entry_price = float(
+                    held.get("entry_price", held_price)
+                )
+                held_entry_date = str(
+                    held.get("entry_date", date_t)
+                )
+                engine_positions[held_symbol] = (
+                    PositionState.create(
+                        symbol=held_symbol,
+                        quantity=held_shares,
+                        avg_cost=held_entry_price,
+                        price=held_price,
+                        date=held_entry_date,
+                    ).mark_to_market(
+                        price=held_price,
+                        date=date_t,
+                    )
+                )
+
+            engine_positions_value = sum(
+                position.market_value
+                for position in engine_positions.values()
             )
+
+            engine_account = AccountState(
+                date=date_t,
+                cash=float(cash),
+                positions=engine_positions,
+                total_equity=float(
+                    cash + engine_positions_value
+                ),
+                positions_value=float(
+                    engine_positions_value
+                ),
+                open_positions_count=len(engine_positions),
+                metadata={
+                    "source": "legacy_runtime_account_projection",
+                    "trade_mutation_performed": False,
+                },
+            )
+
+            engine_snapshot = MarketSnapshot(
+                date=date_t,
+                universe=list(symbols),
+                prices_by_symbol={
+                    symbol: DailyBar(
+                        date=date_t,
+                        open=None,
+                        high=None,
+                        low=None,
+                        close=float(signal["close_t"]),
+                        volume=None,
+                    )
+                    for symbol, signal in day_signals.items()
+                },
+                indices={},
+                regime=RegimeRecord(
+                    date=date_t,
+                    spx_regime="UPTREND",
+                    subclass="NO_SUBCLASS",
+                ),
+                metadata={
+                    "source": "run_stateful_simulation",
+                },
+            )
+
+            engine_gate = MarketGateDecision(
+                date=date_t,
+                market_state=market_state,
+                entry_capacity=int(entry_capacity),
+                market_shock=bool(market_shock),
+                market_risk_off=bool(market_risk_off),
+                market_entry_allowed=bool(
+                    market_entry_allowed
+                ),
+                gate_state=(
+                    "ALLOW"
+                    if market_entry_allowed
+                    else "SHOCK"
+                    if market_shock
+                    else "RISK_OFF"
+                ),
+                trace={
+                    "source": "legacy_runtime_local_variables",
+                    "gate_logic_recomputed": False,
+                },
+            )
+
+            engine_result = E1RCoreEngine().step(
+                engine_snapshot,
+                engine_account,
+                uptrend_inputs=UptrendConsumerInputs(
+                    date=date_t,
+                    day_signals=day_signals,
+                    leader_rank_all=leader_rank_all,
+                    market_gate_decision=engine_gate,
+                    metadata={
+                        "official_runtime": True,
+                        "legacy_decision_called": False,
+                    },
+                ),
+            )
+
+            engine_buy_intents = [
+                intent
+                for intent in engine_result.order_intents
+                if intent.intent_type == "BUY"
+            ]
+
+            if len(engine_buy_intents) > 1:
+                raise RuntimeError(
+                    "UPTREND Engine produced more than one BUY"
+                )
+
+            if engine_buy_intents:
+                e1r_engine_buy_intent = engine_buy_intents[0]
+                selected_symbol = e1r_engine_buy_intent.symbol
+                e1r_selected_buy = {
+                    "sym": selected_symbol,
+                    "sig": day_signals[selected_symbol],
+                    "entry_type": (
+                        e1r_engine_buy_intent.metadata[
+                            "e1r_entry_type"
+                        ]
+                    ),
+                    "target_size_units": (
+                        e1r_engine_buy_intent.metadata[
+                            "target_size_units"
+                        ]
+                    ),
+                }
+
+            decision_meta = (
+                engine_result
+                .decision_trace
+                .metadata["uptrend_decision"]
+            )
+            pre_rank_rows = decision_meta[
+                "pre_rank_candidate_rows"
+            ]
+            ranked_rows = decision_meta[
+                "ranked_candidate_rows"
+            ]
 
             if _e1r_trace_enabled():
                 _e1r_emit_trace(
@@ -1823,48 +1986,22 @@ def run_stateful_simulation(
                     signal_date=date_t,
                     market_entry_allowed=market_entry_allowed,
                     holdings_symbols=sorted(holdings.keys()),
-                    candidate_count=len(
-                        e1r_decision.pre_rank_candidates
-                    ),
-                    candidate_tuples=(
-                        UptrendBuyDecision.trace_rows(
-                            e1r_decision.pre_rank_candidates
-                        )
-                    ),
+                    candidate_count=len(pre_rank_rows),
+                    candidate_tuples=pre_rank_rows,
                 )
-
                 _e1r_emit_trace(
                     "TP02_POST_RANK_CANDIDATES",
                     signal_date=date_t,
-                    ranked_candidate_count=len(
-                        e1r_decision.ranked_candidates
-                    ),
-                    ranked_candidate_tuples=(
-                        UptrendBuyDecision.trace_rows(
-                            e1r_decision.ranked_candidates
-                        )
-                    ),
+                    ranked_candidate_count=len(ranked_rows),
+                    ranked_candidate_tuples=ranked_rows,
                 )
 
-            e1r_selected_buy = (
-                e1r_decision.selected_buy
-            )
-
-            if (
-                e1r_selected_buy
-                and _e1r_trace_enabled()
-            ):
+            if e1r_selected_buy and _e1r_trace_enabled():
                 _e1r_emit_trace(
                     "TP03_SELECTED_BUY_FINALIZED",
                     signal_date=date_t,
-                    selected_symbol=(
-                        e1r_selected_buy["sym"]
-                    ),
-                    entry_type=(
-                        e1r_selected_buy[
-                            "entry_type"
-                        ]
-                    ),
+                    selected_symbol=e1r_selected_buy["sym"],
+                    entry_type=e1r_selected_buy["entry_type"],
                     target_size_units=(
                         e1r_selected_buy[
                             "target_size_units"
@@ -1874,9 +2011,9 @@ def run_stateful_simulation(
                         e1r_selected_buy["sym"]
                     ),
                     leader_score=(
-                        e1r_selected_buy[
-                            "sig"
-                        ].get("leader_score")
+                        e1r_selected_buy["sig"].get(
+                            "leader_score"
+                        )
                     ),
                     market_entry_allowed=(
                         market_entry_allowed
@@ -1886,12 +2023,45 @@ def run_stateful_simulation(
                     max_pos=max_pos,
                 )
 
-            if e1r_decision.no_capacity_count:
+            no_capacity_count = int(
+                decision_meta["no_capacity_count"]
+            )
+            if no_capacity_count:
                 skip_reasons[
                     "e1r_no_capacity"
-                ] += (
-                    e1r_decision.no_capacity_count
+                ] += no_capacity_count
+
+            if bool(
+                a.get(
+                    "e1r_engine_shadow_legacy_compare_enabled",
+                    False,
                 )
+            ):
+                shadow = UptrendCore.decide_uptrend_buy(
+                    day_signals=day_signals,
+                    holdings_symbols=set(holdings.keys()),
+                    leader_rank_all=leader_rank_all,
+                    market_entry_allowed=market_entry_allowed,
+                    entry_capacity=entry_capacity,
+                    max_positions=max_pos,
+                )
+                shadow_symbol = (
+                    shadow.selected_buy["sym"]
+                    if shadow.selected_buy is not None
+                    else None
+                )
+                engine_symbol = (
+                    e1r_selected_buy["sym"]
+                    if e1r_selected_buy is not None
+                    else None
+                )
+                if shadow_symbol != engine_symbol:
+                    raise RuntimeError(
+                        "UPTREND Engine/legacy shadow mismatch: "
+                        f"date={date_t} "
+                        f"engine={engine_symbol!r} "
+                        f"legacy={shadow_symbol!r}"
+                    )
 
         if qualified_entry_enabled and candidate_top_n is not None:
             # Qualified Candidate Pool 逻辑：
@@ -1951,14 +2121,19 @@ def run_stateful_simulation(
                 and sym == e1r_selected_buy["sym"]
                 and sym not in holdings
             ):
+                if e1r_engine_buy_intent is None:
+                    raise RuntimeError(
+                        "selected BUY missing Engine OrderIntent"
+                    )
+
+                from e1r_engine.uptrend_execution_adapter import (
+                    UptrendExecutionAdapter,
+                )
+
                 buy_orders.append(
-                    UptrendCore.build_uptrend_buy_order(
-                        date=date_t,
-                        symbol=sym,
-                        signal=sig,
-                        selected_buy=e1r_selected_buy,
-                        top_entry_rank=top_entry_rank,
-                        leader_rank_all=leader_rank_all,
+                    UptrendExecutionAdapter
+                    .to_legacy_pending_order(
+                        e1r_engine_buy_intent
                     )
                 )
                 if _e1r_trace_enabled():

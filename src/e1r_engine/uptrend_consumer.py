@@ -124,6 +124,18 @@ class UptrendDecisionConsumer:
                         "leader_rank_all": (
                             inputs.leader_rank_all.get(symbol)
                         ),
+                        "leader_score": selected_buy["sig"].get(
+                            "leader_score"
+                        ),
+                        "close_t": selected_buy["sig"].get(
+                            "close_t"
+                        ),
+                        "entry_reasons": list(
+                            selected_buy["sig"].get(
+                                "e1r_entry_reason",
+                                [],
+                            )
+                        ),
                         "market_gate_state": (
                             inputs.market_gate_decision.gate_state
                         ),

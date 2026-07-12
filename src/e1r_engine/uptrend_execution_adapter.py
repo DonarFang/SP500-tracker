@@ -125,20 +125,38 @@ class UptrendExecutionAdapter:
             intent.reason,
         )
 
+        leader_rank = intent.metadata.get(
+            "leader_rank_all"
+        )
+        leader_score = intent.metadata.get("leader_score")
+        close_t = intent.metadata.get("close_t")
+        entry_reasons = list(
+            intent.metadata.get("entry_reasons", [])
+        )
+
+        if leader_score is None:
+            raise ValueError(
+                "BUY OrderIntent missing leader_score"
+            )
+        if close_t is None:
+            raise ValueError(
+                "BUY OrderIntent missing close_t"
+            )
+
         payload: dict[str, Any] = {
             "sym": intent.symbol,
             "action": "BUY",
             "signal_date": intent.date,
-            "entry_type": entry_type,
+            "ls": leader_score,
+            "close_t": close_t,
+            "entry_rank": leader_rank,
+            "strategy": "E1R_UPTREND_EXECUTION_V0_1",
+            "entry_mode": "e1r_uptrend_execution_v0_1",
+            "primary_reason": entry_type,
+            "reasons": entry_reasons,
+            "e1r_entry_type": entry_type,
             "target_size_units": float(target_size_units),
-            "strategy": "E1R_regime_aware_v0_1_shell",
-            "primary_reason": intent.reason,
-            "reasons": [intent.reason],
         }
-
-        leader_rank = intent.metadata.get("leader_rank_all")
-        if leader_rank is not None:
-            payload["entry_rank"] = leader_rank
 
         return payload
 

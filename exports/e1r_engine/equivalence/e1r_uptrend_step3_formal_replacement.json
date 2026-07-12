@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "plan_step": 3,
+  "plan_total_steps": 3,
+  "decision": "PASS_UPTREND_STEP3_FORMAL_REPLACEMENT",
+  "official_runtime_decision_source": "E1RCoreEngine.step",
+  "production_legacy_decision_called": false,
+  "validation_shadow_only": true,
+  "short_window": {
+    "start": "2021-06-01",
+    "end": "2021-12-31",
+    "checks": {
+      "trace_count_832": true,
+      "tp01_150": true,
+      "tp02_150": true,
+      "tp03_10": true,
+      "tp04_10": true,
+      "tp08_10": true,
+      "tp10a_7": true,
+      "tp10b_11": true
+    },
+    "result_hash": "213a9394f7163f2c8a486f935d7de3401b6b0fc3e72d9c0ff244b07bdcee35c3",
+    "trace_hash": "eefb8346c1031227c3a7fdb3de73842b66e7466a2486ff62cddcc4fab9280614",
+    "trace_count": 832,
+    "trace_counts": {
+      "TP01_PRE_RANK_CANDIDATES": 150,
+      "TP02_POST_RANK_CANDIDATES": 150,
+      "TP03_SELECTED_BUY_FINALIZED": 10,
+      "TP04_BUY_ORDER_INTENT_CREATED": 10,
+      "TP05_PENDING_HANDOFF_FINALIZED": 150,
+      "TP06_T1_ORDER_EXECUTION_START": 174,
+      "TP07_BUY_SIZING_FINALIZED": 10,
+      "TP08_BUY_ACCOUNT_MUTATION_COMPLETE": 10,
+      "TP09_SELL_EXECUTION_PRICE_FINALIZED": 150,
+      "TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE": 11,
+      "TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE": 7
+    }
+  },
+  "full_history": {
+    "start": "2021-06-11",
+    "end": "2026-06-16",
+    "additional_rerun_after_rca": 0,
+    "method": "isolated matched comparison of committed Step-2 legacy c271dad and current Step-3 Engine tree",
+    "checks": {
+      "rca_no_difference_found": true,
+      "matched_result_hash_equal": true,
+      "matched_recursive_diff_zero": true,
+      "matched_trace_count_equal_4476": true,
+      "matched_trace_hash_equal": true,
+      "first_trace_difference_null": true,
+      "daily_equity_record_count_1259": true,
+      "daily_equity_records_length_1259": true,
+      "trade_records_60": true
+    },
+    "legacy_result_hash": "d337ae597ed4daab922a50a6874336a6fcc5e188dbc43ab7d38720f09d39e20c",
+    "engine_result_hash": "d337ae597ed4daab922a50a6874336a6fcc5e188dbc43ab7d38720f09d39e20c",
+    "legacy_trace_hash": "15b361ec8bcedde65c539db92ab58c6545ecb809367171d10cd682575437b5c5",
+    "engine_trace_hash": "15b361ec8bcedde65c539db92ab58c6545ecb809367171d10cd682575437b5c5",
+    "legacy_trace_count": 4476,
+    "engine_trace_count": 4476,
+    "first_trace_difference": null,
+    "result_difference_count": 0,
+    "summary": {
+      "daily_equity_record_count": 1259,
+      "total_return_pct": 223.43,
+      "spx_total_return_pct": 76.84,
+      "alpha_pct": 146.59,
+      "cagr_pct": 26.48,
+      "max_drawdown_pct": 23.66,
+      "profit_factor": 2.54,
+      "sharpe_ratio": 0.78,
+      "number_of_trades": 60,
+      "pending_orders_executed": 297,
+      "pending_orders_skipped": 20856
+    },
+    "rca_summary_artifact": "exports/e1r_engine/rca/uptrend_step3_rca/rca_report.json"
+  },
+  "loader": "scripts/export_e1_5y_core_equity.py",
+  "next": "UPTREND COMPLETE — MOVE TO SIDEWAYS",
+  "completion": {
+    "decision_equivalence": "PASS",
+    "execution_wiring": "PASS",
+    "formal_replacement": "PASS",
+    "uptrend_complete": true
+  },
+  "architecture": {
+    "engine_core_is_data_source_independent": true,
+    "legacy_runtime_is_boundary_adapter": true,
+    "backtest_forward_test_live_share_core_contract": true,
+    "strategy_logic_changed": false,
+    "market_gate_changed": false,
+    "execution_rules_changed": false
+  }
+}
