@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "plan_step": 2,
+  "plan_total_steps": 3,
+  "stage": "UPTREND-STEP2-EXECUTION-WIRING",
+  "decision": "PASS_UPTREND_STEP2_EXECUTION_WIRING",
+  "window": {
+    "start": "2021-06-01",
+    "end": "2021-12-31"
+  },
+  "loader": "scripts/export_e1_5y_core_equity.py",
+  "checks": {
+    "result_byte_equivalent": true,
+    "trace_byte_equivalent": true,
+    "result_hash_equal": true,
+    "trace_hash_equal": true,
+    "trace_count_equal_832": true,
+    "trace_counts_equal": true,
+    "buy_execution_count_10": true,
+    "exit_execution_count_7": true,
+    "reduce_execution_count_11": true
+  },
+  "disabled": {
+    "result_hash": "213a9394f7163f2c8a486f935d7de3401b6b0fc3e72d9c0ff244b07bdcee35c3",
+    "trace_hash": "eefb8346c1031227c3a7fdb3de73842b66e7466a2486ff62cddcc4fab9280614",
+    "trace_count": 832,
+    "trace_counts": {
+      "TP01_PRE_RANK_CANDIDATES": 150,
+      "TP02_POST_RANK_CANDIDATES": 150,
+      "TP03_SELECTED_BUY_FINALIZED": 10,
+      "TP04_BUY_ORDER_INTENT_CREATED": 10,
+      "TP05_PENDING_HANDOFF_FINALIZED": 150,
+      "TP06_T1_ORDER_EXECUTION_START": 174,
+      "TP07_BUY_SIZING_FINALIZED": 10,
+      "TP08_BUY_ACCOUNT_MUTATION_COMPLETE": 10,
+      "TP09_SELL_EXECUTION_PRICE_FINALIZED": 150,
+      "TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE": 11,
+      "TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE": 7
+    }
+  },
+  "enabled": {
+    "result_hash": "213a9394f7163f2c8a486f935d7de3401b6b0fc3e72d9c0ff244b07bdcee35c3",
+    "trace_hash": "eefb8346c1031227c3a7fdb3de73842b66e7466a2486ff62cddcc4fab9280614",
+    "trace_count": 832,
+    "trace_counts": {
+      "TP01_PRE_RANK_CANDIDATES": 150,
+      "TP02_POST_RANK_CANDIDATES": 150,
+      "TP03_SELECTED_BUY_FINALIZED": 10,
+      "TP04_BUY_ORDER_INTENT_CREATED": 10,
+      "TP05_PENDING_HANDOFF_FINALIZED": 150,
+      "TP06_T1_ORDER_EXECUTION_START": 174,
+      "TP07_BUY_SIZING_FINALIZED": 10,
+      "TP08_BUY_ACCOUNT_MUTATION_COMPLETE": 10,
+      "TP09_SELL_EXECUTION_PRICE_FINALIZED": 150,
+      "TP10B_REDUCE_ACCOUNT_MUTATION_COMPLETE": 11,
+      "TP10A_EXIT_ACCOUNT_MUTATION_COMPLETE": 7
+    }
+  },
+  "scope": {
+    "engine_buy_to_legacy_pending_mapping": true,
+    "legacy_reduce_exit_lifted_to_order_intent": true,
+    "legacy_execution_rules_modified": false,
+    "market_gate_modified": false,
+    "uptrend_decision_modified": false,
+    "account_mutation_rules_modified": false,
+    "add_supported": false,
+    "full_5y_run": false
+  },
+  "next_step": "UPTREND STEP 3 — FORMAL REPLACEMENT"
+}

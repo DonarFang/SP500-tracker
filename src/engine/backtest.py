@@ -2300,7 +2300,24 @@ def run_stateful_simulation(
         _is_last_sim_day = (_trade_end and _next_date and _next_date >= _trade_end)
         if _is_last_sim_day:
             buy_orders = []  # 不在最后一天生成新买入（防止 entry==exit invalid）
-        pending_orders = management_orders + buy_orders
+        if bool(
+            a.get(
+                "e1r_order_intent_execution_adapter_enabled",
+                False,
+            )
+        ):
+            from e1r_engine.uptrend_execution_adapter import (
+                UptrendExecutionAdapter,
+            )
+
+            pending_orders = (
+                UptrendExecutionAdapter
+                .normalize_legacy_pending_orders(
+                    management_orders + buy_orders
+                )
+            )
+        else:
+            pending_orders = management_orders + buy_orders
         if _e1r_trace_enabled():
             _e1r_emit_trace(
                 'TP05_PENDING_HANDOFF_FINALIZED',
