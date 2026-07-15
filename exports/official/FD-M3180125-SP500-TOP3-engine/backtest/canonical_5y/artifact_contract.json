@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "contract_name": "FD-M3180125-SP500-TOP3-engine Official Backtest Artifact Contract",
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "run_mode": "BACKTEST",
+  "artifact_status": "OFFICIAL",
+  "formal_variant": "E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3",
+  "canonical_strategy_commit": "d7eb4dc0288433c68332e4607ae261d2f615d371",
+  "source_result_sha256": "d8a5ea27ba0d8a7e8f7042bcbd09ffe67799f3b094a81cb92141a70f3075d593",
+  "source_json_paths": {
+    "variant": "$.backtest.results.results.layer_d.variant_results.E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3",
+    "regular_eod_curve": "$.backtest.results.results.layer_d.variant_results.E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3.daily_equity_records",
+    "trades": "$.backtest.results.results.layer_d.variant_results.E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3.trades",
+    "authoritative_final_equity": "$.backtest.results.results.layer_d.variant_results.E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3.final_equity",
+    "final_settlement": "$.backtest.results.results.layer_d.variant_results.E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3.sim_end_liquidation_record"
+  },
+  "equity_semantics": {
+    "regular_eod_curve": {
+      "point_type": "REGULAR_EOD",
+      "row_count": 1259,
+      "first_date": "2021-06-11",
+      "last_date": "2026-06-16",
+      "last_equity": 279290.75,
+      "description": "Regular end-of-day mark-to-market account states."
+    },
+    "formal_final_settlement": {
+      "point_type": "FINAL_SETTLEMENT",
+      "date": "2026-06-18",
+      "event": "SIM_END_LIQUIDATION",
+      "final_equity": 281711.79,
+      "description": "Backtest-only terminal liquidation state. It must not be used as the Forward seed state."
+    },
+    "official_curve_policy": "Preserve all regular EOD points and append one explicitly typed FINAL_SETTLEMENT point. The settlement point must never be represented as an ordinary market EOD point."
+  },
+  "benchmark_semantics": {
+    "source": "regular_eod_curve[].spx_close",
+    "normalization_formula": "spx_benchmark_equity = 100000 * current_spx_close / first_spx_close",
+    "settlement_point_policy": "No synthetic SPX value is generated for the FINAL_SETTLEMENT point."
+  },
+  "trade_semantics": {
+    "row_count": 92,
+    "actual_sim_end_trade_count": 3,
+    "actual_sim_end_symbols": [
+      "DELL",
+      "HUM",
+      "MRVL"
+    ],
+    "sim_end_filter": "is_sim_end == true OR exit_signal == SIM_END OR exit_type == SIM_END"
+  },
+  "forward_boundary": {
+    "forward_data_start": "2026-06-19",
+    "backtest_final_settlement_is_forward_seed": false,
+    "forward_seed_requirement": "Use a separately proven pre-liquidation continuous account snapshot preserving open positions, cost basis, origins, pending orders, and strategy state."
+  },
+  "prohibited_transformations": [
+    "Do not rerun the strategy during export",
+    "Do not change strategy or execution semantics",
+    "Do not infer a Forward seed from the liquidated cash state",
+    "Do not classify all trades containing an is_sim_end key as SIM_END",
+    "Do not synthesize an SPX close for the final settlement point"
+  ]
+}

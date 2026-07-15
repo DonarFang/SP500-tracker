@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "run_mode": "BACKTEST",
+  "formal_variant": "E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3",
+  "point_type": "FINAL_SETTLEMENT",
+  "source_json_path": "$.backtest.results.results.layer_d.variant_results.E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3.sim_end_liquidation_record",
+  "authoritative_final_equity_json_path": "$.backtest.results.results.layer_d.variant_results.E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3.final_equity",
+  "record": {
+    "date": "2026-06-18",
+    "cash": 281711.79,
+    "positions_value": 0.0,
+    "total_equity": 281711.79,
+    "open_positions_count": 0,
+    "sim_end_trades": 3,
+    "spx_regime": "UPTREND",
+    "e1r_active_mode": "UPTREND_EMERGING_CONFIRMED_ENABLED",
+    "risk_budget_mode": "UPTREND_RISK_ON",
+    "event": "SIM_END_LIQUIDATION"
+  },
+  "settlement_delta_from_last_regular_eod": 2421.04,
+  "forward_seed_eligible": false
+}
