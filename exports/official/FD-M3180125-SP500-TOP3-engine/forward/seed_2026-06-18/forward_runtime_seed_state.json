@@ -1,0 +1,170 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "FORWARD_RUNTIME_SEED_STATE",
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "formal_variant": "E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3",
+  "seed_boundary": {
+    "seed_date": "2026-06-18",
+    "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
+    "first_forward_market_date": "2026-06-19",
+    "sim_end_liquidation_replay_allowed": false
+  },
+  "evidence_classification": {
+    "is_original_runtime_snapshot": false,
+    "account_economics": "MATHEMATICALLY_RECONSTRUCTED_AND_RECONCILED",
+    "runtime_policy": "FORMALLY_FROZEN_GOVERNANCE_DECISION",
+    "must_not_be_represented_as_original_trace": true
+  },
+  "account": {
+    "cash": 70154.33556161943,
+    "position_count": 3,
+    "positions": [
+      {
+        "symbol": "DELL",
+        "origin_branch": "UPTREND",
+        "position_state_source": "DERIVED_FROM_CANONICAL_SIM_END_TRADE",
+        "remaining_shares": 156.48065098333814,
+        "average_cost": 219.21738909267563,
+        "remaining_cost_basis": 34303.27975208961,
+        "size_units": 0.5,
+        "entry_shares": 312.9613019666763,
+        "effective_liquidation_price_for_reconciliation_only": 407.99,
+        "liquidation_proceeds_for_reconciliation_only": 63842.540794692126,
+        "source_trade_index": 90,
+        "source_json_path": "$.backtest.results.results.layer_d.variant_results.E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3.trades[90]",
+        "forward_policy": {
+          "carry_position": true,
+          "preserve_origin_branch": true,
+          "do_not_replay_sim_end_exit": true,
+          "do_not_reenter_as_new_buy": true,
+          "apply_normal_uptrend_position_management": true
+        }
+      },
+      {
+        "symbol": "HUM",
+        "origin_branch": "UPTREND",
+        "position_state_source": "DERIVED_FROM_CANONICAL_SIM_END_TRADE",
+        "remaining_shares": 240.76122161662295,
+        "average_cost": 373.07020999999986,
+        "remaining_cost_basis": 89820.83950837003,
+        "size_units": 1.0,
+        "entry_shares": 240.76122161662295,
+        "effective_liquidation_price_for_reconciliation_only": 357.15,
+        "liquidation_proceeds_for_reconciliation_only": 85987.87030037688,
+        "source_trade_index": 91,
+        "source_json_path": "$.backtest.results.results.layer_d.variant_results.E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3.trades[91]",
+        "forward_policy": {
+          "carry_position": true,
+          "preserve_origin_branch": true,
+          "do_not_replay_sim_end_exit": true,
+          "do_not_reenter_as_new_buy": true,
+          "apply_normal_uptrend_position_management": true
+        }
+      },
+      {
+        "symbol": "MRVL",
+        "origin_branch": "UPTREND",
+        "position_state_source": "DERIVED_FROM_CANONICAL_SIM_END_TRADE",
+        "remaining_shares": 204.35358320635484,
+        "average_cost": 168.03021032425428,
+        "remaining_cost_basis": 34337.5755666788,
+        "size_units": 0.5,
+        "entry_shares": 408.7071664127097,
+        "effective_liquidation_price_for_reconciliation_only": 302.06,
+        "liquidation_proceeds_for_reconciliation_only": 61727.04334331155,
+        "source_trade_index": 89,
+        "source_json_path": "$.backtest.results.results.layer_d.variant_results.E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3.trades[89]",
+        "forward_policy": {
+          "carry_position": true,
+          "preserve_origin_branch": true,
+          "do_not_replay_sim_end_exit": true,
+          "do_not_reenter_as_new_buy": true,
+          "apply_normal_uptrend_position_management": true
+        }
+      }
+    ],
+    "positions_value_reference": {
+      "value": 211557.45443838055,
+      "valuation_basis": "SIM_END_EFFECTIVE_EXIT_PRICES_FOR_RECONCILIATION_ONLY",
+      "not_forward_opening_market_value": true
+    },
+    "total_equity_reference": {
+      "value": 281711.79,
+      "valuation_basis": "PRE_SIM_END_RECONCILIATION_VALUE",
+      "must_be_revalued_on_first_forward_date": true
+    }
+  },
+  "market_and_risk_state": {
+    "spx_regime": "UPTREND",
+    "e1r_active_mode": "UPTREND_EMERGING_CONFIRMED_ENABLED",
+    "risk_budget_mode": "UPTREND_RISK_ON",
+    "market_gate_state": "ALLOW",
+    "max_positions": 3,
+    "max_total_exposure_pct": 100.0,
+    "field_source": "LAST_REGULAR_EOD_AND_SIM_END_SETTLEMENT"
+  },
+  "pending_order_resolution": {
+    "historical_pending_order_count": 1,
+    "exact_payload_proven": false,
+    "actionable_pending_orders": [],
+    "resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY",
+    "policy_source": "USER_APPROVED_RUNTIME_SEED_CONTRACT",
+    "prohibitions": [
+      "Do not invent a symbol or action.",
+      "Do not execute an unknown historical order.",
+      "Do not count the unknown order as actionable."
+    ]
+  },
+  "runtime_reinitialization": {
+    "policy": "REINITIALIZE_UNPROVEN_TRANSIENT_FIELDS_FROM_FIRST_FORWARD_INPUT",
+    "preserve": [
+      "cash",
+      "positions",
+      "remaining shares",
+      "remaining cost basis",
+      "average cost",
+      "size units",
+      "origin branch",
+      "known regime/gate/risk mode"
+    ],
+    "rederive_on_first_forward_date": [
+      "ranking cache",
+      "candidate cache",
+      "market indicators",
+      "leader scores",
+      "transient decision buffers",
+      "non-persistent counters without evidence",
+      "daily valuation fields"
+    ],
+    "reset_to_empty": [
+      "actionable pending orders",
+      "SIM_END liquidation instructions",
+      "temporary execution queue"
+    ],
+    "prohibited_resets": [
+      "position holding identity",
+      "position origin branch",
+      "remaining shares",
+      "remaining cost basis",
+      "cash"
+    ]
+  },
+  "first_forward_day_rules": {
+    "market_date": "2026-06-19",
+    "opening_actions": [
+      "Load seed before processing market data.",
+      "Revalue all three positions using forward data.",
+      "Recompute transient market and ranking state.",
+      "Apply ordinary strategy management."
+    ],
+    "prohibited_actions": [
+      "Replay SIM_END liquidation.",
+      "Start from 281711.79 all-cash settlement.",
+      "Execute the unknown historical pending order.",
+      "Treat carried positions as new BUY entries.",
+      "Backfill invented historical trace records."
+    ]
+  },
+  "forward_runtime_seed_eligible": true,
+  "eligibility_basis": "RECONSTRUCTED_ACCOUNT_ECONOMICS_PLUS_FROZEN_RUNTIME_BOUNDARY_POLICY"
+}

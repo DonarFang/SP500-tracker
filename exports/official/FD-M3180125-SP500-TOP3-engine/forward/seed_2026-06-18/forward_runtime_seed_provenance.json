@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "artifact_type": "FORWARD_RUNTIME_SEED_CONTRACT_FREEZE",
+  "repository_head_at_export": "abd5aa74d4a3f442cd42b94296adbec6fcf39759",
+  "canonical_strategy_commit": "d7eb4dc0288433c68332e4607ae261d2f615d371",
+  "official_backtest_artifact_commit": "abd5aa74d4a3f442cd42b94296adbec6fcf39759",
+  "canonical_result_sha256": "d8a5ea27ba0d8a7e8f7042bcbd09ffe67799f3b094a81cb92141a70f3075d593",
+  "sources": [
+    {
+      "role": "RECONSTRUCTED_ACCOUNT_STATE_SOURCE",
+      "path": "/Users/dongfang/Downloads/FD_M3180125_STEP2_TARGETED_PRE_SIM_END_RECONCILIATION_20260715T130110Z/STEP2_RECONSTRUCTED_PRE_SIM_END_ACCOUNT_STATE.json",
+      "sha256": "93c0814cce98679c08b9ff490986818ee45fafd55ffb96ab4d03186298a630cd"
+    },
+    {
+      "role": "TARGETED_RECONCILIATION_DECISION_SOURCE",
+      "path": "/Users/dongfang/Downloads/FD_M3180125_STEP2_TARGETED_PRE_SIM_END_RECONCILIATION_20260715T130110Z/STEP2_TARGETED_RECONCILIATION_DECISION.json",
+      "sha256": "77366f8fcb6f9f14361d3f9911840ac80ed0c880d2092b4d916a1319a28e28f6"
+    }
+  ],
+  "transformations": [
+    "Preserve reconstructed cash, positions, shares, costs, origins and known market state.",
+    "Expire unknown pending order as non-actionable at the Forward boundary.",
+    "Reinitialize unproven transient runtime state from first Forward input.",
+    "Prohibit replay of SIM_END liquidation."
+  ],
+  "backtest_rerun_performed": false,
+  "forward_run_performed": false,
+  "strategy_change_performed": false,
+  "account_execution_change_performed": false
+}

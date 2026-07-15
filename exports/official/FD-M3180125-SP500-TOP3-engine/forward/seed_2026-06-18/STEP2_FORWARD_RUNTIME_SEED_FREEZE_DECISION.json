@@ -1,0 +1,29 @@
+{
+  "decision": "PASS_FORWARD_RUNTIME_SEED_CONTRACT_FROZEN",
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "formal_variant": "E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3",
+  "seed_date": "2026-06-18",
+  "first_forward_market_date": "2026-06-19",
+  "forward_runtime_seed_eligible": true,
+  "original_runtime_snapshot_found": false,
+  "account_economics_reconstructed": true,
+  "runtime_boundary_policy_frozen": true,
+  "unknown_pending_order_actionable": false,
+  "unknown_pending_order_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY",
+  "sim_end_liquidation_replay_allowed": false,
+  "post_liquidation_cash_seed_allowed": false,
+  "position_count": 3,
+  "position_symbols": [
+    "DELL",
+    "HUM",
+    "MRVL"
+  ],
+  "cash": 70154.33556161943,
+  "reference_total_equity": 281711.79,
+  "canonical_strategy_commit": "d7eb4dc0288433c68332e4607ae261d2f615d371",
+  "official_backtest_artifact_commit": "abd5aa74d4a3f442cd42b94296adbec6fcf39759",
+  "canonical_result_sha256": "d8a5ea27ba0d8a7e8f7042bcbd09ffe67799f3b094a81cb92141a70f3075d593",
+  "repository_head_at_freeze": "abd5aa74d4a3f442cd42b94296adbec6fcf39759",
+  "source_state_sha256": "93c0814cce98679c08b9ff490986818ee45fafd55ffb96ab4d03186298a630cd",
+  "source_decision_sha256": "77366f8fcb6f9f14361d3f9911840ac80ed0c880d2092b4d916a1319a28e28f6"
+}

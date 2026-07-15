@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "FD-M3180125-SP500-TOP3-engine/forward-runtime-seed/2026-06-18",
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "contract_status": "FROZEN",
+  "contract_scope": "FORWARD_RUNTIME_SEED_BOUNDARY_ONLY",
+  "historical_truth_boundary": {
+    "original_pre_liquidation_snapshot_found": false,
+    "derived_account_record_allowed": true,
+    "derived_record_may_be_called_original_trace": false,
+    "post_liquidation_cash_state_may_be_used": false
+  },
+  "account_economic_contract": {
+    "source": "DERIVED_RECONSTRUCTED_PRE_SIM_END_ACCOUNT_STATE",
+    "reconciliation_required": true,
+    "closure_delta_required": 0.0,
+    "cash_delta_tolerance_vs_last_regular_eod": 1.0,
+    "required_position_symbols": [
+      "DELL",
+      "HUM",
+      "MRVL"
+    ],
+    "required_origin_branch": "UPTREND"
+  },
+  "pending_order_contract": {
+    "historical_count": 1,
+    "payload_status": "UNPROVEN",
+    "forward_actionability": false,
+    "formal_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
+  },
+  "runtime_state_contract": {
+    "full_historical_runtime_state_proven": false,
+    "forward_continuation_authorized_under_policy": true,
+    "unproven_transient_fields": "REINITIALIZE_OR_REDERIVE",
+    "persistent_account_fields": "PRESERVE",
+    "sim_end_execution_state": "DISCARD"
+  },
+  "forward_date_contract": {
+    "seed_date": "2026-06-18",
+    "first_forward_market_date": "2026-06-19",
+    "forward_may_start_before_contract_freeze": false,
+    "sim_end_may_be_replayed": false
+  },
+  "change_control": {
+    "strategy_logic_change_allowed": false,
+    "account_economic_values_may_change": false,
+    "pending_order_payload_may_be_invented": false,
+    "contract_revision_requires_new_evidence_or_approval": true
+  }
+}

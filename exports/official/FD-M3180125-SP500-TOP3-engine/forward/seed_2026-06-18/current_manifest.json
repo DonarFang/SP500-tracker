@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "artifact_set": "FORWARD_RUNTIME_SEED_2026_06_18",
+  "artifact_count": 4,
+  "artifacts": [
+    {
+      "filename": "forward_runtime_seed_contract.json",
+      "size_bytes": 1775,
+      "sha256": "e592ff42af3548b377cf7fc26bf16c3ed068a5b067f07fb25424ce189392cb80"
+    },
+    {
+      "filename": "forward_runtime_seed_state.json",
+      "size_bytes": 6365,
+      "sha256": "d46e318d04c2895f5c2052437f315d7ee5595c38db75a3dade0365114794c2d4"
+    },
+    {
+      "filename": "forward_runtime_seed_provenance.json",
+      "size_bytes": 1594,
+      "sha256": "cd918f8ab9e054ebb8817fd6a584a77c6f8e801c6ae589f0c9db96da51be105f"
+    },
+    {
+      "filename": "STEP2_FORWARD_RUNTIME_SEED_FREEZE_DECISION.json",
+      "size_bytes": 1303,
+      "sha256": "a731c905ae95529a4e3c25263e7552a89091c73add191e5c7141bce692361f7f"
+    }
+  ]
+}
