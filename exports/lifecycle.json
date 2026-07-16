@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-16T18:50:27.363569-04:00",
-  "generated_at_display": "2026年7月16日 18:50 ET",
+  "generated_at": "2026-07-16T19:56:12.679876-04:00",
+  "generated_at_display": "2026年7月16日 19:56 ET",
   "data_source": "Yahoo Finance",
   "phase": "2",
   "regimes": {
@@ -398,10 +398,25 @@
         "drawdown_pct": 0.0
       },
       {
+        "symbol": "MOH",
+        "name": "MOH",
+        "sector": "Healthcare",
+        "rank": 27,
+        "trend_health": 85.0,
+        "momentum_score": 36.8,
+        "rs_score": 96.9,
+        "trend_state": "Mature Trend",
+        "trade_action": "REDUCE",
+        "action_label": "减仓",
+        "action_color": "#D85A30",
+        "rs_raw": 43.79,
+        "drawdown_pct": 7.44
+      },
+      {
         "symbol": "MET",
         "name": "MET",
         "sector": "Insurance",
-        "rank": 27,
+        "rank": 28,
         "trend_health": 95.0,
         "momentum_score": 40.0,
         "rs_score": 87.8,
@@ -411,21 +426,6 @@
         "action_color": "#D85A30",
         "rs_raw": 15.54,
         "drawdown_pct": 0.0
-      },
-      {
-        "symbol": "MOH",
-        "name": "MOH",
-        "sector": "Healthcare",
-        "rank": 28,
-        "trend_health": 85.0,
-        "momentum_score": 36.7,
-        "rs_score": 96.9,
-        "trend_state": "Mature Trend",
-        "trade_action": "REDUCE",
-        "action_label": "减仓",
-        "action_color": "#D85A30",
-        "rs_raw": 43.79,
-        "drawdown_pct": 7.44
       },
       {
         "symbol": "ABBV",
