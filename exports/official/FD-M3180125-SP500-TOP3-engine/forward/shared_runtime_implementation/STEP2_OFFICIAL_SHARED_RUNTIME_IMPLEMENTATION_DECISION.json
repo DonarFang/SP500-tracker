@@ -12,6 +12,7 @@
     "sideways": "COMPLETE",
     "uptrend": "COMPLETE"
   },
+  "implementation_base_commit": "dcea33e4038babc27b572eca715c4ad213722311",
   "implementation_version": "1.0.0",
   "implemented_modules": [
     "ForwardSeedLoader",
@@ -27,7 +28,6 @@
   "legacy_oos_state_mutated": false,
   "next_action_within_step_2": "Validate the implemented Shared Runtime with the frozen Forward Seed and a non-mutating synthetic/dry-run acceptance before the first official Forward commit.",
   "real_forward_run_performed": false,
-  "runtime_commit_at_generation": "dcea33e4038babc27b572eca715c4ad213722311",
   "source_files": {
     "src/e1r_engine/forward_runtime.py": {
       "sha256": "3a68b2c18b016b10636458b63ba4fc5854d01868f00c2167addbbdeae09dd7e0"

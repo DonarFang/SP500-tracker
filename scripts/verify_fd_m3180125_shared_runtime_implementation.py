@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -79,14 +78,6 @@ def write_json(
         + "\n",
         encoding="utf-8",
     )
-
-
-def git_head() -> str:
-    return subprocess.check_output(
-        ["git", "rev-parse", "HEAD"],
-        cwd=ROOT,
-        text=True,
-    ).strip()
 
 
 def main() -> None:
@@ -183,7 +174,7 @@ def main() -> None:
         "real_forward_run_performed": False,
         "legacy_oos_state_mutated": False,
         "dashboard_step3_started": False,
-        "runtime_commit_at_generation": git_head(),
+        "implementation_base_commit": "dcea33e4038babc27b572eca715c4ad213722311",
         "next_action_within_step_2": (
             "Validate the implemented Shared Runtime with "
             "the frozen Forward Seed and a non-mutating "
