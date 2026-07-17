@@ -1,0 +1,45 @@
+{
+  "canonical_5y_backtest_rerun": false,
+  "completed_prerequisites": {
+    "canonical_backtest": "PASS",
+    "engine_development": "COMPLETE",
+    "reopen_completed_strategy_work": false,
+    "reopen_rule": "Completed Engine and canonical backtest work may be reopened only when new, reproducible regression evidence exists.",
+    "sideways_formal_replacement": "COMPLETE",
+    "uptrend_formal_replacement": "COMPLETE"
+  },
+  "contract_sha256": "227c3e51d3966afde6176fa7a8ac4cd6504056619ad0d7284a4e5bdd3b5886d8",
+  "contract_status": "FROZEN",
+  "contract_version": "1.0.0",
+  "dashboard_step3_started": false,
+  "decision": "PASS_STEP2_OFFICIAL_SHARED_RUNTIME_CONTRACT_FROZEN",
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "forward_run_performed": false,
+  "forward_time_contract": {
+    "automatic_end_of_data_liquidation_allowed": false,
+    "first_forward_market_date": "2026-06-19",
+    "fixed_terminal_date_allowed": false,
+    "forward_track_end": "OPEN_ENDED",
+    "initial_catchup_target": "LATEST_COMPLETE_COMMON_DATA_DATE",
+    "processing_order": "STRICT_ASCENDING_TRADING_DATE",
+    "seed_date": "2026-06-18",
+    "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
+    "subsequent_run_mode": "INCREMENTAL_FROM_LAST_COMMITTED_DATE"
+  },
+  "legacy_oos_state_mutated": false,
+  "markdown_sha256": "bd4b901d409cab4afe4ece7102c28f867ed6470df96e6e93100ceebc60a46d6d",
+  "module_names": [
+    "ForwardSeedLoader",
+    "ForwardDatePlanner",
+    "ForwardMarketDataAdapter",
+    "CanonicalDailyDecisionRouter",
+    "PendingOrderLedger",
+    "T1ExecutionEngine",
+    "ForwardAccountRepository",
+    "ForwardDailyCommitter",
+    "OfficialForwardArtifactWriter"
+  ],
+  "next_action": "Implement the frozen Shared Runtime contract without changing UPTREND or SIDEWAYS strategy logic.",
+  "step": "STEP2_OFFICIAL_SHARED_RUNTIME_CONTRACT_FREEZE",
+  "strategy_logic_changed": false
+}

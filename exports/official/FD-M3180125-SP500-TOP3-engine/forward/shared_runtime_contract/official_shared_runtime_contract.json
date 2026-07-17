@@ -1,0 +1,387 @@
+{
+  "acceptance_contract": {
+    "canonical_5y_backtest_rerun_required": false,
+    "contract_freeze_decision": "PASS_STEP2_OFFICIAL_SHARED_RUNTIME_CONTRACT_FROZEN",
+    "dashboard_integration_allowed_by_this_step": false,
+    "forward_execution_allowed_by_this_step": false,
+    "implementation_allowed_after_freeze": true,
+    "strategy_logic_change_allowed": false
+  },
+  "completed_prerequisites": {
+    "canonical_backtest": "PASS",
+    "engine_development": "COMPLETE",
+    "reopen_completed_strategy_work": false,
+    "reopen_rule": "Completed Engine and canonical backtest work may be reopened only when new, reproducible regression evidence exists.",
+    "sideways_formal_replacement": "COMPLETE",
+    "uptrend_formal_replacement": "COMPLETE"
+  },
+  "contract_name": "OFFICIAL_SHARED_RUNTIME_CONTRACT",
+  "contract_status": "FROZEN",
+  "daily_processing_contract": {
+    "date_atomicity": true,
+    "order": [
+      "PLAN_DATE",
+      "LOAD_COMMITTED_STATE",
+      "LOAD_T1_MARKET_DATA",
+      "EXECUTE_PRIOR_PENDING",
+      "MARK_TO_MARKET_AT_CLOSE",
+      "BUILD_DAILY_DECISION_INPUTS",
+      "ROUTE_CANONICAL_DECISION",
+      "CREATE_CURRENT_PENDING",
+      "VALIDATE_ACCOUNT_AND_MAX3",
+      "WRITE_DAILY_ARTIFACTS",
+      "ATOMIC_COMMIT",
+      "UPDATE_CURRENT_MANIFEST"
+    ],
+    "parallel_date_processing_allowed": false,
+    "strict_previous_date_dependency": true
+  },
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "failure_contract": {
+    "account_validation_failure": "STOP_WITHOUT_DAILY_COMMIT",
+    "duplicate_fill_conflict": "STOP_WITHOUT_ACCOUNT_MUTATION",
+    "invalid_seed": "STOP_BEFORE_FIRST_FORWARD_DATE",
+    "manifest_hash_failure": "STOP_AND_RETAIN_LAST_GOOD_COMMIT",
+    "missing_required_data": "STOP_WITHOUT_DAILY_COMMIT",
+    "strategy_input_contract_failure": "STOP_WITHOUT_FALLBACK_TO_LEGACY"
+  },
+  "forward_time_contract": {
+    "automatic_end_of_data_liquidation_allowed": false,
+    "first_forward_market_date": "2026-06-19",
+    "fixed_terminal_date_allowed": false,
+    "forward_track_end": "OPEN_ENDED",
+    "initial_catchup_target": "LATEST_COMPLETE_COMMON_DATA_DATE",
+    "processing_order": "STRICT_ASCENDING_TRADING_DATE",
+    "seed_date": "2026-06-18",
+    "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
+    "subsequent_run_mode": "INCREMENTAL_FROM_LAST_COMMITTED_DATE"
+  },
+  "frozen_seed_boundary": {
+    "actionable_pending_orders": [],
+    "position_origin": "UPTREND",
+    "post_liquidation_all_cash_seed_allowed": false,
+    "required_cash": 70154.33556161943,
+    "required_position_count": 3,
+    "required_position_symbols": [
+      "DELL",
+      "HUM",
+      "MRVL"
+    ],
+    "sim_end_replay_allowed": false,
+    "source_root": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/seed_2026-06-18",
+    "unknown_historical_pending_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
+  },
+  "idempotency_contract": {
+    "commit_manifest_is_source_of_truth": true,
+    "date_identity": "SHA256(engine_id, forward_track, trading_date)",
+    "duplicate_fill": "NO_ACCOUNT_MUTATION",
+    "duplicate_order": "NO_OP_ALREADY_RECORDED",
+    "fill_identity": "SHA256(engine_id, order_id, execution_date, action)",
+    "order_identity": "SHA256(engine_id, signal_date, symbol, intent_type, branch, sequence)",
+    "same_date_second_run": "NO_OP_ALREADY_COMMITTED"
+  },
+  "module_contracts": {
+    "CanonicalDailyDecisionRouter": {
+      "global_rules": [
+        "Maximum open positions across all origins is 3.",
+        "Regime transitions do not automatically liquidate UPTREND-origin positions.",
+        "Decision routing must not recompute or alter frozen UPTREND or SIDEWAYS strategy definitions."
+      ],
+      "inputs": [
+        "MarketSnapshot",
+        "AccountState after T+1 execution and T close mark-to-market",
+        "active regime",
+        "branch-specific frozen inputs"
+      ],
+      "outputs": [
+        "OrderIntent list",
+        "DecisionTrace"
+      ],
+      "responsibility": "Route one completed trading day to already validated canonical decision components.",
+      "routing": {
+        "OTHER": {
+          "default_output": "HOLD_OR_NOOP",
+          "existing_position_management": "Use only already frozen applicable management logic.",
+          "new_risk_expansion": false
+        },
+        "SIDEWAYS_MA_CONFLICT": {
+          "adapter": "SidewaysExecutionAdapter",
+          "decision": "SidewaysExecutionPolicy.build_intents",
+          "ranking": "SidewaysCore.rank_date",
+          "strategy_reimplementation_allowed": false
+        },
+        "UPTREND": {
+          "argument": "uptrend_inputs",
+          "entry": "E1RCoreEngine.step",
+          "legacy_decision_allowed": false
+        }
+      }
+    },
+    "ForwardAccountRepository": {
+      "position_fields": [
+        "symbol",
+        "quantity",
+        "average_cost",
+        "remaining_cost_basis",
+        "size_units",
+        "origin_branch",
+        "entry_date",
+        "last_price",
+        "market_value",
+        "realized_pnl",
+        "metadata"
+      ],
+      "responsibility": "Persist the latest committed Forward account and history.",
+      "state_fields": [
+        "schema_version",
+        "engine_id",
+        "last_committed_date",
+        "cash",
+        "positions",
+        "pending_orders",
+        "closed_trades",
+        "equity",
+        "decision provenance",
+        "source hashes"
+      ],
+      "write_contract": {
+        "legacy_oos_state_mutation_allowed": false,
+        "method": "ATOMIC_TEMP_FILE_REPLACE",
+        "partial_daily_state_allowed": false
+      }
+    },
+    "ForwardDailyCommitter": {
+      "commit_boundary": "A date is committed only after all required daily artifacts and the account state are durable.",
+      "daily_sequence": [
+        "load last committed account",
+        "load pending orders from prior trading date",
+        "execute T+1 orders",
+        "mark all holdings to T close",
+        "build canonical daily decision inputs",
+        "generate current-day OrderIntents",
+        "persist new pending orders",
+        "write daily account state",
+        "write orders, fills, trace, and equity row",
+        "update current manifest",
+        "mark trading date committed"
+      ],
+      "recovery": {
+        "committed_date": "NO_OP_ALREADY_COMMITTED",
+        "next_restart_date": "first trading date after last_committed_date",
+        "uncommitted_partial_date": "Discard temporary artifacts and rerun the date."
+      },
+      "responsibility": "Commit one complete trading day atomically."
+    },
+    "ForwardDatePlanner": {
+      "inputs": [
+        "seed_date",
+        "last_committed_date",
+        "latest_complete_common_data_date",
+        "trading_calendar"
+      ],
+      "outputs": [
+        "ordered_uncommitted_trading_dates"
+      ],
+      "responsibility": "Plan all uncommitted trading dates in ascending order.",
+      "rules": [
+        "First planned date is 2026-06-19 when no Forward daily commit exists.",
+        "Otherwise first planned date is the first trading date after last_committed_date.",
+        "No date later than latest_complete_common_data_date may be processed.",
+        "Empty plan produces NO_OP_DATA_NOT_ADVANCED."
+      ]
+    },
+    "ForwardMarketDataAdapter": {
+      "inputs": [
+        "stock OHLC history",
+        "SPX history",
+        "NDX history",
+        "SOX history",
+        "daily regime records"
+      ],
+      "latest_complete_common_date_rule": {
+        "missing_required_bar_action": "STOP_BEFORE_DAILY_COMMIT",
+        "required_indices": [
+          "SPX",
+          "NDX",
+          "SOX"
+        ],
+        "required_symbols": [
+          "current holdings",
+          "pending-order symbols",
+          "symbols required by the active decision branch"
+        ]
+      },
+      "outputs": [
+        "MarketSnapshot",
+        "UPTREND strategy inputs when applicable",
+        "SIDEWAYS ranking inputs when applicable",
+        "latest_complete_common_data_date"
+      ],
+      "prohibitions": [
+        "No BUY/ADD/REDUCE/EXIT decision",
+        "No account mutation",
+        "No look-ahead data"
+      ],
+      "responsibility": "Normalize complete daily inputs without strategy decisions."
+    },
+    "ForwardSeedLoader": {
+      "inputs": [
+        "forward_runtime_seed_contract.json",
+        "forward_runtime_seed_state.json",
+        "forward_runtime_seed_provenance.json"
+      ],
+      "must_preserve": [
+        "cash",
+        "symbol",
+        "remaining_shares",
+        "average_cost",
+        "remaining_cost_basis",
+        "size_units",
+        "origin_branch",
+        "entry metadata"
+      ],
+      "must_reject": [
+        "SIM_END liquidation replay",
+        "post-liquidation all-cash state",
+        "invented pending-order payload"
+      ],
+      "outputs": [
+        "ForwardRuntimeState"
+      ],
+      "responsibility": "Load and validate the frozen pre-SIM_END Forward Seed."
+    },
+    "OfficialForwardArtifactWriter": {
+      "manifest_requirements": [
+        "engine_id",
+        "schema_version",
+        "seed_date",
+        "first_forward_market_date",
+        "last_committed_date",
+        "latest_complete_common_data_date",
+        "forward_track_end",
+        "account summary",
+        "artifact SHA256 values",
+        "source-data SHA256 values",
+        "runtime commit"
+      ],
+      "official_root": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime",
+      "required_artifacts": [
+        "current/account_state.json",
+        "current/pending_orders.json",
+        "current/manifest.json",
+        "daily/YYYY-MM-DD/account_state.json",
+        "daily/YYYY-MM-DD/order_intents.json",
+        "daily/YYYY-MM-DD/fills.json",
+        "daily/YYYY-MM-DD/decision_trace.json",
+        "daily/YYYY-MM-DD/equity.json",
+        "history/equity_curve.json",
+        "history/orders.jsonl",
+        "history/fills.jsonl"
+      ],
+      "responsibility": "Write canonical Forward artifacts for review and Dashboard."
+    },
+    "PendingOrderLedger": {
+      "identity_contract": {
+        "duplicate_identity_action": "NO_OP_ALREADY_RECORDED",
+        "identity": "DETERMINISTIC_SHA256",
+        "required_fields": [
+          "engine_id",
+          "signal_date",
+          "symbol",
+          "intent_type",
+          "branch",
+          "sequence"
+        ]
+      },
+      "inputs": [
+        "OrderIntent list",
+        "signal_date"
+      ],
+      "outputs": [
+        "deterministic pending-order records"
+      ],
+      "responsibility": "Persist T-day OrderIntents for possible T+1 execution.",
+      "rules": [
+        "HOLD and NOOP do not create executable pending orders.",
+        "Unknown historical pending orders are never imported as actionable orders.",
+        "A pending order may transition to FILLED, SKIPPED, CANCELLED, or EXPIRED exactly once."
+      ]
+    },
+    "T1ExecutionEngine": {
+      "account_rules": [
+        "EXIT and REDUCE release cash before BUY sizing.",
+        "Maximum open positions after execution is 3.",
+        "SIDEWAYS BUY uses the frozen tradable-cash base: 10% per symbol and 30% total.",
+        "Account cash, quantity, average cost, cost basis, size units, realized PnL, and origin branch must remain internally consistent."
+      ],
+      "exactly_once_contract": {
+        "commit_required_before_next_date": true,
+        "duplicate_fill_action": "NO_ACCOUNT_MUTATION",
+        "fill_identity": "SHA256(engine_id, order_id, execution_date, action)"
+      },
+      "execution_order": [
+        "EXIT",
+        "REDUCE",
+        "REL_REDUCE",
+        "TP_REDUCE",
+        "ADD",
+        "BUY"
+      ],
+      "price_contract": {
+        "ADD": "T+1 high, fallback to T+1 close, plus one-way cost",
+        "BUY": "T+1 high, fallback to T+1 close, plus one-way cost",
+        "EXIT": "T+1 low, fallback to T+1 close, minus one-way cost",
+        "REDUCE": "T+1 low, fallback to T+1 close, minus one-way cost"
+      },
+      "prohibitions": [
+        "No SIM_END action",
+        "No automatic data-end liquidation",
+        "No broker-specific behavior"
+      ],
+      "responsibility": "Execute prior-trading-day pending orders and mutate AccountState using frozen execution semantics."
+    }
+  },
+  "schema_version": "1.0.0",
+  "scope": {
+    "excluded": [
+      "UPTREND strategy changes",
+      "SIDEWAYS strategy changes",
+      "Engine strategy redevelopment",
+      "Canonical 5Y backtest rerun",
+      "strategy equivalence revalidation",
+      "broker API integration",
+      "Dashboard Step 3 integration"
+    ],
+    "included": [
+      "Forward Seed loading",
+      "open-ended trading-date planning",
+      "daily market-data normalization",
+      "canonical daily decision routing",
+      "T+1 pending-order execution",
+      "account-state persistence",
+      "idempotent daily commit",
+      "interruption recovery",
+      "official Forward artifact generation"
+    ]
+  },
+  "validation_contract": {
+    "after_daily_commit": [
+      "All required daily artifacts exist.",
+      "All artifact hashes match the manifest.",
+      "last_committed_date equals the processed date.",
+      "Current account equals the committed daily account.",
+      "The next restart date is deterministic."
+    ],
+    "before_daily_commit": [
+      "Market date equals planned trading date.",
+      "All required market bars are complete.",
+      "AccountState validates.",
+      "Cash is non-negative within accepted tolerance.",
+      "Open positions are at most 3.",
+      "All positions have explicit origin_branch.",
+      "Every executable pending order has a deterministic order ID.",
+      "Every fill references one pending order.",
+      "No SIM_END event exists."
+    ]
+  }
+}
