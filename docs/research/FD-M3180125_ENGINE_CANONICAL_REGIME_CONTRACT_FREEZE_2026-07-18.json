@@ -1,0 +1,128 @@
+{
+  "schema": "FD_M3180125_CanonicalRegimeContractFreezeV1",
+  "date": "2026-07-18",
+  "work_package": "FD-M3180125 Engine Canonical Regime Integration",
+  "fixed_three_step_plan": [
+    "Mechanism Recovery and Contract Freeze",
+    "Engine Integration",
+    "Reproduction and Runtime Acceptance"
+  ],
+  "current_step": 1,
+  "status": "CONTRACT_FROZEN",
+  "repositories": {
+    "development": "sp500-tracker-v13",
+    "historical_evidence": "sp500-tracker-5y",
+    "historical_repository_is_read_only_source": true
+  },
+  "producer_evidence": {
+    "path": "scripts/build_weekly_regimes.py",
+    "commit": "2c1cc5ffdac5ae89111c11fd1b4b4980b2be4216",
+    "commit_subject": "Add weekly regime classifier and E1 trade-level attribution",
+    "git_blob": "34237ced1276bc386af16ede6d73cddb566c9406",
+    "sha256": "5e98a302be084fd9a19996135381b60ac2ae371d9f3c5ef325a4ebdec7c59115"
+  },
+  "frozen_input": {
+    "path": "data/research/e1_5y/raw/indices/SPX.json",
+    "sha256": "04e09605b1bee9a900a0f3db4c1926e6bd48f8f4dceebf711b2c9511bd98633e",
+    "bar_count": 1562,
+    "first_date": "2020-04-01",
+    "last_date": "2026-06-18",
+    "dependency": "SPX_CLOSE_ONLY"
+  },
+  "artifact_hashes": {
+    "data/research/e1_5y/regimes/spx_weekly_regimes.json": "1bdff14664a65f1d966ac078f130e9ac24ee742d044cede57f05ef00050d74c1",
+    "data/research/e1_5y/regimes/spx_regime_daily.json": "3ad4f9308b0b6b77476e4a7d204d3fab71882a5cd6234d872aa5299bf356afc8",
+    "data/research/e1_5y/regimes/spx_regime_episodes.json": "2ed9aac3cf290647e966d043b0103041d1a519305a4c31a55b81705b5fb24766",
+    "data/research/e1_5y/regimes/regime_summary.json": "821bf4cfa4010f243aa62bbd26dec7628eb1fb209574603e7312a5c06bace00e"
+  },
+  "weekly_close_contract": {
+    "grouping": "ISO_YEAR_AND_ISO_WEEK",
+    "week_close": "LAST_AVAILABLE_SPX_TRADING_BAR_IN_ISO_WEEK",
+    "holiday_short_week": "USE_LAST_AVAILABLE_BAR"
+  },
+  "formulas": {
+    "ma10w": "mean(C[t-9] ... C[t])",
+    "ma40w": "mean(C[t-39] ... C[t])",
+    "ma40w_slope_13w": "MA40W[t] / MA40W[t-13] - 1",
+    "classification_uses_unrounded_values": true,
+    "stored_ma10w_decimals": 4,
+    "stored_ma40w_decimals": 4,
+    "stored_slope_decimals": 6
+  },
+  "classification": {
+    "UNCLASSIFIED": "MA10W is unavailable OR MA40W is unavailable OR SLOPE13W is unavailable",
+    "UPTREND": "CloseW > MA40W AND MA10W > MA40W AND SLOPE13W > 0",
+    "DOWNTREND": "CloseW < MA40W AND MA10W < MA40W AND SLOPE13W < 0",
+    "SIDEWAYS": "all other valid indicator combinations",
+    "RECOVERY_TRANSITION": "SIDEWAYS AND CloseW > MA40W AND MA10W > MA40W AND SLOPE13W <= 0",
+    "DETERIORATION_TRANSITION": "SIDEWAYS AND CloseW < MA40W AND MA10W < MA40W AND SLOPE13W >= 0",
+    "MA_CONFLICT": "all remaining SIDEWAYS combinations"
+  },
+  "one_week_lag": {
+    "rule": "For daily date d, use the latest week_end_date strictly earlier than Monday of d's ISO week",
+    "lookahead_permitted": false
+  },
+  "warmup": {
+    "omit_date": false,
+    "regime": "UNCLASSIFIED",
+    "subclass": null
+  },
+  "allowed_raw_regimes": [
+    "UNCLASSIFIED",
+    "UPTREND",
+    "SIDEWAYS",
+    "DOWNTREND"
+  ],
+  "allowed_subclasses": [
+    null,
+    "MA_CONFLICT",
+    "DETERIORATION_TRANSITION",
+    "RECOVERY_TRANSITION"
+  ],
+  "engine_boundary": {
+    "UNCLASSIFIED_is_executable_trend": false,
+    "missing_or_unclassified_behavior": "NOT_READY_OR_DEFENSIVE; NO SILENT TREND FALLBACK",
+    "legacy_risk_state_is_canonical_regime": false
+  },
+  "golden_master_result": {
+    "weekly_reference_count": 325,
+    "weekly_generated_count": 325,
+    "weekly_missing": 0,
+    "weekly_extra": 0,
+    "weekly_mismatch": 0,
+    "daily_reference_count": 1562,
+    "daily_generated_count": 1562,
+    "daily_missing": 0,
+    "daily_extra": 0,
+    "regime_mismatch": 0,
+    "subclass_mismatch": 0,
+    "full_state_mismatch": 0,
+    "decision": "PASS_EXACT_CANONICAL_REGIME_REPRODUCTION"
+  },
+  "acceptance": {
+    "required_missing_dates": 0,
+    "required_extra_dates": 0,
+    "required_weekly_mismatches": 0,
+    "required_full_state_mismatches": 0,
+    "aggregate_counts_alone_are_sufficient": false,
+    "unknown_difference_blocks_acceptance": true
+  },
+  "difference_taxonomy": [
+    "DATA_INPUT_DIFFERENCE",
+    "WEEK_BOUNDARY_DIFFERENCE",
+    "INDICATOR_PRECISION_DIFFERENCE",
+    "FORMULA_DIFFERENCE",
+    "LAG_ALIGNMENT_DIFFERENCE",
+    "DAILY_EXPANSION_DIFFERENCE",
+    "SUBCLASS_RULE_DIFFERENCE",
+    "WARMUP_OUTPUT_DIFFERENCE",
+    "UNKNOWN_DIFFERENCE"
+  ],
+  "step_boundary": {
+    "mechanism_recovery_complete": true,
+    "contract_freeze_complete": true,
+    "engine_integration_started": false,
+    "runtime_acceptance_started": false,
+    "forward_testing_resumed": false
+  }
+}
