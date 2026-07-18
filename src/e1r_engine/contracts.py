@@ -6,6 +6,20 @@ from typing import Any, Literal
 
 EngineMode = Literal["BACKTEST", "PAPER", "LIVE"]
 
+CanonicalRegime = Literal[
+    "UNCLASSIFIED",
+    "UPTREND",
+    "SIDEWAYS",
+    "DOWNTREND",
+]
+
+CanonicalSubclass = Literal[
+    "MA_CONFLICT",
+    "DETERIORATION_TRANSITION",
+    "RECOVERY_TRANSITION",
+    None,
+]
+
 
 @dataclass(frozen=True)
 class DailyBar:
@@ -44,7 +58,7 @@ class AssetSeries:
 @dataclass(frozen=True)
 class RegimeRecord:
     date: str
-    spx_regime: Literal["UPTREND", "SIDEWAYS", "DOWNTREND"]
+    spx_regime: CanonicalRegime
     subclass: str = "NO_SUBCLASS"
     raw: Any = None
     source_path: str | None = None

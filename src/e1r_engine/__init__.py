@@ -1,12 +1,19 @@
 """
 Standalone E1R Engine package.
 
-Architecture rule:
-Backtest, forward test / paper tracking, and future live trading must call the
-same E1R Core Engine. Mode-specific code may adapt data, execution,
-persistence, and reporting only; it must not fork trading logic.
+Backtest, paper and future live execution must share one Core Engine.
+CanonicalRegimeGenerator is the single Engine Regime-generation module.
 """
 
+from e1r_engine.canonical_regime import (
+    CanonicalRegimeGenerator,
+    CanonicalRegimeTimeline,
+    RegimeDecision,
+)
+
 __all__ = [
+    "CanonicalRegimeGenerator",
+    "CanonicalRegimeTimeline",
+    "RegimeDecision",
     "contracts",
 ]

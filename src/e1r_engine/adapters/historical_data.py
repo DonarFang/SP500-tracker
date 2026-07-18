@@ -12,6 +12,9 @@ from e1r_engine.contracts import (
     RegimeRecord,
     strict_common_dates,
 )
+from e1r_engine.canonical_regime import (
+    CanonicalRegimeGenerator,
+)
 
 
 class HistoricalDataAdapter:
@@ -233,7 +236,12 @@ class HistoricalDataAdapter:
 
             if not self._is_date_like(d):
                 continue
-            if regime not in {"UPTREND", "SIDEWAYS", "DOWNTREND"}:
+            if regime not in {
+                "UNCLASSIFIED",
+                "UPTREND",
+                "SIDEWAYS",
+                "DOWNTREND",
+            }:
                 continue
 
             records[str(d)] = RegimeRecord(
@@ -245,6 +253,22 @@ class HistoricalDataAdapter:
             )
 
         return dict(sorted(records.items()))
+
+    def generate_regime_daily(
+        self,
+        spx_series: AssetSeries,
+    ) -> dict[str, RegimeRecord]:
+        """
+        Explicit engine-owned generated path.
+
+        Step 2 does not change load_bundle() default artifact behavior.
+        Step 3 will perform reproduction/runtime acceptance before the
+        generated path becomes the formal runtime source.
+        """
+        timeline = CanonicalRegimeGenerator.generate(
+            spx_series
+        )
+        return timeline.daily_records
 
     def regime_summary(self, regime_daily: dict[str, RegimeRecord]) -> dict[str, Any]:
         regime_counts = Counter()
@@ -390,7 +414,12 @@ class HistoricalDataAdapter:
 
             if regime is None:
                 for v in value.values():
-                    if isinstance(v, str) and v.upper() in {"UPTREND", "SIDEWAYS", "DOWNTREND"}:
+                    if isinstance(v, str) and v.upper() in {
+                        "UNCLASSIFIED",
+                        "UPTREND",
+                        "SIDEWAYS",
+                        "DOWNTREND",
+                    }:
                         regime = v.upper()
                         break
 
@@ -415,7 +444,16 @@ class HistoricalDataAdapter:
         if isinstance(value, str):
             return {
                 "date": date_hint,
-                "spx_regime": value.upper() if value.upper() in {"UPTREND", "SIDEWAYS", "DOWNTREND"} else value,
+                "spx_regime": (
+                    value.upper()
+                    if value.upper() in {
+                        "UNCLASSIFIED",
+                        "UPTREND",
+                        "SIDEWAYS",
+                        "DOWNTREND",
+                    }
+                    else value
+                ),
                 "subclass": None,
                 "raw": value,
             }

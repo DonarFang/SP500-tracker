@@ -18,37 +18,83 @@ class RegimeRoute:
 
 class RegimeRouter:
     """
-    RegimeRouter shell for standalone E1R Engine.
+    Sole strategy-branch router for canonical Engine Regime decisions.
 
-    Responsibility:
-    - Convert normalized regime record into an engine branch label.
-    - Preserve explicit branch routing trace.
-
-    Must not:
-    - Decide BUY/SELL/HOLD/ADD/REDUCE/EXIT.
-    - Rank candidates.
-    - Size positions.
-    - Apply market gates.
-    - Execute orders.
+    It validates canonical Regime/subclass combinations before routing.
+    Invalid, unknown and UNCLASSIFIED inputs remain defensive.
     """
 
-    def route(self, date: str, spx_regime: str | None, subclass: str | None) -> RegimeRoute:
-        normalized_regime = (spx_regime or "UNKNOWN").upper()
-        normalized_subclass = (subclass or "NO_SUBCLASS").upper()
+    _VALID_COMBINATIONS = {
+        ("UNCLASSIFIED", "NO_SUBCLASS"),
+        ("UPTREND", "NO_SUBCLASS"),
+        ("DOWNTREND", "NO_SUBCLASS"),
+        ("SIDEWAYS", "MA_CONFLICT"),
+        ("SIDEWAYS", "DETERIORATION_TRANSITION"),
+        ("SIDEWAYS", "RECOVERY_TRANSITION"),
+    }
 
-        if normalized_regime == "UPTREND":
-            branch: EngineBranch = "UPTREND"
+    _KNOWN_REGIMES = {
+        "UNCLASSIFIED",
+        "UPTREND",
+        "SIDEWAYS",
+        "DOWNTREND",
+    }
+
+    def route(
+        self,
+        date: str,
+        spx_regime: str | None,
+        subclass: str | None,
+    ) -> RegimeRoute:
+        normalized_regime = (
+            spx_regime or "UNKNOWN"
+        ).upper()
+
+        normalized_subclass = (
+            subclass or "NO_SUBCLASS"
+        ).upper()
+
+        combination = (
+            normalized_regime,
+            normalized_subclass,
+        )
+
+        if normalized_regime not in self._KNOWN_REGIMES:
+            branch: EngineBranch = "CASH_DEFENSIVE"
+            reason = "route_unknown_cash_defensive"
+
+        elif combination not in self._VALID_COMBINATIONS:
+            branch = "CASH_DEFENSIVE"
+            reason = (
+                "route_invalid_regime_subclass_combination"
+            )
+
+        elif normalized_regime == "UNCLASSIFIED":
+            branch = "CASH_DEFENSIVE"
+            reason = "route_unclassified_cash_defensive"
+
+        elif normalized_regime == "UPTREND":
+            branch = "UPTREND"
             reason = "route_uptrend"
 
-        elif normalized_regime == "SIDEWAYS" and normalized_subclass == "MA_CONFLICT":
+        elif combination == (
+            "SIDEWAYS",
+            "MA_CONFLICT",
+        ):
             branch = "SIDEWAYS_MA_CONFLICT"
             reason = "route_sideways_ma_conflict"
 
-        elif normalized_subclass == "DETERIORATION_TRANSITION":
+        elif combination == (
+            "SIDEWAYS",
+            "DETERIORATION_TRANSITION",
+        ):
             branch = "DETERIORATION_TRANSITION"
             reason = "route_deterioration_transition"
 
-        elif normalized_subclass == "RECOVERY_TRANSITION":
+        elif combination == (
+            "SIDEWAYS",
+            "RECOVERY_TRANSITION",
+        ):
             branch = "RECOVERY_TRANSITION"
             reason = "route_recovery_transition"
 
@@ -58,7 +104,7 @@ class RegimeRouter:
 
         else:
             branch = "CASH_DEFENSIVE"
-            reason = "route_default_cash_defensive"
+            reason = "route_unreachable_cash_defensive"
 
         return RegimeRoute(
             date=date,
@@ -69,5 +115,9 @@ class RegimeRouter:
             metadata={
                 "router_shell_only": True,
                 "no_strategy_decision": True,
+                "combination_valid": (
+                    combination
+                    in self._VALID_COMBINATIONS
+                ),
             },
         )
