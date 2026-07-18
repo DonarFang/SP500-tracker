@@ -817,23 +817,92 @@ def run_stateful_simulation(
     e1r_sideways_execution_enabled = bool(a.get("e1r_sideways_execution_enabled", False))
     e1r_regime_daily = a.get("e1r_regime_daily", {}) or {}
 
+    def _e1r_record_on(date: str):
+        """
+        Return the canonical Engine RegimeRecord for a date.
+
+        Official runtime supplies Engine-generated RegimeRecord objects.
+        Dict/string normalization remains only for explicit legacy research
+        overrides and does not create a second Regime-generation mechanism.
+        """
+        if not e1r_regime_wiring_enabled or not date:
+            return None
+
+        rec = e1r_regime_daily.get(date)
+
+        if rec is None:
+            return None
+
+        if (
+            hasattr(rec, "spx_regime")
+            and hasattr(rec, "subclass")
+        ):
+            return rec
+
+        from e1r_engine.contracts import RegimeRecord
+
+        if isinstance(rec, dict):
+            regime = (
+                rec.get("regime")
+                or rec.get("spx_regime")
+                or rec.get("weekly_regime")
+                or "UNCLASSIFIED"
+            )
+            subclass = (
+                rec.get("subclass")
+                or rec.get("regime_subclass")
+                or "NO_SUBCLASS"
+            )
+
+            return RegimeRecord(
+                date=date,
+                spx_regime=regime,
+                subclass=subclass,
+                raw=dict(rec),
+                source_path=str(
+                    a.get("e1r_regime_source")
+                    or "legacy://explicit_regime_override"
+                ),
+            )
+
+        if isinstance(rec, str):
+            return RegimeRecord(
+                date=date,
+                spx_regime=rec,
+                subclass="NO_SUBCLASS",
+                raw={"legacy_string": rec},
+                source_path=str(
+                    a.get("e1r_regime_source")
+                    or "legacy://explicit_regime_override"
+                ),
+            )
+
+        raise TypeError(
+            "unsupported e1r_regime_daily record type "
+            f"for {date}: {type(rec).__name__}"
+        )
+
     def _e1r_regime_on(date: str) -> str:
         if not e1r_regime_wiring_enabled or not date:
             return "N/A"
-        rec = e1r_regime_daily.get(date, {})
-        if isinstance(rec, dict):
-            return rec.get("regime") or rec.get("spx_regime") or rec.get("weekly_regime") or "UNCLASSIFIED"
-        if isinstance(rec, str):
-            return rec
-        return "UNCLASSIFIED"
+
+        record = _e1r_record_on(date)
+
+        if record is None:
+            return "UNCLASSIFIED"
+
+        return record.spx_regime
 
     def _e1r_subclass_on(date: str) -> str:
         if not e1r_regime_wiring_enabled or not date:
             return "NO_SUBCLASS"
-        rec = e1r_regime_daily.get(date, {})
-        if isinstance(rec, dict):
-            return rec.get("subclass") or rec.get("regime_subclass") or "NO_SUBCLASS"
-        return "NO_SUBCLASS"
+
+        record = _e1r_record_on(date)
+
+        if record is None:
+            return "NO_SUBCLASS"
+
+        return record.subclass or "NO_SUBCLASS"
 
     def _e1r_mode_for_regime(regime: str) -> str:
         if regime == "UPTREND":
@@ -1920,7 +1989,6 @@ def run_stateful_simulation(
             from e1r_engine.contracts import (
                 DailyBar,
                 MarketSnapshot,
-                RegimeRecord,
             )
             from e1r_engine.core import E1RCoreEngine
             from e1r_engine.market_gate import MarketGateDecision
@@ -2003,11 +2071,7 @@ def run_stateful_simulation(
                     for symbol, signal in day_signals.items()
                 },
                 indices={},
-                regime=RegimeRecord(
-                    date=date_t,
-                    spx_regime="UPTREND",
-                    subclass="NO_SUBCLASS",
-                ),
+                regime=_e1r_record_on(date_t),
                 metadata={
                     "source": "run_stateful_simulation",
                 },
@@ -3137,20 +3201,48 @@ def run_strategy_variant_comparison(
         "ls60_exit_mode":            "exit",
     }
 
-    def _load_e1r_regime_daily() -> dict:
-        regime_path = Path("data/research/e1_5y/regimes/spx_regime_daily.json")
-        if not regime_path.exists():
-            logger.warn(f"  E1-R regime wiring: missing {regime_path}")
-            return {}
-        try:
-            obj = json.loads(regime_path.read_text())
-        except Exception as exc:
-            logger.warn(f"  E1-R regime wiring: failed to load {regime_path}: {exc}")
-            return {}
-        daily = obj.get("daily_regime", obj) if isinstance(obj, dict) else {}
-        return daily if isinstance(daily, dict) else {}
+    def _generate_e1r_regime_daily() -> dict:
+        """
+        Official Backtest Regime runtime source.
 
-    _e1r_regime_daily = _load_e1r_regime_daily()
+        SPX daily bars are normalized by HistoricalDataAdapter and passed
+        to the single Engine-owned CanonicalRegimeGenerator. Frozen JSON
+        artifacts are not read by this runtime path.
+        """
+        from e1r_engine.adapters.historical_data import (
+            HistoricalDataAdapter,
+        )
+
+        repo_root = Path(__file__).resolve().parents[2]
+        adapter = HistoricalDataAdapter(repo_root)
+
+        spx_series = adapter.load_asset_series(
+            repo_root
+            / "data/research/e1_5y/raw/indices/SPX.json",
+            symbol="SPX",
+        )
+
+        records = adapter.generate_regime_daily(
+            spx_series
+        )
+
+        if not records:
+            raise RuntimeError(
+                "CanonicalRegimeGenerator produced no "
+                "Backtest Regime records"
+            )
+
+        logger.info(
+            "  E1-R regime runtime: "
+            "engine://canonical_regime "
+            f"records={len(records)}"
+        )
+
+        return records
+
+    _e1r_regime_daily = (
+        _generate_e1r_regime_daily()
+    )
 
     variants = {
         # E1: Gate G4 + MinHold10（审计对照基准，不可修改）
@@ -3176,7 +3268,7 @@ def run_strategy_variant_comparison(
             "e1r_uptrend_execution_enabled": True,
             "e1r_regime_wiring_enabled": True,
             "e1r_regime_daily":      _e1r_regime_daily,
-            "e1r_regime_source":     "data/research/e1_5y/regimes/spx_regime_daily.json",
+            "e1r_regime_source":     "engine://canonical_regime",
             "e1r_spec_ref":          "docs/research/E1R_REGIME_AWARE_STRATEGY_SPEC_v0.1.md",
         },
         # E1-R v0.2 formal replacement:
@@ -3193,7 +3285,7 @@ def run_strategy_variant_comparison(
             "e1r_sideways_execution_enabled": True,
             "e1r_regime_wiring_enabled": True,
             "e1r_regime_daily":      _e1r_regime_daily,
-            "e1r_regime_source":     "data/research/e1_5y/regimes/spx_regime_daily.json",
+            "e1r_regime_source":     "engine://canonical_regime",
             "e1r_spec_ref":          "docs/research/E1R_REGIME_AWARE_STRATEGY_SPEC_v0.1.md",
         },
         # E2v2: Gate G4 + Dynamic Exit v2（CAUTIOUS/CASH_MODE 下 LS<60 直接退出）

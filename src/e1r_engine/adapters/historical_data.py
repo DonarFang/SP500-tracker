@@ -88,13 +88,26 @@ class HistoricalDataAdapter:
         }
 
         vix = self.load_vix_series()
-        regime_daily = self.load_regime_daily()
+        if "SPX" not in indices:
+            raise ValueError(
+                "SPX index series is required for canonical "
+                "Regime generation"
+            )
+
+        regime_daily = self.generate_regime_daily(
+            indices["SPX"]
+        )
 
         metadata = {
             "adapter": "HistoricalDataAdapter",
             "stock_dir": self._rel(self.stock_dir),
             "index_dir": self._rel(self.index_dir),
-            "regime_path": self._rel(self.regime_path),
+            "regime_path": "engine://canonical_regime",
+            "regime_artifact_path": self._rel(
+                self.regime_path
+            ),
+            "regime_runtime_source":
+                "GENERATED_CANONICAL",
             "prod_price_dir": self._rel(self.prod_price_dir),
             "stock_files_seen": len(stock_files),
             "symbols_loaded": len(symbols),
