@@ -5,6 +5,8 @@ run_backtest.py — 回测运行入口
   --full: 包含 Layer B（较慢，约30分钟）
 """
 import sys, os
+import json
+from pathlib import Path
 sys.path.insert(0, os.path.dirname(__file__))
 from src.utils.config import ensure_dirs
 from src.utils import logger
@@ -12,36 +14,189 @@ from src.utils import logger
 if __name__ == "__main__":
     ensure_dirs()
     run_layer_b = "--full" in sys.argv
+    research_5y = "--research-5y" in sys.argv
+
+    def _series_from_research_5y_file(
+        path: Path,
+    ) -> tuple[list[str], list[float]]:
+        obj = json.loads(
+            path.read_text(encoding="utf-8")
+        )
+
+        bars = (
+            obj.get("bars", [])
+            if isinstance(obj, dict)
+            else []
+        )
+
+        valid_rows = [
+            row
+            for row in bars
+            if (
+                isinstance(row, dict)
+                and row.get("date")
+                and row.get("close") is not None
+            )
+        ]
+
+        dates = [
+            str(row["date"])
+            for row in valid_rows
+        ]
+
+        prices = [
+            float(row["close"])
+            for row in valid_rows
+        ]
+
+        if len(dates) != len(prices):
+            raise RuntimeError(
+                f"research 5Y date/price mismatch: {path}"
+            )
+
+        return dates, prices
 
     logger.info("加载价格数据...")
-    from src.utils.helpers import read_json
-    from src.utils.config import CONSTITUENTS_FILE
-    from src.data_ingestion.fetch_yahoo import get_price_series
 
-    symbols = read_json(CONSTITUENTS_FILE) or []
-    logger.info(f"成分股：{len(symbols)} 只")
-
-    # 加载价格 + 日期
     prices_map: dict = {}
-    dates_map:  dict = {}
-    for sym in symbols:
-        d, p = get_price_series(sym)
-        if len(p) >= 120:
-            prices_map[sym] = p
-            dates_map[sym]  = d
-    logger.info(f"有效价格序列：{len(prices_map)} 只")
+    dates_map: dict = {}
 
-    # SPX + 辅助指数（用于 Gate v2 市场状态判断）
-    from src.pipeline.update_pipeline import get_prices_safe
-    spx_dates, spx_prices = get_prices_safe("^GSPC")
-    if not spx_prices:
-        spx_dates, spx_prices = get_price_series("SPY")
-    logger.info(f"SPX: {len(spx_prices)} bars")
+    if research_5y:
+        os.environ["SP500_RESEARCH_5Y"] = "1"
 
-    ndx_dates, ndx_prices = get_prices_safe("^NDX")
-    sox_dates, sox_prices = get_prices_safe("^SOX")
-    vix_dates, vix_prices = get_prices_safe("^VIX")
-    logger.info(f"辅助指数: NDX={len(ndx_prices)} SOX={len(sox_prices)} VIX={len(vix_prices)} bars")
+        research_root = (
+            Path("data/research/e1_5y/raw")
+        )
+        stock_dir = research_root / "stocks"
+        index_dir = research_root / "indices"
+
+        stock_files = sorted(
+            stock_dir.glob("*.json")
+        )
+
+        symbols = [
+            path.stem
+            for path in stock_files
+        ]
+
+        logger.info(
+            "Research 5Y frozen data mode enabled"
+        )
+        logger.info(
+            f"成分股：{len(symbols)} 只"
+        )
+
+        for path in stock_files:
+            symbol = path.stem
+            dates, prices = (
+                _series_from_research_5y_file(
+                    path
+                )
+            )
+
+            if len(prices) >= 120:
+                prices_map[symbol] = prices
+                dates_map[symbol] = dates
+
+        spx_dates, spx_prices = (
+            _series_from_research_5y_file(
+                index_dir / "SPX.json"
+            )
+        )
+
+        ndx_dates, ndx_prices = (
+            _series_from_research_5y_file(
+                index_dir / "NDX.json"
+            )
+        )
+
+        sox_dates, sox_prices = (
+            _series_from_research_5y_file(
+                index_dir / "SOX.json"
+            )
+        )
+
+        vix_path = index_dir / "VIX.json"
+
+        if vix_path.exists():
+            vix_dates, vix_prices = (
+                _series_from_research_5y_file(
+                    vix_path
+                )
+            )
+        else:
+            vix_dates, vix_prices = [], []
+
+        logger.info(
+            "Research 5Y input root: "
+            f"{research_root}"
+        )
+
+    else:
+        from src.utils.helpers import read_json
+        from src.utils.config import (
+            CONSTITUENTS_FILE,
+        )
+        from src.data_ingestion.fetch_yahoo import (
+            get_price_series,
+        )
+        from src.pipeline.update_pipeline import (
+            get_prices_safe,
+        )
+
+        symbols = (
+            read_json(CONSTITUENTS_FILE)
+            or []
+        )
+
+        logger.info(
+            f"成分股：{len(symbols)} 只"
+        )
+
+        for symbol in symbols:
+            dates, prices = get_price_series(
+                symbol
+            )
+
+            if len(prices) >= 120:
+                prices_map[symbol] = prices
+                dates_map[symbol] = dates
+
+        spx_dates, spx_prices = (
+            get_prices_safe("^GSPC")
+        )
+
+        if not spx_prices:
+            spx_dates, spx_prices = (
+                get_price_series("SPY")
+            )
+
+        ndx_dates, ndx_prices = (
+            get_prices_safe("^NDX")
+        )
+
+        sox_dates, sox_prices = (
+            get_prices_safe("^SOX")
+        )
+
+        vix_dates, vix_prices = (
+            get_prices_safe("^VIX")
+        )
+
+    logger.info(
+        f"有效价格序列：{len(prices_map)} 只"
+    )
+
+    logger.info(
+        f"SPX: {len(spx_prices)} bars"
+    )
+
+    logger.info(
+        "辅助指数: "
+        f"NDX={len(ndx_prices)} "
+        f"SOX={len(sox_prices)} "
+        f"VIX={len(vix_prices)} bars"
+    )
 
     # 运行回测
     from src.engine.backtest import run_full_backtest

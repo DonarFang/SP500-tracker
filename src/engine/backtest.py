@@ -3392,7 +3392,34 @@ def run_strategy_variant_comparison(
                         _result["strategy_controls"]["sideways_branch_exit"] = (
                             "T_SIGNAL_T1_EXECUTION_ON_DEACTIVATION"
                         )
-                        _result["resolved_assumptions"] = assumptions
+                        resolved_assumptions = {
+                            key: value
+                            for key, value
+                            in assumptions.items()
+                            if key != "e1r_regime_daily"
+                        }
+
+                        runtime_regime_records = (
+                            assumptions.get(
+                                "e1r_regime_daily"
+                            )
+                            or {}
+                        )
+
+                        resolved_assumptions.update({
+                            "e1r_regime_daily_runtime_object_exported":
+                                False,
+                            "e1r_regime_daily_record_count":
+                                len(runtime_regime_records),
+                            "e1r_regime_source":
+                                assumptions.get(
+                                    "e1r_regime_source"
+                                ),
+                        })
+
+                        _result["resolved_assumptions"] = (
+                            resolved_assumptions
+                        )
                 else:
                     _result["strategy_controls"]["regime_aware_logic"] = "NOT_IMPLEMENTED_PHASE_3A_CANDIDATE_TAGGING_ONLY"
                     _result["research_status"] = "UPTREND_CANDIDATE_TAGGING_ONLY_NOT_EXECUTED"
