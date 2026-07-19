@@ -9,12 +9,13 @@ from e1r_engine.market_gate import (
     MarketGateInputs,
 )
 from e1r_engine.market_state import (
+    MarketStateConfig,
     MarketStateDecision,
     MarketStateEvaluator,
     MarketStateInputs,
 )
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 from e1r_engine.contracts import MarketSnapshot
@@ -41,6 +42,12 @@ from e1r_engine.uptrend_pipeline import (
 class E1RCoreEngineConfig:
     max_positions: int = 3
     shell_mode: bool = True
+    market_state_config: MarketStateConfig = field(
+        default_factory=MarketStateConfig
+    )
+    market_gate_config: MarketGateConfig = field(
+        default_factory=MarketGateConfig
+    )
 
 
 class E1RCoreEngine:
@@ -112,9 +119,12 @@ class E1RCoreEngine:
         )
 
     def evaluate_market_state_and_gate(self, *, inputs: MarketStateInputs, existing_positions_count: int) -> tuple[MarketStateDecision, MarketGateDecision]:
-        state = self.market_state_evaluator.evaluate(__import__("e1r_engine.market_state", fromlist=["MarketStateConfig"]).MarketStateConfig(), inputs)
+        state = self.market_state_evaluator.evaluate(
+            self.config.market_state_config,
+            inputs,
+        )
         gate = self.market_gate_evaluator.evaluate(
-            MarketGateConfig(),
+            self.config.market_gate_config,
             MarketGateInputs(
                 date=state.date,
                 spx_close=state.spx_close,
