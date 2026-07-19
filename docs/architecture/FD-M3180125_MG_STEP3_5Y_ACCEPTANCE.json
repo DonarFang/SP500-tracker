@@ -1,0 +1,46 @@
+{
+  "work_package": "MG-Step 3 — Market State / Market Gate Evaluator Validation",
+  "source_of_truth": "MG-Step 1 frozen contract",
+  "data_adapter": "ForwardMarketDataAdapter.parse_price_file",
+  "data_value_type": "DailyBar",
+  "input_hashes": {
+    "SPX": {
+      "path": "data/research/e1_5y/raw/indices/SPX.json",
+      "sha256": "04e09605b1bee9a900a0f3db4c1926e6bd48f8f4dceebf711b2c9511bd98633e"
+    },
+    "NDX": {
+      "path": "data/research/e1_5y/raw/indices/NDX.json",
+      "sha256": "cfc85d4e47cd64e23894de5e9a2a5608a1e5d4a32c1d4de503eb4bff4cd7717e"
+    },
+    "SOX": {
+      "path": "data/research/e1_5y/raw/indices/SOX.json",
+      "sha256": "a29241e9e8dbcfd5061f53c08ee2cce32dd33e9e159456a097fd257ea43f991e"
+    }
+  },
+  "one_day_date": "2021-09-28",
+  "one_day_mismatch_count": 0,
+  "guard_rows_passed": true,
+  "short_window_start": "2021-09-20",
+  "short_window_end": "2021-10-08",
+  "short_window_evaluated_dates": 15,
+  "short_window_mismatch_count": 0,
+  "evaluated_date_count": 1503,
+  "first_evaluated_date": "2020-06-25",
+  "last_evaluated_date": "2026-06-18",
+  "market_state_counts": {
+    "FULL_ON": 828,
+    "CASH_MODE": 521,
+    "CAUTIOUS_ON": 154
+  },
+  "gate_state_counts": {
+    "ALLOW": 982,
+    "SHOCK": 47,
+    "RISK_OFF": 474
+  },
+  "oracle_mismatch_count": 0,
+  "strategy_matrix_run": false,
+  "fw_step3_run": false,
+  "forward_execution_run": false,
+  "source_modified": false,
+  "decision": "PASS_MG_STEP3_5Y_EVALUATOR_VALIDATION"
+}
