@@ -1,0 +1,47 @@
+{
+  "work_package": "FD-M3180125 Engine Canonical Regime Integration",
+  "scope": [
+    "MG-Step 1 correction",
+    "MG-Step 2 configuration wiring verification",
+    "MG-Step 3 formal 1259-day recomparison"
+  ],
+  "head_before": "ceaf7d9bd0c44cadeada4ec48d6009857deb5d7a",
+  "canonical_strategy_commit": "d7eb4dc0288433c68332e4607ae261d2f615d371",
+  "formal_contract": {
+    "variant": "D2_RISK_OFF_GATE",
+    "market_gate_enabled": true,
+    "risk_off_below_spx_ma50": false,
+    "market_shock_gate_enabled": false,
+    "market_shock_daily_return": -0.02,
+    "use_ma50_slope": true,
+    "use_index_leadership": true
+  },
+  "mg_step1": "PASS_CORRECTED_TO_FORMAL_5Y_CONTRACT",
+  "mg_step2": "PASS_ENGINE_CONSUMES_FORMAL_5Y_CONFIG",
+  "mg_step3": {
+    "canonical_strategy_commit": "d7eb4dc0288433c68332e4607ae261d2f615d371",
+    "formal_variant": "E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3",
+    "formal_artifact": "exports/official/FD-M3180125-SP500-TOP3-engine/backtest/canonical_5y/regular_eod_account_records.json",
+    "formal_artifact_sha256": "0407a384311e5af7a1091355800c2afc2c95c7680ac16efb82544209438d8885",
+    "formal_date_count": 1259,
+    "first_date": "2021-06-11",
+    "last_date": "2026-06-16",
+    "market_state_counts": {
+      "FULL_ON": 660,
+      "CAUTIOUS_ON": 134,
+      "CASH_MODE": 465
+    },
+    "gate_state_counts": {
+      "ALLOW": 794,
+      "RISK_OFF": 465
+    },
+    "gate_mismatch_count": 0,
+    "base_field_mismatch_count": 0,
+    "formal_market_state_direct_comparison": "NOT_AVAILABLE_IN_FORMAL_ARTIFACT",
+    "market_state_reconstruction": "CANONICAL_FORMULA_PLUS_ZERO_GATE_MISMATCH",
+    "decision": "PASS_MG_STEP3_FORMAL_1259_DAY_EQUIVALENCE"
+  },
+  "legacy_source_modified": false,
+  "fw_step3_run": false,
+  "decision": "PASS_MG_STEP123_FORMAL_5Y_EQUIVALENCE"
+}

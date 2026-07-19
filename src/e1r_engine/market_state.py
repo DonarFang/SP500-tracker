@@ -9,7 +9,7 @@ MarketState = Literal["FULL_ON", "CAUTIOUS_ON", "CASH_MODE"]
 @dataclass(frozen=True)
 class MarketStateConfig:
     market_gate_enabled: bool = True
-    market_shock_gate_enabled: bool = True
+    market_shock_gate_enabled: bool = False
     market_shock_daily_return: float = -0.02
     use_ma50_slope: bool = True
     use_index_leadership: bool = True
@@ -154,7 +154,7 @@ class MarketStateEvaluator:
             leadership_ratio=float(leadership_ratio),
             shock_active=bool(shock_active),
             trace={
-                "source_contract": "legacy Gate v2 source-equivalent chain",
+                "source_contract": "formal 5Y Gate G4 source-equivalent chain",
                 "vix_used": False,
                 "cash_mode_formula": (
                     "shock_active OR leadership_ratio < 2/3 OR spx_ma50_slope < 0"

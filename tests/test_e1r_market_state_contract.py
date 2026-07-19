@@ -44,15 +44,57 @@ class MarketStateContractTests(unittest.TestCase):
         self.assertEqual(r.market_state, "CASH_MODE")
 
     def test_shock_boundary(self):
-        a = MarketStateEvaluator.evaluate(
-            self.cfg, make_inputs(spx_day_return=-0.0199)
+        from e1r_engine.market_state import (
+            MarketStateConfig,
+            MarketStateEvaluator,
+            MarketStateInputs,
         )
-        b = MarketStateEvaluator.evaluate(
-            self.cfg, make_inputs(spx_day_return=-0.02)
+        from e1r_engine.market_gate import (
+            MarketGateConfig,
+            MarketGateEvaluator,
+            MarketGateInputs,
         )
-        self.assertFalse(a.shock_active)
-        self.assertTrue(b.shock_active)
-        self.assertEqual(b.market_state, "CASH_MODE")
+        state = MarketStateEvaluator.evaluate(
+            MarketStateConfig(
+                market_shock_gate_enabled=True,
+                market_shock_daily_return=-0.02,
+            ),
+            MarketStateInputs(
+                date="2021-05-12",
+                spx_close=110.0,
+                spx_ma50=100.0,
+                spx_ma50_10d_ago=99.0,
+                spx_day_return=-0.02,
+                ndx_close=110.0,
+                ndx_ma50=100.0,
+                sox_close=110.0,
+                sox_ma50=100.0,
+                max_positions=3,
+            ),
+        )
+        gate = MarketGateEvaluator.evaluate(
+            MarketGateConfig(
+                variant="D3_RISK_OFF_PLUS_SHOCK_GATE",
+                market_gate_enabled=True,
+                risk_off_below_spx_ma50=True,
+                market_shock_gate_enabled=True,
+                market_shock_daily_return=-0.02,
+            ),
+            MarketGateInputs(
+                date=state.date,
+                spx_close=state.spx_close,
+                spx_ma50=state.spx_ma50,
+                spx_day_return=state.spx_day_return,
+                market_state=state.market_state,
+                entry_capacity=state.entry_capacity,
+                existing_positions_count=0,
+            ),
+        )
+        assert state.shock_active is True
+        assert state.market_state == "CASH_MODE"
+        assert state.entry_capacity == 0
+        assert gate.market_shock is True
+        assert gate.gate_state == "SHOCK"
 
     def test_gate_disabled(self):
         r = MarketStateEvaluator.evaluate(

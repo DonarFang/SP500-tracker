@@ -35,14 +35,14 @@ UnaffectedAction = Literal["HOLD", "REDUCE", "EXIT"]
 class MarketGateConfig:
     """Source-proven market gate settings.
 
-    Defaults reflect the D3_RISK_OFF_PLUS_SHOCK_GATE / Gate v2 No VIX contract
-    recovered in K2-R8/K2-R9D.
+    Defaults reflect the formal 5Y D2_RISK_OFF_GATE / Gate G4 No-Shock contract
+    recovered from canonical strategy commit d7eb4dc and verified against all 1259 formal dates.
     """
 
-    variant: str = "D3_RISK_OFF_PLUS_SHOCK_GATE"
+    variant: str = "D2_RISK_OFF_GATE"
     market_gate_enabled: bool = True
-    risk_off_below_spx_ma50: bool = True
-    market_shock_gate_enabled: bool = True
+    risk_off_below_spx_ma50: bool = False
+    market_shock_gate_enabled: bool = False
     market_shock_daily_return: float = -0.02
 
 
