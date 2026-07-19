@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from e1r_engine.core import E1RCoreEngine
+
 from dataclasses import dataclass, field
 from typing import (
     Any,
@@ -234,10 +236,10 @@ class ForwardStrategyInputBuilder:
     No strategy formula is implemented here.
     """
 
-    market_gate_provider: MarketGateProvider
     management_action_provider: (
         ManagementActionProvider
     )
+    engine: E1RCoreEngine
     min_uptrend_history: int = 61
 
     @staticmethod
@@ -342,22 +344,15 @@ class ForwardStrategyInputBuilder:
         )
 
         if regime == "UPTREND":
-            gate = self.market_gate_provider(
+            market_state_decision, gate = self.engine.evaluate_market_state_and_gate_from_series(
                 date=snapshot.date,
-                index_series={
-                    symbol: series_by_symbol[symbol]
-                    for symbol in (
-                        "SPX",
-                        "NDX",
-                        "SOX",
-                    )
-                },
+                index_series={symbol: series_by_symbol[symbol] for symbol in ("SPX", "NDX", "SOX")},
+                existing_positions_count=len(account.positions),
             )
 
             if gate.date != snapshot.date:
                 raise ForwardContractError(
-                    "Market Gate date does not match "
-                    "Forward snapshot date"
+                    "Engine Market Gate date does not match Forward snapshot date"
                 )
 
             symbol_order = tuple(universe)
@@ -412,10 +407,10 @@ class ForwardStrategyInputBuilder:
                 metadata={
                     "uptrend_adapter":
                         "UptrendSignalAdapter",
-                    "market_gate_source":
-                        type(
-                            self.market_gate_provider
-                        ).__name__,
+                    "market_state_source": "E1RCoreEngine.MarketStateEvaluator",
+                    "market_gate_source": "E1RCoreEngine.MarketGateEvaluator",
+                    "market_state": market_state_decision.market_state,
+                    "entry_capacity": market_state_decision.entry_capacity,
                 },
             )
 

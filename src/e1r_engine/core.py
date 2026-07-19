@@ -1,5 +1,19 @@
 from __future__ import annotations
 
+from collections.abc import Mapping
+
+from e1r_engine.market_gate import (
+    MarketGateConfig,
+    MarketGateDecision,
+    MarketGateEvaluator,
+    MarketGateInputs,
+)
+from e1r_engine.market_state import (
+    MarketStateDecision,
+    MarketStateEvaluator,
+    MarketStateInputs,
+)
+
 from dataclasses import dataclass
 from typing import Any
 
@@ -48,9 +62,76 @@ class E1RCoreEngine:
     - Run 5Y backtest.
     """
 
-    def __init__(self, config: E1RCoreEngineConfig | None = None, router: RegimeRouter | None = None) -> None:
+    def __init__(
+        self,
+        config: E1RCoreEngineConfig | None = None,
+        router: RegimeRouter | None = None,
+        market_state_evaluator: type[MarketStateEvaluator] | None = None,
+        market_gate_evaluator: type[MarketGateEvaluator] | None = None,
+    ) -> None:
         self.config = config or E1RCoreEngineConfig()
         self.router = router or RegimeRouter()
+        self.market_state_evaluator = market_state_evaluator or MarketStateEvaluator
+        self.market_gate_evaluator = market_gate_evaluator or MarketGateEvaluator
+
+    @staticmethod
+    def _close_values_through_date(*, date: str, series: Mapping[str, object], symbol: str) -> list[float]:
+        values = []
+        for row_date in sorted(series):
+            if row_date > date:
+                break
+            close = getattr(series[row_date], "close", None)
+            if close is not None:
+                values.append(float(close))
+        if len(values) < 50:
+            raise ValueError(f"{symbol}: Market State requires at least 50 closes through {date}; got {len(values)}")
+        return values
+
+    def build_market_state_inputs(self, *, date: str, index_series: Mapping[str, Mapping[str, object]], max_positions: int | None = None) -> MarketStateInputs:
+        missing = [symbol for symbol in ("SPX", "NDX", "SOX") if symbol not in index_series]
+        if missing:
+            raise ValueError("Market State missing required index series: " + ",".join(missing))
+        values = {
+            symbol: self._close_values_through_date(date=date, series=index_series[symbol], symbol=symbol)
+            for symbol in ("SPX", "NDX", "SOX")
+        }
+        spx, ndx, sox = values["SPX"], values["NDX"], values["SOX"]
+        spx_ma50 = sum(spx[-50:]) / 50.0
+        spx_ma50_10d_ago = sum(spx[-60:-10]) / 50.0 if len(spx) >= 60 else spx_ma50
+        return MarketStateInputs(
+            date=date,
+            spx_close=spx[-1],
+            spx_ma50=spx_ma50,
+            spx_ma50_10d_ago=spx_ma50_10d_ago,
+            spx_day_return=(spx[-1] / spx[-2] - 1.0 if len(spx) >= 2 and spx[-2] > 0 else 0.0),
+            ndx_close=ndx[-1],
+            ndx_ma50=sum(ndx[-50:]) / 50.0,
+            sox_close=sox[-1],
+            sox_ma50=sum(sox[-50:]) / 50.0,
+            max_positions=self.config.max_positions if max_positions is None else int(max_positions),
+        )
+
+    def evaluate_market_state_and_gate(self, *, inputs: MarketStateInputs, existing_positions_count: int) -> tuple[MarketStateDecision, MarketGateDecision]:
+        state = self.market_state_evaluator.evaluate(__import__("e1r_engine.market_state", fromlist=["MarketStateConfig"]).MarketStateConfig(), inputs)
+        gate = self.market_gate_evaluator.evaluate(
+            MarketGateConfig(),
+            MarketGateInputs(
+                date=state.date,
+                spx_close=state.spx_close,
+                spx_ma50=state.spx_ma50,
+                spx_day_return=state.spx_day_return,
+                market_state=state.market_state,
+                entry_capacity=state.entry_capacity,
+                existing_positions_count=int(existing_positions_count),
+            ),
+        )
+        return state, gate
+
+    def evaluate_market_state_and_gate_from_series(self, *, date: str, index_series: Mapping[str, Mapping[str, object]], existing_positions_count: int, max_positions: int | None = None) -> tuple[MarketStateDecision, MarketGateDecision]:
+        return self.evaluate_market_state_and_gate(
+            inputs=self.build_market_state_inputs(date=date, index_series=index_series, max_positions=max_positions),
+            existing_positions_count=existing_positions_count,
+        )
 
     def step(
         self,

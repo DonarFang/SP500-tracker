@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from e1r_engine.core import E1RCoreEngine
+
 import json
 import tempfile
 import unittest

@@ -1991,6 +1991,7 @@ def run_stateful_simulation(
                 MarketSnapshot,
             )
             from e1r_engine.core import E1RCoreEngine
+            from e1r_engine.market_state import MarketStateInputs
             from e1r_engine.market_gate import MarketGateDecision
             from e1r_engine.state import (
                 AccountState,
@@ -2077,29 +2078,32 @@ def run_stateful_simulation(
                 },
             )
 
-            engine_gate = MarketGateDecision(
-                date=date_t,
-                market_state=market_state,
-                entry_capacity=int(entry_capacity),
-                market_shock=bool(market_shock),
-                market_risk_off=bool(market_risk_off),
-                market_entry_allowed=bool(
-                    market_entry_allowed
+            engine_instance = E1RCoreEngine()
+            engine_state, engine_gate = engine_instance.evaluate_market_state_and_gate(
+                inputs=MarketStateInputs(
+                    date=date_t,
+                    spx_close=float(spx_close_t),
+                    spx_ma50=float(spx_ma50_t),
+                    spx_ma50_10d_ago=float(spx_ma50_t10) if t >= 59 else float(spx_ma50_t),
+                    spx_day_return=float(spx_day_return),
+                    ndx_close=None if _ndx_last is None else float(_ndx_last),
+                    ndx_ma50=None if _ndx_ma50 is None else float(_ndx_ma50),
+                    sox_close=None if _sox_last is None else float(_sox_last),
+                    sox_ma50=None if _sox_ma50 is None else float(_sox_ma50),
+                    max_positions=int(max_pos),
                 ),
-                gate_state=(
-                    "ALLOW"
-                    if market_entry_allowed
-                    else "SHOCK"
-                    if market_shock
-                    else "RISK_OFF"
-                ),
-                trace={
-                    "source": "legacy_runtime_local_variables",
-                    "gate_logic_recomputed": False,
-                },
+                existing_positions_count=len(holdings),
             )
+            if (
+                engine_state.market_state != market_state
+                or engine_state.entry_capacity != int(entry_capacity)
+                or engine_gate.market_shock != bool(market_shock)
+                or engine_gate.market_risk_off != bool(market_risk_off)
+                or engine_gate.market_entry_allowed != bool(market_entry_allowed)
+            ):
+                raise RuntimeError(f"engine_internal_market_gate_mismatch: date={date_t}")
 
-            engine_result = E1RCoreEngine().step(
+            engine_result = engine_instance.step(
                 engine_snapshot,
                 engine_account,
                 uptrend_inputs=UptrendConsumerInputs(

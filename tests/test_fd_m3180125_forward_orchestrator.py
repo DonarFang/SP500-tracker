@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from e1r_engine.core import E1RCoreEngine
+
 import tempfile
 import unittest
 from pathlib import Path
@@ -251,7 +253,7 @@ class TestForwardOrchestrator(unittest.TestCase):
         management = ManagementProvider()
 
         result = ForwardStrategyInputBuilder(
-            market_gate_provider=gate,
+            engine=E1RCoreEngine(),
             management_action_provider=management,
             min_uptrend_history=61,
         ).build(
@@ -315,7 +317,7 @@ class TestForwardOrchestrator(unittest.TestCase):
         )
 
         result = ForwardStrategyInputBuilder(
-            market_gate_provider=GateProvider(),
+            engine=E1RCoreEngine(),
             management_action_provider=(
                 ManagementProvider()
             ),
@@ -410,9 +412,7 @@ class TestForwardOrchestrator(unittest.TestCase):
             snapshot_builder=snapshot_builder,
             strategy_input_builder=(
                 ForwardStrategyInputBuilder(
-                    market_gate_provider=(
-                        GateProvider()
-                    ),
+                    engine=E1RCoreEngine(),
                     management_action_provider=(
                         ManagementProvider()
                     ),

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from e1r_engine.core import E1RCoreEngine
+
 import hashlib
 from dataclasses import dataclass
 from pathlib import Path
@@ -326,7 +328,7 @@ def build_production_forward_composition(
     )
 
     decision_router = (
-        CanonicalDailyDecisionRouter()
+        CanonicalDailyDecisionRouter(engine=E1RCoreEngine())
     )
 
     execution_engine = T1ExecutionEngine(
