@@ -1,0 +1,24 @@
+{
+  "checks": {
+    "config_has_max_positions": true,
+    "config_has_market_state_config": true,
+    "config_has_market_gate_config": true,
+    "engine_max_positions_3": true,
+    "engine_state_config_type": true,
+    "engine_gate_config_type": true,
+    "engine_consumes_owned_state_config": true,
+    "engine_consumes_owned_gate_config": true,
+    "engine_regime_router": true,
+    "engine_uptrend_consumer": true,
+    "engine_uptrend_pipeline": true,
+    "forward_calls_engine_state_gate": true,
+    "forward_external_gate_provider_absent": true,
+    "forward_records_engine_sources": true,
+    "production_injects_engine": true,
+    "backtest_calls_engine_state_gate": true,
+    "backtest_passes_engine_gate_to_uptrend": true,
+    "backtest_calls_engine_step": true
+  },
+  "failed": [],
+  "decision": "PASS_STEP2_ENGINE_OWNERSHIP_AND_DATA_FLOW"
+}

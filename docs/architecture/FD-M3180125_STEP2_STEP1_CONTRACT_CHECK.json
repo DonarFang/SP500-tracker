@@ -1,0 +1,24 @@
+{
+  "source": "Step 1 frozen Market State / Market Gate contract",
+  "checks": {
+    "state_gate_enabled": true,
+    "state_shock_enabled": true,
+    "state_shock_threshold": true,
+    "state_use_slope": true,
+    "state_use_leadership": true,
+    "gate_variant": true,
+    "gate_enabled": true,
+    "gate_shock_enabled": true,
+    "gate_shock_threshold": true,
+    "guard_cautious_state": true,
+    "guard_cautious_capacity": true,
+    "guard_cautious_gate": true,
+    "guard_shock_state": true,
+    "guard_shock_capacity": true,
+    "guard_shock_gate": true,
+    "gate_blocked_actions": true,
+    "gate_unaffected_actions": true
+  },
+  "failed": [],
+  "decision": "PASS_STEP1_FROZEN_CONTRACT"
+}
