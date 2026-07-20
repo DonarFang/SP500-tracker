@@ -1,0 +1,75 @@
+{
+  "adapter_load_result": {
+    "contains_dates": {
+      "2026-06-16": true,
+      "2026-06-17": true,
+      "2026-06-18": true,
+      "2026-06-19": false,
+      "2026-06-22": true,
+      "2026-07-16": true,
+      "2026-07-17": true
+    },
+    "eligible_universe_count": 336,
+    "first_forward_after_2026_06_18": "2026-06-22",
+    "first_trading_date": "2023-05-16",
+    "last_trading_date": "2026-07-17",
+    "latest_complete_common_date": "2026-07-17",
+    "price_files_by_symbol_count": 339,
+    "required_symbols_contains": {
+      "DELL": true,
+      "HUM": true,
+      "MRVL": true,
+      "NDX": true,
+      "SOX": true,
+      "SPX": true
+    },
+    "return_constructor": "ForwardProductionData",
+    "runtime_series_lengths": {
+      "DELL": 795,
+      "HUM": 795,
+      "MRVL": 795,
+      "NDX": 795,
+      "SOX": 795,
+      "SPX": 795
+    },
+    "series_contains": {
+      "DELL": true,
+      "HUM": true,
+      "MRVL": true,
+      "NDX": true,
+      "SOX": true,
+      "SPX": true
+    },
+    "source_hash_count": 339,
+    "stale_guard_symbols_in_eligible_universe": {
+      "CTRA": false,
+      "QQQ": false,
+      "SOXX": false,
+      "VIXY": false
+    },
+    "status": "PASS",
+    "trading_date_count": 795
+  },
+  "backtest_entry_used": false,
+  "blockers": [],
+  "decision": "PASS_FORWARD_ADAPTER_REQUIRED_RUNTIME_SYMBOLS_CORRECTION",
+  "facts": [
+    "Adapter now loads SPX/NDX/SOX + DELL/HUM/MRVL as required runtime symbols.",
+    "Forward first complete runtime date after 2026-06-18 is 2026-06-22.",
+    "Forward runtime data currently reaches 2026-07-17.",
+    "Stale CTRA/QQQ/SOXX/VIXY are excluded from eligible tradable universe and no longer collapse trading_dates.",
+    "ForwardProductionData return fields price_files_by_symbol and latest_complete_common_date are preserved."
+  ],
+  "file_source_boundary": {
+    "forward_indices": {
+      "NDX": "data/fw_prices/_NDX.json",
+      "SOX": "data/fw_prices/_SOX.json",
+      "SPX": "data/fw_prices/_GSPC.json"
+    },
+    "forward_price_root": "data/fw_prices",
+    "no_5y_index_fallback": true
+  },
+  "legacy_backtest_changed": false,
+  "official_forward_state_written": false,
+  "source_modified": true
+}

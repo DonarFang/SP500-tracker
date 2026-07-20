@@ -1,0 +1,11 @@
+{
+  "decision": "PASS_PATCH_WRITTEN",
+  "load_marker": "# FD-M3180125 load uses required runtime symbols for trading_dates.",
+  "no_5y_index_fallback": true,
+  "required_runtime_symbols_supported": true,
+  "return_constructor_preserved": "ForwardProductionData",
+  "robust_date_extraction": true,
+  "target": "src/e1r_engine/forward_production_composition.py",
+  "tradable_universe_filter": "eligible only if symbol covers required_runtime trading_dates",
+  "trading_dates_basis": "required_runtime_symbols"
+}

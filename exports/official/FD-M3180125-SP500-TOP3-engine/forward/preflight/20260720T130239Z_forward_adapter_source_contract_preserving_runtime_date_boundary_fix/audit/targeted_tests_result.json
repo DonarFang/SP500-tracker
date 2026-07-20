@@ -1,0 +1,34 @@
+{
+  "hard_gates_passed_before_tests": [
+    "compile target",
+    "compile src/e1r_engine",
+    "direct adapter validation",
+    "static return field preservation"
+  ],
+  "pytest_probe_results": [
+    {
+      "pytest_available": false,
+      "pytest_stderr": "/Library/Developer/CommandLineTools/usr/bin/python3: No module named pytest",
+      "pytest_stdout": "",
+      "python": "python3",
+      "version": "Python 3.9.6"
+    }
+  ],
+  "pytest_python": null,
+  "tests_run": [],
+  "tests_skipped": [
+    {
+      "note": "Compile and direct adapter validation are the hard gates per READ_ONLY RCA; pytest is recorded as environment-unavailable, not treated as adapter logic failure.",
+      "probe_results": [
+        {
+          "pytest_available": false,
+          "pytest_stderr": "/Library/Developer/CommandLineTools/usr/bin/python3: No module named pytest",
+          "pytest_stdout": "",
+          "python": "python3",
+          "version": "Python 3.9.6"
+        }
+      ],
+      "reason": "PYTEST_MODULE_UNAVAILABLE"
+    }
+  ]
+}

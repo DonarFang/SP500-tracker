@@ -1,0 +1,21 @@
+{
+  "correction_scope": "ProductionForwardDataAdapter.load only: robust date extraction; required runtime date boundary; preserve ForwardProductionData return fields.",
+  "previously_confirmed_facts": [
+    "Forward core required data exists in data/prices and copied data/fw_prices.",
+    "SPX/NDX/SOX + DELL/HUM/MRVL first common date after 2026-06-18 is 2026-06-22.",
+    "SPX/NDX/SOX + DELL/HUM/MRVL latest common date is 2026-07-17.",
+    "The 2026-05-07 stop came from all-498-symbol common intersection, not missing core Forward data.",
+    "CTRA/QQQ/SOXX/VIXY are stale universe symbols and must not block the whole Forward runtime.",
+    "V2 discovered actual return constructor: ForwardProductionData.",
+    "READ_ONLY RCA confirmed ForwardProductionData return constructor and fields.",
+    "READ_ONLY RCA confirmed parse_price_file returns dict keyed by date to DailyBar.",
+    "READ_ONLY RCA confirmed pytest is not available under system python3, so pytest must be environment-conditional."
+  ],
+  "safety": [
+    "No data-source RCA.",
+    "No 5Y historical index fallback.",
+    "No strategy/engine logic change.",
+    "No legacy backtest change.",
+    "Auto-restore target source if validation/tests fail before commit."
+  ]
+}

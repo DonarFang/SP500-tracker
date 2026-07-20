@@ -1,0 +1,43 @@
+{
+  "decision": "PASS_FW_PRICE_ROOT_READY",
+  "file_count": 498,
+  "fw_price_root": "data/fw_prices",
+  "required_files": {
+    "DELL": {
+      "exists": true,
+      "path": "data/fw_prices/DELL.json",
+      "sha256": "d59b2b17d05443c9c5b54f5961cce5df28283ef87b9b06bd8b440ad38fe1b809",
+      "size_bytes": 109270
+    },
+    "HUM": {
+      "exists": true,
+      "path": "data/fw_prices/HUM.json",
+      "sha256": "571d5b30539ebb5d236786a8dbb6ad2008510ef77831cdb66abc2aa147baf6e8",
+      "size_bytes": 110002
+    },
+    "MRVL": {
+      "exists": true,
+      "path": "data/fw_prices/MRVL.json",
+      "sha256": "ce1f5b314cede705f6440ffd93f085e625631a1ae85f59e6f687edc4dde60721",
+      "size_bytes": 108078
+    },
+    "NDX": {
+      "exists": true,
+      "path": "data/fw_prices/_NDX.json",
+      "sha256": "d0d79746b1961061ef068bfafdd2afb684308e1fa6edb20a19ba66bfa1d6f631",
+      "size_bytes": 119034
+    },
+    "SOX": {
+      "exists": true,
+      "path": "data/fw_prices/_SOX.json",
+      "sha256": "6e4c685c41367a4b3f274ccdf74c45a7c6e5d09d98c12dce8377408601a1f8db",
+      "size_bytes": 108852
+    },
+    "SPX": {
+      "exists": true,
+      "path": "data/fw_prices/_GSPC.json",
+      "sha256": "0b5050229bdaeecb6aa1d6d07a376ddeaf28a001fb2d6d86e23d91e599b68757",
+      "size_bytes": 115766
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "adapter_class": "ProductionForwardDataAdapter",
+  "load_end_lineno": 263,
+  "load_lineno": 105,
+  "original_return_keywords": [
+    "universe",
+    "required_symbols",
+    "price_files_by_symbol",
+    "series_by_symbol",
+    "trading_dates",
+    "latest_complete_common_date",
+    "source_hashes"
+  ],
+  "return_constructor": "ForwardProductionData"
+}
