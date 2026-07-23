@@ -47,12 +47,12 @@
   },
   "forward_time_contract": {
     "automatic_end_of_data_liquidation_allowed": false,
-    "first_forward_market_date": "2026-06-19",
+    "first_forward_market_date": "2026-06-17",
     "fixed_terminal_date_allowed": false,
     "forward_track_end": "OPEN_ENDED",
     "initial_catchup_target": "LATEST_COMPLETE_COMMON_DATA_DATE",
     "processing_order": "STRICT_ASCENDING_TRADING_DATE",
-    "seed_date": "2026-06-18",
+    "seed_date": "2026-06-16",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
     "subsequent_run_mode": "INCREMENTAL_FROM_LAST_COMMITTED_DATE"
   },
@@ -68,7 +68,7 @@
       "MRVL"
     ],
     "sim_end_replay_allowed": false,
-    "source_root": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/seed_2026-06-18",
+    "source_root": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/seed_2026-06-16",
     "unknown_historical_pending_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
   },
   "idempotency_contract": {

@@ -1,0 +1,22 @@
+{
+  "decision": "PASS_ACTIVE_CONTRACT_AUTHORITY_SCAN",
+  "active_files_scanned": [
+    "exports/official/FD-M3180125-SP500-TOP3-engine/forward/seed_2026-06-16/STEP2_FORWARD_RUNTIME_SEED_FREEZE_DECISION.json",
+    "exports/official/FD-M3180125-SP500-TOP3-engine/forward/seed_2026-06-16/current_manifest.json",
+    "exports/official/FD-M3180125-SP500-TOP3-engine/forward/seed_2026-06-16/forward_runtime_seed_contract.json",
+    "exports/official/FD-M3180125-SP500-TOP3-engine/forward/seed_2026-06-16/forward_runtime_seed_provenance.json",
+    "exports/official/FD-M3180125-SP500-TOP3-engine/forward/seed_2026-06-16/forward_runtime_seed_state.json",
+    "exports/official/FD-M3180125-SP500-TOP3-engine/forward/current_seed_manifest.json",
+    "docs/architecture/FD-M3180125_ENGINE_FORWARD_CONTRACT_FREEZE_2026-07-23.json",
+    "exports/official/FD-M3180125-SP500-TOP3-engine/forward/shared_runtime_contract/STEP2_OFFICIAL_SHARED_RUNTIME_CONTRACT_FREEZE_DECISION.json",
+    "exports/official/FD-M3180125-SP500-TOP3-engine/forward/shared_runtime_contract/manifest.json",
+    "exports/official/FD-M3180125-SP500-TOP3-engine/forward/shared_runtime_contract/official_shared_runtime_contract.json"
+  ],
+  "historical_evidence_excluded": [
+    "forward/preflight/**",
+    "earlier forward/contract_freeze/**",
+    "seed_2026-06-18/** except superseded marker",
+    "legacy GitHub OOS outputs"
+  ],
+  "conflicts": []
+}

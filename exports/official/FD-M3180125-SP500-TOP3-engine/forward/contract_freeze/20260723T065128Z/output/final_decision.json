@@ -1,0 +1,20 @@
+{
+  "decision": "PASS_ENGINE_FORWARD_CONTRACT_FREEZE_PRECOMMIT",
+  "legacy_oos_isolated": true,
+  "engine_feature_development_performed": false,
+  "strategy_logic_modified": false,
+  "official_forward_execution_started": false,
+  "seed_source": "CANONICAL_5Y_OFFICIAL_EVIDENCE",
+  "old_seed_account_data_used": false,
+  "last_normal_backtest_eod": "2026-06-16",
+  "forward_seed_date": "2026-06-16",
+  "first_forward_market_date": "2026-06-17",
+  "active_seed": "seed_2026-06-16",
+  "superseded_seed": "seed_2026-06-18",
+  "initial_forward_sequence": [
+    "2026-06-17",
+    "2026-06-18",
+    "2026-06-22"
+  ],
+  "absent_common_date": "2026-06-19"
+}

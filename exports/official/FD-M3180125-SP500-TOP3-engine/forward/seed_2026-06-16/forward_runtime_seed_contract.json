@@ -1,0 +1,47 @@
+{
+  "account_economic_contract": {
+    "cash": 70153.97,
+    "positions_are_carried_not_new_buys": true,
+    "positions_value": 209136.77825658818,
+    "required_position_count": 3,
+    "required_position_symbols": [
+      "DELL",
+      "HUM",
+      "MRVL"
+    ],
+    "source": "CANONICAL_5Y_OFFICIAL_EVIDENCE",
+    "source_files": [
+      "exports/official/FD-M3180125-SP500-TOP3-engine/backtest/canonical_5y/regular_eod_account_records.json",
+      "exports/official/FD-M3180125-SP500-TOP3-engine/backtest/canonical_5y/official_trades.json",
+      "exports/official/FD-M3180125-SP500-TOP3-engine/backtest/canonical_5y/actual_sim_end_trades.json"
+    ],
+    "total_equity": 279290.7482565882
+  },
+  "contract_id": "FD-M3180125-SP500-TOP3-engine/forward-runtime-seed/2026-06-16",
+  "contract_status": "FROZEN",
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "forward_date_contract": {
+    "absent_common_date": "2026-06-19",
+    "automatic_end_of_data_liquidation_allowed": false,
+    "first_forward_market_date": "2026-06-17",
+    "initial_forward_sequence": [
+      "2026-06-17",
+      "2026-06-18",
+      "2026-06-22"
+    ],
+    "last_normal_backtest_eod": "2026-06-16",
+    "seed_date": "2026-06-16"
+  },
+  "pending_order_contract": {
+    "actionable_pending_orders": [],
+    "exact_payload_proven": false,
+    "formal_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
+  },
+  "record_type": "ENGINE_FORWARD_RUNTIME_SEED_CONTRACT",
+  "runtime_start_semantics": {
+    "all_cash_final_settlement_used": false,
+    "equity_curve_overlap_anchor": "2026-06-16",
+    "sim_end_liquidation_replayed": false
+  },
+  "schema_version": "1.0.0"
+}

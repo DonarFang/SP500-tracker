@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "record_type": "SUPERSEDED_FORWARD_SEED_MARKER",
+  "status": "SUPERSEDED_AUDIT_ONLY",
+  "seed_root": "seed_2026-06-18",
+  "superseded_by": "seed_2026-06-16",
+  "must_not_be_loaded_as_current_seed": true,
+  "reason": "Forward continuity starts from the final normal canonical EOD on 2026-06-16."
+}

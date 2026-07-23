@@ -1,0 +1,30 @@
+{
+  "artifacts": [
+    {
+      "path": "forward_runtime_seed_state.json",
+      "sha256": "108a295f69b29b7cdbd181b9e19eec6551801767c3378f0bd021ebcc68111dfb",
+      "size_bytes": 2598
+    },
+    {
+      "path": "forward_runtime_seed_contract.json",
+      "sha256": "b7247734609e62d8639f68f3cd91fdc2f2e13f6a77d5a90b582a8bdb3da7b538",
+      "size_bytes": 1642
+    },
+    {
+      "path": "forward_runtime_seed_provenance.json",
+      "sha256": "8f6df85bb0a46260c56f1309ab1a7ccc5bb762ad4dbb08c6b6064b326f143701",
+      "size_bytes": 989
+    },
+    {
+      "path": "STEP2_FORWARD_RUNTIME_SEED_FREEZE_DECISION.json",
+      "sha256": "3655963171918ccc2471154c25b38b63a1a2af56ea38246e03ecec8c4c7560f6",
+      "size_bytes": 531
+    }
+  ],
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "first_forward_market_date": "2026-06-17",
+  "record_type": "ENGINE_FORWARD_SEED_MANIFEST",
+  "schema_version": "1.0.0",
+  "seed_date": "2026-06-16",
+  "status": "ACTIVE_CANONICAL"
+}

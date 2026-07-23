@@ -1,0 +1,21 @@
+{
+  "derivation": "CANONICAL_5Y_OFFICIAL_EVIDENCE_RECONCILIATION",
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "first_forward_market_date": "2026-06-17",
+  "is_original_runtime_trace": false,
+  "legacy_oos_used": false,
+  "must_not_be_represented_as_original_trace": true,
+  "old_seed_account_data_used": false,
+  "record_type": "ENGINE_FORWARD_SEED_PROVENANCE",
+  "schema_version": "1.0.0",
+  "seed_date": "2026-06-16",
+  "sources": {
+    "actual_sim_end_trades": "exports/official/FD-M3180125-SP500-TOP3-engine/backtest/canonical_5y/actual_sim_end_trades.json",
+    "canonical_price_root": "data/prices",
+    "forward_price_root": "data/fw_prices",
+    "legacy_oos_used": false,
+    "official_trades": "exports/official/FD-M3180125-SP500-TOP3-engine/backtest/canonical_5y/official_trades.json",
+    "old_seed_account_data_used": false,
+    "regular_eod_account_records": "exports/official/FD-M3180125-SP500-TOP3-engine/backtest/canonical_5y/regular_eod_account_records.json"
+  }
+}

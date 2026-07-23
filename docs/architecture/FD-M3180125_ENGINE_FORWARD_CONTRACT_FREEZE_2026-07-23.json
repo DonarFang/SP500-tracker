@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "status": "CANONICAL_ACTIVE",
+  "engine_feature_development_performed": false,
+  "legacy_oos": {
+    "status": "LEGACY_ISOLATED",
+    "forbidden_as_engine_fact_source": true,
+    "paths": [
+      "data/oos/",
+      "exports/oos_",
+      "exports/e1r_v0_2_"
+    ],
+    "replacement_policy": "REPLACED_AFTER_ENGINE_FORWARD_FORMAL_ACCEPTANCE"
+  },
+  "engine_forward": {
+    "market_data_root": "data/fw_prices",
+    "official_namespace": "exports/official/FD-M3180125-SP500-TOP3-engine/forward",
+    "last_normal_backtest_eod": "2026-06-16",
+    "forward_seed_date": "2026-06-16",
+    "first_forward_market_date": "2026-06-17",
+    "initial_forward_sequence": [
+      "2026-06-17",
+      "2026-06-18",
+      "2026-06-22"
+    ],
+    "absent_common_date": "2026-06-19",
+    "active_seed": "seed_2026-06-16",
+    "superseded_seed": "seed_2026-06-18",
+    "carried_positions": [
+      "DELL",
+      "HUM",
+      "MRVL"
+    ],
+    "sim_end_liquidation_replayed": false,
+    "all_cash_final_settlement_used": false,
+    "carried_positions_are_new_buys": false
+  }
+}
