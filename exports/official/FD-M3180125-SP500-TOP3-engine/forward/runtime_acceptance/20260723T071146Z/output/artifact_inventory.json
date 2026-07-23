@@ -1,0 +1,772 @@
+{
+  "decision": "PASS_OFFICIAL_RUNTIME_ARTIFACT_INVENTORY",
+  "runtime_root": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime",
+  "file_count": 153,
+  "files": [
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/current/account_state.json",
+      "sha256": "87fcc3b458aee2c7116ffe63c39ff1266a97ab217186ed7bdf9d43bcc293f2e8",
+      "size_bytes": 1897
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/current/manifest.json",
+      "sha256": "95df695d6a865964cfdd52ca84c4a6457ec11d4188c580bdd8bf9517e41eb4f5",
+      "size_bytes": 28266
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/current/pending_orders.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/current/runtime_state.json",
+      "sha256": "68d32ecd11aed82e5fae6bb9bf887eed167df565458c062a39593f795ebbfb57",
+      "size_bytes": 6777
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-17/account_state.json",
+      "sha256": "66e7afd782f7934412b3acc60fffa546f971b11a828dd9bd3902ee7a57126068",
+      "size_bytes": 1899
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-17/decision_trace.json",
+      "sha256": "3c348c10ac108eadfdd384783037a89d3b6de38e240f7fe92fa26fc783250fe3",
+      "size_bytes": 10616
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-17/equity.json",
+      "sha256": "54b0022a32b12a6a563aae84b26c939aa5e352da374b7717f51536e84477d51e",
+      "size_bytes": 188
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-17/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-17/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-17/manifest.json",
+      "sha256": "f973621a1782b52a81bcc861afa23280ab10893e6f33e457c6d57630ac928948",
+      "size_bytes": 28067
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-17/order_intents.json",
+      "sha256": "17c58ec9db4de6d1aa3c5f46c471fa090a7cac9f55a1cd98a9ed95a93e33bb08",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-18/account_state.json",
+      "sha256": "3059b8f3facf2991250261f3b2af357d48bbf38133ff1ec2215169d194423936",
+      "size_bytes": 1897
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-18/decision_trace.json",
+      "sha256": "a7665d2f296eae51871c99737c529a1c8cf5581ff7fdb669202246672a25e50e",
+      "size_bytes": 8209
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-18/equity.json",
+      "sha256": "a91d4bd0ba51101cb8db37ce22d354b929965d27c588a94c758777342f586b00",
+      "size_bytes": 187
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-18/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-18/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-18/manifest.json",
+      "sha256": "41beac3441a8af44c05a87639c0b89338cb4611bdcc5419689d57899a0a658a5",
+      "size_bytes": 28066
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-18/order_intents.json",
+      "sha256": "ee963346e7d4d9e8b263ac9c964f1dfb06fac862b0f2d8ecbc1ab914ebfae0d9",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-22/account_state.json",
+      "sha256": "3cd5383dede4e36597f2d2538071932cc0dc21ee6cec9d2016cb9cf597c6f209",
+      "size_bytes": 1901
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-22/decision_trace.json",
+      "sha256": "a66dae2f5c68adee7f25dbd8c855ff8316541d200b6ed53bec33ca1026a29179",
+      "size_bytes": 8808
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-22/equity.json",
+      "sha256": "2fb79febb1ddebf3f20e41026e528ed85183611dc8264a739f71e4cbfabdcd61",
+      "size_bytes": 188
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-22/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-22/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-22/manifest.json",
+      "sha256": "05cbea50e361645c0e22f4090a816e9ee591def375c65bec2a3aee13a3488b59",
+      "size_bytes": 28067
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-22/order_intents.json",
+      "sha256": "443552ee1a3d4e9b3c43fa371bba47505781c7c59e382876d3256556c9a67d7b",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-23/account_state.json",
+      "sha256": "914383d9e800eb8e8dc55e9d9b8a25d0b11074c50b7655bc33def37bed0bed38",
+      "size_bytes": 1900
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-23/decision_trace.json",
+      "sha256": "2d3aea56a140112575dd830a1cfa3aa386db46d6a0eea20493f7f13d98c37402",
+      "size_bytes": 6393
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-23/equity.json",
+      "sha256": "7655fc7d0c74ab4449c0dd7dd358cdc607590233a051c1f377a6b4398f009dbf",
+      "size_bytes": 188
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-23/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-23/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-23/manifest.json",
+      "sha256": "f67ad501cbd4019b270b6674822e079b807f0fe0c9df829aedf64cb56d707758",
+      "size_bytes": 28067
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-23/order_intents.json",
+      "sha256": "535e0e5ad5ce6db21ead6cdfa3e51c8d470dbf133fcd677a3eabda02a10b98ba",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-24/account_state.json",
+      "sha256": "69fafeff6d4eabd1eb18c256384d17218c311896a3d6657dee57c810ef69fe4d",
+      "size_bytes": 1897
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-24/decision_trace.json",
+      "sha256": "1c7095c7e23875badd61aa76bdec46fe8b2b67e9635ebac855de6a60973117e6",
+      "size_bytes": 6391
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-24/equity.json",
+      "sha256": "e7616c88a8cbef9e8cef03ac77eb77b3793377467c4a059d27edab0cc77cad5b",
+      "size_bytes": 187
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-24/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-24/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-24/manifest.json",
+      "sha256": "e72cb829698d460171967d2ab5cbfa2f7d7909669a380f7328a0b44202091d89",
+      "size_bytes": 28066
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-24/order_intents.json",
+      "sha256": "6d116447ff479c68b7cb0744a3dfb67eb4c47b01b43027cccdd862e398fb1c7c",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-25/account_state.json",
+      "sha256": "5e6ec6f244bb3fb28b27e09e0bef8544da11a1f0cb27e471bdee346072d503e5",
+      "size_bytes": 1895
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-25/decision_trace.json",
+      "sha256": "e3686c68172ad62234e2c1c4bbd41ddb64cf2fbeb7550146ad8a270496f5b766",
+      "size_bytes": 10000
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-25/equity.json",
+      "sha256": "63e171ecde379d716ea15a662c3488025f4c81862850cacf6aa2124db5c6b76d",
+      "size_bytes": 188
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-25/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-25/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-25/manifest.json",
+      "sha256": "d4b146bf69521c86ad157dbd0d44175cfd497730b2404d4236938e870d6cad36",
+      "size_bytes": 28067
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-25/order_intents.json",
+      "sha256": "cb1008055240d368daf5189720cb93d9c3f8d50e60141228c2a8868c37d1ef1f",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-26/account_state.json",
+      "sha256": "a5a984773b30279119c645c3cabc294ea615c9e078e5632ee78eccd240bed928",
+      "size_bytes": 1899
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-26/decision_trace.json",
+      "sha256": "46c398df57e7f03510d281b929f64170b0f3ce7d8534debbc81aa51d81a2598b",
+      "size_bytes": 10006
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-26/equity.json",
+      "sha256": "6326dfb716bc860fe5568db514ebb148e26c344ffbe253fa8bcdfbc9c7ed8798",
+      "size_bytes": 187
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-26/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-26/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-26/manifest.json",
+      "sha256": "0fae0b85f1912dd23e5af02fc029efac30ae7241e0550bc3297d823e99919f23",
+      "size_bytes": 28066
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-26/order_intents.json",
+      "sha256": "608da5836f845cea260346ddc6079f4bfa0967ea48e90051b5c11b7674ba4d80",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-29/account_state.json",
+      "sha256": "8d754f3e009bdfe23d0f1bb084b1e5e0d421eb1ea1a8f4cfb813defdbe8b49a4",
+      "size_bytes": 1898
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-29/decision_trace.json",
+      "sha256": "3cd00b49cd002255aded2c2ded3eb8a52ffc845c7ddf5f279904aea1690b3b08",
+      "size_bytes": 8197
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-29/equity.json",
+      "sha256": "232fa0a7e8b667a0f34f2bc188a22c8094f1e5ae5814ec61df2c7e2c75f4b885",
+      "size_bytes": 187
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-29/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-29/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-29/manifest.json",
+      "sha256": "e1904359d93cac7660c8d0b10b18a78e6f17f8f8b28597ab82f2492042e2bca8",
+      "size_bytes": 28066
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-29/order_intents.json",
+      "sha256": "7afdaa2f74ef7a3fc99fbd2641409115eb76b0daf27e146d7199b9f14c88a49b",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-30/account_state.json",
+      "sha256": "fa5fce7ceb8a34c96c12a5b6ec890f4ff4c49df6817c5bb17d2bba76808005b0",
+      "size_bytes": 1894
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-30/decision_trace.json",
+      "sha256": "fd5abe7a60af528fa1b8b9919d72714df90cfde7c55a58cfdbd5da9b9cf1acf1",
+      "size_bytes": 6999
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-30/equity.json",
+      "sha256": "343c01883f1203721f8b2f7773655cffd90f3f678074131a96e9231e163b0fd2",
+      "size_bytes": 187
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-30/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-30/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-30/manifest.json",
+      "sha256": "a8c234d778f991f14d58438af8d369c27375e5041aa42ea0ba39775c1a7a5634",
+      "size_bytes": 28066
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-06-30/order_intents.json",
+      "sha256": "f484217b4ce606b698f98b8abe9d695da1249ce4d0bd04cb56caf23d23f78fc7",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-01/account_state.json",
+      "sha256": "edd8de2750d09682c7689bb5c83c907c5e69dcd14a2f2ecf7c9f81e19108bb7e",
+      "size_bytes": 1899
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-01/decision_trace.json",
+      "sha256": "512bcaa564b975401b5d172145d0416156f1042df12cd8eb5c8f79154ea00a42",
+      "size_bytes": 8205
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-01/equity.json",
+      "sha256": "4f131e05269d73746ab2093377e4317f5fdb2e3d9fa52de19c0f23f3a9b70aa9",
+      "size_bytes": 188
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-01/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-01/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-01/manifest.json",
+      "sha256": "eed493676ba8d786f6c80a33a7f9c83c85d68e04479ab3d6759570e75b70350f",
+      "size_bytes": 28067
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-01/order_intents.json",
+      "sha256": "7668963877a2de1b7b28e9268e3c3a30e3654353dee39e908075269dad854035",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-02/account_state.json",
+      "sha256": "7abdf36dbc59d73a7a6e0837631ecd1080b8f1fb4a94e5e819180d2615ce9a1b",
+      "size_bytes": 1900
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-02/decision_trace.json",
+      "sha256": "c8245f739f6ea3e03a4d070dd90f4a3739b6605eef250b3f7e74cf6267c291a3",
+      "size_bytes": 8808
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-02/equity.json",
+      "sha256": "d9540724348798d95b9416f3306622de153a62b3536dbdd06ecb5d57f98b8cb7",
+      "size_bytes": 188
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-02/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-02/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-02/manifest.json",
+      "sha256": "41471554851b58a3e234e0449f0491c278bf086f384cc821c5eb7c9a2825f523",
+      "size_bytes": 28067
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-02/order_intents.json",
+      "sha256": "50c1c0f787c8e7a19467948ce793913e4278570202471caaa054b86d1c129c9c",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-06/account_state.json",
+      "sha256": "990b09ba8d155baa2e3cca260dfdda5e5c0048158c60ce6132f3d9c25ecb8264",
+      "size_bytes": 1895
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-06/decision_trace.json",
+      "sha256": "d5b4c7dbe3609205d8c20c3d0e0717fe45e8206b3e586b84edd5a8a587199016",
+      "size_bytes": 7605
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-06/equity.json",
+      "sha256": "eeda9c26c3716fbcf8a700ed4ebcd9a0c1ff5edfd214a1c9e31646d7ede97ebe",
+      "size_bytes": 186
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-06/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-06/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-06/manifest.json",
+      "sha256": "12fbf44aec077098fb4603a6280a7fc889e91a890c8a58b88d99503ad82e9dba",
+      "size_bytes": 28065
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-06/order_intents.json",
+      "sha256": "5f7089cfa4badf5f65d8b034b6d014bdf68ea18db8a6b455ac126e547ec7e856",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-07/account_state.json",
+      "sha256": "a80e6fb3b608cf9a54935c888d1a0c129586c3e0c068dfb2e7033f91523c1ebf",
+      "size_bytes": 1897
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-07/decision_trace.json",
+      "sha256": "fc950fc75b9770c0fa298b3489306771ba092cc0704a1152ebf94663d64998c6",
+      "size_bytes": 9414
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-07/equity.json",
+      "sha256": "6da65cf87e7a7d4057ffb77fc52e4bc17f168bae4c37c686f84c033d64d00a1c",
+      "size_bytes": 187
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-07/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-07/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-07/manifest.json",
+      "sha256": "c88c01e2a073e646d0e02173a12a87108736257231bbec5bf4861f92d84ec413",
+      "size_bytes": 28066
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-07/order_intents.json",
+      "sha256": "a6a075bc4f7cdd325128115257f13191ce9d6565a556ac39838ecb4625b48eff",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-08/account_state.json",
+      "sha256": "538c3d0fcf254e369c22b14b78e446b991eb52542bdba7f983c6b7b0c9bc6473",
+      "size_bytes": 1897
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-08/decision_trace.json",
+      "sha256": "acf11ceb6cd56926411b0815c2ae3b624a3d8a528bd376bc4b83a78727352c8f",
+      "size_bytes": 7601
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-08/equity.json",
+      "sha256": "47465ec1865130d4264e193859702c07842f973b529bec472e6f44d4e09fe172",
+      "size_bytes": 187
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-08/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-08/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-08/manifest.json",
+      "sha256": "acfbace77a6a6be707c5dea2a3c9e22991c3d94ed6536e44ee0b42c4d8cdad85",
+      "size_bytes": 28066
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-08/order_intents.json",
+      "sha256": "8a1b87d1e1552d4387af6ac1a2d6599703922d869a795c7bf2c982dd2e26da06",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-09/account_state.json",
+      "sha256": "e672c06e4a18b234a8a1813e4dfc7f80036dfc88a4c19727473bbb1b2c510c52",
+      "size_bytes": 1897
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-09/decision_trace.json",
+      "sha256": "b126889a2c1f61e23cf06947df088e52a4bb40b06e61ea4d9ea5422ea039ed4e",
+      "size_bytes": 6403
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-09/equity.json",
+      "sha256": "0d51f36bbb732a9b55d334e3fb73c9953b672bd9383eafebc12d61ede481c07a",
+      "size_bytes": 188
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-09/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-09/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-09/manifest.json",
+      "sha256": "17dc2ee211a1c1344e26627b4e724eb11792dda65298a7ff31b27029695f19e8",
+      "size_bytes": 28067
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-09/order_intents.json",
+      "sha256": "a502faf10c1252188ecc1c5ee7f1c265901c7017e0e9f4175158f0603e5bcda3",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-10/account_state.json",
+      "sha256": "c0fe6b88b2a4c4b9cb4cf5a0635c3667dd627cef71328576c7e4b37795dcad3f",
+      "size_bytes": 1899
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-10/decision_trace.json",
+      "sha256": "0d4548f7680e60afea610d6619f1c7ca4a877a19c99d21c06173e55c51c31b84",
+      "size_bytes": 7001
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-10/equity.json",
+      "sha256": "5c4476b64528bbcd3c6c5694de815681164cf70adb9a0be361a0738baa6d3588",
+      "size_bytes": 188
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-10/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-10/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-10/manifest.json",
+      "sha256": "e852a34bcfd587092a8e3d4f85d42aeb3a14537031c49885346836a34a055bf9",
+      "size_bytes": 28067
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-10/order_intents.json",
+      "sha256": "0df54ea2594be54643db0cac1fb6b66504cd413e75453eb8e58626033f640ae9",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-13/account_state.json",
+      "sha256": "8290f49360186cef0394f20dc173766598c4c9f77a39bbb406705c86a55febfe",
+      "size_bytes": 1898
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-13/decision_trace.json",
+      "sha256": "fbc4404e9bbad8672959955e398c4c7d5e070cbaa488f08c8491fea7357748aa",
+      "size_bytes": 6999
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-13/equity.json",
+      "sha256": "fd44082b0f964e66b657d0048c118f4e1a7be1d86895daa6577bd2b82db011b9",
+      "size_bytes": 188
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-13/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-13/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-13/manifest.json",
+      "sha256": "d7f1844bb85f5abfe7c804e5ae9b040825bdada66e294381fc2fd6477d265569",
+      "size_bytes": 28067
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-13/order_intents.json",
+      "sha256": "15d426b7a9cf63f7fc19eed9aa88524ded4fafd1df15bca511c33904093f0006",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-14/account_state.json",
+      "sha256": "50f3b975473d60e0bc9f0887493fa414ca536f9fe4ea7a0cbe63eef3175b8967",
+      "size_bytes": 1897
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-14/decision_trace.json",
+      "sha256": "dfb5cd8859b569d502b23e8349321c468da02203334552a7be09ddb72eacb5ad",
+      "size_bytes": 7003
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-14/equity.json",
+      "sha256": "f24b0dc8f6d49acd9faa1f47d39fb42c4108c8837650c8ee041384d9d11b6dd1",
+      "size_bytes": 186
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-14/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-14/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-14/manifest.json",
+      "sha256": "dbb171432a519aeb527788daa23ab198fc2c0f3489b80fe4207b30747097e4c4",
+      "size_bytes": 28065
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-14/order_intents.json",
+      "sha256": "933d0cdf8cae509ce5f9878814b864cf80701b2f1491b4af5e86e8b19222cba4",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-15/account_state.json",
+      "sha256": "99b62dc97a98be52b9f429ce429ea36d8dc295eb202d40769c2907f03b4fd1db",
+      "size_bytes": 1897
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-15/decision_trace.json",
+      "sha256": "f57d2b50cd5acfa55e91ef5208f4aa60d6916130dc858f6a0d06483ce9d90b89",
+      "size_bytes": 7613
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-15/equity.json",
+      "sha256": "a9d25d8e344d95840d001b0fe40a79a0719a8d64b078622f9285f691b767abcd",
+      "size_bytes": 186
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-15/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-15/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-15/manifest.json",
+      "sha256": "661e10be4471e9f7bcee10ab39640b1784687f114d5e13e4f64d53e61e9f3a9a",
+      "size_bytes": 28065
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-15/order_intents.json",
+      "sha256": "5d8484bf9f02ba995d9c5ad67862cd54db3bd5f24be7c0935e426da56e68fa58",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-16/account_state.json",
+      "sha256": "722be3da541f5887ee9edeb7649aa5821ed96457dd6be8d8c3c29283e4a3478e",
+      "size_bytes": 1897
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-16/decision_trace.json",
+      "sha256": "f78dd1d86856d06a21f45cc59172ba2df7acaa8c0d76d8ebf28b140a903b8d32",
+      "size_bytes": 11228
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-16/equity.json",
+      "sha256": "3a700d3b07253968b0a23e309056be1a34a48af7d2a6ff0aa720c527d8d87cd8",
+      "size_bytes": 187
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-16/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-16/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-16/manifest.json",
+      "sha256": "068534a5b48ee243c55634bd5e5ea759a64179282c1290cd2c2e39d7645c2a47",
+      "size_bytes": 28066
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-16/order_intents.json",
+      "sha256": "2abdd0853e3ee55de39cab8d3f0214aafb5b9e5bfe05d04b1da03f4b5fb4b31c",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-17/account_state.json",
+      "sha256": "87fcc3b458aee2c7116ffe63c39ff1266a97ab217186ed7bdf9d43bcc293f2e8",
+      "size_bytes": 1897
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-17/decision_trace.json",
+      "sha256": "c957a83f820460ec6481c9e05c9a558e41bd5eec3840e23bb644a2e1bd386d50",
+      "size_bytes": 11830
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-17/equity.json",
+      "sha256": "a64385df51123f3bb749291a3e409c3b25ed4726497799190c3834fc1117cb38",
+      "size_bytes": 187
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-17/execution.json",
+      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba",
+      "size_bytes": 105
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-17/fills.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-17/manifest.json",
+      "sha256": "55d291194e2d531035a73a876d6d4cc28accb53950f26e32969fcb60829348ea",
+      "size_bytes": 28066
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/daily/2026-07-17/order_intents.json",
+      "sha256": "969841fb24416cba47009f7bfe682ae262d6d303a17b7518d08cf55e6b780be0",
+      "size_bytes": 1013
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/history/equity_curve.json",
+      "sha256": "5ecc3b76917a8ea9608663b9f1b205e0594be0be73454065eeca6121875b50a1",
+      "size_bytes": 3558
+    },
+    {
+      "path": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/history/orders.jsonl",
+      "sha256": "da5376e58531a30bb14658fa59c248f5bd8df4b66b52c2a72f7d2506c6241c80",
+      "size_bytes": 22470
+    }
+  ]
+}

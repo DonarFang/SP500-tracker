@@ -1,0 +1,288 @@
+{
+  "branch": "UPTREND",
+  "candidate_count": 10,
+  "date": "2026-07-02",
+  "inputs": {
+    "no_candidate_ranking": false,
+    "no_market_gate_recomputation": true,
+    "no_sizing": true,
+    "no_strategy_logic": false,
+    "route_reason": "route_uptrend",
+    "shell_mode": false,
+    "uptrend_consumer_active": true
+  },
+  "market_regime": "UPTREND",
+  "metadata": {
+    "max_positions": 3,
+    "route": {
+      "branch": "UPTREND",
+      "date": "2026-07-02",
+      "metadata": {
+        "combination_valid": true,
+        "no_strategy_decision": true,
+        "router_shell_only": true
+      },
+      "reason": "route_uptrend",
+      "spx_regime": "UPTREND",
+      "subclass": "NO_SUBCLASS"
+    },
+    "uptrend_consumer": {
+      "account_mutated": false,
+      "candidate_count": 10,
+      "consumer": "UptrendDecisionConsumer",
+      "entry_capacity": 3,
+      "legacy_backtest_called": false,
+      "legacy_order_payload_constructed": false,
+      "market_entry_allowed": true,
+      "market_gate_recomputed": false,
+      "market_gate_state": "ALLOW",
+      "no_capacity_count": 10,
+      "order_execution_performed": false,
+      "ranked_candidate_count": 10,
+      "selected_symbols": []
+    },
+    "uptrend_decision": {
+      "no_capacity_count": 10,
+      "pre_rank_candidate_rows": [
+        {
+          "entry_priority": 1,
+          "entry_type": "E1R_UPTREND_EMERGING",
+          "leader_rank_all": 8,
+          "negative_leader_score": -92.73,
+          "negative_momentum_acceleration": -30.4,
+          "negative_rs_20d_improvement": -80.0,
+          "symbol": "AXON"
+        },
+        {
+          "entry_priority": 0,
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank_all": 5,
+          "negative_leader_score": -93.43,
+          "negative_momentum_acceleration": -14.0,
+          "negative_rs_20d_improvement": -5.3,
+          "symbol": "CNC"
+        },
+        {
+          "entry_priority": 0,
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank_all": 4,
+          "negative_leader_score": -93.6,
+          "negative_momentum_acceleration": -66.2,
+          "negative_rs_20d_improvement": -0.0,
+          "symbol": "DDOG"
+        },
+        {
+          "entry_priority": 0,
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank_all": 1,
+          "negative_leader_score": -97.45,
+          "negative_momentum_acceleration": -20.1,
+          "negative_rs_20d_improvement": -5.9,
+          "symbol": "DVA"
+        },
+        {
+          "entry_priority": 1,
+          "entry_type": "E1R_UPTREND_EMERGING",
+          "leader_rank_all": 17,
+          "negative_leader_score": -88.33,
+          "negative_momentum_acceleration": -4.3,
+          "negative_rs_20d_improvement": -68.7,
+          "symbol": "GPC"
+        },
+        {
+          "entry_priority": 1,
+          "entry_type": "E1R_UPTREND_EMERGING",
+          "leader_rank_all": 15,
+          "negative_leader_score": -89.98,
+          "negative_momentum_acceleration": -47.1,
+          "negative_rs_20d_improvement": -34.2,
+          "symbol": "HOOD"
+        },
+        {
+          "entry_priority": 1,
+          "entry_type": "E1R_UPTREND_EMERGING",
+          "leader_rank_all": 12,
+          "negative_leader_score": -90.33,
+          "negative_momentum_acceleration": -9.8,
+          "negative_rs_20d_improvement": -54.1,
+          "symbol": "KMB"
+        },
+        {
+          "entry_priority": 1,
+          "entry_type": "E1R_UPTREND_EMERGING",
+          "leader_rank_all": 9,
+          "negative_leader_score": -92.52,
+          "negative_momentum_acceleration": -4.9,
+          "negative_rs_20d_improvement": -21.8,
+          "symbol": "MAS"
+        },
+        {
+          "entry_priority": 1,
+          "entry_type": "E1R_UPTREND_EMERGING",
+          "leader_rank_all": 7,
+          "negative_leader_score": -92.96,
+          "negative_momentum_acceleration": -50.0,
+          "negative_rs_20d_improvement": -77.6,
+          "symbol": "MRNA"
+        },
+        {
+          "entry_priority": 0,
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank_all": 3,
+          "negative_leader_score": -94.59,
+          "negative_momentum_acceleration": -11.1,
+          "negative_rs_20d_improvement": -3.9,
+          "symbol": "WST"
+        }
+      ],
+      "ranked_candidate_rows": [
+        {
+          "entry_priority": 0,
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank_all": 1,
+          "negative_leader_score": -97.45,
+          "negative_momentum_acceleration": -20.1,
+          "negative_rs_20d_improvement": -5.9,
+          "symbol": "DVA"
+        },
+        {
+          "entry_priority": 0,
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank_all": 3,
+          "negative_leader_score": -94.59,
+          "negative_momentum_acceleration": -11.1,
+          "negative_rs_20d_improvement": -3.9,
+          "symbol": "WST"
+        },
+        {
+          "entry_priority": 0,
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank_all": 4,
+          "negative_leader_score": -93.6,
+          "negative_momentum_acceleration": -66.2,
+          "negative_rs_20d_improvement": -0.0,
+          "symbol": "DDOG"
+        },
+        {
+          "entry_priority": 0,
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank_all": 5,
+          "negative_leader_score": -93.43,
+          "negative_momentum_acceleration": -14.0,
+          "negative_rs_20d_improvement": -5.3,
+          "symbol": "CNC"
+        },
+        {
+          "entry_priority": 1,
+          "entry_type": "E1R_UPTREND_EMERGING",
+          "leader_rank_all": 7,
+          "negative_leader_score": -92.96,
+          "negative_momentum_acceleration": -50.0,
+          "negative_rs_20d_improvement": -77.6,
+          "symbol": "MRNA"
+        },
+        {
+          "entry_priority": 1,
+          "entry_type": "E1R_UPTREND_EMERGING",
+          "leader_rank_all": 8,
+          "negative_leader_score": -92.73,
+          "negative_momentum_acceleration": -30.4,
+          "negative_rs_20d_improvement": -80.0,
+          "symbol": "AXON"
+        },
+        {
+          "entry_priority": 1,
+          "entry_type": "E1R_UPTREND_EMERGING",
+          "leader_rank_all": 9,
+          "negative_leader_score": -92.52,
+          "negative_momentum_acceleration": -4.9,
+          "negative_rs_20d_improvement": -21.8,
+          "symbol": "MAS"
+        },
+        {
+          "entry_priority": 1,
+          "entry_type": "E1R_UPTREND_EMERGING",
+          "leader_rank_all": 12,
+          "negative_leader_score": -90.33,
+          "negative_momentum_acceleration": -9.8,
+          "negative_rs_20d_improvement": -54.1,
+          "symbol": "KMB"
+        },
+        {
+          "entry_priority": 1,
+          "entry_type": "E1R_UPTREND_EMERGING",
+          "leader_rank_all": 15,
+          "negative_leader_score": -89.98,
+          "negative_momentum_acceleration": -47.1,
+          "negative_rs_20d_improvement": -34.2,
+          "symbol": "HOOD"
+        },
+        {
+          "entry_priority": 1,
+          "entry_type": "E1R_UPTREND_EMERGING",
+          "leader_rank_all": 17,
+          "negative_leader_score": -88.33,
+          "negative_momentum_acceleration": -4.3,
+          "negative_rs_20d_improvement": -68.7,
+          "symbol": "GPC"
+        }
+      ],
+      "selected_entry_type": null,
+      "selected_symbol": null,
+      "selected_target_size_units": null
+    }
+  },
+  "order_intents": [
+    {
+      "branch": "UPTREND",
+      "date": "2026-07-02",
+      "intent_type": "HOLD",
+      "metadata": {
+        "no_strategy_decision": true,
+        "shell_mode": true
+      },
+      "quantity_delta": 0.0,
+      "reason": "engine_f_shell_existing_position_hold",
+      "side": null,
+      "symbol": "DELL",
+      "target_quantity": 156.48065098333814
+    },
+    {
+      "branch": "UPTREND",
+      "date": "2026-07-02",
+      "intent_type": "HOLD",
+      "metadata": {
+        "no_strategy_decision": true,
+        "shell_mode": true
+      },
+      "quantity_delta": 0.0,
+      "reason": "engine_f_shell_existing_position_hold",
+      "side": null,
+      "symbol": "HUM",
+      "target_quantity": 240.76122161662295
+    },
+    {
+      "branch": "UPTREND",
+      "date": "2026-07-02",
+      "intent_type": "HOLD",
+      "metadata": {
+        "no_strategy_decision": true,
+        "shell_mode": true
+      },
+      "quantity_delta": 0.0,
+      "reason": "engine_f_shell_existing_position_hold",
+      "side": null,
+      "symbol": "MRVL",
+      "target_quantity": 204.35358320635484
+    }
+  ],
+  "reasons": [
+    "uptrend_core_consumer",
+    "route_uptrend",
+    "mark_to_market_only",
+    "standard_order_intent_only",
+    "no_order_execution"
+  ],
+  "regime_subclass": "NO_SUBCLASS",
+  "selected_symbols": []
+}

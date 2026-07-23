@@ -1,0 +1,66 @@
+{
+  "cash": 70153.97,
+  "date": "2026-07-15",
+  "metadata": {
+    "last_execution_date": "2026-07-15",
+    "sim_end_liquidation_replayed": false,
+    "sim_end_performed": false,
+    "source": "CANONICAL_5Y_OFFICIAL_EVIDENCE"
+  },
+  "open_positions_count": 3,
+  "positions": {
+    "DELL": {
+      "avg_cost": 219.21899999999997,
+      "entry_date": "2026-04-24",
+      "last_price": 412.68,
+      "last_update_date": "2026-07-15",
+      "market_value": 64576.435047803985,
+      "metadata": {
+        "carried_position": true,
+        "new_forward_buy": false,
+        "origin_branch": "UPTREND",
+        "remaining_cost_basis": 34303.5318279164,
+        "size_units": 0.5
+      },
+      "quantity": 156.48065098333814,
+      "symbol": "DELL",
+      "unrealized_pnl": 30272.903219887587
+    },
+    "HUM": {
+      "avg_cost": 373.07269999999994,
+      "entry_date": "2026-06-11",
+      "last_price": 407.78,
+      "last_update_date": "2026-07-15",
+      "market_value": 98177.61095082649,
+      "metadata": {
+        "carried_position": true,
+        "new_forward_buy": false,
+        "origin_branch": "UPTREND",
+        "remaining_cost_basis": 89821.43900381187,
+        "size_units": 1.0
+      },
+      "quantity": 240.76122161662295,
+      "symbol": "HUM",
+      "unrealized_pnl": 8356.171947014625
+    },
+    "MRVL": {
+      "avg_cost": 168.02786,
+      "entry_date": "2026-04-23",
+      "last_price": 206.26,
+      "last_update_date": "2026-07-15",
+      "market_value": 42149.97007214275,
+      "metadata": {
+        "carried_position": true,
+        "new_forward_buy": false,
+        "origin_branch": "UPTREND",
+        "remaining_cost_basis": 34337.095269495745,
+        "size_units": 0.5
+      },
+      "quantity": 204.35358320635484,
+      "symbol": "MRVL",
+      "unrealized_pnl": 7812.874802647005
+    }
+  },
+  "positions_value": 204904.0160707732,
+  "total_equity": 275057.9860707732
+}

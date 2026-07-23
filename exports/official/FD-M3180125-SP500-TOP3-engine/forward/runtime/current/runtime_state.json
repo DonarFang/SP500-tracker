@@ -1,0 +1,235 @@
+{
+  "account": {
+    "cash": 70153.97,
+    "date": "2026-07-17",
+    "metadata": {
+      "last_execution_date": "2026-07-17",
+      "sim_end_liquidation_replayed": false,
+      "sim_end_performed": false,
+      "source": "CANONICAL_5Y_OFFICIAL_EVIDENCE"
+    },
+    "open_positions_count": 3,
+    "positions": {
+      "DELL": {
+        "avg_cost": 219.21899999999997,
+        "entry_date": "2026-04-24",
+        "last_price": 396.34,
+        "last_update_date": "2026-07-17",
+        "market_value": 62019.541210736235,
+        "metadata": {
+          "carried_position": true,
+          "new_forward_buy": false,
+          "origin_branch": "UPTREND",
+          "remaining_cost_basis": 34303.5318279164,
+          "size_units": 0.5
+        },
+        "quantity": 156.48065098333814,
+        "symbol": "DELL",
+        "unrealized_pnl": 27716.009382819837
+      },
+      "HUM": {
+        "avg_cost": 373.07269999999994,
+        "entry_date": "2026-06-11",
+        "last_price": 400.0,
+        "last_update_date": "2026-07-17",
+        "market_value": 96304.48864664917,
+        "metadata": {
+          "carried_position": true,
+          "new_forward_buy": false,
+          "origin_branch": "UPTREND",
+          "remaining_cost_basis": 89821.43900381187,
+          "size_units": 1.0
+        },
+        "quantity": 240.76122161662295,
+        "symbol": "HUM",
+        "unrealized_pnl": 6483.049642837305
+      },
+      "MRVL": {
+        "avg_cost": 168.02786,
+        "entry_date": "2026-04-23",
+        "last_price": 188.68,
+        "last_update_date": "2026-07-17",
+        "market_value": 38557.43407937503,
+        "metadata": {
+          "carried_position": true,
+          "new_forward_buy": false,
+          "origin_branch": "UPTREND",
+          "remaining_cost_basis": 34337.095269495745,
+          "size_units": 0.5
+        },
+        "quantity": 204.35358320635484,
+        "symbol": "MRVL",
+        "unrealized_pnl": 4220.338809879289
+      }
+    },
+    "positions_value": 196881.46393676044,
+    "total_equity": 267035.4339367604
+  },
+  "closed_trades": [],
+  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "equity_history": [
+    {
+      "cash": 70153.97,
+      "date": "2026-06-17",
+      "open_positions_count": 3,
+      "positions_value": 211939.56527711885,
+      "total_equity": 282093.53527711885
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-06-18",
+      "open_positions_count": 3,
+      "positions_value": 214377.49702594173,
+      "total_equity": 284531.4670259417
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-06-22",
+      "open_positions_count": 3,
+      "positions_value": 215279.69536069015,
+      "total_equity": 285433.66536069015
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-06-23",
+      "open_positions_count": 3,
+      "positions_value": 210426.69425473144,
+      "total_equity": 280580.66425473144
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-06-24",
+      "open_positions_count": 3,
+      "positions_value": 211535.51602446166,
+      "total_equity": 281689.4860244617
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-06-25",
+      "open_positions_count": 3,
+      "positions_value": 212073.71068559738,
+      "total_equity": 282227.68068559736
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-06-26",
+      "open_positions_count": 3,
+      "positions_value": 209441.64795861757,
+      "total_equity": 279595.6179586176
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-06-29",
+      "open_positions_count": 3,
+      "positions_value": 215269.68952647154,
+      "total_equity": 285423.6595264715
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-06-30",
+      "open_positions_count": 3,
+      "positions_value": 224025.20302516708,
+      "total_equity": 294179.1730251671
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-07-01",
+      "open_positions_count": 3,
+      "positions_value": 220710.24849623113,
+      "total_equity": 290864.21849623113
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-07-02",
+      "open_positions_count": 3,
+      "positions_value": 207351.35539683182,
+      "total_equity": 277505.32539683185
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-07-06",
+      "open_positions_count": 3,
+      "positions_value": 209963.4032850932,
+      "total_equity": 280117.3732850932
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-07-07",
+      "open_positions_count": 3,
+      "positions_value": 207449.81096238515,
+      "total_equity": 277603.7809623851
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-07-08",
+      "open_positions_count": 3,
+      "positions_value": 210356.98008446858,
+      "total_equity": 280510.9500844686
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-07-09",
+      "open_positions_count": 3,
+      "positions_value": 215928.99838255637,
+      "total_equity": 286082.96838255634
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-07-10",
+      "open_positions_count": 3,
+      "positions_value": 210684.37355658496,
+      "total_equity": 280838.34355658496
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-07-13",
+      "open_positions_count": 3,
+      "positions_value": 209036.54177272087,
+      "total_equity": 279190.51177272084
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-07-14",
+      "open_positions_count": 3,
+      "positions_value": 214987.0102163318,
+      "total_equity": 285140.9802163318
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-07-15",
+      "open_positions_count": 3,
+      "positions_value": 204904.0160707732,
+      "total_equity": 275057.9860707732
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-07-16",
+      "open_positions_count": 3,
+      "positions_value": 192772.57383000792,
+      "total_equity": 262926.5438300079
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-07-17",
+      "open_positions_count": 3,
+      "positions_value": 196881.46393676044,
+      "total_equity": 267035.4339367604
+    }
+  ],
+  "first_forward_market_date": "2026-06-17",
+  "last_committed_date": "2026-07-17",
+  "metadata": {
+    "last_commit_date": "2026-07-17",
+    "last_decision_source": "E1RCoreEngine.step",
+    "seed_contract_sha256": "b7247734609e62d8639f68f3cd91fdc2f2e13f6a77d5a90b582a8bdb3da7b538",
+    "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
+    "seed_source": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/seed_2026-06-16/forward_runtime_seed_state.json",
+    "seed_state_sha256": "108a295f69b29b7cdbd181b9e19eec6551801767c3378f0bd021ebcc68111dfb",
+    "sim_end_performed": false,
+    "sim_end_replayed": false,
+    "unknown_pending_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
+  },
+  "pending_orders": [],
+  "schema_version": "1.0.0",
+  "seed_date": "2026-06-16"
+}

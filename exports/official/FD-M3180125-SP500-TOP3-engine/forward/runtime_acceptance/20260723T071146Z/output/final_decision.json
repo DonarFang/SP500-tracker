@@ -1,0 +1,14 @@
+{
+  "decision": "PASS_FW_STEP3_FORMAL_CATCHUP_AND_RUNTIME_ACCEPTANCE",
+  "seed_date": "2026-06-16",
+  "first_forward_market_date": "2026-06-17",
+  "last_committed_date": "2026-07-17",
+  "formal_day_count": 21,
+  "idempotent_rerun_result_count": 0,
+  "official_runtime_root": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime",
+  "legacy_oos_used": false,
+  "sim_end_replayed": false,
+  "engine_source_modified": false,
+  "strategy_logic_modified": false,
+  "runtime_commit": "54aa2283171d0b5f6ff6ebfcceecea562268f8e4"
+}
