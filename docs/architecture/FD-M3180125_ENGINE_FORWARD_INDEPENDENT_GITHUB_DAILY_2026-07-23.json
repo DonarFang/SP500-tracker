@@ -1,0 +1,18 @@
+{
+  "decision": "PASS_ENGINE_FORWARD_INDEPENDENT_GITHUB_DAILY",
+  "effective_date": "2026-07-23",
+  "mode": "PARALLEL_ISOLATED",
+  "legacy_workflow_modified": false,
+  "legacy_forward_continues": true,
+  "legacy_equity_curve_continues": true,
+  "engine_workflow": ".github/workflows/engine-forward-daily.yml",
+  "engine_entrypoint": "scripts/run_engine_forward_daily.py",
+  "engine_runtime_root": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime",
+  "engine_equity_curve": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/history/equity_curve.json",
+  "engine_supplies_legacy_equity_curve": false,
+  "engine_supplies_current_dashboard": false,
+  "legacy_paths_written_by_engine_workflow": false,
+  "future_cutover_performed": false,
+  "engine_feature_development_performed": false,
+  "strategy_logic_modified": false
+}

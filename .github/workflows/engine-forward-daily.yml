@@ -1,0 +1,69 @@
+name: Engine Forward Daily
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "每日更新 S&P 500 数据"
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+concurrency:
+  group: engine-forward-daily
+  cancel-in-progress: false
+
+jobs:
+  engine-forward:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install project
+        run: pip install -e .
+
+      - name: Run independent Engine Forward
+        run: python scripts/run_engine_forward_daily.py
+
+      - name: Verify legacy workflow unchanged
+        run: git diff --exit-code -- ".github/workflows/update.yml"
+
+      - name: Stage only Engine Forward outputs
+        run: |
+          git add -f data/fw_prices/
+          git add -f "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/"
+          git add -f "exports/official/FD-M3180125-SP500-TOP3-engine/forward/automation/"
+          git add -f scripts/run_engine_forward_daily.py
+          git add -f ".github/workflows/engine-forward-daily.yml"
+          git diff --cached --name-only | tee /tmp/engine_forward_staged.txt
+          if grep -E '^(data/oos/|exports/oos_|exports/e1r_v0_2_)' /tmp/engine_forward_staged.txt; then
+            echo "Legacy Forward/OOS path staged"
+            exit 1
+          fi
+          git diff --cached --check
+
+      - name: Commit independent Engine Forward update
+        run: |
+          if git diff --cached --quiet; then
+            echo "No Engine Forward changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update independent Engine Forward runtime"
+          git pull --rebase origin main
+          git push origin HEAD:main

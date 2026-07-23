@@ -1,0 +1,347 @@
+#!/usr/bin/env python3
+"""
+Independent canonical Engine Forward daily entrypoint.
+
+This runner is deliberately separate from the legacy GitHub Forward/OOS
+system. It writes only:
+- data/fw_prices/*
+- exports/official/FD-M3180125-SP500-TOP3-engine/forward/*
+
+It never reads or writes legacy Forward/OOS state or the legacy equity curve.
+"""
+
+from __future__ import annotations
+
+import argparse
+import dataclasses
+import hashlib
+import inspect
+import json
+import shutil
+import subprocess
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Mapping
+
+from e1r_engine.core import E1RCoreEngine
+from e1r_engine.forward_orchestrator import ForwardStrategyInputBuilder
+from e1r_engine.forward_production_composition import (
+    build_production_forward_composition,
+)
+
+ROOT = Path(__file__).resolve().parents[1]
+ENGINE_ID = "FD-M3180125-SP500-TOP3-engine"
+FORWARD_ROOT = ROOT / "exports" / "official" / ENGINE_ID / "forward"
+SEED_ROOT = FORWARD_ROOT / "seed_2026-06-16"
+RUNTIME_ROOT = FORWARD_ROOT / "runtime"
+SOURCE_PRICE_ROOT = ROOT / "data" / "prices"
+FORWARD_PRICE_ROOT = ROOT / "data" / "fw_prices"
+AUTOMATION_ROOT = FORWARD_ROOT / "automation"
+STATUS_PATH = AUTOMATION_ROOT / "current_run.json"
+
+INDEX_NAMES = {
+    "_GSPC": "SPX",
+    "_NDX": "NDX",
+    "_SOX": "SOX",
+}
+
+EXCLUDED_UNIVERSE = {
+    "SPX", "NDX", "SOX", "VIX",
+    "_GSPC", "_NDX", "_SOX", "_VIX",
+    "GSPC", "^GSPC", "^NDX", "^SOX", "^VIX",
+    "QQQ", "SOXX", "VIXY",
+}
+
+LEGACY_ROOTS = (
+    ROOT / "data" / "oos",
+    ROOT / "exports" / "oos",
+)
+LEGACY_TEXT_TOKENS = (
+    "data/oos",
+    "exports/oos_",
+    "exports/e1r_v0_2_",
+)
+
+
+class ProviderShouldNotBeCalled:
+    def __call__(self, *args: Any, **kwargs: Any) -> Mapping[str, str]:
+        raise RuntimeError(
+            "FORWARD_SIDE_MANAGEMENT_PROVIDER_CALLED:"
+            "no policy may be synthesized outside E1RCoreEngine"
+        )
+
+
+def jsonable(value: Any) -> Any:
+    if dataclasses.is_dataclass(value):
+        return {
+            field.name: jsonable(getattr(value, field.name))
+            for field in dataclasses.fields(value)
+        }
+    if isinstance(value, Path):
+        return str(value)
+    if isinstance(value, Mapping):
+        return {str(key): jsonable(child) for key, child in value.items()}
+    if isinstance(value, (list, tuple, set)):
+        return [jsonable(child) for child in value]
+    if isinstance(value, (str, int, float, bool)) or value is None:
+        return value
+    if hasattr(value, "__dict__"):
+        return {
+            str(key): jsonable(child)
+            for key, child in vars(value).items()
+            if not str(key).startswith("_")
+        }
+    return str(value)
+
+
+def write_json(path: Path, value: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            jsonable(value),
+            ensure_ascii=False,
+            indent=2,
+            sort_keys=True,
+        ) + "\n",
+        encoding="utf-8",
+    )
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def legacy_snapshot() -> dict[str, Any]:
+    records: list[dict[str, Any]] = []
+    candidates = [
+        ROOT / "data" / "oos",
+        ROOT / "exports",
+    ]
+    for root in candidates:
+        if not root.exists():
+            continue
+        for path in sorted(root.rglob("*")):
+            if not path.is_file():
+                continue
+            relative = str(path.relative_to(ROOT))
+            if (
+                relative.startswith("data/oos/")
+                or relative.startswith("exports/oos_")
+                or relative.startswith("exports/e1r_v0_2_")
+            ):
+                records.append({
+                    "path": relative,
+                    "sha256": sha256(path),
+                    "size_bytes": path.stat().st_size,
+                })
+    return {"files": records}
+
+
+def sync_forward_prices() -> dict[str, Any]:
+    if not SOURCE_PRICE_ROOT.is_dir():
+        raise RuntimeError(f"Missing source price root: {SOURCE_PRICE_ROOT}")
+
+    sources = sorted(SOURCE_PRICE_ROOT.glob("*.json"))
+    if not sources:
+        raise RuntimeError("No source JSON files under data/prices")
+
+    FORWARD_PRICE_ROOT.mkdir(parents=True, exist_ok=True)
+    source_names = {path.name for path in sources}
+
+    copied = 0
+    unchanged = 0
+    for source in sources:
+        target = FORWARD_PRICE_ROOT / source.name
+        if target.exists() and sha256(target) == sha256(source):
+            unchanged += 1
+        else:
+            shutil.copy2(source, target)
+            copied += 1
+
+    removed = 0
+    for target in sorted(FORWARD_PRICE_ROOT.glob("*.json")):
+        if target.name not in source_names:
+            target.unlink()
+            removed += 1
+
+    return {
+        "source_root": "data/prices",
+        "forward_root": "data/fw_prices",
+        "source_file_count": len(sources),
+        "copied_or_updated": copied,
+        "unchanged": unchanged,
+        "removed_stale_mirror_files": removed,
+    }
+
+
+def build_composition(runtime_commit: str):
+    price_files: dict[str, Path] = {}
+    for path in sorted(FORWARD_PRICE_ROOT.glob("*.json")):
+        symbol = path.stem.upper()
+        price_files[symbol] = path
+        canonical = INDEX_NAMES.get(symbol)
+        if canonical is not None:
+            price_files[canonical] = path
+
+    for required in ("SPX", "NDX", "SOX"):
+        if required not in price_files:
+            raise RuntimeError(f"Missing required index {required}")
+
+    universe = tuple(
+        sorted(
+            symbol
+            for symbol in price_files
+            if symbol not in EXCLUDED_UNIVERSE
+        )
+    )
+
+    signature = inspect.signature(ForwardStrategyInputBuilder)
+    if "engine" not in signature.parameters:
+        raise RuntimeError(
+            "ForwardStrategyInputBuilder no longer exposes Engine ownership"
+        )
+
+    strategy_builder = ForwardStrategyInputBuilder(
+        engine=E1RCoreEngine(),
+        management_action_provider=ProviderShouldNotBeCalled(),
+    )
+
+    return build_production_forward_composition(
+        seed_root=SEED_ROOT,
+        runtime_root=RUNTIME_ROOT,
+        price_files_by_symbol=price_files,
+        universe=universe,
+        strategy_input_builder=strategy_builder,
+        runtime_commit_provider=lambda: runtime_commit,
+    )
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--check", action="store_true")
+    args = parser.parse_args()
+
+    before_legacy = legacy_snapshot()
+    price_sync = sync_forward_prices()
+
+    runtime_commit = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"],
+        cwd=ROOT,
+        text=True,
+    ).strip()
+
+    composition = build_composition(runtime_commit)
+    seed = composition.seed_loader.load()
+    current = composition.repository.load()
+    dry_run = composition.runner.dry_run()
+    planned_dates = list(dry_run.planned_dates)
+
+    common = {
+        "engine_id": ENGINE_ID,
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "mode": "CHECK" if args.check else "OFFICIAL_WRITE",
+        "runtime_commit": runtime_commit,
+        "price_sync": price_sync,
+        "seed_date": seed.seed_date,
+        "first_forward_market_date": seed.first_forward_market_date,
+        "last_committed_date_before": current.last_committed_date,
+        "planned_dates": planned_dates,
+        "dry_run_status": dry_run.status,
+        "dry_run_repository_initialized": (
+            dry_run.repository_initialized
+        ),
+        "dry_run_commit_day_called": dry_run.commit_day_called,
+        "dry_run_forward_state_mutated": (
+            dry_run.forward_state_mutated
+        ),
+        "dry_run_official_artifacts_written": (
+            dry_run.official_artifacts_written
+        ),
+        "legacy_forward_used": False,
+        "legacy_equity_curve_used": False,
+        "engine_equity_curve": str(
+            (RUNTIME_ROOT / "history" / "equity_curve.json").relative_to(ROOT)
+        ),
+    }
+
+    if args.check:
+        if dry_run.status != "PASS_FORWARD_ORCHESTRATOR_DRY_RUN":
+            raise RuntimeError(
+                f"Unexpected dry-run status: {dry_run.status}"
+            )
+        if (
+            dry_run.repository_initialized
+            or dry_run.commit_day_called
+            or dry_run.forward_state_mutated
+            or dry_run.official_artifacts_written
+        ):
+            raise RuntimeError("Dry-run violated no-write contract")
+        after_legacy = legacy_snapshot()
+        if before_legacy != after_legacy:
+            raise RuntimeError("Check mode changed legacy Forward artifacts")
+        print(json.dumps(common, ensure_ascii=False, indent=2))
+        return 0
+
+    results = list(composition.runner.run(allow_official_write=True))
+    final_state = composition.repository.load()
+    final_state.validate()
+
+    non_committed = [
+        jsonable(result)
+        for result in results
+        if str(getattr(result, "status", "")) != "COMMITTED"
+    ]
+    if non_committed:
+        raise RuntimeError(
+            "Engine Forward produced non-COMMITTED results: "
+            + json.dumps(non_committed, ensure_ascii=False)
+        )
+
+    curve_path = RUNTIME_ROOT / "history" / "equity_curve.json"
+    curve = json.loads(curve_path.read_text(encoding="utf-8"))
+    if not isinstance(curve, list) or not curve:
+        raise RuntimeError("Engine Forward equity curve is empty")
+    if curve[-1].get("date") != final_state.last_committed_date:
+        raise RuntimeError("Engine equity curve/runtime date mismatch")
+
+    after_legacy = legacy_snapshot()
+    if before_legacy != after_legacy:
+        raise RuntimeError(
+            "Engine Forward run changed legacy Forward/OOS artifacts"
+        )
+
+    status = {
+        **common,
+        "decision": "PASS_INDEPENDENT_ENGINE_FORWARD_DAILY_UPDATE",
+        "result_count": len(results),
+        "committed_dates": [
+            str(getattr(result, "trading_date", ""))
+            for result in results
+        ],
+        "last_committed_date_after": final_state.last_committed_date,
+        "final_account_date": final_state.account.date,
+        "final_equity": final_state.account.total_equity,
+        "engine_equity_curve_point_count": len(curve),
+        "engine_equity_curve_last_date": curve[-1].get("date"),
+        "legacy_forward_changed": False,
+        "legacy_equity_curve_changed": False,
+    }
+    write_json(STATUS_PATH, status)
+    print(json.dumps(status, ensure_ascii=False, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except Exception as exc:
+        failure = {
+            "decision": "FAIL_INDEPENDENT_ENGINE_FORWARD_DAILY_UPDATE",
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "error": repr(exc),
+            "legacy_forward_used": False,
+            "legacy_equity_curve_used": False,
+        }
+        write_json(STATUS_PATH, failure)
+        print(json.dumps(failure, ensure_ascii=False, indent=2))
+        raise
