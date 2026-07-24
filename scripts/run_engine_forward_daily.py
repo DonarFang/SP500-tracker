@@ -17,7 +17,6 @@ import dataclasses
 import hashlib
 import inspect
 import json
-import shutil
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
@@ -137,42 +136,55 @@ def legacy_snapshot() -> dict[str, Any]:
     return {"files": records}
 
 
-def sync_forward_prices() -> dict[str, Any]:
-    if not SOURCE_PRICE_ROOT.is_dir():
-        raise RuntimeError(f"Missing source price root: {SOURCE_PRICE_ROOT}")
+def inspect_forward_prices() -> dict[str, Any]:
+    if not FORWARD_PRICE_ROOT.is_dir():
+        raise RuntimeError(
+            f"Missing Engine price root: {FORWARD_PRICE_ROOT}"
+        )
 
-    sources = sorted(SOURCE_PRICE_ROOT.glob("*.json"))
-    if not sources:
-        raise RuntimeError("No source JSON files under data/prices")
+    files = sorted(FORWARD_PRICE_ROOT.glob("*.json"))
+    if not files:
+        raise RuntimeError(
+            "No Engine JSON files under data/fw_prices"
+        )
 
-    FORWARD_PRICE_ROOT.mkdir(parents=True, exist_ok=True)
-    source_names = {path.name for path in sources}
+    required = {
+        "SPX": FORWARD_PRICE_ROOT / "_GSPC.json",
+        "NDX": FORWARD_PRICE_ROOT / "_NDX.json",
+        "SOX": FORWARD_PRICE_ROOT / "_SOX.json",
+    }
+    missing = [
+        name
+        for name, file_path in required.items()
+        if not file_path.is_file()
+    ]
+    if missing:
+        raise RuntimeError(
+            f"Missing required Engine indices: {missing}"
+        )
 
-    copied = 0
-    unchanged = 0
-    for source in sources:
-        target = FORWARD_PRICE_ROOT / source.name
-        if target.exists() and sha256(target) == sha256(source):
-            unchanged += 1
-        else:
-            shutil.copy2(source, target)
-            copied += 1
-
-    removed = 0
-    for target in sorted(FORWARD_PRICE_ROOT.glob("*.json")):
-        if target.name not in source_names:
-            target.unlink()
-            removed += 1
+    latest_dates = {}
+    for name, file_path in required.items():
+        payload = json.loads(
+            file_path.read_text(encoding="utf-8")
+        )
+        if not isinstance(payload, list) or not payload:
+            raise RuntimeError(
+                f"Empty Engine index file: {file_path}"
+            )
+        latest_dates[name] = str(payload[-1]["date"])
 
     return {
-        "source_root": "data/prices",
-        "forward_root": "data/fw_prices",
-        "source_file_count": len(sources),
-        "copied_or_updated": copied,
-        "unchanged": unchanged,
-        "removed_stale_mirror_files": removed,
+        "mode": "ENGINE_OWNED_FW_PRICES",
+        "price_root": "data/fw_prices",
+        "legacy_price_root_read": False,
+        "legacy_price_root_written": False,
+        "source_file_count": len(files),
+        "required_index_latest_dates": latest_dates,
+        "latest_required_index_date": min(
+            latest_dates.values()
+        ),
     }
-
 
 def build_composition(runtime_commit: str):
     price_files: dict[str, Path] = {}
@@ -222,7 +234,7 @@ def main() -> int:
     args = parser.parse_args()
 
     before_legacy = legacy_snapshot()
-    price_sync = sync_forward_prices()
+    price_sync = inspect_forward_prices()
 
     runtime_commit = subprocess.check_output(
         ["git", "rev-parse", "HEAD"],

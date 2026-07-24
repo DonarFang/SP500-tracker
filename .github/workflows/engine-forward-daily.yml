@@ -2,11 +2,8 @@ name: Engine Forward Daily
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows:
-      - "每日更新 S&P 500 数据"
-    types:
-      - completed
+  schedule:
+    - cron: '30 23 * * 1-5'
 
 permissions:
   contents: write
@@ -17,10 +14,8 @@ concurrency:
 
 jobs:
   engine-forward:
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout latest main
         uses: actions/checkout@v4
@@ -33,37 +28,70 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install project
-        run: pip install -e .
+      - name: Install runtime dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then
+            python -m pip install -r requirements.txt
+          fi
+          python -m pip install yfinance pandas numpy
 
-      - name: Run independent Engine Forward
+      - name: Update Engine Forward prices
+        env:
+          PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+        run: python scripts/update_engine_forward_prices.py
+
+      - name: Run Engine Forward daily
+        env:
+          PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
         run: python scripts/run_engine_forward_daily.py
 
-      - name: Verify legacy workflow unchanged
-        run: git diff --exit-code -- ".github/workflows/update.yml"
-
-      - name: Stage only Engine Forward outputs
+      - name: Enforce Engine-only changes
         run: |
-          git add -f data/fw_prices/
-          git add -f "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/"
-          git add -f "exports/official/FD-M3180125-SP500-TOP3-engine/forward/automation/"
-          git add -f scripts/run_engine_forward_daily.py
-          git add -f ".github/workflows/engine-forward-daily.yml"
-          git diff --cached --name-only | tee /tmp/engine_forward_staged.txt
-          if grep -E '^(data/oos/|exports/oos_|exports/e1r_v0_2_)' /tmp/engine_forward_staged.txt; then
-            echo "Legacy Forward/OOS path staged"
+          git diff --name-only | tee /tmp/engine_changed.txt
+
+          if grep -E \
+            '^(data/prices/|data/oos/|exports/oos_|exports/e1r_v0_2_|dashboard/|public/)' \
+            /tmp/engine_changed.txt
+          then
+            echo "Forbidden Legacy or Dashboard path changed"
             exit 1
           fi
+
+          git diff --exit-code -- ".github/workflows/update.yml"
+
+      - name: Stage Engine Forward input and output only
+        run: |
+          git add -f data/fw_prices/
+          git add -f \
+            "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/"
+          git add -f \
+            "exports/official/FD-M3180125-SP500-TOP3-engine/forward/automation/"
+
+          git diff --cached --name-only \
+            | tee /tmp/engine_staged.txt
+
+          if grep -Ev \
+            '^(data/fw_prices/|exports/official/FD-M3180125-SP500-TOP3-engine/forward/(runtime|automation)/)' \
+            /tmp/engine_staged.txt
+          then
+            echo "Path outside Engine Forward staged"
+            exit 1
+          fi
+
           git diff --cached --check
 
-      - name: Commit independent Engine Forward update
+      - name: Commit Engine Forward daily update
         run: |
           if git diff --cached --quiet; then
             echo "No Engine Forward changes"
             exit 0
           fi
+
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Update independent Engine Forward runtime"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git commit -m "Update Engine Forward daily"
           git pull --rebase origin main
           git push origin HEAD:main
