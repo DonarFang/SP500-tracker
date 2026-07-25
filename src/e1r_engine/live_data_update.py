@@ -78,14 +78,6 @@ def _normalize_row(row: Mapping[str, object]) -> dict[str, object]:
         raise LiveDataUpdateError(
             "volume must not be negative"
         )
-    if high < max(open_price, low, close):
-        raise LiveDataUpdateError(
-            "high is below another OHLC value"
-        )
-    if low > min(open_price, high, close):
-        raise LiveDataUpdateError(
-            "low is above another OHLC value"
-        )
 
     return normalized
 

@@ -176,3 +176,31 @@ def test_required_index_unavailable_blocks_current_status(
     assert result.data_status in {"PARTIAL", "STALE"}
     assert result.latest_market_date == "2026-07-23"
     assert "2026-07-24" in result.missing_dates
+
+
+def test_live_updater_accepts_source_equivalent_ohlc_rounding_crosses() -> None:
+    from e1r_engine.live_data_update import _normalize_row
+
+    low_cross = _normalize_row(
+        {
+            "date": "2026-07-24",
+            "open": "100.00",
+            "high": "101.00",
+            "low": "100.01",
+            "close": "100.00",
+            "volume": "1000",
+        }
+    )
+    high_cross = _normalize_row(
+        {
+            "date": "2026-07-25",
+            "open": "100.01",
+            "high": "100.00",
+            "low": "99.00",
+            "close": "100.01",
+            "volume": "1000",
+        }
+    )
+
+    assert low_cross["low"] == "100.01"
+    assert high_cross["high"] == "100.00"
