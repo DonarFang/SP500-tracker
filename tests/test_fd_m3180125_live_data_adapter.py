@@ -1,5 +1,7 @@
-from pathlib import Path
+from datetime import date, timedelta
+import inspect
 import json
+from pathlib import Path
 
 import pytest
 
@@ -7,67 +9,125 @@ from e1r_engine.adapters.live_data import (
     LiveDataAdapter,
     LiveDataAdapterError,
 )
-from e1r_engine.contracts import RegimeRecord
 
 
-def write_series(root: Path, symbol: str) -> None:
+def write_series(
+    root: Path,
+    symbol: str,
+    *,
+    days: int = 500,
+    slope: float = 0.1,
+) -> str:
+    start = date(2025, 1, 1)
     rows = []
-    for day in range(1, 4):
+
+    for index in range(days):
+        day = start + timedelta(
+            days=index
+        )
+        base = 100.0 + slope * index
+
         rows.append(
             {
-                "date": f"2026-07-0{day}",
-                "open": 100 + day,
-                "high": 102 + day,
-                "low": 99 + day,
-                "close": 101 + day,
+                "date": day.isoformat(),
+                "open": base,
+                "high": base + 1.0,
+                "low": base - 1.0,
+                "close": base,
                 "volume": 1000,
             }
         )
+
     (root / f"{symbol}.json").write_text(
         json.dumps(rows),
         encoding="utf-8",
     )
 
-
-def test_live_data_adapter_requires_live_prices_root(tmp_path: Path) -> None:
-    with pytest.raises(LiveDataAdapterError):
-        LiveDataAdapter(tmp_path / "fw_prices")
+    return rows[-1]["date"]
 
 
-def test_live_data_adapter_builds_standard_snapshot(tmp_path: Path) -> None:
-    root = tmp_path / "live_prices"
+def seed_live_prices(
+    root: Path,
+) -> str:
     root.mkdir()
-    write_series(root, "AAPL")
-    write_series(root, "SPX")
-    write_series(root, "NDX")
-    write_series(root, "SOX")
-    write_series(root, "VIX")
 
-    regime = RegimeRecord(
-        date="2026-07-03",
-        spx_regime="UPTREND",
-        subclass=None,
+    market_date = write_series(
+        root,
+        "SPX",
+        slope=0.2,
     )
+    write_series(
+        root,
+        "NDX",
+        slope=0.22,
+    )
+    write_series(
+        root,
+        "SOX",
+        slope=0.25,
+    )
+    write_series(
+        root,
+        "VIX",
+        slope=0.01,
+    )
+    write_series(
+        root,
+        "AAPL",
+        slope=0.15,
+    )
+
+    return market_date
+
+
+def test_live_data_adapter_requires_live_prices_root(
+    tmp_path: Path,
+) -> None:
+    with pytest.raises(
+        LiveDataAdapterError
+    ):
+        LiveDataAdapter(
+            tmp_path / "fw_prices"
+        )
+
+
+def test_live_data_adapter_accepts_no_regime_input(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "live_prices"
+    seed_live_prices(root)
+
     adapter = LiveDataAdapter(root)
-    bundle = adapter.load_bundle(
-        stock_symbols=["AAPL"],
-        index_symbols=["SPX", "NDX", "SOX"],
-        regime_daily={"2026-07-03": regime},
-        min_bars=3,
-    )
-    snapshot = adapter.build_snapshot(
-        bundle=bundle,
-        market_date="2026-07-03",
+    signature = inspect.signature(
+        adapter.load_bundle
     )
 
-    assert snapshot.date == "2026-07-03"
-    assert list(snapshot.universe) == ["AAPL"]
-    assert snapshot.prices_by_symbol["AAPL"].close == 104.0
-    assert snapshot.indices["SPX"].close == 104.0
-    assert snapshot.indices["NDX"].close == 104.0
-    assert snapshot.indices["SOX"].close == 104.0
+    assert "regime_daily" not in (
+        signature.parameters
+    )
+
+    bundle = adapter.load_bundle(
+        stock_symbols=("AAPL",),
+        min_bars=120,
+    )
+
+    assert bundle.symbols == ["AAPL"]
+    assert sorted(bundle.indices) == [
+        "NDX",
+        "SOX",
+        "SPX",
+    ]
     assert bundle.vix.symbol == "VIX"
-    assert bundle.vix.closes[-1] == 104.0
-    assert sorted(bundle.indices) == ["NDX", "SOX", "SPX"]
-    assert snapshot.regime.spx_regime == "UPTREND"
-    assert snapshot.metadata["source"] == "LiveDataAdapter"
+    assert bundle.regime_daily == {}
+    assert (
+        bundle.metadata[
+            "regime_logic_performed"
+        ]
+        is False
+    )
+    assert (
+        bundle.metadata[
+            "strategy_logic_performed"
+        ]
+        is False
+    )

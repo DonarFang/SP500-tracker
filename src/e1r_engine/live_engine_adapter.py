@@ -1,73 +1,215 @@
-"""Live composition around the existing shared FD-M3180125 Engine path."""
+"""Live entry adapter into the shared FD-M3180125 Engine.
+
+Market data enters only through LiveDataAdapter. The existing Engine-owned
+CanonicalRegimeGenerator creates Regime. E1RCoreEngine.step remains unchanged
+and owns Market State, Market Gate, Router, strategy branch, ranking, sizing,
+and OrderIntent behavior.
+"""
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal
-from typing import Any, Optional, Protocol, Tuple
+from typing import Any, Optional, Sequence
 
-from e1r_engine.contracts import HistoricalDataBundle
+from e1r_engine.adapters.live_data import (
+    LiveDataAdapter,
+)
+from e1r_engine.canonical_regime import (
+    CanonicalRegimeGenerator,
+)
+from e1r_engine.contracts import (
+    AssetSeries,
+    HistoricalDataBundle,
+    MarketSnapshot,
+)
 from e1r_engine.core import E1RCoreEngine
-from e1r_engine.live_account import LiveAccountState
-from e1r_engine.live_account_adapter import LiveAccountAdapter
+from e1r_engine.live_account import (
+    LiveAccountState,
+)
+from e1r_engine.live_account_adapter import (
+    LiveAccountAdapter,
+)
 from e1r_engine.live_data import LiveMarketData
 from e1r_engine.live_recommendation import (
     LiveEngineDecision,
     PositionRecommendation,
     ReferenceCandidate,
 )
-from e1r_engine.adapters.live_data import LiveDataAdapter
 
 
 class LiveEngineAdapterError(ValueError):
     pass
 
 
-@dataclass(frozen=True)
-class LivePreparedEngineInputs:
-    bundle: HistoricalDataBundle
-    stock_symbols: Tuple[str, ...]
-    uptrend_inputs: Optional[object] = None
-    uptrend_pipeline_inputs: Optional[object] = None
-    reference_symbols: Tuple[str, ...] = ()
-
-
-class LiveFormalInputProvider(Protocol):
-    """Provide standard Engine contracts without reimplementing strategy."""
-
-    def prepare(
-        self,
-        *,
-        market_date: str,
-        market_data: LiveMarketData,
-        live_account: LiveAccountState,
-        data_adapter: LiveDataAdapter,
-    ) -> LivePreparedEngineInputs:
-        ...
-
-
-def _value(obj: object, name: str, default: Any = None) -> Any:
+def _value(
+    obj: object,
+    name: str,
+    default: Any = None,
+) -> Any:
     if isinstance(obj, dict):
         return obj.get(name, default)
+
     return getattr(obj, name, default)
 
 
+def _bar_for_date(
+    series: AssetSeries,
+    market_date: str,
+):
+    try:
+        index = series.dates.index(
+            market_date
+        )
+    except ValueError as exc:
+        raise LiveEngineAdapterError(
+            f"{series.symbol}: missing bar for "
+            f"{market_date}"
+        ) from exc
+
+    return series.bars[index]
+
+
+def _snapshot_from_bundle(
+    *,
+    bundle: HistoricalDataBundle,
+    market_date: str,
+    universe: Sequence[str],
+    regime,
+) -> MarketSnapshot:
+    prices_by_symbol = {}
+
+    for symbol in universe:
+        dates = bundle.dates_map.get(
+            symbol,
+            [],
+        )
+
+        try:
+            index = dates.index(
+                market_date
+            )
+        except ValueError as exc:
+            raise LiveEngineAdapterError(
+                f"{symbol}: missing Live stock bar "
+                f"for {market_date}"
+            ) from exc
+
+        prices_by_symbol[symbol] = (
+            bundle.ohlc_map[symbol][index]
+        )
+
+    indices = {
+        symbol: _bar_for_date(
+            series,
+            market_date,
+        )
+        for symbol, series in bundle.indices.items()
+    }
+
+    if bundle.vix is not None:
+        indices["VIX"] = _bar_for_date(
+            bundle.vix,
+            market_date,
+        )
+
+    snapshot = MarketSnapshot(
+        date=market_date,
+        universe=list(universe),
+        prices_by_symbol=prices_by_symbol,
+        indices=indices,
+        regime=regime,
+        metadata={
+            "mode": "LIVE",
+            "market_data_source": (
+                "LiveDataAdapter"
+            ),
+            "regime_source": (
+                "engine://canonical_regime"
+            ),
+            "external_regime_injected": False,
+            "provider_abstraction_used": False,
+        },
+    )
+
+    return snapshot
+
+
+def _reference_candidates(
+    result,
+) -> tuple[ReferenceCandidate, ...]:
+    selected = list(
+        _value(
+            result.decision_trace,
+            "selected_symbols",
+            [],
+        )
+        or []
+    )
+
+    normalized = []
+
+    for item in selected:
+        symbol = str(item).strip().upper()
+
+        if symbol and symbol not in normalized:
+            normalized.append(symbol)
+
+    return tuple(
+        ReferenceCandidate(
+            rank=index + 1,
+            symbol=symbol,
+        )
+        for index, symbol in enumerate(
+            normalized[:3]
+        )
+    )
+
+
 class LiveEngineAdapter:
-    """Implement LiveEnginePort through `E1RCoreEngine.step` only."""
+    """Load Live market data, enter the existing Engine, map its output."""
 
     def __init__(
         self,
         *,
         data_adapter: LiveDataAdapter,
-        input_provider: LiveFormalInputProvider,
+        stock_symbols: Sequence[str],
+        min_bars: int = 120,
         engine: Optional[E1RCoreEngine] = None,
-        account_adapter: Optional[LiveAccountAdapter] = None,
+        account_adapter: Optional[
+            LiveAccountAdapter
+        ] = None,
     ) -> None:
+        normalized_symbols = tuple(
+            str(symbol).strip().upper()
+            for symbol in stock_symbols
+        )
+
+        if not normalized_symbols:
+            raise LiveEngineAdapterError(
+                "stock_symbols must not be empty"
+            )
+
+        if len(set(normalized_symbols)) != len(
+            normalized_symbols
+        ):
+            raise LiveEngineAdapterError(
+                "stock_symbols must be unique"
+            )
+
+        if min_bars <= 0:
+            raise LiveEngineAdapterError(
+                "min_bars must be positive"
+            )
+
         self.data_adapter = data_adapter
-        self.input_provider = input_provider
+        self.stock_symbols = normalized_symbols
+        self.min_bars = int(min_bars)
         self.engine = engine or E1RCoreEngine()
-        self.account_adapter = account_adapter or LiveAccountAdapter()
+        self.account_adapter = (
+            account_adapter
+            or LiveAccountAdapter()
+        )
 
     def decide(
         self,
@@ -77,113 +219,157 @@ class LiveEngineAdapter:
         account: LiveAccountState,
     ) -> LiveEngineDecision:
         date_text = market_date.isoformat()
+
         if market_data.market_date != market_date:
-            raise LiveEngineAdapterError("market date mismatch")
+            raise LiveEngineAdapterError(
+                "market date mismatch"
+            )
 
-        prepared = self.input_provider.prepare(
-            market_date=date_text,
-            market_data=market_data,
-            live_account=account,
-            data_adapter=self.data_adapter,
+        bundle = self.data_adapter.load_bundle(
+            stock_symbols=self.stock_symbols,
+            min_bars=self.min_bars,
         )
 
-        snapshot = self.data_adapter.build_snapshot(
-            bundle=prepared.bundle,
-            market_date=date_text,
-            universe=prepared.stock_symbols,
+        canonical_timeline = (
+            CanonicalRegimeGenerator().generate(
+                bundle.indices["SPX"]
+            )
         )
-        engine_account = self.account_adapter.to_engine_account(
-            live_account=account,
+        regime_record = (
+            canonical_timeline.record_for_date(
+                date_text
+            )
+        )
+
+        snapshot = _snapshot_from_bundle(
+            bundle=bundle,
             market_date=date_text,
+            universe=self.stock_symbols,
+            regime=regime_record,
+        )
+
+        engine_account = (
+            self.account_adapter.to_engine_account(
+                live_account=account,
+                market_date=date_text,
+            )
         )
 
         result = self.engine.step(
             snapshot=snapshot,
             account=engine_account,
-            uptrend_inputs=prepared.uptrend_inputs,
-            uptrend_pipeline_inputs=prepared.uptrend_pipeline_inputs,
         )
 
-        validation = result.validate(max_positions=3)
+        validation = result.validate(
+            max_positions=3
+        )
+
         if not isinstance(validation, dict):
             raise LiveEngineAdapterError(
-                "DailyEngineResult.validate must return a report dict"
+                "DailyEngineResult.validate must "
+                "return a report dict"
             )
+
         if not validation.get("ok", False):
-            errors = validation.get("errors", [])
             raise LiveEngineAdapterError(
                 "invalid DailyEngineResult: "
-                + "; ".join(str(item) for item in errors)
+                + "; ".join(
+                    str(item)
+                    for item in validation.get(
+                        "errors",
+                        [],
+                    )
+                )
             )
 
         trace = result.decision_trace
-        route = _value(trace, "route", None)
-        inputs = _value(trace, "inputs", {}) or {}
-        outputs = _value(trace, "outputs", {}) or {}
-        metadata = _value(result, "metadata", {}) or {}
-
-        regime_record = snapshot.regime
-        regime = (
-            regime_record.spx_regime
-            if regime_record is not None
-            else "UNCLASSIFIED"
-        )
-        subclass = (
-            regime_record.subclass
-            if regime_record is not None
-            else None
-        )
-
-        branch = (
-            _value(route, "branch", None)
-            or _value(trace, "branch", None)
-            or regime
-        )
+        trace_inputs = _value(
+            trace,
+            "inputs",
+            {},
+        ) or {}
+        trace_metadata = _value(
+            trace,
+            "metadata",
+            {},
+        ) or {}
+        result_metadata = _value(
+            result,
+            "metadata",
+            {},
+        ) or {}
 
         market_state = (
-            _value(inputs, "market_state", None)
-            or _value(outputs, "market_state", None)
-            or _value(trace, "market_state", None)
+            trace_inputs.get("market_state")
+            or trace_metadata.get("market_state")
             or "UNKNOWN"
         )
-        gate_state = (
-            _value(inputs, "gate_state", None)
-            or _value(inputs, "market_gate", None)
-            or _value(outputs, "gate_state", None)
-            or _value(trace, "gate_state", None)
+        market_gate = (
+            trace_inputs.get("gate_state")
+            or trace_inputs.get("market_gate")
+            or trace_metadata.get("gate_state")
             or "UNKNOWN"
         )
         entry_capacity = (
-            _value(inputs, "entry_capacity", None)
-            or _value(outputs, "entry_capacity", None)
+            trace_inputs.get("entry_capacity")
+            or trace_metadata.get(
+                "entry_capacity"
+            )
             or 0
         )
 
-        ranked = list(prepared.reference_symbols)
-        references = tuple(
-            ReferenceCandidate(rank=index + 1, symbol=symbol)
-            for index, symbol in enumerate(ranked[:3])
-        )
-
         recommendations = []
+
         for intent in result.order_intents:
-            intent_type = str(
-                _value(intent, "intent_type", "")
+            action = str(
+                _value(
+                    intent,
+                    "intent_type",
+                    "",
+                )
             ).upper()
-            if intent_type in {"NOOP", "NO_ACTION"}:
+
+            if action in {
+                "NOOP",
+                "NO_ACTION",
+            }:
                 continue
-            if intent_type not in {
-                "BUY", "ADD", "HOLD", "REDUCE", "EXIT"
+
+            if action not in {
+                "BUY",
+                "ADD",
+                "HOLD",
+                "REDUCE",
+                "EXIT",
             }:
                 raise LiveEngineAdapterError(
-                    f"unsupported Engine intent: {intent_type}"
+                    "unsupported Engine intent: "
+                    + action
                 )
-            target = _value(intent, "target_quantity", None)
+
+            target = _value(
+                intent,
+                "target_quantity",
+                None,
+            )
+
             recommendations.append(
                 PositionRecommendation(
-                    symbol=str(_value(intent, "symbol", "")),
-                    action=intent_type,
-                    reason=str(_value(intent, "reason", "")),
+                    symbol=str(
+                        _value(
+                            intent,
+                            "symbol",
+                            "",
+                        )
+                    ),
+                    action=action,
+                    reason=str(
+                        _value(
+                            intent,
+                            "reason",
+                            "",
+                        )
+                    ),
                     target_shares=(
                         Decimal(str(target))
                         if target is not None
@@ -194,26 +380,71 @@ class LiveEngineAdapter:
 
         return LiveEngineDecision(
             market_date=market_date,
-            regime=str(regime),
-            regime_subclass=(
-                str(subclass) if subclass is not None else None
+            regime=str(
+                _value(
+                    trace,
+                    "market_regime",
+                    regime_record.spx_regime,
+                )
             ),
-            market_state=str(market_state),
-            market_gate=str(gate_state),
-            entry_capacity=int(entry_capacity),
-            strategy_branch=str(branch),
-            reference_candidates=references,
-            position_recommendations=tuple(recommendations),
+            regime_subclass=(
+                None
+                if _value(
+                    trace,
+                    "regime_subclass",
+                    regime_record.subclass,
+                )
+                is None
+                else str(
+                    _value(
+                        trace,
+                        "regime_subclass",
+                        regime_record.subclass,
+                    )
+                )
+            ),
+            market_state=str(
+                market_state
+            ),
+            market_gate=str(
+                market_gate
+            ),
+            entry_capacity=int(
+                entry_capacity
+            ),
+            strategy_branch=str(
+                _value(
+                    trace,
+                    "branch",
+                    regime_record.spx_regime,
+                )
+            ),
+            reference_candidates=(
+                _reference_candidates(result)
+            ),
+            position_recommendations=tuple(
+                recommendations
+            ),
             evidence={
-                "engine_result_metadata": metadata,
+                "engine_result_metadata": (
+                    result_metadata
+                ),
                 "decision_trace": trace,
                 "adapter": "LiveEngineAdapter",
-                "engine_entry": "E1RCoreEngine.step",
+                "engine_entry": (
+                    "E1RCoreEngine.step"
+                ),
+                "regime_source": (
+                    "engine://canonical_regime"
+                ),
+                "external_regime_injected": False,
+                "provider_abstraction_used": False,
                 "strategy_logic_reimplemented": False,
             },
             engine_version=str(
-                metadata.get("stage", "UNKNOWN")
-                if isinstance(metadata, dict)
-                else "UNKNOWN"
+                result_metadata.get(
+                    "stage",
+                    "UNKNOWN",
+                )
             ),
         )

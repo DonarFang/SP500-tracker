@@ -1,99 +1,132 @@
-from dataclasses import dataclass
-from datetime import date
-from pathlib import Path
+from datetime import date, timedelta
+import inspect
 import json
+from pathlib import Path
 
-from e1r_engine.adapters.live_data import LiveDataAdapter
-from e1r_engine.contracts import RegimeRecord
-from e1r_engine.live_account import LiveOpeningState, rebuild_live_account
-from e1r_engine.live_data import LiveBar, LiveMarketData
+from e1r_engine.adapters.live_data import (
+    LiveDataAdapter,
+)
+from e1r_engine.live_account import (
+    LiveOpeningState,
+    rebuild_live_account,
+)
+from e1r_engine.live_data import (
+    LiveBar,
+    LiveMarketData,
+)
 from e1r_engine.live_engine_adapter import (
     LiveEngineAdapter,
-    LivePreparedEngineInputs,
 )
-from e1r_engine.live_ledger import LiveLedger
+from e1r_engine.live_ledger import (
+    LiveLedger,
+)
 
 
-def write_series(root: Path, symbol: str) -> None:
+def write_series(
+    root: Path,
+    symbol: str,
+    *,
+    days: int = 500,
+    slope: float = 0.1,
+) -> str:
+    start = date(2025, 1, 1)
     rows = []
-    for day in range(1, 4):
+
+    for index in range(days):
+        day = start + timedelta(
+            days=index
+        )
+        base = 100.0 + slope * index
+
         rows.append(
             {
-                "date": f"2026-07-0{day}",
-                "open": 100 + day,
-                "high": 102 + day,
-                "low": 99 + day,
-                "close": 101 + day,
+                "date": day.isoformat(),
+                "open": base,
+                "high": base + 1.0,
+                "low": base - 1.0,
+                "close": base,
                 "volume": 1000,
             }
         )
+
     (root / f"{symbol}.json").write_text(
         json.dumps(rows),
         encoding="utf-8",
     )
 
-
-class Provider:
-    def prepare(
-        self,
-        *,
-        market_date,
-        market_data,
-        live_account,
-        data_adapter,
-    ):
-        regime = RegimeRecord(
-            date=market_date,
-            spx_regime="DOWNTREND",
-            subclass=None,
-        )
-        bundle = data_adapter.load_bundle(
-            stock_symbols=["AAPL"],
-            index_symbols=["SPX", "NDX", "SOX"],
-            regime_daily={market_date: regime},
-            min_bars=3,
-        )
-        return LivePreparedEngineInputs(
-            bundle=bundle,
-            stock_symbols=("AAPL",),
-            reference_symbols=(),
-        )
+    return rows[-1]["date"]
 
 
-def test_live_engine_adapter_calls_real_engine_step(tmp_path: Path) -> None:
+def test_live_data_enters_existing_engine_without_provider(
+    tmp_path: Path,
+) -> None:
     root = tmp_path / "live_prices"
     root.mkdir()
-    write_series(root, "AAPL")
-    write_series(root, "SPX")
-    write_series(root, "NDX")
-    write_series(root, "SOX")
-    write_series(root, "VIX")
 
-    day = date(2026, 7, 3)
+    market_date = write_series(
+        root,
+        "SPX",
+        slope=0.2,
+    )
+    write_series(
+        root,
+        "NDX",
+        slope=0.22,
+    )
+    write_series(
+        root,
+        "SOX",
+        slope=0.25,
+    )
+    write_series(
+        root,
+        "VIX",
+        slope=0.01,
+    )
+    write_series(
+        root,
+        "AAPL",
+        slope=0.15,
+    )
+
+    day = date.fromisoformat(
+        market_date
+    )
+
     market_data = LiveMarketData(
         market_date=day,
         bars={
             "AAPL": LiveBar.from_mapping(
                 "AAPL",
                 {
-                    "date": day.isoformat(),
-                    "open": 103,
-                    "high": 105,
-                    "low": 102,
-                    "close": 104,
+                    "date": market_date,
+                    "open": 174.85,
+                    "high": 175.85,
+                    "low": 173.85,
+                    "close": 174.85,
                     "volume": 1000,
                 },
             )
         },
     )
+
     account = rebuild_live_account(
         opening=LiveOpeningState(),
         ledger=LiveLedger(),
     )
 
+    signature = inspect.signature(
+        LiveEngineAdapter
+    )
+
+    assert "input_provider" not in (
+        signature.parameters
+    )
+
     decision = LiveEngineAdapter(
         data_adapter=LiveDataAdapter(root),
-        input_provider=Provider(),
+        stock_symbols=("AAPL",),
+        min_bars=120,
     ).decide(
         market_date=day,
         market_data=market_data,
@@ -101,14 +134,52 @@ def test_live_engine_adapter_calls_real_engine_step(tmp_path: Path) -> None:
     )
 
     assert decision.market_date == day
-    assert decision.regime == "DOWNTREND"
-    assert decision.strategy_branch == "DOWNTREND"
-    assert decision.reference_candidates == ()
+    assert decision.regime in {
+        "UPTREND",
+        "SIDEWAYS",
+        "DOWNTREND",
+        "UNCLASSIFIED",
+    }
     assert (
-        decision.evidence["engine_entry"]
+        decision.evidence[
+            "engine_entry"
+        ]
         == "E1RCoreEngine.step"
     )
     assert (
-        decision.evidence["strategy_logic_reimplemented"]
+        decision.evidence[
+            "regime_source"
+        ]
+        == "engine://canonical_regime"
+    )
+    assert (
+        decision.evidence[
+            "external_regime_injected"
+        ]
         is False
+    )
+    assert (
+        decision.evidence[
+            "provider_abstraction_used"
+        ]
+        is False
+    )
+    assert (
+        decision.evidence[
+            "strategy_logic_reimplemented"
+        ]
+        is False
+    )
+
+
+def test_unsupported_live_provider_types_are_absent() -> None:
+    import e1r_engine.live_engine_adapter as module
+
+    assert not hasattr(
+        module,
+        "LiveFormalInputProvider",
+    )
+    assert not hasattr(
+        module,
+        "LivePreparedEngineInputs",
     )
