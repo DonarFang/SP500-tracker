@@ -1,59 +1,91 @@
 #!/usr/bin/env python3
-"""Contract-level entry point for an unactivated Live dry run.
-
-The caller must supply a concrete Engine composition. This script does not
-invent a market-data provider or activate the opening date.
-"""
+"""Run the formal unactivated FD-M3180125 Live production composition."""
 
 from __future__ import annotations
 
 import argparse
+from datetime import date
 import json
 from pathlib import Path
+
+from e1r_engine.live_composition import (
+    run_unactivated_live_acceptance,
+)
+
+
+DEFAULT_LIVE_ROOT = Path(
+    "exports/official/"
+    "FD-M3180125-SP500-TOP3-engine/"
+    "live"
+)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--runtime-root",
-        default=(
-            "exports/official/"
-            "FD-M3180125-SP500-TOP3-engine/live"
+        "--price-root",
+        default="data/live_prices",
+    )
+    parser.add_argument(
+        "--live-root",
+        default=str(DEFAULT_LIVE_ROOT),
+    )
+    parser.add_argument(
+        "--data-status-path",
+        default=str(
+            DEFAULT_LIVE_ROOT
+            / "automation"
+            / "current_data_update.json"
         ),
     )
     parser.add_argument(
-        "--initialize-unactivated",
-        action="store_true",
+        "--market-date",
+        required=True,
+    )
+    parser.add_argument(
+        "--expected-execution-date",
+        required=True,
+    )
+    parser.add_argument(
+        "--expected-stock-count",
+        type=int,
+        default=498,
+    )
+    parser.add_argument(
+        "--min-bars",
+        type=int,
+        default=120,
     )
     args = parser.parse_args()
 
-    from e1r_engine.live_persistence import LiveRuntimeRepository
-
-    repository = LiveRuntimeRepository(Path(args.runtime_root))
-
-    if args.initialize_unactivated:
-        repository.initialize_unactivated()
-        print(
-            json.dumps(
-                {
-                    "decision": (
-                        "PASS_LIVE_RUNTIME_INITIALIZED_UNACTIVATED"
-                    ),
-                    "runtime_root": str(
-                        Path(args.runtime_root)
-                    ),
-                    "opening_activated": False,
-                },
-                ensure_ascii=False,
-                indent=2,
-            )
-        )
-        return 0
-
-    raise SystemExit(
-        "STOP: production Engine/data composition must be supplied by "
-        "the later accepted Live workflow; opening remains unactivated"
+    acceptance = run_unactivated_live_acceptance(
+        price_root=Path(args.price_root),
+        live_root=Path(args.live_root),
+        data_status_path=Path(
+            args.data_status_path
+        ),
+        market_date=date.fromisoformat(
+            args.market_date
+        ),
+        expected_execution_date=date.fromisoformat(
+            args.expected_execution_date
+        ),
+        expected_stock_count=(
+            args.expected_stock_count
+        ),
+        min_bars=args.min_bars,
     )
+
+    print(
+        json.dumps(
+            acceptance,
+            ensure_ascii=False,
+            indent=2,
+            sort_keys=True,
+        )
+    )
+
+    return 0
 
 
 if __name__ == "__main__":
