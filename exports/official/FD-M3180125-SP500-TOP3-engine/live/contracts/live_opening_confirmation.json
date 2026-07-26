@@ -1,0 +1,27 @@
+{
+  "activation_preconditions": {
+    "canonical_regime_generated": false,
+    "engine_run_passed": false,
+    "market_gate_generated": false,
+    "market_state_generated": false,
+    "opening_date_market_data_complete": false,
+    "required_indices_complete": false
+  },
+  "activation_required": true,
+  "actual_trades_recorded": false,
+  "automatic_execution_enabled": false,
+  "broker_api_connected": false,
+  "engine": "FD-M3180125-SP500-TOP3-engine",
+  "first_activation_eligible_after": "2026-07-27 EOD Live data update and successful Engine run",
+  "mode": "PERSONAL_LIVE",
+  "opening_activated": false,
+  "opening_cash": "100000.00",
+  "opening_confirmed": true,
+  "opening_confirmed_at": "2026-07-26T08:46:30.903507+00:00",
+  "opening_currency": "USD",
+  "opening_date": "2026-07-27",
+  "positions": {},
+  "record_type": "USER_CONFIRMED_LIVE_OPENING",
+  "source_commit": "75f34819072b519037488db9f3c213d88ad8cb0a",
+  "workflow_created": false
+}
