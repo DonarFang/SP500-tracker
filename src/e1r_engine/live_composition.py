@@ -16,7 +16,11 @@ from typing import Sequence
 from .adapters.live_data import LiveDataAdapter
 from .live_account import LiveOpeningState
 from .live_daily import LiveDailyProcessor
-from .live_data import LiveMarketData, LivePriceRepository
+from .live_data import (
+    LiveDataError,
+    LiveMarketData,
+    LivePriceRepository,
+)
 from .live_engine_adapter import LiveEngineAdapter
 from .live_persistence import LiveRuntimeRepository
 from .live_production import LiveProductionRuntime
@@ -38,6 +42,8 @@ class LiveProductionComposition:
     market_data: LiveMarketData
     market_date: date
     stock_symbols: tuple[str, ...]
+    catalogue_stock_symbols: tuple[str, ...]
+    excluded_stock_symbols: tuple[str, ...]
 
 
 def discover_live_stock_symbols(
@@ -79,6 +85,35 @@ def discover_live_stock_symbols(
         )
 
     return symbols
+
+
+def discover_live_eligible_stock_symbols(
+    *,
+    price_root: Path,
+    market_date: date,
+    catalogue_stock_symbols: Sequence[str],
+) -> tuple[tuple[str, ...], tuple[str, ...]]:
+    """Separate catalogue membership from market-date eligibility."""
+    repository = LivePriceRepository(Path(price_root))
+    eligible: list[str] = []
+    excluded: list[str] = []
+    for raw_symbol in catalogue_stock_symbols:
+        symbol = str(raw_symbol).strip().upper()
+        try:
+            repository.load_date(market_date, (symbol,))
+        except LiveDataError as exc:
+            expected = (
+                f"{symbol} requires exactly one row for "
+                f"{market_date.isoformat()}"
+            )
+            if str(exc) != expected:
+                raise
+            excluded.append(symbol)
+        else:
+            eligible.append(symbol)
+    if not eligible:
+        raise LiveCompositionError("Live eligible stock universe is empty")
+    return tuple(eligible), tuple(excluded)
 
 
 def validate_current_data_status(
@@ -155,9 +190,17 @@ def compose_unactivated_live_production(
         market_date=market_date,
     )
 
-    stock_symbols = discover_live_stock_symbols(
+    catalogue_stock_symbols = discover_live_stock_symbols(
         price_root=price_root,
         expected_stock_count=expected_stock_count,
+    )
+
+    stock_symbols, excluded_stock_symbols = (
+        discover_live_eligible_stock_symbols(
+            price_root=price_root,
+            market_date=market_date,
+            catalogue_stock_symbols=catalogue_stock_symbols,
+        )
     )
 
     market_data = LivePriceRepository(
@@ -194,6 +237,8 @@ def compose_unactivated_live_production(
         market_data=market_data,
         market_date=market_date,
         stock_symbols=stock_symbols,
+        catalogue_stock_symbols=catalogue_stock_symbols,
+        excluded_stock_symbols=excluded_stock_symbols,
     )
 
 
@@ -238,6 +283,15 @@ def run_unactivated_live_acceptance(
         **acceptance,
         "stock_symbol_count": len(
             composition.stock_symbols
+        ),
+        "catalogue_stock_symbol_count": len(
+            composition.catalogue_stock_symbols
+        ),
+        "eligible_stock_symbol_count": len(
+            composition.stock_symbols
+        ),
+        "excluded_stock_symbols": list(
+            composition.excluded_stock_symbols
         ),
         "price_root": str(Path(price_root)),
         "live_root": str(Path(live_root)),
