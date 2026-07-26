@@ -432,6 +432,44 @@ Data / Account Adapter
 7. 再提出下一步
 ```
 
+## 10A. 本地 Python 验证环境合同
+
+本地验证必须读取：
+
+```text
+docs/canonical/FD-M3180125_LOCAL_PYTHON_VALIDATION_CONTRACT.md
+```
+
+统一环境解析器：
+
+```text
+scripts/lib/fd_m3180125_python_env.sh
+```
+
+冻结规则：
+
+```text
+不得写死用户专用 venv 路径
+不得假设 system python3 已安装 pytest
+不得为了让脚本通过而隐式安装 pytest
+pytest 缺失不得被判定为 Engine / Adapter / 架构失败
+```
+
+本地强制验证基线：
+
+```text
+py_compile / compileall
+纯 Python assertions
+direct contract validation
+必要时 AST / source-boundary validation
+```
+
+pytest 仅在解析出的 Python 环境已经提供 pytest 时可选运行；否则记录：
+
+```text
+TESTS_SKIPPED_PYTEST_UNAVAILABLE
+```
+
 ## 11. 实施规则
 
 代码、Shell、Workflow、配置或 Patch 之前必须先说明目标、范围、不做什么、依赖事实、修改文件、验收标准和失败保护，并获得用户确认。
