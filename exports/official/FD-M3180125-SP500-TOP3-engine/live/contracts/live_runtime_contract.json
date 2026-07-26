@@ -1,10 +1,11 @@
 {
-  "activation_required": true,
+  "activation_required": false,
   "engine": "FD-M3180125-SP500-TOP3-engine",
   "engine_forward_data_shared": false,
   "five_year_data_shared": false,
   "mode": "PERSONAL_LIVE",
-  "opening_activated": false,
+  "opening_activated": true,
+  "opening_activated_at": "2026-07-26T08:58:12.650411+00:00",
   "opening_cash": "100000.00",
   "opening_confirmed": true,
   "opening_confirmed_at": "2026-07-26T08:46:30.903507+00:00",
@@ -13,5 +14,5 @@
   "positions": {},
   "record_type": "USER_DECLARED_OPENING_CASH",
   "shared_with_other_modes": "ENGINE_CODE_ONLY",
-  "status": "UNACTIVATED"
+  "status": "ACTIVE"
 }

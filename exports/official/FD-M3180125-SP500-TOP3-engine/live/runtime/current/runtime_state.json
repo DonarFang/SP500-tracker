@@ -1,13 +1,14 @@
 {
-  "activation_required": true,
+  "activation_required": false,
   "last_committed_market_date": null,
   "last_successful_run_at": null,
-  "opening_activated": false,
+  "opening_activated": true,
+  "opening_activated_at": "2026-07-26T08:58:12.650411+00:00",
   "opening_cash": "100000.00",
   "opening_confirmed": true,
   "opening_confirmed_at": "2026-07-26T08:46:30.903507+00:00",
   "opening_currency": "USD",
   "opening_date": "2026-07-27",
   "opening_positions": {},
-  "status": "UNACTIVATED"
+  "status": "ACTIVE"
 }

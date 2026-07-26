@@ -163,6 +163,46 @@ def validate_current_data_status(
     return payload
 
 
+
+def load_official_live_opening(
+    live_root: Path,
+) -> LiveOpeningState:
+    root = Path(live_root)
+    contract_path = root / "contracts" / "live_runtime_contract.json"
+    runtime_path = root / "runtime" / "current" / "runtime_state.json"
+
+    if not contract_path.is_file() or not runtime_path.is_file():
+        raise LiveCompositionError(
+            "official Live opening state is missing"
+        )
+
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    runtime = json.loads(runtime_path.read_text(encoding="utf-8"))
+
+    for name, payload in (("contract", contract), ("runtime", runtime)):
+        if payload.get("opening_activated") is not True:
+            raise LiveCompositionError(f"{name} opening is not activated")
+        if payload.get("activation_required") is not False:
+            raise LiveCompositionError(
+                f"{name} activation_required is not false"
+            )
+
+    if contract.get("opening_date") != runtime.get("opening_date"):
+        raise LiveCompositionError("opening_date contract/runtime mismatch")
+    if str(contract.get("opening_cash")) != str(runtime.get("opening_cash")):
+        raise LiveCompositionError("opening_cash contract/runtime mismatch")
+    if contract.get("positions") != {}:
+        raise LiveCompositionError("opening positions must be empty")
+    if runtime.get("opening_positions") != {}:
+        raise LiveCompositionError("runtime opening positions must be empty")
+
+    return LiveOpeningState(
+        opening_date=date.fromisoformat(str(contract["opening_date"])),
+        opening_cash=str(contract["opening_cash"]),
+        positions={},
+    )
+
+
 def compose_unactivated_live_production(
     *,
     price_root: Path,
@@ -228,7 +268,9 @@ def compose_unactivated_live_production(
         processor=LiveDailyProcessor(
             engine=engine_adapter
         ),
-        opening=LiveOpeningState(),
+        opening=load_official_live_opening(
+            Path(live_root)
+        ),
     )
 
     return LiveProductionComposition(
