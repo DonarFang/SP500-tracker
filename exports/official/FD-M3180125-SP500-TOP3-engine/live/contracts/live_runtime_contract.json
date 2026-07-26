@@ -1,5 +1,7 @@
 {
   "activation_required": false,
+  "automatic_execution_enabled": false,
+  "broker_api_connected": false,
   "engine": "FD-M3180125-SP500-TOP3-engine",
   "engine_forward_data_shared": false,
   "five_year_data_shared": false,
@@ -14,5 +16,9 @@
   "positions": {},
   "record_type": "USER_DECLARED_OPENING_CASH",
   "shared_with_other_modes": "ENGINE_CODE_ONLY",
-  "status": "ACTIVE"
+  "status": "ACTIVE",
+  "workflow_created": true,
+  "workflow_installed_at": "2026-07-26T09:20:31.930281+00:00",
+  "workflow_path": ".github/workflows/live-track-daily.yml",
+  "workflow_schedule_utc": "30 23 * * 1-5"
 }

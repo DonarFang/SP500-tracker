@@ -18,5 +18,8 @@
   "record_type": "USER_AUTHORIZED_LIVE_OPENING_ACTIVATION",
   "runtime_status": "ACTIVE",
   "source_commit": "6fd05ae1f4c990831e3856ee625de4200a936f2d",
-  "workflow_created": false
+  "workflow_created": true,
+  "workflow_installed_at": "2026-07-26T09:20:31.930281+00:00",
+  "workflow_path": ".github/workflows/live-track-daily.yml",
+  "workflow_schedule_utc": "30 23 * * 1-5"
 }

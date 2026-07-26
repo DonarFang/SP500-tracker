@@ -1,5 +1,7 @@
 {
   "activation_required": false,
+  "automatic_execution_enabled": false,
+  "broker_api_connected": false,
   "last_committed_market_date": null,
   "last_successful_run_at": null,
   "opening_activated": true,
@@ -10,5 +12,9 @@
   "opening_currency": "USD",
   "opening_date": "2026-07-27",
   "opening_positions": {},
-  "status": "ACTIVE"
+  "status": "ACTIVE",
+  "workflow_created": true,
+  "workflow_installed_at": "2026-07-26T09:20:31.930281+00:00",
+  "workflow_path": ".github/workflows/live-track-daily.yml",
+  "workflow_schedule_utc": "30 23 * * 1-5"
 }
