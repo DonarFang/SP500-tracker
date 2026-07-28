@@ -138,6 +138,1378 @@ async function fetchResearchJ(name) {
 }
 
 
+
+/* STEP3_D2_FORWARD_TEST_VALIDATION */
+const STEP3_D2_SITE_BASE =
+  'https://donarfang.github.io/SP500-tracker';
+
+const STEP3_D2_ENGINE =
+  'FD-M3180125-SP500-TOP3-engine';
+
+const STEP3_D2_BOUNDARY_DATE = '2026-06-16';
+const STEP3_D2_FIRST_FORWARD_DATE = '2026-06-17';
+const STEP3_D2_SEED_SYMBOLS = new Set([
+  'DELL',
+  'HUM',
+  'MRVL',
+]);
+
+let STEP3_D2_STATE = {
+  fullSeries: [],
+  viewStart: 0,
+  viewEnd: 0,
+  dragStartX: null,
+  dragStartRange: null,
+};
+
+function installStep3D2Tab() {
+  const tabs = document.querySelector('.tabs');
+  const d1Section = document.getElementById(
+    's-step3-us-market'
+  );
+
+  if (!tabs || !d1Section) {
+    throw new Error(
+      'Forward Test Validation anchors missing'
+    );
+  }
+
+  if (document.getElementById(
+    's-step3-forward-validation'
+  )) {
+    return;
+  }
+
+  const button = document.createElement('button');
+  button.className = 'tab';
+  button.textContent = 'Forward Test Validation';
+  button.onclick = function () {
+    go('step3-forward-validation', button);
+    requestAnimationFrame(
+      renderStep3D2Chart
+    );
+  };
+
+  const section = document.createElement('div');
+  section.id = 's-step3-forward-validation';
+  section.className = 'section';
+  section.innerHTML =
+    '<div class="loading"><span class="spin"></span>' +
+    '加载 Forward Test Validation...</div>';
+
+  const d1Button = Array.from(
+    tabs.querySelectorAll('.tab')
+  ).find(item =>
+    item.textContent.trim() === 'US Market Overview'
+  );
+
+  if (d1Button && d1Button.nextSibling) {
+    tabs.insertBefore(button, d1Button.nextSibling);
+  } else {
+    tabs.appendChild(button);
+  }
+
+  d1Section.parentNode.insertBefore(
+    section,
+    d1Section.nextSibling
+  );
+}
+
+async function step3D2FetchJson(url) {
+  const response = await fetch(
+    `${url}?t=${Date.now()}`
+  );
+
+  if (!response.ok) {
+    throw new Error(`${url}: HTTP ${response.status}`);
+  }
+
+  return response.json();
+}
+
+function step3D2Rows(payload) {
+  if (Array.isArray(payload)) {
+    return payload.filter(
+      row => row && typeof row === 'object'
+    );
+  }
+
+  if (payload && typeof payload === 'object') {
+    for (const key of [
+      'equity_curve',
+      'points',
+      'records',
+      'data',
+      'rows',
+      'history',
+    ]) {
+      if (Array.isArray(payload[key])) {
+        return payload[key].filter(
+          row => row && typeof row === 'object'
+        );
+      }
+    }
+  }
+
+  throw new Error('Unsupported equity payload');
+}
+
+function step3D2Date(row) {
+  for (const key of [
+    'date',
+    'market_date',
+    'as_of_date',
+    'execution_date',
+    'fill_date',
+  ]) {
+    if (row?.[key]) {
+      return String(row[key]).slice(0, 10);
+    }
+  }
+
+  return '';
+}
+
+function step3D2CanonicalSpXRows(payload) {
+  if (
+    !payload ||
+    typeof payload !== 'object' ||
+    Array.isArray(payload) ||
+    !Array.isArray(payload.bars)
+  ) {
+    throw new Error(
+      'Canonical 5Y SPX contract requires object.bars'
+    );
+  }
+
+  return payload.bars.map(row => ({
+    date: String(row?.date || '').slice(0, 10),
+    close: Number(row?.close),
+  })).filter(row =>
+    row.date &&
+    Number.isFinite(row.close)
+  );
+}
+
+function step3D2ForwardSpXRows(payload) {
+  if (!Array.isArray(payload)) {
+    throw new Error(
+      'Forward SPX contract requires a top-level list'
+    );
+  }
+
+  return payload.map(row => ({
+    date: String(row?.date || '').slice(0, 10),
+    close: Number(row?.close),
+  })).filter(row =>
+    row.date &&
+    Number.isFinite(row.close)
+  );
+}
+
+function step3D2NumberFrom(row, keys) {
+  for (const key of keys) {
+    const value = Number(row?.[key]);
+
+    if (Number.isFinite(value)) {
+      return value;
+    }
+  }
+
+  return null;
+}
+
+function step3D2Equity(row) {
+  return step3D2NumberFrom(
+    row,
+    [
+      'equity',
+      'total_equity',
+      'account_equity',
+      'portfolio_value',
+      'value',
+    ]
+  );
+}
+
+function step3D2Money(value) {
+  const number = Number(value);
+
+  return Number.isFinite(number)
+    ? number.toLocaleString(
+        undefined,
+        {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }
+      )
+    : '—';
+}
+
+function step3D2Percent(value) {
+  const number = Number(value);
+
+  if (!Number.isFinite(number)) {
+    return '—';
+  }
+
+  const sign = number > 0 ? '+' : '';
+
+  return `${sign}${number.toFixed(2)}%`;
+}
+
+function step3D2NormalizeCanonical(payload) {
+  if (!Array.isArray(payload)) {
+    throw new Error(
+      'Canonical regular EOD contract requires a top-level list'
+    );
+  }
+
+  const result = payload
+    .map(row => ({
+      date: String(row?.date || '').slice(0, 10),
+      equity: Number(row?.total_equity),
+    }))
+    .filter(row =>
+      row.date &&
+      Number.isFinite(row.equity) &&
+      row.date <= STEP3_D2_BOUNDARY_DATE
+    )
+    .sort((a, b) =>
+      a.date.localeCompare(b.date)
+    );
+
+  const last = result[result.length - 1];
+
+  if (
+    !last ||
+    last.date !== STEP3_D2_BOUNDARY_DATE ||
+    Math.abs(
+      last.equity - 279290.7482565882
+    ) > 0.02
+  ) {
+    throw new Error(
+      'Canonical 2026-06-16 normal-EOD boundary mismatch'
+    );
+  }
+
+  return result;
+}
+
+function step3D2NormalizeForward(payload) {
+  if (!Array.isArray(payload)) {
+    throw new Error(
+      'Forward equity history contract requires a top-level list'
+    );
+  }
+
+  const result = payload
+    .map(row => ({
+      date: String(row?.date || '').slice(0, 10),
+      equity: Number(row?.total_equity),
+    }))
+    .filter(row =>
+      row.date &&
+      Number.isFinite(row.equity) &&
+      row.date >= STEP3_D2_FIRST_FORWARD_DATE
+    )
+    .sort((a, b) =>
+      a.date.localeCompare(b.date)
+    );
+
+  if (
+    !result.length ||
+    result[0].date !== STEP3_D2_FIRST_FORWARD_DATE
+  ) {
+    throw new Error(
+      'First Forward equity date mismatch'
+    );
+  }
+
+  return result;
+}
+
+function step3D2BuildContinuousCurve(
+  canonical,
+  forward,
+  spx5YRows,
+  spxForwardRows
+) {
+  const strategy = [
+    ...canonical.map(row => ({
+      ...row,
+      segment: '5Y',
+    })),
+    ...forward.map(row => ({
+      ...row,
+      segment: 'Forward',
+    })),
+  ];
+
+  const spxMap = new Map();
+
+  for (const row of spx5YRows) {
+    const date = String(row?.date || '').slice(0, 10);
+    const close = Number(row?.close);
+
+    if (
+      date &&
+      date <= STEP3_D2_BOUNDARY_DATE &&
+      Number.isFinite(close)
+    ) {
+      spxMap.set(date, close);
+    }
+  }
+
+  for (const row of spxForwardRows) {
+    const date = String(row?.date || '').slice(0, 10);
+    const close = Number(row?.close);
+
+    if (
+      date &&
+      date >= STEP3_D2_FIRST_FORWARD_DATE &&
+      Number.isFinite(close)
+    ) {
+      spxMap.set(date, close);
+    }
+  }
+
+  const firstDate = strategy[0].date;
+  const firstSpX = spxMap.get(firstDate);
+  const initialEquity = strategy[0].equity;
+
+  if (
+    !Number.isFinite(firstSpX) ||
+    !Number.isFinite(initialEquity)
+  ) {
+    throw new Error(
+      'SPX benchmark start cannot be established'
+    );
+  }
+
+  const combined = strategy
+    .filter(row => spxMap.has(row.date))
+    .map(row => ({
+      ...row,
+      spxBenchmark:
+        initialEquity *
+        spxMap.get(row.date) /
+        firstSpX,
+    }));
+
+  if (
+    combined[combined.length - 1].date !==
+    strategy[strategy.length - 1].date
+  ) {
+    throw new Error(
+      'SPX benchmark does not cover latest Strategy date'
+    );
+  }
+
+  const boundaryIndex = combined.findIndex(
+    row => row.date === STEP3_D2_BOUNDARY_DATE
+  );
+  const firstForwardIndex = combined.findIndex(
+    row => row.date === STEP3_D2_FIRST_FORWARD_DATE
+  );
+
+  if (
+    boundaryIndex < 0 ||
+    firstForwardIndex !== boundaryIndex + 1
+  ) {
+    throw new Error(
+      '5Y-to-Forward curve boundary is not continuous'
+    );
+  }
+
+  return combined;
+}
+
+function step3D2Positions(account) {
+  const raw = account?.positions;
+
+  if (Array.isArray(raw)) {
+    return raw.map(row => ({
+      symbol: String(row?.symbol || '').toUpperCase(),
+      ...row,
+    }));
+  }
+
+  if (raw && typeof raw === 'object') {
+    return Object.entries(raw).map(
+      ([symbol, row]) => ({
+        symbol: symbol.toUpperCase(),
+        ...(row || {}),
+      })
+    );
+  }
+
+  return [];
+}
+
+function step3D2HoldingRow(row) {
+  const symbol = String(row.symbol || '').toUpperCase();
+  const quantity = step3D2NumberFrom(
+    row,
+    ['quantity', 'shares']
+  );
+  const avgCost = step3D2NumberFrom(
+    row,
+    ['avg_cost', 'average_cost']
+  );
+  const lastPrice = step3D2NumberFrom(
+    row,
+    ['last_price', 'latest_price', 'price']
+  );
+  const marketValue = step3D2NumberFrom(
+    row,
+    ['market_value', 'position_value']
+  );
+  const unrealized = step3D2NumberFrom(
+    row,
+    ['unrealized_pnl', 'unrealized_profit_loss']
+  );
+  const costBasis = step3D2NumberFrom(
+    row?.metadata || row,
+    ['remaining_cost_basis', 'cost_basis']
+  ) ?? (
+    Number.isFinite(quantity) &&
+    Number.isFinite(avgCost)
+      ? quantity * avgCost
+      : null
+  );
+  const unrealizedPct =
+    Number.isFinite(unrealized) &&
+    Number.isFinite(costBasis) &&
+    costBasis !== 0
+      ? unrealized / costBasis * 100
+      : null;
+
+  const entryDate = String(
+    row.entry_date ||
+    row.origin_date ||
+    ''
+  ).slice(0, 10);
+
+  const carried = Boolean(
+    row?.metadata?.carried_position
+  ) || (
+    STEP3_D2_SEED_SYMBOLS.has(symbol) &&
+    entryDate &&
+    entryDate <= STEP3_D2_BOUNDARY_DATE
+  );
+
+  return {
+    symbol,
+    entryDate,
+    quantity,
+    avgCost,
+    lastPrice,
+    marketValue,
+    unrealized,
+    unrealizedPct,
+    carried,
+  };
+}
+
+function step3D2ExtractFills(payload, fallbackDate) {
+  let rows = [];
+
+  if (Array.isArray(payload)) {
+    rows = payload;
+  } else if (payload && typeof payload === 'object') {
+    for (const key of ['fills', 'executions', 'trades', 'records']) {
+      if (Array.isArray(payload[key])) {
+        rows = payload[key];
+        break;
+      }
+    }
+  }
+
+  return rows
+    .filter(row =>
+      row && typeof row === 'object'
+    )
+    .map(row => {
+      const action = String(
+        row.action ||
+        row.side ||
+        row.order_action ||
+        ''
+      ).toUpperCase();
+      const quantity = step3D2NumberFrom(
+        row,
+        ['quantity', 'shares', 'filled_quantity']
+      );
+      const price = step3D2NumberFrom(
+        row,
+        ['execution_price', 'fill_price', 'price']
+      );
+
+      return {
+        date:
+          step3D2Date(row) ||
+          fallbackDate,
+        symbol: String(
+          row.symbol || row.ticker || ''
+        ).toUpperCase(),
+        action,
+        quantity,
+        price,
+        amount:
+          Number.isFinite(quantity) &&
+          Number.isFinite(price)
+            ? Math.abs(quantity * price)
+            : null,
+      };
+    })
+    .filter(row =>
+      ['BUY', 'ADD', 'REDUCE', 'EXIT'].includes(
+        row.action
+      ) &&
+      row.symbol &&
+      Number.isFinite(row.quantity) &&
+      Number.isFinite(row.price)
+    );
+}
+
+async function step3D2LoadExecutedTrades(forwardDates) {
+  const dailyRoot =
+    `${STEP3_D2_SITE_BASE}/exports/official/` +
+    `${STEP3_D2_ENGINE}/forward/runtime/daily`;
+
+  const dailyFills = await Promise.all(
+    forwardDates.map(async date => {
+      const payload = await step3D2FetchJson(
+        `${dailyRoot}/${date}/fills.json`
+      );
+
+      if (!Array.isArray(payload)) {
+        throw new Error(
+          `Official fills contract is not a list: ${date}`
+        );
+      }
+
+      return step3D2ExtractFills(payload, date);
+    })
+  );
+
+  return dailyFills
+    .flat()
+    .filter(row =>
+      row.date >= STEP3_D2_FIRST_FORWARD_DATE
+    )
+    .sort((a, b) => {
+      const byDate = b.date.localeCompare(a.date);
+
+      if (byDate !== 0) {
+        return byDate;
+      }
+
+      return a.symbol.localeCompare(b.symbol);
+    });
+}
+
+function step3D2RenderHoldings(account) {
+  const rows = step3D2Positions(account)
+    .map(step3D2HoldingRow)
+    .sort((a, b) =>
+      a.symbol.localeCompare(b.symbol)
+    );
+
+  if (!rows.length) {
+    return '<div class="d2-empty">No Current Forward Holdings</div>';
+  }
+
+  return `
+    <div class="d2-table-wrap">
+      <table class="d2-table">
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Origin / Entry</th>
+            <th>Quantity</th>
+            <th>Average Cost</th>
+            <th>Latest Price</th>
+            <th>Market Value</th>
+            <th>Unrealized P&amp;L</th>
+            <th>Unrealized %</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(row => `
+            <tr>
+              <td>
+                <strong>${row.symbol}</strong>
+                ${row.carried
+                  ? '<span class="d2-seed">Canonical Seed</span>'
+                  : ''}
+              </td>
+              <td>${row.entryDate || '—'}</td>
+              <td>${step3D2Money(row.quantity)}</td>
+              <td>${step3D2Money(row.avgCost)}</td>
+              <td>${step3D2Money(row.lastPrice)}</td>
+              <td>${step3D2Money(row.marketValue)}</td>
+              <td>${step3D2Money(row.unrealized)}</td>
+              <td>${step3D2Percent(row.unrealizedPct)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function step3D2RenderTrades(trades) {
+  if (!trades.length) {
+    return '<div class="d2-empty">No Forward Trades</div>';
+  }
+
+  return `
+    <div class="d2-table-wrap d2-trade-history">
+      <table class="d2-table">
+        <thead>
+          <tr>
+            <th>Execution Date</th>
+            <th>Symbol</th>
+            <th>Action</th>
+            <th>Quantity</th>
+            <th>Execution Price</th>
+            <th>Transaction Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${trades.map(row => `
+            <tr>
+              <td>${row.date}</td>
+              <td><strong>${row.symbol}</strong></td>
+              <td>
+                <span class="d2-action d2-action-${row.action.toLowerCase()}">
+                  ${row.action}
+                </span>
+              </td>
+              <td>${step3D2Money(row.quantity)}</td>
+              <td>${step3D2Money(row.price)}</td>
+              <td>${step3D2Money(row.amount)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function step3D2Path(points, x, y, key) {
+  return points.map((row, index) => {
+    const command = index === 0 ? 'M' : 'L';
+    return `${command}${x(index).toFixed(2)},${y(row[key]).toFixed(2)}`;
+  }).join(' ');
+}
+
+function step3D2ChartData() {
+  const all = STEP3_D2_STATE.fullSeries;
+
+  if (!all.length) {
+    return [];
+  }
+
+  const start = Math.max(
+    0,
+    Math.min(
+      STEP3_D2_STATE.viewStart,
+      all.length - 1
+    )
+  );
+  const end = Math.max(
+    start,
+    Math.min(
+      STEP3_D2_STATE.viewEnd,
+      all.length - 1
+    )
+  );
+
+  return all.slice(start, end + 1);
+}
+
+function renderStep3D2Chart() {
+  const svg = document.getElementById(
+    'd2-equity-chart'
+  );
+
+  if (!svg || svg.clientWidth < 20) {
+    return;
+  }
+
+  const points = step3D2ChartData();
+
+  if (points.length < 2) {
+    svg.innerHTML = '';
+    return;
+  }
+
+  const width = Math.max(svg.clientWidth, 320);
+  const height = 420;
+  const pad = {
+    left: 68,
+    right: 24,
+    top: 24,
+    bottom: 48,
+  };
+  const plotW = width - pad.left - pad.right;
+  const plotH = height - pad.top - pad.bottom;
+
+  const values = points.flatMap(row => [
+    row.equity,
+    row.spxBenchmark,
+  ]);
+  let minY = Math.min(...values);
+  let maxY = Math.max(...values);
+  const margin = Math.max(
+    (maxY - minY) * 0.08,
+    1
+  );
+  minY -= margin;
+  maxY += margin;
+
+  const x = index =>
+    pad.left +
+    index / (points.length - 1) * plotW;
+  const y = value =>
+    pad.top +
+    (maxY - value) / (maxY - minY) * plotH;
+
+  const strategyPath = step3D2Path(
+    points,
+    x,
+    y,
+    'equity'
+  );
+  const spxPath = step3D2Path(
+    points,
+    x,
+    y,
+    'spxBenchmark'
+  );
+
+  const ticks = 5;
+  const yGrid = Array.from(
+    {length: ticks},
+    (_, index) => {
+      const value =
+        minY +
+        (maxY - minY) *
+        index /
+        (ticks - 1);
+      const py = y(value);
+
+      return `
+        <line x1="${pad.left}" y1="${py}"
+          x2="${width - pad.right}" y2="${py}"
+          class="d2-grid-line"/>
+        <text x="${pad.left - 10}" y="${py + 4}"
+          text-anchor="end" class="d2-axis-label">
+          ${Math.round(value).toLocaleString()}
+        </text>
+      `;
+    }
+  ).join('');
+
+  const xTickIndexes = Array.from(
+    new Set([
+      0,
+      Math.floor((points.length - 1) / 2),
+      points.length - 1,
+    ])
+  );
+
+  const xLabels = xTickIndexes.map(index => `
+    <text x="${x(index)}" y="${height - 14}"
+      text-anchor="${index === 0
+        ? 'start'
+        : index === points.length - 1
+          ? 'end'
+          : 'middle'}"
+      class="d2-axis-label">
+      ${points[index].date}
+    </text>
+  `).join('');
+
+  const boundaryLocalIndex = points.findIndex(
+    row => row.date === STEP3_D2_BOUNDARY_DATE
+  );
+
+  const boundary = boundaryLocalIndex >= 0
+    ? `
+      <line
+        x1="${x(boundaryLocalIndex)}"
+        y1="${pad.top}"
+        x2="${x(boundaryLocalIndex)}"
+        y2="${height - pad.bottom}"
+        class="d2-boundary-line"/>
+      <text
+        x="${x(boundaryLocalIndex) + 6}"
+        y="${pad.top + 14}"
+        class="d2-boundary-label">
+        5Y → Forward
+      </text>
+    `
+    : '';
+
+  svg.setAttribute(
+    'viewBox',
+    `0 0 ${width} ${height}`
+  );
+
+  svg.innerHTML = `
+    ${yGrid}
+    ${xLabels}
+    ${boundary}
+    <path d="${strategyPath}"
+      class="d2-strategy-line"/>
+    <path d="${spxPath}"
+      class="d2-spx-line"/>
+    <rect
+      x="${pad.left}"
+      y="${pad.top}"
+      width="${plotW}"
+      height="${plotH}"
+      class="d2-chart-hit"/>
+    <line id="d2-hover-line"
+      class="d2-hover-line"
+      y1="${pad.top}"
+      y2="${height - pad.bottom}"
+      visibility="hidden"/>
+    <circle id="d2-hover-strategy"
+      class="d2-hover-strategy"
+      r="4"
+      visibility="hidden"/>
+    <circle id="d2-hover-spx"
+      class="d2-hover-spx"
+      r="4"
+      visibility="hidden"/>
+  `;
+
+  svg.onwheel = event => {
+    event.preventDefault();
+
+    const full = STEP3_D2_STATE.fullSeries;
+    const currentStart = STEP3_D2_STATE.viewStart;
+    const currentEnd = STEP3_D2_STATE.viewEnd;
+    const currentLength =
+      currentEnd - currentStart + 1;
+
+    const rect = svg.getBoundingClientRect();
+    const ratio = Math.max(
+      0,
+      Math.min(
+        1,
+        (event.clientX - rect.left - pad.left) /
+        plotW
+      )
+    );
+    const center =
+      currentStart +
+      Math.round(ratio * (currentLength - 1));
+
+    const factor = event.deltaY < 0
+      ? 0.78
+      : 1.28;
+    const nextLength = Math.max(
+      10,
+      Math.min(
+        full.length,
+        Math.round(currentLength * factor)
+      )
+    );
+
+    let nextStart = Math.round(
+      center - ratio * (nextLength - 1)
+    );
+    nextStart = Math.max(
+      0,
+      Math.min(
+        nextStart,
+        full.length - nextLength
+      )
+    );
+
+    STEP3_D2_STATE.viewStart = nextStart;
+    STEP3_D2_STATE.viewEnd =
+      nextStart + nextLength - 1;
+
+    renderStep3D2Chart();
+  };
+
+  svg.onpointerdown = event => {
+    svg.setPointerCapture(event.pointerId);
+    STEP3_D2_STATE.dragStartX = event.clientX;
+    STEP3_D2_STATE.dragStartRange = [
+      STEP3_D2_STATE.viewStart,
+      STEP3_D2_STATE.viewEnd,
+    ];
+  };
+
+  svg.onpointermove = event => {
+    const rect = svg.getBoundingClientRect();
+    const localX = Math.max(
+      pad.left,
+      Math.min(
+        width - pad.right,
+        event.clientX - rect.left
+      )
+    );
+    const index = Math.max(
+      0,
+      Math.min(
+        points.length - 1,
+        Math.round(
+          (localX - pad.left) /
+          plotW *
+          (points.length - 1)
+        )
+      )
+    );
+    const row = points[index];
+    const px = x(index);
+
+    const hoverLine = document.getElementById(
+      'd2-hover-line'
+    );
+    const strategyDot = document.getElementById(
+      'd2-hover-strategy'
+    );
+    const spxDot = document.getElementById(
+      'd2-hover-spx'
+    );
+    const tooltip = document.getElementById(
+      'd2-chart-tooltip'
+    );
+
+    if (
+      hoverLine &&
+      strategyDot &&
+      spxDot &&
+      tooltip
+    ) {
+      hoverLine.setAttribute('x1', px);
+      hoverLine.setAttribute('x2', px);
+      hoverLine.setAttribute('visibility', 'visible');
+
+      strategyDot.setAttribute('cx', px);
+      strategyDot.setAttribute('cy', y(row.equity));
+      strategyDot.setAttribute('visibility', 'visible');
+
+      spxDot.setAttribute('cx', px);
+      spxDot.setAttribute(
+        'cy',
+        y(row.spxBenchmark)
+      );
+      spxDot.setAttribute('visibility', 'visible');
+
+      const initial = STEP3_D2_STATE.fullSeries[0];
+
+      tooltip.innerHTML = `
+        <strong>${row.date}</strong>
+        <span>Strategy: ${step3D2Money(row.equity)}</span>
+        <span>SPX Benchmark: ${step3D2Money(row.spxBenchmark)}</span>
+        <span>Strategy Return: ${step3D2Percent(
+          (row.equity / initial.equity - 1) * 100
+        )}</span>
+        <span>SPX Return: ${step3D2Percent(
+          (row.spxBenchmark / initial.spxBenchmark - 1) * 100
+        )}</span>
+        <span>Segment: ${row.segment}</span>
+      `;
+    }
+
+    if (
+      STEP3_D2_STATE.dragStartX !== null &&
+      STEP3_D2_STATE.dragStartRange
+    ) {
+      const full = STEP3_D2_STATE.fullSeries;
+      const [start, end] =
+        STEP3_D2_STATE.dragStartRange;
+      const length = end - start + 1;
+      const deltaPx =
+        event.clientX -
+        STEP3_D2_STATE.dragStartX;
+      const shift = Math.round(
+        -deltaPx / plotW * length
+      );
+
+      let nextStart = start + shift;
+      nextStart = Math.max(
+        0,
+        Math.min(
+          nextStart,
+          full.length - length
+        )
+      );
+
+      STEP3_D2_STATE.viewStart = nextStart;
+      STEP3_D2_STATE.viewEnd =
+        nextStart + length - 1;
+
+      renderStep3D2Chart();
+    }
+  };
+
+  const stopDrag = () => {
+    STEP3_D2_STATE.dragStartX = null;
+    STEP3_D2_STATE.dragStartRange = null;
+  };
+
+  svg.onpointerup = stopDrag;
+  svg.onpointercancel = stopDrag;
+  svg.onpointerleave = event => {
+    if (
+      STEP3_D2_STATE.dragStartX === null
+    ) {
+      const hoverLine = document.getElementById(
+        'd2-hover-line'
+      );
+      const strategyDot = document.getElementById(
+        'd2-hover-strategy'
+      );
+      const spxDot = document.getElementById(
+        'd2-hover-spx'
+      );
+
+      hoverLine?.setAttribute(
+        'visibility',
+        'hidden'
+      );
+      strategyDot?.setAttribute(
+        'visibility',
+        'hidden'
+      );
+      spxDot?.setAttribute(
+        'visibility',
+        'hidden'
+      );
+    }
+  };
+}
+
+function step3D2Zoom(factor) {
+  const full = STEP3_D2_STATE.fullSeries;
+  const start = STEP3_D2_STATE.viewStart;
+  const end = STEP3_D2_STATE.viewEnd;
+  const length = end - start + 1;
+  const nextLength = Math.max(
+    10,
+    Math.min(
+      full.length,
+      Math.round(length * factor)
+    )
+  );
+  const center = (start + end) / 2;
+  let nextStart = Math.round(
+    center - (nextLength - 1) / 2
+  );
+
+  nextStart = Math.max(
+    0,
+    Math.min(
+      nextStart,
+      full.length - nextLength
+    )
+  );
+
+  STEP3_D2_STATE.viewStart = nextStart;
+  STEP3_D2_STATE.viewEnd =
+    nextStart + nextLength - 1;
+
+  renderStep3D2Chart();
+}
+
+function step3D2ResetZoom() {
+  STEP3_D2_STATE.viewStart = 0;
+  STEP3_D2_STATE.viewEnd =
+    STEP3_D2_STATE.fullSeries.length - 1;
+  renderStep3D2Chart();
+}
+
+function step3D2RenderPage(
+  manifest,
+  account,
+  curve,
+  trades
+) {
+  const root = document.getElementById(
+    's-step3-forward-validation'
+  );
+
+  if (!root) {
+    return;
+  }
+
+  const first = curve[0];
+  const boundary = curve.find(
+    row => row.date === STEP3_D2_BOUNDARY_DATE
+  );
+  const latest = curve[curve.length - 1];
+  const strategyReturn =
+    (latest.equity / first.equity - 1) * 100;
+  const spxReturn =
+    (latest.spxBenchmark / first.spxBenchmark - 1) *
+    100;
+  const latestDate =
+    manifest.last_committed_date ||
+    manifest.date ||
+    latest.date;
+
+  STEP3_D2_STATE.fullSeries = curve;
+  STEP3_D2_STATE.viewStart = 0;
+  STEP3_D2_STATE.viewEnd = curve.length - 1;
+
+  root.innerHTML = `
+    <div class="d2-page">
+      <section class="d2-summary-grid">
+        <article class="card d2-summary-card">
+          <span>Forward Anchor</span>
+          <strong>${STEP3_D2_BOUNDARY_DATE}</strong>
+        </article>
+        <article class="card d2-summary-card">
+          <span>First Forward Date</span>
+          <strong>${STEP3_D2_FIRST_FORWARD_DATE}</strong>
+        </article>
+        <article class="card d2-summary-card">
+          <span>Latest Forward Date</span>
+          <strong>${latestDate}</strong>
+        </article>
+        <article class="card d2-summary-card">
+          <span>Total Equity</span>
+          <strong>${step3D2Money(account.total_equity)}</strong>
+        </article>
+        <article class="card d2-summary-card">
+          <span>Cash</span>
+          <strong>${step3D2Money(account.cash)}</strong>
+        </article>
+        <article class="card d2-summary-card">
+          <span>Open Positions</span>
+          <strong>${account.open_positions_count ?? '—'}</strong>
+        </article>
+      </section>
+
+      <section class="card d2-block">
+        <div class="d2-block-head">
+          <div>
+            <h3>Current Forward Holdings</h3>
+            <p>
+              Canonical Seed positions DELL / HUM / MRVL
+              are opening account positions, not Forward BUY transactions.
+            </p>
+          </div>
+        </div>
+        ${step3D2RenderHoldings(account)}
+      </section>
+
+      <section class="card d2-block">
+        <div class="d2-block-head d2-chart-head">
+          <div>
+            <h3>Continuous Strategy Equity vs SPX</h3>
+            <p>
+              One Strategy curve: Canonical 5Y through
+              ${STEP3_D2_BOUNDARY_DATE}, then Engine Forward
+              from ${STEP3_D2_FIRST_FORWARD_DATE}.
+            </p>
+          </div>
+          <div class="d2-chart-controls">
+            <button type="button"
+              onclick="step3D2Zoom(0.72)">Zoom In</button>
+            <button type="button"
+              onclick="step3D2Zoom(1.38)">Zoom Out</button>
+            <button type="button"
+              onclick="step3D2ResetZoom()">Reset</button>
+          </div>
+        </div>
+
+        <div class="d2-legend">
+          <span class="d2-legend-strategy">
+            Continuous Strategy Equity
+          </span>
+          <span class="d2-legend-spx">
+            SPX Benchmark
+          </span>
+          <span class="d2-legend-boundary">
+            5Y → Forward Boundary
+          </span>
+        </div>
+
+        <div class="d2-chart-shell">
+          <svg id="d2-equity-chart"
+            class="d2-equity-chart"
+            aria-label="Continuous Strategy Equity and SPX benchmark">
+          </svg>
+          <div id="d2-chart-tooltip"
+            class="d2-chart-tooltip">
+            Move over the chart to inspect values.
+          </div>
+        </div>
+
+        <div class="d2-performance-grid">
+          <div>
+            <span>Canonical Start Equity</span>
+            <strong>${step3D2Money(first.equity)}</strong>
+          </div>
+          <div>
+            <span>5Y / Forward Boundary Equity</span>
+            <strong>${step3D2Money(boundary?.equity)}</strong>
+          </div>
+          <div>
+            <span>Latest Strategy Equity</span>
+            <strong>${step3D2Money(latest.equity)}</strong>
+          </div>
+          <div>
+            <span>Continuous Strategy Return</span>
+            <strong>${step3D2Percent(strategyReturn)}</strong>
+          </div>
+          <div>
+            <span>SPX Benchmark Return</span>
+            <strong>${step3D2Percent(spxReturn)}</strong>
+          </div>
+          <div>
+            <span>Strategy minus SPX</span>
+            <strong>${step3D2Percent(
+              strategyReturn - spxReturn
+            )}</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="card d2-block">
+        <div class="d2-block-head">
+          <div>
+            <h3>Forward Trade History</h3>
+            <p>
+              Executed BUY / ADD / REDUCE / EXIT fills from
+              ${STEP3_D2_FIRST_FORWARD_DATE}; newest first.
+            </p>
+          </div>
+        </div>
+        ${step3D2RenderTrades(trades)}
+      </section>
+    </div>
+  `;
+
+  requestAnimationFrame(
+    renderStep3D2Chart
+  );
+}
+
+async function loadStep3D2ForwardValidation() {
+  const root = document.getElementById(
+    's-step3-forward-validation'
+  );
+
+  try {
+    const official =
+      `${STEP3_D2_SITE_BASE}/exports/official/` +
+      `${STEP3_D2_ENGINE}`;
+
+    const [
+      manifest,
+      account,
+      canonicalPayload,
+      forwardPayload,
+      spx5YRows,
+      spxForwardRows,
+    ] = await Promise.all([
+      step3D2FetchJson(
+        `${official}/forward/runtime/current/manifest.json`
+      ),
+      step3D2FetchJson(
+        `${official}/forward/runtime/current/account_state.json`
+      ),
+      step3D2FetchJson(
+        `${official}/backtest/canonical_5y/regular_eod_account_records.json`
+      ),
+      step3D2FetchJson(
+        `${official}/forward/runtime/history/equity_curve.json`
+      ),
+      step3D2FetchJson(
+        `${STEP3_D2_SITE_BASE}/data/research/e1_5y/raw/indices/SPX.json`
+      ),
+      step3D2FetchJson(
+        `${STEP3_D2_SITE_BASE}/data/fw_prices/_GSPC.json`
+      ),
+    ]);
+
+    const canonical =
+      step3D2NormalizeCanonical(canonicalPayload);
+    const forward =
+      step3D2NormalizeForward(forwardPayload);
+    const curve =
+      step3D2BuildContinuousCurve(
+        canonical,
+        forward,
+        step3D2CanonicalSpXRows(spx5YRows),
+        step3D2ForwardSpXRows(spxForwardRows)
+      );
+
+    const manifestDate =
+      String(
+        manifest.last_committed_date ||
+        manifest.date ||
+        ''
+      ).slice(0, 10);
+
+    if (
+      !manifestDate ||
+      forward[forward.length - 1].date !==
+        manifestDate
+    ) {
+      throw new Error(
+        'Latest Forward equity date does not match manifest'
+      );
+    }
+
+    if (
+      String(account.date || '').slice(0, 10) !==
+      manifestDate
+    ) {
+      throw new Error(
+        'Current account date does not match manifest'
+      );
+    }
+
+    const trades = await step3D2LoadExecutedTrades(
+      forward.map(row => row.date)
+    );
+
+    step3D2RenderPage(
+      manifest,
+      account,
+      curve,
+      trades
+    );
+  } catch (error) {
+    if (root) {
+      root.innerHTML = `
+        <div class="error">
+          <strong>Forward Test Validation 加载失败</strong><br>
+          ${String(error.message || error)}
+        </div>
+      `;
+    }
+  }
+}
+
+window.addEventListener(
+  'resize',
+  () => {
+    const section = document.getElementById(
+      's-step3-forward-validation'
+    );
+
+    if (section?.classList.contains('on')) {
+      renderStep3D2Chart();
+    }
+  }
+);
+
+
 /* STEP3_D1_US_MARKET_OVERVIEW */
 const STEP3_D1_SITE_BASE =
   'https://donarfang.github.io/SP500-tracker';
@@ -444,6 +1816,8 @@ async function loadStep3D1UsMarketOverview() {
 async function loadAll() {
   installStep3D1Tab();
   await loadStep3D1UsMarketOverview();
+  installStep3D2Tab();
+  await loadStep3D2ForwardValidation();
   // Stage 3.8E-2B-v4: read-only daily summary exports for unified summary.
   try { DATA.e1rV02Status = await fetchJ('e1r_v0_2_status'); } catch(e) { DATA.e1rV02Status = {}; }
   try { DATA.e1rV02BacktestSummary = await fetchJ('e1r_v0_2_backtest_summary'); } catch(e) { DATA.e1rV02BacktestSummary = {}; }

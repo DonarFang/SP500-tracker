@@ -414,3 +414,64 @@ tr:hover td{background:var(--bg2)}
 .d1-neutral{color:var(--text2)}
 @media(max-width:900px){.d1-index-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.d1-state,.d1-index-grid{grid-template-columns:1fr}}
+
+/* STEP3_D2_FORWARD_TEST_VALIDATION */
+.d2-page{display:grid;gap:14px}
+.d2-summary-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.d2-summary-card{display:grid;gap:6px;padding:14px}
+.d2-summary-card span,.d2-performance-grid span{font-size:11px;color:var(--text2)}
+.d2-summary-card strong{font-size:16px}
+.d2-block{padding:16px}
+.d2-block-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:14px}
+.d2-block-head h3{margin:0;font-size:16px}
+.d2-block-head p{margin:5px 0 0;color:var(--text2);font-size:12px;line-height:1.5}
+.d2-table-wrap{overflow:auto;border:1px solid var(--border);border-radius:10px}
+.d2-trade-history{max-height:420px}
+.d2-table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:12px}
+.d2-table th,.d2-table td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:right}
+.d2-table th:first-child,.d2-table td:first-child,.d2-table th:nth-child(2),.d2-table td:nth-child(2){text-align:left}
+.d2-table thead th{position:sticky;top:0;background:var(--card);z-index:1;color:var(--text2);font-size:11px}
+.d2-table tbody tr:last-child td{border-bottom:0}
+.d2-seed{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:rgba(29,158,117,.14);color:var(--green);font-size:10px;font-weight:700}
+.d2-action{display:inline-block;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:700}
+.d2-action-buy,.d2-action-add{background:rgba(29,158,117,.14);color:var(--green)}
+.d2-action-reduce,.d2-action-exit{background:rgba(220,70,70,.14);color:var(--red)}
+.d2-empty{padding:18px;text-align:center;color:var(--text2)}
+.d2-chart-head{align-items:center}
+.d2-chart-controls{display:flex;gap:6px;flex-wrap:wrap}
+.d2-chart-controls button{border:1px solid var(--border);background:var(--card);color:inherit;border-radius:7px;padding:7px 10px;cursor:pointer}
+.d2-chart-controls button:hover{background:var(--bg2)}
+.d2-legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px;font-size:11px;color:var(--text2)}
+.d2-legend span::before{content:"";display:inline-block;width:18px;height:3px;margin-right:6px;vertical-align:middle;border-radius:2px}
+.d2-legend-strategy::before{background:var(--green)}
+.d2-legend-spx::before{background:var(--text2)}
+.d2-legend-boundary::before{background:var(--red)}
+.d2-chart-shell{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:12px;align-items:start}
+.d2-equity-chart{display:block;width:100%;height:420px;border:1px solid var(--border);border-radius:10px;background:var(--card);touch-action:none;user-select:none}
+.d2-chart-tooltip{min-height:110px;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);font-size:11px;line-height:1.6;color:var(--text2)}
+.d2-chart-tooltip strong,.d2-chart-tooltip span{display:block}
+.d2-chart-tooltip strong{color:inherit;font-size:12px;margin-bottom:4px}
+.d2-grid-line{stroke:var(--border);stroke-width:1}
+.d2-axis-label{fill:var(--text2);font-size:10px}
+.d2-strategy-line{fill:none;stroke:var(--green);stroke-width:2.2;vector-effect:non-scaling-stroke}
+.d2-spx-line{fill:none;stroke:var(--text2);stroke-width:1.8;stroke-dasharray:6 4;vector-effect:non-scaling-stroke}
+.d2-boundary-line{stroke:var(--red);stroke-width:1.2;stroke-dasharray:4 4;vector-effect:non-scaling-stroke}
+.d2-boundary-label{fill:var(--red);font-size:10px;font-weight:700}
+.d2-chart-hit{fill:transparent;cursor:crosshair}
+.d2-hover-line{stroke:var(--text2);stroke-width:1;stroke-dasharray:3 3;pointer-events:none}
+.d2-hover-strategy{fill:var(--green);pointer-events:none}
+.d2-hover-spx{fill:var(--text2);pointer-events:none}
+.d2-performance-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:12px}
+.d2-performance-grid>div{display:grid;gap:4px;padding:10px;border:1px solid var(--border);border-radius:8px}
+.d2-performance-grid strong{font-size:13px}
+@media(max-width:1200px){
+  .d2-summary-grid,.d2-performance-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:900px){
+  .d2-chart-shell{grid-template-columns:1fr}
+  .d2-chart-tooltip{min-height:auto}
+}
+@media(max-width:620px){
+  .d2-summary-grid,.d2-performance-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .d2-block-head{display:grid}
+}
