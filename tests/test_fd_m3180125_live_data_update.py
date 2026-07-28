@@ -277,3 +277,35 @@ def test_live_script_promotes_only_ordinary_partial_to_current() -> None:
         now=now,
     )
     assert unchanged["data_status"] == "PARTIAL"
+
+
+def test_live_script_accepts_latest_complete_required_index_date() -> None:
+    from scripts.update_fd_m3180125_live_prices import (
+        _promote_ordinary_unavailable_to_current,
+    )
+
+    now = datetime(
+        2026, 7, 28, 13, 0, tzinfo=timezone.utc
+    )
+    payload = {
+        "data_status": "STALE",
+        "catalogue_changed": False,
+        "expected_latest_market_date": "2026-07-28",
+        "latest_market_date": "2026-07-27",
+        "missing_dates": ["2026-07-28"],
+        "unavailable_symbols": [],
+        "last_successful_update_at": None,
+    }
+
+    accepted = _promote_ordinary_unavailable_to_current(
+        payload,
+        expected_latest_market_date=date(2026, 7, 28),
+        now=now,
+    )
+
+    assert accepted["data_status"] == "CURRENT"
+    assert accepted["requested_latest_market_date"] == "2026-07-28"
+    assert accepted["expected_latest_market_date"] == "2026-07-27"
+    assert accepted["latest_market_date"] == "2026-07-27"
+    assert accepted["missing_dates"] == []
+    assert accepted["last_successful_update_at"] == now.isoformat()

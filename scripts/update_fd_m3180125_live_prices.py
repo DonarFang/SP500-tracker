@@ -148,30 +148,39 @@ def _promote_ordinary_unavailable_to_current(
     expected_latest_market_date: date,
     now: datetime,
 ) -> dict[str, object]:
-    """Apply the proven ordinary-symbol best-effort status contract.
+    """Use the latest complete required-index date as the Live data date.
 
-    LiveDataUpdater correctly derives `latest_market_date` from required
-    indices.  If those required indices reached the requested date and the
-    catalogue did not change, ordinary unavailable symbols do not downgrade
-    the whole Live market-data state from PARTIAL to CURRENT.
+    This follows the proven Engine Forward responsibility split:
+    the updater preserves and records the data actually available, while the
+    daily runner decides whether that date is new and runnable. A wall-clock
+    date does not fabricate an unavailable EOD session.
+
+    Ordinary unavailable symbols remain recorded and preserve their files.
+    Required Live indices still determine latest_market_date inside
+    LiveDataUpdater. No Forward data or runtime state is consulted.
     """
+    if payload.get("catalogue_changed") is not False:
+        return payload
+
     latest_raw = payload.get("latest_market_date")
-    latest = (
-        date.fromisoformat(str(latest_raw))
-        if latest_raw is not None
-        else None
+    if latest_raw is None:
+        return payload
+
+    try:
+        latest = date.fromisoformat(str(latest_raw))
+    except ValueError:
+        return payload
+
+    if payload.get("data_status") not in {"PARTIAL", "STALE"}:
+        return payload
+
+    payload["requested_latest_market_date"] = (
+        expected_latest_market_date.isoformat()
     )
-
-    if (
-        payload.get("data_status") == "PARTIAL"
-        and payload.get("catalogue_changed") is False
-        and latest is not None
-        and latest >= expected_latest_market_date
-    ):
-        payload["data_status"] = "CURRENT"
-        payload["missing_dates"] = []
-        payload["last_successful_update_at"] = now.isoformat()
-
+    payload["expected_latest_market_date"] = latest.isoformat()
+    payload["data_status"] = "CURRENT"
+    payload["missing_dates"] = []
+    payload["last_successful_update_at"] = now.isoformat()
     return payload
 
 
