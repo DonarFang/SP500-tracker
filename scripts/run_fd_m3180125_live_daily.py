@@ -4,7 +4,7 @@ from datetime import date, timedelta
 import json
 from pathlib import Path
 from typing import Any
-from e1r_engine.live_composition import compose_unactivated_live_production
+from e1r_engine.live_composition import compose_active_live_production
 
 LIVE_ROOT=Path("exports/official/FD-M3180125-SP500-TOP3-engine/live")
 PRICE_ROOT=Path("data/live_prices")
@@ -34,7 +34,7 @@ def main()->int:
     if last_raw is not None and market_date<=date.fromisoformat(str(last_raw)):
         print(json.dumps({"decision":"PASS_LIVE_ACTIVE_NO_NEW_DATE","market_date":market_date.isoformat(),"last_committed_market_date":str(last_raw),"opening_activated":True},indent=2,sort_keys=True)); return 0
     expected_execution_date=next_weekday(market_date)
-    composition=compose_unactivated_live_production(price_root=PRICE_ROOT,live_root=LIVE_ROOT,data_status_path=STATUS_PATH,market_date=market_date,expected_execution_date=expected_execution_date,expected_stock_count=494,min_bars=120)
+    composition=compose_active_live_production(price_root=PRICE_ROOT,live_root=LIVE_ROOT,data_status_path=STATUS_PATH,market_date=market_date,expected_execution_date=expected_execution_date,expected_stock_count=494,min_bars=120)
     result=composition.runtime.dry_run(market_date=composition.market_date,market_data=composition.market_data)
     committed=composition.runtime.commit_active_daily(result=result,expected_execution_date=expected_execution_date)
     committed.update({"catalogue_stock_symbol_count":len(composition.catalogue_stock_symbols),"eligible_stock_symbol_count":len(composition.stock_symbols),"excluded_stock_symbols":list(composition.excluded_stock_symbols),"workflow_created":True,"broker_api_connected":False})

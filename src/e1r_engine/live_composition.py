@@ -203,23 +203,22 @@ def load_official_live_opening(
     )
 
 
-def compose_unactivated_live_production(
+def _compose_live_production_components(
     *,
     price_root: Path,
     live_root: Path,
     data_status_path: Path,
     market_date: date,
     expected_execution_date: date,
-    expected_stock_count: int = 498,
-    min_bars: int = 120,
+    expected_stock_count: int,
+    min_bars: int,
+    opening: LiveOpeningState,
+    initialize_unactivated: bool,
 ) -> LiveProductionComposition:
-    """Compose the existing Live path without activating opening state."""
-
     if expected_execution_date <= market_date:
         raise LiveCompositionError(
             "expected_execution_date must be after market_date"
         )
-
     if min_bars <= 0:
         raise LiveCompositionError(
             "min_bars must be positive"
@@ -234,7 +233,6 @@ def compose_unactivated_live_production(
         price_root=price_root,
         expected_stock_count=expected_stock_count,
     )
-
     stock_symbols, excluded_stock_symbols = (
         discover_live_eligible_stock_symbols(
             price_root=price_root,
@@ -249,7 +247,6 @@ def compose_unactivated_live_production(
         market_date,
         stock_symbols,
     )
-
     engine_adapter = LiveEngineAdapter(
         data_adapter=LiveDataAdapter(
             Path(price_root)
@@ -261,18 +258,16 @@ def compose_unactivated_live_production(
     repository = LiveRuntimeRepository(
         Path(live_root)
     )
-    repository.initialize_unactivated()
+    if initialize_unactivated:
+        repository.initialize_unactivated()
 
     runtime = LiveProductionRuntime(
         repository=repository,
         processor=LiveDailyProcessor(
             engine=engine_adapter
         ),
-        opening=load_official_live_opening(
-            Path(live_root)
-        ),
+        opening=opening,
     )
-
     return LiveProductionComposition(
         repository=repository,
         runtime=runtime,
@@ -282,6 +277,58 @@ def compose_unactivated_live_production(
         catalogue_stock_symbols=catalogue_stock_symbols,
         excluded_stock_symbols=excluded_stock_symbols,
     )
+
+
+def compose_unactivated_live_production(
+    *,
+    price_root: Path,
+    live_root: Path,
+    data_status_path: Path,
+    market_date: date,
+    expected_execution_date: date,
+    expected_stock_count: int = 498,
+    min_bars: int = 120,
+) -> LiveProductionComposition:
+    """Compose only the Official Unactivated Acceptance lifecycle."""
+    return _compose_live_production_components(
+        price_root=price_root,
+        live_root=live_root,
+        data_status_path=data_status_path,
+        market_date=market_date,
+        expected_execution_date=expected_execution_date,
+        expected_stock_count=expected_stock_count,
+        min_bars=min_bars,
+        opening=LiveOpeningState(),
+        initialize_unactivated=True,
+    )
+
+
+def compose_active_live_production(
+    *,
+    price_root: Path,
+    live_root: Path,
+    data_status_path: Path,
+    market_date: date,
+    expected_execution_date: date,
+    expected_stock_count: int = 498,
+    min_bars: int = 120,
+) -> LiveProductionComposition:
+    """Compose ACTIVE Live without repository initialization."""
+    return _compose_live_production_components(
+        price_root=price_root,
+        live_root=live_root,
+        data_status_path=data_status_path,
+        market_date=market_date,
+        expected_execution_date=expected_execution_date,
+        expected_stock_count=expected_stock_count,
+        min_bars=min_bars,
+        opening=load_official_live_opening(
+            Path(live_root)
+        ),
+        initialize_unactivated=False,
+    )
+
+
 
 
 def run_unactivated_live_acceptance(

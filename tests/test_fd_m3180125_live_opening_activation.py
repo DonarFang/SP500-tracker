@@ -30,3 +30,26 @@ def test_load_official_live_opening(tmp_path: Path) -> None:
     assert opening.opening_date == date(2026, 7, 27)
     assert opening.opening_cash == Decimal("100000.00")
     assert opening.positions == {}
+
+
+def test_active_composition_source_does_not_initialize_unactivated() -> None:
+    import ast
+    from e1r_engine import live_composition
+
+    source = Path(live_composition.__file__).read_text(
+        encoding="utf-8"
+    )
+    tree = ast.parse(source)
+    functions = {
+        node.name: node
+        for node in tree.body
+        if isinstance(node, ast.FunctionDef)
+    }
+
+    active = ast.get_source_segment(
+        source,
+        functions["compose_active_live_production"],
+    )
+    assert active is not None
+    assert "initialize_unactivated=False" in active
+    assert "repository.initialize_unactivated()" not in active
