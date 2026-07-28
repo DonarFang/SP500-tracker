@@ -3457,3 +3457,48 @@ loadAll();
   }
 })();
 /* === END E1R_V0_2_DASHBOARD_MODULE_STAGE_3_4_CLEAN_INTEGRATION === */
+
+/* REMOVE_RESEARCH_BACKTEST_AND_MARKET_OVERVIEW_TABS */
+(function removeObsoleteDashboardTabs() {
+  const removedTabNames = new Set([
+    'Research & Backtest',
+    'Market Overview',
+  ]);
+
+  function removeMatchingTabs() {
+    const buttons = Array.from(
+      document.querySelectorAll('.tab')
+    );
+
+    for (const button of buttons) {
+      const label = button.textContent.trim();
+
+      if (!removedTabNames.has(label)) {
+        continue;
+      }
+
+      const onclick = button.getAttribute('onclick') || '';
+      const match = onclick.match(
+        /go\(\s*['"]([^'"]+)['"]/
+      );
+
+      if (match) {
+        document
+          .getElementById(`s-${match[1]}`)
+          ?.remove();
+      }
+
+      button.remove();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener(
+      'DOMContentLoaded',
+      removeMatchingTabs,
+      {once: true}
+    );
+  } else {
+    removeMatchingTabs();
+  }
+})();
