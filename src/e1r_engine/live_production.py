@@ -233,6 +233,7 @@ class LiveProductionRuntime:
         reconciliation = reconcile_recommendations(
             signal_date=result.market_date,
             expected_execution_date=expected_execution_date,
+            as_of_date=result.market_date,
             recommendations=result.decision.position_recommendations,
             transactions=transactions,
         )

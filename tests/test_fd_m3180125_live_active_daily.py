@@ -73,3 +73,43 @@ def test_active_and_unactivated_lifecycles_are_separate():
     assert "load_official_live_opening" not in unactivated
     assert "load_official_live_opening" in active
     assert "initialize_unactivated=False" in active
+
+
+def test_active_commit_passes_reconciliation_as_of_date_v2() -> None:
+    production = (
+        ROOT / "src/e1r_engine/live_production.py"
+    ).read_text(encoding="utf-8")
+    tree = ast.parse(production)
+
+    active = None
+    for node in ast.walk(tree):
+        if (
+            isinstance(node, ast.FunctionDef)
+            and node.name == "commit_active_daily"
+        ):
+            active = node
+            break
+
+    assert active is not None
+
+    calls = [
+        node
+        for node in ast.walk(active)
+        if (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name)
+            and node.func.id == "reconcile_recommendations"
+        )
+    ]
+
+    assert len(calls) == 1
+
+    keywords = {
+        keyword.arg: keyword.value
+        for keyword in calls[0].keywords
+        if keyword.arg is not None
+    }
+
+    assert ast.unparse(
+        keywords["as_of_date"]
+    ) == "result.market_date"
