@@ -204,3 +204,76 @@ def test_live_updater_accepts_source_equivalent_ohlc_rounding_crosses() -> None:
 
     assert low_cross["low"] == "100.01"
     assert high_cross["high"] == "100.00"
+
+
+def test_live_script_rejects_invalid_provider_rows() -> None:
+    from scripts.update_fd_m3180125_live_prices import (
+        _valid_provider_row,
+    )
+
+    assert _valid_provider_row(
+        market_date="2026-07-27",
+        open_value=0,
+        high_value=1,
+        low_value=1,
+        close_value=1,
+        volume_value=100,
+    ) is None
+
+    assert _valid_provider_row(
+        market_date="2026-07-27",
+        open_value=float("nan"),
+        high_value=1,
+        low_value=1,
+        close_value=1,
+        volume_value=100,
+    ) is None
+
+    assert _valid_provider_row(
+        market_date="2026-07-27",
+        open_value=100,
+        high_value=101,
+        low_value=99,
+        close_value=100,
+        volume_value=100,
+    ) is not None
+
+
+def test_live_script_promotes_only_ordinary_partial_to_current() -> None:
+    from scripts.update_fd_m3180125_live_prices import (
+        _promote_ordinary_unavailable_to_current,
+    )
+
+    now = datetime(
+        2026, 7, 28, 1, 0, tzinfo=timezone.utc
+    )
+    payload = {
+        "data_status": "PARTIAL",
+        "catalogue_changed": False,
+        "latest_market_date": "2026-07-27",
+        "missing_dates": [],
+        "unavailable_symbols": ["CTRA"],
+        "last_successful_update_at": None,
+    }
+    promoted = _promote_ordinary_unavailable_to_current(
+        payload,
+        expected_latest_market_date=date(2026, 7, 27),
+        now=now,
+    )
+    assert promoted["data_status"] == "CURRENT"
+    assert promoted["unavailable_symbols"] == ["CTRA"]
+
+    stale_required_index = {
+        "data_status": "PARTIAL",
+        "catalogue_changed": False,
+        "latest_market_date": "2026-07-24",
+        "missing_dates": ["2026-07-27"],
+        "unavailable_symbols": ["SPX"],
+        "last_successful_update_at": None,
+    }
+    unchanged = _promote_ordinary_unavailable_to_current(
+        stale_required_index,
+        expected_latest_market_date=date(2026, 7, 27),
+        now=now,
+    )
+    assert unchanged["data_status"] == "PARTIAL"
