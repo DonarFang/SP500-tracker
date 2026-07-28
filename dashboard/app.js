@@ -137,7 +137,313 @@ async function fetchResearchJ(name) {
   return r.json();
 }
 
+
+/* STEP3_D1_US_MARKET_OVERVIEW */
+const STEP3_D1_SITE_BASE =
+  'https://donarfang.github.io/SP500-tracker';
+
+const STEP3_D1_ENGINE =
+  'FD-M3180125-SP500-TOP3-engine';
+
+const STEP3_D1_PRICE_FILES = {
+  SPX: '_GSPC.json',
+  NDX: '_NDX.json',
+  SOX: '_SOX.json',
+  VIX: '_VIX.json',
+};
+
+function installStep3D1Tab() {
+  const tabs = document.querySelector('.tabs');
+  const legacyMarket = document.getElementById('s-market');
+
+  if (!tabs || !legacyMarket) {
+    throw new Error(
+      'US Market Overview tab anchor missing'
+    );
+  }
+
+  if (document.getElementById('s-step3-us-market')) {
+    return;
+  }
+
+  const button = document.createElement('button');
+  button.className = 'tab on';
+  button.textContent = 'US Market Overview';
+  button.onclick = function () {
+    go('step3-us-market', button);
+  };
+
+  const section = document.createElement('div');
+  section.id = 's-step3-us-market';
+  section.className = 'section on';
+  section.innerHTML =
+    '<div class="loading"><span class="spin"></span>' +
+    '加载 US Market Overview...</div>';
+
+  tabs.querySelectorAll('.tab').forEach(
+    tab => tab.classList.remove('on')
+  );
+  document.querySelectorAll('.section').forEach(
+    item => item.classList.remove('on')
+  );
+
+  tabs.insertBefore(button, tabs.firstChild);
+  legacyMarket.parentNode.insertBefore(
+    section,
+    legacyMarket
+  );
+}
+
+async function step3D1FetchJson(url) {
+  const response = await fetch(
+    `${url}?t=${Date.now()}`
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `${url}: HTTP ${response.status}`
+    );
+  }
+
+  return response.json();
+}
+
+function step3D1LastTwoValid(rows, marketDate) {
+  if (!Array.isArray(rows)) {
+    throw new Error('price source is not an array');
+  }
+
+  const valid = rows
+    .map(row => ({
+      date: String(row?.date || '').slice(0, 10),
+      close: Number(row?.close),
+    }))
+    .filter(row =>
+      row.date &&
+      Number.isFinite(row.close) &&
+      row.date <= marketDate
+    )
+    .sort((a, b) =>
+      a.date.localeCompare(b.date)
+    );
+
+  if (valid.length < 2) {
+    throw new Error(
+      'fewer than two valid closes'
+    );
+  }
+
+  const previous = valid[valid.length - 2];
+  const latest = valid[valid.length - 1];
+
+  if (latest.date !== marketDate) {
+    throw new Error(
+      `index date ${latest.date} != ${marketDate}`
+    );
+  }
+
+  return {previous, latest};
+}
+
+function step3D1Number(value) {
+  const number = Number(value);
+
+  return Number.isFinite(number)
+    ? number.toLocaleString(
+        undefined,
+        {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }
+      )
+    : '—';
+}
+
+function step3D1Change(value, suffix='') {
+  const number = Number(value);
+
+  if (!Number.isFinite(number)) {
+    return '<span class="d1-neutral">—</span>';
+  }
+
+  const cls = number > 0
+    ? 'd1-positive'
+    : number < 0
+      ? 'd1-negative'
+      : 'd1-neutral';
+
+  const sign = number > 0 ? '+' : '';
+
+  return (
+    `<span class="${cls}">` +
+    `${sign}${step3D1Number(number)}${suffix}` +
+    '</span>'
+  );
+}
+
+function renderStep3D1UsMarketOverview(data) {
+  const root = document.getElementById(
+    's-step3-us-market'
+  );
+
+  if (!root) {
+    return;
+  }
+
+  const cards = [
+    'SPX',
+    'NDX',
+    'SOX',
+    'VIX',
+  ].map(symbol => {
+    const row = data.indices[symbol];
+
+    return `
+      <article class="d1-index-card">
+        <div class="d1-symbol">${symbol}</div>
+        <div class="d1-close">
+          ${step3D1Number(row.close)}
+        </div>
+        <div class="d1-change">
+          ${step3D1Change(row.change)}
+          <span>&middot;</span>
+          ${step3D1Change(row.changePct, '%')}
+        </div>
+        <div class="d1-date">${row.date}</div>
+      </article>
+    `;
+  }).join('');
+
+  root.innerHTML = `
+    <div class="d1-wrap">
+      <section class="card d1-state">
+        <div>
+          <div class="d1-label">Market Date</div>
+          <div class="d1-value">
+            ${data.marketDate}
+          </div>
+        </div>
+        <div>
+          <div class="d1-label">Regime</div>
+          <div class="d1-value">
+            ${data.regime}
+          </div>
+        </div>
+        <div>
+          <div class="d1-label">Subclass</div>
+          <div class="d1-value">
+            ${data.subclass}
+          </div>
+        </div>
+      </section>
+
+      <section class="d1-index-grid">
+        ${cards}
+      </section>
+    </div>
+  `;
+}
+
+async function loadStep3D1UsMarketOverview() {
+  const root = document.getElementById(
+    's-step3-us-market'
+  );
+
+  try {
+    const currentBase =
+      `${STEP3_D1_SITE_BASE}/exports/official/` +
+      `${STEP3_D1_ENGINE}/forward/runtime/current`;
+
+    const manifest = await step3D1FetchJson(
+      `${currentBase}/manifest.json`
+    );
+
+    const marketDate =
+      manifest.last_committed_date ||
+      manifest.date;
+
+    if (!marketDate) {
+      throw new Error(
+        'Forward market date missing'
+      );
+    }
+
+    const dailyBase =
+      `${STEP3_D1_SITE_BASE}/exports/official/` +
+      `${STEP3_D1_ENGINE}/forward/runtime/daily/` +
+      marketDate;
+
+    const decision = await step3D1FetchJson(
+      `${dailyBase}/decision_trace.json`
+    );
+
+    if (decision.date !== marketDate) {
+      throw new Error(
+        'decision_trace date mismatch'
+      );
+    }
+
+    const regime = decision.market_regime;
+    const subclass = decision.regime_subclass;
+
+    if (!regime || !subclass) {
+      throw new Error(
+        'Regime/subclass missing'
+      );
+    }
+
+    const entries = await Promise.all(
+      Object.entries(
+        STEP3_D1_PRICE_FILES
+      ).map(async ([symbol, fileName]) => {
+        const rows = await step3D1FetchJson(
+          `${STEP3_D1_SITE_BASE}/data/fw_prices/` +
+          fileName
+        );
+
+        const {previous, latest} =
+          step3D1LastTwoValid(
+            rows,
+            marketDate
+          );
+
+        const change =
+          latest.close - previous.close;
+
+        return [
+          symbol,
+          {
+            date: latest.date,
+            close: latest.close,
+            change,
+            changePct:
+              change / previous.close * 100,
+          },
+        ];
+      })
+    );
+
+    renderStep3D1UsMarketOverview({
+      marketDate,
+      regime,
+      subclass,
+      indices: Object.fromEntries(entries),
+    });
+  } catch (error) {
+    if (root) {
+      root.innerHTML =
+        '<div class="error"><strong>' +
+        'US Market Overview 加载失败</strong><br>' +
+        String(error.message || error) +
+        '</div>';
+    }
+  }
+}
+
+
 async function loadAll() {
+  installStep3D1Tab();
+  await loadStep3D1UsMarketOverview();
   // Stage 3.8E-2B-v4: read-only daily summary exports for unified summary.
   try { DATA.e1rV02Status = await fetchJ('e1r_v0_2_status'); } catch(e) { DATA.e1rV02Status = {}; }
   try { DATA.e1rV02BacktestSummary = await fetchJ('e1r_v0_2_backtest_summary'); } catch(e) { DATA.e1rV02BacktestSummary = {}; }

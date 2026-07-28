@@ -396,3 +396,21 @@ tr:hover td{background:var(--bg2)}
     grid-template-columns:1fr;
   }
 }
+
+/* STEP3_D1_US_MARKET_OVERVIEW */
+.d1-wrap{display:grid;gap:14px}
+.d1-state{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.d1-label,.d1-symbol,.d1-date{color:var(--text2)}
+.d1-label{font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.d1-value{margin-top:4px;font-size:18px;font-weight:700}
+.d1-index-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.d1-index-card{border:1px solid var(--border);border-radius:10px;background:var(--card);padding:16px}
+.d1-symbol{font-size:12px;font-weight:700}
+.d1-close{margin-top:8px;font-size:24px;font-weight:700}
+.d1-change{display:flex;gap:6px;margin-top:8px;font-size:13px}
+.d1-date{margin-top:10px;font-size:11px}
+.d1-positive{color:var(--green)}
+.d1-negative{color:var(--red)}
+.d1-neutral{color:var(--text2)}
+@media(max-width:900px){.d1-index-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.d1-state,.d1-index-grid{grid-template-columns:1fr}}
