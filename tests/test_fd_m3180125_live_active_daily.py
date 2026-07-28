@@ -10,6 +10,9 @@ def test_active_live_workflow_contract():
     assert "cron: '30 23 * * 1-5'" in workflow
     assert "workflow_dispatch:" in workflow
     assert "workflow_run:" not in workflow
+    assert "TZ=America/New_York date +%F" in workflow
+    assert "--expected-latest-market-date" in workflow
+    assert '"$EXPECTED_LATEST_MARKET_DATE"' in workflow
     assert "commit_active_daily" in production
     assert "ACTIVE_RECOMMENDATION_ONLY" in production
     assert "commit_active_daily" in runner

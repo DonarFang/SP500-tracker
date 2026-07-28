@@ -33,7 +33,14 @@ jobs:
       - name: Update independent Personal Live prices
         env:
           PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
-        run: python scripts/update_fd_m3180125_live_prices.py
+        run: |
+          EXPECTED_LATEST_MARKET_DATE="$(
+            TZ=America/New_York date +%F
+          )"
+          echo "expected_latest_market_date=$EXPECTED_LATEST_MARKET_DATE"
+          python scripts/update_fd_m3180125_live_prices.py \
+            --expected-latest-market-date \
+            "$EXPECTED_LATEST_MARKET_DATE"
       - name: Run ACTIVE Personal Live daily
         env:
           PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
