@@ -59,10 +59,6 @@ class LiveBar:
             raise LiveDataError("OHLC prices must be greater than zero")
         if volume < 0:
             raise LiveDataError("volume must not be negative")
-        if high < max(open_price, low, close):
-            raise LiveDataError("high is below another OHLC value")
-        if low > min(open_price, high, close):
-            raise LiveDataError("low is above another OHLC value")
 
         return cls(
             symbol=normalized,

@@ -55,3 +55,32 @@ def test_live_price_repository_loads_exact_date(tmp_path: Path) -> None:
         ["AAPL"],
     )
     assert str(data.close_marks["AAPL"]) == "105"
+
+
+
+def test_live_bar_accepts_source_equivalent_ohlc_rounding_crosses() -> None:
+    low_cross = LiveBar.from_mapping(
+        "LOWX",
+        {
+            "date": "2026-07-28",
+            "open": "100.00",
+            "high": "100.02",
+            "low": "100.01",
+            "close": "100.00",
+            "volume": "1000",
+        },
+    )
+    high_cross = LiveBar.from_mapping(
+        "HIGHX",
+        {
+            "date": "2026-07-28",
+            "open": "100.01",
+            "high": "100.00",
+            "low": "99.99",
+            "close": "100.01",
+            "volume": "1000",
+        },
+    )
+
+    assert str(low_cross.low) == "100.01"
+    assert str(high_cross.high) == "100.00"
