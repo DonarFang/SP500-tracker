@@ -1,0 +1,802 @@
+[
+  {
+    "symbol": "IQV",
+    "rank": 1,
+    "leader_score": 78.39,
+    "momentum_score": 50.8,
+    "trend_health": 85.0,
+    "rs_score": 98.4
+  },
+  {
+    "symbol": "HPQ",
+    "rank": 2,
+    "leader_score": 77.95,
+    "momentum_score": 47.9,
+    "trend_health": 90.0,
+    "rs_score": 96.7
+  },
+  {
+    "symbol": "DD",
+    "rank": 3,
+    "leader_score": 77.87,
+    "momentum_score": 37.0,
+    "trend_health": 100.0,
+    "rs_score": 99.8
+  },
+  {
+    "symbol": "GEN",
+    "rank": 4,
+    "leader_score": 77.35,
+    "momentum_score": 42.4,
+    "trend_health": 95.0,
+    "rs_score": 96.9
+  },
+  {
+    "symbol": "BAX",
+    "rank": 5,
+    "leader_score": 77.27,
+    "momentum_score": 45.5,
+    "trend_health": 90.0,
+    "rs_score": 97.1
+  },
+  {
+    "symbol": "SNOW",
+    "rank": 6,
+    "leader_score": 77.2,
+    "momentum_score": 38.9,
+    "trend_health": 95.0,
+    "rs_score": 99.6
+  },
+  {
+    "symbol": "PAYX",
+    "rank": 7,
+    "leader_score": 76.93,
+    "momentum_score": 42.8,
+    "trend_health": 95.0,
+    "rs_score": 95.5
+  },
+  {
+    "symbol": "BBY",
+    "rank": 8,
+    "leader_score": 76.88,
+    "momentum_score": 40.6,
+    "trend_health": 95.0,
+    "rs_score": 97.3
+  },
+  {
+    "symbol": "DLTR",
+    "rank": 9,
+    "leader_score": 76.78,
+    "momentum_score": 41.7,
+    "trend_health": 95.0,
+    "rs_score": 96.1
+  },
+  {
+    "symbol": "SJM",
+    "rank": 10,
+    "leader_score": 76.68,
+    "momentum_score": 43.0,
+    "trend_health": 95.0,
+    "rs_score": 94.7
+  },
+  {
+    "symbol": "DVA",
+    "rank": 11,
+    "leader_score": 76.31,
+    "momentum_score": 37.5,
+    "trend_health": 95.0,
+    "rs_score": 98.6
+  },
+  {
+    "symbol": "BRO",
+    "rank": 12,
+    "leader_score": 75.96,
+    "momentum_score": 45.2,
+    "trend_health": 90.0,
+    "rs_score": 94.1
+  },
+  {
+    "symbol": "DDOG",
+    "rank": 13,
+    "leader_score": 75.91,
+    "momentum_score": 39.0,
+    "trend_health": 90.0,
+    "rs_score": 99.4
+  },
+  {
+    "symbol": "KMX",
+    "rank": 14,
+    "leader_score": 75.88,
+    "momentum_score": 37.4,
+    "trend_health": 95.0,
+    "rs_score": 97.6
+  },
+  {
+    "symbol": "ADP",
+    "rank": 15,
+    "leader_score": 75.84,
+    "momentum_score": 43.7,
+    "trend_health": 95.0,
+    "rs_score": 92.0
+  },
+  {
+    "symbol": "IP",
+    "rank": 16,
+    "leader_score": 75.77,
+    "momentum_score": 45.7,
+    "trend_health": 85.0,
+    "rs_score": 96.3
+  },
+  {
+    "symbol": "INCY",
+    "rank": 17,
+    "leader_score": 75.56,
+    "momentum_score": 43.6,
+    "trend_health": 90.0,
+    "rs_score": 94.5
+  },
+  {
+    "symbol": "NTAP",
+    "rank": 18,
+    "leader_score": 75.52,
+    "momentum_score": 39.7,
+    "trend_health": 90.0,
+    "rs_score": 97.8
+  },
+  {
+    "symbol": "SOLV",
+    "rank": 19,
+    "leader_score": 75.3,
+    "momentum_score": 45.8,
+    "trend_health": 84.6,
+    "rs_score": 95.3
+  },
+  {
+    "symbol": "ALL",
+    "rank": 20,
+    "leader_score": 75.19,
+    "momentum_score": 42.3,
+    "trend_health": 95.0,
+    "rs_score": 91.6
+  },
+  {
+    "symbol": "LW",
+    "rank": 21,
+    "leader_score": 75.14,
+    "momentum_score": 45.8,
+    "trend_health": 95.0,
+    "rs_score": 88.4
+  },
+  {
+    "symbol": "AJG",
+    "rank": 22,
+    "leader_score": 74.98,
+    "momentum_score": 43.1,
+    "trend_health": 90.0,
+    "rs_score": 93.5
+  },
+  {
+    "symbol": "ETSY",
+    "rank": 23,
+    "leader_score": 74.95,
+    "momentum_score": 40.5,
+    "trend_health": 90.0,
+    "rs_score": 95.7
+  },
+  {
+    "symbol": "ARE",
+    "rank": 24,
+    "leader_score": 74.78,
+    "momentum_score": 41.8,
+    "trend_health": 90.7,
+    "rs_score": 93.7
+  },
+  {
+    "symbol": "PAYC",
+    "rank": 25,
+    "leader_score": 74.38,
+    "momentum_score": 49.2,
+    "trend_health": 80.0,
+    "rs_score": 92.9
+  },
+  {
+    "symbol": "CPAY",
+    "rank": 26,
+    "leader_score": 74.37,
+    "momentum_score": 40.9,
+    "trend_health": 92.7,
+    "rs_score": 92.2
+  },
+  {
+    "symbol": "MMM",
+    "rank": 27,
+    "leader_score": 74.15,
+    "momentum_score": 40.9,
+    "trend_health": 95.0,
+    "rs_score": 90.2
+  },
+  {
+    "symbol": "KHC",
+    "rank": 28,
+    "leader_score": 73.99,
+    "momentum_score": 42.5,
+    "trend_health": 93.4,
+    "rs_score": 89.4
+  },
+  {
+    "symbol": "WTW",
+    "rank": 29,
+    "leader_score": 73.91,
+    "momentum_score": 43.2,
+    "trend_health": 95.0,
+    "rs_score": 87.6
+  },
+  {
+    "symbol": "AXTA",
+    "rank": 30,
+    "leader_score": 73.79,
+    "momentum_score": 43.3,
+    "trend_health": 89.9,
+    "rs_score": 90.4
+  },
+  {
+    "symbol": "PRU",
+    "rank": 31,
+    "leader_score": 73.77,
+    "momentum_score": 38.9,
+    "trend_health": 95.0,
+    "rs_score": 91.0
+  },
+  {
+    "symbol": "CTAS",
+    "rank": 32,
+    "leader_score": 73.6,
+    "momentum_score": 40.4,
+    "trend_health": 90.0,
+    "rs_score": 92.4
+  },
+  {
+    "symbol": "ABBV",
+    "rank": 33,
+    "leader_score": 73.59,
+    "momentum_score": 37.5,
+    "trend_health": 95.0,
+    "rs_score": 91.8
+  },
+  {
+    "symbol": "RVTY",
+    "rank": 34,
+    "leader_score": 73.58,
+    "momentum_score": 36.4,
+    "trend_health": 92.5,
+    "rs_score": 94.3
+  },
+  {
+    "symbol": "FICO",
+    "rank": 35,
+    "leader_score": 73.56,
+    "momentum_score": 45.2,
+    "trend_health": 78.8,
+    "rs_score": 95.1
+  },
+  {
+    "symbol": "TRV",
+    "rank": 36,
+    "leader_score": 73.55,
+    "momentum_score": 39.9,
+    "trend_health": 90.0,
+    "rs_score": 92.7
+  },
+  {
+    "symbol": "MNST",
+    "rank": 37,
+    "leader_score": 73.22,
+    "momentum_score": 38.4,
+    "trend_health": 93.2,
+    "rs_score": 91.2
+  },
+  {
+    "symbol": "LLY",
+    "rank": 38,
+    "leader_score": 73.15,
+    "momentum_score": 37.6,
+    "trend_health": 95.0,
+    "rs_score": 90.6
+  },
+  {
+    "symbol": "FDS",
+    "rank": 39,
+    "leader_score": 73.12,
+    "momentum_score": 46.5,
+    "trend_health": 85.0,
+    "rs_score": 89.0
+  },
+  {
+    "symbol": "EXPE",
+    "rank": 40,
+    "leader_score": 73.06,
+    "momentum_score": 48.1,
+    "trend_health": 90.0,
+    "rs_score": 84.3
+  },
+  {
+    "symbol": "RTX",
+    "rank": 41,
+    "leader_score": 73.05,
+    "momentum_score": 39.6,
+    "trend_health": 95.0,
+    "rs_score": 88.6
+  },
+  {
+    "symbol": "MPC",
+    "rank": 42,
+    "leader_score": 72.81,
+    "momentum_score": 36.4,
+    "trend_health": 95.0,
+    "rs_score": 90.8
+  },
+  {
+    "symbol": "ZBRA",
+    "rank": 43,
+    "leader_score": 72.67,
+    "momentum_score": 43.2,
+    "trend_health": 87.5,
+    "rs_score": 89.2
+  },
+  {
+    "symbol": "RCL",
+    "rank": 44,
+    "leader_score": 72.16,
+    "momentum_score": 46.3,
+    "trend_health": 85.4,
+    "rs_score": 86.5
+  },
+  {
+    "symbol": "AIZ",
+    "rank": 45,
+    "leader_score": 71.88,
+    "momentum_score": 37.6,
+    "trend_health": 98.7,
+    "rs_score": 85.1
+  },
+  {
+    "symbol": "GPC",
+    "rank": 46,
+    "leader_score": 71.65,
+    "momentum_score": 41.6,
+    "trend_health": 85.0,
+    "rs_score": 89.6
+  },
+  {
+    "symbol": "AMCR",
+    "rank": 47,
+    "leader_score": 71.62,
+    "momentum_score": 41.0,
+    "trend_health": 88.6,
+    "rs_score": 87.8
+  },
+  {
+    "symbol": "MET",
+    "rank": 48,
+    "leader_score": 71.59,
+    "momentum_score": 39.2,
+    "trend_health": 95.0,
+    "rs_score": 85.3
+  },
+  {
+    "symbol": "GDDY",
+    "rank": 49,
+    "leader_score": 71.58,
+    "momentum_score": 48.0,
+    "trend_health": 83.6,
+    "rs_score": 84.7
+  },
+  {
+    "symbol": "A",
+    "rank": 50,
+    "leader_score": 71.45,
+    "momentum_score": 37.2,
+    "trend_health": 95.0,
+    "rs_score": 86.7
+  },
+  {
+    "symbol": "AON",
+    "rank": 51,
+    "leader_score": 71.35,
+    "momentum_score": 39.5,
+    "trend_health": 94.9,
+    "rs_score": 84.5
+  },
+  {
+    "symbol": "CVS",
+    "rank": 52,
+    "leader_score": 71.23,
+    "momentum_score": 36.4,
+    "trend_health": 85.0,
+    "rs_score": 93.1
+  },
+  {
+    "symbol": "LH",
+    "rank": 53,
+    "leader_score": 71.12,
+    "momentum_score": 40.8,
+    "trend_health": 94.1,
+    "rs_score": 83.3
+  },
+  {
+    "symbol": "NET",
+    "rank": 54,
+    "leader_score": 70.94,
+    "momentum_score": 36.9,
+    "trend_health": 90.0,
+    "rs_score": 88.8
+  },
+  {
+    "symbol": "F",
+    "rank": 55,
+    "leader_score": 70.91,
+    "momentum_score": 41.7,
+    "trend_health": 75.0,
+    "rs_score": 93.9
+  },
+  {
+    "symbol": "BKNG",
+    "rank": 56,
+    "leader_score": 70.88,
+    "momentum_score": 46.9,
+    "trend_health": 87.6,
+    "rs_score": 81.4
+  },
+  {
+    "symbol": "DGX",
+    "rank": 57,
+    "leader_score": 70.78,
+    "momentum_score": 40.0,
+    "trend_health": 90.0,
+    "rs_score": 85.7
+  },
+  {
+    "symbol": "HST",
+    "rank": 58,
+    "leader_score": 70.72,
+    "momentum_score": 40.1,
+    "trend_health": 92.5,
+    "rs_score": 83.9
+  },
+  {
+    "symbol": "W",
+    "rank": 59,
+    "leader_score": 70.67,
+    "momentum_score": 42.3,
+    "trend_health": 70.0,
+    "rs_score": 95.9
+  },
+  {
+    "symbol": "DXCM",
+    "rank": 60,
+    "leader_score": 70.64,
+    "momentum_score": 38.9,
+    "trend_health": 90.0,
+    "rs_score": 86.3
+  },
+  {
+    "symbol": "TMO",
+    "rank": 61,
+    "leader_score": 70.64,
+    "momentum_score": 38.0,
+    "trend_health": 90.0,
+    "rs_score": 87.1
+  },
+  {
+    "symbol": "HRL",
+    "rank": 62,
+    "leader_score": 70.52,
+    "momentum_score": 37.5,
+    "trend_health": 95.0,
+    "rs_score": 84.1
+  },
+  {
+    "symbol": "AAPL",
+    "rank": 63,
+    "leader_score": 70.34,
+    "momentum_score": 39.1,
+    "trend_health": 92.7,
+    "rs_score": 83.7
+  },
+  {
+    "symbol": "SW",
+    "rank": 64,
+    "leader_score": 70.33,
+    "momentum_score": 43.7,
+    "trend_health": 79.0,
+    "rs_score": 88.2
+  },
+  {
+    "symbol": "ABT",
+    "rank": 65,
+    "leader_score": 70.32,
+    "momentum_score": 41.2,
+    "trend_health": 90.0,
+    "rs_score": 83.5
+  },
+  {
+    "symbol": "WAT",
+    "rank": 66,
+    "leader_score": 70.17,
+    "momentum_score": 36.5,
+    "trend_health": 88.8,
+    "rs_score": 88.0
+  },
+  {
+    "symbol": "VLO",
+    "rank": 67,
+    "leader_score": 69.86,
+    "momentum_score": 36.0,
+    "trend_health": 90.0,
+    "rs_score": 86.9
+  },
+  {
+    "symbol": "GRMN",
+    "rank": 68,
+    "leader_score": 69.69,
+    "momentum_score": 48.3,
+    "trend_health": 75.3,
+    "rs_score": 84.9
+  },
+  {
+    "symbol": "DAL",
+    "rank": 69,
+    "leader_score": 69.65,
+    "momentum_score": 39.0,
+    "trend_health": 80.0,
+    "rs_score": 90.0
+  },
+  {
+    "symbol": "SYK",
+    "rank": 70,
+    "leader_score": 69.56,
+    "momentum_score": 43.2,
+    "trend_health": 85.9,
+    "rs_score": 82.4
+  },
+  {
+    "symbol": "VRSK",
+    "rank": 71,
+    "leader_score": 69.55,
+    "momentum_score": 43.0,
+    "trend_health": 90.0,
+    "rs_score": 80.0
+  },
+  {
+    "symbol": "SWK",
+    "rank": 72,
+    "leader_score": 69.42,
+    "momentum_score": 39.6,
+    "trend_health": 89.6,
+    "rs_score": 82.9
+  },
+  {
+    "symbol": "GM",
+    "rank": 73,
+    "leader_score": 69.28,
+    "momentum_score": 46.2,
+    "trend_health": 83.5,
+    "rs_score": 80.6
+  },
+  {
+    "symbol": "AMGN",
+    "rank": 74,
+    "leader_score": 69.24,
+    "momentum_score": 39.2,
+    "trend_health": 92.8,
+    "rs_score": 80.8
+  },
+  {
+    "symbol": "SPG",
+    "rank": 75,
+    "leader_score": 69.06,
+    "momentum_score": 39.1,
+    "trend_health": 93.8,
+    "rs_score": 79.8
+  },
+  {
+    "symbol": "FTNT",
+    "rank": 76,
+    "leader_score": 69.05,
+    "momentum_score": 35.7,
+    "trend_health": 67.5,
+    "rs_score": 99.2
+  },
+  {
+    "symbol": "PSX",
+    "rank": 77,
+    "leader_score": 68.86,
+    "momentum_score": 37.0,
+    "trend_health": 95.0,
+    "rs_score": 80.4
+  },
+  {
+    "symbol": "KMB",
+    "rank": 78,
+    "leader_score": 68.85,
+    "momentum_score": 39.1,
+    "trend_health": 93.3,
+    "rs_score": 79.6
+  },
+  {
+    "symbol": "COO",
+    "rank": 79,
+    "leader_score": 68.65,
+    "momentum_score": 38.0,
+    "trend_health": 95.0,
+    "rs_score": 79.0
+  },
+  {
+    "symbol": "PM",
+    "rank": 80,
+    "leader_score": 68.59,
+    "momentum_score": 38.9,
+    "trend_health": 88.7,
+    "rs_score": 82.0
+  },
+  {
+    "symbol": "LYV",
+    "rank": 81,
+    "leader_score": 68.26,
+    "momentum_score": 38.2,
+    "trend_health": 93.8,
+    "rs_score": 78.6
+  },
+  {
+    "symbol": "PCAR",
+    "rank": 82,
+    "leader_score": 68.23,
+    "momentum_score": 39.2,
+    "trend_health": 95.0,
+    "rs_score": 76.9
+  },
+  {
+    "symbol": "MTB",
+    "rank": 83,
+    "leader_score": 68.13,
+    "momentum_score": 37.2,
+    "trend_health": 95.0,
+    "rs_score": 78.4
+  },
+  {
+    "symbol": "AMP",
+    "rank": 84,
+    "leader_score": 67.92,
+    "momentum_score": 38.6,
+    "trend_health": 93.5,
+    "rs_score": 77.6
+  },
+  {
+    "symbol": "ALLE",
+    "rank": 85,
+    "leader_score": 67.91,
+    "momentum_score": 41.4,
+    "trend_health": 87.6,
+    "rs_score": 78.8
+  },
+  {
+    "symbol": "HUM",
+    "rank": 86,
+    "leader_score": 67.91,
+    "momentum_score": 33.6,
+    "trend_health": 67.5,
+    "rs_score": 98.2
+  },
+  {
+    "symbol": "TGT",
+    "rank": 87,
+    "leader_score": 67.75,
+    "momentum_score": 41.9,
+    "trend_health": 92.8,
+    "rs_score": 74.7
+  },
+  {
+    "symbol": "ZBH",
+    "rank": 88,
+    "leader_score": 67.73,
+    "momentum_score": 41.8,
+    "trend_health": 85.7,
+    "rs_score": 79.2
+  },
+  {
+    "symbol": "VTRS",
+    "rank": 89,
+    "leader_score": 67.72,
+    "momentum_score": 38.6,
+    "trend_health": 85.3,
+    "rs_score": 82.2
+  },
+  {
+    "symbol": "HSIC",
+    "rank": 90,
+    "leader_score": 67.69,
+    "momentum_score": 36.4,
+    "trend_health": 95.0,
+    "rs_score": 78.0
+  },
+  {
+    "symbol": "AFL",
+    "rank": 91,
+    "leader_score": 67.53,
+    "momentum_score": 38.6,
+    "trend_health": 95.3,
+    "rs_score": 75.5
+  },
+  {
+    "symbol": "GE",
+    "rank": 92,
+    "leader_score": 67.34,
+    "momentum_score": 37.1,
+    "trend_health": 80.0,
+    "rs_score": 85.9
+  },
+  {
+    "symbol": "SYY",
+    "rank": 93,
+    "leader_score": 67.34,
+    "momentum_score": 38.7,
+    "trend_health": 92.8,
+    "rs_score": 76.5
+  },
+  {
+    "symbol": "NOW",
+    "rank": 94,
+    "leader_score": 67.3,
+    "momentum_score": 50.4,
+    "trend_health": 52.4,
+    "rs_score": 91.4
+  },
+  {
+    "symbol": "UAL",
+    "rank": 95,
+    "leader_score": 67.27,
+    "momentum_score": 38.3,
+    "trend_health": 66.2,
+    "rs_score": 93.3
+  },
+  {
+    "symbol": "BAC",
+    "rank": 96,
+    "leader_score": 67.17,
+    "momentum_score": 36.4,
+    "trend_health": 95.0,
+    "rs_score": 76.7
+  },
+  {
+    "symbol": "TROW",
+    "rank": 97,
+    "leader_score": 66.98,
+    "momentum_score": 38.2,
+    "trend_health": 92.7,
+    "rs_score": 76.1
+  },
+  {
+    "symbol": "KVUE",
+    "rank": 98,
+    "leader_score": 66.81,
+    "momentum_score": 38.8,
+    "trend_health": 91.5,
+    "rs_score": 75.9
+  },
+  {
+    "symbol": "ITW",
+    "rank": 99,
+    "leader_score": 66.8,
+    "momentum_score": 39.8,
+    "trend_health": 91.0,
+    "rs_score": 75.3
+  },
+  {
+    "symbol": "PANW",
+    "rank": 100,
+    "leader_score": 66.72,
+    "momentum_score": 34.0,
+    "trend_health": 61.2,
+    "rs_score": 98.8
+  }
+]
