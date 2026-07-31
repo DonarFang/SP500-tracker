@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   workflow_run:
-    workflows: ["每日更新 S&P 500 数据"]
+    workflows: ["每日更新 S&P 500 数据", "Engine Forward Daily"]
     types: [completed]
 
 permissions:
