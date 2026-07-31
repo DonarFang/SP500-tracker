@@ -131,3 +131,39 @@ def test_live_data_adapter_accepts_no_regime_input(
         ]
         is False
     )
+
+
+
+def test_live_data_adapter_accepts_source_equivalent_ohlc_rounding_crosses(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "live_prices"
+    root.mkdir()
+    rows = [
+        {
+            "date": "2026-07-29",
+            "open": 100.01,
+            "high": 100.00,
+            "low": 99.99,
+            "close": 100.01,
+            "volume": 1000,
+        },
+        {
+            "date": "2026-07-30",
+            "open": 100.00,
+            "high": 100.02,
+            "low": 100.01,
+            "close": 100.00,
+            "volume": 1000,
+        },
+    ]
+    (root / "CROSS.json").write_text(
+        json.dumps(rows),
+        encoding="utf-8",
+    )
+
+    series = LiveDataAdapter(root).load_asset_series("CROSS")
+
+    assert series.dates == ["2026-07-29", "2026-07-30"]
+    assert series.bars[0].high == 100.00
+    assert series.bars[1].low == 100.01

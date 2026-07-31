@@ -167,37 +167,7 @@ class LiveDataAdapter:
                     f"{normalized} volume must not be negative"
                 )
 
-            if high is not None:
-                observed = [
-                    value
-                    for value in (
-                        open_price,
-                        low,
-                        close,
-                    )
-                    if value is not None
-                ]
-                if observed and high < max(observed):
-                    raise LiveDataAdapterError(
-                        f"{normalized} invalid high "
-                        f"on {raw_date}"
-                    )
 
-            if low is not None:
-                observed = [
-                    value
-                    for value in (
-                        open_price,
-                        high,
-                        close,
-                    )
-                    if value is not None
-                ]
-                if observed and low > min(observed):
-                    raise LiveDataAdapterError(
-                        f"{normalized} invalid low "
-                        f"on {raw_date}"
-                    )
 
             bars_by_date[raw_date] = DailyBar(
                 date=raw_date,
