@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 70153.97,
-    "date": "2026-08-04",
+    "date": "2026-08-05",
     "metadata": {
-      "last_execution_date": "2026-08-04",
+      "last_execution_date": "2026-08-05",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "CANONICAL_5Y_OFFICIAL_EVIDENCE"
@@ -13,9 +13,9 @@
       "DELL": {
         "avg_cost": 219.21899999999997,
         "entry_date": "2026-04-24",
-        "last_price": 467.269989,
-        "last_update_date": "2026-08-04",
-        "market_value": 73118.71206369725,
+        "last_price": 462.700012,
+        "last_update_date": "2026-08-05",
+        "market_value": 72403.59908775837,
         "metadata": {
           "carried_position": true,
           "new_forward_buy": false,
@@ -25,14 +25,14 @@
         },
         "quantity": 156.48065098333814,
         "symbol": "DELL",
-        "unrealized_pnl": 38815.180235780856
+        "unrealized_pnl": 38100.06725984197
       },
       "HUM": {
         "avg_cost": 373.07269999999994,
         "entry_date": "2026-06-11",
-        "last_price": 362.160004,
-        "last_update_date": "2026-08-04",
-        "market_value": 87194.08498372106,
+        "last_price": 363.820007,
+        "last_update_date": "2026-08-05",
+        "market_value": 87593.7493338883,
         "metadata": {
           "carried_position": true,
           "new_forward_buy": false,
@@ -42,14 +42,14 @@
         },
         "quantity": 240.76122161662295,
         "symbol": "HUM",
-        "unrealized_pnl": -2627.354020090817
+        "unrealized_pnl": -2227.6896699235676
       },
       "MRVL": {
         "avg_cost": 168.02786,
         "entry_date": "2026-04-23",
-        "last_price": 218.589996,
-        "last_update_date": "2026-08-04",
-        "market_value": 44669.64893566277,
+        "last_price": 211.020004,
+        "last_update_date": "2026-08-05",
+        "market_value": 43122.69394561933,
         "metadata": {
           "carried_position": true,
           "new_forward_buy": false,
@@ -59,11 +59,11 @@
         },
         "quantity": 204.35358320635484,
         "symbol": "MRVL",
-        "unrealized_pnl": 10332.553666167032
+        "unrealized_pnl": 8785.598676123589
       }
     },
-    "positions_value": 204982.44598308107,
-    "total_equity": 275136.4159830811
+    "positions_value": 203120.04236726603,
+    "total_equity": 273274.012367266
   },
   "closed_trades": [],
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
@@ -298,12 +298,19 @@
       "open_positions_count": 3,
       "positions_value": 204982.44598308107,
       "total_equity": 275136.4159830811
+    },
+    {
+      "cash": 70153.97,
+      "date": "2026-08-05",
+      "open_positions_count": 3,
+      "positions_value": 203120.04236726603,
+      "total_equity": 273274.012367266
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-08-04",
+  "last_committed_date": "2026-08-05",
   "metadata": {
-    "last_commit_date": "2026-08-04",
+    "last_commit_date": "2026-08-05",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "b7247734609e62d8639f68f3cd91fdc2f2e13f6a77d5a90b582a8bdb3da7b538",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
