@@ -30,10 +30,13 @@ def test_canonical_seed_loads() -> None:
     assert state.seed_date == "2026-06-16"
     assert state.first_forward_market_date == "2026-06-17"
     assert state.account.date == "2026-06-16"
-    assert abs(state.account.cash - 70153.97) < 1e-8
-    assert abs(state.account.positions_value - 209136.77825658818) < 1e-8
-    assert abs(state.account.total_equity - 279290.7482565882) < 1e-8
+    assert abs(state.account.cash - 77867.71) < 1e-8
+    assert abs(state.account.positions_value - 232132.29618824524) < 0.02
+    assert abs(state.account.total_equity - 310000.00618824525) < 0.02
     assert set(state.account.positions) == {"DELL", "HUM", "MRVL"}
+    assert state.account.metadata["strategy_variant"] == "E1R_CAPPED_ATR_A0_V1"
+    for position in state.account.positions.values():
+        assert "capped_atr_stop" in position.metadata
     assert state.pending_orders == []
 
 

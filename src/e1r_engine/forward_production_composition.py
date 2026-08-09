@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Callable, Mapping, Sequence
 
 from e1r_engine.contracts import DailyBar
+from e1r_engine.capped_atr_stop import compute_entry_atr20
 from e1r_engine.forward_orchestrator import (
     ForwardMarketSnapshotBuilder,
     ForwardRegimeProvider,
@@ -407,8 +408,26 @@ def build_production_forward_composition(
         data.trading_dates
     )
 
-    decision_router = (
-        CanonicalDailyDecisionRouter(engine=E1RCoreEngine())
+    def entry_atr20_provider(symbol: str, as_of_date: str):
+        series = data.series_by_symbol.get(symbol)
+        if not series:
+            return None
+        dates = sorted(series)
+        bars = [series[item] for item in dates]
+        return compute_entry_atr20(
+            symbol=symbol,
+            dates=dates,
+            closes=[bar.close for bar in bars],
+            ohlc={
+                "high": [bar.high for bar in bars],
+                "low": [bar.low for bar in bars],
+            },
+            as_of_date=as_of_date,
+        )
+
+    decision_router = CanonicalDailyDecisionRouter(
+        engine=E1RCoreEngine(),
+        entry_atr20_provider=entry_atr20_provider,
     )
 
     execution_engine = T1ExecutionEngine(

@@ -10,6 +10,14 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import Any, Callable, Iterable, Mapping, Sequence
 
+from e1r_engine.capped_atr_stop import (
+    CappedAtrStopPolicy,
+    ENTRY_METADATA_KEY,
+    POSITION_METADATA_KEY,
+    VARIANT_ID,
+    annotate_buy_intent,
+    build_frozen_state,
+)
 from e1r_engine.contracts import DailyBar, MarketSnapshot
 from e1r_engine.core import E1RCoreEngine
 from e1r_engine.state import (
@@ -1049,10 +1057,14 @@ class CanonicalDailyDecisionRouter:
         engine: E1RCoreEngine | None = None,
         sideways_ranker: Any | None = None,
         sideways_policy: Any | None = None,
+        entry_atr20_provider: (
+            Callable[[str, str], float | None] | None
+        ) = None,
     ) -> None:
         self.engine = engine or E1RCoreEngine()
         self.sideways_ranker = sideways_ranker
         self.sideways_policy = sideways_policy
+        self.entry_atr20_provider = entry_atr20_provider
 
     def decide(
         self,
@@ -1087,6 +1099,9 @@ class CanonicalDailyDecisionRouter:
                 snapshot,
                 account,
                 uptrend_inputs=uptrend_inputs,
+                entry_atr20_provider=(
+                    self.entry_atr20_provider
+                ),
             )
 
             return CanonicalDecisionResult(
@@ -1137,9 +1152,7 @@ class CanonicalDailyDecisionRouter:
                 ),
             )
 
-            return CanonicalDecisionResult(
-                order_intents=list(intents),
-                decision_trace={
+            trace = {
                     "date": snapshot.date,
                     "branch": "SIDEWAYS_MA_CONFLICT",
                     "ranked_candidate_count": len(ranked),
@@ -1149,7 +1162,20 @@ class CanonicalDailyDecisionRouter:
                         "->"
                         "SidewaysExecutionPolicy.build_intents"
                     ),
-                },
+                }
+            finalized, stop_rows = self._finalize_runtime_orders(
+                date=snapshot.date,
+                branch="SIDEWAYS_MA_CONFLICT",
+                account=account,
+                orders=list(intents),
+            )
+            trace["capped_atr_stop"] = {
+                "variant_id": VARIANT_ID,
+                "triggered": stop_rows,
+            }
+            return CanonicalDecisionResult(
+                order_intents=finalized,
+                decision_trace=trace,
                 metadata={
                     "decision_source": (
                         "SidewaysCore.rank_date"
@@ -1166,6 +1192,12 @@ class CanonicalDailyDecisionRouter:
             account=account,
             branch=route.branch,
         )
+        orders, stop_rows = self._finalize_runtime_orders(
+            date=snapshot.date,
+            branch=route.branch,
+            account=account,
+            orders=orders,
+        )
 
         return CanonicalDecisionResult(
             order_intents=orders,
@@ -1176,6 +1208,10 @@ class CanonicalDailyDecisionRouter:
                     "SharedRuntime management-only boundary"
                 ),
                 "new_risk_expansion": False,
+                "capped_atr_stop": {
+                    "variant_id": VARIANT_ID,
+                    "triggered": stop_rows,
+                },
             },
             metadata={
                 "decision_source": (
@@ -1184,6 +1220,48 @@ class CanonicalDailyDecisionRouter:
                 "branch": route.branch,
                 "new_risk_expansion": False,
             },
+        )
+
+    def _finalize_runtime_orders(
+        self,
+        *,
+        date: str,
+        branch: str,
+        account: AccountState,
+        orders: Sequence[OrderIntent],
+    ) -> tuple[list[OrderIntent], list[dict[str, Any]]]:
+        """Use the canonical Engine policy for non-UPTREND runtime routes."""
+        strict = account.metadata.get("strategy_variant") == VARIANT_ID
+        finalized: list[OrderIntent] = []
+        for order in orders:
+            if order.intent_type != "BUY" or not strict:
+                finalized.append(order)
+                continue
+            if self.entry_atr20_provider is None:
+                raise ForwardContractError(
+                    "CAPPED-ATR BUY requires entry_atr20_provider"
+                )
+            atr20 = self.entry_atr20_provider(order.symbol, order.date)
+            if atr20 is None:
+                raise ForwardContractError(
+                    "missing 20-observation entry ATR for "
+                    + order.symbol
+                    + " on "
+                    + order.date
+                )
+            finalized.append(
+                annotate_buy_intent(
+                    order,
+                    atr20=float(atr20),
+                    atr_as_of=order.date,
+                )
+            )
+        return CappedAtrStopPolicy.apply_engine_orders(
+            date=date,
+            branch=branch,
+            account=account,
+            orders=finalized,
+            strict=strict,
         )
 
     def _resolve_sideways_components(
@@ -1510,6 +1588,17 @@ class T1ExecutionEngine:
                 metadata["entry_execution_price"] = price
                 metadata["order_id"] = order.order_id
                 metadata["fill_id"] = fill_id
+
+                if account.metadata.get("strategy_variant") == VARIANT_ID:
+                    entry_metadata = metadata.get(ENTRY_METADATA_KEY)
+                    if not isinstance(entry_metadata, Mapping):
+                        raise ForwardContractError(
+                            "CAPPED-ATR BUY fill is missing frozen entry metadata"
+                        )
+                    metadata[POSITION_METADATA_KEY] = build_frozen_state(
+                        adjusted_first_buy_price=price,
+                        entry_metadata=entry_metadata,
+                    ).to_dict()
 
                 positions[order.symbol] = PositionState(
                     symbol=order.symbol,
