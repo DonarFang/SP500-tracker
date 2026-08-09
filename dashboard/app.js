@@ -148,6 +148,8 @@ const STEP3_D2_ENGINE =
 
 const STEP3_D2_BOUNDARY_DATE = '2026-06-16';
 const STEP3_D2_FIRST_FORWARD_DATE = '2026-06-17';
+const STEP3_D2_FORMAL_VARIANT =
+  'E1R_CAPPED_ATR_A0_V1';
 const STEP3_D2_SEED_SYMBOLS = new Set([
   'DELL',
   'HUM',
@@ -383,10 +385,7 @@ function step3D2NormalizeCanonical(payload) {
 
   if (
     !last ||
-    last.date !== STEP3_D2_BOUNDARY_DATE ||
-    Math.abs(
-      last.equity - 279290.7482565882
-    ) > 0.02
+    last.date !== STEP3_D2_BOUNDARY_DATE
   ) {
     throw new Error(
       'Canonical 2026-06-16 normal-EOD boundary mismatch'
@@ -394,6 +393,97 @@ function step3D2NormalizeCanonical(payload) {
   }
 
   return result;
+}
+
+function step3D2ValidateOfficialContracts(
+  canonicalManifest,
+  canonicalMetrics,
+  seedState,
+  forwardManifest,
+  account,
+  canonical,
+  forward
+) {
+  const boundary = canonical[canonical.length - 1];
+  const seedAccount = seedState?.account || {};
+  const metricBoundaryEquity = Number(
+    canonicalMetrics?.last_regular_eod_equity
+  );
+  const seedBoundaryEquity = Number(
+    seedAccount.total_equity
+  );
+  const latestForward = forward[forward.length - 1];
+  const manifestDate = String(
+    forwardManifest?.last_committed_date ||
+    forwardManifest?.date ||
+    ''
+  ).slice(0, 10);
+
+  if (
+    canonicalManifest?.artifact_status !== 'OFFICIAL' ||
+    canonicalManifest?.formal_variant !==
+      STEP3_D2_FORMAL_VARIANT ||
+    canonicalMetrics?.formal_variant !==
+      STEP3_D2_FORMAL_VARIANT
+  ) {
+    throw new Error(
+      'Canonical CAPPED-ATR Official Artifact contract mismatch'
+    );
+  }
+
+  if (
+    canonicalMetrics?.last_regular_eod_date !==
+      STEP3_D2_BOUNDARY_DATE ||
+    !Number.isFinite(metricBoundaryEquity) ||
+    Math.abs(boundary.equity - metricBoundaryEquity) > 0.02
+  ) {
+    throw new Error(
+      'Canonical metrics do not match the normal-EOD boundary'
+    );
+  }
+
+  if (
+    seedState?.formal_variant !== STEP3_D2_FORMAL_VARIANT ||
+    seedState?.seed_semantics !==
+      'PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE' ||
+    seedState?.sim_end_replayed !== false ||
+    seedState?.seed_boundary?.seed_date !==
+      STEP3_D2_BOUNDARY_DATE ||
+    seedState?.seed_boundary?.first_forward_market_date !==
+      STEP3_D2_FIRST_FORWARD_DATE ||
+    String(seedAccount.date || '').slice(0, 10) !==
+      STEP3_D2_BOUNDARY_DATE ||
+    !Number.isFinite(seedBoundaryEquity) ||
+    Math.abs(boundary.equity - seedBoundaryEquity) > 0.02
+  ) {
+    throw new Error(
+      'Forward Seed does not continue from Canonical normal EOD'
+    );
+  }
+
+  if (
+    account?.metadata?.strategy_variant !==
+      STEP3_D2_FORMAL_VARIANT ||
+    account?.metadata?.sim_end_liquidation_replayed !== false ||
+    !manifestDate ||
+    latestForward.date !== manifestDate ||
+    String(account?.date || '').slice(0, 10) !== manifestDate ||
+    Math.abs(
+      latestForward.equity - Number(account?.total_equity)
+    ) > 0.02
+  ) {
+    throw new Error(
+      'Latest CAPPED-ATR Forward artifacts are inconsistent'
+    );
+  }
+
+  return {
+    boundaryEquity: boundary.equity,
+    canonicalSourceSha:
+      canonicalManifest?.source?.sha256 || '',
+    formalVariant: STEP3_D2_FORMAL_VARIANT,
+    manifestDate,
+  };
 }
 
 function step3D2NormalizeForward(payload) {
@@ -1234,7 +1324,8 @@ function step3D2RenderPage(
   manifest,
   account,
   curve,
-  trades
+  trades,
+  officialContext
 ) {
   const root = document.getElementById(
     's-step3-forward-validation'
@@ -1290,6 +1381,10 @@ function step3D2RenderPage(
           <span>Open Positions</span>
           <strong>${account.open_positions_count ?? '—'}</strong>
         </article>
+        <article class="card d2-summary-card">
+          <span>Official Strategy</span>
+          <strong>E1R CAPPED-ATR</strong>
+        </article>
       </section>
 
       <section class="card d2-block">
@@ -1308,9 +1403,10 @@ function step3D2RenderPage(
       <section class="card d2-block">
         <div class="d2-block-head d2-chart-head">
           <div>
-            <h3>Continuous Strategy Equity vs SPX</h3>
+            <h3>E1R CAPPED-ATR Equity vs SPX</h3>
             <p>
-              One Strategy curve: Canonical 5Y through
+              One continuous Official Strategy curve: CAPPED-ATR
+              Canonical 5Y through
               ${STEP3_D2_BOUNDARY_DATE}, then Engine Forward
               from ${STEP3_D2_FIRST_FORWARD_DATE}.
             </p>
@@ -1327,7 +1423,7 @@ function step3D2RenderPage(
 
         <div class="d2-legend">
           <span class="d2-legend-strategy">
-            Continuous Strategy Equity
+            E1R CAPPED-ATR Strategy Equity
           </span>
           <span class="d2-legend-spx">
             SPX Benchmark
@@ -1350,7 +1446,7 @@ function step3D2RenderPage(
 
         <div class="d2-performance-grid">
           <div>
-            <span>Canonical Start Equity</span>
+            <span>CAPPED-ATR 5Y Start Equity</span>
             <strong>${step3D2Money(first.equity)}</strong>
           </div>
           <div>
@@ -1376,6 +1472,13 @@ function step3D2RenderPage(
             )}</strong>
           </div>
         </div>
+
+        <p class="d2-official-note">
+          Official variant: ${officialContext.formalVariant} ·
+          Canonical source SHA:
+          ${officialContext.canonicalSourceSha.slice(0, 12)}… ·
+          Seed continuity and latest Forward account verified.
+        </p>
       </section>
 
       <section class="card d2-block">
@@ -1412,6 +1515,9 @@ async function loadStep3D2ForwardValidation() {
       manifest,
       account,
       canonicalPayload,
+      canonicalManifest,
+      canonicalMetrics,
+      seedState,
       forwardPayload,
       spx5YRows,
       spxForwardRows,
@@ -1424,6 +1530,15 @@ async function loadStep3D2ForwardValidation() {
       ),
       step3D2FetchJson(
         `${official}/backtest/canonical_5y/regular_eod_account_records.json`
+      ),
+      step3D2FetchJson(
+        `${official}/backtest/canonical_5y/current_manifest.json`
+      ),
+      step3D2FetchJson(
+        `${official}/backtest/canonical_5y/official_metrics.json`
+      ),
+      step3D2FetchJson(
+        `${official}/forward/seed_2026-06-16/forward_runtime_seed_state.json`
       ),
       step3D2FetchJson(
         `${official}/forward/runtime/history/equity_curve.json`
@@ -1440,6 +1555,16 @@ async function loadStep3D2ForwardValidation() {
       step3D2NormalizeCanonical(canonicalPayload);
     const forward =
       step3D2NormalizeForward(forwardPayload);
+    const officialContext =
+      step3D2ValidateOfficialContracts(
+        canonicalManifest,
+        canonicalMetrics,
+        seedState,
+        manifest,
+        account,
+        canonical,
+        forward
+      );
     const curve =
       step3D2BuildContinuousCurve(
         canonical,
@@ -1448,12 +1573,7 @@ async function loadStep3D2ForwardValidation() {
         step3D2ForwardSpXRows(spxForwardRows)
       );
 
-    const manifestDate =
-      String(
-        manifest.last_committed_date ||
-        manifest.date ||
-        ''
-      ).slice(0, 10);
+    const manifestDate = officialContext.manifestDate;
 
     if (
       !manifestDate ||
@@ -1482,7 +1602,8 @@ async function loadStep3D2ForwardValidation() {
       manifest,
       account,
       curve,
-      trades
+      trades,
+      officialContext
     );
   } catch (error) {
     if (root) {

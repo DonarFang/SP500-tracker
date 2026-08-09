@@ -417,7 +417,7 @@ tr:hover td{background:var(--bg2)}
 
 /* STEP3_D2_FORWARD_TEST_VALIDATION */
 .d2-page{display:grid;gap:14px}
-.d2-summary-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.d2-summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .d2-summary-card{display:grid;gap:6px;padding:14px}
 .d2-summary-card span,.d2-performance-grid span{font-size:11px;color:var(--text2)}
 .d2-summary-card strong{font-size:16px}
@@ -464,6 +464,7 @@ tr:hover td{background:var(--bg2)}
 .d2-performance-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:12px}
 .d2-performance-grid>div{display:grid;gap:4px;padding:10px;border:1px solid var(--border);border-radius:8px}
 .d2-performance-grid strong{font-size:13px}
+.d2-official-note{margin:12px 0 0;color:var(--text2);font-size:11px;line-height:1.5;overflow-wrap:anywhere}
 @media(max-width:1200px){
   .d2-summary-grid,.d2-performance-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
