@@ -1934,11 +1934,505 @@ async function loadStep3D1UsMarketOverview() {
 }
 
 
+/* STEP3_D3_LIVE_TRADE_DISPLAY */
+const STEP3_D3_LIVE_BASE =
+  `${STEP3_D2_SITE_BASE}/exports/official/` +
+  `${STEP3_D2_ENGINE}/live`;
+const STEP3_D3_ISSUE_URL =
+  'https://github.com/DonarFang/SP500-tracker/issues/new';
+const STEP3_D3_EVENT_CONTRACT =
+  'FD_M3180125_LIVE_ACCOUNT_EVENT_V1';
+
+let STEP3_D3_DATA = null;
+
+function installStep3D3Tab() {
+  const tabs = document.querySelector('.tabs');
+  const d2Section = document.getElementById(
+    's-step3-forward-validation'
+  );
+  if (!tabs || !d2Section) {
+    throw new Error('Live Trade Display anchors missing');
+  }
+  if (document.getElementById('s-step3-live-trade')) {
+    return;
+  }
+  const d2Button = Array.from(
+    tabs.querySelectorAll('.tab')
+  ).find(item =>
+    item.textContent.trim() === 'Forward Test Validation'
+  );
+  const button = document.createElement('button');
+  button.className = 'tab';
+  button.textContent = 'Live Trade Display';
+  button.onclick = function () {
+    go('step3-live-trade', button);
+  };
+  if (d2Button?.nextSibling) {
+    tabs.insertBefore(button, d2Button.nextSibling);
+  } else {
+    tabs.appendChild(button);
+  }
+  const section = document.createElement('div');
+  section.id = 's-step3-live-trade';
+  section.className = 'section';
+  section.innerHTML =
+    '<div class="loading"><span class="spin"></span>' +
+    '加载 Live Trade Display...</div>';
+  d2Section.parentNode.insertBefore(
+    section,
+    d2Section.nextSibling
+  );
+}
+
+function step3D3Escape(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function step3D3Number(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+function step3D3Money(value) {
+  const number = step3D3Number(value);
+  return number == null
+    ? '—'
+    : number.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+}
+
+function step3D3SignedMoney(value) {
+  const number = step3D3Number(value);
+  if (number == null) return '—';
+  return `${number > 0 ? '+' : ''}${step3D3Money(number)}`;
+}
+
+function step3D3Rows(value, key) {
+  if (Array.isArray(value)) return value;
+  if (value && Array.isArray(value[key])) return value[key];
+  return [];
+}
+
+async function step3D3FetchJson(path, fallback) {
+  try {
+    return await step3D2FetchJson(`${STEP3_D3_LIVE_BASE}/${path}`);
+  } catch (error) {
+    if (arguments.length > 1) return fallback;
+    throw error;
+  }
+}
+
+async function step3D3FetchJsonl(path) {
+  const response = await fetch(
+    `${STEP3_D3_LIVE_BASE}/${path}?t=${Date.now()}`
+  );
+  if (response.status === 404) return [];
+  if (!response.ok) {
+    throw new Error(`${path}: HTTP ${response.status}`);
+  }
+  const text = await response.text();
+  return text.split(/\r?\n/)
+    .filter(line => line.trim())
+    .map(line => JSON.parse(line));
+}
+
+function step3D3Metric(label, value, note = '') {
+  return `<div class="card d3-metric">
+    <span>${step3D3Escape(label)}</span>
+    <strong>${step3D3Escape(value)}</strong>
+    ${note ? `<small>${step3D3Escape(note)}</small>` : ''}
+  </div>`;
+}
+
+function step3D3Status(status) {
+  const normalized = String(status || 'UNKNOWN').toUpperCase();
+  return `<span class="d3-status d3-status-${step3D3Escape(normalized)}">${step3D3Escape(normalized)}</span>`;
+}
+
+function step3D3Positions(account, positionsDoc) {
+  const raw = positionsDoc?.positions || account?.positions || {};
+  if (Array.isArray(raw)) return raw;
+  return Object.entries(raw || {}).map(([symbol, row]) => ({
+    symbol,
+    ...(row || {}),
+  }));
+}
+
+function step3D3Empty(columns, message) {
+  return `<tr><td colspan="${columns}" class="d3-empty">${step3D3Escape(message)}</td></tr>`;
+}
+
+function step3D3OpenTransaction(prefill = {}) {
+  const dialog = document.getElementById('d3-transaction-dialog');
+  const form = document.getElementById('d3-transaction-form');
+  if (!dialog || !form) return;
+  form.reset();
+  form.elements.trade_date.value =
+    prefill.trade_date ||
+    STEP3_D3_DATA?.recommendations?.expected_execution_date || '';
+  form.elements.symbol.value = prefill.symbol || '';
+  form.elements.action.value = prefill.action || 'BUY';
+  form.elements.shares.value = prefill.shares || '';
+  form.elements.price.value = '';
+  step3D3SyncSharesField(form);
+  dialog.showModal();
+}
+
+function step3D3OpenCash() {
+  const dialog = document.getElementById('d3-cash-dialog');
+  const form = document.getElementById('d3-cash-form');
+  if (!dialog || !form) return;
+  form.reset();
+  form.elements.effective_date.value = new Date()
+    .toISOString().slice(0, 10);
+  form.elements.actual_cash.value =
+    STEP3_D3_DATA?.account?.actual_cash || '';
+  dialog.showModal();
+}
+
+function step3D3SyncSharesField(form) {
+  const exit = form.elements.action.value === 'EXIT';
+  form.elements.shares.disabled = exit;
+  form.elements.shares.required = !exit;
+  if (exit) form.elements.shares.value = '';
+}
+
+function step3D3EventId(prefix, bits) {
+  const suffix = Date.now().toString(36).toUpperCase();
+  return [prefix, ...bits, suffix]
+    .join('-')
+    .replace(/[^A-Z0-9_.-]/g, '')
+    .slice(0, 80);
+}
+
+function step3D3OpenConfirmationIssue(payload, summary) {
+  const accepted = window.confirm(
+    `${summary}\n\n` +
+    '这一步只准备用户确认记录，不会自动下单。\n' +
+    '继续后请在GitHub页面再次检查，并点击 Submit new issue 完成最终确认。'
+  );
+  if (!accepted) return;
+  const body = [
+    `<!-- ${STEP3_D3_EVENT_CONTRACT} -->`,
+    '## Personal Live owner confirmation',
+    '',
+    '提交本Issue表示：以下内容是用户确认的真实账户事实；不是Engine自动成交。',
+    '',
+    '```json',
+    JSON.stringify(payload, null, 2),
+    '```',
+    '',
+    '- Automatic execution: `false`',
+    '- Broker API connected: `false`',
+  ].join('\n');
+  const params = new URLSearchParams({
+    title: `[Live Account] ${payload.event_id}`,
+    body,
+  });
+  window.open(`${STEP3_D3_ISSUE_URL}?${params}`, '_blank', 'noopener');
+}
+
+function step3D3SubmitTransaction(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const data = new FormData(form);
+  const action = String(data.get('action') || '').toUpperCase();
+  const tradeDate = String(data.get('trade_date') || '');
+  const symbol = String(data.get('symbol') || '').trim().toUpperCase();
+  const price = String(data.get('price') || '').trim();
+  const shares = action === 'EXIT'
+    ? null
+    : String(data.get('shares') || '').trim();
+  const payload = {
+    contract: STEP3_D3_EVENT_CONTRACT,
+    user_confirmed: true,
+    event_type: 'TRANSACTION',
+    event_id: step3D3EventId(
+      'TX',
+      [tradeDate.replaceAll('-', ''), symbol, action]
+    ),
+    trade_date: tradeDate,
+    symbol,
+    action,
+    price,
+    shares,
+    notes: String(data.get('notes') || '').trim(),
+  };
+  step3D3OpenConfirmationIssue(
+    payload,
+    `${action} ${symbol} · ${shares || '全部持仓'}股 · USD ${price} · ${tradeDate}`
+  );
+}
+
+function step3D3SubmitCash(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const data = new FormData(form);
+  const effectiveDate = String(data.get('effective_date') || '');
+  const actualCash = String(data.get('actual_cash') || '').trim();
+  const payload = {
+    contract: STEP3_D3_EVENT_CONTRACT,
+    user_confirmed: true,
+    event_type: 'CASH_CONTROL',
+    event_id: step3D3EventId(
+      'CASH',
+      [effectiveDate.replaceAll('-', '')]
+    ),
+    effective_date: effectiveDate,
+    actual_cash: actualCash,
+    notes: String(data.get('notes') || '').trim(),
+  };
+  step3D3OpenConfirmationIssue(
+    payload,
+    `Actual Cash 调整为 USD ${actualCash} · ${effectiveDate}`
+  );
+}
+
+function step3D3BindInteractions() {
+  document.getElementById('d3-record-transaction')
+    ?.addEventListener('click', () => step3D3OpenTransaction());
+  document.getElementById('d3-record-cash')
+    ?.addEventListener('click', step3D3OpenCash);
+  document.querySelectorAll('[data-d3-confirm-action]')
+    .forEach(button => button.addEventListener('click', () => {
+      step3D3OpenTransaction({
+        trade_date: button.dataset.executionDate,
+        symbol: button.dataset.symbol,
+        action: button.dataset.action,
+        shares: button.dataset.shares,
+      });
+    }));
+  const transactionForm = document.getElementById('d3-transaction-form');
+  transactionForm?.elements.action.addEventListener(
+    'change',
+    () => step3D3SyncSharesField(transactionForm)
+  );
+  transactionForm?.addEventListener('submit', step3D3SubmitTransaction);
+  document.getElementById('d3-cash-form')
+    ?.addEventListener('submit', step3D3SubmitCash);
+  document.querySelectorAll('[data-d3-close]')
+    .forEach(button => button.addEventListener('click', () => {
+      button.closest('dialog')?.close();
+    }));
+}
+
+function step3D3Render(data) {
+  const root = document.getElementById('s-step3-live-trade');
+  if (!root) return;
+  const {
+    runtime,
+    market,
+    run,
+    account,
+    positionsDoc,
+    recommendations,
+    top3Doc,
+    reconciliationDoc,
+    transactions,
+    cashControls,
+  } = data;
+  const positions = step3D3Positions(account, positionsDoc);
+  const recs = step3D3Rows(recommendations, 'recommendations');
+  const top3 = step3D3Rows(top3Doc, 'top3');
+  const reconciliation = step3D3Rows(reconciliationDoc, 'records');
+  const recStatus = new Map(
+    reconciliation.map(row => [
+      `${row.symbol}::${row.recommended_action}`,
+      row.status,
+    ])
+  );
+  const held = new Set(positions.map(row => String(row.symbol).toUpperCase()));
+  const recommended = new Map(recs.map(row => [
+    String(row.symbol).toUpperCase(),
+    row.action,
+  ]));
+  const originBySymbol = new Map();
+  for (const row of transactions) {
+    const symbol = String(row.symbol || '').toUpperCase();
+    if (row.action === 'BUY' && symbol && !originBySymbol.has(symbol)) {
+      originBySymbol.set(symbol, {
+        regime: row.origin_regime || 'UNKNOWN',
+        subclass: row.origin_subclass || 'UNKNOWN',
+      });
+    }
+  }
+
+  const recommendationRows = recs.length
+    ? recs.map(row => {
+        const status = recStatus.get(`${row.symbol}::${row.action}`) ||
+          (row.action === 'HOLD' ? 'INFORMATIONAL' : 'PENDING');
+        const target = row.target_shares ?? row.target_amount ?? '—';
+        const canConfirm = ['BUY', 'ADD', 'REDUCE', 'EXIT'].includes(row.action);
+        return `<tr>
+          <td>${badge(step3D3Escape(row.action))}</td>
+          <td><strong>${step3D3Escape(row.symbol)}</strong></td>
+          <td>${step3D3Escape(target)}</td>
+          <td>${step3D3Escape(recommendations.expected_execution_date || '—')}</td>
+          <td>${step3D3Status(status)}</td>
+          <td>${canConfirm ? `<button class="d3-table-action" data-d3-confirm-action data-symbol="${step3D3Escape(row.symbol)}" data-action="${step3D3Escape(row.action)}" data-shares="${step3D3Escape(row.target_shares || '')}" data-execution-date="${step3D3Escape(recommendations.expected_execution_date || '')}">确认真实成交</button>` : '—'}</td>
+        </tr>`;
+      }).join('')
+    : step3D3Empty(6, 'Official Artifact当前没有交易建议或待执行动作');
+
+  const positionRows = positions.length
+    ? positions.map(row => {
+        const origin = originBySymbol.get(
+          String(row.symbol).toUpperCase()
+        );
+        return `<tr>
+        <td><strong>${step3D3Escape(row.symbol)}</strong></td>
+        <td>${step3D3Escape(row.shares ?? '—')}</td>
+        <td>${step3D3Money(row.average_cost)}</td>
+        <td>${step3D3Money(row.last_price)}</td>
+        <td>${step3D3Money(row.market_value)}</td>
+        <td class="${Number(row.unrealized_pnl) >= 0 ? 'd3-positive' : 'd3-negative'}">${step3D3SignedMoney(row.unrealized_pnl)}</td>
+        <td>${step3D3Escape(row.position_source || 'USER_CONFIRMED_TRANSACTION_LEDGER')}<br><small>${step3D3Escape(row.origin_regime || origin?.regime || 'Regime —')} / ${step3D3Escape(row.origin_subclass || origin?.subclass || 'Subclass —')}</small></td>
+      </tr>`;
+      }).join('')
+    : step3D3Empty(7, '当前Live账户为空仓');
+
+  const top3Rows = top3.length
+    ? top3.map(row => {
+        const symbol = String(row.symbol || '').toUpperCase();
+        return `<tr>
+          <td>${step3D3Escape(row.rank)}</td>
+          <td><strong>${step3D3Escape(symbol)}</strong></td>
+          <td>${step3D3Escape(row.score ?? '—')}</td>
+          <td>${step3D3Escape(row.regime || market.regime || '—')}</td>
+          <td>${held.has(symbol) ? 'Yes' : 'No'}</td>
+          <td>${step3D3Escape(recommended.get(symbol) || 'No')}</td>
+        </tr>`;
+      }).join('')
+    : step3D3Empty(6, 'Official Daily Reference Top 3当前为空');
+
+  const transactionRows = transactions.length
+    ? [...transactions].reverse().map(row => `<tr>
+        <td>${step3D3Escape(row.trade_date)}</td>
+        <td>${step3D3Escape(row.action)}</td>
+        <td><strong>${step3D3Escape(row.symbol)}</strong></td>
+        <td>${step3D3Escape(row.effective_shares ?? row.shares ?? '—')}</td>
+        <td>${step3D3Money(row.price)}</td>
+        <td>${step3D3SignedMoney(row.gross_cash_effect)}</td>
+        <td>${step3D3Money(row.cost_basis_after)}</td>
+        <td>${step3D3SignedMoney(row.realized_pnl)}</td>
+        <td>${step3D3Escape(row.notes || '—')}</td>
+      </tr>`).join('')
+    : step3D3Empty(9, '尚无用户确认的实际成交记录');
+
+  const cashRows = cashControls.length
+    ? [...cashControls].reverse().map(row => `<tr>
+        <td>${step3D3Escape(row.effective_date)}</td>
+        <td>${step3D3Money(row.cash_before)}</td>
+        <td>${step3D3Money(row.cash_after)}</td>
+        <td>${step3D3SignedMoney(row.cash_delta)}</td>
+        <td>${step3D3Escape(row.notes || '—')}</td>
+      </tr>`).join('')
+    : step3D3Empty(5, '尚无用户确认的现金调整记录');
+
+  root.innerHTML = `<div class="d3-page">
+    <div class="d3-boundary">
+      <strong>Personal Live · Official Artifacts</strong>
+      <span>建议与真实执行严格分离 · 无Broker API · 无自动下单</span>
+    </div>
+    <div class="d3-status-grid">
+      ${step3D3Metric('Market Date', market.date || runtime.last_committed_market_date || '—')}
+      ${step3D3Metric('Regime', market.regime || '—')}
+      ${step3D3Metric('SubClass', market.subclass || '—')}
+      ${step3D3Metric('Run Status', run.decision || runtime.status || '—')}
+      ${step3D3Metric('Expected Execution Date', recommendations.expected_execution_date || run.expected_execution_date || '—')}
+    </div>
+    <section class="card d3-block">
+      <div class="d3-block-head"><div><h3>账户概览</h3><p>Actual Cash为账户推荐的权威现金；Calculated Cash与差额用于审计。</p></div>
+        <div class="d3-actions"><button id="d3-record-transaction" class="d3-primary">记录真实成交</button><button id="d3-record-cash">调整Actual Cash</button></div>
+      </div>
+      <div class="d3-account-grid">
+        ${step3D3Metric('Total Equity', `USD ${step3D3Money(account.total_equity)}`)}
+        ${step3D3Metric('Actual Cash', `USD ${step3D3Money(account.actual_cash)}`, 'authoritative')}
+        ${step3D3Metric('Calculated Cash', `USD ${step3D3Money(account.calculated_cash)}`, 'transaction-ledger derived')}
+        ${step3D3Metric('Cash Difference', `USD ${step3D3SignedMoney(account.cash_difference)}`)}
+        ${step3D3Metric('Position Market Value', `USD ${step3D3Money(account.positions_value)}`)}
+        ${step3D3Metric('Trading P&L', `USD ${step3D3SignedMoney(account.trading_pnl)}`)}
+      </div>
+    </section>
+    <section class="card d3-block"><div class="d3-block-head"><div><h3>今日建议与待执行动作</h3><p>Engine Recommendation ≠ Actual Transaction</p></div></div><div class="d3-table-wrap"><table class="d3-table"><thead><tr><th>Action</th><th>Symbol</th><th>建议数量/金额</th><th>预计执行日期</th><th>状态</th><th>用户交互</th></tr></thead><tbody>${recommendationRows}</tbody></table></div></section>
+    <section class="card d3-block"><div class="d3-block-head"><div><h3>当前持仓</h3><p>只显示由Transaction Ledger重建的真实Live持仓。</p></div></div><div class="d3-table-wrap"><table class="d3-table"><thead><tr><th>Symbol</th><th>Shares</th><th>Average Cost</th><th>Current Price</th><th>Market Value</th><th>Unrealized P&L</th><th>Source / Regime</th></tr></thead><tbody>${positionRows}</tbody></table></div></section>
+    <section class="card d3-block"><div class="d3-block-head"><div><h3>Daily Reference Top 3</h3><p>Top 3 Candidates · 参考候选不等同于持仓或BUY建议。</p></div></div><div class="d3-table-wrap"><table class="d3-table"><thead><tr><th>Rank</th><th>Symbol</th><th>Score</th><th>Regime</th><th>Held</th><th>Actual Recommendation</th></tr></thead><tbody>${top3Rows}</tbody></table></div></section>
+    <section class="card d3-block"><div class="d3-block-head"><div><h3>Transaction Ledger</h3><p>用户确认的BUY / ADD / REDUCE / EXIT及其账户影响。</p></div></div><div class="d3-table-wrap d3-ledger"><table class="d3-table"><thead><tr><th>Trade Date</th><th>Action</th><th>Symbol</th><th>Shares</th><th>Price</th><th>Cash Effect</th><th>Cost Basis After</th><th>Realized P&L</th><th>Notes</th></tr></thead><tbody>${transactionRows}</tbody></table></div></section>
+    <section class="card d3-block"><div class="d3-block-head"><div><h3>Cash Control Ledger</h3><p>用户确认的权威现金调整；不改变Regime、Gate、Top 3或Trading P&L。</p></div></div><div class="d3-table-wrap d3-ledger"><table class="d3-table"><thead><tr><th>Effective Date</th><th>Before Cash</th><th>After Cash</th><th>Delta</th><th>Notes</th></tr></thead><tbody>${cashRows}</tbody></table></div></section>
+  </div>
+  <dialog id="d3-transaction-dialog" class="d3-dialog"><form id="d3-transaction-form"><div class="d3-dialog-head"><div><strong>记录用户确认的真实成交</strong><small>提交前不会改变任何Official Artifact</small></div><button type="button" data-d3-close aria-label="关闭">×</button></div><div class="d3-form-grid"><label>Trade Date<input name="trade_date" type="date" required></label><label>Action<select name="action" required><option>BUY</option><option>ADD</option><option>REDUCE</option><option>EXIT</option></select></label><label>Symbol<input name="symbol" pattern="[A-Za-z.\-]+" maxlength="12" required></label><label>Executed Price (USD)<input name="price" type="number" min="0.000001" step="any" required></label><label>Executed Shares<input name="shares" type="number" min="0.000001" step="any" required></label><label class="d3-form-wide">Notes<input name="notes" maxlength="240"></label></div><div class="d3-confirm-note">只有真实完成的成交才能记录。下一步仍需在GitHub确认页点击Submit new issue。</div><div class="d3-dialog-actions"><button type="button" data-d3-close>取消</button><button class="d3-primary" type="submit">复核并进入确认</button></div></form></dialog>
+  <dialog id="d3-cash-dialog" class="d3-dialog"><form id="d3-cash-form"><div class="d3-dialog-head"><div><strong>调整权威Actual Cash</strong><small>Cash Control Ledger · 不计入Trading P&L</small></div><button type="button" data-d3-close aria-label="关闭">×</button></div><div class="d3-form-grid"><label>Effective Date<input name="effective_date" type="date" required></label><label>Actual Cash After (USD)<input name="actual_cash" type="number" min="0" step="any" required></label><label class="d3-form-wide">Notes<input name="notes" maxlength="240" required></label></div><div class="d3-confirm-note">请输入调整后的实际现金总额，不是增减金额。系统会记录Before、After和Delta。</div><div class="d3-dialog-actions"><button type="button" data-d3-close>取消</button><button class="d3-primary" type="submit">复核并进入确认</button></div></form></dialog>`;
+  step3D3BindInteractions();
+}
+
+async function loadStep3D3LiveTradeDisplay() {
+  const root = document.getElementById('s-step3-live-trade');
+  try {
+    const [
+      runtime,
+      market,
+      run,
+      account,
+      positionsDoc,
+      recommendations,
+      top3Doc,
+      transactions,
+      cashControls,
+    ] = await Promise.all([
+      step3D3FetchJson('runtime/current/runtime_state.json'),
+      step3D3FetchJson('runtime/current/latest_market_status.json'),
+      step3D3FetchJson('automation/current_run.json'),
+      step3D3FetchJson('runtime/current/account_state.json'),
+      step3D3FetchJson('runtime/current/positions.json'),
+      step3D3FetchJson('runtime/current/latest_recommendations.json'),
+      step3D3FetchJson('runtime/current/latest_reference_top3.json'),
+      step3D3FetchJsonl('runtime/history/transactions.jsonl'),
+      step3D3FetchJsonl('runtime/history/cash_control.jsonl'),
+    ]);
+    const marketDate = String(
+      market.date || runtime.last_committed_market_date || ''
+    ).slice(0, 10);
+    const reconciliationDoc = marketDate
+      ? await step3D3FetchJson(
+          `runtime/daily/${marketDate}/reconciliation.json`,
+          {records: []}
+        )
+      : {records: []};
+    STEP3_D3_DATA = {
+      runtime,
+      market,
+      run,
+      account,
+      positionsDoc,
+      recommendations,
+      top3Doc,
+      reconciliationDoc,
+      transactions,
+      cashControls,
+    };
+    step3D3Render(STEP3_D3_DATA);
+  } catch (error) {
+    if (root) {
+      root.innerHTML = `<div class="error"><strong>Live Trade Display 加载失败</strong><br>${step3D3Escape(error.message || error)}</div>`;
+    }
+  }
+}
+
+
 async function loadAll() {
   installStep3D1Tab();
   await loadStep3D1UsMarketOverview();
   installStep3D2Tab();
   await loadStep3D2ForwardValidation();
+  installStep3D3Tab();
+  await loadStep3D3LiveTradeDisplay();
   // Stage 3.8E-2B-v4: read-only daily summary exports for unified summary.
   try { DATA.e1rV02Status = await fetchJ('e1r_v0_2_status'); } catch(e) { DATA.e1rV02Status = {}; }
   try { DATA.e1rV02BacktestSummary = await fetchJ('e1r_v0_2_backtest_summary'); } catch(e) { DATA.e1rV02BacktestSummary = {}; }

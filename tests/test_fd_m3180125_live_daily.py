@@ -125,3 +125,12 @@ def test_mark_to_market_does_not_mutate_account_facts(tmp_path: Path) -> None:
         {"rank": 3, "symbol": "AAPL"},
     ]
     assert payload["position_recommendations"][0]["action"] == "HOLD"
+    assert payload["account"]["positions"]["AAPL"] == {
+        "shares": Decimal("10"),
+        "average_cost": Decimal("100"),
+        "cost_basis": Decimal("1000"),
+        "last_price": Decimal("110"),
+        "market_value": Decimal("1100"),
+        "unrealized_pnl": Decimal("100"),
+        "position_source": "USER_CONFIRMED_TRANSACTION_LEDGER",
+    }

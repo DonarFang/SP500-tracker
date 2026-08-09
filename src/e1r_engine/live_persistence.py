@@ -230,11 +230,17 @@ class LiveRuntimeRepository:
         self._append_line(projection_path, projection)
         return fingerprint
 
-    def append_transaction(self, event: TransactionEvent) -> str:
+    def append_transaction(
+        self,
+        event: TransactionEvent,
+        *,
+        audit_payload: Optional[Mapping[str, Any]] = None,
+    ) -> str:
         return self._append_event(
             ledger_name="TRANSACTION",
             event_payload=event.canonical_payload(),
             projection_path=self.transaction_path,
+            audit_payload=audit_payload,
         )
 
     def append_cash_control(

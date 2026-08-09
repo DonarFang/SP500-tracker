@@ -1,0 +1,63 @@
+name: Record Personal Live Account Event
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: personal-live-track-daily
+  cancel-in-progress: false
+
+jobs:
+  record-live-event:
+    if: >-
+      github.actor == 'DonarFang' &&
+      contains(github.event.issue.body, 'FD_M3180125_LIVE_ACCOUNT_EVENT_V1')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate and record owner-confirmed event
+        env:
+          PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+        run: >-
+          python scripts/record_fd_m3180125_live_interaction.py
+          --github-event "$GITHUB_EVENT_PATH"
+      - name: Enforce Live-only write boundary
+        run: |
+          git diff --name-only | tee /tmp/live_interaction_changed.txt
+          if grep -Ev '^exports/official/FD-M3180125-SP500-TOP3-engine/live/(runtime|automation)/' /tmp/live_interaction_changed.txt; then
+            echo "Path outside Personal Live runtime changed"; exit 1
+          fi
+          git diff --check
+      - name: Commit confirmed Live event
+        run: |
+          git add -f "exports/official/FD-M3180125-SP500-TOP3-engine/live/runtime/"
+          git add -f "exports/official/FD-M3180125-SP500-TOP3-engine/live/automation/"
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo "Confirmed event was already recorded"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Record user-confirmed Personal Live event"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Close accepted confirmation issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh issue close "${{ github.event.issue.number }}"
+          --comment "Recorded in the Official Personal Live ledgers. Dashboard deployment will refresh from the committed artifacts."

@@ -42,6 +42,7 @@ class LiveDailyResult:
     account: LiveAccountState
     input_hash: str
     result_hash: str
+    mark_prices: Mapping[str, Decimal]
 
     def to_payload(self) -> dict[str, object]:
         return {
@@ -79,6 +80,28 @@ class LiveDailyResult:
                         "shares": position.shares,
                         "average_cost": position.average_cost,
                         "cost_basis": position.cost_basis,
+                        "last_price": self.mark_prices.get(
+                            symbol,
+                            position.average_cost,
+                        ),
+                        "market_value": (
+                            position.shares
+                            * self.mark_prices.get(
+                                symbol,
+                                position.average_cost,
+                            )
+                        ),
+                        "unrealized_pnl": (
+                            position.shares
+                            * (
+                                self.mark_prices.get(
+                                    symbol,
+                                    position.average_cost,
+                                )
+                                - position.average_cost
+                            )
+                        ),
+                        "position_source": "USER_CONFIRMED_TRANSACTION_LEDGER",
                     }
                     for symbol, position in sorted(
                         self.account.positions.items()
@@ -223,6 +246,7 @@ class LiveDailyProcessor:
             account=account,
             input_hash=input_hash,
             result_hash=result_hash,
+            mark_prices=market_data.close_marks,
         )
 
         if self.repository is not None:
