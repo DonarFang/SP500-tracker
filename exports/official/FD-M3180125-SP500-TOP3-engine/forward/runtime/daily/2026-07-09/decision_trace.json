@@ -13,6 +13,13 @@
   },
   "market_regime": "UPTREND",
   "metadata": {
+    "capped_atr_stop": {
+      "display_name": "E1R CAPPED-ATR Engine",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "strict_cycle_state": true,
+      "triggered": [],
+      "variant_id": "E1R_CAPPED_ATR_A0_V1"
+    },
     "max_positions": 3,
     "route": {
       "branch": "UPTREND",
@@ -50,16 +57,16 @@
           "leader_rank_all": 13,
           "negative_leader_score": -83.81,
           "negative_momentum_acceleration": -15.6,
-          "negative_rs_20d_improvement": -11.6,
+          "negative_rs_20d_improvement": -11.7,
           "symbol": "AAPL"
         },
         {
           "entry_priority": 1,
           "entry_type": "E1R_UPTREND_EMERGING",
           "leader_rank_all": 11,
-          "negative_leader_score": -84.41,
+          "negative_leader_score": -84.65,
           "negative_momentum_acceleration": -23.0,
-          "negative_rs_20d_improvement": -15.7,
+          "negative_rs_20d_improvement": -16.1,
           "symbol": "ANET"
         },
         {
@@ -68,7 +75,7 @@
           "leader_rank_all": 1,
           "negative_leader_score": -96.07,
           "negative_momentum_acceleration": -4.7,
-          "negative_rs_20d_improvement": -1.8,
+          "negative_rs_20d_improvement": -2.1,
           "symbol": "DDOG"
         },
         {
@@ -77,7 +84,7 @@
           "leader_rank_all": 2,
           "negative_leader_score": -93.97,
           "negative_momentum_acceleration": -2.3,
-          "negative_rs_20d_improvement": -1.7,
+          "negative_rs_20d_improvement": -1.8,
           "symbol": "FFIV"
         },
         {
@@ -86,7 +93,7 @@
           "leader_rank_all": 5,
           "negative_leader_score": -90.9,
           "negative_momentum_acceleration": 10.7,
-          "negative_rs_20d_improvement": -1.2,
+          "negative_rs_20d_improvement": -1.5,
           "symbol": "FTNT"
         },
         {
@@ -95,7 +102,7 @@
           "leader_rank_all": 4,
           "negative_leader_score": -91.79,
           "negative_momentum_acceleration": -10.5,
-          "negative_rs_20d_improvement": -18.5,
+          "negative_rs_20d_improvement": -18.2,
           "symbol": "MPC"
         }
       ],
@@ -106,7 +113,7 @@
           "leader_rank_all": 1,
           "negative_leader_score": -96.07,
           "negative_momentum_acceleration": -4.7,
-          "negative_rs_20d_improvement": -1.8,
+          "negative_rs_20d_improvement": -2.1,
           "symbol": "DDOG"
         },
         {
@@ -115,7 +122,7 @@
           "leader_rank_all": 2,
           "negative_leader_score": -93.97,
           "negative_momentum_acceleration": -2.3,
-          "negative_rs_20d_improvement": -1.7,
+          "negative_rs_20d_improvement": -1.8,
           "symbol": "FFIV"
         },
         {
@@ -124,7 +131,7 @@
           "leader_rank_all": 5,
           "negative_leader_score": -90.9,
           "negative_momentum_acceleration": 10.7,
-          "negative_rs_20d_improvement": -1.2,
+          "negative_rs_20d_improvement": -1.5,
           "symbol": "FTNT"
         },
         {
@@ -133,16 +140,16 @@
           "leader_rank_all": 4,
           "negative_leader_score": -91.79,
           "negative_momentum_acceleration": -10.5,
-          "negative_rs_20d_improvement": -18.5,
+          "negative_rs_20d_improvement": -18.2,
           "symbol": "MPC"
         },
         {
           "entry_priority": 1,
           "entry_type": "E1R_UPTREND_EMERGING",
           "leader_rank_all": 11,
-          "negative_leader_score": -84.41,
+          "negative_leader_score": -84.65,
           "negative_momentum_acceleration": -23.0,
-          "negative_rs_20d_improvement": -15.7,
+          "negative_rs_20d_improvement": -16.1,
           "symbol": "ANET"
         },
         {
@@ -151,7 +158,7 @@
           "leader_rank_all": 13,
           "negative_leader_score": -83.81,
           "negative_momentum_acceleration": -15.6,
-          "negative_rs_20d_improvement": -11.6,
+          "negative_rs_20d_improvement": -11.7,
           "symbol": "AAPL"
         }
       ],
@@ -173,7 +180,7 @@
       "reason": "engine_f_shell_existing_position_hold",
       "side": null,
       "symbol": "DELL",
-      "target_quantity": 156.48065098333814
+      "target_quantity": 173.68639377827557
     },
     {
       "branch": "UPTREND",
@@ -187,7 +194,7 @@
       "reason": "engine_f_shell_existing_position_hold",
       "side": null,
       "symbol": "HUM",
-      "target_quantity": 240.76122161662295
+      "target_quantity": 267.2339875982243
     },
     {
       "branch": "UPTREND",
@@ -201,7 +208,7 @@
       "reason": "engine_f_shell_existing_position_hold",
       "side": null,
       "symbol": "MRVL",
-      "target_quantity": 204.35358320635484
+      "target_quantity": 226.82316759124328
     }
   ],
   "reasons": [

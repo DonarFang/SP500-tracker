@@ -1,0 +1,62 @@
+{
+  "canonical_result_sha256": "9720084b92ed7e7ae80eaf606a170239312e333f4e5daca7d284835afc6ffcd3",
+  "decision": "PASS_AE_STEP2_FINAL_ACCEPTANCE",
+  "forward": {
+    "committed_date_count": 36,
+    "decision": "PASS_AE_STEP2_FORWARD_REPLAY",
+    "final_equity": 309177.23166191403,
+    "first_date": "2026-06-17",
+    "last_date": "2026-08-07",
+    "open_positions": [
+      "DELL",
+      "HUM",
+      "MRVL"
+    ],
+    "sim_end_replayed": false
+  },
+  "generated_at": "2026-08-09T09:31:19.758409+00:00",
+  "isolation": {
+    "canonical_5y_modified": false,
+    "canonical_5y_rerun": false,
+    "dashboard_modified": false,
+    "forward_live_shared_runtime_state": false
+  },
+  "live": {
+    "actual_trades_recorded": false,
+    "automatic_execution_enabled": false,
+    "committed_date_count": 10,
+    "decision": "PASS_AE_STEP2_LIVE_OPENING_REPLAY",
+    "first_date": "2026-07-27",
+    "last_date": "2026-08-07",
+    "opening_cash": "100000.00",
+    "opening_date": "2026-07-27",
+    "opening_positions": {}
+  },
+  "source_commit": "f4217aaee79870dc99e1137c128f53c953c8a6e3",
+  "strategy_variant": "E1R_CAPPED_ATR_A0_V1",
+  "workflow": {
+    "checked_at": "2026-08-09T09:31:19.758300+00:00",
+    "decision": "PASS_WORKFLOWS_ACTIVE_NOT_STOPPED",
+    "weekend_no_market_update_is_expected": true,
+    "workflows": {
+      "engine-forward-daily.yml": {
+        "latest_scheduled_conclusion": "success",
+        "latest_scheduled_created_at": "2026-08-07T23:55:58Z",
+        "latest_scheduled_run_id": 31228641458,
+        "state": "active"
+      },
+      "live-track-daily.yml": {
+        "latest_scheduled_conclusion": "success",
+        "latest_scheduled_created_at": "2026-08-07T23:59:16Z",
+        "latest_scheduled_run_id": 31228800349,
+        "state": "active"
+      },
+      "update.yml": {
+        "latest_scheduled_conclusion": "success",
+        "latest_scheduled_created_at": "2026-08-07T23:29:03Z",
+        "latest_scheduled_run_id": 31227261896,
+        "state": "active"
+      }
+    }
+  }
+}

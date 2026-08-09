@@ -13,6 +13,13 @@
   },
   "market_regime": "UPTREND",
   "metadata": {
+    "capped_atr_stop": {
+      "display_name": "E1R CAPPED-ATR Engine",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "strict_cycle_state": true,
+      "triggered": [],
+      "variant_id": "E1R_CAPPED_ATR_A0_V1"
+    },
     "max_positions": 3,
     "route": {
       "branch": "UPTREND",
@@ -47,26 +54,26 @@
         {
           "entry_priority": 0,
           "entry_type": "E1R_UPTREND_CONFIRMED",
-          "leader_rank_all": 3,
-          "negative_leader_score": -94.1,
+          "leader_rank_all": 2,
+          "negative_leader_score": -94.22,
           "negative_momentum_acceleration": -3.5,
-          "negative_rs_20d_improvement": -14.8,
+          "negative_rs_20d_improvement": -15.2,
           "symbol": "AAL"
         },
         {
           "entry_priority": 0,
           "entry_type": "E1R_UPTREND_CONFIRMED",
-          "leader_rank_all": 2,
-          "negative_leader_score": -94.6,
-          "negative_momentum_acceleration": -23.1,
-          "negative_rs_20d_improvement": -44.3,
-          "symbol": "DD"
+          "leader_rank_all": 5,
+          "negative_leader_score": -91.91,
+          "negative_momentum_acceleration": 1.0,
+          "negative_rs_20d_improvement": -73.7,
+          "symbol": "ALK"
         },
         {
           "entry_priority": 0,
           "entry_type": "E1R_UPTREND_CONFIRMED",
           "leader_rank_all": 1,
-          "negative_leader_score": -95.77,
+          "negative_leader_score": -95.89,
           "negative_momentum_acceleration": 0.9,
           "negative_rs_20d_improvement": -9.8,
           "symbol": "ETSY"
@@ -74,28 +81,28 @@
         {
           "entry_priority": 0,
           "entry_type": "E1R_UPTREND_CONFIRMED",
-          "leader_rank_all": 4,
+          "leader_rank_all": 3,
           "negative_leader_score": -93.44,
           "negative_momentum_acceleration": -10.6,
-          "negative_rs_20d_improvement": 0.3,
+          "negative_rs_20d_improvement": -0.0,
           "symbol": "INTC"
         },
         {
           "entry_priority": 1,
           "entry_type": "E1R_UPTREND_EMERGING",
-          "leader_rank_all": 5,
-          "negative_leader_score": -93.03,
+          "leader_rank_all": 4,
+          "negative_leader_score": -93.27,
           "negative_momentum_acceleration": -3.0,
-          "negative_rs_20d_improvement": -69.1,
+          "negative_rs_20d_improvement": -69.0,
           "symbol": "LUV"
         },
         {
           "entry_priority": 1,
           "entry_type": "E1R_UPTREND_EMERGING",
-          "leader_rank_all": 18,
-          "negative_leader_score": -87.25,
+          "leader_rank_all": 17,
+          "negative_leader_score": -87.48,
           "negative_momentum_acceleration": -3.8,
-          "negative_rs_20d_improvement": -22.0,
+          "negative_rs_20d_improvement": -21.2,
           "symbol": "MNST"
         }
       ],
@@ -104,7 +111,7 @@
           "entry_priority": 0,
           "entry_type": "E1R_UPTREND_CONFIRMED",
           "leader_rank_all": 1,
-          "negative_leader_score": -95.77,
+          "negative_leader_score": -95.89,
           "negative_momentum_acceleration": 0.9,
           "negative_rs_20d_improvement": -9.8,
           "symbol": "ETSY"
@@ -113,45 +120,45 @@
           "entry_priority": 0,
           "entry_type": "E1R_UPTREND_CONFIRMED",
           "leader_rank_all": 2,
-          "negative_leader_score": -94.6,
-          "negative_momentum_acceleration": -23.1,
-          "negative_rs_20d_improvement": -44.3,
-          "symbol": "DD"
-        },
-        {
-          "entry_priority": 0,
-          "entry_type": "E1R_UPTREND_CONFIRMED",
-          "leader_rank_all": 3,
-          "negative_leader_score": -94.1,
+          "negative_leader_score": -94.22,
           "negative_momentum_acceleration": -3.5,
-          "negative_rs_20d_improvement": -14.8,
+          "negative_rs_20d_improvement": -15.2,
           "symbol": "AAL"
         },
         {
           "entry_priority": 0,
           "entry_type": "E1R_UPTREND_CONFIRMED",
-          "leader_rank_all": 4,
+          "leader_rank_all": 3,
           "negative_leader_score": -93.44,
           "negative_momentum_acceleration": -10.6,
-          "negative_rs_20d_improvement": 0.3,
+          "negative_rs_20d_improvement": -0.0,
           "symbol": "INTC"
+        },
+        {
+          "entry_priority": 0,
+          "entry_type": "E1R_UPTREND_CONFIRMED",
+          "leader_rank_all": 5,
+          "negative_leader_score": -91.91,
+          "negative_momentum_acceleration": 1.0,
+          "negative_rs_20d_improvement": -73.7,
+          "symbol": "ALK"
         },
         {
           "entry_priority": 1,
           "entry_type": "E1R_UPTREND_EMERGING",
-          "leader_rank_all": 5,
-          "negative_leader_score": -93.03,
+          "leader_rank_all": 4,
+          "negative_leader_score": -93.27,
           "negative_momentum_acceleration": -3.0,
-          "negative_rs_20d_improvement": -69.1,
+          "negative_rs_20d_improvement": -69.0,
           "symbol": "LUV"
         },
         {
           "entry_priority": 1,
           "entry_type": "E1R_UPTREND_EMERGING",
-          "leader_rank_all": 18,
-          "negative_leader_score": -87.25,
+          "leader_rank_all": 17,
+          "negative_leader_score": -87.48,
           "negative_momentum_acceleration": -3.8,
-          "negative_rs_20d_improvement": -22.0,
+          "negative_rs_20d_improvement": -21.2,
           "symbol": "MNST"
         }
       ],
@@ -173,7 +180,7 @@
       "reason": "engine_f_shell_existing_position_hold",
       "side": null,
       "symbol": "DELL",
-      "target_quantity": 156.48065098333814
+      "target_quantity": 173.68639377827557
     },
     {
       "branch": "UPTREND",
@@ -187,7 +194,7 @@
       "reason": "engine_f_shell_existing_position_hold",
       "side": null,
       "symbol": "HUM",
-      "target_quantity": 240.76122161662295
+      "target_quantity": 267.2339875982243
     },
     {
       "branch": "UPTREND",
@@ -201,7 +208,7 @@
       "reason": "engine_f_shell_existing_position_hold",
       "side": null,
       "symbol": "MRVL",
-      "target_quantity": 204.35358320635484
+      "target_quantity": 226.82316759124328
     }
   ],
   "reasons": [

@@ -1,21 +1,12 @@
 {
-  "derivation": "CANONICAL_5Y_OFFICIAL_EVIDENCE_RECONCILIATION",
+  "actual_sim_end_trades_sha256": "eb063e3c094cf2cdefdb77677ba9088466a9fc55b54169a96ceace486a50c3ac",
+  "artifact_type": "AE_STEP2_CAPPED_ATR_FORWARD_SEED",
+  "backtest_rerun_performed": false,
+  "canonical_result_sha256": "9720084b92ed7e7ae80eaf606a170239312e333f4e5daca7d284835afc6ffcd3",
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
-  "first_forward_market_date": "2026-06-17",
-  "is_original_runtime_trace": false,
-  "legacy_oos_used": false,
-  "must_not_be_represented_as_original_trace": true,
-  "old_seed_account_data_used": false,
-  "record_type": "ENGINE_FORWARD_SEED_PROVENANCE",
-  "schema_version": "1.0.0",
-  "seed_date": "2026-06-16",
-  "sources": {
-    "actual_sim_end_trades": "exports/official/FD-M3180125-SP500-TOP3-engine/backtest/canonical_5y/actual_sim_end_trades.json",
-    "canonical_price_root": "data/prices",
-    "forward_price_root": "data/fw_prices",
-    "legacy_oos_used": false,
-    "official_trades": "exports/official/FD-M3180125-SP500-TOP3-engine/backtest/canonical_5y/official_trades.json",
-    "old_seed_account_data_used": false,
-    "regular_eod_account_records": "exports/official/FD-M3180125-SP500-TOP3-engine/backtest/canonical_5y/regular_eod_account_records.json"
-  }
+  "official_metrics_sha256": "c6faaaa14faccbcdc1a287410a4ce01716acca1c5234ba112e8310ea82b8221b",
+  "regular_eod_account_records_sha256": "785dd4066acf17da4ecf2470677ec98d2ed0b8717d84d49c4bd6e0d2589857b4",
+  "schema_version": "2.0.0",
+  "sim_end_replayed": false,
+  "source_commit": "f4217aaee79870dc99e1137c128f53c953c8a6e3"
 }

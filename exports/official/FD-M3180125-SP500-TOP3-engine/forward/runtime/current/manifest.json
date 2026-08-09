@@ -1,20 +1,20 @@
 {
   "account_summary": {
-    "cash": 70153.97,
+    "cash": 77867.71,
     "open_positions_count": 3,
-    "positions_value": 208395.50952106953,
-    "total_equity": 278549.47952106956
+    "positions_value": 231309.521661914,
+    "total_equity": 309177.23166191403
   },
   "artifact_type": "OFFICIAL_FORWARD_CURRENT",
   "artifacts": {
     "account_state.json": {
-      "sha256": "3f5959d2b9a7a4f042b229eae81faf7e1af5d923c1154ed315890f35a9f7b06d"
+      "sha256": "a2217bf02ce0de7951bc8a518a07d3cb63762daa871ff202edfed8c68d9183e9"
     },
     "decision_trace.json": {
-      "sha256": "d2cc84aabbf0295ac0c21651e775831979d5df87bec902f2ba0ab6f83962fc4a"
+      "sha256": "a7cbbbe35c3e5d3e072731ec2db4ca6bf54c905b9bb02fd1cceec4fbc7e10425"
     },
     "equity.json": {
-      "sha256": "063c650f3ac10c5dc634dbff5d1f674eb4a2ce349ea22590b60c39d7ab8f29d5"
+      "sha256": "d9834e5b1961c6ddbf16c82e673b187be623a0e58a25b08a9485b852c5d1af33"
     },
     "execution.json": {
       "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba"
@@ -23,16 +23,16 @@
       "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
     },
     "order_intents.json": {
-      "sha256": "6099abe08068ab2b240745779afc5e05085942e8305328314035a2b88169eea8"
+      "sha256": "d154111bf93fd1cf404db1bbf1eeda66a74af568b096c2175d924676648d8ace"
     }
   },
-  "current_account_state_sha256": "3f5959d2b9a7a4f042b229eae81faf7e1af5d923c1154ed315890f35a9f7b06d",
+  "current_account_state_sha256": "a2217bf02ce0de7951bc8a518a07d3cb63762daa871ff202edfed8c68d9183e9",
   "current_pending_orders_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
   "date": "2026-08-07",
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
   "forward_track_end": "OPEN_ENDED",
   "last_committed_date": "2026-08-07",
-  "runtime_commit": "fcd4599883aa671d6121e6513a0f06baf5fdc3ac",
+  "runtime_commit": "f4217aaee79870dc99e1137c128f53c953c8a6e3",
   "schema_version": "1.0.0",
   "sim_end_performed": false,
   "source_hashes": {

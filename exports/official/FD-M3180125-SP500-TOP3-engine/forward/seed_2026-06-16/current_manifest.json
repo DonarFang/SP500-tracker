@@ -2,29 +2,27 @@
   "artifacts": [
     {
       "path": "forward_runtime_seed_state.json",
-      "sha256": "108a295f69b29b7cdbd181b9e19eec6551801767c3378f0bd021ebcc68111dfb",
-      "size_bytes": 2598
+      "sha256": "c8406fb94707bdf1cec4a789ad2cdc1e1e6907ab162d3a954069fe5ef10a51f4"
     },
     {
       "path": "forward_runtime_seed_contract.json",
-      "sha256": "b7247734609e62d8639f68f3cd91fdc2f2e13f6a77d5a90b582a8bdb3da7b538",
-      "size_bytes": 1642
+      "sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf"
     },
     {
       "path": "forward_runtime_seed_provenance.json",
-      "sha256": "8f6df85bb0a46260c56f1309ab1a7ccc5bb762ad4dbb08c6b6064b326f143701",
-      "size_bytes": 989
+      "sha256": "cb06dc67c7e135a0e00744aed8b3b91799ae44ab5671973a28278805cb908205"
     },
     {
       "path": "STEP2_FORWARD_RUNTIME_SEED_FREEZE_DECISION.json",
-      "sha256": "3655963171918ccc2471154c25b38b63a1a2af56ea38246e03ecec8c4c7560f6",
-      "size_bytes": 531
+      "sha256": "49e83028a09e6c6a2e1349af97d2924dafd78f999e1651ecc80aef9dbbc93fd0"
     }
   ],
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
   "first_forward_market_date": "2026-06-17",
-  "record_type": "ENGINE_FORWARD_SEED_MANIFEST",
-  "schema_version": "1.0.0",
+  "formal_variant": "E1R_CAPPED_ATR_A0_V1",
+  "legacy_oos_is_fact_source": false,
+  "schema_version": "2.0.0",
   "seed_date": "2026-06-16",
+  "sim_end_replayed": false,
   "status": "ACTIVE_CANONICAL"
 }

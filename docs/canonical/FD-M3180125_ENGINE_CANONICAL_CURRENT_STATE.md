@@ -539,3 +539,15 @@ The former V00 stop/result section below is historical. The current formal varia
 - Full record: `docs/canonical/FD-M3180125_AE_STEP1_CAPPED_ATR_MIGRATION_RECORD.md`
 
 <!-- AE_STEP1_CAPPED_ATR_END -->
+
+<!-- AE_STEP2_REPLAY_BEGIN -->
+
+## AE-step 2 — Forward / Live replay and Workflow verification
+
+- Status: `PASS_AE_STEP2_FINAL_ACCEPTANCE`
+- Forward: `2026-06-17 → 2026-08-07` from the `2026-06-16` normal EOD CAPPED-ATR account state
+- Live: `2026-07-27 → 2026-08-07` from `2026-07-27` Opening (`USD 100,000`, empty positions)
+- Workflows: active; latest scheduled runs successful; weekend no-update is expected
+- Backtest rerun or rewrite: `false`
+
+<!-- AE_STEP2_REPLAY_END -->

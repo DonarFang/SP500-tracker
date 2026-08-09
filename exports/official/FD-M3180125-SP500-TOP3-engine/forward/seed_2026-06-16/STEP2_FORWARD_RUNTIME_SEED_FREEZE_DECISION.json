@@ -1,17 +1,12 @@
 {
-  "decision": "PASS_ENGINE_FORWARD_CANONICAL_0616_SEED_FROZEN",
-  "engine_id": "FD-M3180125-SP500-TOP3-engine",
+  "decision": "PASS_AE_STEP2_CAPPED_ATR_FORWARD_SEED_REBUILT",
   "first_forward_market_date": "2026-06-17",
   "position_symbols": [
     "DELL",
     "HUM",
     "MRVL"
   ],
-  "positions_are_new_buys": false,
-  "record_type": "ENGINE_FORWARD_SEED_FREEZE_DECISION",
-  "schema_version": "1.0.0",
   "seed_date": "2026-06-16",
-  "sim_end_liquidation_replayed": false,
-  "supersedes_seed_date": "2026-06-18",
-  "unknown_pending_order_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
+  "seed_equity": 310000.00618824526,
+  "sim_end_replayed": false
 }
