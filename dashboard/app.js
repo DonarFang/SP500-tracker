@@ -1,6 +1,6 @@
 /**
- * SP500 Trend Decision Support Cockpit — app.js v2.0
- * 5 tabs: Market Overview / Leader Board / Watchlist / Positions & Exit / Research & Backtest
+ * SP500 Trend Decision Support Cockpit
+ * 3 tabs: US Market Overview / Forward Test Validation / Live Trade Display
  */
 
 const EXPORTS_BASE = 'https://donarfang.github.io/SP500-tracker/exports';
@@ -1647,9 +1647,8 @@ const STEP3_D1_PRICE_FILES = {
 
 function installStep3D1Tab() {
   const tabs = document.querySelector('.tabs');
-  const legacyMarket = document.getElementById('s-market');
 
-  if (!tabs || !legacyMarket) {
+  if (!tabs) {
     throw new Error(
       'US Market Overview tab anchor missing'
     );
@@ -1681,9 +1680,9 @@ function installStep3D1Tab() {
   );
 
   tabs.insertBefore(button, tabs.firstChild);
-  legacyMarket.parentNode.insertBefore(
+  tabs.parentNode.insertBefore(
     section,
-    legacyMarket
+    tabs.nextSibling
   );
 }
 
@@ -1922,6 +1921,10 @@ async function loadStep3D1UsMarketOverview() {
       subclass,
       indices: Object.fromEntries(entries),
     });
+    const uptime = document.getElementById('uptime');
+    if (uptime) {
+      uptime.textContent = `Market Date: ${marketDate}`;
+    }
   } catch (error) {
     if (root) {
       root.innerHTML =
@@ -2433,60 +2436,6 @@ async function loadAll() {
   await loadStep3D2ForwardValidation();
   installStep3D3Tab();
   await loadStep3D3LiveTradeDisplay();
-  // Stage 3.8E-2B-v4: read-only daily summary exports for unified summary.
-  try { DATA.e1rV02Status = await fetchJ('e1r_v0_2_status'); } catch(e) { DATA.e1rV02Status = {}; }
-  try { DATA.e1rV02BacktestSummary = await fetchJ('e1r_v0_2_backtest_summary'); } catch(e) { DATA.e1rV02BacktestSummary = {}; }
-  try { DATA.e1rV02OosSummary = await fetchJ('oos_e1r_v0_2_summary'); } catch(e) { DATA.e1rV02OosSummary = {}; }
-  try { DATA.oosSummaryNative = await fetchJ('oos_summary'); } catch(e) { DATA.oosSummaryNative = {}; }
-  ['market','leader','watchlist','positions','research'].forEach(t=>{
-    const el=$('s-'+t); if(el) el.innerHTML='<div class="loading"><span class="spin"></span>加载中...</div>';
-  });
-  $('uptime').textContent='加载中...';
-  try {
-    // 核心数据：market_state / leaderboard 失败则整页报错
-    // 辅助数据：其余均 graceful fallback，不阻塞渲染
-    const [mkt,lb] = await Promise.all([
-      fetchJ('market_state'),
-      fetchJ('leaderboard'),
-    ]);
-    DATA.market=mkt.market; DATA.leaderboard=lb.leaders||[];
-    $('uptime').textContent='数据时间：'+(mkt.generated_at_display||mkt.generated_at||'未知');
-
-    // 辅助数据并行加载，各自 fallback
-    const [wl,lc,dh,bt,tlog,sc,oosEq,e1rOrders,e1rPositions,e1rOosEquity,e1rReg,e1rConf,e1r3i,e1r3ir,e1r3k,e1rFormal] = await Promise.all([
-      fetchJ('watchlist').catch(()=>({watchlist:[]})),
-      fetchJ('lifecycle').catch(()=>({regimes:{}})),
-      fetchJ('data_health').catch(()=>null),
-      fetchJ('backtest').catch(()=>null),
-      fetchJ('trade_log').catch(()=>null),
-      fetchJ('stock_charts').catch(()=>({symbols:{}})),
-      fetchJ('oos_equity_curve').catch(()=>null),
-      fetchJ('oos_e1r_v0_2_orders').catch(()=>({orders:[]})),
-      fetchJ('oos_e1r_v0_2_positions').catch(()=>({positions:[]})),
-      fetchJ('oos_e1r_v0_2_equity_curve').catch(()=>({equity_curve:[]})),
-      fetchResearchJ('e1r_regime_attribution_review').catch(()=>null),
-      fetchResearchJ('e1r_phase3e_confirmed_quality_diagnostic').catch(()=>null),
-      fetchResearchJ('e1r_phase3i_sideways_quality_decomposition_diagnostic').catch(()=>null),
-      fetchResearchJ('e1r_phase3ir_sideways_recovery_robustness_diagnostic').catch(()=>null),
-      fetchResearchJ('e1r_phase3k_sideways_recovery_regime_definition_review').catch(()=>null),
-      fetchResearchJ('e1r_formal_backtest_v0_1').catch(()=>null),
-    ]);
-    DATA.watchlist=wl.watchlist||[]; DATA.lifecycle=lc.regimes||{};
-    DATA.health=dh; DATA.backtest=bt; DATA.tradelog=tlog;
-    DATA.stockCharts=(sc&&sc.symbols)||{};
-    DATA.oosEquity=oosEq;
-    DATA.e1rV02OosOrders=e1rOrders; DATA.e1rV02OosPositions=e1rPositions; DATA.e1rV02OosEquityCurve=e1rOosEquity;
-    DATA.e1rRegime=e1rReg; DATA.e1rConfirmed=e1rConf;
-    DATA.e1rSideways3i=e1r3i; DATA.e1rSideways3ir=e1r3ir; DATA.e1rSideways3k=e1r3k; DATA.e1rFormal=e1rFormal;
-
-    ['market','leader','watchlist','positions','research'].forEach(t=>render(t));
-  } catch(e) {
-    // 只有核心数据失败才整页报错
-    ['market','leader','watchlist','positions','research'].forEach(t=>{
-      const el=$('s-'+t);
-      if(el) el.innerHTML=`<div class="error"><strong>核心数据加载失败</strong><br>${e.message}<br><br>请先运行 GitHub Actions → 初始化历史数据。</div>`;
-    });
-  }
 }
 
 function go(name,btn){
@@ -4072,48 +4021,3 @@ loadAll();
   }
 })();
 /* === END E1R_V0_2_DASHBOARD_MODULE_STAGE_3_4_CLEAN_INTEGRATION === */
-
-/* REMOVE_RESEARCH_BACKTEST_AND_MARKET_OVERVIEW_TABS */
-(function removeObsoleteDashboardTabs() {
-  const removedTabNames = new Set([
-    'Research & Backtest',
-    'Market Overview',
-  ]);
-
-  function removeMatchingTabs() {
-    const buttons = Array.from(
-      document.querySelectorAll('.tab')
-    );
-
-    for (const button of buttons) {
-      const label = button.textContent.trim();
-
-      if (!removedTabNames.has(label)) {
-        continue;
-      }
-
-      const onclick = button.getAttribute('onclick') || '';
-      const match = onclick.match(
-        /go\(\s*['"]([^'"]+)['"]/
-      );
-
-      if (match) {
-        document
-          .getElementById(`s-${match[1]}`)
-          ?.remove();
-      }
-
-      button.remove();
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener(
-      'DOMContentLoaded',
-      removeMatchingTabs,
-      {once: true}
-    );
-  } else {
-    removeMatchingTabs();
-  }
-})();

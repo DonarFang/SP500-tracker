@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SP500 Trend Decision Support Cockpit</title>
-<link rel="stylesheet" href="styles.css?v=ae-step4-live-display-v1">
+<link rel="stylesheet" href="styles.css?v=ae-step5-three-tabs-v1">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 .badge-hold{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500;background:#F1EFE8;color:#2C2C2A}
@@ -25,17 +25,8 @@
     </div>
     <button class="btn-refresh" onclick="loadAll()">↻ 刷新</button>
   </div>
-  <div class="tabs">
-    <button class="tab"     onclick="go('leader',   this)">🏆 Leader Board</button>
-    <button class="tab"     onclick="go('watchlist',this)">👁 Watchlist</button>
-    <button class="tab"     onclick="go('positions',this)">📊 Positions &amp; Exit</button>
-  </div>
-  <div id="s-market"    class="section on"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
-  <div id="s-leader"    class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
-  <div id="s-watchlist" class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
-  <div id="s-positions" class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
-  <div id="s-research"  class="section"><div class="loading"><span class="spin"></span>加载数据中...</div></div>
+  <div class="tabs"></div>
 </div>
-<script src="app.js?v=ae-step4-live-display-v1"></script>
+<script src="app.js?v=ae-step5-three-tabs-v1"></script>
 </body>
 </html>

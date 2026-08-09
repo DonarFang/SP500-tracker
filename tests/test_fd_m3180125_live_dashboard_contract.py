@@ -14,17 +14,27 @@ LIVE_ROOT = (
 D2_BLOCK_SHA256 = (
     "d22893819734c7e7fafba2de048ae38b6d66a7157683cd9deffd709c040aa9e6"
 )
+D3_BLOCK_SHA256 = (
+    "91761565a7271932baa497a45a7e68f532929add133e1fbf76b7293d1e99ec66"
+)
 
 
-def test_live_tab_order_and_legacy_tabs_are_preserved() -> None:
+def test_only_three_official_tabs_are_installed_in_order() -> None:
     app = (ROOT / "dashboard/app.js").read_text(encoding="utf-8")
     index = (ROOT / "dashboard/index.html").read_text(encoding="utf-8")
     load_all = app[app.index("async function loadAll()") :]
     assert load_all.index("installStep3D1Tab()") < load_all.index(
         "installStep3D2Tab()"
     ) < load_all.index("installStep3D3Tab()")
+    active_load_all = load_all[: load_all.index("function go(")]
+    assert active_load_all.count("installStep3D1Tab()") == 1
+    assert active_load_all.count("installStep3D2Tab()") == 1
+    assert active_load_all.count("installStep3D3Tab()") == 1
+    assert "<div class=\"tabs\"></div>" in index
     for label in ("Leader Board", "Watchlist", "Positions &amp; Exit"):
-        assert label in index
+        assert label not in index
+    for section_id in ("s-leader", "s-watchlist", "s-positions"):
+        assert section_id not in index
     assert "Live Trade Display" in app
 
 
@@ -34,6 +44,13 @@ def test_forward_validation_block_is_byte_preserved() -> None:
     end = app.index("function installStep3D1Tab()")
     assert hashlib.sha256(app[start:end].encode()).hexdigest() == D2_BLOCK_SHA256
     assert "E1R_CAPPED_ATR_A0_V1" in app[start:end]
+
+
+def test_live_display_block_is_byte_preserved() -> None:
+    app = (ROOT / "dashboard/app.js").read_text(encoding="utf-8")
+    start = app.index("/* STEP3_D3_LIVE_TRADE_DISPLAY */")
+    end = app.index("async function loadAll()")
+    assert hashlib.sha256(app[start:end].encode()).hexdigest() == D3_BLOCK_SHA256
 
 
 def test_dashboard_interaction_is_owner_confirmed_and_has_no_browser_secret() -> None:
