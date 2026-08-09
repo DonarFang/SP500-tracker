@@ -2,12 +2,12 @@
   "schema_version": "1.0.0",
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
   "run_mode": "BACKTEST",
-  "formal_variant": "E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3",
-  "canonical_strategy_commit": "d7eb4dc0288433c68332e4607ae261d2f615d371",
-  "operational_repository_head": "886276d4b06b3178e68dea5ecf6042e846f80187",
+  "formal_variant": "E1R_CAPPED_ATR_A0_V1",
+  "canonical_strategy_commit": "ae3038cd5bf34a38ba0b3ac82f12f8c195082d98",
+  "operational_repository_head": "ae3038cd5bf34a38ba0b3ac82f12f8c195082d98",
   "source_result": {
-    "path_at_export_time": "/Users/dongfang/Downloads/E1R_SIDEWAYS_STEP4_FINAL_20260712T155945Z/results/formal_5y_backtest_result.canonical.json",
-    "sha256": "d8a5ea27ba0d8a7e8f7042bcbd09ffe67799f3b094a81cb92141a70f3075d593"
+    "path_at_export_time": "exports/e1r_unified_5y_full_account_v1_result.json",
+    "sha256": "9720084b92ed7e7ae80eaf606a170239312e333f4e5daca7d284835afc6ffcd3"
   },
   "export_character": {
     "pure_export": true,

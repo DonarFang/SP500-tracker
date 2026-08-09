@@ -523,3 +523,19 @@ BUY / ADD / HOLD / REDUCE / EXIT 只能由唯一 Engine 内部产生。
 差异只能发生在 Engine 之前和 Engine 之后，
 不能发生在 Engine 策略核心内部。
 ```
+
+<!-- AE_STEP1_CAPPED_ATR_BEGIN -->
+
+## AE-step 1 — CAPPED-ATR production migration (latest authority)
+
+The former V00 stop/result section below is historical. The current formal variant is `E1R_CAPPED_ATR_A0_V1` (`E1R CAPPED-ATR Engine`).
+
+- Source commit: `ae3038cd5bf34a38ba0b3ac82f12f8c195082d98`
+- Canonical result SHA256: `9720084b92ed7e7ae80eaf606a170239312e333f4e5daca7d284835afc6ffcd3`
+- Final equity: `312687.26`
+- Return / CAGR / MaxDD: `212.69% / 25.59% / 25.66%`
+- Sharpe / PF / Trades / Exposure: `0.76 / 2.36 / 92 / 69.2%`
+- Forward / Live / Workflow / Dashboard: unchanged in AE-step 1
+- Full record: `docs/canonical/FD-M3180125_AE_STEP1_CAPPED_ATR_MIGRATION_RECORD.md`
+
+<!-- AE_STEP1_CAPPED_ATR_END -->

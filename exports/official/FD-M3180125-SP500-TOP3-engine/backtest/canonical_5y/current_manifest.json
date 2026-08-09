@@ -4,12 +4,12 @@
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
   "run_mode": "BACKTEST",
   "artifact_status": "OFFICIAL",
-  "formal_variant": "E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3",
-  "canonical_strategy_commit": "d7eb4dc0288433c68332e4607ae261d2f615d371",
-  "operational_repository_head": "886276d4b06b3178e68dea5ecf6042e846f80187",
+  "formal_variant": "E1R_CAPPED_ATR_A0_V1",
+  "canonical_strategy_commit": "ae3038cd5bf34a38ba0b3ac82f12f8c195082d98",
+  "operational_repository_head": "ae3038cd5bf34a38ba0b3ac82f12f8c195082d98",
   "source": {
-    "path_at_export_time": "/Users/dongfang/Downloads/E1R_SIDEWAYS_STEP4_FINAL_20260712T155945Z/results/formal_5y_backtest_result.canonical.json",
-    "sha256": "d8a5ea27ba0d8a7e8f7042bcbd09ffe67799f3b094a81cb92141a70f3075d593"
+    "path_at_export_time": "exports/e1r_unified_5y_full_account_v1_result.json",
+    "sha256": "9720084b92ed7e7ae80eaf606a170239312e333f4e5daca7d284835afc6ffcd3"
   },
   "date_boundaries": {
     "backtest_start": "2021-06-11",
@@ -21,61 +21,61 @@
       "filename": "STEP1_OFFICIAL_EXPORT_DECISION.json",
       "relative_path": "STEP1_OFFICIAL_EXPORT_DECISION.json",
       "size_bytes": 743,
-      "sha256": "7d0605a82f931c0ec97060876c10a3c3a7a1003d62ae26b3a655a6a9eb018f24"
+      "sha256": "269d2ad785095dfb1133ea12a79fa73b76003cfba9c6fece8289ead4a41afffd"
     },
     {
       "filename": "actual_sim_end_trades.json",
       "relative_path": "actual_sim_end_trades.json",
-      "size_bytes": 5872,
-      "sha256": "90e77b740fc351bf77c6e143452e9e6a4428ed3cbb5bc1c1cf0d09a9260c4277"
+      "size_bytes": 5873,
+      "sha256": "eb063e3c094cf2cdefdb77677ba9088466a9fc55b54169a96ceace486a50c3ac"
     },
     {
       "filename": "artifact_contract.json",
       "relative_path": "artifact_contract.json",
-      "size_bytes": 3095,
-      "sha256": "cc15c6229ccabaa7434808b859c9bef339e9a21186f2bccc3a3823ddd29f5cd2"
+      "size_bytes": 2655,
+      "sha256": "e2c8251d0f2f0e74b200f7115236c237a99e8e0e2abd1e2009b9ca5f8754e075"
     },
     {
       "filename": "backtest_equity_curve.csv",
       "relative_path": "backtest_equity_curve.csv",
-      "size_bytes": 178678,
-      "sha256": "04460896d7a670e0da5c4055b07baaeebc98dc2859b3789ddef5251aa2aa7b3b"
+      "size_bytes": 178709,
+      "sha256": "cd591ae8d12feecbb98c3bf06042bf079f6e9baeeb0056bb228d71e33283d059"
     },
     {
       "filename": "backtest_equity_curve.json",
       "relative_path": "backtest_equity_curve.json",
-      "size_bytes": 661064,
-      "sha256": "b3174fb83ffac6a9f305316978bd07a19d6e75854b5745ac0e5d38f8de51abf4"
+      "size_bytes": 661095,
+      "sha256": "dcc7ba4ea168de8301405f51bd18f733d3a176047f0b6067fc925500b698f8be"
     },
     {
       "filename": "final_settlement.json",
       "relative_path": "final_settlement.json",
-      "size_bytes": 923,
-      "sha256": "d7555f20028466614a409935ea43c75438100aaefa486548b364f4189a33ab0c"
+      "size_bytes": 738,
+      "sha256": "c3bf46e9e429fdf88359f635d9a90fe22d20635951d91ce37a1220e93c10251a"
     },
     {
       "filename": "official_metrics.json",
       "relative_path": "official_metrics.json",
-      "size_bytes": 2198,
-      "sha256": "f6718bfdd0a9ec5b1e27dea0db05a039890719ec756918dc5810d3a7d3b75655"
+      "size_bytes": 1935,
+      "sha256": "c6faaaa14faccbcdc1a287410a4ce01716acca1c5234ba112e8310ea82b8221b"
     },
     {
       "filename": "official_trades.json",
       "relative_path": "official_trades.json",
-      "size_bytes": 212267,
-      "sha256": "9654afc2adc33be0eebc61c597c3467c7114b4997ac847f1e3479ca38984ccc3"
+      "size_bytes": 212178,
+      "sha256": "3d1548f5ba3bd6436c93fcf8f36ec09a10cbae0ea4b94f0a131b99d948c012b4"
     },
     {
       "filename": "provenance.json",
       "relative_path": "provenance.json",
-      "size_bytes": 799,
-      "sha256": "cf64a1c6e9d16a5db0f6e5440a035f8c0e297c207be8c8be2ed62964b81d1928"
+      "size_bytes": 718,
+      "sha256": "b32da5d2af43f6ed0def2c873b39d3294fb00e19f63d493969a0094b52785707"
     },
     {
       "filename": "regular_eod_account_records.json",
       "relative_path": "regular_eod_account_records.json",
-      "size_bytes": 1102340,
-      "sha256": "0407a384311e5af7a1091355800c2afc2c95c7680ac16efb82544209438d8885"
+      "size_bytes": 1102371,
+      "sha256": "785dd4066acf17da4ecf2470677ec98d2ed0b8717d84d49c4bd6e0d2589857b4"
     }
   ]
 }
