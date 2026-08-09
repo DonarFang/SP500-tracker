@@ -13,19 +13,10 @@ from typing import Any
 
 ENGINE_ID = "FD-M3180125-SP500-TOP3-engine"
 RUN_MODE = "BACKTEST"
-VARIANT_ID = "E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3"
-CANONICAL_STRATEGY_COMMIT = (
-    "d7eb4dc0288433c68332e4607ae261d2f615d371"
-)
-EXPECTED_SOURCE_SHA256 = (
-    "d8a5ea27ba0d8a7e8f7042bcbd09ffe"
-    "67799f3b094a81cb92141a70f3075d593"
-)
+VARIANT_ID = "E1R_CAPPED_ATR_A0_V1"
+DISPLAY_NAME = "E1R CAPPED-ATR Engine"
 
-VARIANT_JSON_PATH = (
-    "$.backtest.results.results.layer_d.variant_results."
-    "E1R_REGIME_AWARE_V0_2_STATEFUL_MAX3"
-)
+VARIANT_JSON_PATH = "$"
 DAILY_JSON_PATH = f"{VARIANT_JSON_PATH}.daily_equity_records"
 TRADES_JSON_PATH = f"{VARIANT_JSON_PATH}.trades"
 FINAL_EQUITY_JSON_PATH = f"{VARIANT_JSON_PATH}.final_equity"
@@ -39,8 +30,8 @@ EXPECTED_FIRST_DATE = "2021-06-11"
 EXPECTED_LAST_REGULAR_DATE = "2026-06-16"
 EXPECTED_SETTLEMENT_DATE = "2026-06-18"
 EXPECTED_INITIAL_EQUITY = 100000.0
-EXPECTED_LAST_REGULAR_EQUITY = 279290.75
-EXPECTED_FINAL_EQUITY = 281711.79
+EXPECTED_LAST_REGULAR_EQUITY = 310000.01
+EXPECTED_FINAL_EQUITY = 312687.26
 VALUE_TOLERANCE = 0.02
 
 
@@ -147,15 +138,15 @@ def validate_and_extract(
     list[dict[str, Any]],
     dict[str, Any],
 ]:
-    try:
-        variant = (
-            root["backtest"]["results"]["results"]["layer_d"]
-            ["variant_results"][VARIANT_ID]
-        )
-    except (KeyError, TypeError) as exc:
-        raise ExportValidationError(
-            f"Target variant not found: {VARIANT_JSON_PATH}"
-        ) from exc
+    variant = root
+    require(
+        variant.get("strategy_variant") == VARIANT_ID,
+        "Direct result has the wrong strategy_variant",
+    )
+    require(
+        variant.get("strategy_display_name") == DISPLAY_NAME,
+        "Direct result has the wrong strategy_display_name",
+    )
 
     require(isinstance(variant, dict), "Variant must be an object")
 
@@ -167,6 +158,17 @@ def validate_and_extract(
     require(isinstance(daily, list), "daily_equity_records must be a list")
     require(isinstance(trades, list), "trades must be a list")
     require(isinstance(settlement, dict), "settlement record must be an object")
+    require(
+        len(variant.get("capped_atr_stop_trace", [])) == 8,
+        "Expected exactly 8 CAPPED-ATR trigger trace rows",
+    )
+    require(
+        variant.get("executed_exit_reason_distribution", {}).get(
+            "HARD_LOSS_STOP"
+        )
+        == 3,
+        "Expected exactly 3 executed HARD_LOSS_STOP exits",
+    )
 
     require(
         len(daily) == EXPECTED_REGULAR_ROW_COUNT,
@@ -253,6 +255,20 @@ def validate_and_extract(
         approximately_equal(final_equity, EXPECTED_FINAL_EQUITY),
         f"Unexpected authoritative final equity: {final_equity}",
     )
+    expected_metrics = {
+        "total_return_pct": 212.69,
+        "cagr_pct": 25.59,
+        "max_drawdown_pct": 25.66,
+        "sharpe_ratio": 0.76,
+        "profit_factor": 2.36,
+        "number_of_trades": 92,
+        "exposure_pct": 69.2,
+    }
+    for key, expected in expected_metrics.items():
+        require(
+            approximately_equal(variant.get(key), expected),
+            f"Unexpected {key}: {variant.get(key)}",
+        )
 
     require(
         settlement.get("date") == EXPECTED_SETTLEMENT_DATE,
@@ -415,7 +431,7 @@ def build_manifest(
         "run_mode": RUN_MODE,
         "artifact_status": "OFFICIAL",
         "formal_variant": VARIANT_ID,
-        "canonical_strategy_commit": CANONICAL_STRATEGY_COMMIT,
+        "canonical_strategy_commit": operational_head,
         "operational_repository_head": operational_head,
         "source": {
             "path_at_export_time": str(source_path),
@@ -436,13 +452,6 @@ def export(
     operational_head: str,
 ) -> dict[str, Any]:
     source_sha = sha256_file(source_path)
-    require(
-        source_sha == EXPECTED_SOURCE_SHA256,
-        (
-            "Source SHA mismatch: "
-            f"expected {EXPECTED_SOURCE_SHA256}, got {source_sha}"
-        ),
-    )
 
     root = json.loads(source_path.read_text(encoding="utf-8"))
     require(isinstance(root, dict), "Source root must be an object")
@@ -473,8 +482,8 @@ def export(
         "run_mode": RUN_MODE,
         "artifact_status": "OFFICIAL",
         "formal_variant": VARIANT_ID,
-        "canonical_strategy_commit": CANONICAL_STRATEGY_COMMIT,
-        "source_result_sha256": EXPECTED_SOURCE_SHA256,
+        "canonical_strategy_commit": operational_head,
+        "source_result_sha256": source_sha,
         "source_json_paths": {
             "variant": VARIANT_JSON_PATH,
             "regular_eod_curve": DAILY_JSON_PATH,
@@ -594,7 +603,7 @@ def export(
         "engine_id": ENGINE_ID,
         "run_mode": RUN_MODE,
         "formal_variant": VARIANT_ID,
-        "canonical_strategy_commit": CANONICAL_STRATEGY_COMMIT,
+        "canonical_strategy_commit": operational_head,
         "operational_repository_head": operational_head,
         "source_result": {
             "path_at_export_time": str(source_path),
@@ -683,11 +692,11 @@ def export(
     write_json_atomic(output_dir / "current_manifest.json", manifest)
 
     decision = {
-        "decision": "PASS_STEP1_OFFICIAL_BACKTEST_ARTIFACT_EXPORT",
+        "decision": "PASS_AE_STEP_1_CAPPED_ATR_OFFICIAL_BACKTEST_ARTIFACT_EXPORT",
         "engine_id": ENGINE_ID,
         "run_mode": RUN_MODE,
         "formal_variant": VARIANT_ID,
-        "canonical_strategy_commit": CANONICAL_STRATEGY_COMMIT,
+        "canonical_strategy_commit": operational_head,
         "operational_repository_head": operational_head,
         "source_result_sha256": source_sha,
         "regular_eod_point_count": len(regular_curve),

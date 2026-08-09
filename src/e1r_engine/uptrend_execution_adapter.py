@@ -3,6 +3,7 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Any, Mapping
 
+from e1r_engine.capped_atr_stop import ENTRY_METADATA_KEY
 from e1r_engine.state import OrderIntent
 
 
@@ -104,6 +105,10 @@ class UptrendExecutionAdapter:
                         f"OrderIntent: {key}"
                     )
 
+            entry_metadata = intent.metadata.get(ENTRY_METADATA_KEY)
+            if isinstance(entry_metadata, Mapping):
+                payload[ENTRY_METADATA_KEY] = deepcopy(dict(entry_metadata))
+
             return payload
 
         if action != "BUY":
@@ -157,6 +162,10 @@ class UptrendExecutionAdapter:
             "e1r_entry_type": entry_type,
             "target_size_units": float(target_size_units),
         }
+
+        entry_metadata = intent.metadata.get(ENTRY_METADATA_KEY)
+        if isinstance(entry_metadata, Mapping):
+            payload[ENTRY_METADATA_KEY] = deepcopy(dict(entry_metadata))
 
         return payload
 

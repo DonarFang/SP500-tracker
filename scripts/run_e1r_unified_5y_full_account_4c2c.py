@@ -22,11 +22,14 @@ OUT_RESULT = ROOT / "exports/e1r_unified_5y_full_account_v1_result.json"
 OUT_CURVE = ROOT / "exports/e1r_unified_5y_full_account_v1_equity_curve.json"
 OUT_SUMMARY = ROOT / "exports/e1r_unified_5y_full_account_v1_summary.json"
 
-REPORT_JSON = ROOT / "docs/research/E1R_UNIFIED_5Y_FULL_ACCOUNT_V1_4C2C_FULL_RUN_REPORT.json"
-REPORT_MD = ROOT / "docs/research/E1R_UNIFIED_5Y_FULL_ACCOUNT_V1_4C2C_FULL_RUN_REPORT.md"
+REPORT_JSON = ROOT / "docs/research/FD-M3180125_AE_STEP1_CAPPED_ATR_5Y_REBUILD_REPORT.json"
+REPORT_MD = ROOT / "docs/research/FD-M3180125_AE_STEP1_CAPPED_ATR_5Y_REBUILD_REPORT.md"
 
 FROZEN_FILES = [
     ROOT / "src/engine/backtest.py",
+    ROOT / "src/e1r_engine/capped_atr_stop.py",
+    ROOT / "src/e1r_engine/core.py",
+    ROOT / "src/e1r_engine/uptrend_execution_adapter.py",
     ROOT / "src/engine/e1r_composer.py",
     ROOT / "src/engine/e1r_sidecar_sleeve.py",
 ]
@@ -37,10 +40,7 @@ ASSUMPTION_SOURCE_CANDIDATES = [
     ROOT / "docs/research/E1R_UNIFIED_5Y_FULL_ACCOUNT_V1_4C2B5_REGIME_WIRING_TRADE_WINDOW_REPORT.json",
 ]
 
-STOCK_DIR_CANDIDATES = [
-    ROOT / "data/research/e1_5y/raw/stocks",
-    ROOT / "data/prices",
-]
+STOCK_DIR_CANDIDATES = [ROOT / "data/research/e1_5y/raw/stocks"]
 
 INDEX_PATHS = {
     "SPX": ROOT / "data/research/e1_5y/raw/indices/SPX.json",
@@ -53,13 +53,13 @@ EXCLUDED_SYMBOLS = {"VIXY"}
 
 HARD_DEFAULTS = {
     "initial_capital": 100000.0,
-    "max_positions": 10,
+    "max_positions": 3,
     "buy_size": 1.0,
     "sell_size": 1.0,
     "add_size": 0.5,
     "reduce_size": 0.5,
     "max_single_size": 1.0,
-    "total_one_way": 1.0,
+    "total_one_way": 0.001,
     "position_size_pct": 0.10,
     "min_hold": 10,
     "min_holding_days": 10,
@@ -81,6 +81,7 @@ HARD_DEFAULTS = {
     "market_shock_daily_return": -0.02,
     "risk_off_below_spx_ma50": False,
     "execution_model": "adverse_intraday",
+    "e1r_sideways_execution_enabled": True,
     "qualified_entry_enabled": False,
     "qualified_states": ["Expansion"],
     "partial_take_profit": False,
@@ -101,6 +102,59 @@ HARD_DEFAULTS = {
     "slippage_pct": 0.0,
     "risk_budget": 1.0,
     "risk_budget_mode": "full",
+}
+
+CANONICAL_5Y_OVERRIDES = {
+    "initial_capital": 100000.0,
+    "max_positions": 3,
+    "buy_size": 1.0,
+    "add_size": 0.5,
+    "max_single_size": 1.0,
+    "transaction_cost": 0.0005,
+    "slippage": 0.0005,
+    "total_one_way": 0.001,
+    "total_round_trip": 0.002,
+    "execution_model": "adverse_intraday",
+    "buy_price_field": "high",
+    "sell_price_field": "low",
+    "cash_yield": 0.0,
+    "leverage": False,
+    "short_selling": False,
+    "entry_top_n": 3,
+    "rank_based_exit": False,
+    "market_gate_enabled": True,
+    "risk_off_below_spx_ma50": False,
+    "market_shock_gate_enabled": False,
+    "market_shock_daily_return": -0.02,
+    "entry_rs_min": 90.0,
+    "min_holding_days": 10,
+    "min_hold_allow_broken_exit": True,
+    "relative_stop_enabled": False,
+    "partial_take_profit_enabled": False,
+    "block_add_after_take_profit": False,
+    "ls60_exit_mode": "exit",
+    "candidate_top_n": None,
+    "qualified_entry_enabled": False,
+    "fill_only_enabled": False,
+    "gate_use_slope": True,
+    "gate_use_leadership": True,
+    "dynamic_exit_enabled": False,
+    "e1r_shell_mode": True,
+    "e1r_uptrend_execution_enabled": True,
+    "e1r_sideways_execution_enabled": True,
+    "strategy_variant": "E1R_CAPPED_ATR_A0_V1",
+    "version": "E1R-CAPPED-ATR-A0-v1",
+}
+
+REFERENCE_METRICS = {
+    "final_equity": 312687.26,
+    "total_return_pct": 212.69,
+    "cagr_pct": 25.59,
+    "max_drawdown_pct": 25.66,
+    "sharpe_ratio": 0.76,
+    "profit_factor": 2.36,
+    "number_of_trades": 92,
+    "exposure_pct": 69.2,
 }
 
 def now() -> str:
@@ -385,18 +439,13 @@ def build_assumptions(required_keys: list[str]) -> tuple[dict[str, Any], dict[st
     assumptions["e1r_regime_wiring_enabled"] = True
     assumptions["e1r_regime_daily"] = regime_daily
     assumptions["e1r_regime_source"] = rel(REGIME_PATH)
-    assumptions["e1r_shell_mode"] = "unified_5y_full_account"
-    assumptions["e1r_uptrend_execution_enabled"] = True
-    assumptions["strategy_variant"] = "E1R_UNIFIED_5Y_FULL_ACCOUNT_V1"
-    assumptions["version"] = "4C-2C-full-5y-unified-account"
+    assumptions.update(CANONICAL_5Y_OVERRIDES)
 
     provenance["e1r_regime_wiring_enabled"] = "stage_override"
     provenance["e1r_regime_daily"] = "stage_override_loaded_regime_file"
     provenance["e1r_regime_source"] = "stage_override_loaded_regime_file"
-    provenance["e1r_shell_mode"] = "stage_override"
-    provenance["e1r_uptrend_execution_enabled"] = "stage_override"
-    provenance["strategy_variant"] = "stage_override"
-    provenance["version"] = "stage_override"
+    for key in CANONICAL_5Y_OVERRIDES:
+        provenance[key] = "AE-step 1 canonical 5Y override"
 
     return assumptions, {
         "recovery": rec,
@@ -514,7 +563,8 @@ def build_curve_artifact(result: dict[str, Any], inputs: dict[str, Any]) -> dict
         "artifact_type": "e1r_unified_5y_full_account_v1_equity_curve",
         "generated_at": now(),
         "canonical_for_spec": True,
-        "strategy_id": "E1R_UNIFIED_5Y_FULL_ACCOUNT_V1",
+        "strategy_id": "E1R_CAPPED_ATR_A0_V1",
+        "strategy_display_name": "E1R CAPPED-ATR Engine",
         "source_result": rel(OUT_RESULT),
         "simulation": {
             "start_date": inputs["sim_start_date"],
@@ -630,7 +680,8 @@ def build_summary(result: dict[str, Any], inputs: dict[str, Any]) -> dict[str, A
     return {
         "artifact_type": "e1r_unified_5y_full_account_v1_summary",
         "generated_at": now(),
-        "strategy_id": "E1R_UNIFIED_5Y_FULL_ACCOUNT_V1",
+        "strategy_id": "E1R_CAPPED_ATR_A0_V1",
+        "strategy_display_name": "E1R CAPPED-ATR Engine",
         "simulation": {
             "start_date": inputs["sim_start_date"],
             "end_date": inputs["sim_end_date"],
@@ -728,7 +779,7 @@ def main() -> int:
             dates_map=inputs["dates_map"],
             spx_prices=inputs["indices"]["SPX"]["prices"],
             spx_dates=inputs["indices"]["SPX"]["dates"],
-            ohlc_map=inputs["ohlc_map"],
+            entry_atr_ohlc_map=inputs["ohlc_map"],
             assumptions=inputs["assumptions"],
             step=inputs["step"],
             min_history=inputs["min_history"],
@@ -742,6 +793,47 @@ def main() -> int:
             vix_prices=inputs["indices"]["VIX"]["prices"],
             vix_dates=inputs["indices"]["VIX"]["dates"],
         )
+
+        metric_acceptance = {}
+        for key, expected in REFERENCE_METRICS.items():
+            actual = result.get(key)
+            if key == "number_of_trades":
+                passed = actual == expected
+            else:
+                passed = (
+                    isinstance(actual, (int, float))
+                    and abs(float(actual) - float(expected)) <= 0.01
+                )
+            metric_acceptance[key] = {
+                "expected": expected,
+                "actual": actual,
+                "passed": passed,
+            }
+        stop_trace = result.get("capped_atr_stop_trace", [])
+        hard_stop_exits = result.get(
+            "executed_exit_reason_distribution", {}
+        ).get("HARD_LOSS_STOP")
+        run["AE-step 1_acceptance"] = {
+            "variant_id": result.get("strategy_variant"),
+            "display_name": result.get("strategy_display_name"),
+            "metrics": metric_acceptance,
+            "stop_trigger_count": len(stop_trace),
+            "hard_stop_exit_count": hard_stop_exits,
+            "sample_valid": result.get("sample_validity", {}).get("is_valid"),
+            "p0_passed": result.get("p0_passed"),
+        }
+        if not all(
+            [
+                result.get("strategy_variant") == "E1R_CAPPED_ATR_A0_V1",
+                result.get("strategy_display_name") == "E1R CAPPED-ATR Engine",
+                all(row["passed"] for row in metric_acceptance.values()),
+                len(stop_trace) == 8,
+                hard_stop_exits == 3,
+                result.get("sample_validity", {}).get("is_valid") is True,
+                result.get("p0_passed") is True,
+            ]
+        ):
+            raise RuntimeError("AE-step 1 CAPPED-ATR 5Y acceptance mismatch")
 
         run["ok"] = True
 
@@ -774,11 +866,11 @@ def main() -> int:
             validations["covers_downtrend"],
             validations["cash_plus_positions_continuity_ok"],
         ]):
-            conclusion = "E1R_UNIFIED_5Y_FULL_ACCOUNT_RUN_COMPLETE_VALIDATED"
-            recommended = "Proceed to 4C-2D: connect validated unified 5Y curve to forward/OOS curve."
+            conclusion = "PASS_AE_STEP_1_CAPPED_ATR_FORMAL_5Y_REBUILD"
+            recommended = "AE-step 1 complete; proceed only to AE-step 2 when authorized."
         else:
-            conclusion = "E1R_UNIFIED_5Y_FULL_ACCOUNT_RUN_COMPLETE_NEEDS_REVIEW"
-            recommended = "Review validation failures before connecting to forward/OOS curve."
+            conclusion = "AE_STEP_1_CAPPED_ATR_FORMAL_5Y_REBUILD_NEEDS_REVIEW"
+            recommended = "Review AE-step 1 validation failures; do not start AE-step 2."
 
         result_compact = compact_result_for_report(result)
 
@@ -786,21 +878,24 @@ def main() -> int:
         summary = None
         curve = None
         validations = {}
-        conclusion = "E1R_UNIFIED_5Y_FULL_ACCOUNT_RUN_FAILED"
-        recommended = "Fix traceback before rerunning full 5Y."
+        conclusion = "AE_STEP_1_CAPPED_ATR_FORMAL_5Y_REBUILD_FAILED"
+        recommended = "Fix the recorded failure before rerunning AE-step 1."
         result_compact = None
 
     report = {
         "generated_at": now(),
-        "stage": "E1R_UNIFIED_5Y_FULL_ACCOUNT_V1_4C2C_FULL_RUN",
-        "status": "E1R_UNIFIED_5Y_FULL_ACCOUNT_FULL_RUN_COMPLETE",
+        "stage": "AE-step 1",
+        "status": conclusion,
         "elapsed_seconds": elapsed_seconds,
         "policy": {
-            "dashboard_changed": False,
-            "strategy_logic_changed": False,
+            "strategy_logic_changed": True,
+            "only_strategy_change": "CAPPED_ATR_A0 stop-loss",
             "full_backtest_run": True,
             "canonical_backtest_written_for_v1_spec": bool(run["ok"]),
-            "forward_curve_connected": False,
+            "forward_changed": False,
+            "live_changed": False,
+            "workflow_changed": False,
+            "dashboard_changed": False,
         },
         "import_probe": import_probe,
         "run": run,
@@ -816,8 +911,8 @@ def main() -> int:
         "recommended_next_action": recommended,
         "strategy_files_unchanged": baseline_hashes == post_hashes,
         "next_stage": {
-            "name": "4C-2D",
-            "title": "Connect unified 5Y backtest curve to forward/OOS curve",
+            "name": "AE-step 2",
+            "title": "Forward/Live replay and workflow repair",
             "recommended_action": recommended,
         },
     }
@@ -825,7 +920,7 @@ def main() -> int:
     write_json(REPORT_JSON, report)
 
     md = []
-    md.append("# E1R Unified 5Y Full Account V1 — 4C-2C Full Run")
+    md.append("# AE-step 1 — E1R CAPPED-ATR Formal 5Y Rebuild")
     md.append("")
     md.append(f"Generated At: `{report['generated_at']}`")
     md.append(f"Elapsed Seconds: `{elapsed_seconds}`")
@@ -868,7 +963,7 @@ def main() -> int:
 
     REPORT_MD.write_text("\n".join(md) + "\n")
 
-    print("Stage 4C-2C full 5Y unified account run complete")
+    print("AE-step 1 CAPPED-ATR formal 5Y rebuild complete")
     print("status:", report["status"])
     print("elapsed_seconds:", elapsed_seconds)
     print("strategy_files_unchanged:", report["strategy_files_unchanged"])
@@ -887,7 +982,7 @@ def main() -> int:
     print("wrote:", rel(REPORT_JSON))
     print("wrote:", rel(REPORT_MD))
 
-    return 0
+    return 0 if conclusion == "PASS_AE_STEP_1_CAPPED_ATR_FORMAL_5Y_REBUILD" else 1
 
 if __name__ == "__main__":
     raise SystemExit(main())

@@ -84,36 +84,30 @@ def build_fixture(module) -> dict:
         }
 
     return {
-        "backtest": {
-            "results": {
-                "results": {
-                    "layer_d": {
-                        "variant_results": {
-                            module.VARIANT_ID: {
-                                "daily_equity_records": daily,
-                                "trades": trades,
-                                "final_equity": (
-                                    module.EXPECTED_FINAL_EQUITY
-                                ),
-                                "sim_end_liquidation_record": {
-                                    "date": (
-                                        module.EXPECTED_SETTLEMENT_DATE
-                                    ),
-                                    "event": "SIM_END_LIQUIDATION",
-                                    "cash": (
-                                        module.EXPECTED_FINAL_EQUITY
-                                    ),
-                                    "positions_value": 0.0,
-                                    "total_equity": (
-                                        module.EXPECTED_FINAL_EQUITY
-                                    ),
-                                },
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        "engine_id": module.ENGINE_ID,
+        "strategy_variant": module.VARIANT_ID,
+        "strategy_display_name": module.DISPLAY_NAME,
+        "daily_equity_records": daily,
+        "trades": trades,
+        "final_equity": module.EXPECTED_FINAL_EQUITY,
+        "total_return_pct": 212.69,
+        "cagr_pct": 25.59,
+        "max_drawdown_pct": 25.66,
+        "sharpe_ratio": 0.76,
+        "profit_factor": 2.36,
+        "number_of_trades": 92,
+        "exposure_pct": 69.2,
+        "capped_atr_stop_trace": [
+            {"symbol": f"S{index}"} for index in range(8)
+        ],
+        "executed_exit_reason_distribution": {"HARD_LOSS_STOP": 3},
+        "sim_end_liquidation_record": {
+            "date": module.EXPECTED_SETTLEMENT_DATE,
+            "event": "SIM_END_LIQUIDATION",
+            "cash": module.EXPECTED_FINAL_EQUITY,
+            "positions_value": 0.0,
+            "total_equity": module.EXPECTED_FINAL_EQUITY,
+        },
     }
 
 
@@ -199,7 +193,7 @@ class OfficialBacktestExporterTests(unittest.TestCase):
         self.assertIsNone(official[-1]["spx_close"])
         self.assertAlmostEqual(
             official[-1]["engine_equity"],
-            281711.79,
+            module.EXPECTED_FINAL_EQUITY,
             places=2,
         )
 
@@ -216,19 +210,11 @@ class OfficialBacktestExporterTests(unittest.TestCase):
                 encoding="utf-8",
             )
 
-            original_sha = module.EXPECTED_SOURCE_SHA256
-            module.EXPECTED_SOURCE_SHA256 = (
-                module.sha256_file(source)
+            decision = module.export(
+                source_path=source,
+                output_dir=output,
+                operational_head="test-head",
             )
-
-            try:
-                decision = module.export(
-                    source_path=source,
-                    output_dir=output,
-                    operational_head="test-head",
-                )
-            finally:
-                module.EXPECTED_SOURCE_SHA256 = original_sha
 
             contract = json.loads(
                 (output / "artifact_contract.json").read_text(
@@ -248,7 +234,7 @@ class OfficialBacktestExporterTests(unittest.TestCase):
 
             self.assertEqual(
                 decision["decision"],
-                "PASS_STEP1_OFFICIAL_BACKTEST_ARTIFACT_EXPORT",
+                "PASS_AE_STEP_1_CAPPED_ATR_OFFICIAL_BACKTEST_ARTIFACT_EXPORT",
             )
             self.assertFalse(
                 contract["forward_boundary"]

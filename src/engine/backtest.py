@@ -28,6 +28,16 @@ from e1r_engine.uptrend_core import (
     UptrendBuyDecision,
     UptrendCore,
 )
+from e1r_engine.capped_atr_stop import (
+    CappedAtrStopPolicy,
+    DISPLAY_NAME as CAPPED_ATR_DISPLAY_NAME,
+    ENTRY_METADATA_KEY as CAPPED_ATR_ENTRY_METADATA_KEY,
+    POSITION_METADATA_KEY as CAPPED_ATR_POSITION_METADATA_KEY,
+    VARIANT_ID as CAPPED_ATR_VARIANT_ID,
+    annotate_legacy_buy_order,
+    build_frozen_state,
+    compute_entry_atr20,
+)
 
 try:
     from .e1r_trace import emit_trace as _e1r_emit_trace
@@ -790,6 +800,7 @@ def run_stateful_simulation(
     sox_dates:      list = None,
     vix_prices:     list = None,  # VIX 收盘价
     vix_dates:      list = None,
+    entry_atr_ohlc_map: dict = None,
 ) -> dict:
     """
     Layer D v1.6: Strict Top3 + RS threshold + MinHold + Relative SPX Stop
@@ -811,6 +822,7 @@ def run_stateful_simulation(
     one_way  = a["total_one_way"]             # 0.001
     init_cap = float(a.get("initial_capital", 100_000))
     strategy_variant = a.get("strategy_variant", "top3_entry_rs_minhold_relstop")
+    capped_atr_enabled = strategy_variant == CAPPED_ATR_VARIANT_ID
     e1r_shell_mode = bool(a.get("e1r_shell_mode", False))
     e1r_regime_wiring_enabled = bool(a.get("e1r_regime_wiring_enabled", False))
     e1r_uptrend_execution_enabled = bool(a.get("e1r_uptrend_execution_enabled", False))
@@ -1101,11 +1113,26 @@ def run_stateful_simulation(
             end_idx = idx_map[dates_sorted[-1]]
         return data[:end_idx+1]
 
+    def get_frozen_entry_atr20(sym: str, up_to_date: str) -> float | None:
+        if not capped_atr_enabled:
+            return None
+        atr20 = compute_entry_atr20(
+            symbol=sym,
+            dates=dates_map.get(sym, []),
+            closes=prices_map.get(sym, []),
+            ohlc=(entry_atr_ohlc_map or {}).get(sym, {}),
+            as_of_date=up_to_date,
+        )
+        if atr20 is None:
+            return None
+        return float(atr20)
+
     # ── 组合状态 ─────────────────────────────────────────
     cash            = init_cap
     holdings: dict[str, dict] = {}
     pending_orders: list[dict] = []
     closed_trades:  list[dict] = []
+    capped_atr_stop_trace: list[dict] = []
     sideways_assets = None
     sideways_spx_asset = None
     if e1r_sideways_execution_enabled:
@@ -1298,6 +1325,22 @@ def run_stateful_simulation(
                         target = cash * 0.99
 
                     shares = target / exec_price
+                    capped_atr_state = None
+                    if capped_atr_enabled:
+                        entry_metadata = order.get(
+                            CAPPED_ATR_ENTRY_METADATA_KEY
+                        )
+                        if not isinstance(entry_metadata, dict):
+                            raise RuntimeError(
+                                "CAPPED-ATR first BUY missing entry metadata: "
+                                + sym
+                                + " on "
+                                + sig_date
+                            )
+                        capped_atr_state = build_frozen_state(
+                            adjusted_first_buy_price=exec_price,
+                            entry_metadata=entry_metadata,
+                        ).to_dict()
                     if _e1r_trace_enabled():
                         _e1r_emit_trace(
                             'TP07_BUY_SIZING_FINALIZED',
@@ -1378,6 +1421,7 @@ def run_stateful_simulation(
                         ),
                         "entry_shares": shares,
                         "entry_execution_price": exec_price,
+                        CAPPED_ATR_POSITION_METADATA_KEY: capped_atr_state,
                         "regime_day_weights": {},
                     }
                     if _e1r_trace_enabled():
@@ -1981,6 +2025,7 @@ def run_stateful_simulation(
         # Production orders use E1RCoreEngine.step only.
         e1r_selected_buy: dict | None = None
         e1r_engine_buy_intent = None
+        e1r_engine_stop_symbols: set[str] = set()
 
         if (
             e1r_uptrend_execution_enabled
@@ -2017,23 +2062,33 @@ def run_stateful_simulation(
                 )
                 held_shares = float(held.get("shares", 0.0))
                 held_entry_price = float(
-                    held.get("entry_price", held_price)
+                    held.get("avg_cost", held_price)
                 )
                 held_entry_date = str(
                     held.get("entry_date", date_t)
                 )
-                engine_positions[held_symbol] = (
-                    PositionState.create(
-                        symbol=held_symbol,
-                        quantity=held_shares,
-                        avg_cost=held_entry_price,
-                        price=held_price,
-                        date=held_entry_date,
-                    ).mark_to_market(
-                        price=held_price,
-                        date=date_t,
-                    )
+                projected_position = PositionState.create(
+                    symbol=held_symbol,
+                    quantity=held_shares,
+                    avg_cost=held_entry_price,
+                    price=held_price,
+                    date=held_entry_date,
+                ).mark_to_market(
+                    price=held_price,
+                    date=date_t,
                 )
+                if capped_atr_enabled:
+                    stop_state = held.get(CAPPED_ATR_POSITION_METADATA_KEY)
+                    if not isinstance(stop_state, dict):
+                        raise RuntimeError(
+                            "missing frozen A0/ATR stop state for " + held_symbol
+                        )
+                    object.__setattr__(
+                        projected_position,
+                        "metadata",
+                        {CAPPED_ATR_POSITION_METADATA_KEY: dict(stop_state)},
+                    )
+                engine_positions[held_symbol] = projected_position
 
             engine_positions_value = sum(
                 position.market_value
@@ -2054,6 +2109,7 @@ def run_stateful_simulation(
                 metadata={
                     "source": "legacy_runtime_account_projection",
                     "trade_mutation_performed": False,
+                    "strategy_variant": strategy_variant,
                 },
             )
 
@@ -2116,7 +2172,15 @@ def run_stateful_simulation(
                         "legacy_decision_called": False,
                     },
                 ),
+                entry_atr20_provider=get_frozen_entry_atr20,
             )
+
+            e1r_engine_stop_symbols = {
+                intent.symbol
+                for intent in engine_result.order_intents
+                if intent.intent_type == "EXIT"
+                and intent.reason == "HARD_LOSS_STOP"
+            }
 
             engine_buy_intents = [
                 intent
@@ -2737,6 +2801,52 @@ def run_stateful_simulation(
                         metadata=metadata,
                     )
                     buy_orders.append(SidewaysExecutionAdapter.to_legacy_pending_order(intent))
+
+        if capped_atr_enabled:
+            annotated_buy_orders = []
+            for order in buy_orders:
+                if CAPPED_ATR_ENTRY_METADATA_KEY in order:
+                    annotated_buy_orders.append(order)
+                    continue
+                atr20 = get_frozen_entry_atr20(str(order["sym"]), date_t)
+                if atr20 is None or not math.isfinite(atr20) or atr20 <= 0.0:
+                    raise RuntimeError(
+                        "missing 20-observation entry ATR for "
+                        + str(order["sym"])
+                        + " on "
+                        + date_t
+                    )
+                annotated_buy_orders.append(
+                    annotate_legacy_buy_order(
+                        order,
+                        atr20=atr20,
+                        atr_as_of=date_t,
+                    )
+                )
+            buy_orders = annotated_buy_orders
+
+            management_orders, stop_rows = (
+                CappedAtrStopPolicy.apply_legacy_management_orders(
+                    date=date_t,
+                    holdings=holdings,
+                    canonical_orders=management_orders,
+                )
+            )
+            capped_atr_stop_trace.extend(stop_rows)
+            if (
+                e1r_uptrend_execution_enabled
+                and _e1r_regime_on(date_t) == "UPTREND"
+            ):
+                adapter_stop_symbols = {
+                    str(row["symbol"])
+                    for row in stop_rows
+                }
+                if adapter_stop_symbols != e1r_engine_stop_symbols:
+                    raise RuntimeError(
+                        "CAPPED-ATR Engine/5Y adapter mismatch: "
+                        f"date={date_t} engine={sorted(e1r_engine_stop_symbols)} "
+                        f"adapter={sorted(adapter_stop_symbols)}"
+                    )
         action_priority = {"EXIT": 0, "REDUCE": 1, "REL_REDUCE": 2, "TP_REDUCE": 3, "ADD": 4}
         management_orders.sort(key=lambda o: action_priority.get(o["action"], 9))
         buy_orders.sort(key=lambda o: o.get("entry_rank") or 999)
@@ -3015,6 +3125,10 @@ def run_stateful_simulation(
         "version": "v1.6-top3-rs-minhold-relstop",
         "execution_model": a.get("execution_model", "adverse_intraday"),
         "strategy_variant": strategy_variant,
+        "engine_id": "FD-M3180125-SP500-TOP3-engine",
+        "strategy_display_name": (
+            CAPPED_ATR_DISPLAY_NAME if capped_atr_enabled else strategy_variant
+        ),
         "entry_top_n": entry_top_n,
         "rank_based_exit": rank_based_exit,
         "strategy_controls": {
@@ -3044,6 +3158,26 @@ def run_stateful_simulation(
             "relative_stop_once_per_position": relative_stop_once,
             "relative_stop_stats": relative_stop_stats,
             "fixed_take_profit_enabled": take_profit_enabled,
+            "capped_atr_stop": (
+                {
+                    "enabled": True,
+                    "variant_id": CAPPED_ATR_VARIANT_ID,
+                    "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+                    "stop_anchor": "FIRST_BUY_ADJUSTED_EXECUTION_PRICE",
+                    "atr_definition": "SIMPLE_MEAN_20_TRUE_RANGE_OBSERVATIONS",
+                    "atr_as_of": "FIRST_ENTRY_SIGNAL_DATE_T_EOD",
+                    "atr_multiplier": 3.0,
+                    "distance_floor_fraction_of_a0": 0.12,
+                    "distance_cap_fraction_of_a0": 0.20,
+                    "atr_frozen_for_cycle": True,
+                    "add_updates_stop_anchor": False,
+                    "block_same_day_reentry_after_hard_stop": False,
+                    "signal_timing": "T_EOD_CLOSE_LE_TRIGGER",
+                    "execution_timing": "T_PLUS_1_ADVERSE_LOW",
+                }
+                if capped_atr_enabled
+                else {"enabled": False}
+            ),
         },
         "partial_take_profit": {
             "name": "TP7-P",
@@ -3137,6 +3271,12 @@ def run_stateful_simulation(
         "e1r_candidate_count": len(e1r_candidate_records) if e1r_shell_mode else 0,
         "e1r_uptrend_execution_enabled": e1r_uptrend_execution_enabled,
         "e1r_sideways_execution_enabled": e1r_sideways_execution_enabled,
+        "capped_atr_stop_trace": (
+            capped_atr_stop_trace if capped_atr_enabled else []
+        ),
+        "capped_atr_stop_trigger_count": (
+            len(capped_atr_stop_trace) if capped_atr_enabled else 0
+        ),
         # 交易记录
         "trades":            closed_trades,
         "total_trades_all":  total_trades,

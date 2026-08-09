@@ -15,8 +15,15 @@ from e1r_engine.market_state import (
     MarketStateInputs,
 )
 
-from dataclasses import dataclass, field
-from typing import Any
+from dataclasses import dataclass, field, replace
+from typing import Any, Callable
+
+from e1r_engine.capped_atr_stop import (
+    CappedAtrStopPolicy,
+    DISPLAY_NAME,
+    VARIANT_ID,
+    annotate_buy_intent,
+)
 
 from e1r_engine.contracts import MarketSnapshot
 from e1r_engine.regime_router import RegimeRouter, RegimeRoute
@@ -42,6 +49,8 @@ from e1r_engine.uptrend_pipeline import (
 class E1RCoreEngineConfig:
     max_positions: int = 3
     shell_mode: bool = True
+    strategy_variant: str = VARIANT_ID
+    strategy_display_name: str = DISPLAY_NAME
     market_state_config: MarketStateConfig = field(
         default_factory=MarketStateConfig
     )
@@ -150,6 +159,7 @@ class E1RCoreEngine:
         *,
         uptrend_inputs: UptrendConsumerInputs | None = None,
         uptrend_pipeline_inputs: UptrendPipelineInputs | None = None,
+        entry_atr20_provider: Callable[[str, str], float | None] | None = None,
     ) -> DailyEngineResult:
         route = self._route(snapshot)
         account_before = account
@@ -219,21 +229,29 @@ class E1RCoreEngine:
         account_after = account.mark_to_market(prices=prices, date=snapshot.date)
 
         if uptrend_pipeline_inputs is not None:
-            return self._step_uptrend_pipeline(
+            result = self._step_uptrend_pipeline(
                 snapshot=snapshot,
                 route=route,
                 account_before=account_before,
                 account_after=account_after,
                 pipeline_inputs=uptrend_pipeline_inputs,
             )
+            return self._finalize_capped_atr(
+                result=result,
+                entry_atr20_provider=entry_atr20_provider,
+            )
 
         if uptrend_inputs is not None:
-            return self._step_uptrend(
+            result = self._step_uptrend(
                 snapshot=snapshot,
                 route=route,
                 account_before=account_before,
                 account_after=account_after,
                 uptrend_inputs=uptrend_inputs,
+            )
+            return self._finalize_capped_atr(
+                result=result,
+                entry_atr20_provider=entry_atr20_provider,
             )
 
         order_intents = self._noop_or_hold_orders(snapshot=snapshot, route=route, account_after=account_after)
@@ -265,7 +283,7 @@ class E1RCoreEngine:
             },
         )
 
-        return DailyEngineResult(
+        result = DailyEngineResult(
             date=snapshot.date,
             account_before=account_before,
             account_after=account_after,
@@ -277,6 +295,82 @@ class E1RCoreEngine:
                 "stage": "ENGINE-F",
                 "shell_mode": True,
             },
+        )
+        return self._finalize_capped_atr(
+            result=result,
+            entry_atr20_provider=entry_atr20_provider,
+        )
+
+    def _finalize_capped_atr(
+        self,
+        *,
+        result: DailyEngineResult,
+        entry_atr20_provider: Callable[[str, str], float | None] | None,
+    ) -> DailyEngineResult:
+        """Attach entry ATR inputs and apply the canonical cross-regime stop."""
+        strict = result.account_after.metadata.get("strategy_variant") == VARIANT_ID
+        orders = list(result.order_intents)
+        if strict:
+            annotated_orders: list[OrderIntent] = []
+            for order in orders:
+                if order.intent_type != "BUY":
+                    annotated_orders.append(order)
+                    continue
+                if entry_atr20_provider is None:
+                    raise RuntimeError(
+                        "CAPPED-ATR BUY requires entry_atr20_provider"
+                    )
+                atr20 = entry_atr20_provider(order.symbol, order.date)
+                if atr20 is None:
+                    raise RuntimeError(
+                        "missing 20-observation entry ATR for "
+                        + order.symbol
+                        + " on "
+                        + order.date
+                    )
+                annotated_orders.append(
+                    annotate_buy_intent(
+                        order,
+                        atr20=float(atr20),
+                        atr_as_of=order.date,
+                    )
+                )
+            orders = annotated_orders
+
+        orders, stop_trace = CappedAtrStopPolicy.apply_engine_orders(
+            date=result.date,
+            branch=result.decision_trace.branch,
+            account=result.account_after,
+            orders=orders,
+            strict=strict,
+        )
+        trace_metadata = dict(result.decision_trace.metadata)
+        trace_metadata["capped_atr_stop"] = {
+            "engine_id": "FD-M3180125-SP500-TOP3-engine",
+            "variant_id": VARIANT_ID,
+            "display_name": DISPLAY_NAME,
+            "strict_cycle_state": strict,
+            "triggered": stop_trace,
+        }
+        decision_trace = replace(
+            result.decision_trace,
+            order_intents=orders,
+            metadata=trace_metadata,
+        )
+        metadata = dict(result.metadata)
+        metadata.update(
+            {
+                "engine_id": "FD-M3180125-SP500-TOP3-engine",
+                "strategy_variant": VARIANT_ID,
+                "strategy_display_name": DISPLAY_NAME,
+                "capped_atr_stop_trigger_count": len(stop_trace),
+            }
+        )
+        return replace(
+            result,
+            decision_trace=decision_trace,
+            order_intents=orders,
+            metadata=metadata,
         )
 
     def _step_uptrend(
