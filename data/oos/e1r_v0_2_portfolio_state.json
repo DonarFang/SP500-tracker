@@ -1,8 +1,8 @@
 {
   "strategy_id": "E1R_REGIME_AWARE_V0_2",
   "version": "v0.2",
-  "created_at": "2026-08-10T23:31:39.333200+00:00",
-  "updated_at": "2026-08-10T23:31:39.334912+00:00",
+  "created_at": "2026-08-11T22:33:54.513767+00:00",
+  "updated_at": "2026-08-11T22:33:54.515631+00:00",
   "official_kickoff_date": null,
   "status_date": "2026-06-18",
   "portfolio_value": 100000.0,
@@ -202,8 +202,8 @@
     }
   ],
   "last_summary": {
-    "generated_at": "2026-08-10T23:31:39.333181+00:00",
-    "generated_at_display": "2026-08-10 23:31 local",
+    "generated_at": "2026-08-11T22:33:54.513749+00:00",
+    "generated_at_display": "2026-08-11 22:33 local",
     "status_date": "2026-06-18",
     "strategy_id": "E1R_REGIME_AWARE_V0_2",
     "version": "v0.2",
@@ -249,7 +249,7 @@
     "preservation_guard": {
       "active": true,
       "reason": "KICKOFF_READY paper orders/positions must not be erased before LIVE_FORWARD.",
-      "preserved_at": "2026-08-10T23:31:39.334888+00:00",
+      "preserved_at": "2026-08-11T22:33:54.515606+00:00",
       "core_script": "scripts/run_e1r_v0_2_forward_performance_core.py"
     }
   },
@@ -259,7 +259,7 @@
   "preservation_guard": {
     "active": true,
     "reason": "KICKOFF_READY paper orders/positions must not be erased before LIVE_FORWARD.",
-    "preserved_at": "2026-08-10T23:31:39.334888+00:00",
+    "preserved_at": "2026-08-11T22:33:54.515606+00:00",
     "core_script": "scripts/run_e1r_v0_2_forward_performance_core.py"
   }
 }
