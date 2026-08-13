@@ -1,6 +1,9 @@
 name: 部署 GitHub Pages
 
 on:
+  workflow_run:
+    workflows: ["Personal Live Track Daily"]
+    types: [completed]
   push:
     branches: [main]
   workflow_run:
