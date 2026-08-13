@@ -1,13 +1,10 @@
 name: 部署 GitHub Pages
 
 on:
-  workflow_run:
-    workflows: ["Personal Live Track Daily"]
-    types: [completed]
   push:
     branches: [main]
   workflow_run:
-    workflows: ["每日更新 S&P 500 数据", "Engine Forward Daily"]
+    workflows: ["每日更新 S&P 500 数据", "Engine Forward Daily", "Personal Live Track Daily"]
     types: [completed]
 
 permissions:
