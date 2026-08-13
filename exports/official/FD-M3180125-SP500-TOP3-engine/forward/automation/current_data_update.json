@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
   "decision": "PASS_ENGINE_FORWARD_DAILY_INCREMENTAL_PRICE_UPDATE",
-  "generated_at": "2026-08-12T00:06:53.050484+00:00",
+  "generated_at": "2026-08-13T00:06:52.024500+00:00",
   "provider": "Yahoo Finance via yfinance",
   "price_root": "data/fw_prices",
   "catalogue_source": "existing data/fw_prices filenames",
@@ -11,8 +11,8 @@
   "legacy_price_root_written": false,
   "existing_file_count": 498,
   "downloaded_symbol_count": 497,
-  "changed_file_count": 497,
-  "unchanged_file_count": 1,
+  "changed_file_count": 496,
+  "unchanged_file_count": 2,
   "unavailable_symbol_count": 1,
   "unavailable_symbols": [
     "CTRA"
@@ -165,7 +165,6 @@
     "DVA.json",
     "DVN.json",
     "DXCM.json",
-    "EA.json",
     "EBAY.json",
     "ECL.json",
     "ED.json",
@@ -517,5 +516,5 @@
     "_VIX.json"
   ],
   "latest_date_min": "2026-05-07",
-  "latest_date_max": "2026-08-11"
+  "latest_date_max": "2026-08-12"
 }
