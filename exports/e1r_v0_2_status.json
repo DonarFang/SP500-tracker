@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T23:37:44.949312+00:00",
+  "generated_at": "2026-08-14T22:13:58.820157+00:00",
   "strategy_id": "E1R_REGIME_AWARE_V0_2",
   "version": "E1R-v0.2-formal-sidecar-sleeve",
   "research_status": "FORMAL_SIDECAR_SLEEVE_ENGINE",
@@ -27,12 +27,12 @@
     "source_record_next_date": "2026-06-18"
   },
   "legacy_market_state": {
-    "date": "2026-08-13",
+    "date": "2026-08-14",
     "state": "Strong Risk-On",
     "state_zh": "强势偏好",
-    "market_score": 90.0,
-    "leadership_confirmed": false,
-    "leadership_label": "Leadership Unconfirmed ⚠️"
+    "market_score": 89.0,
+    "leadership_confirmed": true,
+    "leadership_label": "Leadership Confirmed ✅"
   },
   "source_files": {
     "regime": "data/research/e1_5y/regimes/spx_regime_daily.json",
