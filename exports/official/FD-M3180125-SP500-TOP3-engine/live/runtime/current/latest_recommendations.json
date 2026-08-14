@@ -2,6 +2,13 @@
   "automatic_execution": false,
   "expected_execution_date": "2026-08-14",
   "recommendation_only": true,
-  "recommendations": [],
+  "recommendations": [
+    {
+      "action": "BUY",
+      "reason": "E1R_UPTREND_CONFIRMED",
+      "symbol": "NTAP",
+      "target_shares": "162.60955383234486"
+    }
+  ],
   "signal_date": "2026-08-13"
 }
