@@ -2,7 +2,6 @@ from datetime import date, timedelta
 import inspect
 import json
 from pathlib import Path
-from types import SimpleNamespace
 
 from e1r_engine.adapters.live_data import (
     LiveDataAdapter,
@@ -17,7 +16,6 @@ from e1r_engine.live_data import (
 )
 from e1r_engine.live_engine_adapter import (
     LiveEngineAdapter,
-    _sideways_reference_candidates,
 )
 from e1r_engine.live_ledger import (
     LiveLedger,
@@ -177,7 +175,10 @@ def test_live_data_enters_existing_engine_without_provider(
         (item.rank, item.symbol)
         for item in decision.reference_candidates
     ] == [(1, "AAPL")]
-    assert decision.position_recommendations == ()
+    assert [
+        (item.symbol, item.action)
+        for item in decision.position_recommendations
+    ] == [("AAPL", "BUY")]
     assert (
         decision.evidence[
             "reference_ranking_source"
@@ -209,60 +210,3 @@ def test_unsupported_live_provider_types_are_absent() -> None:
         module,
         "LivePreparedEngineInputs",
     )
-
-
-def test_sideways_reference_top3_uses_canonical_ranking() -> None:
-    dates = [
-        f"2025-{(index // 28) + 1:02d}-"
-        f"{(index % 28) + 1:02d}"
-        for index in range(220)
-    ]
-    slopes = {
-        "AAPL": 0.20,
-        "MSFT": 0.35,
-        "NVDA": 0.50,
-        "TSLA": 0.05,
-    }
-    bundle = SimpleNamespace(
-        dates_map={
-            symbol: list(dates)
-            for symbol in slopes
-        },
-        prices_map={
-            symbol: [
-                100.0 + slope * index
-                for index in range(220)
-            ]
-            for symbol, slope in slopes.items()
-        },
-        indices={
-            "SPX": SimpleNamespace(
-                dates=list(dates),
-                bars=[
-                    SimpleNamespace(
-                        close=(
-                            100.0
-                            + 0.1 * index
-                        )
-                    )
-                    for index in range(220)
-                ],
-            )
-        },
-    )
-
-    candidates = _sideways_reference_candidates(
-        bundle=bundle,
-        market_date=dates[-1],
-        universe=tuple(slopes),
-        subclass="MA_CONFLICT",
-    )
-
-    assert [
-        (candidate.rank, candidate.symbol)
-        for candidate in candidates
-    ] == [
-        (1, "NVDA"),
-        (2, "MSFT"),
-        (3, "AAPL"),
-    ]

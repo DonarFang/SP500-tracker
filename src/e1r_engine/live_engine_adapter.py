@@ -15,9 +15,6 @@ from typing import Any, Optional, Sequence
 from e1r_engine.adapters.live_data import (
     LiveDataAdapter,
 )
-from e1r_engine.canonical_regime import (
-    CanonicalRegimeGenerator,
-)
 from e1r_engine.contracts import (
     AssetSeries,
     HistoricalDataBundle,
@@ -35,10 +32,6 @@ from e1r_engine.live_recommendation import (
     LiveEngineDecision,
     PositionRecommendation,
     ReferenceCandidate,
-)
-from e1r_engine.sideways_core import SidewaysCore
-from e1r_engine.uptrend_signal_adapter import (
-    UptrendSignalAdapter,
 )
 
 
@@ -79,7 +72,6 @@ def _snapshot_from_bundle(
     bundle: HistoricalDataBundle,
     market_date: str,
     universe: Sequence[str],
-    regime,
 ) -> MarketSnapshot:
     prices_by_symbol = {}
 
@@ -122,146 +114,40 @@ def _snapshot_from_bundle(
         universe=list(universe),
         prices_by_symbol=prices_by_symbol,
         indices=indices,
-        regime=regime,
+        regime=None,
         metadata={
             "mode": "LIVE",
             "market_data_source": (
                 "LiveDataAdapter"
             ),
-            "regime_source": (
-                "engine://canonical_regime"
-            ),
+            "regime_source": "E1RCoreEngine.step",
             "external_regime_injected": False,
             "provider_abstraction_used": False,
+        },
+        history_by_symbol={
+            **{
+                symbol: {
+                    row_date: bar
+                    for row_date, bar in zip(
+                        bundle.dates_map[symbol],
+                        bundle.ohlc_map[symbol],
+                    )
+                    if row_date <= market_date
+                }
+                for symbol in universe
+            },
+            **{
+                symbol: {
+                    row_date: bar
+                    for row_date, bar in zip(series.dates, series.bars)
+                    if row_date <= market_date
+                }
+                for symbol, series in bundle.indices.items()
+            },
         },
     )
 
     return snapshot
-
-
-def _uptrend_reference_candidates(
-    *,
-    bundle: HistoricalDataBundle,
-    market_date: str,
-    universe: Sequence[str],
-) -> tuple[ReferenceCandidate, ...]:
-    prices_through_date = {}
-
-    for symbol in universe:
-        dates = bundle.dates_map.get(symbol, [])
-
-        try:
-            market_index = dates.index(market_date)
-        except ValueError as exc:
-            raise LiveEngineAdapterError(
-                f"{symbol}: missing Live stock bar "
-                f"for {market_date}"
-            ) from exc
-
-        prices_through_date[symbol] = list(
-            bundle.prices_map[symbol][
-                : market_index + 1
-            ]
-        )
-
-    ranking = UptrendSignalAdapter.build(
-        date=market_date,
-        symbols=universe,
-        prices_by_symbol=prices_through_date,
-    )
-    ranked_symbols = sorted(
-        ranking.leader_rank_all,
-        key=ranking.leader_rank_all.__getitem__,
-    )
-
-    return tuple(
-        ReferenceCandidate(
-            rank=index + 1,
-            symbol=symbol,
-        )
-        for index, symbol in enumerate(
-            ranked_symbols[:3]
-        )
-    )
-
-
-def _sideways_asset(
-    *,
-    symbol: str,
-    dates: Sequence[str],
-    prices: Sequence[float],
-    market_date: str,
-) -> dict[str, Any]:
-    bars = [
-        {
-            "date": row_date,
-            "close": float(price),
-        }
-        for row_date, price in zip(
-            dates,
-            prices,
-        )
-        if row_date <= market_date
-    ]
-
-    return {
-        "symbol": symbol,
-        "bars": bars,
-        "dates": [row["date"] for row in bars],
-        "by_date": {
-            row["date"]: row
-            for row in bars
-        },
-        "date_to_idx": {
-            row["date"]: index
-            for index, row in enumerate(bars)
-        },
-    }
-
-
-def _sideways_reference_candidates(
-    *,
-    bundle: HistoricalDataBundle,
-    market_date: str,
-    universe: Sequence[str],
-    subclass: str,
-) -> tuple[ReferenceCandidate, ...]:
-    stocks = {
-        symbol: _sideways_asset(
-            symbol=symbol,
-            dates=bundle.dates_map[symbol],
-            prices=bundle.prices_map[symbol],
-            market_date=market_date,
-        )
-        for symbol in universe
-    }
-    spx_series = bundle.indices["SPX"]
-    spx = _sideways_asset(
-        symbol="SPX",
-        dates=spx_series.dates,
-        prices=[
-            bar.close
-            for bar in spx_series.bars
-        ],
-        market_date=market_date,
-    )
-    ranked = SidewaysCore().rank_date(
-        stocks=stocks,
-        spx=spx,
-        date=market_date,
-        regime="SIDEWAYS",
-        subclass=subclass,
-    )
-
-    return tuple(
-        ReferenceCandidate(
-            rank=index + 1,
-            symbol=candidate.symbol,
-        )
-        for index, candidate in enumerate(
-            ranked[:3]
-        )
-    )
 
 
 class LiveEngineAdapter:
@@ -328,22 +214,10 @@ class LiveEngineAdapter:
             min_bars=self.min_bars,
         )
 
-        canonical_timeline = (
-            CanonicalRegimeGenerator().generate(
-                bundle.indices["SPX"]
-            )
-        )
-        regime_record = (
-            canonical_timeline.record_for_date(
-                date_text
-            )
-        )
-
         snapshot = _snapshot_from_bundle(
             bundle=bundle,
             market_date=date_text,
             universe=self.stock_symbols,
-            regime=regime_record,
         )
 
         engine_account = (
@@ -357,36 +231,6 @@ class LiveEngineAdapter:
             snapshot=snapshot,
             account=engine_account,
         )
-
-        reference_candidates = ()
-        reference_ranking_source = "NONE"
-
-        if regime_record.spx_regime == "UPTREND":
-            reference_candidates = (
-                _uptrend_reference_candidates(
-                    bundle=bundle,
-                    market_date=date_text,
-                    universe=self.stock_symbols,
-                )
-            )
-            reference_ranking_source = (
-                "UptrendSignalAdapter.leader_rank_all"
-            )
-        elif (
-            regime_record.spx_regime == "SIDEWAYS"
-            and regime_record.subclass == "MA_CONFLICT"
-        ):
-            reference_candidates = (
-                _sideways_reference_candidates(
-                    bundle=bundle,
-                    market_date=date_text,
-                    universe=self.stock_symbols,
-                    subclass=regime_record.subclass,
-                )
-            )
-            reference_ranking_source = (
-                "SidewaysCore.rank_date"
-            )
 
         validation = result.validate(
             max_positions=3
@@ -426,6 +270,17 @@ class LiveEngineAdapter:
             "metadata",
             {},
         ) or {}
+        reference_rows = trace_metadata.get("reference_top3", [])
+        reference_candidates = tuple(
+            ReferenceCandidate(
+                rank=int(row["rank"]),
+                symbol=str(row["symbol"]),
+            )
+            for row in reference_rows
+        )
+        reference_ranking_source = str(
+            trace_metadata.get("ranking_source", "NONE")
+        )
 
         market_state = (
             trace_inputs.get("market_state")
@@ -480,16 +335,31 @@ class LiveEngineAdapter:
                 "target_quantity",
                 None,
             )
+            intent_metadata = _value(intent, "metadata", {}) or {}
+            symbol = str(_value(intent, "symbol", ""))
+            if target is None and action in {"BUY", "ADD"}:
+                bar = snapshot.prices_by_symbol.get(symbol)
+                if bar is not None and float(bar.close) > 0:
+                    units = float(
+                        intent_metadata.get(
+                            "target_size_units" if action == "BUY" else "add_size_units",
+                            1.0 if action == "BUY" else 0.5,
+                        )
+                    )
+                    target = (
+                        float(engine_account.total_equity)
+                        * (1.0 / 3.0)
+                        * units
+                        / float(bar.close)
+                    )
+            if target is None and action == "REDUCE":
+                delta = _value(intent, "quantity_delta", None)
+                if delta is not None:
+                    target = abs(float(delta))
 
             recommendations.append(
                 PositionRecommendation(
-                    symbol=str(
-                        _value(
-                            intent,
-                            "symbol",
-                            "",
-                        )
-                    ),
+                    symbol=symbol,
                     action=action,
                     reason=str(
                         _value(
@@ -512,7 +382,7 @@ class LiveEngineAdapter:
                 _value(
                     trace,
                     "market_regime",
-                    regime_record.spx_regime,
+                    "UNKNOWN",
                 )
             ),
             regime_subclass=(
@@ -520,14 +390,14 @@ class LiveEngineAdapter:
                 if _value(
                     trace,
                     "regime_subclass",
-                    regime_record.subclass,
+                    None,
                 )
                 is None
                 else str(
                     _value(
                         trace,
                         "regime_subclass",
-                        regime_record.subclass,
+                    None,
                     )
                 )
             ),
@@ -544,7 +414,7 @@ class LiveEngineAdapter:
                 _value(
                     trace,
                     "branch",
-                    regime_record.spx_regime,
+                    "UNKNOWN",
                 )
             ),
             reference_candidates=reference_candidates,

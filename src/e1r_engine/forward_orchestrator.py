@@ -131,7 +131,7 @@ class ForwardMarketSnapshotBuilder:
     It only assembles existing contract objects.
     """
 
-    regime_provider: ForwardRegimeProvider
+    regime_provider: ForwardRegimeProvider | None = None
     required_indices: tuple[str, ...] = (
         "SPX",
         "NDX",
@@ -188,23 +188,29 @@ class ForwardMarketSnapshotBuilder:
             for symbol in self.required_indices
         }
 
-        regime_record = (
-            self.regime_provider.record_for_date(date)
-        )
-
         return MarketSnapshot(
             date=date,
             universe=list(symbol_order),
             prices_by_symbol=prices_by_symbol,
             indices=indices,
-            regime=regime_record,
+            regime=None,
             metadata={
                 "source":
                     "ForwardMarketSnapshotBuilder",
                 "regime_source":
-                    "engine://canonical_regime",
+                    "E1RCoreEngine.step",
+                "external_regime_injected":
+                    False,
                 "strategy_logic_reimplemented":
                     False,
+            },
+            history_by_symbol={
+                symbol: {
+                    row_date: bar
+                    for row_date, bar in series_by_symbol[symbol].items()
+                    if row_date <= date
+                }
+                for symbol in set(symbol_order) | set(self.required_indices)
             },
         )
 
@@ -619,11 +625,17 @@ class OfficialForwardCatchupRunner:
                 series_by_symbol=self.series_by_symbol,
             )
 
-            inputs = self.strategy_input_builder.build(
-                snapshot=snapshot,
-                account=current_state.account,
-                universe=self.universe,
-                series_by_symbol=self.series_by_symbol,
+            engine_result = (
+                self.committer.decision_router.engine.step(
+                    snapshot,
+                    current_state.account.mark_to_market(
+                        prices={
+                            symbol: bar.close
+                            for symbol, bar in snapshot.prices_by_symbol.items()
+                        },
+                        date=date,
+                    ),
+                )
             )
 
             execution_symbols = (
@@ -651,20 +663,20 @@ class OfficialForwardCatchupRunner:
             days.append(
                 ForwardDryRunDay(
                     date=date,
-                    branch=inputs.branch,
-                    regime=inputs.regime,
-                    subclass=inputs.subclass,
+                    branch=engine_result.decision_trace.branch,
+                    regime=engine_result.decision_trace.market_regime,
+                    subclass=engine_result.decision_trace.regime_subclass,
                     universe_count=len(
                         snapshot.universe
                     ),
                     execution_bar_count=len(bars),
                     uptrend_inputs_present=(
-                        inputs.uptrend_inputs
-                        is not None
+                        engine_result.decision_trace.branch
+                        == "UPTREND"
                     ),
                     sideways_context_present=(
-                        inputs.sideways_context
-                        is not None
+                        engine_result.decision_trace.branch
+                        == "SIDEWAYS_MA_CONFLICT"
                     ),
                 )
             )
@@ -729,13 +741,6 @@ class OfficialForwardCatchupRunner:
                 series_by_symbol=self.series_by_symbol,
             )
 
-            inputs = self.strategy_input_builder.build(
-                snapshot=snapshot,
-                account=state.account,
-                universe=self.universe,
-                series_by_symbol=self.series_by_symbol,
-            )
-
             execution_symbols = (
                 self._required_symbols_for_account(
                     state.account
@@ -765,12 +770,8 @@ class OfficialForwardCatchupRunner:
                 trading_date=date,
                 snapshot=snapshot,
                 t1_bars_by_symbol=bars,
-                uptrend_inputs=(
-                    inputs.uptrend_inputs
-                ),
-                sideways_context=(
-                    inputs.sideways_context
-                ),
+                uptrend_inputs=None,
+                sideways_context=None,
                 source_hashes=source_hashes,
             )
 

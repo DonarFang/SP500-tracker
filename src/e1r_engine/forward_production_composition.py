@@ -64,7 +64,7 @@ class ProductionForwardComposition:
 
     data: ForwardProductionData
     market_data_adapter: ForwardMarketDataAdapter
-    regime_provider: ForwardRegimeProvider
+    regime_provider: ForwardRegimeProvider | None
     snapshot_builder: ForwardMarketSnapshotBuilder
     strategy_input_builder: ForwardStrategyInputBuilder
     seed_loader: ForwardSeedLoader
@@ -389,15 +389,9 @@ def build_production_forward_composition(
         universe=universe,
     )
 
-    regime_provider = (
-        ForwardRegimeProvider.from_spx_series(
-            spx_series=data.series_by_symbol["SPX"]
-        )
-    )
-
     snapshot_builder = (
         ForwardMarketSnapshotBuilder(
-            regime_provider=regime_provider
+            regime_provider=None
         )
     )
 
@@ -478,7 +472,7 @@ def build_production_forward_composition(
     return ProductionForwardComposition(
         data=data,
         market_data_adapter=market_data_adapter,
-        regime_provider=regime_provider,
+        regime_provider=None,
         snapshot_builder=snapshot_builder,
         strategy_input_builder=(
             strategy_input_builder

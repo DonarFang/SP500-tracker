@@ -161,6 +161,30 @@ class E1RCoreEngine:
         uptrend_pipeline_inputs: UptrendPipelineInputs | None = None,
         entry_atr20_provider: Callable[[str, str], float | None] | None = None,
     ) -> DailyEngineResult:
+        # Formal Forward/Live entry: raw dated bars enter once and all daily
+        # decisions are composed inside Engine.  The legacy branch below is
+        # intentionally retained for the frozen 5Y caller and old contracts.
+        if getattr(snapshot, "history_by_symbol", None):
+            if uptrend_inputs is not None or uptrend_pipeline_inputs is not None:
+                raise ValueError(
+                    "canonical Engine entry prohibits external strategy inputs"
+                )
+            if snapshot.regime is not None:
+                raise ValueError(
+                    "canonical Engine entry prohibits external Regime injection"
+                )
+            from e1r_engine.canonical_runtime import CanonicalRuntime
+
+            result, canonical_atr_provider = CanonicalRuntime.decide(
+                engine=self,
+                snapshot=snapshot,
+                account=account,
+            )
+            return self._finalize_capped_atr(
+                result=result,
+                entry_atr20_provider=canonical_atr_provider,
+            )
+
         route = self._route(snapshot)
         account_before = account
 

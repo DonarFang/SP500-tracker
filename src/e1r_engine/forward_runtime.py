@@ -1075,6 +1075,23 @@ class CanonicalDailyDecisionRouter:
         sideways_context: SidewaysDecisionContext
         | None = None,
     ) -> CanonicalDecisionResult:
+        if snapshot.history_by_symbol:
+            if uptrend_inputs is not None or sideways_context is not None:
+                raise ForwardContractError(
+                    "canonical Forward entry prohibits external strategy inputs"
+                )
+            result = self.engine.step(snapshot, account)
+            return CanonicalDecisionResult(
+                order_intents=list(result.order_intents),
+                decision_trace=result.decision_trace,
+                metadata={
+                    "decision_source": "E1RCoreEngine.step",
+                    "branch": result.decision_trace.branch,
+                    "single_step_decision": True,
+                    "external_strategy_inputs": False,
+                },
+            )
+
         route = self.engine.router.route(
             date=snapshot.date,
             spx_regime=(
@@ -1656,6 +1673,13 @@ class T1ExecutionEngine:
                     position=position,
                     cash=cash,
                     price=price,
+                    total_equity=(
+                        cash
+                        + sum(
+                            item.market_value
+                            for item in positions.values()
+                        )
+                    ),
                 )
 
                 if quantity <= 0:
@@ -1700,7 +1724,7 @@ class T1ExecutionEngine:
 
                 metadata = dict(position.metadata)
                 metadata["size_units"] = min(
-                    1.5,
+                    1.0,
                     float(
                         metadata.get("size_units", 1.0)
                     )
@@ -2065,6 +2089,7 @@ class T1ExecutionEngine:
         position: PositionState,
         cash: float,
         price: float,
+        total_equity: float | None = None,
     ) -> float:
         if order.target_quantity is not None:
             return max(
@@ -2079,14 +2104,17 @@ class T1ExecutionEngine:
                 order.quantity_delta,
             )
 
+        if total_equity is None:
+            total_equity = cash + position.market_value
+        current_units = float(position.metadata.get("size_units", 1.0))
+        requested_units = float(order.metadata.get("add_size_units", 0.5))
+        allowed_units = max(0.0, min(requested_units, 1.0 - current_units))
         target_cash = min(
             cash,
-            float(
-                order.metadata.get(
-                    "target_add_cash",
-                    cash / 3.0,
-                )
-            ),
+            float(order.metadata.get(
+                "target_add_cash",
+                total_equity * (1.0 / 3.0) * allowed_units,
+            )),
         )
 
         return (

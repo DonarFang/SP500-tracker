@@ -128,6 +128,13 @@ class MarketSnapshot:
     indices: dict[str, DailyBar]
     regime: RegimeRecord | None
     metadata: dict[str, Any] = field(default_factory=dict)
+    # Canonical formal-entry input.  When present, Engine.step owns Regime,
+    # Market State/Gate, branch routing, ranking and position decisions.
+    # Legacy callers (including the frozen 5Y path) remain valid because the
+    # field is optional and the old precomputed-input path is preserved.
+    history_by_symbol: dict[str, dict[str, DailyBar]] = field(
+        default_factory=dict
+    )
 
 
 def strict_common_dates(named_date_lists: dict[str, list[str]]) -> dict[str, Any]:

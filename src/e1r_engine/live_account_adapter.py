@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 from e1r_engine.live_account import LiveAccountState
+from dataclasses import replace
+
+from e1r_engine.capped_atr_stop import VARIANT_ID
 from e1r_engine.state import AccountState, PositionState
 
 
@@ -28,15 +31,50 @@ class LiveAccountAdapter:
             if mark is None:
                 mark = position.average_cost
 
-            engine_positions[symbol] = PositionState.create(
+            transactions = [
+                item
+                for item in live_account.applied_transactions
+                if item.symbol == symbol
+            ]
+            last_exit = max(
+                (
+                    index
+                    for index, item in enumerate(transactions)
+                    if item.action == "EXIT"
+                ),
+                default=-1,
+            )
+            cycle = transactions[last_exit + 1 :]
+            first_buy = next(
+                (item for item in cycle if item.action == "BUY"),
+                None,
+            )
+            entry_date = (
+                first_buy.trade_date.isoformat()
+                if first_buy is not None
+                else market_date
+            )
+            base = PositionState.create(
                 symbol=symbol,
                 quantity=float(position.shares),
                 avg_cost=float(position.average_cost),
                 price=float(mark),
-                date=market_date,
+                date=entry_date,
             ).mark_to_market(
                 price=float(mark),
                 date=market_date,
+            )
+            engine_positions[symbol] = replace(
+                base,
+                metadata={
+                    "live_cycle_reconstruction_required": True,
+                    "first_buy_price": (
+                        float(first_buy.price)
+                        if first_buy is not None
+                        else float(position.average_cost)
+                    ),
+                    "origin_branch": "UPTREND",
+                },
             )
 
         positions_value = sum(
@@ -62,6 +100,7 @@ class LiveAccountAdapter:
                 "cash_difference": str(
                     live_account.cash_difference
                 ),
+                "strategy_variant": VARIANT_ID,
             },
         )
 
