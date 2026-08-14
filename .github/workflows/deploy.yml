@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   workflow_run:
-    workflows: ["每日更新 S&P 500 数据", "Engine Forward Daily", "Personal Live Track Daily"]
+    workflows: ["每日更新 S&P 500 数据", "Engine Forward Daily", "Personal Live Track Daily", "Record Personal Live Account Event"]
     types: [completed]
 
 permissions:
