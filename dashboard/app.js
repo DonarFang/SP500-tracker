@@ -721,10 +721,18 @@ function step3D2ExtractFills(payload, fallbackDate) {
       row && typeof row === 'object'
     )
     .map(row => {
+      const metadata = (
+        row.metadata &&
+        typeof row.metadata === 'object'
+      )
+        ? row.metadata
+        : {};
       const action = String(
+        metadata.intent_type ||
+        row.intent_type ||
         row.action ||
-        row.side ||
         row.order_action ||
+        row.side ||
         ''
       ).toUpperCase();
       const quantity = step3D2NumberFrom(
