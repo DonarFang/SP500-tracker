@@ -3,20 +3,20 @@
   "artifact_hashes": {
     "account_state.json": "c7d9025b3396317a568c50df0449ee42a673d6f1aefae392bce890f7c50992be",
     "active_positions.json": "a419ae4d6a820820b354a55d993e754da9538fddad07bbd8fc30e5bd17c79f5c",
-    "engine_recommendations.json": "5152d1b5c8a1b6abe5eb0136f8585a729dca86cb2aec8a6c9722f16f2223c1a4",
-    "equity.json": "2da1d0279a1a056705fe0cd2b62536d06f884714b8902d2119cf73bace28b36a",
-    "manifest.json": "2731f25922926ef8632f814c76e47fac1c8d52235e666d2ba5999f7cbf5cdf2c",
+    "engine_recommendations.json": "631f1b5a0b77d6bb0895a1efbce31369004b2d09d7d0f3cebf82d6507407bd9e",
+    "equity.json": "6a6a6a9ebafedd28fdbbe982381d6b47acfce7f33d2bcc70b2f102c120476ab7",
+    "manifest.json": "cf4a32fa9ac73c24db31d9c0b166c589c78bc4f8fc5f72fb010701adb95aecb5",
     "manual_transactions.json": "93edefb73b34dd55784da00019648fac8faf9ed250d7c3f03aded7d10c2473b6",
-    "market_status.json": "68a4c6d470b6ee22cae31e94a3a76a3038750823f1eb336036cd7cb843fec1df",
+    "market_status.json": "e25da0b7a1cbfd4dd38a50a9661bbfc5cd8f4e1dc92f7cebb8315dbd9ab44144",
     "reconciliation.json": "6c1db664439054b14cf5baade95beb5c1b194266ecf60003a2aab24c85fd8359",
-    "reference_top3.json": "e5ce99d4c89c7ee824ce32edebd1183197943305d36cad7295fba05b9e000c43"
+    "reference_top3.json": "d55132423525102cacd940ed1702d2c90c2d2709d63793601c53920bf48b6e7c"
   },
   "automatic_execution_enabled": false,
-  "completed_at": "2026-08-13T00:11:01.029698+00:00",
+  "completed_at": "2026-08-14T00:11:08.515687+00:00",
   "decision": "PASS_LIVE_ACTIVE_DAILY",
-  "expected_execution_date": "2026-08-13",
-  "market_date": "2026-08-12",
+  "expected_execution_date": "2026-08-14",
+  "market_date": "2026-08-13",
   "opening_activated": true,
-  "result_hash": "58793f028c72c3d125f351f3c5e05ffb2d08dfc1246d4b7bc7a797753d260799",
+  "result_hash": "1244141ebf164167da29ce48db040eaadb2db22b633b6c42285ab7cefb7dcba5",
   "run_mode": "ACTIVE_RECOMMENDATION_ONLY"
 }
