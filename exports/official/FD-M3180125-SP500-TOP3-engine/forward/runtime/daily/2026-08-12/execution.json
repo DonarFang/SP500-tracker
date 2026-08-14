@@ -1,6 +1,29 @@
 {
   "closed_trades": [],
-  "resolved_orders": [],
+  "resolved_orders": [
+    {
+      "branch": "UPTREND",
+      "execution_date": "2026-08-12",
+      "fill_id": "475f77f1d520c067b6a6a716378868fc919f2f8e9e3519198a0d6947227e9218",
+      "intent_type": "REDUCE",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 60.73,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "d06e146dd25af1127adf46923f9fa58a9136851ea89b6ef5c4919988b099bb9f",
+      "quantity_delta": -158.50644550912074,
+      "reason": "canonical_position_reduce",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-08-11",
+      "status": "FILLED",
+      "symbol": "ETSY",
+      "target_quantity": null
+    }
+  ],
   "sim_end_performed": false,
   "skipped_orders": []
 }

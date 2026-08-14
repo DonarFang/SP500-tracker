@@ -1,6 +1,6 @@
 {
   "account": {
-    "cash": 77867.71,
+    "cash": 191728.345304085,
     "date": "2026-08-13",
     "metadata": {
       "last_execution_date": "2026-08-13",
@@ -10,109 +10,178 @@
       "strategy_display_name": "E1R CAPPED-ATR Engine",
       "strategy_variant": "E1R_CAPPED_ATR_A0_V1"
     },
-    "open_positions_count": 3,
+    "open_positions_count": 2,
     "positions": {
-      "DELL": {
-        "avg_cost": 219.21899999999997,
-        "entry_date": "2026-04-24",
-        "last_price": 494.51001,
+      "BAX": {
+        "avg_cost": 28.238208998999998,
+        "entry_date": "2026-08-05",
+        "last_price": 27.049999,
         "last_update_date": "2026-08-13",
-        "market_value": 85889.66032415899,
+        "market_value": 96691.9502207592,
         "metadata": {
-          "capped_atr_stop": {
-            "a0": 219.21899999999997,
-            "add_updates_stop_anchor": false,
-            "atr20": 9.128959299999996,
-            "atr_as_of": "2026-04-23",
-            "atr_frozen_for_cycle": true,
-            "block_same_day_reentry_after_hard_stop": false,
-            "distance": 27.386877899999988,
-            "distance_fraction": 0.1249293076786227,
+          "account_mutated": false,
+          "capped_atr_entry": {
+            "atr20": 1.1449996500000004,
+            "atr_as_of": "2026-08-04",
             "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
-            "trigger_price": 191.8321221,
             "variant_id": "E1R_CAPPED_ATR_A0_V1"
           },
-          "carried_position": true,
-          "entry_execution_price": 219.21899999999997,
-          "entry_shares": 347.37278755655115,
-          "new_forward_buy": false,
-          "origin_branch": "UPTREND",
-          "remaining_cost_basis": 38075.35755767979,
-          "size_units": 0.5
-        },
-        "quantity": 173.68639377827557,
-        "symbol": "DELL",
-        "unrealized_pnl": 47814.3027664792
-      },
-      "HUM": {
-        "avg_cost": 373.07269999999994,
-        "entry_date": "2026-06-11",
-        "last_price": 384.970001,
-        "last_update_date": "2026-08-13",
-        "market_value": 102877.0684729224,
-        "metadata": {
           "capped_atr_stop": {
-            "a0": 373.07269999999994,
+            "a0": 28.238208998999998,
             "add_updates_stop_anchor": false,
-            "atr20": 11.518000800000006,
-            "atr_as_of": "2026-06-10",
+            "atr20": 1.1449996500000004,
+            "atr_as_of": "2026-08-04",
             "atr_frozen_for_cycle": true,
             "block_same_day_reentry_after_hard_stop": false,
-            "distance": 44.76872399999999,
+            "distance": 3.434998950000001,
+            "distance_fraction": 0.12164365488341151,
+            "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+            "trigger_price": 24.803210048999997,
+            "variant_id": "E1R_CAPPED_ATR_A0_V1"
+          },
+          "close_t": 28.35,
+          "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+          "entry_capacity": 2,
+          "entry_execution_price": 28.238208998999998,
+          "entry_reasons": [
+            "rs_above_90",
+            "leader_rank_top5",
+            "leader_score_above_75",
+            "momentum_above_75",
+            "trend_health_above_70",
+            "close_above_ma50",
+            "ma50_slope_non_negative"
+          ],
+          "entry_shares": 3574.563911102518,
+          "fill_id": "dba51abb08fb0108464ee6eba12568be0bb04a57f2c4d6d9c2f2477298b89a9a",
+          "leader_rank_all": 1,
+          "leader_score": 95.89,
+          "market_entry_allowed": true,
+          "market_gate_state": "ALLOW",
+          "order_executed": false,
+          "order_id": "1f8a4879e8391f7dbc9e4878cb7c43d607543c4603b17038915626d2388cca56",
+          "origin_branch": "UPTREND",
+          "remaining_cost_basis": 100939.28280199575,
+          "size_units": 1.0,
+          "source": "UptrendDecisionConsumer",
+          "strategy_logic_source": "UptrendCore",
+          "target_size_units": 1.0
+        },
+        "quantity": 3574.563911102518,
+        "symbol": "BAX",
+        "unrealized_pnl": -4247.332581236551
+      },
+      "ETSY": {
+        "avg_cost": 83.93703084904212,
+        "entry_date": "2026-06-30",
+        "last_price": 80.669998,
+        "last_update_date": "2026-08-13",
+        "market_value": 6393.35732110394,
+        "metadata": {
+          "account_mutated": false,
+          "capped_atr_entry": {
+            "atr20": 2.710499900000002,
+            "atr_as_of": "2026-06-29",
+            "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+            "variant_id": "E1R_CAPPED_ATR_A0_V1"
+          },
+          "capped_atr_stop": {
+            "a0": 78.73866400399999,
+            "add_updates_stop_anchor": false,
+            "atr20": 2.710499900000002,
+            "atr_as_of": "2026-06-29",
+            "atr_frozen_for_cycle": true,
+            "block_same_day_reentry_after_hard_stop": false,
+            "distance": 9.448639680479998,
             "distance_fraction": 0.12,
             "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
-            "trigger_price": 328.3039759999999,
+            "trigger_price": 69.29002432351999,
             "variant_id": "E1R_CAPPED_ATR_A0_V1"
           },
-          "carried_position": true,
-          "entry_execution_price": 373.07269999999994,
-          "entry_shares": 267.2339875982243,
-          "new_forward_buy": false,
+          "close_t": 79.660004,
+          "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+          "entry_capacity": 3,
+          "entry_execution_price": 78.73866400399999,
+          "entry_reasons": [
+            "rs_above_90",
+            "leader_rank_top5",
+            "leader_score_above_75",
+            "momentum_above_75",
+            "trend_health_above_70",
+            "close_above_ma50",
+            "ma50_slope_non_negative"
+          ],
+          "entry_shares": 1338.5644506118015,
+          "fill_id": "909df9c60be6f45252735ed085ecb1df2c1f21bb163dc3518b2c7deea72eb7e4",
+          "last_fill_id": "1bc26be1935a44a6a8e8aa5383018f01f0f16e80487124688b26d14b65e08ed7",
+          "last_order_id": "c0ff89f28e75030773ab5d8e38f16280ef110f2eaaba2cb6b89843a96691092d",
+          "leader_rank_all": 1,
+          "leader_score": 96.17,
+          "market_entry_allowed": true,
+          "market_gate_state": "ALLOW",
+          "order_executed": false,
+          "order_id": "2dae1252eba4983520a4c5054a51d1985474c8d9bce441e08d58db52cbd008e1",
           "origin_branch": "UPTREND",
-          "remaining_cost_basis": 99697.70528503603,
-          "size_units": 1.0
+          "realized_cost_basis": 148669.08868068206,
+          "realized_pnl": -2529.8251624436443,
+          "remaining_cost_basis": 6652.28020323554,
+          "size_units": 0.5,
+          "source": "UptrendDecisionConsumer",
+          "strategy_logic_source": "UptrendCore",
+          "target_size_units": 1.0
         },
-        "quantity": 267.2339875982243,
-        "symbol": "HUM",
-        "unrealized_pnl": 3179.363187886364
-      },
-      "MRVL": {
-        "avg_cost": 168.02786,
-        "entry_date": "2026-04-23",
-        "last_price": 222.179993,
-        "last_update_date": "2026-08-13",
-        "market_value": 50395.56978766026,
-        "metadata": {
-          "capped_atr_stop": {
-            "a0": 168.02786,
-            "add_updates_stop_anchor": false,
-            "atr20": 7.0550872999999985,
-            "atr_as_of": "2026-04-22",
-            "atr_frozen_for_cycle": true,
-            "block_same_day_reentry_after_hard_stop": false,
-            "distance": 21.165261899999997,
-            "distance_fraction": 0.1259628129525663,
-            "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
-            "trigger_price": 146.8625981,
-            "variant_id": "E1R_CAPPED_ATR_A0_V1"
-          },
-          "carried_position": true,
-          "entry_execution_price": 168.02786,
-          "entry_shares": 453.64633518248655,
-          "new_forward_buy": false,
-          "origin_branch": "UPTREND",
-          "remaining_cost_basis": 38112.61144877796,
-          "size_units": 0.5
-        },
-        "quantity": 226.82316759124328,
-        "symbol": "MRVL",
-        "unrealized_pnl": 12282.958338882294
+        "quantity": 79.25322275456037,
+        "symbol": "ETSY",
+        "unrealized_pnl": -258.9228821316003
       }
     },
-    "positions_value": 239162.29858474166,
-    "total_equity": 317030.0085847417
+    "positions_value": 103085.30754186315,
+    "total_equity": 294813.6528459481
   },
-  "closed_trades": [],
+  "closed_trades": [
+    {
+      "average_cost": 168.02786,
+      "entry_date": "2026-04-23",
+      "execution_price": 250.20775079100002,
+      "exit_date": "2026-06-29",
+      "exit_reason": "canonical_position_exit",
+      "fill_id": "41cb942b7e9771407e49e74ced4a4efa9c68c1a80f34ac43ee880be03b5942ea",
+      "is_sim_end": false,
+      "order_id": "7c5e8b6c16050bc3f43005ed71a3e558f854377f599a52a5b8aba4b21ee2490e",
+      "origin_branch": "UPTREND",
+      "quantity": 14.176447974452705,
+      "realized_pnl": 1165.0189463448166,
+      "symbol": "MRVL"
+    },
+    {
+      "average_cost": 460.5531441530054,
+      "entry_date": "2026-04-24",
+      "execution_price": 380.040930648,
+      "exit_date": "2026-07-20",
+      "exit_reason": "canonical_position_exit",
+      "fill_id": "b5fc733226da796f4f458d4f1b5a4f9c7d4c1fbee318b533ed0ad7fdc3091e16",
+      "is_sim_end": false,
+      "order_id": "b59cd16abcdeb58a92957384936c54a9fdc75fcf039a164b0ad3c4493ede92b4",
+      "origin_branch": "UPTREND",
+      "quantity": 29.581032390594782,
+      "realized_pnl": -2381.6343955300467,
+      "symbol": "DELL"
+    },
+    {
+      "average_cost": 373.07269999999994,
+      "entry_date": "2026-06-11",
+      "execution_price": 362.497125015,
+      "exit_date": "2026-07-31",
+      "exit_reason": "canonical_position_exit",
+      "fill_id": "15bdda6876e3f1dbeec48b89004eef920903c44447f79a87aba0ffa8d98ac8ea",
+      "is_sim_end": false,
+      "order_id": "c939c7e8e5ddd1b34ef34b8bf9b98b62709a1460c640de75863b46cfdab57f0c",
+      "origin_branch": "UPTREND",
+      "quantity": 16.70212422488902,
+      "realized_pnl": -176.63456714909793,
+      "symbol": "HUM"
+    }
+  ],
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
   "equity_history": [
     {
@@ -123,277 +192,277 @@
       "total_equity": 312746.92908483767
     },
     {
-      "cash": 77867.71,
+      "cash": 147443.89895365352,
       "date": "2026-06-18",
       "open_positions_count": 3,
-      "positions_value": 237587.69030788675,
-      "total_equity": 315455.40030788677
+      "positions_value": 166869.38877304603,
+      "total_equity": 314313.28772669955
     },
     {
-      "cash": 77867.71,
+      "cash": 165393.624736584,
       "date": "2026-06-22",
       "open_positions_count": 3,
-      "positions_value": 238586.56173198184,
-      "total_equity": 316454.27173198183
+      "positions_value": 149227.09532671387,
+      "total_equity": 314620.7200632979
     },
     {
-      "cash": 77867.71,
+      "cash": 173860.0679370267,
       "date": "2026-06-23",
       "open_positions_count": 3,
-      "positions_value": 233199.96931994078,
-      "total_equity": 311067.6793199408
+      "positions_value": 136656.53709270808,
+      "total_equity": 310516.6050297348
     },
     {
-      "cash": 77867.71,
+      "cash": 193321.70488087198,
       "date": "2026-06-24",
       "open_positions_count": 3,
-      "positions_value": 234427.46975475096,
-      "total_equity": 312295.179754751
+      "positions_value": 116805.77961657908,
+      "total_equity": 310127.48449745105
     },
     {
-      "cash": 77867.71,
+      "cash": 200789.61117484205,
       "date": "2026-06-25",
       "open_positions_count": 3,
-      "positions_value": 235022.6019540744,
-      "total_equity": 312890.3119540744
+      "positions_value": 112653.45456749207,
+      "total_equity": 313443.0657423341
     },
     {
-      "cash": 77867.71,
+      "cash": 206584.04571339942,
       "date": "2026-06-26",
       "open_positions_count": 3,
-      "positions_value": 232341.2890768878,
-      "total_equity": 310208.9990768878
+      "positions_value": 108520.7454248992,
+      "total_equity": 315104.79113829863
     },
     {
-      "cash": 77867.71,
+      "cash": 211156.00806331905,
       "date": "2026-06-29",
-      "open_positions_count": 3,
-      "positions_value": 238805.20422578984,
-      "total_equity": 316672.91422578983
+      "open_positions_count": 2,
+      "positions_value": 105050.62919483667,
+      "total_equity": 316206.63725815574
     },
     {
-      "cash": 77867.71,
+      "cash": 106312.74420709751,
       "date": "2026-06-30",
       "open_positions_count": 3,
-      "positions_value": 248517.47437378386,
-      "total_equity": 326385.1843737839
+      "positions_value": 207569.24054170714,
+      "total_equity": 313881.98474880465
     },
     {
-      "cash": 77867.71,
+      "cash": 106312.74420709751,
       "date": "2026-07-01",
       "open_positions_count": 3,
-      "positions_value": 244841.2523975891,
-      "total_equity": 322708.9623975891
+      "positions_value": 207474.67469285644,
+      "total_equity": 313787.41889995395
     },
     {
-      "cash": 77867.71,
+      "cash": 106312.74420709751,
       "date": "2026-07-02",
       "open_positions_count": 3,
-      "positions_value": 230023.84966889184,
-      "total_equity": 307891.55966889183
+      "positions_value": 209588.57164211798,
+      "total_equity": 315901.3158492155
     },
     {
-      "cash": 77867.71,
+      "cash": 106578.84305791797,
       "date": "2026-07-06",
       "open_positions_count": 3,
-      "positions_value": 232917.86851888758,
-      "total_equity": 310785.5785188876
+      "positions_value": 205737.11526963193,
+      "total_equity": 312315.9583275499
     },
     {
-      "cash": 77867.71,
+      "cash": 106712.7619941386,
       "date": "2026-07-07",
       "open_positions_count": 3,
-      "positions_value": 230127.36242408887,
-      "total_equity": 307995.0724240889
+      "positions_value": 209456.40609693146,
+      "total_equity": 316169.16809107
     },
     {
-      "cash": 77867.71,
+      "cash": 106782.79690788667,
       "date": "2026-07-08",
       "open_positions_count": 3,
-      "positions_value": 233349.93029795412,
-      "total_equity": 311217.64029795415
+      "positions_value": 209312.47890512782,
+      "total_equity": 316095.2758130145
     },
     {
-      "cash": 77867.71,
+      "cash": 106782.79690788667,
       "date": "2026-07-09",
       "open_positions_count": 3,
-      "positions_value": 239528.74282652393,
-      "total_equity": 317396.4528265239
+      "positions_value": 210404.4623838489,
+      "total_equity": 317187.2592917356
     },
     {
-      "cash": 77867.71,
+      "cash": 106782.79690788667,
       "date": "2026-07-10",
       "open_positions_count": 3,
-      "positions_value": 233725.42083516583,
-      "total_equity": 311593.13083516585
+      "positions_value": 213378.82361225045,
+      "total_equity": 320161.62052013713
     },
     {
-      "cash": 77867.71,
+      "cash": 106782.79690788667,
       "date": "2026-07-13",
       "open_positions_count": 3,
-      "positions_value": 231898.65251873838,
-      "total_equity": 309766.3625187384
+      "positions_value": 216363.91784398002,
+      "total_equity": 323146.7147518667
     },
     {
-      "cash": 77867.71,
+      "cash": 106782.79690788667,
       "date": "2026-07-14",
       "open_positions_count": 3,
-      "positions_value": 238494.68390976355,
-      "total_equity": 316362.39390976354
+      "positions_value": 219961.40468865153,
+      "total_equity": 326744.2015965382
     },
     {
-      "cash": 77867.71,
+      "cash": 52325.42997513031,
       "date": "2026-07-15",
       "open_positions_count": 3,
-      "positions_value": 227315.87172788498,
-      "total_equity": 305183.581727885
+      "positions_value": 272490.63239451434,
+      "total_equity": 324816.06236964464
     },
     {
-      "cash": 77867.71,
+      "cash": 75405.98265317513,
       "date": "2026-07-16",
       "open_positions_count": 3,
-      "positions_value": 213856.6367391164,
-      "total_equity": 291724.3467391164
+      "positions_value": 238140.60939126572,
+      "total_equity": 313546.59204444085
     },
     {
-      "cash": 77867.71,
+      "cash": 86267.40083523802,
       "date": "2026-07-17",
       "open_positions_count": 3,
-      "positions_value": 218415.88517936607,
-      "total_equity": 296283.59517936606
+      "positions_value": 231171.6667979093,
+      "total_equity": 317439.06763314735
     },
     {
-      "cash": 77867.71,
+      "cash": 97509.4039144883,
       "date": "2026-07-20",
-      "open_positions_count": 3,
-      "positions_value": 216847.42344027164,
-      "total_equity": 294715.13344027166
+      "open_positions_count": 2,
+      "positions_value": 218892.146514766,
+      "total_equity": 316401.5504292543
     },
     {
-      "cash": 77867.71,
+      "cash": 97509.4039144883,
       "date": "2026-07-21",
-      "open_positions_count": 3,
-      "positions_value": 225418.89199993887,
-      "total_equity": 303286.6019999389
+      "open_positions_count": 2,
+      "positions_value": 217400.72212413704,
+      "total_equity": 314910.12603862537
     },
     {
-      "cash": 77867.71,
+      "cash": 97509.4039144883,
       "date": "2026-07-22",
-      "open_positions_count": 3,
-      "positions_value": 230844.3030236556,
-      "total_equity": 308712.0130236556
+      "open_positions_count": 2,
+      "positions_value": 213979.90607338905,
+      "total_equity": 311489.3099878774
     },
     {
-      "cash": 77867.71,
+      "cash": 149574.29579801304,
       "date": "2026-07-23",
-      "open_positions_count": 3,
-      "positions_value": 229209.81468326272,
-      "total_equity": 307077.52468326275
+      "open_positions_count": 2,
+      "positions_value": 159575.4356341288,
+      "total_equity": 309149.73143214185
     },
     {
-      "cash": 77867.71,
+      "cash": 176348.89976644958,
       "date": "2026-07-24",
-      "open_positions_count": 3,
-      "positions_value": 224083.19813432865,
-      "total_equity": 301950.90813432867
+      "open_positions_count": 2,
+      "positions_value": 131018.30542838278,
+      "total_equity": 307367.20519483235
     },
     {
-      "cash": 77867.71,
+      "cash": 240164.52642272177,
       "date": "2026-07-27",
-      "open_positions_count": 3,
-      "positions_value": 218912.8299918776,
-      "total_equity": 296780.5399918776
+      "open_positions_count": 2,
+      "positions_value": 64956.27115795909,
+      "total_equity": 305120.79758068087
     },
     {
-      "cash": 77867.71,
+      "cash": 264959.0636643087,
       "date": "2026-07-28",
-      "open_positions_count": 3,
-      "positions_value": 211552.79523324748,
-      "total_equity": 289420.5052332475
+      "open_positions_count": 2,
+      "positions_value": 40437.33890142084,
+      "total_equity": 305396.4025657295
     },
     {
-      "cash": 77867.71,
+      "cash": 276832.74367284164,
       "date": "2026-07-29",
-      "open_positions_count": 3,
-      "positions_value": 198914.31790217094,
-      "total_equity": 276782.02790217096
+      "open_positions_count": 2,
+      "positions_value": 26525.540104711246,
+      "total_equity": 303358.2837775529
     },
     {
-      "cash": 77867.71,
+      "cash": 282795.7799066041,
       "date": "2026-07-30",
-      "open_positions_count": 3,
-      "positions_value": 209870.69097965624,
-      "total_equity": 287738.40097965626
+      "open_positions_count": 2,
+      "positions_value": 20036.705528293827,
+      "total_equity": 302832.48543489794
     },
     {
-      "cash": 77867.71,
+      "cash": 288850.25191976974,
       "date": "2026-07-31",
-      "open_positions_count": 3,
-      "positions_value": 210185.96015621495,
-      "total_equity": 288053.67015621497
+      "open_positions_count": 1,
+      "positions_value": 13666.743040746494,
+      "total_equity": 302516.9949605162
     },
     {
-      "cash": 77867.71,
+      "cash": 295696.8482897618,
       "date": "2026-08-03",
-      "open_positions_count": 3,
-      "positions_value": 218547.85629274842,
-      "total_equity": 296415.56629274844
+      "open_positions_count": 1,
+      "positions_value": 6958.025167515915,
+      "total_equity": 302654.8734572777
     },
     {
-      "cash": 77867.71,
+      "cash": 299202.46948516293,
       "date": "2026-08-04",
-      "open_positions_count": 3,
-      "positions_value": 227521.17662421055,
-      "total_equity": 305388.8866242106
+      "open_positions_count": 1,
+      "positions_value": 3615.378920824313,
+      "total_equity": 302817.84840598726
     },
     {
-      "cash": 77867.71,
+      "cash": 198263.18668316718,
       "date": "2026-08-05",
-      "open_positions_count": 3,
-      "positions_value": 225453.99345646554,
-      "total_equity": 303321.70345646556
+      "open_positions_count": 2,
+      "positions_value": 101284.36747380973,
+      "total_equity": 299547.5541569769
     },
     {
-      "cash": 77867.71,
+      "cash": 148338.59432367102,
       "date": "2026-08-06",
-      "open_positions_count": 3,
-      "positions_value": 221908.20424507413,
-      "total_equity": 299775.91424507415
+      "open_positions_count": 2,
+      "positions_value": 148703.93333725166,
+      "total_equity": 297042.5276609227
     },
     {
-      "cash": 77867.71,
+      "cash": 148338.59432367102,
       "date": "2026-08-07",
-      "open_positions_count": 3,
-      "positions_value": 231309.521661914,
-      "total_equity": 309177.23166191403
+      "open_positions_count": 2,
+      "positions_value": 152720.1397316089,
+      "total_equity": 301058.7340552799
     },
     {
-      "cash": 77867.71,
+      "cash": 148338.59432367102,
       "date": "2026-08-10",
-      "open_positions_count": 3,
-      "positions_value": 229905.91845425512,
-      "total_equity": 307773.6284542551
+      "open_positions_count": 2,
+      "positions_value": 150277.06316877666,
+      "total_equity": 298615.65749244764
     },
     {
-      "cash": 77867.71,
+      "cash": 173078.87727305733,
       "date": "2026-08-11",
-      "open_positions_count": 3,
-      "positions_value": 224377.49262275102,
-      "total_equity": 302245.202622751
+      "open_positions_count": 2,
+      "positions_value": 123889.89868927294,
+      "total_equity": 296968.7759623303
     },
     {
-      "cash": 77867.71,
+      "cash": 185542.44339840626,
       "date": "2026-08-12",
-      "open_positions_count": 3,
-      "positions_value": 237298.41938370367,
-      "total_equity": 315166.1293837037
+      "open_positions_count": 2,
+      "positions_value": 108956.36875914873,
+      "total_equity": 294498.812157555
     },
     {
-      "cash": 77867.71,
+      "cash": 191728.345304085,
       "date": "2026-08-13",
-      "open_positions_count": 3,
-      "positions_value": 239162.29858474166,
-      "total_equity": 317030.0085847417
+      "open_positions_count": 2,
+      "positions_value": 103085.30754186315,
+      "total_equity": 294813.6528459481
     }
   ],
   "first_forward_market_date": "2026-06-17",
@@ -403,13 +472,34 @@
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
-    "seed_source": "/Users/dongfang/Downloads/FD-M3180125_AE-step-2_RUN.WDVbon/.ae_step2_afut0aqx/seed/forward_runtime_seed_state.json",
+    "seed_source": "/Users/dongfang/Downloads/fd-m3180125-canonical-engine-entry-forward-replay-20260814T054750Z/exports/official/FD-M3180125-SP500-TOP3-engine/forward/seed_2026-06-16/forward_runtime_seed_state.json",
     "seed_state_sha256": "c8406fb94707bdf1cec4a789ad2cdc1e1e6907ab162d3a954069fe5ef10a51f4",
     "sim_end_performed": false,
     "sim_end_replayed": false,
     "unknown_pending_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
   },
-  "pending_orders": [],
+  "pending_orders": [
+    {
+      "branch": "UPTREND",
+      "intent_type": "REDUCE",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 61.27,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "96dcce6dab9bd52cafe106856069e2464a2a5d0d2a3f89aff0f7ebb9e974eed1",
+      "quantity_delta": -39.626611377280184,
+      "reason": "canonical_position_reduce",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-08-13",
+      "status": "PENDING",
+      "symbol": "ETSY",
+      "target_quantity": null
+    }
+  ],
   "schema_version": "1.0.0",
   "seed_date": "2026-06-16"
 }

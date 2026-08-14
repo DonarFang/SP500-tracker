@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "date": "2026-07-07",
+    "gross_amount": 133.91893622062267,
+    "metadata": {
+      "branch": "UPTREND",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "fill_id": "8cbd40a9da33e9f3e24a88ef9a339e1c0b49541804a481fd0bd5ea0be836be73",
+      "intent_type": "REDUCE",
+      "order_id": "87b07687a23b841456ca211f9afc27ac6a194716be15e400ec256a5fc08d96f7",
+      "signal_date": "2026-07-06",
+      "sim_end": false
+    },
+    "price": 394.771829004,
+    "quantity": 0.3392312378481945,
+    "reason": "T1_REDUCE_EXECUTED",
+    "side": "SELL",
+    "status": "FILLED",
+    "symbol": "DELL"
+  }
+]

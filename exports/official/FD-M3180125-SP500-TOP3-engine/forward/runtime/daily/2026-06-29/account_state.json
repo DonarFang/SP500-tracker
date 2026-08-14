@@ -1,5 +1,5 @@
 {
-  "cash": 77867.71,
+  "cash": 211156.00806331905,
   "date": "2026-06-29",
   "metadata": {
     "last_execution_date": "2026-06-29",
@@ -9,14 +9,14 @@
     "strategy_display_name": "E1R CAPPED-ATR Engine",
     "strategy_variant": "E1R_CAPPED_ATR_A0_V1"
   },
-  "open_positions_count": 3,
+  "open_positions_count": 2,
   "positions": {
     "DELL": {
       "avg_cost": 219.21899999999997,
       "entry_date": "2026-04-24",
       "last_price": 413.925995,
       "last_update_date": "2026-06-29",
-      "market_value": 71893.31336263452,
+      "market_value": 1123.3330212911644,
       "metadata": {
         "capped_atr_stop": {
           "a0": 219.21899999999997,
@@ -34,14 +34,18 @@
         "carried_position": true,
         "entry_execution_price": 219.21899999999997,
         "entry_shares": 347.37278755655115,
+        "last_fill_id": "f5303aaf5c3e47238d7cfe215911aef5e9bd5143324d073295be8321f057352f",
+        "last_order_id": "9703e389b33b9cb88a79ec402bad670efbb6a44a713ca34140e50ed4044a94dc",
         "new_forward_buy": false,
         "origin_branch": "UPTREND",
-        "remaining_cost_basis": 38075.35755767979,
+        "realized_cost_basis": 37480.430095841046,
+        "realized_pnl": 31902.50479860129,
+        "remaining_cost_basis": 594.9274618387467,
         "size_units": 0.5
       },
-      "quantity": 173.68639377827557,
+      "quantity": 2.713849902785556,
       "symbol": "DELL",
-      "unrealized_pnl": 33817.95580495474
+      "unrealized_pnl": 528.4055594524178
     },
     "HUM": {
       "avg_cost": 373.07269999999994,
@@ -74,40 +78,8 @@
       "quantity": 267.2339875982243,
       "symbol": "HUM",
       "unrealized_pnl": 4229.590888509464
-    },
-    "MRVL": {
-      "avg_cost": 168.02786,
-      "entry_date": "2026-04-23",
-      "last_price": 277.681488,
-      "last_update_date": "2026-06-29",
-      "market_value": 62984.59468960981,
-      "metadata": {
-        "capped_atr_stop": {
-          "a0": 168.02786,
-          "add_updates_stop_anchor": false,
-          "atr20": 7.0550872999999985,
-          "atr_as_of": "2026-04-22",
-          "atr_frozen_for_cycle": true,
-          "block_same_day_reentry_after_hard_stop": false,
-          "distance": 21.165261899999997,
-          "distance_fraction": 0.1259628129525663,
-          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
-          "trigger_price": 146.8625981,
-          "variant_id": "E1R_CAPPED_ATR_A0_V1"
-        },
-        "carried_position": true,
-        "entry_execution_price": 168.02786,
-        "entry_shares": 453.64633518248655,
-        "new_forward_buy": false,
-        "origin_branch": "UPTREND",
-        "remaining_cost_basis": 38112.61144877796,
-        "size_units": 0.5
-      },
-      "quantity": 226.82316759124328,
-      "symbol": "MRVL",
-      "unrealized_pnl": 24871.983240831847
     }
   },
-  "positions_value": 238805.20422578984,
-  "total_equity": 316672.91422578983
+  "positions_value": 105050.62919483667,
+  "total_equity": 316206.63725815574
 }

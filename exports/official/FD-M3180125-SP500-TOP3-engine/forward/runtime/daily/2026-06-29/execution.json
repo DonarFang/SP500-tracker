@@ -1,6 +1,66 @@
 {
-  "closed_trades": [],
-  "resolved_orders": [],
+  "closed_trades": [
+    {
+      "average_cost": 168.02786,
+      "entry_date": "2026-04-23",
+      "execution_price": 250.20775079100002,
+      "exit_date": "2026-06-29",
+      "exit_reason": "canonical_position_exit",
+      "fill_id": "41cb942b7e9771407e49e74ced4a4efa9c68c1a80f34ac43ee880be03b5942ea",
+      "is_sim_end": false,
+      "order_id": "7c5e8b6c16050bc3f43005ed71a3e558f854377f599a52a5b8aba4b21ee2490e",
+      "origin_branch": "UPTREND",
+      "quantity": 14.176447974452705,
+      "realized_pnl": 1165.0189463448166,
+      "symbol": "MRVL"
+    }
+  ],
+  "resolved_orders": [
+    {
+      "branch": "UPTREND",
+      "execution_date": "2026-06-29",
+      "fill_id": "41cb942b7e9771407e49e74ced4a4efa9c68c1a80f34ac43ee880be03b5942ea",
+      "intent_type": "EXIT",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 57.77,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "7c5e8b6c16050bc3f43005ed71a3e558f854377f599a52a5b8aba4b21ee2490e",
+      "quantity_delta": null,
+      "reason": "canonical_position_exit",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-06-26",
+      "status": "FILLED",
+      "symbol": "MRVL",
+      "target_quantity": 0.0
+    },
+    {
+      "branch": "UPTREND",
+      "execution_date": "2026-06-29",
+      "fill_id": "f5303aaf5c3e47238d7cfe215911aef5e9bd5143324d073295be8321f057352f",
+      "intent_type": "REDUCE",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 63.27,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "9703e389b33b9cb88a79ec402bad670efbb6a44a713ca34140e50ed4044a94dc",
+      "quantity_delta": -2.713849902785556,
+      "reason": "canonical_position_reduce",
+      "sequence": 2,
+      "side": "SELL",
+      "signal_date": "2026-06-26",
+      "status": "FILLED",
+      "symbol": "DELL",
+      "target_quantity": null
+    }
+  ],
   "sim_end_performed": false,
   "skipped_orders": []
 }

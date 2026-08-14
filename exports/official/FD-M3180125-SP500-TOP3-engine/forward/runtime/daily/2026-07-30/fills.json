@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "date": "2026-07-30",
+    "gross_amount": 5963.036233762457,
+    "metadata": {
+      "branch": "UPTREND",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "fill_id": "3141b9aa75ffec8d06a3546fd3b8f3aed459c806aa1cfd3d57ad8d156d97a0fa",
+      "intent_type": "REDUCE",
+      "order_id": "16c0250a6a2c2ffde2bc1950adb4d7f2c5f0609c089d16e9ad71ef728629f638",
+      "signal_date": "2026-07-29",
+      "sim_end": false
+    },
+    "price": 357.022624995,
+    "quantity": 16.70212422488902,
+    "reason": "T1_REDUCE_EXECUTED",
+    "side": "SELL",
+    "status": "FILLED",
+    "symbol": "HUM"
+  }
+]

@@ -2,43 +2,52 @@
   {
     "branch": "UPTREND",
     "date": "2026-07-14",
-    "intent_type": "HOLD",
+    "intent_type": "ADD",
     "metadata": {
-      "no_strategy_decision": true,
-      "shell_mode": true
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 89.64,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
     },
-    "quantity_delta": 0.0,
-    "reason": "engine_f_shell_existing_position_hold",
-    "side": null,
+    "quantity_delta": null,
+    "reason": "canonical_position_add",
+    "side": "BUY",
     "symbol": "DELL",
-    "target_quantity": 173.68639377827557
+    "target_quantity": null
   },
   {
     "branch": "UPTREND",
     "date": "2026-07-14",
     "intent_type": "HOLD",
     "metadata": {
-      "no_strategy_decision": true,
-      "shell_mode": true
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 93.9,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
     },
     "quantity_delta": 0.0,
-    "reason": "engine_f_shell_existing_position_hold",
+    "reason": "canonical_position_hold",
+    "side": null,
+    "symbol": "ETSY",
+    "target_quantity": 1338.5644506118015
+  },
+  {
+    "branch": "UPTREND",
+    "date": "2026-07-14",
+    "intent_type": "HOLD",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 89.72,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": 0.0,
+    "reason": "canonical_position_hold",
     "side": null,
     "symbol": "HUM",
     "target_quantity": 267.2339875982243
-  },
-  {
-    "branch": "UPTREND",
-    "date": "2026-07-14",
-    "intent_type": "HOLD",
-    "metadata": {
-      "no_strategy_decision": true,
-      "shell_mode": true
-    },
-    "quantity_delta": 0.0,
-    "reason": "engine_f_shell_existing_position_hold",
-    "side": null,
-    "symbol": "MRVL",
-    "target_quantity": 226.82316759124328
   }
 ]

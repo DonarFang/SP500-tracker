@@ -1,38 +1,38 @@
 {
   "account_summary": {
-    "cash": 77867.71,
-    "open_positions_count": 3,
-    "positions_value": 239162.29858474166,
-    "total_equity": 317030.0085847417
+    "cash": 191728.345304085,
+    "open_positions_count": 2,
+    "positions_value": 103085.30754186315,
+    "total_equity": 294813.6528459481
   },
   "artifact_type": "OFFICIAL_FORWARD_CURRENT",
   "artifacts": {
     "account_state.json": {
-      "sha256": "f7402196259ea30005558440825a36f1d72d563f5194c1c51c6ad4cbed0121cd"
+      "sha256": "8d8438b47687c02add653be232d1cc983e6bc4a832c3ff8c530f301299fd54eb"
     },
     "decision_trace.json": {
-      "sha256": "adb84572197dd798c9eb74393f98c06364db64c0efb90494551cf64288195aaa"
+      "sha256": "b461816024fa1f0da5411bd3f1818846e08c62cf7da79360421e65401186cb2a"
     },
     "equity.json": {
-      "sha256": "d1e889e004c4e62fabdbb966219ecf60d02e13947299ca759d1df6eb99f6528d"
+      "sha256": "cc3c517183517f3b52f7740df60b970a444280033dfaa152297fcf595990a083"
     },
     "execution.json": {
-      "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba"
+      "sha256": "1e18bd63695a340c5f0e44072cde1160098c04de2d71e06ba2ebbf22f6feedd1"
     },
     "fills.json": {
-      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      "sha256": "809151abba48ef88f4ba8a28cd76790b2c8acadc7fd8277931879a59bbeb3203"
     },
     "order_intents.json": {
-      "sha256": "a9ace336896b6671610cdee05c5bab8831cc8714aa18070f2a9508bef21005a8"
+      "sha256": "847811b3822b5233d788df0f63f5ba9bf07828683034ceae181743d2156cef5c"
     }
   },
-  "current_account_state_sha256": "f7402196259ea30005558440825a36f1d72d563f5194c1c51c6ad4cbed0121cd",
-  "current_pending_orders_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "current_account_state_sha256": "8d8438b47687c02add653be232d1cc983e6bc4a832c3ff8c530f301299fd54eb",
+  "current_pending_orders_sha256": "d49d969efd4014dcab1a67da1df9177cc3efb8f2aed635751df9adf21e273825",
   "date": "2026-08-13",
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
   "forward_track_end": "OPEN_ENDED",
   "last_committed_date": "2026-08-13",
-  "runtime_commit": "b4b1288ef4d9850d496e618c8de327262d36bf36",
+  "runtime_commit": "882e0e8a502fe9520c069e69ec2ef12cd5d708f0",
   "schema_version": "1.0.0",
   "sim_end_performed": false,
   "source_hashes": {

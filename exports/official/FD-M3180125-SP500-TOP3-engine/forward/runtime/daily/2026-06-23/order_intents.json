@@ -2,27 +2,33 @@
   {
     "branch": "UPTREND",
     "date": "2026-06-23",
-    "intent_type": "HOLD",
+    "intent_type": "REDUCE",
     "metadata": {
-      "no_strategy_decision": true,
-      "shell_mode": true
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 90.49,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
     },
-    "quantity_delta": 0.0,
-    "reason": "engine_f_shell_existing_position_hold",
-    "side": null,
+    "quantity_delta": -10.855399611142223,
+    "reason": "canonical_position_reduce",
+    "side": "SELL",
     "symbol": "DELL",
-    "target_quantity": 173.68639377827557
+    "target_quantity": null
   },
   {
     "branch": "UPTREND",
     "date": "2026-06-23",
     "intent_type": "HOLD",
     "metadata": {
-      "no_strategy_decision": true,
-      "shell_mode": true
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 74.53,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
     },
     "quantity_delta": 0.0,
-    "reason": "engine_f_shell_existing_position_hold",
+    "reason": "canonical_position_hold",
     "side": null,
     "symbol": "HUM",
     "target_quantity": 267.2339875982243
@@ -30,15 +36,18 @@
   {
     "branch": "UPTREND",
     "date": "2026-06-23",
-    "intent_type": "HOLD",
+    "intent_type": "REDUCE",
     "metadata": {
-      "no_strategy_decision": true,
-      "shell_mode": true
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 88.35,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
     },
-    "quantity_delta": 0.0,
-    "reason": "engine_f_shell_existing_position_hold",
-    "side": null,
+    "quantity_delta": -56.70579189781082,
+    "reason": "canonical_position_reduce",
+    "side": "SELL",
     "symbol": "MRVL",
-    "target_quantity": 226.82316759124328
+    "target_quantity": null
   }
 ]

@@ -1,5 +1,5 @@
 {
-  "cash": 77867.71,
+  "cash": 148338.59432367102,
   "date": "2026-08-06",
   "metadata": {
     "last_execution_date": "2026-08-06",
@@ -9,105 +9,131 @@
     "strategy_display_name": "E1R CAPPED-ATR Engine",
     "strategy_variant": "E1R_CAPPED_ATR_A0_V1"
   },
-  "open_positions_count": 3,
+  "open_positions_count": 2,
   "positions": {
-    "DELL": {
-      "avg_cost": 219.21899999999997,
-      "entry_date": "2026-04-24",
-      "last_price": 437.649994,
+    "BAX": {
+      "avg_cost": 28.238208998999998,
+      "entry_date": "2026-08-05",
+      "last_price": 27.01,
       "last_update_date": "2026-08-06",
-      "market_value": 76013.84919494393,
+      "market_value": 96548.97123887902,
       "metadata": {
-        "capped_atr_stop": {
-          "a0": 219.21899999999997,
-          "add_updates_stop_anchor": false,
-          "atr20": 9.128959299999996,
-          "atr_as_of": "2026-04-23",
-          "atr_frozen_for_cycle": true,
-          "block_same_day_reentry_after_hard_stop": false,
-          "distance": 27.386877899999988,
-          "distance_fraction": 0.1249293076786227,
+        "account_mutated": false,
+        "capped_atr_entry": {
+          "atr20": 1.1449996500000004,
+          "atr_as_of": "2026-08-04",
           "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
-          "trigger_price": 191.8321221,
           "variant_id": "E1R_CAPPED_ATR_A0_V1"
         },
-        "carried_position": true,
-        "entry_execution_price": 219.21899999999997,
-        "entry_shares": 347.37278755655115,
-        "new_forward_buy": false,
-        "origin_branch": "UPTREND",
-        "remaining_cost_basis": 38075.35755767979,
-        "size_units": 0.5
-      },
-      "quantity": 173.68639377827557,
-      "symbol": "DELL",
-      "unrealized_pnl": 37938.49163726415
-    },
-    "HUM": {
-      "avg_cost": 373.07269999999994,
-      "entry_date": "2026-06-11",
-      "last_price": 367.23999,
-      "last_update_date": "2026-08-06",
-      "market_value": 98139.00693323201,
-      "metadata": {
         "capped_atr_stop": {
-          "a0": 373.07269999999994,
+          "a0": 28.238208998999998,
           "add_updates_stop_anchor": false,
-          "atr20": 11.518000800000006,
-          "atr_as_of": "2026-06-10",
+          "atr20": 1.1449996500000004,
+          "atr_as_of": "2026-08-04",
           "atr_frozen_for_cycle": true,
           "block_same_day_reentry_after_hard_stop": false,
-          "distance": 44.76872399999999,
+          "distance": 3.434998950000001,
+          "distance_fraction": 0.12164365488341151,
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "trigger_price": 24.803210048999997,
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "close_t": 28.35,
+        "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+        "entry_capacity": 2,
+        "entry_execution_price": 28.238208998999998,
+        "entry_reasons": [
+          "rs_above_90",
+          "leader_rank_top5",
+          "leader_score_above_75",
+          "momentum_above_75",
+          "trend_health_above_70",
+          "close_above_ma50",
+          "ma50_slope_non_negative"
+        ],
+        "entry_shares": 3574.563911102518,
+        "fill_id": "dba51abb08fb0108464ee6eba12568be0bb04a57f2c4d6d9c2f2477298b89a9a",
+        "leader_rank_all": 1,
+        "leader_score": 95.89,
+        "market_entry_allowed": true,
+        "market_gate_state": "ALLOW",
+        "order_executed": false,
+        "order_id": "1f8a4879e8391f7dbc9e4878cb7c43d607543c4603b17038915626d2388cca56",
+        "origin_branch": "UPTREND",
+        "remaining_cost_basis": 100939.28280199575,
+        "size_units": 1.0,
+        "source": "UptrendDecisionConsumer",
+        "strategy_logic_source": "UptrendCore",
+        "target_size_units": 1.0
+      },
+      "quantity": 3574.563911102518,
+      "symbol": "BAX",
+      "unrealized_pnl": -4390.311563116735
+    },
+    "ETSY": {
+      "avg_cost": 83.93703084904212,
+      "entry_date": "2026-06-30",
+      "last_price": 82.260002,
+      "last_update_date": "2026-08-06",
+      "market_value": 52154.96209837265,
+      "metadata": {
+        "account_mutated": false,
+        "capped_atr_entry": {
+          "atr20": 2.710499900000002,
+          "atr_as_of": "2026-06-29",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "capped_atr_stop": {
+          "a0": 78.73866400399999,
+          "add_updates_stop_anchor": false,
+          "atr20": 2.710499900000002,
+          "atr_as_of": "2026-06-29",
+          "atr_frozen_for_cycle": true,
+          "block_same_day_reentry_after_hard_stop": false,
+          "distance": 9.448639680479998,
           "distance_fraction": 0.12,
           "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
-          "trigger_price": 328.3039759999999,
+          "trigger_price": 69.29002432351999,
           "variant_id": "E1R_CAPPED_ATR_A0_V1"
         },
-        "carried_position": true,
-        "entry_execution_price": 373.07269999999994,
-        "entry_shares": 267.2339875982243,
-        "new_forward_buy": false,
+        "close_t": 79.660004,
+        "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+        "entry_capacity": 3,
+        "entry_execution_price": 78.73866400399999,
+        "entry_reasons": [
+          "rs_above_90",
+          "leader_rank_top5",
+          "leader_score_above_75",
+          "momentum_above_75",
+          "trend_health_above_70",
+          "close_above_ma50",
+          "ma50_slope_non_negative"
+        ],
+        "entry_shares": 1338.5644506118015,
+        "fill_id": "909df9c60be6f45252735ed085ecb1df2c1f21bb163dc3518b2c7deea72eb7e4",
+        "last_fill_id": "ad643d4a6c977d80833b39d4b51feed69c2f88e522f8829083caf5c50de133a8",
+        "last_order_id": "b4e7e60ad10b252a7d3fc48b82fc44b9fd006477e98974047219781418e5003c",
+        "leader_rank_all": 1,
+        "leader_score": 96.17,
+        "market_entry_allowed": true,
+        "market_gate_state": "ALLOW",
+        "order_executed": false,
+        "order_id": "2dae1252eba4983520a4c5054a51d1985474c8d9bce441e08d58db52cbd008e1",
         "origin_branch": "UPTREND",
-        "remaining_cost_basis": 99697.70528503603,
-        "size_units": 1.0
+        "realized_cost_basis": 102103.12725803329,
+        "realized_pnl": 646.3852797911701,
+        "remaining_cost_basis": 53218.24162588432,
+        "size_units": 1.0,
+        "source": "UptrendDecisionConsumer",
+        "strategy_logic_source": "UptrendCore",
+        "target_size_units": 1.0
       },
-      "quantity": 267.2339875982243,
-      "symbol": "HUM",
-      "unrealized_pnl": -1558.698351804029
-    },
-    "MRVL": {
-      "avg_cost": 168.02786,
-      "entry_date": "2026-04-23",
-      "last_price": 210.539993,
-      "last_update_date": "2026-08-06",
-      "market_value": 47755.34811689819,
-      "metadata": {
-        "capped_atr_stop": {
-          "a0": 168.02786,
-          "add_updates_stop_anchor": false,
-          "atr20": 7.0550872999999985,
-          "atr_as_of": "2026-04-22",
-          "atr_frozen_for_cycle": true,
-          "block_same_day_reentry_after_hard_stop": false,
-          "distance": 21.165261899999997,
-          "distance_fraction": 0.1259628129525663,
-          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
-          "trigger_price": 146.8625981,
-          "variant_id": "E1R_CAPPED_ATR_A0_V1"
-        },
-        "carried_position": true,
-        "entry_execution_price": 168.02786,
-        "entry_shares": 453.64633518248655,
-        "new_forward_buy": false,
-        "origin_branch": "UPTREND",
-        "remaining_cost_basis": 38112.61144877796,
-        "size_units": 0.5
-      },
-      "quantity": 226.82316759124328,
-      "symbol": "MRVL",
-      "unrealized_pnl": 9642.736668120226
+      "quantity": 634.025782036483,
+      "symbol": "ETSY",
+      "unrealized_pnl": -1063.279527511671
     }
   },
-  "positions_value": 221908.20424507413,
-  "total_equity": 299775.91424507415
+  "positions_value": 148703.93333725166,
+  "total_equity": 297042.5276609227
 }

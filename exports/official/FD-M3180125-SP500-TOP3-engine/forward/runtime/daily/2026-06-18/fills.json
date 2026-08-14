@@ -1,1 +1,40 @@
-[]
+[
+  {
+    "date": "2026-06-18",
+    "gross_amount": 35327.8040611584,
+    "metadata": {
+      "branch": "UPTREND",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "fill_id": "af6703d4dd2316b704abe865fa1cc050d52d490beeed73097bd1a7d8d9cda36f",
+      "intent_type": "REDUCE",
+      "order_id": "643f7acb0c849cfbb7ee4439e7080ee9f36108e8dea127eeef3526d89d2cb3cb",
+      "signal_date": "2026-06-17",
+      "sim_end": false
+    },
+    "price": 406.79990289,
+    "quantity": 86.84319688913779,
+    "reason": "T1_REDUCE_EXECUTED",
+    "side": "SELL",
+    "status": "FILLED",
+    "symbol": "DELL"
+  },
+  {
+    "date": "2026-06-18",
+    "gross_amount": 34248.38489249512,
+    "metadata": {
+      "branch": "UPTREND",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "fill_id": "b69427a175f5f9f37d6566a1b540d4d34487c41adf06ed99b6e4d3606c6c26b4",
+      "intent_type": "REDUCE",
+      "order_id": "2a7c5abb45b16ea067ad91ad0eed52ad848b4d1e7343cced308d55a3ae6df1ea",
+      "signal_date": "2026-06-17",
+      "sim_end": false
+    },
+    "price": 301.983128586,
+    "quantity": 113.41158379562164,
+    "reason": "T1_REDUCE_EXECUTED",
+    "side": "SELL",
+    "status": "FILLED",
+    "symbol": "MRVL"
+  }
+]

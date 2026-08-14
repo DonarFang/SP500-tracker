@@ -4,41 +4,33 @@
     "date": "2026-07-28",
     "intent_type": "HOLD",
     "metadata": {
-      "no_strategy_decision": true,
-      "shell_mode": true
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 88.18,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
     },
     "quantity_delta": 0.0,
-    "reason": "engine_f_shell_existing_position_hold",
+    "reason": "canonical_position_hold",
     "side": null,
-    "symbol": "DELL",
-    "target_quantity": 173.68639377827557
+    "symbol": "ETSY",
+    "target_quantity": 167.32055632647518
   },
   {
     "branch": "UPTREND",
     "date": "2026-07-28",
-    "intent_type": "HOLD",
+    "intent_type": "REDUCE",
     "metadata": {
-      "no_strategy_decision": true,
-      "shell_mode": true
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 67.36,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
     },
-    "quantity_delta": 0.0,
-    "reason": "engine_f_shell_existing_position_hold",
-    "side": null,
+    "quantity_delta": -33.40424844977804,
+    "reason": "canonical_position_reduce",
+    "side": "SELL",
     "symbol": "HUM",
-    "target_quantity": 267.2339875982243
-  },
-  {
-    "branch": "UPTREND",
-    "date": "2026-07-28",
-    "intent_type": "HOLD",
-    "metadata": {
-      "no_strategy_decision": true,
-      "shell_mode": true
-    },
-    "quantity_delta": 0.0,
-    "reason": "engine_f_shell_existing_position_hold",
-    "side": null,
-    "symbol": "MRVL",
-    "target_quantity": 226.82316759124328
+    "target_quantity": null
   }
 ]

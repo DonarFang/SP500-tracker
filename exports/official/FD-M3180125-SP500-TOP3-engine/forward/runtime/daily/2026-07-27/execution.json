@@ -1,6 +1,51 @@
 {
   "closed_trades": [],
-  "resolved_orders": [],
+  "resolved_orders": [
+    {
+      "branch": "UPTREND",
+      "execution_date": "2026-07-27",
+      "fill_id": "0a44eba00443c68f780f5d62f1e33b633b8de1666ad401ae115bdbf62ca1479a",
+      "intent_type": "REDUCE",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 67.53,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "0d91004f96bcb39ab69eab11694ed176e70883e7042b5937a071b888cb8f0455",
+      "quantity_delta": -167.32055632647518,
+      "reason": "canonical_position_reduce",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-07-24",
+      "status": "FILLED",
+      "symbol": "ETSY",
+      "target_quantity": null
+    },
+    {
+      "branch": "UPTREND",
+      "execution_date": "2026-07-27",
+      "fill_id": "1c7652151d99c201a600be5dc40ccf2d21292ea2d15e6d5795e9468328147feb",
+      "intent_type": "REDUCE",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 70.34,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "1caa59f817e6f4af037c7d6b1259fef915d5af76609f9b2cbfdbec389e675ea0",
+      "quantity_delta": -133.61699379911215,
+      "reason": "canonical_position_reduce",
+      "sequence": 2,
+      "side": "SELL",
+      "signal_date": "2026-07-24",
+      "status": "FILLED",
+      "symbol": "HUM",
+      "target_quantity": null
+    }
+  ],
   "sim_end_performed": false,
   "skipped_orders": []
 }

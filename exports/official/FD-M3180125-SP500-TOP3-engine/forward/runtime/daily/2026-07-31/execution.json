@@ -1,6 +1,44 @@
 {
-  "closed_trades": [],
-  "resolved_orders": [],
+  "closed_trades": [
+    {
+      "average_cost": 373.07269999999994,
+      "entry_date": "2026-06-11",
+      "execution_price": 362.497125015,
+      "exit_date": "2026-07-31",
+      "exit_reason": "canonical_position_exit",
+      "fill_id": "15bdda6876e3f1dbeec48b89004eef920903c44447f79a87aba0ffa8d98ac8ea",
+      "is_sim_end": false,
+      "order_id": "c939c7e8e5ddd1b34ef34b8bf9b98b62709a1460c640de75863b46cfdab57f0c",
+      "origin_branch": "UPTREND",
+      "quantity": 16.70212422488902,
+      "realized_pnl": -176.63456714909793,
+      "symbol": "HUM"
+    }
+  ],
+  "resolved_orders": [
+    {
+      "branch": "UPTREND",
+      "execution_date": "2026-07-31",
+      "fill_id": "15bdda6876e3f1dbeec48b89004eef920903c44447f79a87aba0ffa8d98ac8ea",
+      "intent_type": "EXIT",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 58.44,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "c939c7e8e5ddd1b34ef34b8bf9b98b62709a1460c640de75863b46cfdab57f0c",
+      "quantity_delta": null,
+      "reason": "canonical_position_exit",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-07-30",
+      "status": "FILLED",
+      "symbol": "HUM",
+      "target_quantity": 0.0
+    }
+  ],
   "sim_end_performed": false,
   "skipped_orders": []
 }
