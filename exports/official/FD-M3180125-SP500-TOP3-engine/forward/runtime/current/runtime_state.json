@@ -1,9 +1,9 @@
 {
   "account": {
-    "cash": 194879.07326325527,
-    "date": "2026-08-14",
+    "cash": 196421.02590687195,
+    "date": "2026-08-17",
     "metadata": {
-      "last_execution_date": "2026-08-14",
+      "last_execution_date": "2026-08-17",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "BAX": {
         "avg_cost": 28.238208998999998,
         "entry_date": "2026-08-05",
-        "last_price": 26.73,
-        "last_update_date": "2026-08-14",
-        "market_value": 95548.0933437703,
+        "last_price": 25.91,
+        "last_update_date": "2026-08-17",
+        "market_value": 92616.95093666624,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -69,14 +69,14 @@
         },
         "quantity": 3574.563911102518,
         "symbol": "BAX",
-        "unrealized_pnl": -5391.189458225444
+        "unrealized_pnl": -8322.33186532951
       },
       "ETSY": {
         "avg_cost": 83.93703084904212,
         "entry_date": "2026-06-30",
-        "last_price": 79.900002,
-        "last_update_date": "2026-08-14",
-        "market_value": 3166.1663282979093,
+        "last_price": 78.410004,
+        "last_update_date": "2026-08-17",
+        "market_value": 1553.5613782994924,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -113,8 +113,8 @@
           ],
           "entry_shares": 1338.5644506118015,
           "fill_id": "909df9c60be6f45252735ed085ecb1df2c1f21bb163dc3518b2c7deea72eb7e4",
-          "last_fill_id": "5675f767b12e5a01f28c61e4c4dcdec588ae2f9af7e31c19b8a2c1dab6c58edc",
-          "last_order_id": "96dcce6dab9bd52cafe106856069e2464a2a5d0d2a3f89aff0f7ebb9e974eed1",
+          "last_fill_id": "14dd85d9e50dca59bf50d508cc2f9d0e51a406e2d57e12775328e0d31fa9c272",
+          "last_order_id": "43b57edb12d16d616d2c62a6c60e7cd40a34724f89c7c06c6c6ac80c34cebb6c",
           "leader_rank_all": 1,
           "leader_score": 96.17,
           "market_entry_allowed": true,
@@ -122,21 +122,21 @@
           "order_executed": false,
           "order_id": "2dae1252eba4983520a4c5054a51d1985474c8d9bce441e08d58db52cbd008e1",
           "origin_branch": "UPTREND",
-          "realized_cost_basis": 151995.22878229985,
-          "realized_pnl": -2705.2373048911413,
-          "remaining_cost_basis": 3326.14010161777,
+          "realized_cost_basis": 153658.29883310874,
+          "realized_pnl": -2826.3547120833423,
+          "remaining_cost_basis": 1663.070050808885,
           "size_units": 0.5,
           "source": "UptrendDecisionConsumer",
           "strategy_logic_source": "UptrendCore",
           "target_size_units": 1.0
         },
-        "quantity": 39.626611377280184,
+        "quantity": 19.813305688640092,
         "symbol": "ETSY",
-        "unrealized_pnl": -159.97377331986064
+        "unrealized_pnl": -109.50867250939268
       }
     },
-    "positions_value": 98714.25967206822,
-    "total_equity": 293593.3329353235
+    "positions_value": 94170.51231496573,
+    "total_equity": 290591.53822183766
   },
   "closed_trades": [
     {
@@ -470,12 +470,19 @@
       "open_positions_count": 2,
       "positions_value": 98714.25967206822,
       "total_equity": 293593.3329353235
+    },
+    {
+      "cash": 196421.02590687195,
+      "date": "2026-08-17",
+      "open_positions_count": 2,
+      "positions_value": 94170.51231496573,
+      "total_equity": 290591.53822183766
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-08-14",
+  "last_committed_date": "2026-08-17",
   "metadata": {
-    "last_commit_date": "2026-08-14",
+    "last_commit_date": "2026-08-17",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
@@ -492,18 +499,60 @@
       "metadata": {
         "add_size_units": 0.5,
         "engine_owned_position_management": true,
-        "leader_score": 69.11,
+        "leader_score": 60.64,
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },
-      "order_id": "43b57edb12d16d616d2c62a6c60e7cd40a34724f89c7c06c6c6ac80c34cebb6c",
-      "quantity_delta": -19.813305688640092,
+      "order_id": "4bc55af65ea1023bf69fed6a258c5e29139e023cbde61af82245dd64a956e835",
+      "quantity_delta": -9.906652844320046,
       "reason": "canonical_position_reduce",
       "sequence": 1,
       "side": "SELL",
-      "signal_date": "2026-08-14",
+      "signal_date": "2026-08-17",
       "status": "PENDING",
       "symbol": "ETSY",
+      "target_quantity": null
+    },
+    {
+      "branch": "UPTREND",
+      "intent_type": "BUY",
+      "metadata": {
+        "account_mutated": false,
+        "capped_atr_entry": {
+          "atr20": 11.634869349999997,
+          "atr_as_of": "2026-08-17",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "close_t": 358.179993,
+        "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+        "entry_capacity": 3,
+        "entry_reasons": [
+          "rs_above_90",
+          "leader_rank_top5",
+          "leader_score_above_75",
+          "momentum_above_75",
+          "trend_health_above_70",
+          "close_above_ma50",
+          "ma50_slope_non_negative"
+        ],
+        "leader_rank_all": 1,
+        "leader_score": 94.72,
+        "market_entry_allowed": true,
+        "market_gate_state": "ALLOW",
+        "order_executed": false,
+        "source": "UptrendDecisionConsumer",
+        "strategy_logic_source": "UptrendCore",
+        "target_size_units": 1.0
+      },
+      "order_id": "704acdcb39566e36eac11a1e9b1d0b4e0c941107d1f57fee029715921aabba82",
+      "quantity_delta": null,
+      "reason": "E1R_UPTREND_CONFIRMED",
+      "sequence": 2,
+      "side": "BUY",
+      "signal_date": "2026-08-17",
+      "status": "PENDING",
+      "symbol": "MPC",
       "target_quantity": null
     }
   ],
