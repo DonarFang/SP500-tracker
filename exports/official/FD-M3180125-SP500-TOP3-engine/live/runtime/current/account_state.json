@@ -1,11 +1,21 @@
 {
-  "actual_cash": "10000.00",
-  "calculated_cash": "100000.00",
+  "actual_cash": "6744.00",
+  "calculated_cash": "96744.00",
   "cash_difference": "-90000.00",
-  "positions": {},
-  "positions_value": "0",
+  "positions": {
+    "NTAP": {
+      "average_cost": "203.50",
+      "cost_basis": "3256.00",
+      "last_price": "203.50",
+      "market_value": "3256.00",
+      "position_source": "USER_CONFIRMED_TRANSACTION_LEDGER",
+      "shares": "16",
+      "unrealized_pnl": "0.00"
+    }
+  },
+  "positions_value": "3256.00",
   "realized_pnl": "0",
   "total_equity": "10000.00",
-  "trading_pnl": "0",
-  "unrealized_pnl": "0"
+  "trading_pnl": "0.00",
+  "unrealized_pnl": "0.00"
 }
