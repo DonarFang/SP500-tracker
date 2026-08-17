@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-14T23:18:44.672529+00:00",
-  "generated_at_display": "2026-08-14 23:18 local",
+  "generated_at": "2026-08-17T22:15:38.717444+00:00",
+  "generated_at_display": "2026-08-17 22:15 local",
   "status_date": "2026-06-18",
   "strategy_id": "E1R_REGIME_AWARE_V0_2",
   "version": "v0.2",
@@ -46,7 +46,7 @@
   "preservation_guard": {
     "active": true,
     "reason": "KICKOFF_READY paper orders/positions must not be erased before LIVE_FORWARD.",
-    "preserved_at": "2026-08-14T23:18:44.674232+00:00",
+    "preserved_at": "2026-08-17T22:15:38.718749+00:00",
     "core_script": "scripts/run_e1r_v0_2_forward_performance_core.py"
   }
 }
