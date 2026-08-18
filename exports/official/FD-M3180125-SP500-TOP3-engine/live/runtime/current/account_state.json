@@ -1,8 +1,17 @@
 {
-  "actual_cash": "6744.00",
-  "calculated_cash": "96744.00",
+  "actual_cash": "3391.60",
+  "calculated_cash": "93391.60",
   "cash_difference": "-90000.00",
   "positions": {
+    "HPE": {
+      "average_cost": "57.80",
+      "cost_basis": "3352.40",
+      "last_price": "57.80",
+      "market_value": "3352.40",
+      "position_source": "USER_CONFIRMED_TRANSACTION_LEDGER",
+      "shares": "58",
+      "unrealized_pnl": "0.00"
+    },
     "NTAP": {
       "average_cost": "203.50",
       "cost_basis": "3256.00",
@@ -13,7 +22,7 @@
       "unrealized_pnl": "11.1999511718752"
     }
   },
-  "positions_value": "3267.1999511718752",
+  "positions_value": "6619.5999511718752",
   "realized_pnl": "0",
   "total_equity": "10011.1999511718752",
   "trading_pnl": "11.1999511718752",
