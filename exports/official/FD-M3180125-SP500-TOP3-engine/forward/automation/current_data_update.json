@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
   "decision": "PASS_ENGINE_FORWARD_DAILY_INCREMENTAL_PRICE_UPDATE",
-  "generated_at": "2026-08-17T23:45:38.772956+00:00",
+  "generated_at": "2026-08-18T23:45:44.128552+00:00",
   "provider": "Yahoo Finance via yfinance",
   "price_root": "data/fw_prices",
   "catalogue_source": "existing data/fw_prices filenames",
@@ -516,5 +516,5 @@
     "_VIX.json"
   ],
   "latest_date_min": "2026-05-07",
-  "latest_date_max": "2026-08-17"
+  "latest_date_max": "2026-08-18"
 }
