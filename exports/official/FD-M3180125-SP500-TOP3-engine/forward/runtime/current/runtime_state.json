@@ -1,9 +1,9 @@
 {
   "account": {
-    "cash": 100333.80055604351,
-    "date": "2026-08-18",
+    "cash": 146922.49770192165,
+    "date": "2026-08-19",
     "metadata": {
-      "last_execution_date": "2026-08-18",
+      "last_execution_date": "2026-08-19",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "BAX": {
         "avg_cost": 28.238208998999998,
         "entry_date": "2026-08-05",
-        "last_price": 25.940001,
-        "last_update_date": "2026-08-18",
-        "market_value": 92724.19142856322,
+        "last_price": 26.639999,
+        "last_update_date": "2026-08-19",
+        "market_value": 47613.18950860358,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -54,6 +54,8 @@
           ],
           "entry_shares": 3574.563911102518,
           "fill_id": "dba51abb08fb0108464ee6eba12568be0bb04a57f2c4d6d9c2f2477298b89a9a",
+          "last_fill_id": "b5d6702287deedf9224b54603ca5e4b4362e95ca946a34c757730b42c4fdd12b",
+          "last_order_id": "825ea5ca69ef5e6c58674d400accb54b2720c061eacb6d6647445b367160d5d2",
           "leader_rank_all": 1,
           "leader_score": 95.89,
           "market_entry_allowed": true,
@@ -61,22 +63,24 @@
           "order_executed": false,
           "order_id": "1f8a4879e8391f7dbc9e4878cb7c43d607543c4603b17038915626d2388cca56",
           "origin_branch": "UPTREND",
-          "remaining_cost_basis": 100939.28280199575,
-          "size_units": 1.0,
+          "realized_cost_basis": 50469.641400997876,
+          "realized_pnl": -4278.892409582248,
+          "remaining_cost_basis": 50469.641400997876,
+          "size_units": 0.5,
           "source": "UptrendDecisionConsumer",
           "strategy_logic_source": "UptrendCore",
           "target_size_units": 1.0
         },
-        "quantity": 3574.563911102518,
+        "quantity": 1787.281955551259,
         "symbol": "BAX",
-        "unrealized_pnl": -8215.091373432528
+        "unrealized_pnl": -2856.4518923942924
       },
       "ETSY": {
         "avg_cost": 83.93703084904212,
         "entry_date": "2026-06-30",
-        "last_price": 79.959999,
-        "last_update_date": "2026-08-18",
-        "market_value": 792.135951525178,
+        "last_price": 80.459999,
+        "last_update_date": "2026-08-19",
+        "market_value": 398.544638973669,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -113,8 +117,8 @@
           ],
           "entry_shares": 1338.5644506118015,
           "fill_id": "909df9c60be6f45252735ed085ecb1df2c1f21bb163dc3518b2c7deea72eb7e4",
-          "last_fill_id": "ad1ae1d0b5d51288bef732ab425cc6810e002a0e5ff030d8b4d104298e8aa82a",
-          "last_order_id": "4bc55af65ea1023bf69fed6a258c5e29139e023cbde61af82245dd64a956e835",
+          "last_fill_id": "3c348282b88b6c4697c9903090dd02c77af8dec19e26c3844790a181439e61d6",
+          "last_order_id": "97386f03cf764ddb6266dd35aef73704f970ae34ddb6f07433324fefc12a0434",
           "leader_rank_all": 1,
           "leader_score": 96.17,
           "market_entry_allowed": true,
@@ -122,24 +126,24 @@
           "order_executed": false,
           "order_id": "2dae1252eba4983520a4c5054a51d1985474c8d9bce441e08d58db52cbd008e1",
           "origin_branch": "UPTREND",
-          "realized_cost_basis": 154489.8338585132,
-          "realized_pnl": -2881.5889464349366,
-          "remaining_cost_basis": 831.5350254044425,
+          "realized_cost_basis": 154905.6013712154,
+          "realized_pnl": -2899.408304674665,
+          "remaining_cost_basis": 415.76751270222127,
           "size_units": 0.5,
           "source": "UptrendDecisionConsumer",
           "strategy_logic_source": "UptrendCore",
           "target_size_units": 1.0
         },
-        "quantity": 9.906652844320046,
+        "quantity": 4.953326422160023,
         "symbol": "ETSY",
-        "unrealized_pnl": -39.399073879264535
+        "unrealized_pnl": -17.222873728552255
       },
       "MPC": {
         "avg_cost": 367.60722998999995,
         "entry_date": "2026-08-18",
-        "last_price": 366.209991,
-        "last_update_date": "2026-08-18",
-        "market_value": 96495.35738894896,
+        "last_price": 360.75,
+        "last_update_date": "2026-08-19",
+        "market_value": 95056.66430073815,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -191,11 +195,11 @@
         },
         "quantity": 263.4973369389831,
         "symbol": "MPC",
-        "unrealized_pnl": -368.16875293230083
+        "unrealized_pnl": -1806.8618411431166
       }
     },
-    "positions_value": 190011.68476903735,
-    "total_equity": 290345.48532508087
+    "positions_value": 143068.3984483154,
+    "total_equity": 289990.89615023707
   },
   "closed_trades": [
     {
@@ -543,12 +547,19 @@
       "open_positions_count": 3,
       "positions_value": 190011.68476903735,
       "total_equity": 290345.48532508087
+    },
+    {
+      "cash": 146922.49770192165,
+      "date": "2026-08-19",
+      "open_positions_count": 3,
+      "positions_value": 143068.3984483154,
+      "total_equity": 289990.89615023707
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-08-18",
+  "last_committed_date": "2026-08-19",
   "metadata": {
-    "last_commit_date": "2026-08-18",
+    "last_commit_date": "2026-08-19",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
@@ -565,16 +576,16 @@
       "metadata": {
         "add_size_units": 0.5,
         "engine_owned_position_management": true,
-        "leader_score": 65.34,
+        "leader_score": 70.42,
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },
-      "order_id": "825ea5ca69ef5e6c58674d400accb54b2720c061eacb6d6647445b367160d5d2",
-      "quantity_delta": -1787.281955551259,
+      "order_id": "fd6e885fac60662480e9111690b81d8eaf19c0edf3f6385a6644c305ccdf9714",
+      "quantity_delta": -893.6409777756295,
       "reason": "canonical_position_reduce",
       "sequence": 1,
       "side": "SELL",
-      "signal_date": "2026-08-18",
+      "signal_date": "2026-08-19",
       "status": "PENDING",
       "symbol": "BAX",
       "target_quantity": null
@@ -585,16 +596,16 @@
       "metadata": {
         "add_size_units": 0.5,
         "engine_owned_position_management": true,
-        "leader_score": 67.25,
+        "leader_score": 69.16,
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },
-      "order_id": "97386f03cf764ddb6266dd35aef73704f970ae34ddb6f07433324fefc12a0434",
-      "quantity_delta": -4.953326422160023,
+      "order_id": "bae6ad883c8ebc390ba5195b92b09dff09ce9dca666fed70ebbe27e2a797d22c",
+      "quantity_delta": -2.4766632110800115,
       "reason": "canonical_position_reduce",
       "sequence": 2,
       "side": "SELL",
-      "signal_date": "2026-08-18",
+      "signal_date": "2026-08-19",
       "status": "PENDING",
       "symbol": "ETSY",
       "target_quantity": null
