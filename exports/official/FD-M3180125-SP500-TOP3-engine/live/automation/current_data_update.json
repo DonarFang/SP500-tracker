@@ -162,6 +162,7 @@
     "data/live_prices/EOG.json",
     "data/live_prices/EPAM.json",
     "data/live_prices/EQIX.json",
+    "data/live_prices/EQR.json",
     "data/live_prices/EQT.json",
     "data/live_prices/ES.json",
     "data/live_prices/ESS.json",
@@ -498,13 +499,13 @@
     "data/live_prices/ZTS.json"
   ],
   "data_status": "CURRENT",
-  "expected_latest_market_date": "2026-08-18",
-  "last_successful_update_at": "2026-08-18T23:48:39.360104+00:00",
-  "latest_market_date": "2026-08-18",
+  "expected_latest_market_date": "2026-08-19",
+  "last_successful_update_at": "2026-08-19T23:48:47.725375+00:00",
+  "latest_market_date": "2026-08-19",
   "missing_dates": [],
-  "source_commit": "e7f075dac23d9a4194bfc02e08ca10c428e94ca9",
+  "source_commit": "24e37e51c134ad1858e7b05e5b5a8ad61dde0bf7",
   "symbol_count": 498,
   "unavailable_symbols": [],
-  "unchanged_symbol_count": 3,
-  "updated_symbol_count": 495
+  "unchanged_symbol_count": 2,
+  "updated_symbol_count": 496
 }
