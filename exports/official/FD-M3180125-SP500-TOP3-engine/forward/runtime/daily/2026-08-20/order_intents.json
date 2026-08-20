@@ -1,0 +1,53 @@
+[
+  {
+    "branch": "UPTREND",
+    "date": "2026-08-20",
+    "intent_type": "REDUCE",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 74.12,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": -446.82048888781475,
+    "reason": "canonical_position_reduce",
+    "side": "SELL",
+    "symbol": "BAX",
+    "target_quantity": null
+  },
+  {
+    "branch": "UPTREND",
+    "date": "2026-08-20",
+    "intent_type": "REDUCE",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 74.43,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": -1.2383316055400058,
+    "reason": "canonical_position_reduce",
+    "side": "SELL",
+    "symbol": "ETSY",
+    "target_quantity": null
+  },
+  {
+    "branch": "UPTREND",
+    "date": "2026-08-20",
+    "intent_type": "HOLD",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 90.72,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": 0.0,
+    "reason": "canonical_position_hold",
+    "side": null,
+    "symbol": "MPC",
+    "target_quantity": 263.4973369389831
+  }
+]

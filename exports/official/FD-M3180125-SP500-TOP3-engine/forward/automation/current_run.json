@@ -1,6 +1,6 @@
 {
   "committed_dates": [
-    "2026-08-19"
+    "2026-08-20"
   ],
   "decision": "PASS_INDEPENDENT_ENGINE_FORWARD_DAILY_UPDATE",
   "dry_run_commit_day_called": false,
@@ -9,37 +9,37 @@
   "dry_run_repository_initialized": false,
   "dry_run_status": "PASS_FORWARD_ORCHESTRATOR_DRY_RUN",
   "engine_equity_curve": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/history/equity_curve.json",
-  "engine_equity_curve_last_date": "2026-08-19",
-  "engine_equity_curve_point_count": 44,
+  "engine_equity_curve_last_date": "2026-08-20",
+  "engine_equity_curve_point_count": 45,
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
-  "final_account_date": "2026-08-19",
-  "final_equity": 289990.89615023707,
+  "final_account_date": "2026-08-20",
+  "final_equity": 288439.63262244116,
   "first_forward_market_date": "2026-06-17",
-  "generated_at": "2026-08-19T23:45:55.384454+00:00",
-  "last_committed_date_after": "2026-08-19",
-  "last_committed_date_before": "2026-08-18",
+  "generated_at": "2026-08-20T23:49:31.254899+00:00",
+  "last_committed_date_after": "2026-08-20",
+  "last_committed_date_before": "2026-08-19",
   "legacy_equity_curve_changed": false,
   "legacy_equity_curve_used": false,
   "legacy_forward_changed": false,
   "legacy_forward_used": false,
   "mode": "OFFICIAL_WRITE",
   "planned_dates": [
-    "2026-08-19"
+    "2026-08-20"
   ],
   "price_sync": {
-    "latest_required_index_date": "2026-08-19",
+    "latest_required_index_date": "2026-08-20",
     "legacy_price_root_read": false,
     "legacy_price_root_written": false,
     "mode": "ENGINE_OWNED_FW_PRICES",
     "price_root": "data/fw_prices",
     "required_index_latest_dates": {
-      "NDX": "2026-08-19",
-      "SOX": "2026-08-19",
-      "SPX": "2026-08-19"
+      "NDX": "2026-08-20",
+      "SOX": "2026-08-20",
+      "SPX": "2026-08-20"
     },
     "source_file_count": 498
   },
   "result_count": 1,
-  "runtime_commit": "619a4f0c64c07bd28031f515d925c516bc4bf31d",
+  "runtime_commit": "f1d615ff91e55b9c8250084f55ca6123694d4832",
   "seed_date": "2026-06-16"
 }
