@@ -1,0 +1,124 @@
+{
+  "branch": "UPTREND",
+  "candidate_count": 12,
+  "date": "2026-08-21",
+  "inputs": {
+    "canonical_engine_entry": true,
+    "entry_capacity": 0,
+    "external_regime_injected": false,
+    "external_strategy_inputs": false,
+    "gate_state": "RISK_OFF",
+    "market_entry_allowed": false,
+    "market_state": "CASH_MODE"
+  },
+  "market_regime": "UPTREND",
+  "metadata": {
+    "capped_atr_stop": {
+      "display_name": "E1R CAPPED-ATR Engine",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "strict_cycle_state": true,
+      "triggered": [],
+      "variant_id": "E1R_CAPPED_ATR_A0_V1"
+    },
+    "external_regime_injected": false,
+    "external_strategy_inputs": false,
+    "ls60_exit_mode": "exit",
+    "max_positions": 3,
+    "min_holding_days": 10,
+    "ranking_source": "UptrendSignalAdapter.leader_rank_all",
+    "reference_top3": [
+      {
+        "rank": 1,
+        "regime": "UPTREND",
+        "score": 94.95,
+        "symbol": "DASH"
+      },
+      {
+        "rank": 2,
+        "regime": "UPTREND",
+        "score": 94.42,
+        "symbol": "ABT"
+      },
+      {
+        "rank": 3,
+        "regime": "UPTREND",
+        "score": 93.54,
+        "symbol": "A"
+      }
+    ],
+    "route": {
+      "branch": "UPTREND",
+      "date": "2026-08-21",
+      "metadata": {
+        "combination_valid": true,
+        "no_strategy_decision": true,
+        "router_shell_only": true
+      },
+      "reason": "route_uptrend",
+      "spx_regime": "UPTREND",
+      "subclass": "NO_SUBCLASS"
+    },
+    "single_step_decision": true
+  },
+  "order_intents": [
+    {
+      "branch": "UPTREND",
+      "date": "2026-08-21",
+      "intent_type": "HOLD",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 76.16,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "quantity_delta": 0.0,
+      "reason": "canonical_position_hold",
+      "side": null,
+      "symbol": "BAX",
+      "target_quantity": 446.82048888781475
+    },
+    {
+      "branch": "UPTREND",
+      "date": "2026-08-21",
+      "intent_type": "HOLD",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 78.64,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "quantity_delta": 0.0,
+      "reason": "canonical_position_hold",
+      "side": null,
+      "symbol": "ETSY",
+      "target_quantity": 1.2383316055400058
+    },
+    {
+      "branch": "UPTREND",
+      "date": "2026-08-21",
+      "intent_type": "HOLD",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 88.15,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "quantity_delta": 0.0,
+      "reason": "canonical_position_hold",
+      "side": null,
+      "symbol": "MPC",
+      "target_quantity": 263.4973369389831
+    }
+  ],
+  "reasons": [
+    "canonical_regime_generator",
+    "engine_market_state_and_gate",
+    "engine_router_and_strategy",
+    "route_uptrend"
+  ],
+  "regime_subclass": "NO_SUBCLASS",
+  "selected_symbols": []
+}

@@ -1,0 +1,40 @@
+[
+  {
+    "date": "2026-08-21",
+    "gross_amount": 11645.889008528004,
+    "metadata": {
+      "branch": "UPTREND",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "fill_id": "ff19cdcc4b72a06dd34d5fae51167535751b401bdcb27e31a11f2ee97a97d779",
+      "intent_type": "REDUCE",
+      "order_id": "80f044607ba42a6266d9e831b7ef6adff6e9f5218e06b3c44dd4d9346f3e5ccf",
+      "signal_date": "2026-08-20",
+      "sim_end": false
+    },
+    "price": 26.06391,
+    "quantity": 446.82048888781475,
+    "reason": "T1_REDUCE_EXECUTED",
+    "side": "SELL",
+    "status": "FILLED",
+    "symbol": "BAX"
+  },
+  {
+    "date": "2026-08-21",
+    "gross_amount": 99.30147338743974,
+    "metadata": {
+      "branch": "UPTREND",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "fill_id": "156fccca1a59548fd6579d213bda1293f75868028abfcc32022c6958e7c0f341",
+      "intent_type": "REDUCE",
+      "order_id": "206300f4195ba48635be9e01f1f900324d1c4d31a142cf141c60f3b24404007c",
+      "signal_date": "2026-08-20",
+      "sim_end": false
+    },
+    "price": 80.189727003,
+    "quantity": 1.2383316055400058,
+    "reason": "T1_REDUCE_EXECUTED",
+    "side": "SELL",
+    "status": "FILLED",
+    "symbol": "ETSY"
+  }
+]
