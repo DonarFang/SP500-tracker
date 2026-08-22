@@ -181,12 +181,34 @@ class SA2Tests(unittest.TestCase):
             self.assertEqual(result["duplicate_detection_count"], 1)
             self.assertEqual(calls, ["RDDT", "AVB"])
 
+    def test_accepted_verification_is_reused_without_provider_probe(self):
+        with tempfile.TemporaryDirectory() as root:
+            path = self.prepare(root)
+            first_calls = []
+            first = self.verifier(
+                root,
+                lambda symbol: first_calls.append(symbol) or [{"date": "2026-08-21", "close": 10.0}],
+            ).verify_detection(path)
+            second_calls = []
+            second = self.verifier(
+                root,
+                lambda symbol: second_calls.append(symbol) or [{"date": "2026-08-22", "close": 11.0}],
+            ).verify_detection(path)
+            self.assertEqual(second, first)
+            self.assertEqual(first_calls, ["RDDT", "AVB"])
+            self.assertEqual(second_calls, [])
+            files = list((Path(root) / "data/sp500_source_verification/verifications/SPD-JI-test").glob("*.json"))
+            self.assertEqual(len(files), 1)
+
     def test_workflow_run_connects_sa1_to_sa2(self):
         root = Path(__file__).resolve().parents[1]
         text = (root / ".github/workflows/sp500-source-verification-daily.yml").read_text()
         self.assertIn("workflow_run:", text)
         self.assertIn("S&P 500 Official Source Monitor", text)
         self.assertIn("workflow_run.conclusion == 'success'", text)
+        self.assertNotIn("schedule:", text)
+        self.assertNotIn("data/sp500_source_monitor/detections/**", text)
+        self.assertNotIn("data/sp500_source_verification/**", text)
 
 
 if __name__ == "__main__":

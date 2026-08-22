@@ -12,9 +12,7 @@ on:
       - 'config/sp500_source_automation/provider_symbol_map.json'
       - 'scripts/run_fd_m3180125_sp500_source_verification.py'
       - 'src/e1r_engine/source_automation/verification.py'
-      - 'data/sp500_source_monitor/detections/**'
-  schedule:
-    - cron: '45 22 * * *'
+      - 'tests/test_fd_m3180125_sa_step_2_source_verification.py'
 
 permissions:
   contents: write

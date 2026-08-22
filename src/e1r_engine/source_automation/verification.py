@@ -163,6 +163,35 @@ class SourceVerifier:
             self.repo_root / "config" / "sp500_source_automation" / "provider_symbol_map.json"
         )
 
+    def _accepted_verification(self, source_id: str) -> Optional[Dict[str, Any]]:
+        root = self.output_root / "verifications" / source_id
+        if not root.is_dir() or root.is_symlink():
+            return None
+        accepted = []
+        for path in sorted(root.glob("SA2-*.json")):
+            if path.is_symlink() or not path.is_file() or path.stat().st_nlink != 1:
+                raise VerificationError("VERIFICATION_STORAGE_LINK_UNSAFE")
+            try:
+                payload = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, ValueError) as exc:
+                raise VerificationError("EXISTING_VERIFICATION_INVALID") from exc
+            if (
+                payload.get("source_id") == source_id
+                and payload.get("status") == "VERIFIED_NO_EVENT"
+                and payload.get("provider") == "Yahoo Finance"
+                and payload.get("provider_mapping_sha256") == self.resolver.mapping_hash
+                and payload.get("membership_event_created") is False
+                and payload.get("price_data_written") is False
+                and payload.get("production_invoked") is False
+            ):
+                accepted.append(payload)
+        if not accepted:
+            return None
+        canonical = _canonical_json(accepted[0])
+        if any(_canonical_json(value) != canonical for value in accepted[1:]):
+            raise VerificationError("CONFLICTING_ACCEPTED_VERIFICATIONS")
+        return accepted[0]
+
     def verify_detection(self, detection_path: Path) -> Dict[str, Any]:
         detection_path = Path(detection_path).resolve()
         failures: List[str] = []
@@ -172,6 +201,10 @@ class SourceVerifier:
             source_id = detection["source_id"]
             if detection.get("status") != "DETECTED" or not source_id.startswith("SPD-JI-"):
                 raise VerificationError("DETECTION_NOT_ELIGIBLE")
+            accepted = self._accepted_verification(source_id)
+            if accepted is not None:
+                _atomic_write(self.output_root / "state" / "current.json", _canonical_json(accepted))
+                return accepted
             if not str(detection.get("source_url", "")).startswith("https://press.spglobal.com/"):
                 raise VerificationError("OFFICIAL_SOURCE_AUTHORITY_INVALID")
             raw = self.repo_root / "data" / "sp500_source_monitor" / detection["raw_document_path"]
