@@ -44,6 +44,7 @@ class LiveProductionComposition:
     stock_symbols: tuple[str, ...]
     catalogue_stock_symbols: tuple[str, ...]
     excluded_stock_symbols: tuple[str, ...]
+    required_data_symbols: tuple[str, ...] = ()
 
 
 def discover_live_stock_symbols(
@@ -214,6 +215,8 @@ def _compose_live_production_components(
     min_bars: int,
     opening: LiveOpeningState,
     initialize_unactivated: bool,
+    eligible_stock_symbols_override: Sequence[str] | None = None,
+    required_data_symbols_override: Sequence[str] | None = None,
 ) -> LiveProductionComposition:
     if expected_execution_date <= market_date:
         raise LiveCompositionError(
@@ -233,19 +236,39 @@ def _compose_live_production_components(
         price_root=price_root,
         expected_stock_count=expected_stock_count,
     )
-    stock_symbols, excluded_stock_symbols = (
+    production_eligible_symbols, excluded_stock_symbols = (
         discover_live_eligible_stock_symbols(
             price_root=price_root,
             market_date=market_date,
             catalogue_stock_symbols=catalogue_stock_symbols,
         )
     )
+    if eligible_stock_symbols_override is None:
+        stock_symbols = production_eligible_symbols
+    else:
+        stock_symbols = tuple(
+            sorted(set(str(x).strip().upper() for x in eligible_stock_symbols_override))
+        )
+        if not stock_symbols or not set(stock_symbols).issubset(set(production_eligible_symbols)):
+            raise LiveCompositionError(
+                "production Universe eligible override is invalid"
+            )
+    if required_data_symbols_override is None:
+        required_data_symbols = stock_symbols
+    else:
+        required_data_symbols = tuple(
+            sorted(set(str(x).strip().upper() for x in required_data_symbols_override))
+        )
+        if not set(required_data_symbols).issubset(set(production_eligible_symbols)):
+            raise LiveCompositionError(
+                "production Universe required-data override is not price-ready"
+            )
 
     market_data = LivePriceRepository(
         Path(price_root)
     ).load_date(
         market_date,
-        stock_symbols,
+        required_data_symbols,
     )
     engine_adapter = LiveEngineAdapter(
         data_adapter=LiveDataAdapter(
@@ -276,6 +299,7 @@ def _compose_live_production_components(
         stock_symbols=stock_symbols,
         catalogue_stock_symbols=catalogue_stock_symbols,
         excluded_stock_symbols=excluded_stock_symbols,
+        required_data_symbols=required_data_symbols,
     )
 
 
@@ -288,6 +312,8 @@ def compose_unactivated_live_production(
     expected_execution_date: date,
     expected_stock_count: int = 498,
     min_bars: int = 120,
+    eligible_stock_symbols_override: Sequence[str] | None = None,
+    required_data_symbols_override: Sequence[str] | None = None,
 ) -> LiveProductionComposition:
     """Compose only the Official Unactivated Acceptance lifecycle."""
     return _compose_live_production_components(
@@ -300,6 +326,8 @@ def compose_unactivated_live_production(
         min_bars=min_bars,
         opening=LiveOpeningState(),
         initialize_unactivated=True,
+        eligible_stock_symbols_override=eligible_stock_symbols_override,
+        required_data_symbols_override=required_data_symbols_override,
     )
 
 
@@ -312,6 +340,8 @@ def compose_active_live_production(
     expected_execution_date: date,
     expected_stock_count: int = 498,
     min_bars: int = 120,
+    eligible_stock_symbols_override: Sequence[str] | None = None,
+    required_data_symbols_override: Sequence[str] | None = None,
 ) -> LiveProductionComposition:
     """Compose ACTIVE Live without repository initialization."""
     return _compose_live_production_components(
@@ -326,6 +356,8 @@ def compose_active_live_production(
             Path(live_root)
         ),
         initialize_unactivated=False,
+        eligible_stock_symbols_override=eligible_stock_symbols_override,
+        required_data_symbols_override=required_data_symbols_override,
     )
 
 

@@ -8,6 +8,7 @@ from typing import (
     Callable,
     Iterable,
     Mapping,
+    Optional,
     Protocol,
     Sequence,
 )
@@ -144,8 +145,10 @@ class ForwardMarketSnapshotBuilder:
         date: str,
         universe: Sequence[str],
         series_by_symbol: SeriesBySymbol,
+        required_data_symbols: Sequence[str] = (),
     ) -> MarketSnapshot:
         symbol_order = tuple(universe)
+        required_data_order = tuple(required_data_symbols)
 
         if len(set(symbol_order)) != len(symbol_order):
             raise ForwardContractError(
@@ -165,9 +168,12 @@ class ForwardMarketSnapshotBuilder:
                 + ",".join(missing_indices)
             )
 
+        snapshot_symbols = tuple(
+            sorted(set(symbol_order) | set(required_data_order))
+        )
         missing_stocks = [
             symbol
-            for symbol in symbol_order
+            for symbol in snapshot_symbols
             if symbol not in series_by_symbol
             or date not in series_by_symbol[symbol]
         ]
@@ -180,7 +186,7 @@ class ForwardMarketSnapshotBuilder:
 
         prices_by_symbol = {
             symbol: series_by_symbol[symbol][date]
-            for symbol in symbol_order
+            for symbol in snapshot_symbols
         }
 
         indices = {
@@ -210,7 +216,7 @@ class ForwardMarketSnapshotBuilder:
                     for row_date, bar in series_by_symbol[symbol].items()
                     if row_date <= date
                 }
-                for symbol in set(symbol_order) | set(self.required_indices)
+                for symbol in set(snapshot_symbols) | set(self.required_indices)
             },
         )
 
@@ -565,6 +571,8 @@ class OfficialForwardCatchupRunner:
         Callable[[str], Mapping[str, str]]
         | None
     ) = None
+    shadow_observer: Optional[Callable[..., Any]] = None
+    production_universe_gate: Optional[Callable[..., Any]] = None
 
     def _latest_complete_date(self) -> str:
         return (
@@ -600,6 +608,106 @@ class OfficialForwardCatchupRunner:
             )
         )
 
+    def _production_universe_decision(
+        self,
+        *,
+        execution_date: str,
+        account: AccountState,
+        candidate_actions: Sequence[Mapping[str, Any]] = (),
+    ) -> Any | None:
+        if self.production_universe_gate is None:
+            return None
+        data_ready = tuple(
+            sorted(
+                symbol for symbol in self.universe
+                if symbol in self.series_by_symbol
+                and execution_date in self.series_by_symbol[symbol]
+            )
+        )
+        return self.production_universe_gate(
+            expected_execution_date=execution_date,
+            production_catalogue=self.universe,
+            production_eligible=self.universe,
+            holdings_symbols=account.positions,
+            data_ready_symbols=data_ready,
+            required_indices=self.snapshot_builder.required_indices,
+            candidate_actions=candidate_actions,
+        )
+
+    def run_shadow_probe(self) -> tuple[Mapping[str, Any], ...]:
+        """Observe planned dates and stop before Engine, T1, or commit.
+
+        This is the explicit UV-step-3 acceptance boundary.  It loads only
+        the seed/current Forward state and the already composed market-data
+        catalogue.  It does not build a strategy snapshot, call Engine.step,
+        execute T1, initialize/save the repository, or publish production
+        artifacts.
+        """
+        if self.shadow_observer is None:
+            raise ForwardContractError(
+                "Forward shadow observer is disabled; explicit injection is required"
+            )
+
+        seed_state = self.seed_loader.load()
+        seed_state.validate()
+        if self.repository.exists():
+            current_state = self.repository.load()
+            current_state.validate()
+        else:
+            current_state = seed_state
+
+        planned_dates = self._planned_dates(
+            last_committed_date=current_state.last_committed_date
+        )
+        probe_date_basis = "PENDING_FORWARD_DATE_PLANNER_DATE"
+        if not planned_dates:
+            anchor = current_state.last_committed_date
+            if not anchor or not any(
+                symbol in self.series_by_symbol
+                and anchor in self.series_by_symbol[symbol]
+                for symbol in self.required_execution_symbols
+            ):
+                raise ForwardContractError(
+                    "Forward shadow probe has neither a pending planned date "
+                    "nor a data-backed last committed planner date"
+                )
+            planned_dates = (anchor,)
+            probe_date_basis = (
+                "CURRENT_LAST_COMMITTED_FORWARD_DATE_PLANNER_DATE"
+            )
+        reports = []
+        holdings = tuple(sorted(current_state.account.positions))
+        required_indices = tuple(self.snapshot_builder.required_indices)
+        for planned_date in planned_dates:
+            data_ready = tuple(
+                sorted(
+                    symbol
+                    for symbol in self.universe
+                    if symbol in self.series_by_symbol
+                    and planned_date in self.series_by_symbol[symbol]
+                )
+            )
+            result = self.shadow_observer(
+                market_date=planned_date,
+                expected_execution_date=planned_date,
+                production_catalogue=self.universe,
+                production_eligible=self.universe,
+                holdings_symbols=holdings,
+                data_ready_symbols=data_ready,
+                required_indices=required_indices,
+                candidate_actions=(),
+                date_source="FORWARD_DATE_PLANNER",
+            )
+            report = (
+                result.to_dict()
+                if hasattr(result, "to_dict")
+                else dict(result)
+            )
+            reports.append(
+                dict(report, probe_date_basis=probe_date_basis)
+            )
+        return tuple(reports)
+
     def dry_run(self) -> ForwardDryRunResult:
         seed_state = self.seed_loader.load()
         seed_state.validate()
@@ -619,10 +727,27 @@ class OfficialForwardCatchupRunner:
         days = []
 
         for date in planned_dates:
+            universe_decision = self._production_universe_decision(
+                execution_date=date,
+                account=current_state.account,
+            )
+            eligible_universe = (
+                self.universe if universe_decision is None
+                else universe_decision.eligible_buy_universe
+            )
+            required_data = (
+                () if universe_decision is None
+                else tuple(
+                    symbol
+                    for symbol in universe_decision.required_data_universe
+                    if symbol not in self.snapshot_builder.required_indices
+                )
+            )
             snapshot = self.snapshot_builder.build(
                 date=date,
-                universe=self.universe,
+                universe=eligible_universe,
                 series_by_symbol=self.series_by_symbol,
+                required_data_symbols=required_data,
             )
 
             engine_result = (
@@ -735,10 +860,44 @@ class OfficialForwardCatchupRunner:
 
             date = planned_dates[0]
 
+            pending_actions = tuple(
+                {
+                    "symbol": order.symbol,
+                    "action": order.intent_type,
+                }
+                for order in state.pending_orders
+            )
+            universe_decision = self._production_universe_decision(
+                execution_date=date,
+                account=state.account,
+                candidate_actions=pending_actions,
+            )
+            if (
+                universe_decision is not None
+                and universe_decision.blocked_risk_increases
+            ):
+                raise ForwardContractError(
+                    "HOLD_UV_STEP_4_FORWARD_PRODUCTION: "
+                    "pending BUY/ADD failed pre-execution Universe gate"
+                )
+            eligible_universe = (
+                self.universe if universe_decision is None
+                else universe_decision.eligible_buy_universe
+            )
+            required_data = (
+                () if universe_decision is None
+                else tuple(
+                    symbol
+                    for symbol in universe_decision.required_data_universe
+                    if symbol not in self.snapshot_builder.required_indices
+                )
+            )
+
             snapshot = self.snapshot_builder.build(
                 date=date,
-                universe=self.universe,
+                universe=eligible_universe,
                 series_by_symbol=self.series_by_symbol,
+                required_data_symbols=required_data,
             )
 
             execution_symbols = (

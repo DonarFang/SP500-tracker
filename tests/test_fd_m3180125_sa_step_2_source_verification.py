@@ -200,6 +200,22 @@ class SA2Tests(unittest.TestCase):
             files = list((Path(root) / "data/sp500_source_verification/verifications/SPD-JI-test").glob("*.json"))
             self.assertEqual(len(files), 1)
 
+    def test_legacy_equivalent_acceptances_choose_earliest(self):
+        with tempfile.TemporaryDirectory() as root:
+            path = self.prepare(root)
+            first = self.verifier(root).verify_detection(path)
+            later = json.loads(json.dumps(first))
+            later["verification_id"] = "SA2-later"
+            later["verified_at_utc"] = "2026-08-23T00:00:00Z"
+            later["entries"][0]["identity"]["probe_latest_date"] = "2026-08-22"
+            later["entries"][0]["identity"]["price_evidence_sha256"] = "f" * 64
+            directory = Path(root) / "data/sp500_source_verification/verifications/SPD-JI-test"
+            (directory / "SA2-later.json").write_text(json.dumps(later))
+            calls = []
+            reused = self.verifier(root, lambda symbol: calls.append(symbol) or []).verify_detection(path)
+            self.assertEqual(reused["verification_id"], first["verification_id"])
+            self.assertEqual(calls, [])
+
     def test_workflow_run_connects_sa1_to_sa2(self):
         root = Path(__file__).resolve().parents[1]
         text = (root / ".github/workflows/sp500-source-verification-daily.yml").read_text()

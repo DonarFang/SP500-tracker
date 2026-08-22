@@ -187,10 +187,37 @@ class SourceVerifier:
                 accepted.append(payload)
         if not accepted:
             return None
-        canonical = _canonical_json(accepted[0])
-        if any(_canonical_json(value) != canonical for value in accepted[1:]):
+        def semantic(value: Dict[str, Any]) -> Dict[str, Any]:
+            entries = []
+            for row in value.get("entries", []):
+                identity = row.get("identity", {})
+                entries.append({
+                    "action": row.get("action"),
+                    "company_name": row.get("company_name"),
+                    "status": row.get("status"),
+                    "spdj_symbol": identity.get("spdj_symbol"),
+                    "engine_symbol": identity.get("engine_symbol"),
+                    "yahoo_symbol": identity.get("yahoo_symbol"),
+                    "mapping_mode": identity.get("mapping_mode"),
+                    "mapping_status": identity.get("status"),
+                    "currency": identity.get("currency"),
+                })
+            return {
+                "source_id": value.get("source_id"),
+                "status": value.get("status"),
+                "effective_date": value.get("effective_date"),
+                "provider": value.get("provider"),
+                "provider_mapping_sha256": value.get("provider_mapping_sha256"),
+                "entries": entries,
+                "membership_event_created": value.get("membership_event_created"),
+                "price_data_written": value.get("price_data_written"),
+                "production_invoked": value.get("production_invoked"),
+            }
+
+        canonical = _canonical_json(semantic(accepted[0]))
+        if any(_canonical_json(semantic(value)) != canonical for value in accepted[1:]):
             raise VerificationError("CONFLICTING_ACCEPTED_VERIFICATIONS")
-        return accepted[0]
+        return min(accepted, key=lambda value: (str(value.get("verified_at_utc", "")), str(value.get("verification_id", ""))))
 
     def verify_detection(self, detection_path: Path) -> Dict[str, Any]:
         detection_path = Path(detection_path).resolve()

@@ -186,7 +186,7 @@ def inspect_forward_prices() -> dict[str, Any]:
         ),
     }
 
-def build_composition(runtime_commit: str):
+def build_composition(runtime_commit: str, shadow_observer=None):
     price_files: dict[str, Path] = {}
     for path in sorted(FORWARD_PRICE_ROOT.glob("*.json")):
         symbol = path.stem.upper()
@@ -218,7 +218,7 @@ def build_composition(runtime_commit: str):
         management_action_provider=ProviderShouldNotBeCalled(),
     )
 
-    return build_production_forward_composition(
+    composition = build_production_forward_composition(
         seed_root=SEED_ROOT,
         runtime_root=RUNTIME_ROOT,
         price_files_by_symbol=price_files,
@@ -226,14 +226,26 @@ def build_composition(runtime_commit: str):
         strategy_input_builder=strategy_builder,
         runtime_commit_provider=lambda: runtime_commit,
     )
+    composition.runner.shadow_observer = shadow_observer
+    from e1r_engine.universe_versioning.production_integration import (
+        ProductionUniverseGate,
+    )
+    production_gate = ProductionUniverseGate(ROOT, "forward")
+    if production_gate.mode() == "ENFORCE":
+        composition.runner.production_universe_gate = production_gate.resolve
+    return composition
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--uv-shadow-probe", action="store_true")
+    parser.add_argument(
+        "--uv-shadow-activation-time",
+        default="2026-08-10T00:00:00Z",
+    )
     args = parser.parse_args()
 
-    before_legacy = legacy_snapshot()
     price_sync = inspect_forward_prices()
 
     runtime_commit = subprocess.check_output(
@@ -242,9 +254,52 @@ def main() -> int:
         text=True,
     ).strip()
 
-    composition = build_composition(runtime_commit)
+    shadow_observer = None
+    if args.uv_shadow_probe:
+        from e1r_engine.universe_versioning.shadow_integration import (
+            ShadowObserverConfig,
+            UniverseShadowObserver,
+        )
+
+        observer = UniverseShadowObserver(
+            ShadowObserverConfig(
+                repo_root=ROOT,
+                track="forward",
+                authority_head=runtime_commit,
+                activation_time=args.uv_shadow_activation_time,
+            )
+        )
+
+        def shadow_observer(**kwargs):
+            return observer.observe(
+                **kwargs,
+                protected_paths=(FORWARD_PRICE_ROOT, RUNTIME_ROOT),
+            )
+
+    composition = build_composition(runtime_commit, shadow_observer)
     seed = composition.seed_loader.load()
     current = composition.repository.load()
+
+    if args.uv_shadow_probe:
+        reports = list(composition.runner.run_shadow_probe())
+        if not reports:
+            raise RuntimeError(
+                "HOLD_UV_STEP_3_FORWARD_SHADOW: no planned execution dates"
+            )
+        print(json.dumps({
+            "decision": "PASS_UV_STEP_3_FORWARD_SHADOW_PROBE",
+            "track": "forward",
+            "authority_head": runtime_commit,
+            "planned_dates": [row["expected_execution_date"] for row in reports],
+            "reports": reports,
+            "production_runs_performed": False,
+            "production_data_updated": False,
+            "production_membership_activated": False,
+            "production_side_effect_calls": [],
+        }, ensure_ascii=False, indent=2, sort_keys=True))
+        return 0
+
+    before_legacy = legacy_snapshot()
     dry_run = composition.runner.dry_run()
     planned_dates = list(dry_run.planned_dates)
 

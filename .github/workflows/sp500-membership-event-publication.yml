@@ -1,0 +1,71 @@
+name: S&P 500 Membership Event Publication
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['S&P 500 Source Verification']
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sp500-membership-event-publication
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Yahoo provider client
+        run: python -m pip install 'yfinance>=0.2,<1'
+      - name: Run SA and UV contract tests
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+        run: |
+          python -m unittest tests.test_fd_m3180125_sa_step_1_source_monitor
+          python -m unittest tests.test_fd_m3180125_sa_step_2_source_verification
+          python -m unittest tests.test_fd_m3180125_sa_step_3_event_publication
+          python run_119_pure_assertions.py .
+      - name: Publish verified Membership Event
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+        run: python scripts/run_fd_m3180125_sp500_event_publication.py
+      - name: Enforce SA-step-3 write boundary
+        run: |
+          git status --porcelain --untracked-files=all | tee /tmp/sa3_status.txt
+          sed 's/^...//' /tmp/sa3_status.txt | tee /tmp/sa3_changed.txt
+          if grep -Ev '^(data/fw_prices/[^/]+\.json|data/live_prices/[^/]+\.json|data/fw_universe/(events|snapshots|state)/|data/live_universe/(events|snapshots|state)/|data/sp500_source_events/)' /tmp/sa3_changed.txt; then
+            echo 'Path outside SA-step-3 Event/price/snapshot boundary changed'
+            exit 1
+          fi
+          git add -f data/fw_prices/ data/live_prices/ data/fw_universe/events/ data/fw_universe/snapshots/ data/fw_universe/state/ data/live_universe/events/ data/live_universe/snapshots/ data/live_universe/state/ data/sp500_source_events/
+      - name: Commit immutable SA-step-3 evidence and UV inputs
+        run: |
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Publish verified S&P 500 Membership Event'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Confirm Event publication
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          value = json.loads(Path('data/sp500_source_events/state/current.json').read_text())
+          if value.get('status') != 'PASS_SA_STEP_3_EVENT_PUBLISHED':
+              raise SystemExit('SA-step-3 publication state is not PASS')
+          print('PASS_SA_STEP_3_EVENT_AND_UV_HANDOFF')
+          PY
