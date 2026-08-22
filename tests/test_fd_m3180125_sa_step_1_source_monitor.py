@@ -121,6 +121,24 @@ class SA1ContractTests(unittest.TestCase):
             self.assertEqual(first["source_ids"], second["source_ids"])
             self.assertEqual(len(list((Path(root) / "data/sp500_source_monitor/detections").glob("*/detection.json"))), 1)
 
+    def test_dynamic_html_bytes_do_not_create_duplicate_detection(self):
+        calls = {"target": 0}
+        def fetch(url):
+            if url == PRESS_RSS:
+                return PRESS_XML, "application/rss+xml"
+            if url == PRESS_TARGET:
+                calls["target"] += 1
+                body = '<meta data-request="%d"><p>%s</p>' % (calls["target"], TEXT)
+                return body.encode(), "text/html"
+            raise SourceMonitorError("SOURCE_FETCH_FAILED")
+        with tempfile.TemporaryDirectory() as root:
+            monitor = OfficialSourceMonitor(Path(root), fetch=fetch)
+            first = monitor.run(PRESS_RSS)
+            second = monitor.run(PRESS_RSS)
+            self.assertEqual(first["source_ids"], second["source_ids"])
+            self.assertEqual(len(list((Path(root) / "data/sp500_source_monitor/detections").glob("*/detection.json"))), 1)
+            self.assertEqual(len(list((Path(root) / "data/sp500_source_monitor/documents").glob("*/source.html"))), 1)
+
     def test_successful_listing_without_target_is_no_change(self):
         with tempfile.TemporaryDirectory() as root:
             result = self._monitor(root, [{"title": "Unrelated Index News", "link": "/spdji/en/x"}], b"").run(LANDING, max_pages=1)

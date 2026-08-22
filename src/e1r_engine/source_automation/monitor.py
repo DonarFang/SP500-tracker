@@ -220,6 +220,41 @@ def extract_candidates(text: str) -> List[CandidateChange]:
     return results
 
 
+def _semantic_change_key(
+    source_url: str,
+    published_text: str,
+    title: str,
+    candidates: Sequence[CandidateChange],
+) -> str:
+    """Identify one announcement by stable semantics, not dynamic HTML bytes."""
+    rows = [
+        {
+            "action": item.action,
+            "company_name": item.company_name,
+            "official_symbol": item.official_symbol,
+            "replaced_company_name": item.replaced_company_name,
+            "replaced_official_symbol": item.replaced_official_symbol,
+            "effective_date_text": item.effective_date_text,
+            "effective_timing_text": item.effective_timing_text,
+        }
+        for item in candidates
+    ]
+    payload = {
+        "source_url": source_url,
+        "published_text": published_text,
+        "title": title,
+        "candidates": rows,
+    }
+    return _sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode())
+
+
+def _detection_from_dict(value: Dict[str, object]) -> SourceDetection:
+    candidates = [CandidateChange(**row) for row in value.get("candidates", [])]
+    fields = dict(value)
+    fields["candidates"] = candidates
+    return SourceDetection(**fields)
+
+
 class OfficialSourceMonitor:
     def __init__(
         self,
@@ -356,14 +391,32 @@ class OfficialSourceMonitor:
             try:
                 data, content_type = self.fetch(source_url)
                 digest = _sha256(data)
-                source_id = "SPD-JI-" + digest[:20]
-                suffix = ".pdf" if ("pdf" in content_type.lower() or data.startswith(b"%PDF")) else ".html"
-                raw_relative = "documents/%s/source%s" % (source_id, suffix)
-                _atomic_write(self.root / raw_relative, data, immutable=True)
                 text = _extract_document_text(data, content_type)
                 candidates = extract_candidates(text)
                 status = "DETECTED" if candidates else "SOURCE_HOLD"
                 failure_codes = [] if candidates else ["TARGET_DOCUMENT_PARSE_INCOMPLETE"]
+                semantic_key = _semantic_change_key(source_url, published_text, title, candidates)
+                existing = None
+                for path in sorted((self.root / "detections").glob("*/detection.json")):
+                    value = json.loads(path.read_text(encoding="utf-8"))
+                    existing_candidates = [CandidateChange(**row) for row in value.get("candidates", [])]
+                    if _semantic_change_key(
+                        str(value.get("source_url", "")),
+                        str(value.get("published_text", "")),
+                        str(value.get("title", "")),
+                        existing_candidates,
+                    ) == semantic_key:
+                        existing = _detection_from_dict(value)
+                        break
+                if existing is not None:
+                    detections.append(existing)
+                    failures.extend(existing.failure_codes)
+                    continue
+
+                source_id = "SPD-JI-" + digest[:20]
+                suffix = ".pdf" if ("pdf" in content_type.lower() or data.startswith(b"%PDF")) else ".html"
+                raw_relative = "documents/%s/source%s" % (source_id, suffix)
+                _atomic_write(self.root / raw_relative, data, immutable=True)
                 detection = SourceDetection(
                     source_id=source_id,
                     source_url=source_url,

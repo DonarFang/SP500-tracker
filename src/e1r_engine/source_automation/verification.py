@@ -282,6 +282,40 @@ class SourceVerifier:
 
     def run_all(self) -> Dict[str, Any]:
         root = self.repo_root / "data" / "sp500_source_monitor" / "detections"
-        results = [self.verify_detection(path) for path in sorted(root.glob("*/detection.json"))]
+        selected = []
+        seen = set()
+        duplicate_count = 0
+        for path in sorted(root.glob("*/detection.json")):
+            value = json.loads(path.read_text(encoding="utf-8"))
+            rows = [
+                {
+                    "action": row.get("action"),
+                    "company_name": row.get("company_name"),
+                    "official_symbol": row.get("official_symbol"),
+                    "replaced_company_name": row.get("replaced_company_name"),
+                    "replaced_official_symbol": row.get("replaced_official_symbol"),
+                    "effective_date_text": row.get("effective_date_text"),
+                    "effective_timing_text": row.get("effective_timing_text"),
+                }
+                for row in value.get("candidates", [])
+            ]
+            key = _sha256(_canonical_json({
+                "source_url": value.get("source_url"),
+                "published_text": value.get("published_text"),
+                "title": value.get("title"),
+                "candidates": rows,
+            }))
+            if key in seen:
+                duplicate_count += 1
+                continue
+            seen.add(key)
+            selected.append(path)
+        results = [self.verify_detection(path) for path in selected]
         status = "PASS_SA2_VERIFICATION" if results and all(x["status"] == "VERIFIED_NO_EVENT" for x in results) else "HOLD_SA2_VERIFICATION"
-        return {"status": status, "verification_count": len(results), "results": results}
+        return {
+            "status": status,
+            "semantic_change_count": len(results),
+            "duplicate_detection_count": duplicate_count,
+            "verification_count": len(results),
+            "results": results,
+        }

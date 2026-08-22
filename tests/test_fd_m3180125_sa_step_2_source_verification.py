@@ -161,6 +161,33 @@ class SA2Tests(unittest.TestCase):
             result = self.verifier(root).verify_detection(path)
             self.assertIn("BRK.B:PROVIDER_MAPPING_NOT_DATE_VALID", result["failure_codes"])
 
+    def test_run_all_verifies_duplicate_semantics_once(self):
+        with tempfile.TemporaryDirectory() as root:
+            first = self.prepare(root)
+            value = json.loads(first.read_text())
+            second_id = "SPD-JI-test-duplicate"
+            second_raw = Path(root) / "data/sp500_source_monitor/documents" / second_id / "source.html"
+            second_raw.parent.mkdir(parents=True)
+            second_raw.write_bytes(TEXT)
+            value["source_id"] = second_id
+            value["raw_document_path"] = "documents/%s/source.html" % second_id
+            second = Path(root) / "data/sp500_source_monitor/detections" / second_id / "detection.json"
+            second.parent.mkdir(parents=True)
+            second.write_text(json.dumps(value))
+            calls = []
+            result = self.verifier(root, lambda symbol: calls.append(symbol) or [{"date": "2026-08-21", "close": 10.0}]).run_all()
+            self.assertEqual(result["status"], "PASS_SA2_VERIFICATION")
+            self.assertEqual(result["semantic_change_count"], 1)
+            self.assertEqual(result["duplicate_detection_count"], 1)
+            self.assertEqual(calls, ["RDDT", "AVB"])
+
+    def test_workflow_run_connects_sa1_to_sa2(self):
+        root = Path(__file__).resolve().parents[1]
+        text = (root / ".github/workflows/sp500-source-verification-daily.yml").read_text()
+        self.assertIn("workflow_run:", text)
+        self.assertIn("S&P 500 Official Source Monitor", text)
+        self.assertIn("workflow_run.conclusion == 'success'", text)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -2,6 +2,9 @@ name: S&P 500 Source Verification
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ['S&P 500 Official Source Monitor']
+    types: [completed]
   push:
     branches: [main]
     paths:
@@ -22,6 +25,7 @@ concurrency:
 
 jobs:
   verify:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
