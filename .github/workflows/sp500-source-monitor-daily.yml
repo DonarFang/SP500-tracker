@@ -1,0 +1,63 @@
+name: S&P 500 Official Source Monitor
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/sp500-source-monitor-daily.yml'
+      - 'scripts/run_fd_m3180125_sp500_source_monitor.py'
+      - 'src/e1r_engine/source_automation/**'
+  schedule:
+    - cron: '15 22 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sp500-source-monitor-daily
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install PDF text extractor
+        run: python -m pip install 'pypdf>=5,<7'
+      - name: Monitor official S&P 500 announcements
+        id: monitor
+        continue-on-error: true
+        env:
+          PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+        run: python scripts/run_fd_m3180125_sp500_source_monitor.py
+      - name: Enforce source-monitor-only changes
+        run: |
+          git diff --name-only | tee /tmp/sa1_changed.txt
+          if grep -Ev '^data/sp500_source_monitor/' /tmp/sa1_changed.txt; then
+            echo 'Path outside SA-step-1 source evidence changed'
+            exit 1
+          fi
+          git add -f data/sp500_source_monitor/
+          git diff --cached --check
+      - name: Commit immutable source evidence
+        run: |
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Monitor official S&P 500 source'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Preserve HOLD semantics
+        if: steps.monitor.outcome != 'success'
+        run: |
+          echo 'Official source scan produced HOLD evidence; it must not be represented as no change.'
+          exit 1
