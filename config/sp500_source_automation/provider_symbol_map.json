@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "provider": "Yahoo Finance",
+  "non_identity_mappings": [
+    {
+      "security_id": "US0846707026",
+      "spdj_symbol": "BRK.B",
+      "engine_symbol": "BRK.B",
+      "yahoo_symbol": "BRK-B",
+      "exchange": "NYSE",
+      "share_class": "B",
+      "currency": "USD",
+      "valid_from": "1996-05-09",
+      "valid_to": null,
+      "status": "ACTIVE",
+      "evidence": "Issuer class B symbol and Yahoo Finance provider convention",
+      "evidence_sha256": "c77d2ce5d5968bb492ef98a4a1505f032a2236b1ae830d322c828bb28bf225ec"
+    },
+    {
+      "security_id": "US1156372096",
+      "spdj_symbol": "BF.B",
+      "engine_symbol": "BF.B",
+      "yahoo_symbol": "BF-B",
+      "exchange": "NYSE",
+      "share_class": "B",
+      "currency": "USD",
+      "valid_from": "1972-01-01",
+      "valid_to": null,
+      "status": "ACTIVE",
+      "evidence": "Issuer class B symbol and Yahoo Finance provider convention",
+      "evidence_sha256": "c77d2ce5d5968bb492ef98a4a1505f032a2236b1ae830d322c828bb28bf225ec"
+    }
+  ]
+}

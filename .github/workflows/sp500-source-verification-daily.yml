@@ -1,0 +1,85 @@
+name: S&P 500 Source Verification
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sp500-source-verification-daily.yml'
+      - 'config/sp500_source_automation/provider_symbol_map.json'
+      - 'scripts/run_fd_m3180125_sp500_source_verification.py'
+      - 'src/e1r_engine/source_automation/verification.py'
+      - 'data/sp500_source_monitor/detections/**'
+  schedule:
+    - cron: '45 22 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sp500-source-verification-daily
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Yahoo provider client
+        run: python -m pip install 'yfinance>=0.2,<1'
+      - name: Run SA-step-2 tests
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+        run: python -m unittest tests.test_fd_m3180125_sa_step_2_source_verification
+      - name: Verify detections and Yahoo symbols
+        id: verify
+        continue-on-error: true
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+        run: python scripts/run_fd_m3180125_sp500_source_verification.py
+      - name: Enforce SA-step-2 evidence boundary
+        run: |
+          git status --porcelain --untracked-files=all | tee /tmp/sa2_status.txt
+          sed 's/^...//' /tmp/sa2_status.txt | tee /tmp/sa2_changed.txt
+          if grep -Ev '^data/sp500_source_verification/' /tmp/sa2_changed.txt; then
+            echo 'Path outside SA-step-2 verification evidence changed'
+            exit 1
+          fi
+          git add -f data/sp500_source_verification/
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import subprocess
+          names = subprocess.check_output(['git', 'diff', '--cached', '--name-only'], text=True).splitlines()
+          for name in names:
+              if not name.startswith('data/sp500_source_verification/'):
+                  raise SystemExit('staged path outside SA-step-2 evidence: ' + name)
+              path = Path(name)
+              if path.is_symlink() or (path.is_file() and path.stat().st_nlink != 1):
+                  raise SystemExit('unsafe verification evidence path: ' + name)
+              if path.suffix == '.json':
+                  json.loads(path.read_text(encoding='utf-8'))
+          print('PASS_SA2_EVIDENCE_BOUNDARY count=%d' % len(names))
+          PY
+      - name: Commit immutable verification evidence
+        run: |
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Verify S&P 500 source detections'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Preserve HOLD and manual-intervention semantics
+        if: steps.verify.outcome != 'success'
+        run: |
+          echo 'SA-step-2 produced HOLD evidence and a manual-intervention alert.'
+          exit 1
