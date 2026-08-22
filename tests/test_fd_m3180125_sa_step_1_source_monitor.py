@@ -9,6 +9,7 @@ from e1r_engine.source_automation.monitor import (
     SourceMonitorError,
     _canonical_url,
     _is_target_title,
+    _parse_press_rss,
     extract_candidates,
 )
 
@@ -22,6 +23,12 @@ TEXT = (
     "(NYSE: AVB) in the S&P 500 effective prior to the opening of trading "
     "on Tuesday, August 18, 2026."
 )
+PRESS_RSS = "https://press.spglobal.com/index.php?s=2429&pagetemplate=rss"
+PRESS_TARGET = "https://press.spglobal.com/2026-08-13-Reddit-Set-to-Join-S-P-500"
+PRESS_XML = (
+    '<?xml version="1.0"?><rss><channel><item><title>Reddit Set to Join S&amp;P 500</title>'
+    '<link>%s</link><pubDate>Thu, 13 Aug 2026 17:15:00 ET</pubDate></item></channel></rss>' % PRESS_TARGET
+).encode()
 
 
 class SA1ContractTests(unittest.TestCase):
@@ -39,6 +46,27 @@ class SA1ContractTests(unittest.TestCase):
     def test_wrong_official_path_rejected(self):
         with self.assertRaises(SourceMonitorError):
             _canonical_url("https://www.spglobal.com/other")
+
+    def test_official_press_url_allowed(self):
+        self.assertEqual(_canonical_url(PRESS_RSS), PRESS_RSS)
+
+    def test_press_rss_parsed(self):
+        rows = _parse_press_rss(PRESS_XML)
+        self.assertEqual(rows[0]["title"], "Reddit Set to Join S&P 500")
+        self.assertEqual(rows[0]["link"], PRESS_TARGET)
+
+    def test_press_rss_end_to_end(self):
+        def fetch(url):
+            if url == PRESS_RSS:
+                return PRESS_XML, "application/rss+xml"
+            if url == PRESS_TARGET:
+                return TEXT.encode(), "text/html"
+            raise SourceMonitorError("SOURCE_FETCH_FAILED")
+        with tempfile.TemporaryDirectory() as root:
+            monitor = OfficialSourceMonitor(Path(root), fetch=fetch)
+            result = monitor.run(PRESS_RSS)
+            self.assertEqual(result["status"], "PASS_SOURCE_SCAN")
+            self.assertEqual(result["candidate_count"], 2)
 
     def test_target_title_selected(self):
         self.assertTrue(_is_target_title("Reddit Set to Join S&P 500"))
@@ -77,7 +105,7 @@ class SA1ContractTests(unittest.TestCase):
     def test_scan_persists_raw_and_detection(self):
         page = ('<a href="%s">Reddit Set to Join S&amp;P 500</a>' % TARGET).encode()
         with tempfile.TemporaryDirectory() as root:
-            result = self._monitor(root, [{"title": "Reddit Set to Join S&P 500", "link": TARGET, "date": "Aug 13, 2026"}], TEXT.encode()).run(max_pages=1)
+            result = self._monitor(root, [{"title": "Reddit Set to Join S&P 500", "link": TARGET, "date": "Aug 13, 2026"}], TEXT.encode()).run(LANDING, max_pages=1)
             self.assertEqual(result["status"], "PASS_SOURCE_SCAN")
             self.assertEqual(result["candidate_count"], 2)
             files = list((Path(root) / "data/sp500_source_monitor/documents").glob("*/source.html"))
@@ -88,41 +116,41 @@ class SA1ContractTests(unittest.TestCase):
         page = ('<a href="%s">Reddit Set to Join S&amp;P 500</a>' % TARGET).encode()
         with tempfile.TemporaryDirectory() as root:
             monitor = self._monitor(root, [{"title": "Reddit Set to Join S&P 500", "link": TARGET, "date": "Aug 13, 2026"}], TEXT.encode())
-            first = monitor.run(max_pages=1)
-            second = monitor.run(max_pages=1)
+            first = monitor.run(LANDING, max_pages=1)
+            second = monitor.run(LANDING, max_pages=1)
             self.assertEqual(first["source_ids"], second["source_ids"])
             self.assertEqual(len(list((Path(root) / "data/sp500_source_monitor/detections").glob("*/detection.json"))), 1)
 
     def test_successful_listing_without_target_is_no_change(self):
         with tempfile.TemporaryDirectory() as root:
-            result = self._monitor(root, [{"title": "Unrelated Index News", "link": "/spdji/en/x"}], b"").run(max_pages=1)
+            result = self._monitor(root, [{"title": "Unrelated Index News", "link": "/spdji/en/x"}], b"").run(LANDING, max_pages=1)
             self.assertEqual(result["status"], "PASS_SOURCE_SCAN")
             self.assertEqual(result["candidate_count"], 0)
 
     def test_missing_official_endpoint_is_hold(self):
         with tempfile.TemporaryDirectory() as root:
-            result = self._monitor(root, [], b"", landing_bytes=b"<html></html>").run(max_pages=1)
+            result = self._monitor(root, [], b"", landing_bytes=b"<html></html>").run(LANDING, max_pages=1)
             self.assertEqual(result["status"], "SOURCE_HOLD")
             self.assertIn("OFFICIAL_LISTING_ENDPOINT_NOT_DISCOVERED", result["failure_codes"])
 
     def test_target_fetch_failure_is_hold(self):
         page = ('<a href="%s">Reddit Set to Join S&amp;P 500</a>' % TARGET).encode()
         with tempfile.TemporaryDirectory() as root:
-            result = self._monitor(root, [{"title": "Reddit Set to Join S&P 500", "link": TARGET}], b"", fail_target=True).run(max_pages=1)
+            result = self._monitor(root, [{"title": "Reddit Set to Join S&P 500", "link": TARGET}], b"", fail_target=True).run(LANDING, max_pages=1)
             self.assertEqual(result["status"], "SOURCE_HOLD")
             self.assertIn("SOURCE_FETCH_FAILED", result["failure_codes"])
 
     def test_parse_incomplete_is_hold(self):
         page = ('<a href="%s">Reddit Set to Join S&amp;P 500</a>' % TARGET).encode()
         with tempfile.TemporaryDirectory() as root:
-            result = self._monitor(root, [{"title": "Reddit Set to Join S&P 500", "link": TARGET}], b"S&P 500 announcement without parseable rows").run(max_pages=1)
+            result = self._monitor(root, [{"title": "Reddit Set to Join S&P 500", "link": TARGET}], b"S&P 500 announcement without parseable rows").run(LANDING, max_pages=1)
             self.assertEqual(result["status"], "SOURCE_HOLD")
             self.assertIn("TARGET_DOCUMENT_PARSE_INCOMPLETE", result["failure_codes"])
 
     def test_detection_contains_no_provider_symbol(self):
         page = ('<a href="%s">Reddit Set to Join S&amp;P 500</a>' % TARGET).encode()
         with tempfile.TemporaryDirectory() as root:
-            self._monitor(root, [{"title": "Reddit Set to Join S&P 500", "link": TARGET}], TEXT.encode()).run(max_pages=1)
+            self._monitor(root, [{"title": "Reddit Set to Join S&P 500", "link": TARGET}], TEXT.encode()).run(LANDING, max_pages=1)
             path = next((Path(root) / "data/sp500_source_monitor/detections").glob("*/detection.json"))
             payload = json.loads(path.read_text())
             self.assertNotIn("provider_symbol", json.dumps(payload))
@@ -130,7 +158,7 @@ class SA1ContractTests(unittest.TestCase):
     def test_no_uv_or_track_artifacts_written(self):
         page = ('<a href="%s">Reddit Set to Join S&amp;P 500</a>' % TARGET).encode()
         with tempfile.TemporaryDirectory() as root:
-            self._monitor(root, [{"title": "Reddit Set to Join S&P 500", "link": TARGET}], TEXT.encode()).run(max_pages=1)
+            self._monitor(root, [{"title": "Reddit Set to Join S&P 500", "link": TARGET}], TEXT.encode()).run(LANDING, max_pages=1)
             self.assertFalse((Path(root) / "data/fw_universe").exists())
             self.assertFalse((Path(root) / "data/live_universe").exists())
 

@@ -17,13 +17,14 @@ from typing import Callable, Dict, Iterable, List, Optional, Sequence, Tuple
 from urllib.parse import urljoin, urlparse, urlunparse
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
+from xml.etree import ElementTree
 
 from .contracts import CandidateChange, SourceDetection
 
 
 PARSER_VERSION = "SA1-1.0.0"
-DEFAULT_LANDING_URL = "https://www.spglobal.com/spdji/en/media-center/news-announcements/"
-ALLOWED_HOSTS = {"spglobal.com", "www.spglobal.com"}
+DEFAULT_LANDING_URL = "https://press.spglobal.com/index.php?s=2429&pagetemplate=rss"
+ALLOWED_HOSTS = {"spglobal.com", "www.spglobal.com", "press.spglobal.com"}
 ALLOWED_PATH_PREFIX = "/spdji/en/"
 
 
@@ -63,7 +64,7 @@ def _canonical_url(url: str) -> str:
     host = (parsed.hostname or "").lower()
     if parsed.scheme != "https" or host not in ALLOWED_HOSTS:
         raise SourceMonitorError("SOURCE_DOMAIN_NOT_ALLOWED")
-    if not parsed.path.startswith(ALLOWED_PATH_PREFIX):
+    if host != "press.spglobal.com" and not parsed.path.startswith(ALLOWED_PATH_PREFIX):
         raise SourceMonitorError("SOURCE_PATH_NOT_ALLOWED")
     return urlunparse(("https", host, parsed.path, "", parsed.query, ""))
 
@@ -134,6 +135,23 @@ def _parse_listing(data: bytes) -> Dict[str, object]:
     if not isinstance(value, dict) or not isinstance(value.get("resultData"), list):
         raise SourceMonitorError("OFFICIAL_LISTING_SCHEMA_INVALID")
     return value
+
+
+def _parse_press_rss(data: bytes) -> List[Dict[str, str]]:
+    try:
+        root = ElementTree.fromstring(data)
+    except ElementTree.ParseError as exc:
+        raise SourceMonitorError("OFFICIAL_RSS_XML_INVALID") from exc
+    result = []
+    for item in root.findall(".//item"):
+        title = _normalize_text(item.findtext("title") or "")
+        link = _normalize_text(item.findtext("link") or "")
+        published = _normalize_text(item.findtext("pubDate") or "")
+        if title and link:
+            result.append({"title": title, "link": link, "date": published})
+    if not result:
+        raise SourceMonitorError("OFFICIAL_RSS_EMPTY")
+    return result
 
 
 def _extract_pdf_text(data: bytes) -> str:
@@ -281,36 +299,49 @@ class OfficialSourceMonitor:
         try:
             landing_url = _canonical_url(landing_url)
             landing_data, landing_type = self.fetch(landing_url)
-            if "html" not in landing_type.lower():
-                raise SourceMonitorError("LANDING_CONTENT_TYPE_INVALID")
-            if max_pages < 1 or max_pages > 50:
-                raise SourceMonitorError("LISTING_PAGE_LIMIT_INVALID")
             targets: Dict[str, Tuple[str, str]] = {}
             listing_hashes: List[str] = []
             listing_rows = 0
-            for page_number in range(1, max_pages + 1):
-                api_url = _listing_api_url(landing_url, landing_data, page_number)
-                listing_data, listing_type = self.fetch(api_url)
-                if "json" not in listing_type.lower() and "text" not in listing_type.lower():
-                    raise SourceMonitorError("OFFICIAL_LISTING_CONTENT_TYPE_INVALID")
-                listing = _parse_listing(listing_data)
-                digest = _sha256(listing_data)
+            if urlparse(landing_url).hostname == "press.spglobal.com":
+                rows = _parse_press_rss(landing_data)
+                digest = _sha256(landing_data)
                 listing_hashes.append(digest)
-                _atomic_write(self.root / "listings" / (digest + ".json"), listing_data, immutable=True)
-                rows = listing["resultData"]
+                _atomic_write(self.root / "listings" / (digest + ".xml"), landing_data, immutable=True)
                 listing_rows += len(rows)
                 for row in rows:
-                    if not isinstance(row, dict):
-                        raise SourceMonitorError("OFFICIAL_LISTING_SCHEMA_INVALID")
                     title = _normalize_text(str(row.get("title", "")))
                     href = str(row.get("link", ""))
                     if _is_target_title(title) and href:
                         target = _canonical_url(urljoin(landing_url, href))
                         targets[target] = (title, str(row.get("date", "")))
-                pagination = listing.get("pagination", {})
-                total_pages = pagination.get("totalPages") if isinstance(pagination, dict) else None
-                if not rows or (isinstance(total_pages, int) and page_number >= total_pages):
-                    break
+            else:
+                if "html" not in landing_type.lower():
+                    raise SourceMonitorError("LANDING_CONTENT_TYPE_INVALID")
+                if max_pages < 1 or max_pages > 50:
+                    raise SourceMonitorError("LISTING_PAGE_LIMIT_INVALID")
+                for page_number in range(1, max_pages + 1):
+                    api_url = _listing_api_url(landing_url, landing_data, page_number)
+                    listing_data, listing_type = self.fetch(api_url)
+                    if "json" not in listing_type.lower() and "text" not in listing_type.lower():
+                        raise SourceMonitorError("OFFICIAL_LISTING_CONTENT_TYPE_INVALID")
+                    listing = _parse_listing(listing_data)
+                    digest = _sha256(listing_data)
+                    listing_hashes.append(digest)
+                    _atomic_write(self.root / "listings" / (digest + ".json"), listing_data, immutable=True)
+                    rows = listing["resultData"]
+                    listing_rows += len(rows)
+                    for row in rows:
+                        if not isinstance(row, dict):
+                            raise SourceMonitorError("OFFICIAL_LISTING_SCHEMA_INVALID")
+                        title = _normalize_text(str(row.get("title", "")))
+                        href = str(row.get("link", ""))
+                        if _is_target_title(title) and href:
+                            target = _canonical_url(urljoin(landing_url, href))
+                            targets[target] = (title, str(row.get("date", "")))
+                    pagination = listing.get("pagination", {})
+                    total_pages = pagination.get("totalPages") if isinstance(pagination, dict) else None
+                    if not rows or (isinstance(total_pages, int) and page_number >= total_pages):
+                        break
             if listing_rows == 0:
                 raise SourceMonitorError("OFFICIAL_LISTING_EMPTY")
         except Exception as exc:

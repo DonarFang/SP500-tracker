@@ -1,4 +1,4 @@
-# FD-M3180125 S&P 500 Source Automation — SA-step-1 Contract v1.0
+# FD-M3180125 S&P 500 Source Automation — SA-step-1 Contract v1.1
 
 ```text
 Frozen: 2026-08-22
@@ -9,16 +9,26 @@ Production membership impact: NONE
 
 ## Purpose
 
-Monitor the S&P Dow Jones Indices official News & Announcements source every
+Monitor the S&P Global official Press Releases RSS every
 calendar day, discover standard S&P 500 membership announcements, preserve the
 raw source immutably, and extract candidate ADD/REMOVE facts without creating a
 Membership Event or changing any production Universe.
 
 ## Frozen source and trust boundary
 
-- Primary source: `https://www.spglobal.com/spdji/en/media-center/news-announcements/`.
-- Only HTTPS documents on `spglobal.com` or `www.spglobal.com` beneath
-  `/spdji/en/` are accepted.
+- Primary source: `https://press.spglobal.com/index.php?s=2429&pagetemplate=rss`.
+- Only HTTPS RSS and article documents on S&P Global-controlled hosts are
+  accepted: `press.spglobal.com`, or `spglobal.com` / `www.spglobal.com`
+  beneath `/spdji/en/`.
+- The blocked S&P DJI Media Center page remains an allowed manual/future source,
+  but it is not the scheduled acquisition endpoint.
+- PR Newswire's S&P Dow Jones Indices issuer channel may be added later as an
+  explicitly tested transport fallback. It is not authoritative input in
+  SA-step-1 v1.1.
+- Wikipedia may be used only for reconciliation alerts; it cannot establish an
+  announcement, effective date or Membership Event.
+- Yahoo Finance is only the downstream price provider and provider-symbol
+  validator. It cannot establish S&P 500 membership or an effective date.
 - Standard S&P 500 membership changes are in scope.
 - Equal Weight, ESG, Scored & Screened, Capped, consultations, methodology and
   other index products are out of scope.
@@ -44,7 +54,7 @@ SA-step-1 MUST NOT infer, normalize or test a Yahoo `provider_symbol`.
 
 The independent workflow runs every calendar day at `22:15 UTC`, before the
 existing `23:30 UTC` Forward and Live workflows. It may also be dispatched
-manually. The initial seven-path implementation push triggers the first run;
+manually. The initial implementation push triggers the first run;
 subsequent source-evidence-only commits do not recursively trigger it. It
 commits only the isolated source-monitor evidence path.
 
@@ -70,7 +80,7 @@ exclusively to SA-step-3.
    installation and acceptance.
 
 Completion status is permitted only after isolated tests and an official-source
-read-only probe pass on the Mac Authority:
+read-only probe pass in the authoritative GitHub Actions runtime:
 
 ```text
 SA-step-1 = COMPLETE / OFFICIAL SOURCE MONITORED /
