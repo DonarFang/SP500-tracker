@@ -1,0 +1,37 @@
+name: Parity Step 3 Read-only Replay
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/e1r_engine/parity_step3_replay.py'
+      - 'scripts/run_fd_m3180125_parity_step_3_replay.py'
+      - 'tests/test_fd_m3180125_parity_step3_replay.py'
+      - 'docs/contracts/FD-M3180125_PARITY_STEP_3_REPLAY_ACCEPTANCE_CONTRACT_v1.0.md'
+      - '.github/workflows/parity-step-3-read-only.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r requirements.txt
+      - run: PYTHONPATH=src:. python -m pytest -q tests/test_fd_m3180125_parity_*.py
+      - name: Read-only causal replay
+        run: PYTHONPATH=src:. python scripts/run_fd_m3180125_parity_step_3_replay.py
+      - name: Commit isolated evidence only
+        run: |
+          test -z "$(git status --porcelain --untracked-files=no -- exports/official/FD-M3180125-SP500-TOP3-engine/live/runtime exports/official/FD-M3180125-SP500-TOP3-engine/forward)"
+          git add -- exports/official/FD-M3180125-SP500-TOP3-engine/live/automation/parity/step_3/current_replay.json
+          git diff --cached --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record Parity-step-3 read-only replay evidence"
+          git push
