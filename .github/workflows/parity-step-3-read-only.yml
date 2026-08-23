@@ -23,7 +23,33 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install -r requirements.txt
-      - run: PYTHONPATH=src:. python -m pytest -q tests/test_fd_m3180125_parity_*.py
+      - name: Frozen parity validation with canonical pytest fallback
+        run: |
+          export PYTHONPATH=src:.
+          python -m py_compile src/e1r_engine/parity_step3_replay.py scripts/run_fd_m3180125_parity_step_3_replay.py
+          if python -m pytest --version >/dev/null 2>&1; then
+            python -m pytest -q tests/test_fd_m3180125_parity_*.py
+          else
+            python - <<'PY'
+            import importlib.util, inspect, tempfile
+            from pathlib import Path
+            passed = []
+            for index, filename in enumerate(sorted(Path('tests').glob('test_fd_m3180125_parity_*.py'))):
+                spec = importlib.util.spec_from_file_location(f'parity_test_{index}', filename)
+                module = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+                for name, fn in sorted(vars(module).items()):
+                    if name.startswith('test_') and callable(fn):
+                        if inspect.signature(fn).parameters:
+                            with tempfile.TemporaryDirectory() as directory:
+                                fn(tmp_path=Path(directory))
+                        else:
+                            fn()
+                        passed.append(name)
+            assert len(passed) == 56, len(passed)
+            print('PASS_PARITY_STEP_3_FROZEN_TESTS=56')
+            PY
+          fi
       - name: Read-only causal replay
         run: PYTHONPATH=src:. python scripts/run_fd_m3180125_parity_step_3_replay.py
       - name: Commit isolated evidence only
