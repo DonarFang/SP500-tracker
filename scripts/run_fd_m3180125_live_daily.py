@@ -5,6 +5,7 @@ from datetime import date
 import json
 from pathlib import Path
 import subprocess
+import os
 from typing import Any
 from e1r_engine.live_calendar import load_live_trading_calendar
 from e1r_engine.live_composition import (
@@ -14,8 +15,17 @@ from e1r_engine.live_composition import (
 )
 
 LIVE_ROOT=Path("exports/official/FD-M3180125-SP500-TOP3-engine/live")
-PRICE_ROOT=Path("data/live_prices")
-STATUS_PATH=LIVE_ROOT/"automation/current_data_update.json"
+PRICE_MODE=os.environ.get("FD_M3180125_LIVE_PRICE_MODE","LEGACY_HOLD").strip().upper()
+PRICE_ROOT=(
+    Path("data/live_prices_adjusted_v1/live_prices")
+    if PRICE_MODE=="ADJUSTED_ACCEPTED"
+    else Path("data/live_prices")
+)
+STATUS_PATH=(
+    LIVE_ROOT/"automation/parity/current_adjusted_shadow.json"
+    if PRICE_MODE=="ADJUSTED_ACCEPTED"
+    else LIVE_ROOT/"automation/current_data_update.json"
+)
 CALENDAR_PATH=Path("config/live_calendar/us_equity_calendar_v1.0.json")
 
 def load_json(path: Path)->dict[str,Any]:
@@ -47,7 +57,7 @@ def main()->int:
     expected_execution_date=live_calendar.next_session(market_date)
     if args.uv_shadow_probe:
         from e1r_engine.universe_versioning.shadow_integration import ShadowObserverConfig,UniverseShadowObserver
-        catalogue=discover_live_stock_symbols(price_root=PRICE_ROOT,expected_stock_count=494)
+        catalogue=discover_live_stock_symbols(price_root=PRICE_ROOT,expected_stock_count=491)
         eligible,excluded=discover_live_eligible_stock_symbols(price_root=PRICE_ROOT,market_date=market_date,catalogue_stock_symbols=catalogue)
         account_path=LIVE_ROOT/"runtime/current/account_state.json"
         account=load_json(account_path) if account_path.is_file() else {"positions":state.get("positions",{})}
@@ -68,7 +78,7 @@ def main()->int:
     eligible_override=None
     required_override=None
     if production_gate.mode()=="ENFORCE":
-        catalogue=discover_live_stock_symbols(price_root=PRICE_ROOT,expected_stock_count=494)
+        catalogue=discover_live_stock_symbols(price_root=PRICE_ROOT,expected_stock_count=491)
         eligible,_excluded=discover_live_eligible_stock_symbols(price_root=PRICE_ROOT,market_date=market_date,catalogue_stock_symbols=catalogue)
         account_path=LIVE_ROOT/"runtime/current/account_state.json"
         account=load_json(account_path) if account_path.is_file() else {"positions":state.get("positions",{})}
@@ -77,14 +87,14 @@ def main()->int:
         universe_decision=production_gate.resolve(expected_execution_date=expected_execution_date.isoformat(),production_catalogue=catalogue,production_eligible=eligible,holdings_symbols=positions.keys(),data_ready_symbols=eligible,required_indices=("SPX","NDX","SOX","VIX"))
         eligible_override=universe_decision.eligible_buy_universe
         required_override=tuple(symbol for symbol in universe_decision.required_data_universe if symbol not in {"SPX","NDX","SOX","VIX"})
-    composition=compose_active_live_production(price_root=PRICE_ROOT,live_root=LIVE_ROOT,data_status_path=STATUS_PATH,market_date=market_date,expected_execution_date=expected_execution_date,expected_stock_count=494,min_bars=120,eligible_stock_symbols_override=eligible_override,required_data_symbols_override=required_override)
+    composition=compose_active_live_production(price_root=PRICE_ROOT,live_root=LIVE_ROOT,data_status_path=STATUS_PATH,market_date=market_date,expected_execution_date=expected_execution_date,expected_stock_count=491,min_bars=120,eligible_stock_symbols_override=eligible_override,required_data_symbols_override=required_override)
     result=composition.runtime.dry_run(market_date=composition.market_date,market_data=composition.market_data)
     if universe_decision is not None:
         actions=tuple({"symbol":row.symbol,"action":row.action} for row in result.decision.position_recommendations)
         final_decision=production_gate.resolve(expected_execution_date=expected_execution_date.isoformat(),production_catalogue=composition.catalogue_stock_symbols,production_eligible=composition.required_data_symbols,holdings_symbols=result.account.positions.keys(),data_ready_symbols=composition.required_data_symbols,required_indices=("SPX","NDX","SOX","VIX"),candidate_actions=actions)
         if final_decision.blocked_risk_increases: raise RuntimeError("HOLD_UV_STEP_4_LIVE_PRODUCTION: Engine BUY/ADD failed pre-publication Universe gate")
     committed=composition.runtime.commit_active_daily(result=result,expected_execution_date=expected_execution_date)
-    committed.update({"catalogue_stock_symbol_count":len(composition.catalogue_stock_symbols),"eligible_stock_symbol_count":len(composition.stock_symbols),"excluded_stock_symbols":list(composition.excluded_stock_symbols),"workflow_created":True,"broker_api_connected":False,"universe_production_mode":production_gate.mode(),"universe_evidence_hash":None if universe_decision is None else universe_decision.evidence_hash})
+    committed.update({"catalogue_stock_symbol_count":len(composition.catalogue_stock_symbols),"eligible_stock_symbol_count":len(composition.stock_symbols),"excluded_stock_symbols":list(composition.excluded_stock_symbols),"workflow_created":True,"broker_api_connected":False,"universe_production_mode":production_gate.mode(),"universe_evidence_hash":None if universe_decision is None else universe_decision.evidence_hash,"live_price_mode":PRICE_MODE})
     print(json.dumps(committed,ensure_ascii=False,indent=2,sort_keys=True)); return 0
 
 if __name__=="__main__": raise SystemExit(main())

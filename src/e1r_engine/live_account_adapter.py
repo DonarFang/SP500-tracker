@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from e1r_engine.live_account import LiveAccountState
 from dataclasses import replace
+from pathlib import Path
 
 from e1r_engine.capped_atr_stop import VARIANT_ID
 from e1r_engine.state import AccountState, PositionState
+from e1r_engine.live_cycle_state import load_transaction_events, replay_live_cycles
 
 
 class LiveAccountAdapterError(ValueError):
@@ -16,6 +18,9 @@ class LiveAccountAdapterError(ValueError):
 class LiveAccountAdapter:
     """Use actual_cash as the authoritative Engine cash input."""
 
+    def __init__(self, *, live_root: Path | None = None) -> None:
+        self.live_root = None if live_root is None else Path(live_root)
+
     def to_engine_account(
         self,
         *,
@@ -23,6 +28,11 @@ class LiveAccountAdapter:
         market_date: str,
     ) -> AccountState:
         engine_positions = {}
+        cycles = (
+            replay_live_cycles(load_transaction_events(self.live_root))
+            if self.live_root is not None
+            else {}
+        )
 
         for symbol, position in sorted(live_account.positions.items()):
             mark = getattr(position, "market_price", None)
@@ -64,16 +74,26 @@ class LiveAccountAdapter:
                 price=float(mark),
                 date=market_date,
             )
-            engine_positions[symbol] = replace(
-                base,
-                metadata={
-                    "live_cycle_reconstruction_required": True,
+            cycle_state = cycles.get(symbol)
+            cycle_metadata = (
+                cycle_state.to_metadata()
+                if cycle_state is not None
+                else {
                     "first_buy_price": (
                         float(first_buy.price)
                         if first_buy is not None
                         else float(position.average_cost)
                     ),
                     "origin_branch": "UPTREND",
+                    "size_units": 1.0,
+                    "cycle_state_source": "LEGACY_CONFIRMED_TRANSACTION_REPLAY",
+                }
+            )
+            engine_positions[symbol] = replace(
+                base,
+                metadata={
+                    "live_cycle_reconstruction_required": True,
+                    **cycle_metadata,
                 },
             )
 

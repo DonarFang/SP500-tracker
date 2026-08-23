@@ -384,10 +384,11 @@ class CanonicalRuntime:
                 "e1r_entry_type"
             )
             metadata["e1r_entry_type"] = entry_type or "UNKNOWN"
-            metadata["size_units"] = (
-                0.5 if entry_type == "E1R_UPTREND_EMERGING" else 1.0
+            metadata.setdefault(
+                "size_units",
+                0.5 if entry_type == "E1R_UPTREND_EMERGING" else 1.0,
             )
-            metadata["entry_signal_date"] = signal_date
+            metadata.setdefault("entry_signal_date", signal_date)
             metadata["live_cycle_reconstruction_required"] = False
             positions[symbol] = replace(position, metadata=metadata)
             changed = True
@@ -412,6 +413,11 @@ class CanonicalRuntime:
                 continue
             if action == "BUY":
                 action = "HOLD"
+            reduce_suppressed_at_minimum = False
+            size_units = float(position.metadata.get("size_units", 1.0))
+            if action == "REDUCE" and size_units <= 0.5:
+                action = "HOLD"
+                reduce_suppressed_at_minimum = True
             if action == "ADD" and (
                 not market_entry_allowed
                 or float(position.metadata.get("size_units", 1.0)) >= 1.0
@@ -430,9 +436,9 @@ class CanonicalRuntime:
                     action = "HOLD"
 
             entry_type = str(position.metadata.get("e1r_entry_type", ""))
-            size_units = float(position.metadata.get("size_units", 1.0))
             if (
                 action == "HOLD"
+                and not reduce_suppressed_at_minimum
                 and branch == "UPTREND"
                 and entry_type == "E1R_UPTREND_EMERGING"
                 and size_units < 1.0
@@ -455,6 +461,9 @@ class CanonicalRuntime:
                     target_quantity=(0.0 if action == "EXIT" else position.quantity if action == "HOLD" else None),
                     quantity_delta=(-position.quantity * 0.5 if action == "REDUCE" else 0.0 if action == "HOLD" else None),
                     reason=(
+                        "reduce_skipped_size_at_minimum"
+                        if reduce_suppressed_at_minimum
+                        else
                         "emerging_upgraded_to_confirmed"
                         if action == "ADD" and entry_type == "E1R_UPTREND_EMERGING"
                         else "canonical_position_" + action.lower()

@@ -21,6 +21,8 @@ from e1r_engine.live_account import LiveOpeningState, rebuild_live_account
 from e1r_engine.live_composition import load_official_live_opening
 from e1r_engine.live_data import LivePriceRepository
 from e1r_engine.live_ledger import CashControlEvent, TransactionEvent
+from e1r_engine.live_cycle_state import stable_recommendation_id
+from e1r_engine.capped_atr_stop import VARIANT_ID
 from e1r_engine.live_persistence import LiveRuntimeRepository
 
 
@@ -102,6 +104,71 @@ def position_cost_basis(account: object, symbol: str) -> Decimal:
     return Decimal("0") if position is None else position.cost_basis
 
 
+def recommendation_link(
+    *, live_root: Path, symbol: str, action: str, trade_date: date
+) -> dict[str, object]:
+    current = load_optional_object(
+        live_root / "runtime/current/latest_recommendations.json"
+    )
+    candidates = [
+        current,
+        *(
+            load_optional_object(path)
+            for path in sorted(
+                (live_root / "runtime/daily").glob("*/engine_recommendations.json")
+            )
+        ),
+    ]
+    matches: list[dict[str, object]] = []
+    for payload in candidates:
+        signal_date = str(payload.get("signal_date") or "")
+        expected = str(payload.get("expected_execution_date") or "")
+        rows = payload.get("recommendations", [])
+        if not signal_date or expected != trade_date.isoformat() or not isinstance(rows, list):
+            continue
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            if str(row.get("symbol", "")).upper() == symbol.upper() and str(
+                row.get("action", "")
+            ).upper() == action.upper():
+                matches.append(
+                    {
+                        "signal_date": signal_date,
+                        "expected_execution_date": expected,
+                        "recommendation_id": stable_recommendation_id(
+                            signal_date=signal_date,
+                            expected_execution_date=expected,
+                            symbol=symbol,
+                            action=action,
+                        ),
+                        "target_size_units": (
+                            row.get("target_size_units")
+                            or (
+                                "0.5"
+                                if "EMERGING" in str(row.get("reason", "")).upper()
+                                else "1.0"
+                                if action.upper() == "BUY"
+                                else None
+                            )
+                        ),
+                    }
+                )
+    unique = {str(item["recommendation_id"]): item for item in matches}
+    if len(unique) > 1:
+        raise LiveInteractionError("multiple recommendation links match transaction")
+    return next(iter(unique.values()), {})
+
+
+def validate_live_reduce_shares(*, current_shares: Decimal, reduce_shares: Decimal) -> None:
+    if current_shares < 2:
+        raise LiveInteractionError("HOLD_LIVE_REDUCE_MANUAL: fewer than two shares")
+    half = current_shares / Decimal("2")
+    allowed = {half.to_integral_value(rounding="ROUND_FLOOR"), half.to_integral_value(rounding="ROUND_CEILING")}
+    if reduce_shares not in allowed or reduce_shares >= current_shares:
+        raise LiveInteractionError("HOLD_LIVE_CYCLE_RECONCILIATION_REQUIRED")
+
+
 def account_payload(account: object, marks: Mapping[str, Decimal]) -> dict[str, Any]:
     positions = {}
     for symbol, position in sorted(account.positions.items()):
@@ -161,6 +228,23 @@ def main() -> int:
     )
 
     if event_type == "TRANSACTION":
+        transaction_symbol = str(payload["symbol"]).strip().upper()
+        transaction_action = str(payload["action"]).strip().upper()
+        transaction_date = date.fromisoformat(str(payload["trade_date"]))
+        link = recommendation_link(
+            live_root=live_root,
+            symbol=transaction_symbol,
+            action=transaction_action,
+            trade_date=transaction_date,
+        )
+        if transaction_action == "REDUCE":
+            position = before.positions.get(transaction_symbol)
+            if position is None:
+                raise LiveInteractionError("REDUCE requires an active position")
+            validate_live_reduce_shares(
+                current_shares=position.shares,
+                reduce_shares=Decimal(str(payload.get("shares"))),
+            )
         event = TransactionEvent(
             event_id=str(payload["event_id"]),
             trade_date=date.fromisoformat(str(payload["trade_date"])),
@@ -169,6 +253,20 @@ def main() -> int:
             price=str(payload["price"]),
             shares=payload.get("shares"),
             notes=str(payload.get("notes") or ""),
+            recommendation_id=str(payload.get("recommendation_id") or link.get("recommendation_id") or "") or None,
+            signal_date=(
+                date.fromisoformat(str(payload.get("signal_date") or link.get("signal_date")))
+                if payload.get("signal_date") or link.get("signal_date")
+                else None
+            ),
+            expected_execution_date=(
+                date.fromisoformat(str(payload.get("expected_execution_date") or link.get("expected_execution_date")))
+                if payload.get("expected_execution_date") or link.get("expected_execution_date")
+                else None
+            ),
+            origin_branch=str(payload.get("origin_branch") or latest_market.get("strategy_branch") or "UPTREND"),
+            strategy_variant=str(payload.get("strategy_variant") or VARIANT_ID),
+            target_size_units=payload.get("target_size_units") or link.get("target_size_units"),
         )
         if opening.opening_date and event.trade_date < opening.opening_date:
             raise LiveInteractionError("trade_date precedes Live opening_date")

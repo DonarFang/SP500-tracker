@@ -68,6 +68,12 @@ class TransactionEvent:
     price: Decimal | int | float | str
     shares: Decimal | int | float | str | None = None
     notes: str = ""
+    recommendation_id: str | None = None
+    signal_date: date | None = None
+    expected_execution_date: date | None = None
+    origin_branch: str | None = None
+    strategy_variant: str | None = None
+    target_size_units: Decimal | int | float | str | None = None
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "event_id", _event_id(self.event_id))
@@ -103,9 +109,27 @@ class TransactionEvent:
             object.__setattr__(self, "shares", shares)
 
         object.__setattr__(self, "notes", _notes(self.notes))
+        for field_name in ("signal_date", "expected_execution_date"):
+            value = getattr(self, field_name)
+            if value is not None and not isinstance(value, date):
+                raise LiveLedgerError(f"{field_name} must be datetime.date or None")
+        for field_name in ("recommendation_id", "origin_branch", "strategy_variant"):
+            value = getattr(self, field_name)
+            if value is not None:
+                normalized = str(value).strip()
+                if not normalized:
+                    raise LiveLedgerError(f"{field_name} must not be blank")
+                object.__setattr__(self, field_name, normalized)
+        if self.origin_branch is not None:
+            object.__setattr__(self, "origin_branch", self.origin_branch.upper())
+        if self.target_size_units is not None:
+            units = _decimal(self.target_size_units, field="target_size_units")
+            if units not in {Decimal("0.5"), Decimal("1.0")}:
+                raise LiveLedgerError("target_size_units must be 0.5 or 1.0")
+            object.__setattr__(self, "target_size_units", units)
 
     def canonical_payload(self) -> dict[str, object]:
-        return {
+        payload = {
             "event_type": "TRANSACTION",
             "event_id": self.event_id,
             "trade_date": self.trade_date.isoformat(),
@@ -115,6 +139,22 @@ class TransactionEvent:
             "shares": None if self.shares is None else str(self.shares),
             "notes": self.notes,
         }
+        optional = {
+            "recommendation_id": self.recommendation_id,
+            "signal_date": None if self.signal_date is None else self.signal_date.isoformat(),
+            "expected_execution_date": (
+                None
+                if self.expected_execution_date is None
+                else self.expected_execution_date.isoformat()
+            ),
+            "origin_branch": self.origin_branch,
+            "strategy_variant": self.strategy_variant,
+            "target_size_units": (
+                None if self.target_size_units is None else str(self.target_size_units)
+            ),
+        }
+        payload.update({key: value for key, value in optional.items() if value is not None})
+        return payload
 
     def fingerprint(self) -> str:
         raw = json.dumps(

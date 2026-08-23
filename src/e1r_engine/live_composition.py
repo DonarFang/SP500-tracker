@@ -15,6 +15,7 @@ from typing import Sequence
 
 from .adapters.live_data import LiveDataAdapter
 from .live_account import LiveOpeningState
+from .live_account_adapter import LiveAccountAdapter
 from .live_daily import LiveDailyProcessor
 from .live_data import (
     LiveDataError,
@@ -31,7 +32,7 @@ class LiveCompositionError(ValueError):
 
 
 REQUIRED_INDEX_SYMBOLS = frozenset(
-    {"SPX", "NDX", "SOX", "VIX"}
+    {"SPX", "NDX", "SOX", "VIX", "QQQ", "SOXX", "VIXY"}
 )
 
 
@@ -276,6 +277,7 @@ def _compose_live_production_components(
         ),
         stock_symbols=stock_symbols,
         min_bars=min_bars,
+        account_adapter=LiveAccountAdapter(live_root=Path(live_root)),
     )
 
     repository = LiveRuntimeRepository(

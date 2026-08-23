@@ -79,6 +79,9 @@ def _valid_provider_row(
 class YahooDailyProvider:
     """Yahoo adapter that returns only valid finite positive OHLC rows."""
 
+    def __init__(self, *, auto_adjust: bool = False) -> None:
+        self.auto_adjust = bool(auto_adjust)
+
     def fetch(
         self,
         *,
@@ -95,7 +98,7 @@ class YahooDailyProvider:
                 # yfinance end is exclusive.
                 end=(end_date + timedelta(days=1)).isoformat(),
                 interval="1d",
-                auto_adjust=False,
+                auto_adjust=self.auto_adjust,
                 actions=False,
                 progress=False,
                 threads=False,
