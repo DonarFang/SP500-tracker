@@ -612,6 +612,11 @@ def main() -> int:
     parser.add_argument("--evidence-path", type=Path, default=EVIDENCE_PATH)
     parser.add_argument("--batch-size", type=int, default=20)
     parser.add_argument("--max-attempts", type=int, default=3)
+    parser.add_argument(
+        "--accepted-production",
+        action="store_true",
+        help="Publish accepted adjusted-price evidence for ACTIVE Live.",
+    )
     args = parser.parse_args()
 
     as_of_utc: Optional[datetime] = None
@@ -646,7 +651,11 @@ def main() -> int:
         result = {
             "schema_version": "1.1",
             "decision": "HOLD_PARITY_STEP_2_ADJUSTED_SHADOW_EXCEPTION",
-            "price_mode": "ADJUSTED_SHADOW_NOT_ACTIVE",
+            "price_mode": (
+                "ADJUSTED_ACCEPTED"
+                if args.accepted_production
+                else "ADJUSTED_SHADOW_NOT_ACTIVE"
+            ),
             "as_of_utc": None if as_of_utc is None else as_of_utc.isoformat(),
             "target_market_date": (
                 None if target_session is None else target_session.isoformat()
@@ -658,6 +667,13 @@ def main() -> int:
         print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
         return 1
 
+    if args.accepted_production:
+        result = {
+            **result,
+            "decision": "PASS_LIVE_ADJUSTED_PRICE_LIBRARY_BUILT",
+            "price_mode": "ADJUSTED_ACCEPTED",
+            "production_activation": True,
+        }
     _atomic_json(args.evidence_path, result)
     print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
     return 0
