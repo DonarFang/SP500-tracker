@@ -15,14 +15,16 @@ from e1r_engine.live_composition import (
 )
 
 LIVE_ROOT=Path("exports/official/FD-M3180125-SP500-TOP3-engine/live")
-PRICE_MODE=os.environ.get("FD_M3180125_LIVE_PRICE_MODE","LEGACY_HOLD").strip().upper()
+PRICE_MODE=os.environ.get("FD_M3180125_LIVE_PRICE_MODE","ADJUSTED_ACCEPTED").strip().upper()
+if PRICE_MODE not in {"ADJUSTED_ACCEPTED", "LEGACY_HOLD"}:
+    raise RuntimeError("Unsupported FD_M3180125_LIVE_PRICE_MODE")
 PRICE_ROOT=(
     Path("data/live_prices_adjusted_v1/live_prices")
     if PRICE_MODE=="ADJUSTED_ACCEPTED"
     else Path("data/live_prices")
 )
 STATUS_PATH=(
-    LIVE_ROOT/"automation/parity/current_adjusted_shadow.json"
+    LIVE_ROOT/"automation/parity/current_adjusted_accepted.json"
     if PRICE_MODE=="ADJUSTED_ACCEPTED"
     else LIVE_ROOT/"automation/current_data_update.json"
 )
@@ -46,6 +48,12 @@ def main()->int:
         raise RuntimeError("Personal Live runtime is not fully ACTIVE")
     status=load_json(STATUS_PATH)
     if status.get("data_status")!="CURRENT": raise RuntimeError("Live data status is not CURRENT")
+    if PRICE_MODE=="ADJUSTED_ACCEPTED" and (
+        status.get("price_mode")!="ADJUSTED_ACCEPTED"
+        or status.get("auto_adjust") is not True
+        or status.get("production_activation") is not True
+    ):
+        raise RuntimeError("Accepted adjusted Live price evidence is invalid")
     market_date=date.fromisoformat(str(status["latest_market_date"]))
     opening_date=date.fromisoformat(str(state["opening_date"]))
     if market_date<opening_date:

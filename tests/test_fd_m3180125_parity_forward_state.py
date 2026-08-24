@@ -49,14 +49,15 @@ def test_i01_no_backtest_path_is_in_repair_contract():
     assert "no 5Y execution or rewrite" in contract
 
 
-def test_i02_live_runner_defaults_to_legacy_hold():
+def test_i02_live_runner_defaults_to_adjusted_accepted():
     runner = (ROOT / "scripts/run_fd_m3180125_live_daily.py").read_text()
-    assert '"LEGACY_HOLD"' in runner
+    assert '"ADJUSTED_ACCEPTED").strip().upper()' in runner
 
 
-def test_i03_adjusted_mode_requires_explicit_acceptance():
+def test_i03_adjusted_mode_requires_accepted_evidence():
     runner = (ROOT / "scripts/run_fd_m3180125_live_daily.py").read_text()
     assert 'PRICE_MODE=="ADJUSTED_ACCEPTED"' in runner
+    assert 'status.get("production_activation") is not True' in runner
 
 
 def test_i04_shadow_workflow_skips_active_live_run():
