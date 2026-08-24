@@ -1,6 +1,6 @@
 {
   "branch": "UPTREND",
-  "candidate_count": 10,
+  "candidate_count": 8,
   "date": "2026-06-22",
   "inputs": {
     "canonical_engine_entry": true,
@@ -30,20 +30,20 @@
       {
         "rank": 1,
         "regime": "UPTREND",
-        "score": 94.88,
-        "symbol": "MU"
+        "score": 95.69,
+        "symbol": "STX"
       },
       {
         "rank": 2,
         "regime": "UPTREND",
-        "score": 94.64,
-        "symbol": "MRVL"
+        "score": 94.92,
+        "symbol": "ALAB"
       },
       {
         "rank": 3,
         "regime": "UPTREND",
-        "score": 94.57,
-        "symbol": "AMAT"
+        "score": 94.84,
+        "symbol": "SNDK"
       }
     ],
     "route": {
@@ -68,7 +68,7 @@
       "metadata": {
         "add_size_units": 0.5,
         "engine_owned_position_management": true,
-        "leader_score": 87.5,
+        "leader_score": 87.46,
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },
@@ -85,7 +85,7 @@
       "metadata": {
         "add_size_units": 0.5,
         "engine_owned_position_management": true,
-        "leader_score": 72.68,
+        "leader_score": 72.6,
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },
@@ -102,7 +102,7 @@
       "metadata": {
         "add_size_units": 0.5,
         "engine_owned_position_management": true,
-        "leader_score": 94.64,
+        "leader_score": 94.68,
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },

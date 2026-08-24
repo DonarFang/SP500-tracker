@@ -1,6 +1,6 @@
 {
   "branch": "UPTREND",
-  "candidate_count": 3,
+  "candidate_count": 6,
   "date": "2026-08-18",
   "inputs": {
     "canonical_engine_entry": true,
@@ -30,20 +30,20 @@
       {
         "rank": 1,
         "regime": "UPTREND",
-        "score": 96.25,
-        "symbol": "MPC"
+        "score": 96.68,
+        "symbol": "VLO"
       },
       {
         "rank": 2,
         "regime": "UPTREND",
-        "score": 90.78,
-        "symbol": "BBY"
+        "score": 96.49,
+        "symbol": "PSX"
       },
       {
         "rank": 3,
         "regime": "UPTREND",
-        "score": 89.65,
-        "symbol": "AXON"
+        "score": 95.94,
+        "symbol": "MPC"
       }
     ],
     "route": {
@@ -64,53 +64,41 @@
     {
       "branch": "UPTREND",
       "date": "2026-08-18",
-      "intent_type": "REDUCE",
+      "intent_type": "BUY",
       "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 65.34,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
+        "account_mutated": false,
+        "capped_atr_entry": {
+          "atr20": 11.635068539536272,
+          "atr_as_of": "2026-08-18",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "close_t": 350.04998779296875,
+        "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+        "entry_capacity": 2,
+        "entry_reasons": [
+          "rs_above_90",
+          "leader_rank_top5",
+          "leader_score_above_75",
+          "momentum_above_75",
+          "trend_health_above_70",
+          "close_above_ma50",
+          "ma50_slope_non_negative"
+        ],
+        "leader_rank_all": 1,
+        "leader_score": 96.68,
+        "market_entry_allowed": true,
+        "market_gate_state": "ALLOW",
+        "order_executed": false,
+        "source": "UptrendDecisionConsumer",
+        "strategy_logic_source": "UptrendCore",
+        "target_size_units": 1.0
       },
-      "quantity_delta": -1767.7432995963957,
-      "reason": "canonical_position_reduce",
-      "side": "SELL",
-      "symbol": "BAX",
+      "quantity_delta": null,
+      "reason": "E1R_UPTREND_CONFIRMED",
+      "side": "BUY",
+      "symbol": "VLO",
       "target_quantity": null
-    },
-    {
-      "branch": "UPTREND",
-      "date": "2026-08-18",
-      "intent_type": "HOLD",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 67.25,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "quantity_delta": 0.0,
-      "reason": "reduce_skipped_size_at_minimum",
-      "side": null,
-      "symbol": "ETSY",
-      "target_quantity": 621.0704737845747
-    },
-    {
-      "branch": "UPTREND",
-      "date": "2026-08-18",
-      "intent_type": "HOLD",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 96.25,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "quantity_delta": 0.0,
-      "reason": "canonical_position_hold",
-      "side": null,
-      "symbol": "MPC",
-      "target_quantity": 256.70147886499734
     }
   ],
   "reasons": [
@@ -120,5 +108,7 @@
     "route_uptrend"
   ],
   "regime_subclass": "NO_SUBCLASS",
-  "selected_symbols": []
+  "selected_symbols": [
+    "VLO"
+  ]
 }

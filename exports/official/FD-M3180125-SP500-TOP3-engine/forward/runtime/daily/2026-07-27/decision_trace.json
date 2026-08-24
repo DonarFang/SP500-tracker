@@ -1,6 +1,6 @@
 {
   "branch": "UPTREND",
-  "candidate_count": 11,
+  "candidate_count": 14,
   "date": "2026-07-27",
   "inputs": {
     "canonical_engine_entry": true,
@@ -30,20 +30,20 @@
       {
         "rank": 1,
         "regime": "UPTREND",
-        "score": 92.18,
-        "symbol": "MMM"
+        "score": 94.43,
+        "symbol": "TRV"
       },
       {
         "rank": 2,
         "regime": "UPTREND",
-        "score": 91.55,
-        "symbol": "LW"
+        "score": 92.75,
+        "symbol": "RTX"
       },
       {
         "rank": 3,
         "regime": "UPTREND",
-        "score": 90.86,
-        "symbol": "HPQ"
+        "score": 92.38,
+        "symbol": "MMM"
       }
     ],
     "route": {
@@ -61,23 +61,6 @@
     "single_step_decision": true
   },
   "order_intents": [
-    {
-      "branch": "UPTREND",
-      "date": "2026-07-27",
-      "intent_type": "HOLD",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 77.55,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "quantity_delta": 0.0,
-      "reason": "canonical_position_hold",
-      "side": null,
-      "symbol": "ETSY",
-      "target_quantity": 657.1130757961222
-    },
     {
       "branch": "UPTREND",
       "date": "2026-07-27",

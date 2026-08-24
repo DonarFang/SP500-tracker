@@ -1,6 +1,6 @@
 {
   "branch": "UPTREND",
-  "candidate_count": 5,
+  "candidate_count": 6,
   "date": "2026-07-10",
   "inputs": {
     "canonical_engine_entry": true,
@@ -30,20 +30,20 @@
       {
         "rank": 1,
         "regime": "UPTREND",
-        "score": 92.7,
-        "symbol": "MPC"
+        "score": 95.62,
+        "symbol": "NET"
       },
       {
         "rank": 2,
         "regime": "UPTREND",
-        "score": 92.28,
-        "symbol": "FFIV"
+        "score": 93.45,
+        "symbol": "NTAP"
       },
       {
         "rank": 3,
         "regime": "UPTREND",
-        "score": 91.58,
-        "symbol": "DELL"
+        "score": 92.82,
+        "symbol": "MPC"
       }
     ],
     "route": {
@@ -68,7 +68,7 @@
       "metadata": {
         "add_size_units": 0.5,
         "engine_owned_position_management": true,
-        "leader_score": 91.58,
+        "leader_score": 91.66,
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },
@@ -85,24 +85,7 @@
       "metadata": {
         "add_size_units": 0.5,
         "engine_owned_position_management": true,
-        "leader_score": 90.11,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "quantity_delta": 0.0,
-      "reason": "canonical_position_hold",
-      "side": null,
-      "symbol": "ETSY",
-      "target_quantity": 1314.2261515922444
-    },
-    {
-      "branch": "UPTREND",
-      "date": "2026-07-10",
-      "intent_type": "HOLD",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 83.39,
+        "leader_score": 83.59,
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },
@@ -111,6 +94,45 @@
       "side": null,
       "symbol": "HUM",
       "target_quantity": 267.2339875982243
+    },
+    {
+      "branch": "UPTREND",
+      "date": "2026-07-10",
+      "intent_type": "BUY",
+      "metadata": {
+        "account_mutated": false,
+        "capped_atr_entry": {
+          "atr20": 12.250201416015624,
+          "atr_as_of": "2026-07-10",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "close_t": 268.3999938964844,
+        "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+        "entry_capacity": 3,
+        "entry_reasons": [
+          "rs_above_90",
+          "leader_rank_top5",
+          "leader_score_above_75",
+          "momentum_above_75",
+          "trend_health_above_70",
+          "close_above_ma50",
+          "ma50_slope_non_negative"
+        ],
+        "leader_rank_all": 1,
+        "leader_score": 95.62,
+        "market_entry_allowed": true,
+        "market_gate_state": "ALLOW",
+        "order_executed": false,
+        "source": "UptrendDecisionConsumer",
+        "strategy_logic_source": "UptrendCore",
+        "target_size_units": 1.0
+      },
+      "quantity_delta": null,
+      "reason": "E1R_UPTREND_CONFIRMED",
+      "side": "BUY",
+      "symbol": "NET",
+      "target_quantity": null
     }
   ],
   "reasons": [
@@ -120,5 +142,7 @@
     "route_uptrend"
   ],
   "regime_subclass": "NO_SUBCLASS",
-  "selected_symbols": []
+  "selected_symbols": [
+    "NET"
+  ]
 }

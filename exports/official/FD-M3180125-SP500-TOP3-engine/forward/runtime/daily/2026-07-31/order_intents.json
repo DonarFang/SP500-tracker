@@ -2,18 +2,14 @@
   {
     "branch": "UPTREND",
     "date": "2026-07-31",
-    "intent_type": "HOLD",
+    "intent_type": "NOOP",
     "metadata": {
-      "add_size_units": 0.5,
-      "engine_owned_position_management": true,
-      "leader_score": 68.67,
-      "origin_branch": "UPTREND",
-      "reduce_fraction": 0.5
+      "engine_owned_decision": true
     },
-    "quantity_delta": 0.0,
-    "reason": "reduce_skipped_size_at_minimum",
+    "quantity_delta": null,
+    "reason": "canonical_engine_no_action",
     "side": null,
-    "symbol": "ETSY",
-    "target_quantity": 657.1130757961222
+    "symbol": "",
+    "target_quantity": null
   }
 ]

@@ -1,6 +1,6 @@
 {
   "branch": "UPTREND",
-  "candidate_count": 9,
+  "candidate_count": 15,
   "date": "2026-07-24",
   "inputs": {
     "canonical_engine_entry": true,
@@ -30,20 +30,20 @@
       {
         "rank": 1,
         "regime": "UPTREND",
-        "score": 92.19,
-        "symbol": "KMX"
+        "score": 93.03,
+        "symbol": "TRV"
       },
       {
         "rank": 2,
         "regime": "UPTREND",
-        "score": 90.52,
-        "symbol": "ATI"
+        "score": 92.11,
+        "symbol": "KMX"
       },
       {
         "rank": 3,
         "regime": "UPTREND",
-        "score": 89.28,
-        "symbol": "MMM"
+        "score": 90.56,
+        "symbol": "ATI"
       }
     ],
     "route": {
@@ -64,28 +64,11 @@
     {
       "branch": "UPTREND",
       "date": "2026-07-24",
-      "intent_type": "HOLD",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 67.53,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "quantity_delta": 0.0,
-      "reason": "reduce_skipped_size_at_minimum",
-      "side": null,
-      "symbol": "ETSY",
-      "target_quantity": 657.1130757961222
-    },
-    {
-      "branch": "UPTREND",
-      "date": "2026-07-24",
       "intent_type": "REDUCE",
       "metadata": {
         "add_size_units": 0.5,
         "engine_owned_position_management": true,
-        "leader_score": 70.34,
+        "leader_score": 70.31,
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },

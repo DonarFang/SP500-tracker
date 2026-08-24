@@ -1,6 +1,6 @@
 {
   "branch": "UPTREND",
-  "candidate_count": 12,
+  "candidate_count": 10,
   "date": "2026-08-04",
   "inputs": {
     "canonical_engine_entry": true,
@@ -30,20 +30,20 @@
       {
         "rank": 1,
         "regime": "UPTREND",
-        "score": 95.89,
-        "symbol": "BAX"
+        "score": 96.44,
+        "symbol": "SNOW"
       },
       {
         "rank": 2,
         "regime": "UPTREND",
-        "score": 95.64,
+        "score": 95.96,
         "symbol": "WTW"
       },
       {
         "rank": 3,
         "regime": "UPTREND",
-        "score": 94.92,
-        "symbol": "AXTA"
+        "score": 95.53,
+        "symbol": "BAX"
       }
     ],
     "route": {
@@ -64,33 +64,16 @@
     {
       "branch": "UPTREND",
       "date": "2026-08-04",
-      "intent_type": "HOLD",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 83.41,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "quantity_delta": 0.0,
-      "reason": "canonical_position_hold",
-      "side": null,
-      "symbol": "ETSY",
-      "target_quantity": 657.1130757961222
-    },
-    {
-      "branch": "UPTREND",
-      "date": "2026-08-04",
       "intent_type": "BUY",
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
-          "atr20": 1.1449996500000004,
+          "atr20": 14.757901763916015,
           "atr_as_of": "2026-08-04",
           "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
           "variant_id": "E1R_CAPPED_ATR_A0_V1"
         },
-        "close_t": 28.35,
+        "close_t": 316.7699890136719,
         "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
         "entry_capacity": 2,
         "entry_reasons": [
@@ -103,7 +86,7 @@
           "ma50_slope_non_negative"
         ],
         "leader_rank_all": 1,
-        "leader_score": 95.89,
+        "leader_score": 96.44,
         "market_entry_allowed": true,
         "market_gate_state": "ALLOW",
         "order_executed": false,
@@ -114,7 +97,7 @@
       "quantity_delta": null,
       "reason": "E1R_UPTREND_CONFIRMED",
       "side": "BUY",
-      "symbol": "BAX",
+      "symbol": "SNOW",
       "target_quantity": null
     }
   ],
@@ -126,6 +109,6 @@
   ],
   "regime_subclass": "NO_SUBCLASS",
   "selected_symbols": [
-    "BAX"
+    "SNOW"
   ]
 }

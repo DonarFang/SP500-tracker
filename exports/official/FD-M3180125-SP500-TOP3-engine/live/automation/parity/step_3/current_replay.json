@@ -1,0 +1,379 @@
+{
+  "activation_eligible": true,
+  "active_live_invoked": false,
+  "adjusted_price_mode": "YAHOO_AUTO_ADJUST_TRUE_SHADOW",
+  "automatic_execution_enabled": false,
+  "broker_api_connected": false,
+  "buy_add_manual_pause_remains": true,
+  "classification": "DIAGNOSTIC_ONLY_NOT_EXECUTION_APPROVED",
+  "contract_failure_count": 0,
+  "date_count": 7,
+  "decision": "PASS_PARITY_STEP_3_READ_ONLY_REPLAY",
+  "end_date": "2026-08-21",
+  "evidence_hash": "06d879a1ba1692530ecaab03d7c8cb26a099d645d77ecd9b9acebecc7fa98a8a",
+  "five_year_mutated": false,
+  "forward_mutated": false,
+  "live_history_mutated": false,
+  "protected_hashes_after": {
+    "contracts/live_runtime_contract.json": "b3b102bf6fbe3aa421e323f8edb3c6a9bb020adc6225b8ae079de6da2222b304",
+    "runtime/current/runtime_state.json": "e9af5135ea4aece3fd3b23fbadefc7a8b4531ae62e00d849d1dd66d8193efe52",
+    "runtime/history/cash_control.jsonl": "39717fb9a9692c488b91fdc627f69f1dd4d21c64b6778965a1b64d4a7137dac7",
+    "runtime/history/ledger_journal.jsonl": "a00ded3e7628b0743d022754df42e1dc82bd6b13879649d8e709341f0e9a666a",
+    "runtime/history/transactions.jsonl": "b935e0dac96a35671f4b0267b48f484256fab5b93a278b858508958b9f5ccc96"
+  },
+  "protected_hashes_before": {
+    "contracts/live_runtime_contract.json": "b3b102bf6fbe3aa421e323f8edb3c6a9bb020adc6225b8ae079de6da2222b304",
+    "runtime/current/runtime_state.json": "e9af5135ea4aece3fd3b23fbadefc7a8b4531ae62e00d849d1dd66d8193efe52",
+    "runtime/history/cash_control.jsonl": "39717fb9a9692c488b91fdc627f69f1dd4d21c64b6778965a1b64d4a7137dac7",
+    "runtime/history/ledger_journal.jsonl": "a00ded3e7628b0743d022754df42e1dc82bd6b13879649d8e709341f0e9a666a",
+    "runtime/history/transactions.jsonl": "b935e0dac96a35671f4b0267b48f484256fab5b93a278b858508958b9f5ccc96"
+  },
+  "protected_hashes_unchanged": true,
+  "reduce_manual_verification_remains": true,
+  "rows": [
+    {
+      "action_contract_errors": [],
+      "adjusted_live": {
+        "entry_capacity": 2,
+        "market_gate": "ALLOW",
+        "market_state": "CAUTIOUS_ON",
+        "reference_top3": [
+          "NTAP",
+          "NET",
+          "VEEV"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "causal_ledger": {
+        "cash_controls": 0,
+        "journal_events": 0,
+        "transactions": 0
+      },
+      "contract_comparison": {
+        "decision": "PASS",
+        "mismatches": {}
+      },
+      "formal_forward": {
+        "entry_capacity": 2,
+        "market_gate": "ALLOW",
+        "market_state": "CAUTIOUS_ON",
+        "reference_top3": [
+          "NTAP",
+          "NET",
+          "VEEV"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "legacy_live": {
+        "date": "2026-08-13",
+        "entry_capacity": 2,
+        "market_gate": "ALLOW",
+        "market_state": "CAUTIOUS_ON",
+        "regime": "UPTREND",
+        "strategy_branch": "UPTREND",
+        "subclass": "NO_SUBCLASS"
+      },
+      "legacy_to_adjusted_changed": true,
+      "market_date": "2026-08-13"
+    },
+    {
+      "action_contract_errors": [],
+      "adjusted_live": {
+        "entry_capacity": 2,
+        "market_gate": "ALLOW",
+        "market_state": "CAUTIOUS_ON",
+        "reference_top3": [
+          "NTAP",
+          "EXPE",
+          "VEEV"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "causal_ledger": {
+        "cash_controls": 1,
+        "journal_events": 1,
+        "transactions": 0
+      },
+      "contract_comparison": {
+        "decision": "PASS",
+        "mismatches": {}
+      },
+      "formal_forward": {
+        "entry_capacity": 2,
+        "market_gate": "ALLOW",
+        "market_state": "CAUTIOUS_ON",
+        "reference_top3": [
+          "NTAP",
+          "EXPE",
+          "VEEV"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "legacy_live": {
+        "date": "2026-08-14",
+        "entry_capacity": 2,
+        "market_gate": "ALLOW",
+        "market_state": "CAUTIOUS_ON",
+        "regime": "UPTREND",
+        "strategy_branch": "UPTREND",
+        "subclass": "NO_SUBCLASS"
+      },
+      "legacy_to_adjusted_changed": true,
+      "market_date": "2026-08-14"
+    },
+    {
+      "action_contract_errors": [],
+      "adjusted_live": {
+        "entry_capacity": 3,
+        "market_gate": "ALLOW",
+        "market_state": "FULL_ON",
+        "reference_top3": [
+          "NTAP",
+          "HPE",
+          "VLO"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "causal_ledger": {
+        "cash_controls": 2,
+        "journal_events": 3,
+        "transactions": 1
+      },
+      "contract_comparison": {
+        "decision": "PASS",
+        "mismatches": {}
+      },
+      "formal_forward": {
+        "entry_capacity": 3,
+        "market_gate": "ALLOW",
+        "market_state": "FULL_ON",
+        "reference_top3": [
+          "NTAP",
+          "HPE",
+          "VLO"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "legacy_live": {
+        "date": "2026-08-17",
+        "entry_capacity": 3,
+        "market_gate": "ALLOW",
+        "market_state": "FULL_ON",
+        "regime": "UPTREND",
+        "strategy_branch": "UPTREND",
+        "subclass": "NO_SUBCLASS"
+      },
+      "legacy_to_adjusted_changed": false,
+      "market_date": "2026-08-17"
+    },
+    {
+      "action_contract_errors": [],
+      "adjusted_live": {
+        "entry_capacity": 2,
+        "market_gate": "ALLOW",
+        "market_state": "CAUTIOUS_ON",
+        "reference_top3": [
+          "VLO",
+          "PSX",
+          "MPC"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "causal_ledger": {
+        "cash_controls": 2,
+        "journal_events": 4,
+        "transactions": 2
+      },
+      "contract_comparison": {
+        "decision": "PASS",
+        "mismatches": {}
+      },
+      "formal_forward": {
+        "entry_capacity": 2,
+        "market_gate": "ALLOW",
+        "market_state": "CAUTIOUS_ON",
+        "reference_top3": [
+          "VLO",
+          "PSX",
+          "MPC"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "legacy_live": {
+        "date": "2026-08-18",
+        "entry_capacity": 2,
+        "market_gate": "ALLOW",
+        "market_state": "CAUTIOUS_ON",
+        "regime": "UPTREND",
+        "strategy_branch": "UPTREND",
+        "subclass": "NO_SUBCLASS"
+      },
+      "legacy_to_adjusted_changed": false,
+      "market_date": "2026-08-18"
+    },
+    {
+      "action_contract_errors": [],
+      "adjusted_live": {
+        "entry_capacity": 2,
+        "market_gate": "ALLOW",
+        "market_state": "CAUTIOUS_ON",
+        "reference_top3": [
+          "PSX",
+          "MRNA",
+          "AXON"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "causal_ledger": {
+        "cash_controls": 2,
+        "journal_events": 4,
+        "transactions": 2
+      },
+      "contract_comparison": {
+        "decision": "PASS",
+        "mismatches": {}
+      },
+      "formal_forward": {
+        "entry_capacity": 2,
+        "market_gate": "ALLOW",
+        "market_state": "CAUTIOUS_ON",
+        "reference_top3": [
+          "PSX",
+          "MRNA",
+          "AXON"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "legacy_live": {
+        "date": "2026-08-19",
+        "entry_capacity": 2,
+        "market_gate": "ALLOW",
+        "market_state": "CAUTIOUS_ON",
+        "regime": "UPTREND",
+        "strategy_branch": "UPTREND",
+        "subclass": "NO_SUBCLASS"
+      },
+      "legacy_to_adjusted_changed": false,
+      "market_date": "2026-08-19"
+    },
+    {
+      "action_contract_errors": [],
+      "adjusted_live": {
+        "entry_capacity": 0,
+        "market_gate": "RISK_OFF",
+        "market_state": "CASH_MODE",
+        "reference_top3": [
+          "VEEV",
+          "PSX",
+          "REGN"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "causal_ledger": {
+        "cash_controls": 2,
+        "journal_events": 4,
+        "transactions": 2
+      },
+      "contract_comparison": {
+        "decision": "PASS",
+        "mismatches": {}
+      },
+      "formal_forward": {
+        "entry_capacity": 0,
+        "market_gate": "RISK_OFF",
+        "market_state": "CASH_MODE",
+        "reference_top3": [
+          "VEEV",
+          "PSX",
+          "REGN"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "legacy_live": {
+        "date": "2026-08-20",
+        "entry_capacity": 0,
+        "market_gate": "RISK_OFF",
+        "market_state": "CASH_MODE",
+        "regime": "UPTREND",
+        "strategy_branch": "UPTREND",
+        "subclass": "NO_SUBCLASS"
+      },
+      "legacy_to_adjusted_changed": true,
+      "market_date": "2026-08-20"
+    },
+    {
+      "action_contract_errors": [],
+      "adjusted_live": {
+        "entry_capacity": 0,
+        "market_gate": "RISK_OFF",
+        "market_state": "CASH_MODE",
+        "reference_top3": [
+          "DASH",
+          "VEEV",
+          "ABT"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "causal_ledger": {
+        "cash_controls": 2,
+        "journal_events": 4,
+        "transactions": 2
+      },
+      "contract_comparison": {
+        "decision": "PASS",
+        "mismatches": {}
+      },
+      "formal_forward": {
+        "entry_capacity": 0,
+        "market_gate": "RISK_OFF",
+        "market_state": "CASH_MODE",
+        "reference_top3": [
+          "DASH",
+          "VEEV",
+          "ABT"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "legacy_live": {
+        "date": "2026-08-21",
+        "entry_capacity": 0,
+        "market_gate": "RISK_OFF",
+        "market_state": "CASH_MODE",
+        "regime": "UPTREND",
+        "strategy_branch": "UPTREND",
+        "subclass": "NO_SUBCLASS"
+      },
+      "legacy_to_adjusted_changed": true,
+      "market_date": "2026-08-21"
+    }
+  ],
+  "start_date": "2026-08-13"
+}

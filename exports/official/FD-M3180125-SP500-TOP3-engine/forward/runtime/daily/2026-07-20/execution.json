@@ -1,17 +1,17 @@
 {
   "closed_trades": [
     {
-      "average_cost": 286.9034691027947,
+      "average_cost": 316.3341875640419,
       "entry_date": "2026-04-24",
-      "execution_price": 380.040930648,
+      "execution_price": 380.0409308750253,
       "exit_date": "2026-07-20",
       "exit_reason": "canonical_position_exit",
       "fill_id": "b5fc733226da796f4f458d4f1b5a4f9c7d4c1fbee318b533ed0ad7fdc3091e16",
       "is_sim_end": false,
       "order_id": "b59cd16abcdeb58a92957384936c54a9fdc75fcf039a164b0ad3c4493ede92b4",
       "origin_branch": "UPTREND",
-      "quantity": 120.6251897004492,
-      "realized_pnl": 11234.723967108685,
+      "quantity": 145.18214429512426,
+      "realized_pnl": 9249.081599947638,
       "symbol": "DELL"
     }
   ],
@@ -24,7 +24,7 @@
       "metadata": {
         "add_size_units": 0.5,
         "engine_owned_position_management": true,
-        "leader_score": 58.01,
+        "leader_score": 58.21,
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },

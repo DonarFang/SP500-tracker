@@ -1,6 +1,6 @@
 {
   "branch": "UPTREND",
-  "candidate_count": 9,
+  "candidate_count": 11,
   "date": "2026-08-20",
   "inputs": {
     "canonical_engine_entry": true,
@@ -30,20 +30,20 @@
       {
         "rank": 1,
         "regime": "UPTREND",
-        "score": 93.38,
-        "symbol": "AMGN"
+        "score": 95.8,
+        "symbol": "VEEV"
       },
       {
         "rank": 2,
         "regime": "UPTREND",
-        "score": 92.76,
-        "symbol": "ABT"
+        "score": 94.97,
+        "symbol": "PSX"
       },
       {
         "rank": 3,
         "regime": "UPTREND",
-        "score": 92.17,
-        "symbol": "A"
+        "score": 93.66,
+        "symbol": "REGN"
       }
     ],
     "route": {
@@ -64,53 +64,15 @@
     {
       "branch": "UPTREND",
       "date": "2026-08-20",
-      "intent_type": "HOLD",
+      "intent_type": "NOOP",
       "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 74.12,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
+        "engine_owned_decision": true
       },
-      "quantity_delta": 0.0,
-      "reason": "reduce_skipped_size_at_minimum",
+      "quantity_delta": null,
+      "reason": "canonical_engine_no_action",
       "side": null,
-      "symbol": "BAX",
-      "target_quantity": 1767.7432995963957
-    },
-    {
-      "branch": "UPTREND",
-      "date": "2026-08-20",
-      "intent_type": "HOLD",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 74.43,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "quantity_delta": 0.0,
-      "reason": "reduce_skipped_size_at_minimum",
-      "side": null,
-      "symbol": "ETSY",
-      "target_quantity": 621.0704737845747
-    },
-    {
-      "branch": "UPTREND",
-      "date": "2026-08-20",
-      "intent_type": "HOLD",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 90.72,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "quantity_delta": 0.0,
-      "reason": "canonical_position_hold",
-      "side": null,
-      "symbol": "MPC",
-      "target_quantity": 256.70147886499734
+      "symbol": "",
+      "target_quantity": null
     }
   ],
   "reasons": [

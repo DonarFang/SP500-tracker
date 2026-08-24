@@ -1,6 +1,6 @@
 {
   "branch": "UPTREND",
-  "candidate_count": 10,
+  "candidate_count": 11,
   "date": "2026-07-22",
   "inputs": {
     "canonical_engine_entry": true,
@@ -30,20 +30,20 @@
       {
         "rank": 1,
         "regime": "UPTREND",
-        "score": 96.12,
-        "symbol": "MPC"
+        "score": 96.55,
+        "symbol": "PSX"
       },
       {
         "rank": 2,
         "regime": "UPTREND",
-        "score": 95.23,
-        "symbol": "ADM"
+        "score": 96.0,
+        "symbol": "MPC"
       },
       {
         "rank": 3,
         "regime": "UPTREND",
-        "score": 89.91,
-        "symbol": "BBY"
+        "score": 95.31,
+        "symbol": "ADM"
       }
     ],
     "route": {
@@ -64,28 +64,11 @@
     {
       "branch": "UPTREND",
       "date": "2026-07-22",
-      "intent_type": "REDUCE",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 71.16,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "quantity_delta": -657.1130757961222,
-      "reason": "canonical_position_reduce",
-      "side": "SELL",
-      "symbol": "ETSY",
-      "target_quantity": null
-    },
-    {
-      "branch": "UPTREND",
-      "date": "2026-07-22",
       "intent_type": "HOLD",
       "metadata": {
         "add_size_units": 0.5,
         "engine_owned_position_management": true,
-        "leader_score": 86.3,
+        "leader_score": 86.42,
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },

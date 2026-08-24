@@ -1,5 +1,5 @@
 {
-  "cash": 3.637978807091713e-12,
+  "cash": 80843.83083523117,
   "date": "2026-07-15",
   "metadata": {
     "last_execution_date": "2026-07-15",
@@ -9,14 +9,14 @@
     "strategy_display_name": "E1R CAPPED-ATR Engine",
     "strategy_variant": "E1R_CAPPED_ATR_A0_V1"
   },
-  "open_positions_count": 3,
+  "open_positions_count": 2,
   "positions": {
     "DELL": {
-      "avg_cost": 286.9034691027947,
+      "avg_cost": 316.3341875640419,
       "entry_date": "2026-04-24",
-      "last_price": 411.999176,
+      "last_price": 411.9991760253906,
       "last_update_date": "2026-07-15",
-      "market_value": 99394.95752285751,
+      "market_value": 119629.84764638112,
       "metadata": {
         "capped_atr_stop": {
           "a0": 219.21899999999997,
@@ -38,78 +38,19 @@
         "last_order_id": "1452b0ac6e27c6889b5d221c9ca0f1774d50e23e2376ba832443d7e41508bb30",
         "new_forward_buy": false,
         "origin_branch": "UPTREND",
-        "remaining_cost_basis": 69215.57077248316,
+        "remaining_cost_basis": 91852.15132880726,
         "size_units": 1.0
       },
-      "quantity": 241.2503794008984,
+      "quantity": 290.3642885902485,
       "symbol": "DELL",
-      "unrealized_pnl": 30179.386750374353
-    },
-    "ETSY": {
-      "avg_cost": 78.73866400399999,
-      "entry_date": "2026-06-30",
-      "last_price": 85.739998,
-      "last_update_date": "2026-07-15",
-      "market_value": 112681.74760906673,
-      "metadata": {
-        "account_mutated": false,
-        "capped_atr_entry": {
-          "atr20": 2.710499900000002,
-          "atr_as_of": "2026-06-29",
-          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
-          "variant_id": "E1R_CAPPED_ATR_A0_V1"
-        },
-        "capped_atr_stop": {
-          "a0": 78.73866400399999,
-          "add_updates_stop_anchor": false,
-          "atr20": 2.710499900000002,
-          "atr_as_of": "2026-06-29",
-          "atr_frozen_for_cycle": true,
-          "block_same_day_reentry_after_hard_stop": false,
-          "distance": 9.448639680479998,
-          "distance_fraction": 0.12,
-          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
-          "trigger_price": 69.29002432351999,
-          "variant_id": "E1R_CAPPED_ATR_A0_V1"
-        },
-        "close_t": 79.660004,
-        "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
-        "entry_capacity": 3,
-        "entry_execution_price": 78.73866400399999,
-        "entry_reasons": [
-          "rs_above_90",
-          "leader_rank_top5",
-          "leader_score_above_75",
-          "momentum_above_75",
-          "trend_health_above_70",
-          "close_above_ma50",
-          "ma50_slope_non_negative"
-        ],
-        "entry_shares": 1314.2261515922444,
-        "fill_id": "8871764b73b3158edbc9591db6d3f79c9d58ab9c30ffacf383892a68cf99f8f3",
-        "leader_rank_all": 1,
-        "leader_score": 96.17,
-        "market_entry_allowed": true,
-        "market_gate_state": "ALLOW",
-        "order_executed": false,
-        "order_id": "8128b6f74b8ea5697cfdc1adc04bc9934f0323bcf388ccbe215a56e57ba4ae10",
-        "origin_branch": "UPTREND",
-        "remaining_cost_basis": 103480.41137549168,
-        "size_units": 1.0,
-        "source": "UptrendDecisionConsumer",
-        "strategy_logic_source": "UptrendCore",
-        "target_size_units": 1.0
-      },
-      "quantity": 1314.2261515922444,
-      "symbol": "ETSY",
-      "unrealized_pnl": 9201.336233575048
+      "unrealized_pnl": 27777.69631757386
     },
     "HUM": {
       "avg_cost": 373.07269999999994,
       "entry_date": "2026-06-11",
-      "last_price": 407.779999,
+      "last_price": 407.7799987792969,
       "last_update_date": "2026-07-15",
-      "market_value": 108972.67519556991,
+      "market_value": 108972.67513659054,
       "metadata": {
         "capped_atr_stop": {
           "a0": 373.07269999999994,
@@ -134,9 +75,9 @@
       },
       "quantity": 267.2339875982243,
       "symbol": "HUM",
-      "unrealized_pnl": 9274.969910533871
+      "unrealized_pnl": 9274.969851554502
     }
   },
-  "positions_value": 321049.3803274942,
-  "total_equity": 321049.3803274942
+  "positions_value": 228602.52278297168,
+  "total_equity": 309446.35361820285
 }

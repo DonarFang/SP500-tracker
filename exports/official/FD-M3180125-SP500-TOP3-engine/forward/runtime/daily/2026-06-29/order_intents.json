@@ -6,7 +6,7 @@
     "metadata": {
       "add_size_units": 0.5,
       "engine_owned_position_management": true,
-      "leader_score": 66.19,
+      "leader_score": 66.27,
       "origin_branch": "UPTREND",
       "reduce_fraction": 0.5
     },
@@ -23,7 +23,7 @@
     "metadata": {
       "add_size_units": 0.5,
       "engine_owned_position_management": true,
-      "leader_score": 93.81,
+      "leader_score": 93.86,
       "origin_branch": "UPTREND",
       "reduce_fraction": 0.5
     },
@@ -40,12 +40,12 @@
     "metadata": {
       "account_mutated": false,
       "capped_atr_entry": {
-        "atr20": 2.710499900000002,
+        "atr20": 2.710499954223633,
         "atr_as_of": "2026-06-29",
         "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
         "variant_id": "E1R_CAPPED_ATR_A0_V1"
       },
-      "close_t": 79.660004,
+      "close_t": 79.66000366210938,
       "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
       "entry_capacity": 3,
       "entry_reasons": [
@@ -58,7 +58,7 @@
         "ma50_slope_non_negative"
       ],
       "leader_rank_all": 1,
-      "leader_score": 96.17,
+      "leader_score": 96.21,
       "market_entry_allowed": true,
       "market_gate_state": "ALLOW",
       "order_executed": false,

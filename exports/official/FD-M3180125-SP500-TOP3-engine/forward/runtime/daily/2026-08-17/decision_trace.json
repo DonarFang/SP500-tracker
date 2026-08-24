@@ -1,6 +1,6 @@
 {
   "branch": "UPTREND",
-  "candidate_count": 6,
+  "candidate_count": 7,
   "date": "2026-08-17",
   "inputs": {
     "canonical_engine_entry": true,
@@ -30,20 +30,20 @@
       {
         "rank": 1,
         "regime": "UPTREND",
-        "score": 94.72,
-        "symbol": "MPC"
+        "score": 96.87,
+        "symbol": "NTAP"
       },
       {
         "rank": 2,
         "regime": "UPTREND",
-        "score": 93.94,
-        "symbol": "DELL"
+        "score": 95.93,
+        "symbol": "HPE"
       },
       {
         "rank": 3,
         "regime": "UPTREND",
-        "score": 91.25,
-        "symbol": "PYPL"
+        "score": 95.16,
+        "symbol": "VLO"
       }
     ],
     "route": {
@@ -64,50 +64,16 @@
     {
       "branch": "UPTREND",
       "date": "2026-08-17",
-      "intent_type": "HOLD",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 65.2,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "quantity_delta": 0.0,
-      "reason": "canonical_position_hold",
-      "side": null,
-      "symbol": "BAX",
-      "target_quantity": 3535.4865991927913
-    },
-    {
-      "branch": "UPTREND",
-      "date": "2026-08-17",
-      "intent_type": "HOLD",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 60.64,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "quantity_delta": 0.0,
-      "reason": "reduce_skipped_size_at_minimum",
-      "side": null,
-      "symbol": "ETSY",
-      "target_quantity": 621.0704737845747
-    },
-    {
-      "branch": "UPTREND",
-      "date": "2026-08-17",
       "intent_type": "BUY",
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
-          "atr20": 11.60272925000001,
+          "atr20": 7.21100082397461,
           "atr_as_of": "2026-08-17",
           "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
           "variant_id": "E1R_CAPPED_ATR_A0_V1"
         },
-        "close_t": 357.201935,
+        "close_t": 204.1999969482422,
         "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
         "entry_capacity": 3,
         "entry_reasons": [
@@ -120,7 +86,7 @@
           "ma50_slope_non_negative"
         ],
         "leader_rank_all": 1,
-        "leader_score": 94.72,
+        "leader_score": 96.87,
         "market_entry_allowed": true,
         "market_gate_state": "ALLOW",
         "order_executed": false,
@@ -131,7 +97,7 @@
       "quantity_delta": null,
       "reason": "E1R_UPTREND_CONFIRMED",
       "side": "BUY",
-      "symbol": "MPC",
+      "symbol": "NTAP",
       "target_quantity": null
     }
   ],
@@ -143,6 +109,6 @@
   ],
   "regime_subclass": "NO_SUBCLASS",
   "selected_symbols": [
-    "MPC"
+    "NTAP"
   ]
 }

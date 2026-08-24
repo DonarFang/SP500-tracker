@@ -1,20 +1,21 @@
 {
   "closed_trades": [],
-  "resolved_orders": [
+  "resolved_orders": [],
+  "sim_end_performed": false,
+  "skipped_orders": [
     {
       "branch": "UPTREND",
       "execution_date": "2026-08-18",
-      "fill_id": "72788424da94d30dd2aa332ba8ace640aecd4d1c3578160f15abd3a2ad1c799c",
       "intent_type": "BUY",
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
-          "atr20": 11.60272925000001,
+          "atr20": 7.21100082397461,
           "atr_as_of": "2026-08-17",
           "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
           "variant_id": "E1R_CAPPED_ATR_A0_V1"
         },
-        "close_t": 357.201935,
+        "close_t": 204.1999969482422,
         "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
         "entry_capacity": 3,
         "entry_reasons": [
@@ -27,7 +28,7 @@
           "ma50_slope_non_negative"
         ],
         "leader_rank_all": 1,
-        "leader_score": 94.72,
+        "leader_score": 96.87,
         "market_entry_allowed": true,
         "market_gate_state": "ALLOW",
         "order_executed": false,
@@ -35,17 +36,16 @@
         "strategy_logic_source": "UptrendCore",
         "target_size_units": 1.0
       },
-      "order_id": "b4cd987bbc63fead3c77bc1809421cc99a5202bcfa5db8287af98ab361d9e5bf",
+      "order_id": "b9d3ba04878f47d60d3699776443a960c569e517bafc2b36e1647fbd2aff27da",
       "quantity_delta": null,
       "reason": "E1R_UPTREND_CONFIRMED",
       "sequence": 1,
       "side": "BUY",
       "signal_date": "2026-08-17",
-      "status": "FILLED",
-      "symbol": "MPC",
+      "skip_reason": "MISSING_T1_BAR",
+      "status": "SKIPPED",
+      "symbol": "NTAP",
       "target_quantity": null
     }
-  ],
-  "sim_end_performed": false,
-  "skipped_orders": []
+  ]
 }

@@ -1,29 +1,51 @@
 {
   "closed_trades": [],
-  "resolved_orders": [
+  "resolved_orders": [],
+  "sim_end_performed": false,
+  "skipped_orders": [
     {
       "branch": "UPTREND",
       "execution_date": "2026-08-11",
-      "fill_id": "8272e2a06f0f90c634d23d32947f39fda2f8cf42dbdb857fb4fe2561afe53418",
-      "intent_type": "REDUCE",
+      "intent_type": "BUY",
       "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 64.0,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
+        "account_mutated": false,
+        "capped_atr_entry": {
+          "atr20": 14.67145233154297,
+          "atr_as_of": "2026-08-10",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "close_t": 334.70001220703125,
+        "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+        "entry_capacity": 2,
+        "entry_reasons": [
+          "rs_above_90",
+          "leader_rank_top5",
+          "leader_score_above_75",
+          "momentum_above_75",
+          "trend_health_above_70",
+          "close_above_ma50",
+          "ma50_slope_non_negative"
+        ],
+        "leader_rank_all": 1,
+        "leader_score": 97.42,
+        "market_entry_allowed": true,
+        "market_gate_state": "ALLOW",
+        "order_executed": false,
+        "source": "UptrendDecisionConsumer",
+        "strategy_logic_source": "UptrendCore",
+        "target_size_units": 1.0
       },
-      "order_id": "bed2e014c7d78c98a9b1abfc1b9189d7a6ba76f6f88cd82a673094f487933d81",
-      "quantity_delta": -621.0704737845747,
-      "reason": "canonical_position_reduce",
+      "order_id": "1dfa9a85d11ed6a4513fdb157bafc3894ac4371de78cf89bf66752679f3aacf2",
+      "quantity_delta": null,
+      "reason": "E1R_UPTREND_CONFIRMED",
       "sequence": 1,
-      "side": "SELL",
+      "side": "BUY",
       "signal_date": "2026-08-10",
-      "status": "FILLED",
-      "symbol": "ETSY",
+      "skip_reason": "MISSING_T1_BAR",
+      "status": "SKIPPED",
+      "symbol": "SNOW",
       "target_quantity": null
     }
-  ],
-  "sim_end_performed": false,
-  "skipped_orders": []
+  ]
 }

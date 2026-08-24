@@ -2,28 +2,11 @@
   {
     "branch": "UPTREND",
     "date": "2026-07-22",
-    "intent_type": "REDUCE",
-    "metadata": {
-      "add_size_units": 0.5,
-      "engine_owned_position_management": true,
-      "leader_score": 71.16,
-      "origin_branch": "UPTREND",
-      "reduce_fraction": 0.5
-    },
-    "quantity_delta": -657.1130757961222,
-    "reason": "canonical_position_reduce",
-    "side": "SELL",
-    "symbol": "ETSY",
-    "target_quantity": null
-  },
-  {
-    "branch": "UPTREND",
-    "date": "2026-07-22",
     "intent_type": "HOLD",
     "metadata": {
       "add_size_units": 0.5,
       "engine_owned_position_management": true,
-      "leader_score": 86.3,
+      "leader_score": 86.42,
       "origin_branch": "UPTREND",
       "reduce_fraction": 0.5
     },

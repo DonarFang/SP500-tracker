@@ -1,5 +1,5 @@
 {
-  "cash": 31140.21321480337,
+  "cash": 134620.62460635864,
   "date": "2026-07-02",
   "metadata": {
     "last_execution_date": "2026-07-02",
@@ -9,14 +9,14 @@
     "strategy_display_name": "E1R CAPPED-ATR Engine",
     "strategy_variant": "E1R_CAPPED_ATR_A0_V1"
   },
-  "open_positions_count": 3,
+  "open_positions_count": 2,
   "positions": {
     "DELL": {
       "avg_cost": 219.21899999999997,
       "entry_date": "2026-04-24",
-      "last_price": 393.669495,
+      "last_price": 393.66949462890625,
       "last_update_date": "2026-07-02",
-      "market_value": 68375.03492706489,
+      "market_value": 68375.03486261095,
       "metadata": {
         "capped_atr_stop": {
           "a0": 219.21899999999997,
@@ -41,66 +41,7 @@
       },
       "quantity": 173.68639377827557,
       "symbol": "DELL",
-      "unrealized_pnl": 30299.677369385096
-    },
-    "ETSY": {
-      "avg_cost": 78.73866400399999,
-      "entry_date": "2026-06-30",
-      "last_price": 76.970001,
-      "last_update_date": "2026-07-02",
-      "market_value": 101155.9882022812,
-      "metadata": {
-        "account_mutated": false,
-        "capped_atr_entry": {
-          "atr20": 2.710499900000002,
-          "atr_as_of": "2026-06-29",
-          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
-          "variant_id": "E1R_CAPPED_ATR_A0_V1"
-        },
-        "capped_atr_stop": {
-          "a0": 78.73866400399999,
-          "add_updates_stop_anchor": false,
-          "atr20": 2.710499900000002,
-          "atr_as_of": "2026-06-29",
-          "atr_frozen_for_cycle": true,
-          "block_same_day_reentry_after_hard_stop": false,
-          "distance": 9.448639680479998,
-          "distance_fraction": 0.12,
-          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
-          "trigger_price": 69.29002432351999,
-          "variant_id": "E1R_CAPPED_ATR_A0_V1"
-        },
-        "close_t": 79.660004,
-        "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
-        "entry_capacity": 3,
-        "entry_execution_price": 78.73866400399999,
-        "entry_reasons": [
-          "rs_above_90",
-          "leader_rank_top5",
-          "leader_score_above_75",
-          "momentum_above_75",
-          "trend_health_above_70",
-          "close_above_ma50",
-          "ma50_slope_non_negative"
-        ],
-        "entry_shares": 1314.2261515922444,
-        "fill_id": "8871764b73b3158edbc9591db6d3f79c9d58ab9c30ffacf383892a68cf99f8f3",
-        "leader_rank_all": 1,
-        "leader_score": 96.17,
-        "market_entry_allowed": true,
-        "market_gate_state": "ALLOW",
-        "order_executed": false,
-        "order_id": "8128b6f74b8ea5697cfdc1adc04bc9934f0323bcf388ccbe215a56e57ba4ae10",
-        "origin_branch": "UPTREND",
-        "remaining_cost_basis": 103480.41137549168,
-        "size_units": 1.0,
-        "source": "UptrendDecisionConsumer",
-        "strategy_logic_source": "UptrendCore",
-        "target_size_units": 1.0
-      },
-      "quantity": 1314.2261515922444,
-      "symbol": "ETSY",
-      "unrealized_pnl": -2324.423173210485
+      "unrealized_pnl": 30299.677304931163
     },
     "HUM": {
       "avg_cost": 373.07269999999994,
@@ -135,6 +76,6 @@
       "unrealized_pnl": 6327.379294559452
     }
   },
-  "positions_value": 275556.10770894156,
-  "total_equity": 306696.32092374493
+  "positions_value": 174400.11944220646,
+  "total_equity": 309020.7440485651
 }
