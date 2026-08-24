@@ -1,29 +1,6 @@
 {
   "closed_trades": [],
-  "resolved_orders": [
-    {
-      "branch": "UPTREND",
-      "execution_date": "2026-06-23",
-      "fill_id": "65dd78cff53f0c591442c059caec5180e737ef086cdce8805658baa009e87d6a",
-      "intent_type": "REDUCE",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 87.5,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "order_id": "7ad8ccf434cf0e14f18a5599f5fcd1af37ddd7f26fa0d2b025db9f79a72fb69f",
-      "quantity_delta": -21.710799222284447,
-      "reason": "canonical_position_reduce",
-      "sequence": 1,
-      "side": "SELL",
-      "signal_date": "2026-06-22",
-      "status": "FILLED",
-      "symbol": "DELL",
-      "target_quantity": null
-    }
-  ],
+  "resolved_orders": [],
   "sim_end_performed": false,
   "skipped_orders": []
 }

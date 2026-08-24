@@ -1,5 +1,5 @@
 {
-  "cash": 106712.7619941386,
+  "cash": 31140.21321480337,
   "date": "2026-07-07",
   "metadata": {
     "last_execution_date": "2026-07-07",
@@ -16,7 +16,7 @@
       "entry_date": "2026-04-24",
       "last_price": 416.591583,
       "last_update_date": "2026-07-07",
-      "market_value": 141.32087837822885,
+      "market_value": 72356.28972965317,
       "metadata": {
         "capped_atr_stop": {
           "a0": 219.21899999999997,
@@ -34,25 +34,21 @@
         "carried_position": true,
         "entry_execution_price": 219.21899999999997,
         "entry_shares": 347.37278755655115,
-        "last_fill_id": "8cbd40a9da33e9f3e24a88ef9a339e1c0b49541804a481fd0bd5ea0be836be73",
-        "last_order_id": "87b07687a23b841456ca211f9afc27ac6a194716be15e400ec256a5fc08d96f7",
         "new_forward_buy": false,
         "origin_branch": "UPTREND",
-        "realized_cost_basis": 38000.99162494995,
-        "realized_pnl": 32335.473724733405,
-        "remaining_cost_basis": 74.36593272984334,
+        "remaining_cost_basis": 38075.35755767979,
         "size_units": 0.5
       },
-      "quantity": 0.3392312378481945,
+      "quantity": 173.68639377827557,
       "symbol": "DELL",
-      "unrealized_pnl": 66.95494564838552
+      "unrealized_pnl": 34280.932171973385
     },
     "ETSY": {
       "avg_cost": 78.73866400399999,
       "entry_date": "2026-06-30",
       "last_price": 77.589996,
       "last_update_date": "2026-07-07",
-      "market_value": 103859.21036871188,
+      "market_value": 101970.80184513764,
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
@@ -87,24 +83,24 @@
           "close_above_ma50",
           "ma50_slope_non_negative"
         ],
-        "entry_shares": 1338.5644506118015,
-        "fill_id": "909df9c60be6f45252735ed085ecb1df2c1f21bb163dc3518b2c7deea72eb7e4",
+        "entry_shares": 1314.2261515922444,
+        "fill_id": "8871764b73b3158edbc9591db6d3f79c9d58ab9c30ffacf383892a68cf99f8f3",
         "leader_rank_all": 1,
         "leader_score": 96.17,
         "market_entry_allowed": true,
         "market_gate_state": "ALLOW",
         "order_executed": false,
-        "order_id": "2dae1252eba4983520a4c5054a51d1985474c8d9bce441e08d58db52cbd008e1",
+        "order_id": "8128b6f74b8ea5697cfdc1adc04bc9934f0323bcf388ccbe215a56e57ba4ae10",
         "origin_branch": "UPTREND",
-        "remaining_cost_basis": 105396.77652442147,
+        "remaining_cost_basis": 103480.41137549168,
         "size_units": 1.0,
         "source": "UptrendDecisionConsumer",
         "strategy_logic_source": "UptrendCore",
         "target_size_units": 1.0
       },
-      "quantity": 1338.5644506118015,
+      "quantity": 1314.2261515922444,
       "symbol": "ETSY",
-      "unrealized_pnl": -1537.5661557095968
+      "unrealized_pnl": -1509.6095303540474
     },
     "HUM": {
       "avg_cost": 373.07269999999994,
@@ -139,6 +135,6 @@
       "unrealized_pnl": 5758.169564805301
     }
   },
-  "positions_value": 209456.40609693146,
-  "total_equity": 316169.16809107
+  "positions_value": 279782.9664246322,
+  "total_equity": 310923.17963943555
 }

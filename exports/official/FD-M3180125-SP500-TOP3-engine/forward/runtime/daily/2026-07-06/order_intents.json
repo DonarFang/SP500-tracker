@@ -2,7 +2,7 @@
   {
     "branch": "UPTREND",
     "date": "2026-07-06",
-    "intent_type": "REDUCE",
+    "intent_type": "HOLD",
     "metadata": {
       "add_size_units": 0.5,
       "engine_owned_position_management": true,
@@ -10,11 +10,11 @@
       "origin_branch": "UPTREND",
       "reduce_fraction": 0.5
     },
-    "quantity_delta": -0.3392312378481945,
-    "reason": "canonical_position_reduce",
-    "side": "SELL",
+    "quantity_delta": 0.0,
+    "reason": "reduce_skipped_size_at_minimum",
+    "side": null,
     "symbol": "DELL",
-    "target_quantity": null
+    "target_quantity": 173.68639377827557
   },
   {
     "branch": "UPTREND",
@@ -31,7 +31,7 @@
     "reason": "canonical_position_hold",
     "side": null,
     "symbol": "ETSY",
-    "target_quantity": 1338.5644506118015
+    "target_quantity": 1314.2261515922444
   },
   {
     "branch": "UPTREND",

@@ -1,6 +1,6 @@
 {
   "branch": "UPTREND",
-  "candidate_count": 14,
+  "candidate_count": 15,
   "date": "2026-08-10",
   "inputs": {
     "canonical_engine_entry": true,
@@ -76,7 +76,7 @@
       "reason": "canonical_position_hold",
       "side": null,
       "symbol": "BAX",
-      "target_quantity": 3574.563911102518
+      "target_quantity": 3535.4865991927913
     },
     {
       "branch": "UPTREND",
@@ -89,7 +89,7 @@
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },
-      "quantity_delta": -317.0128910182415,
+      "quantity_delta": -621.0704737845747,
       "reason": "canonical_position_reduce",
       "side": "SELL",
       "symbol": "ETSY",

@@ -1,51 +1,6 @@
 {
   "closed_trades": [],
-  "resolved_orders": [
-    {
-      "branch": "UPTREND",
-      "execution_date": "2026-06-26",
-      "fill_id": "70c76421d391c0eaca8c096bb08cd5bea47d291aa34ee7b479fd97c6fd4ec28b",
-      "intent_type": "REDUCE",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 80.25,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "order_id": "3cd3dd48a99728e6e2d509b67a8e82f30bc1b26ada7e34818339f53267c142fe",
-      "quantity_delta": -5.427699805571112,
-      "reason": "canonical_position_reduce",
-      "sequence": 1,
-      "side": "SELL",
-      "signal_date": "2026-06-25",
-      "status": "FILLED",
-      "symbol": "DELL",
-      "target_quantity": null
-    },
-    {
-      "branch": "UPTREND",
-      "execution_date": "2026-06-26",
-      "fill_id": "6e38a43d631180ac3458a727eb9b5453e0a7c249807a9dda2189f1fd324473d8",
-      "intent_type": "REDUCE",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 68.14,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "order_id": "f952c82a67b2aac3bb0ae8629645b13f8f8db63fa14dec9af454b21272311907",
-      "quantity_delta": -14.176447974452705,
-      "reason": "canonical_position_reduce",
-      "sequence": 2,
-      "side": "SELL",
-      "signal_date": "2026-06-25",
-      "status": "FILLED",
-      "symbol": "MRVL",
-      "target_quantity": null
-    }
-  ],
+  "resolved_orders": [],
   "sim_end_performed": false,
   "skipped_orders": []
 }

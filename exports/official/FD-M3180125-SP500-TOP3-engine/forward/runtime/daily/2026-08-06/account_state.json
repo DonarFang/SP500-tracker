@@ -1,5 +1,5 @@
 {
-  "cash": 148338.59432367102,
+  "cash": 93557.01686758272,
   "date": "2026-08-06",
   "metadata": {
     "last_execution_date": "2026-08-06",
@@ -16,7 +16,7 @@
       "entry_date": "2026-08-05",
       "last_price": 27.01,
       "last_update_date": "2026-08-06",
-      "market_value": 96548.97123887902,
+      "market_value": 95493.4930441973,
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
@@ -51,7 +51,7 @@
           "close_above_ma50",
           "ma50_slope_non_negative"
         ],
-        "entry_shares": 3574.563911102518,
+        "entry_shares": 3535.4865991927913,
         "fill_id": "dba51abb08fb0108464ee6eba12568be0bb04a57f2c4d6d9c2f2477298b89a9a",
         "leader_rank_all": 1,
         "leader_score": 95.89,
@@ -60,22 +60,22 @@
         "order_executed": false,
         "order_id": "1f8a4879e8391f7dbc9e4878cb7c43d607543c4603b17038915626d2388cca56",
         "origin_branch": "UPTREND",
-        "remaining_cost_basis": 100939.28280199575,
+        "remaining_cost_basis": 99835.80950116977,
         "size_units": 1.0,
         "source": "UptrendDecisionConsumer",
         "strategy_logic_source": "UptrendCore",
         "target_size_units": 1.0
       },
-      "quantity": 3574.563911102518,
+      "quantity": 3535.4865991927913,
       "symbol": "BAX",
-      "unrealized_pnl": -4390.311563116735
+      "unrealized_pnl": -4342.316456972479
     },
     "ETSY": {
-      "avg_cost": 83.93703084904212,
+      "avg_cost": 81.35994943183998,
       "entry_date": "2026-06-30",
       "last_price": 82.260002,
       "last_update_date": "2026-08-06",
-      "market_value": 52154.96209837265,
+      "market_value": 102178.51683132013,
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
@@ -110,8 +110,8 @@
           "close_above_ma50",
           "ma50_slope_non_negative"
         ],
-        "entry_shares": 1338.5644506118015,
-        "fill_id": "909df9c60be6f45252735ed085ecb1df2c1f21bb163dc3518b2c7deea72eb7e4",
+        "entry_shares": 1314.2261515922444,
+        "fill_id": "8871764b73b3158edbc9591db6d3f79c9d58ab9c30ffacf383892a68cf99f8f3",
         "last_fill_id": "ad643d4a6c977d80833b39d4b51feed69c2f88e522f8829083caf5c50de133a8",
         "last_order_id": "b4e7e60ad10b252a7d3fc48b82fc44b9fd006477e98974047219781418e5003c",
         "leader_rank_all": 1,
@@ -119,21 +119,21 @@
         "market_entry_allowed": true,
         "market_gate_state": "ALLOW",
         "order_executed": false,
-        "order_id": "2dae1252eba4983520a4c5054a51d1985474c8d9bce441e08d58db52cbd008e1",
+        "order_id": "8128b6f74b8ea5697cfdc1adc04bc9934f0323bcf388ccbe215a56e57ba4ae10",
         "origin_branch": "UPTREND",
-        "realized_cost_basis": 102103.12725803329,
-        "realized_pnl": 646.3852797911701,
-        "remaining_cost_basis": 53218.24162588432,
+        "realized_cost_basis": 51740.20568774584,
+        "realized_pnl": -621.9779013461643,
+        "remaining_cost_basis": 101060.52468144379,
         "size_units": 1.0,
         "source": "UptrendDecisionConsumer",
         "strategy_logic_source": "UptrendCore",
         "target_size_units": 1.0
       },
-      "quantity": 634.025782036483,
+      "quantity": 1242.1409475691494,
       "symbol": "ETSY",
-      "unrealized_pnl": -1063.279527511671
+      "unrealized_pnl": 1117.9921498763347
     }
   },
-  "positions_value": 148703.93333725166,
-  "total_equity": 297042.5276609227
+  "positions_value": 197672.00987551743,
+  "total_equity": 291229.02674310014
 }

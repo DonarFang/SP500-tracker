@@ -4,29 +4,7 @@
     {
       "branch": "UPTREND",
       "execution_date": "2026-06-30",
-      "fill_id": "141174b8bd1eb5f4c90f53610d6203f4b509f53cd2ef323543de56210490b49b",
-      "intent_type": "REDUCE",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 66.19,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "order_id": "b20848e60148f1f555b31b142af1356b2f2d1e7b361224e4b2a6a1e741728795",
-      "quantity_delta": -1.356924951392778,
-      "reason": "canonical_position_reduce",
-      "sequence": 1,
-      "side": "SELL",
-      "signal_date": "2026-06-29",
-      "status": "FILLED",
-      "symbol": "DELL",
-      "target_quantity": null
-    },
-    {
-      "branch": "UPTREND",
-      "execution_date": "2026-06-30",
-      "fill_id": "909df9c60be6f45252735ed085ecb1df2c1f21bb163dc3518b2c7deea72eb7e4",
+      "fill_id": "8871764b73b3158edbc9591db6d3f79c9d58ab9c30ffacf383892a68cf99f8f3",
       "intent_type": "BUY",
       "metadata": {
         "account_mutated": false,
@@ -57,10 +35,10 @@
         "strategy_logic_source": "UptrendCore",
         "target_size_units": 1.0
       },
-      "order_id": "2dae1252eba4983520a4c5054a51d1985474c8d9bce441e08d58db52cbd008e1",
+      "order_id": "8128b6f74b8ea5697cfdc1adc04bc9934f0323bcf388ccbe215a56e57ba4ae10",
       "quantity_delta": null,
       "reason": "E1R_UPTREND_CONFIRMED",
-      "sequence": 2,
+      "sequence": 1,
       "side": "BUY",
       "signal_date": "2026-06-29",
       "status": "FILLED",

@@ -1,5 +1,5 @@
 {
-  "cash": 193321.70488087198,
+  "cash": 77867.71,
   "date": "2026-06-24",
   "metadata": {
     "last_execution_date": "2026-06-24",
@@ -16,7 +16,7 @@
       "entry_date": "2026-04-24",
       "last_price": 433.343903,
       "last_update_date": "2026-06-24",
-      "market_value": 4704.121236117054,
+      "market_value": 75265.93977787286,
       "metadata": {
         "capped_atr_stop": {
           "a0": 219.21899999999997,
@@ -34,18 +34,14 @@
         "carried_position": true,
         "entry_execution_price": 219.21899999999997,
         "entry_shares": 347.37278755655115,
-        "last_fill_id": "647de7267bab906b2e27457b2cb3ccff63bb4cfdb1bd3a1c280d6689fb955147",
-        "last_order_id": "5b525a3e13d4942dc29e0f1fb0f0eff67d5b2275479a50617393b5ef259fcbde",
         "new_forward_buy": false,
         "origin_branch": "UPTREND",
-        "realized_cost_basis": 35695.6477103248,
-        "realized_pnl": 30577.5474456475,
-        "remaining_cost_basis": 2379.709847354987,
+        "remaining_cost_basis": 38075.35755767979,
         "size_units": 0.5
       },
-      "quantity": 10.855399611142223,
+      "quantity": 173.68639377827557,
       "symbol": "DELL",
-      "unrealized_pnl": 2324.411388762067
+      "unrealized_pnl": 37190.58222019307
     },
     "HUM": {
       "avg_cost": 373.07269999999994,
@@ -84,7 +80,7 @@
       "entry_date": "2026-04-23",
       "last_price": 276.631775,
       "last_update_date": "2026-06-24",
-      "market_value": 15686.623865472025,
+      "market_value": 62746.4954618881,
       "metadata": {
         "capped_atr_stop": {
           "a0": 168.02786,
@@ -102,20 +98,16 @@
         "carried_position": true,
         "entry_execution_price": 168.02786,
         "entry_shares": 453.64633518248655,
-        "last_fill_id": "6492a63ae779bbe23118008348b98daadd8d623da87842d3c9259b48ca528f60",
-        "last_order_id": "0b14d346732d8684e04989f96a01d8fe1297caf4f26863f674618ca70b6c35b1",
         "new_forward_buy": false,
         "origin_branch": "UPTREND",
-        "realized_cost_basis": 28584.458586583474,
-        "realized_pnl": 20596.341138316246,
-        "remaining_cost_basis": 9528.15286219449,
+        "remaining_cost_basis": 38112.61144877796,
         "size_units": 0.5
       },
-      "quantity": 56.70579189781082,
+      "quantity": 226.82316759124328,
       "symbol": "MRVL",
-      "unrealized_pnl": 6158.471003277535
+      "unrealized_pnl": 24633.88401311014
     }
   },
-  "positions_value": 116805.77961657908,
-  "total_equity": 310127.48449745105
+  "positions_value": 234427.46975475096,
+  "total_equity": 312295.179754751
 }

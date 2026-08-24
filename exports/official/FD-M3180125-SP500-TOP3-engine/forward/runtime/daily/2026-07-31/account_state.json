@@ -1,5 +1,5 @@
 {
-  "cash": 288850.25191976974,
+  "cash": 242713.14536245045,
   "date": "2026-07-31",
   "metadata": {
     "last_execution_date": "2026-07-31",
@@ -16,7 +16,7 @@
       "entry_date": "2026-06-30",
       "last_price": 81.68,
       "last_update_date": "2026-07-31",
-      "market_value": 13666.743040746494,
+      "market_value": 53672.996031027265,
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
@@ -51,30 +51,30 @@
           "close_above_ma50",
           "ma50_slope_non_negative"
         ],
-        "entry_shares": 1338.5644506118015,
-        "fill_id": "909df9c60be6f45252735ed085ecb1df2c1f21bb163dc3518b2c7deea72eb7e4",
-        "last_fill_id": "0a44eba00443c68f780f5d62f1e33b633b8de1666ad401ae115bdbf62ca1479a",
-        "last_order_id": "0d91004f96bcb39ab69eab11694ed176e70883e7042b5937a071b888cb8f0455",
+        "entry_shares": 1314.2261515922444,
+        "fill_id": "8871764b73b3158edbc9591db6d3f79c9d58ab9c30ffacf383892a68cf99f8f3",
+        "last_fill_id": "c52a4eb33879327c7ed23eb6f526618097e9fc055f5a0e5ec0416fa322de8c48",
+        "last_order_id": "c8a945d623175d0f36ec1fda091fdd8d1f07f781c4a648207f8ef86c584c8e3f",
         "leader_rank_all": 1,
         "leader_score": 96.17,
         "market_entry_allowed": true,
         "market_gate_state": "ALLOW",
         "order_executed": false,
-        "order_id": "2dae1252eba4983520a4c5054a51d1985474c8d9bce441e08d58db52cbd008e1",
+        "order_id": "8128b6f74b8ea5697cfdc1adc04bc9934f0323bcf388ccbe215a56e57ba4ae10",
         "origin_branch": "UPTREND",
-        "realized_cost_basis": 92222.17945886878,
-        "realized_pnl": 175.11551356249197,
-        "remaining_cost_basis": 13174.597065552683,
+        "realized_cost_basis": 51740.20568774584,
+        "realized_pnl": -621.9779013461643,
+        "remaining_cost_basis": 51740.20568774584,
         "size_units": 0.5,
         "source": "UptrendDecisionConsumer",
         "strategy_logic_source": "UptrendCore",
         "target_size_units": 1.0
       },
-      "quantity": 167.32055632647518,
+      "quantity": 657.1130757961222,
       "symbol": "ETSY",
-      "unrealized_pnl": 492.14597519381044
+      "unrealized_pnl": 1932.7903432814242
     }
   },
-  "positions_value": 13666.743040746494,
-  "total_equity": 302516.9949605162
+  "positions_value": 53672.996031027265,
+  "total_equity": 296386.14139347774
 }

@@ -14,35 +14,13 @@
         "reduce_fraction": 0.5
       },
       "order_id": "825ea5ca69ef5e6c58674d400accb54b2720c061eacb6d6647445b367160d5d2",
-      "quantity_delta": -1787.281955551259,
+      "quantity_delta": -1767.7432995963957,
       "reason": "canonical_position_reduce",
       "sequence": 1,
       "side": "SELL",
       "signal_date": "2026-08-18",
       "status": "FILLED",
       "symbol": "BAX",
-      "target_quantity": null
-    },
-    {
-      "branch": "UPTREND",
-      "execution_date": "2026-08-19",
-      "fill_id": "3c348282b88b6c4697c9903090dd02c77af8dec19e26c3844790a181439e61d6",
-      "intent_type": "REDUCE",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 67.25,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "order_id": "97386f03cf764ddb6266dd35aef73704f970ae34ddb6f07433324fefc12a0434",
-      "quantity_delta": -4.953326422160023,
-      "reason": "canonical_position_reduce",
-      "sequence": 2,
-      "side": "SELL",
-      "signal_date": "2026-08-18",
-      "status": "FILLED",
-      "symbol": "ETSY",
       "target_quantity": null
     }
   ],

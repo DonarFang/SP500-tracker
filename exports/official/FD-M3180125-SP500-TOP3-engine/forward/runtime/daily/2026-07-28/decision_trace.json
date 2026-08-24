@@ -76,12 +76,12 @@
       "reason": "canonical_position_hold",
       "side": null,
       "symbol": "ETSY",
-      "target_quantity": 167.32055632647518
+      "target_quantity": 657.1130757961222
     },
     {
       "branch": "UPTREND",
       "date": "2026-07-28",
-      "intent_type": "REDUCE",
+      "intent_type": "HOLD",
       "metadata": {
         "add_size_units": 0.5,
         "engine_owned_position_management": true,
@@ -89,11 +89,11 @@
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },
-      "quantity_delta": -33.40424844977804,
-      "reason": "canonical_position_reduce",
-      "side": "SELL",
+      "quantity_delta": 0.0,
+      "reason": "reduce_skipped_size_at_minimum",
+      "side": null,
       "symbol": "HUM",
-      "target_quantity": null
+      "target_quantity": 133.61699379911215
     }
   ],
   "reasons": [

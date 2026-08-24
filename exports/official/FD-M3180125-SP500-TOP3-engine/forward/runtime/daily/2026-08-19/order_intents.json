@@ -2,7 +2,7 @@
   {
     "branch": "UPTREND",
     "date": "2026-08-19",
-    "intent_type": "REDUCE",
+    "intent_type": "HOLD",
     "metadata": {
       "add_size_units": 0.5,
       "engine_owned_position_management": true,
@@ -10,28 +10,11 @@
       "origin_branch": "UPTREND",
       "reduce_fraction": 0.5
     },
-    "quantity_delta": -893.6409777756295,
-    "reason": "canonical_position_reduce",
-    "side": "SELL",
+    "quantity_delta": 0.0,
+    "reason": "reduce_skipped_size_at_minimum",
+    "side": null,
     "symbol": "BAX",
-    "target_quantity": null
-  },
-  {
-    "branch": "UPTREND",
-    "date": "2026-08-19",
-    "intent_type": "REDUCE",
-    "metadata": {
-      "add_size_units": 0.5,
-      "engine_owned_position_management": true,
-      "leader_score": 69.16,
-      "origin_branch": "UPTREND",
-      "reduce_fraction": 0.5
-    },
-    "quantity_delta": -2.4766632110800115,
-    "reason": "canonical_position_reduce",
-    "side": "SELL",
-    "symbol": "ETSY",
-    "target_quantity": null
+    "target_quantity": 1767.7432995963957
   },
   {
     "branch": "UPTREND",
@@ -40,7 +23,24 @@
     "metadata": {
       "add_size_units": 0.5,
       "engine_owned_position_management": true,
-      "leader_score": 92.48,
+      "leader_score": 69.16,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": 0.0,
+    "reason": "reduce_skipped_size_at_minimum",
+    "side": null,
+    "symbol": "ETSY",
+    "target_quantity": 621.0704737845747
+  },
+  {
+    "branch": "UPTREND",
+    "date": "2026-08-19",
+    "intent_type": "HOLD",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 92.97,
       "origin_branch": "UPTREND",
       "reduce_fraction": 0.5
     },
@@ -48,6 +48,6 @@
     "reason": "canonical_position_hold",
     "side": null,
     "symbol": "MPC",
-    "target_quantity": 263.4973369389831
+    "target_quantity": 256.70147886499734
   }
 ]

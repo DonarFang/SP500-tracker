@@ -1,5 +1,5 @@
 {
-  "cash": 276832.74367284164,
+  "cash": 194277.36925712522,
   "date": "2026-07-29",
   "metadata": {
     "last_execution_date": "2026-07-29",
@@ -16,7 +16,7 @@
       "entry_date": "2026-06-30",
       "last_price": 85.580002,
       "last_update_date": "2026-07-29",
-      "market_value": 14319.293545060858,
+      "market_value": 56235.73834085828,
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
@@ -51,35 +51,35 @@
           "close_above_ma50",
           "ma50_slope_non_negative"
         ],
-        "entry_shares": 1338.5644506118015,
-        "fill_id": "909df9c60be6f45252735ed085ecb1df2c1f21bb163dc3518b2c7deea72eb7e4",
-        "last_fill_id": "0a44eba00443c68f780f5d62f1e33b633b8de1666ad401ae115bdbf62ca1479a",
-        "last_order_id": "0d91004f96bcb39ab69eab11694ed176e70883e7042b5937a071b888cb8f0455",
+        "entry_shares": 1314.2261515922444,
+        "fill_id": "8871764b73b3158edbc9591db6d3f79c9d58ab9c30ffacf383892a68cf99f8f3",
+        "last_fill_id": "c52a4eb33879327c7ed23eb6f526618097e9fc055f5a0e5ec0416fa322de8c48",
+        "last_order_id": "c8a945d623175d0f36ec1fda091fdd8d1f07f781c4a648207f8ef86c584c8e3f",
         "leader_rank_all": 1,
         "leader_score": 96.17,
         "market_entry_allowed": true,
         "market_gate_state": "ALLOW",
         "order_executed": false,
-        "order_id": "2dae1252eba4983520a4c5054a51d1985474c8d9bce441e08d58db52cbd008e1",
+        "order_id": "8128b6f74b8ea5697cfdc1adc04bc9934f0323bcf388ccbe215a56e57ba4ae10",
         "origin_branch": "UPTREND",
-        "realized_cost_basis": 92222.17945886878,
-        "realized_pnl": 175.11551356249197,
-        "remaining_cost_basis": 13174.597065552683,
+        "realized_cost_basis": 51740.20568774584,
+        "realized_pnl": -621.9779013461643,
+        "remaining_cost_basis": 51740.20568774584,
         "size_units": 0.5,
         "source": "UptrendDecisionConsumer",
         "strategy_logic_source": "UptrendCore",
         "target_size_units": 1.0
       },
-      "quantity": 167.32055632647518,
+      "quantity": 657.1130757961222,
       "symbol": "ETSY",
-      "unrealized_pnl": 1144.696479508174
+      "unrealized_pnl": 4495.532653112444
     },
     "HUM": {
       "avg_cost": 373.07269999999994,
       "entry_date": "2026-06-11",
       "last_price": 365.410004,
       "last_update_date": "2026-07-29",
-      "market_value": 12206.246559650388,
+      "market_value": 48824.98623860155,
       "metadata": {
         "capped_atr_stop": {
           "a0": 373.07269999999994,
@@ -97,20 +97,20 @@
         "carried_position": true,
         "entry_execution_price": 373.07269999999994,
         "entry_shares": 267.2339875982243,
-        "last_fill_id": "a3fc2dbf356bf8f67aabb419885c3314fa64ce7c5f8f94f79892fefbacf8c9a1",
-        "last_order_id": "7cae17fb685147d58735bdae02d1b14110dc91421b096a97da68f609e37ff3fa",
+        "last_fill_id": "24a093decb631963e1c04b68270493c29645f26300b2adf9317cf37bb66f77d5",
+        "last_order_id": "1897274ed9f56d933750b75555ed9e6fda141c831cb023e27a213e323c4fdb86",
         "new_forward_buy": false,
         "origin_branch": "UPTREND",
-        "realized_cost_basis": 87235.49212440653,
-        "realized_pnl": -309.4473384845362,
-        "remaining_cost_basis": 12462.213160629504,
+        "realized_cost_basis": 49848.85264251802,
+        "realized_pnl": 408.97489328416293,
+        "remaining_cost_basis": 49848.85264251802,
         "size_units": 0.5
       },
-      "quantity": 33.40424844977804,
+      "quantity": 133.61699379911215,
       "symbol": "HUM",
-      "unrealized_pnl": -255.96660097911789
+      "unrealized_pnl": -1023.8664039164715
     }
   },
-  "positions_value": 26525.540104711246,
-  "total_equity": 303358.2837775529
+  "positions_value": 105060.72457945984,
+  "total_equity": 299338.09383658506
 }

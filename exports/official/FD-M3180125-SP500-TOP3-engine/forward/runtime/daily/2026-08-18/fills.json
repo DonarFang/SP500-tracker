@@ -1,37 +1,18 @@
 [
   {
     "date": "2026-08-18",
-    "gross_amount": 776.3007910528485,
+    "gross_amount": 94107.6388331512,
     "metadata": {
       "branch": "UPTREND",
       "engine_id": "FD-M3180125-SP500-TOP3-engine",
-      "fill_id": "ad1ae1d0b5d51288bef732ab425cc6810e002a0e5ff030d8b4d104298e8aa82a",
-      "intent_type": "REDUCE",
-      "order_id": "4bc55af65ea1023bf69fed6a258c5e29139e023cbde61af82245dd64a956e835",
-      "signal_date": "2026-08-17",
-      "sim_end": false
-    },
-    "price": 78.36156199800001,
-    "quantity": 9.906652844320046,
-    "reason": "T1_REDUCE_EXECUTED",
-    "side": "SELL",
-    "status": "FILLED",
-    "symbol": "ETSY"
-  },
-  {
-    "date": "2026-08-18",
-    "gross_amount": 96863.52614188127,
-    "metadata": {
-      "branch": "UPTREND",
-      "engine_id": "FD-M3180125-SP500-TOP3-engine",
-      "fill_id": "971af7cfcf68b3798518d0d74b458db948baca8b4aec1625a3d188c594aa3024",
+      "fill_id": "72788424da94d30dd2aa332ba8ace640aecd4d1c3578160f15abd3a2ad1c799c",
       "intent_type": "BUY",
-      "order_id": "704acdcb39566e36eac11a1e9b1d0b4e0c941107d1f57fee029715921aabba82",
+      "order_id": "b4cd987bbc63fead3c77bc1809421cc99a5202bcfa5db8287af98ab361d9e5bf",
       "signal_date": "2026-08-17",
       "sim_end": false
     },
-    "price": 367.60722998999995,
-    "quantity": 263.4973369389831,
+    "price": 366.6034151779999,
+    "quantity": 256.70147886499734,
     "reason": "T1_BUY_EXECUTED",
     "side": "BUY",
     "status": "FILLED",

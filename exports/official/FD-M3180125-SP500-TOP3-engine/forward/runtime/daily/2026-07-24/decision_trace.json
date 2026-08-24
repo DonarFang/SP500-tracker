@@ -42,7 +42,7 @@
       {
         "rank": 3,
         "regime": "UPTREND",
-        "score": 89.32,
+        "score": 89.28,
         "symbol": "MMM"
       }
     ],
@@ -64,7 +64,7 @@
     {
       "branch": "UPTREND",
       "date": "2026-07-24",
-      "intent_type": "REDUCE",
+      "intent_type": "HOLD",
       "metadata": {
         "add_size_units": 0.5,
         "engine_owned_position_management": true,
@@ -72,11 +72,11 @@
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },
-      "quantity_delta": -167.32055632647518,
-      "reason": "canonical_position_reduce",
-      "side": "SELL",
+      "quantity_delta": 0.0,
+      "reason": "reduce_skipped_size_at_minimum",
+      "side": null,
       "symbol": "ETSY",
-      "target_quantity": null
+      "target_quantity": 657.1130757961222
     },
     {
       "branch": "UPTREND",

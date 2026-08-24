@@ -14,12 +14,12 @@
     "reason": "canonical_position_hold",
     "side": null,
     "symbol": "BAX",
-    "target_quantity": 3574.563911102518
+    "target_quantity": 3535.4865991927913
   },
   {
     "branch": "UPTREND",
     "date": "2026-08-17",
-    "intent_type": "REDUCE",
+    "intent_type": "HOLD",
     "metadata": {
       "add_size_units": 0.5,
       "engine_owned_position_management": true,
@@ -27,11 +27,11 @@
       "origin_branch": "UPTREND",
       "reduce_fraction": 0.5
     },
-    "quantity_delta": -9.906652844320046,
-    "reason": "canonical_position_reduce",
-    "side": "SELL",
+    "quantity_delta": 0.0,
+    "reason": "reduce_skipped_size_at_minimum",
+    "side": null,
     "symbol": "ETSY",
-    "target_quantity": null
+    "target_quantity": 621.0704737845747
   },
   {
     "branch": "UPTREND",
@@ -40,12 +40,12 @@
     "metadata": {
       "account_mutated": false,
       "capped_atr_entry": {
-        "atr20": 11.634869349999997,
+        "atr20": 11.60272925000001,
         "atr_as_of": "2026-08-17",
         "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
         "variant_id": "E1R_CAPPED_ATR_A0_V1"
       },
-      "close_t": 358.179993,
+      "close_t": 357.201935,
       "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
       "entry_capacity": 3,
       "entry_reasons": [

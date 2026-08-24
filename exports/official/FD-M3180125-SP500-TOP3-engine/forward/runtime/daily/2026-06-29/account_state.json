@@ -1,5 +1,5 @@
 {
-  "cash": 211156.00806331905,
+  "cash": 134620.62459029505,
   "date": "2026-06-29",
   "metadata": {
     "last_execution_date": "2026-06-29",
@@ -16,7 +16,7 @@
       "entry_date": "2026-04-24",
       "last_price": 413.925995,
       "last_update_date": "2026-06-29",
-      "market_value": 1123.3330212911644,
+      "market_value": 71893.31336263452,
       "metadata": {
         "capped_atr_stop": {
           "a0": 219.21899999999997,
@@ -34,18 +34,14 @@
         "carried_position": true,
         "entry_execution_price": 219.21899999999997,
         "entry_shares": 347.37278755655115,
-        "last_fill_id": "f5303aaf5c3e47238d7cfe215911aef5e9bd5143324d073295be8321f057352f",
-        "last_order_id": "9703e389b33b9cb88a79ec402bad670efbb6a44a713ca34140e50ed4044a94dc",
         "new_forward_buy": false,
         "origin_branch": "UPTREND",
-        "realized_cost_basis": 37480.430095841046,
-        "realized_pnl": 31902.50479860129,
-        "remaining_cost_basis": 594.9274618387467,
+        "remaining_cost_basis": 38075.35755767979,
         "size_units": 0.5
       },
-      "quantity": 2.713849902785556,
+      "quantity": 173.68639377827557,
       "symbol": "DELL",
-      "unrealized_pnl": 528.4055594524178
+      "unrealized_pnl": 33817.95580495474
     },
     "HUM": {
       "avg_cost": 373.07269999999994,
@@ -80,6 +76,6 @@
       "unrealized_pnl": 4229.590888509464
     }
   },
-  "positions_value": 105050.62919483667,
-  "total_equity": 316206.63725815574
+  "positions_value": 175820.60953618004,
+  "total_equity": 310441.23412647506
 }

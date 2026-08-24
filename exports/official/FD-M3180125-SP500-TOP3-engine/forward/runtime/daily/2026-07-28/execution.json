@@ -1,29 +1,6 @@
 {
   "closed_trades": [],
-  "resolved_orders": [
-    {
-      "branch": "UPTREND",
-      "execution_date": "2026-07-28",
-      "fill_id": "297f3e43dae46289b2d6e465d723773f9cb7fa8c517729daddf30a00182b97ff",
-      "intent_type": "REDUCE",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 65.23,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "order_id": "09971c6cd94b7d171f0401f70d2789bb919b31e3dc90e412b2a53f4080bf0ebb",
-      "quantity_delta": -66.80849689955608,
-      "reason": "canonical_position_reduce",
-      "sequence": 1,
-      "side": "SELL",
-      "signal_date": "2026-07-27",
-      "status": "FILLED",
-      "symbol": "HUM",
-      "target_quantity": null
-    }
-  ],
+  "resolved_orders": [],
   "sim_end_performed": false,
   "skipped_orders": []
 }

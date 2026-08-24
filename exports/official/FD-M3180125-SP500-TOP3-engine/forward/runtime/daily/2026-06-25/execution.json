@@ -1,29 +1,6 @@
 {
   "closed_trades": [],
-  "resolved_orders": [
-    {
-      "branch": "UPTREND",
-      "execution_date": "2026-06-25",
-      "fill_id": "c29e459db16ac3ad5e4fc1c65f93f720be3434aa2e74180731c59c2d5dc97a67",
-      "intent_type": "REDUCE",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 71.09,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "order_id": "ebcca13b2c55eabdc14316c8edd96decd8ef062a0f89c26b5fd71126776d112b",
-      "quantity_delta": -28.35289594890541,
-      "reason": "canonical_position_reduce",
-      "sequence": 1,
-      "side": "SELL",
-      "signal_date": "2026-06-24",
-      "status": "FILLED",
-      "symbol": "MRVL",
-      "target_quantity": null
-    }
-  ],
+  "resolved_orders": [],
   "sim_end_performed": false,
   "skipped_orders": []
 }
