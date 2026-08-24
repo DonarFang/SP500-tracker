@@ -634,6 +634,19 @@ class OfficialForwardCatchupRunner:
             candidate_actions=candidate_actions,
         )
 
+    def _daily_data_ready_universe(
+        self,
+        execution_date: str,
+    ) -> tuple[str, ...]:
+        return tuple(
+            sorted(
+                symbol
+                for symbol in self.universe
+                if symbol in self.series_by_symbol
+                and execution_date in self.series_by_symbol[symbol]
+            )
+        )
+
     def run_shadow_probe(self) -> tuple[Mapping[str, Any], ...]:
         """Observe planned dates and stop before Engine, T1, or commit.
 
@@ -732,7 +745,8 @@ class OfficialForwardCatchupRunner:
                 account=current_state.account,
             )
             eligible_universe = (
-                self.universe if universe_decision is None
+                self._daily_data_ready_universe(date)
+                if universe_decision is None
                 else universe_decision.eligible_buy_universe
             )
             required_data = (
@@ -881,7 +895,8 @@ class OfficialForwardCatchupRunner:
                     "pending BUY/ADD failed pre-execution Universe gate"
                 )
             eligible_universe = (
-                self.universe if universe_decision is None
+                self._daily_data_ready_universe(date)
+                if universe_decision is None
                 else universe_decision.eligible_buy_universe
             )
             required_data = (

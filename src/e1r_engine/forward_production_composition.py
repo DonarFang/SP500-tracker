@@ -24,6 +24,7 @@ from e1r_engine.forward_runtime import (
     ForwardSeedLoader,
     OfficialForwardArtifactWriter,
     T1ExecutionEngine,
+    FIRST_FORWARD_MARKET_DATE,
 )
 
 
@@ -45,6 +46,7 @@ class ForwardProductionData:
 
     universe: tuple[str, ...]
     required_symbols: tuple[str, ...]
+    required_execution_symbols: tuple[str, ...]
     price_files_by_symbol: Mapping[str, Path]
     series_by_symbol: SeriesBySymbol
     trading_dates: tuple[str, ...]
@@ -302,7 +304,16 @@ class ProductionForwardDataAdapter:
                 + str(required_date_counts)
             )
 
-        trading_date_set = set(trading_dates)
+        runtime_trading_dates = {
+            trading_date
+            for trading_date in trading_dates
+            if trading_date >= FIRST_FORWARD_MARKET_DATE
+        }
+        if not runtime_trading_dates:
+            raise ValueError(
+                "No Forward runtime trading dates on or after "
+                + FIRST_FORWARD_MARKET_DATE
+            )
         eligible_universe = []
         for symbol in universe:
             if symbol in required_indices:
@@ -310,9 +321,7 @@ class ProductionForwardDataAdapter:
             series = series_by_symbol.get(symbol)
             if not series:
                 continue
-            symbol_dates = _forward_bar_dates(series)
-            if trading_date_set.issubset(symbol_dates):
-                eligible_universe.append(symbol)
+            eligible_universe.append(symbol)
 
         required_symbols = _normalize_forward_symbols(
             tuple(required_runtime_symbols) + tuple(eligible_universe)
@@ -336,6 +345,7 @@ class ProductionForwardDataAdapter:
         return ForwardProductionData(
             universe=tuple(eligible_universe),
             required_symbols=tuple(required_symbols),
+            required_execution_symbols=tuple(required_runtime_symbols),
             price_files_by_symbol=price_files_by_symbol,
             series_by_symbol=series_by_symbol,
             trading_dates=tuple(trading_dates),
@@ -462,7 +472,7 @@ def build_production_forward_composition(
         universe=data.universe,
         series_by_symbol=data.series_by_symbol,
         required_execution_symbols=(
-            data.required_symbols
+            data.required_execution_symbols
         ),
         source_hash_provider=(
             source_hash_provider

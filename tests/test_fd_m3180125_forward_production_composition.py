@@ -22,7 +22,7 @@ from e1r_engine.forward_production_composition import (
 
 def business_dates(count: int) -> list[str]:
     result: list[str] = []
-    current = date(2023, 1, 2)
+    current = date(2025, 1, 2)
 
     while len(result) < count:
         if current.weekday() < 5:
@@ -169,6 +169,40 @@ class ForwardProductionCompositionTests(
                     ),
                 )
             )
+
+    def test_stock_needs_forward_interval_not_pre_forward_history(
+        self,
+    ) -> None:
+        runtime_dates = [
+            trading_date
+            for trading_date in self.dates
+            if trading_date >= "2026-06-17"
+        ]
+        runtime_dates.remove("2026-08-10")
+        shortened = self.root / "SHORT.json"
+        write_price_file(
+            shortened,
+            dates=runtime_dates,
+            start=120.0,
+            step=0.1,
+        )
+        files = dict(self.files)
+        files["SHORT"] = shortened
+
+        data = ProductionForwardDataAdapter().load(
+            price_files_by_symbol=files,
+            universe=("AAA", "BBB", "CCC", "SHORT"),
+        )
+
+        self.assertIn("SHORT", data.universe)
+        self.assertEqual(
+            data.required_execution_symbols,
+            ("SPX", "NDX", "SOX"),
+        )
+        self.assertNotIn(
+            "2026-08-10",
+            data.series_by_symbol["SHORT"],
+        )
 
     def test_composition_wires_existing_runtime(
         self,

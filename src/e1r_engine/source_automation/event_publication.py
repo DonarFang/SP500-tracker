@@ -92,6 +92,52 @@ def _resolve_track_snapshot(
     baseline_id = str(baseline.get("snapshot_id", ""))
     if not isinstance(members, list) or not members or not baseline_id:
         raise EventPublicationError("PRODUCTION_BASELINE_INVALID:" + track)
+    reconciliation_path = (
+        storage.data_root / "pre_activation_reconciliations.json"
+    )
+    if reconciliation_path.is_file():
+        _plain(reconciliation_path)
+        correction = json.loads(
+            reconciliation_path.read_text(encoding="utf-8")
+        )
+        recorded_hash = correction.pop("content_hash", None)
+        if (
+            correction.get("track") != track
+            or correction.get("status")
+            != "CANONICAL_PRE_ACTIVATION_RECONCILIATION"
+            or recorded_hash != content_hash(correction)
+        ):
+            raise EventPublicationError(
+                "PRE_ACTIVATION_RECONCILIATION_INVALID:" + track
+            )
+        reconciled = set(str(symbol).upper() for symbol in members)
+        applied_corrections = []
+        for row in correction.get("reconciliations", []):
+            outgoing = str(row.get("outgoing", "")).upper()
+            incoming = str(row.get("incoming", "")).upper()
+            effective_date = str(row.get("effective_date", ""))
+            if not outgoing or not incoming or outgoing == incoming:
+                raise EventPublicationError(
+                    "PRE_ACTIVATION_RECONCILIATION_ROW_INVALID:" + track
+                )
+            try:
+                is_effective = (
+                    date.fromisoformat(effective_date)
+                    <= date.fromisoformat(execution_date)
+                )
+            except ValueError as exc:
+                raise EventPublicationError(
+                    "PRE_ACTIVATION_RECONCILIATION_DATE_INVALID:" + track
+                ) from exc
+            if is_effective:
+                reconciled.discard(outgoing)
+                reconciled.add(incoming)
+                applied_corrections.append(
+                    outgoing + "->" + incoming + "@" + effective_date
+                )
+        members = sorted(reconciled)
+        if applied_corrections:
+            baseline_id += "+PRE-" + str(recorded_hash)[:16]
     from e1r_engine.universe_versioning.event_parser import parse_membership_event
     events = [parse_membership_event(value) for value in storage.load_events()]
     events.extend(extra_events)

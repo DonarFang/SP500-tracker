@@ -5,7 +5,15 @@ on:
   push:
     branches: [main]
     paths:
+      - 'data/fw_prices/**'
+      - 'data/fw_universe/**'
+      - 'exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/**'
+      - 'src/e1r_engine/forward_orchestrator.py'
+      - 'src/e1r_engine/forward_production_composition.py'
+      - 'src/e1r_engine/source_automation/event_publication.py'
       - 'src/e1r_engine/parity_step3_replay.py'
+      - 'scripts/rebuild_fd_m3180125_forward_adjusted_prices.py'
+      - 'scripts/replay_fd_m3180125_forward_canonical.py'
       - 'scripts/run_fd_m3180125_parity_step_3_replay.py'
       - 'tests/test_fd_m3180125_parity_step3_replay.py'
       - 'docs/contracts/FD-M3180125_PARITY_STEP_3_REPLAY_ACCEPTANCE_CONTRACT_v1.0.md'

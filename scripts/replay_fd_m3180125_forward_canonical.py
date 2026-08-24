@@ -82,7 +82,7 @@ def build_composition(runtime_root: Path, runtime_commit: str):
         engine=E1RCoreEngine(),
         management_action_provider=ProviderShouldNotBeCalled(),
     )
-    return build_production_forward_composition(
+    composition = build_production_forward_composition(
         seed_root=SEED,
         runtime_root=runtime_root,
         price_files_by_symbol=price_files,
@@ -90,6 +90,13 @@ def build_composition(runtime_root: Path, runtime_commit: str):
         strategy_input_builder=builder,
         runtime_commit_provider=lambda: runtime_commit,
     )
+    from e1r_engine.universe_versioning.production_integration import (
+        ProductionUniverseGate,
+    )
+    production_gate = ProductionUniverseGate(ROOT, "forward")
+    if production_gate.mode() == "ENFORCE":
+        composition.runner.production_universe_gate = production_gate.resolve
+    return composition
 
 
 def validate_seed() -> dict[str, Any]:

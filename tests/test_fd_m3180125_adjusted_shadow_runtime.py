@@ -22,6 +22,11 @@ from build_fd_m3180125_live_adjusted_shadow import (  # noqa: E402
     latest_completed_session,
 )
 from e1r_engine.live_calendar import load_live_trading_calendar  # noqa: E402
+from rebuild_fd_m3180125_forward_adjusted_prices import (  # noqa: E402
+    ForwardAdjustedProvider,
+    frozen_historical_rows,
+)
+from build_fd_m3180125_live_adjusted_shadow import FetchRequest  # noqa: E402
 
 
 CALENDAR = ROOT / "config/live_calendar/us_equity_calendar_v1.0.json"
@@ -76,6 +81,41 @@ class RaisingProvider:
 
 
 class AdjustedShadowRuntimeTests(unittest.TestCase):
+    def test_forward_delisted_member_uses_bounded_owned_history(self):
+        class Upstream:
+            def fetch_many(self, requests, *, attempt):
+                self.symbols = [request.symbol for request in requests]
+                return {"AAA": [_row("2026-08-04")]}, {}
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            rows = []
+            start = date(2025, 6, 2)
+            for offset in range(430):
+                day = start.fromordinal(start.toordinal() + offset)
+                if day.weekday() < 5 and day <= date(2026, 8, 10):
+                    rows.append(_row(day.isoformat()))
+            path = root / "EA.json"
+            path.write_text(json.dumps(rows), encoding="utf-8")
+            upstream = Upstream()
+            provider = ForwardAdjustedProvider(upstream, root)
+            requests = [
+                FetchRequest("AAA", "AAA", date(2025, 6, 2), date(2026, 8, 21)),
+                FetchRequest("EA", "EA", date(2025, 6, 2), date(2026, 8, 21)),
+            ]
+            results, errors = provider.fetch_many(requests, attempt=1)
+            self.assertEqual(upstream.symbols, ["AAA"])
+            self.assertEqual(errors, {})
+            self.assertEqual(results["EA"][-1]["date"], "2026-08-04")
+            self.assertEqual(
+                frozen_historical_rows(path, "2026-08-04")[-1]["date"],
+                "2026-08-04",
+            )
+            self.assertEqual(
+                provider.fallback_evidence[0]["reason"],
+                "DELISTED_OUTGOING_MEMBER_PROVIDER_UNAVAILABLE",
+            )
+
     def test_official_shadow_membership_reconciliations_are_exact(self):
         with tempfile.TemporaryDirectory() as directory:
             base = Path(directory)

@@ -434,10 +434,11 @@ def build_adjusted_shadow(
     retry_delay_seconds: float = 20.0,
     as_of_utc: Optional[datetime] = None,
 ) -> Dict[str, object]:
-    if (
-        shadow_root.name != "live_prices"
-        or shadow_root.parent.name != "live_prices_adjusted_v1"
-    ):
+    allowed_roots = {
+        ("live_prices_adjusted_v1", "live_prices"),
+        ("forward_prices_adjusted_v1", "fw_prices"),
+    }
+    if (shadow_root.parent.name, shadow_root.name) not in allowed_roots:
         raise RuntimeError("adjusted shadow root name mismatch")
     catalogue = tuple(symbols) if symbols is not None else _catalogue(legacy_root)
     if max_attempts < 1:

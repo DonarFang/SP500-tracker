@@ -449,6 +449,31 @@ class TestForwardOrchestrator(unittest.TestCase):
         repository.initialize.assert_not_called()
         committer.commit_day.assert_not_called()
 
+    def test_daily_data_ready_universe_is_date_scoped(
+        self,
+    ) -> None:
+        runner = object.__new__(
+            OfficialForwardCatchupRunner
+        )
+        runner.universe = ("AAA", "BBB", "CCC")
+        runner.series_by_symbol = {
+            "AAA": {"2026-08-20": bar("2026-08-20", 10.0)},
+            "BBB": {"2026-08-21": bar("2026-08-21", 20.0)},
+            "CCC": {
+                "2026-08-20": bar("2026-08-20", 30.0),
+                "2026-08-21": bar("2026-08-21", 31.0),
+            },
+        }
+
+        self.assertEqual(
+            runner._daily_data_ready_universe("2026-08-20"),
+            ("AAA", "CCC"),
+        )
+        self.assertEqual(
+            runner._daily_data_ready_universe("2026-08-21"),
+            ("BBB", "CCC"),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -158,6 +158,32 @@ class SA3EventTests(unittest.TestCase):
             self.assertIn("RDDT", effective.effective_membership)
             self.assertTrue(result["event_id"].startswith("SP500-"))
 
+    def test_forward_pre_activation_reconciliation_is_date_scoped(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root, _ = self.prepare(directory)
+            path = root / "data/fw_universe/pre_activation_reconciliations.json"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            from e1r_engine.universe_versioning.hashing import content_hash
+            payload = {
+                "track": "forward",
+                "status": "CANONICAL_PRE_ACTIVATION_RECONCILIATION",
+                "reconciliations": [{
+                    "outgoing": "AAA",
+                    "incoming": "NEW",
+                    "effective_date": "2026-08-05",
+                    "source_url": "https://example.invalid/official",
+                }],
+            }
+            payload["content_hash"] = content_hash(payload)
+            path.write_text(json.dumps(payload))
+
+            before = refresh_track_snapshot(root, "forward", "2026-08-04")
+            effective = refresh_track_snapshot(root, "forward", "2026-08-05")
+            self.assertIn("AAA", before.effective_membership)
+            self.assertNotIn("NEW", before.effective_membership)
+            self.assertNotIn("AAA", effective.effective_membership)
+            self.assertIn("NEW", effective.effective_membership)
+
     def test_identity_preserves_official_and_yahoo_symbols(self):
         with tempfile.TemporaryDirectory() as directory:
             root, _ = self.prepare(directory)
