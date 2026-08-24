@@ -44,6 +44,25 @@ LIVE_UNIVERSE_STATE = Path("data/live_universe/state/current.json")
 LIVE_UNIVERSE_SNAPSHOTS = Path("data/live_universe/snapshots")
 EXPECTED_STOCK_COUNT = 491
 EXPECTED_TOTAL_COUNT = EXPECTED_STOCK_COUNT + len(INDEX_PROVIDER_SYMBOLS)
+SHADOW_MEMBERSHIP_RECONCILIATIONS = {
+    "CTRA": {
+        "replacement": "VEEV",
+        "effective_date": "2026-05-07",
+        "source_url": (
+            "https://press.spglobal.com/2026-04-30-"
+            "Veeva-Systems-Set-to-Join-S-P-500"
+        ),
+    },
+    "EA": {
+        "replacement": "FERG",
+        "effective_date": "2026-08-05",
+        "source_url": (
+            "https://press.spglobal.com/2026-07-31-"
+            "Ferguson-Enterprises-Set-to-Join-S-P-500-and-"
+            "ADI-Global-Distribution-to-Join-S-P-SmallCap-600"
+        ),
+    },
+}
 MARKET_TIMEZONE = ZoneInfo("America/New_York")
 COMPLETED_SESSION_CUTOFF = wall_time(18, 0)
 
@@ -90,23 +109,43 @@ def _production_catalogue(
         isinstance(symbol, str) and symbol for symbol in membership
     ):
         raise RuntimeError("Live Universe effective_membership invalid")
-    stocks = sorted(set(membership) - set(EXCLUDED_STOCK_SYMBOLS))
+    raw_stocks = set(membership) - set(EXCLUDED_STOCK_SYMBOLS)
+    stocks = set(raw_stocks)
+    for outgoing, contract in SHADOW_MEMBERSHIP_RECONCILIATIONS.items():
+        incoming = str(contract["replacement"])
+        if outgoing in stocks:
+            if incoming in stocks:
+                raise RuntimeError(
+                    "Live adjusted shadow reconciliation overlap: "
+                    + outgoing
+                    + ","
+                    + incoming
+                )
+            stocks.remove(outgoing)
+            stocks.add(incoming)
+    stocks = sorted(stocks)
     if len(stocks) != EXPECTED_STOCK_COUNT:
         raise RuntimeError(
             "Live adjusted shadow stock count mismatch: "
             "expected=%d, actual=%d" % (EXPECTED_STOCK_COUNT, len(stocks))
         )
     required = tuple(sorted(set(stocks) | set(INDEX_PROVIDER_SYMBOLS)))
-    missing = [
-        symbol
-        for symbol in required
-        if not (legacy_root / (symbol + ".json")).is_file()
-    ]
+    missing = [symbol for symbol in required if not _history_start_path(legacy_root, symbol).is_file()]
     if missing:
         raise RuntimeError(
             "Live adjusted shadow legacy inputs missing: " + ",".join(missing)
         )
     return required
+
+
+def _history_start_path(legacy_root: Path, symbol: str) -> Path:
+    direct = legacy_root / (symbol + ".json")
+    if direct.is_file():
+        return direct
+    for outgoing, contract in SHADOW_MEMBERSHIP_RECONCILIATIONS.items():
+        if contract["replacement"] == symbol:
+            return legacy_root / (outgoing + ".json")
+    return direct
 
 
 def _first_date(path: Path) -> date:
@@ -420,7 +459,7 @@ def build_adjusted_shadow(
                 FetchRequest(
                     symbol=symbol,
                     provider_symbol=INDEX_PROVIDER_SYMBOLS.get(symbol, symbol),
-                    start_date=_first_date(legacy_root / (symbol + ".json")),
+                    start_date=_first_date(_history_start_path(legacy_root, symbol)),
                     end_date=end_date,
                 )
                 for symbol in pending
@@ -489,10 +528,26 @@ def build_adjusted_shadow(
             "stock_symbol_count": len(set(catalogue) - set(INDEX_PROVIDER_SYMBOLS)),
             "index_symbol_count": len(set(catalogue) & set(INDEX_PROVIDER_SYMBOLS)),
             "excluded_stock_symbols": sorted(EXCLUDED_STOCK_SYMBOLS),
+            "membership_reconciliations": [
+                {
+                    "outgoing": outgoing,
+                    **contract,
+                }
+                for outgoing, contract in sorted(
+                    SHADOW_MEMBERSHIP_RECONCILIATIONS.items()
+                )
+                if contract["replacement"] in catalogue
+                and outgoing not in catalogue
+            ],
             "latest_requested_date": end_date.isoformat(),
             "latest_market_date": end_date.isoformat(),
             "data_status": "CURRENT" if not pending else "HOLD",
             "catalogue_changed": False,
+            "shadow_catalogue_reconciled": any(
+                contract["replacement"] in catalogue
+                and outgoing not in catalogue
+                for outgoing, contract in SHADOW_MEMBERSHIP_RECONCILIATIONS.items()
+            ),
             "unavailable_symbols": sorted(pending),
             "ordinary_stale_symbols": sorted(
                 symbol

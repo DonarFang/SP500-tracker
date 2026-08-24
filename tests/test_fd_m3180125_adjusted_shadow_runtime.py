@@ -16,6 +16,8 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from build_fd_m3180125_live_adjusted_shadow import (  # noqa: E402
     AdjustedShadowBuildError,
+    _history_start_path,
+    _production_catalogue,
     build_adjusted_shadow,
     latest_completed_session,
 )
@@ -74,6 +76,38 @@ class RaisingProvider:
 
 
 class AdjustedShadowRuntimeTests(unittest.TestCase):
+    def test_official_shadow_membership_reconciliations_are_exact(self):
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            legacy = base / "live_prices"
+            snapshots = base / "snapshots"
+            state = base / "state.json"
+            members = ["CTRA", "EA"] + ["S%03d" % index for index in range(489)]
+            _legacy(legacy, tuple(members) + tuple(("SPX", "NDX", "SOX", "VIX")))
+            snapshots.mkdir()
+            (snapshots / "LIVE-CURRENT.json").write_text(
+                json.dumps({
+                    "snapshot_id": "LIVE-CURRENT",
+                    "track": "live",
+                    "status": "EFFECTIVE",
+                    "effective_membership": members,
+                }),
+                encoding="utf-8",
+            )
+            state.write_text(json.dumps({"snapshot_id": "LIVE-CURRENT"}), encoding="utf-8")
+            catalogue = _production_catalogue(
+                legacy_root=legacy,
+                state_path=state,
+                snapshot_root=snapshots,
+            )
+            self.assertEqual(len(catalogue), 495)
+            self.assertIn("VEEV", catalogue)
+            self.assertIn("FERG", catalogue)
+            self.assertNotIn("CTRA", catalogue)
+            self.assertNotIn("EA", catalogue)
+            self.assertEqual(_history_start_path(legacy, "VEEV"), legacy / "CTRA.json")
+            self.assertEqual(_history_start_path(legacy, "FERG"), legacy / "EA.json")
+
     def test_latest_completed_session_before_monday_close_is_friday(self):
         calendar = load_live_trading_calendar(CALENDAR)
         actual = latest_completed_session(
