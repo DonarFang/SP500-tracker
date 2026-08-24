@@ -69,13 +69,32 @@ jobs:
           PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
         run: python scripts/run_fd_m3180125_live_daily.py
       - name: Build adjusted Live price shadow only
+        id: adjusted_shadow
         if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.parity_shadow_only == true)
         env:
           PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
         run: |
-          EXPECTED_LATEST_MARKET_DATE="$(TZ=America/New_York date +%F)"
+          set +e
           python scripts/build_fd_m3180125_live_adjusted_shadow.py \
-            --end-date "$EXPECTED_LATEST_MARKET_DATE"
+            --as-of-utc "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            2>&1 | tee /tmp/parity_step_2_adjusted_shadow.log
+          build_status=${PIPESTATUS[0]}
+          echo "exit_code=$build_status" >> "$GITHUB_OUTPUT"
+          exit 0
+      - name: Preserve adjusted Shadow evidence
+        if: always() && steps.adjusted_shadow.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: parity-step-2-adjusted-shadow-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            /tmp/parity_step_2_adjusted_shadow.log
+            exports/official/FD-M3180125-SP500-TOP3-engine/live/automation/parity/current_adjusted_shadow.json
+      - name: Enforce adjusted Shadow result
+        if: steps.adjusted_shadow.outcome != 'skipped'
+        run: |
+          test "${{ steps.adjusted_shadow.outputs.exit_code }}" = "0"
       - name: Enforce Live-only isolation
         run: |
           git diff --name-only | tee /tmp/live_changed.txt
