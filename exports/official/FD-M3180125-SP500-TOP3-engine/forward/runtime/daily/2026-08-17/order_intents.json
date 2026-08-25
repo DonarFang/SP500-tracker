@@ -2,6 +2,40 @@
   {
     "branch": "UPTREND",
     "date": "2026-08-17",
+    "intent_type": "HOLD",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 60.4,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": 0.0,
+    "reason": "reduce_skipped_size_at_minimum",
+    "side": null,
+    "symbol": "ETSY",
+    "target_quantity": 622.2357528199416
+  },
+  {
+    "branch": "UPTREND",
+    "date": "2026-08-17",
+    "intent_type": "HOLD",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 83.31,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": 0.0,
+    "reason": "canonical_position_hold",
+    "side": null,
+    "symbol": "SNOW",
+    "target_quantity": 308.6848397929587
+  },
+  {
+    "branch": "UPTREND",
+    "date": "2026-08-17",
     "intent_type": "BUY",
     "metadata": {
       "account_mutated": false,

@@ -1,11 +1,10 @@
 {
   "closed_trades": [],
-  "resolved_orders": [],
-  "sim_end_performed": false,
-  "skipped_orders": [
+  "resolved_orders": [
     {
       "branch": "UPTREND",
       "execution_date": "2026-06-30",
+      "fill_id": "8871764b73b3158edbc9591db6d3f79c9d58ab9c30ffacf383892a68cf99f8f3",
       "intent_type": "BUY",
       "metadata": {
         "account_mutated": false,
@@ -42,10 +41,11 @@
       "sequence": 1,
       "side": "BUY",
       "signal_date": "2026-06-29",
-      "skip_reason": "MISSING_T1_BAR",
-      "status": "SKIPPED",
+      "status": "FILLED",
       "symbol": "ETSY",
       "target_quantity": null
     }
-  ]
+  ],
+  "sim_end_performed": false,
+  "skipped_orders": []
 }

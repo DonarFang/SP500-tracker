@@ -1,6 +1,6 @@
 {
   "branch": "UPTREND",
-  "candidate_count": 7,
+  "candidate_count": 6,
   "date": "2026-07-15",
   "inputs": {
     "canonical_engine_entry": true,
@@ -72,11 +72,28 @@
         "origin_branch": "UPTREND",
         "reduce_fraction": 0.5
       },
-      "quantity_delta": -145.18214429512426,
+      "quantity_delta": -120.62518973670092,
       "reason": "canonical_position_reduce",
       "side": "SELL",
       "symbol": "DELL",
       "target_quantity": null
+    },
+    {
+      "branch": "UPTREND",
+      "date": "2026-07-15",
+      "intent_type": "HOLD",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 94.22,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "quantity_delta": 0.0,
+      "reason": "canonical_position_hold",
+      "side": null,
+      "symbol": "ETSY",
+      "target_quantity": 1314.2261570951616
     },
     {
       "branch": "UPTREND",

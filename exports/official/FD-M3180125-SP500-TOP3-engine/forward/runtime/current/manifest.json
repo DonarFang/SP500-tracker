@@ -1,20 +1,20 @@
 {
   "account_summary": {
-    "cash": 291351.65841856087,
-    "open_positions_count": 0,
-    "positions_value": 0.0,
-    "total_equity": 291351.65841856087
+    "cash": 44380.030289156886,
+    "open_positions_count": 3,
+    "positions_value": 243229.83561218256,
+    "total_equity": 287609.86590133945
   },
   "artifact_type": "OFFICIAL_FORWARD_CURRENT",
   "artifacts": {
     "account_state.json": {
-      "sha256": "ecd1b5040a21f47f9b3ccac56fcf636e12fd463d959ac8c4eb50ce93d59a6f40"
+      "sha256": "cda34b7daa5e93f7dfb35af9b98de06ac46053e6441945b739e336d7341280e5"
     },
     "decision_trace.json": {
-      "sha256": "e2949253ac42cac4b6c63746b3065f08ef747dca71aafe127ccc811f5820c851"
+      "sha256": "e7b077cfe41239b376f6557c160746967eddd02cc422270e97fbd8c44115036f"
     },
     "equity.json": {
-      "sha256": "bba16add0e0f1969c6849673f63e1b1615231615634043ed18df4240df16cfbc"
+      "sha256": "d7e34b47ee7d3118b10397bf23c5ac878207517c15d4600cf325d998bedd0b23"
     },
     "execution.json": {
       "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba"
@@ -23,16 +23,16 @@
       "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
     },
     "order_intents.json": {
-      "sha256": "7bcbd8bed6a0cc62e7bcfcf24a46ea99bed9e07e0577c6cc466d62d8dd683355"
+      "sha256": "aca6e2cf5144930f3b3da8aba95262a6419bf7dea68acc694ba639f6cc17dd77"
     }
   },
-  "current_account_state_sha256": "ecd1b5040a21f47f9b3ccac56fcf636e12fd463d959ac8c4eb50ce93d59a6f40",
+  "current_account_state_sha256": "cda34b7daa5e93f7dfb35af9b98de06ac46053e6441945b739e336d7341280e5",
   "current_pending_orders_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
   "date": "2026-08-21",
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
   "forward_track_end": "OPEN_ENDED",
   "last_committed_date": "2026-08-21",
-  "runtime_commit": "7ff7750b78b7831e0a4b7c7482482cf884b65a8e",
+  "runtime_commit": "0e5c44f94dd5ac92c87c1b2f4f352f714471e146",
   "schema_version": "1.0.0",
   "sim_end_performed": false,
   "source_hashes": {

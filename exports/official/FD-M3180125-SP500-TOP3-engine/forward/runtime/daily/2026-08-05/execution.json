@@ -1,11 +1,10 @@
 {
   "closed_trades": [],
-  "resolved_orders": [],
-  "sim_end_performed": false,
-  "skipped_orders": [
+  "resolved_orders": [
     {
       "branch": "UPTREND",
       "execution_date": "2026-08-05",
+      "fill_id": "f68d4f40db0a23ef246001e9c7f431e0bd66fecb13263e5dc4d0a9417183032c",
       "intent_type": "BUY",
       "metadata": {
         "account_mutated": false,
@@ -42,10 +41,11 @@
       "sequence": 1,
       "side": "BUY",
       "signal_date": "2026-08-04",
-      "skip_reason": "MISSING_T1_BAR",
-      "status": "SKIPPED",
+      "status": "FILLED",
       "symbol": "SNOW",
       "target_quantity": null
     }
-  ]
+  ],
+  "sim_end_performed": false,
+  "skipped_orders": []
 }

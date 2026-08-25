@@ -1,5 +1,5 @@
 {
-  "cash": 291351.65841856087,
+  "cash": 93360.54103602468,
   "date": "2026-08-07",
   "metadata": {
     "last_execution_date": "2026-08-07",
@@ -9,8 +9,131 @@
     "strategy_display_name": "E1R CAPPED-ATR Engine",
     "strategy_variant": "E1R_CAPPED_ATR_A0_V1"
   },
-  "open_positions_count": 0,
-  "positions": {},
-  "positions_value": 0.0,
-  "total_equity": 291351.65841856087
+  "open_positions_count": 2,
+  "positions": {
+    "ETSY": {
+      "avg_cost": 81.36546316841856,
+      "entry_date": "2026-06-30",
+      "last_price": 85.55000305175781,
+      "last_update_date": "2026-08-07",
+      "market_value": 106464.54110531765,
+      "metadata": {
+        "account_mutated": false,
+        "capped_atr_entry": {
+          "atr20": 2.710499954223633,
+          "atr_as_of": "2026-06-29",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "capped_atr_stop": {
+          "a0": 78.73866366577147,
+          "add_updates_stop_anchor": false,
+          "atr20": 2.710499954223633,
+          "atr_as_of": "2026-06-29",
+          "atr_frozen_for_cycle": true,
+          "block_same_day_reentry_after_hard_stop": false,
+          "distance": 9.448639639892576,
+          "distance_fraction": 0.12,
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "trigger_price": 69.29002402587889,
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "close_t": 79.66000366210938,
+        "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+        "entry_capacity": 3,
+        "entry_execution_price": 78.73866366577147,
+        "entry_reasons": [
+          "rs_above_90",
+          "leader_rank_top5",
+          "leader_score_above_75",
+          "momentum_above_75",
+          "trend_health_above_70",
+          "close_above_ma50",
+          "ma50_slope_non_negative"
+        ],
+        "entry_shares": 1314.2261570951616,
+        "fill_id": "8871764b73b3158edbc9591db6d3f79c9d58ab9c30ffacf383892a68cf99f8f3",
+        "last_fill_id": "ad643d4a6c977d80833b39d4b51feed69c2f88e522f8829083caf5c50de133a8",
+        "last_order_id": "b4e7e60ad10b252a7d3fc48b82fc44b9fd006477e98974047219781418e5003c",
+        "leader_rank_all": 1,
+        "leader_score": 96.21,
+        "market_entry_allowed": true,
+        "market_gate_state": "ALLOW",
+        "order_executed": false,
+        "order_id": "8128b6f74b8ea5697cfdc1adc04bc9934f0323bcf388ccbe215a56e57ba4ae10",
+        "origin_branch": "UPTREND",
+        "realized_cost_basis": 51740.20568213763,
+        "realized_pnl": -621.9778480538557,
+        "remaining_cost_basis": 101257.0004562883,
+        "size_units": 1.0,
+        "source": "UptrendDecisionConsumer",
+        "strategy_logic_source": "UptrendCore",
+        "target_size_units": 1.0
+      },
+      "quantity": 1244.4715056398832,
+      "symbol": "ETSY",
+      "unrealized_pnl": 5207.5406490293435
+    },
+    "SNOW": {
+      "avg_cost": 323.4231061096191,
+      "entry_date": "2026-08-05",
+      "last_price": 330.489990234375,
+      "last_update_date": "2026-08-07",
+      "market_value": 102017.24968867454,
+      "metadata": {
+        "account_mutated": false,
+        "capped_atr_entry": {
+          "atr20": 14.757901763916015,
+          "atr_as_of": "2026-08-04",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "capped_atr_stop": {
+          "a0": 323.4231061096191,
+          "add_updates_stop_anchor": false,
+          "atr20": 14.757901763916015,
+          "atr_as_of": "2026-08-04",
+          "atr_frozen_for_cycle": true,
+          "block_same_day_reentry_after_hard_stop": false,
+          "distance": 44.273705291748044,
+          "distance_fraction": 0.13689097796476601,
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "trigger_price": 279.149400817871,
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "close_t": 316.7699890136719,
+        "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+        "entry_capacity": 2,
+        "entry_execution_price": 323.4231061096191,
+        "entry_reasons": [
+          "rs_above_90",
+          "leader_rank_top5",
+          "leader_score_above_75",
+          "momentum_above_75",
+          "trend_health_above_70",
+          "close_above_ma50",
+          "ma50_slope_non_negative"
+        ],
+        "entry_shares": 308.6848397929587,
+        "fill_id": "f68d4f40db0a23ef246001e9c7f431e0bd66fecb13263e5dc4d0a9417183032c",
+        "leader_rank_all": 1,
+        "leader_score": 96.44,
+        "market_entry_allowed": true,
+        "market_gate_state": "ALLOW",
+        "order_executed": false,
+        "order_id": "267ecc1ec459a8e0ae6e8519be0ae6791ccd375740948d5fbcfd6da7ad677d77",
+        "origin_branch": "UPTREND",
+        "remaining_cost_basis": 99835.80969478886,
+        "size_units": 1.0,
+        "source": "UptrendDecisionConsumer",
+        "strategy_logic_source": "UptrendCore",
+        "target_size_units": 1.0
+      },
+      "quantity": 308.6848397929587,
+      "symbol": "SNOW",
+      "unrealized_pnl": 2181.439993885683
+    }
+  },
+  "positions_value": 208481.79079399217,
+  "total_equity": 301842.33183001686
 }

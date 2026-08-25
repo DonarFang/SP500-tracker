@@ -23,6 +23,23 @@
     "metadata": {
       "add_size_units": 0.5,
       "engine_owned_position_management": true,
+      "leader_score": 92.75,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": 0.0,
+    "reason": "canonical_position_hold",
+    "side": null,
+    "symbol": "ETSY",
+    "target_quantity": 1314.2261570951616
+  },
+  {
+    "branch": "UPTREND",
+    "date": "2026-07-17",
+    "intent_type": "HOLD",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
       "leader_score": 75.36,
       "origin_branch": "UPTREND",
       "reduce_fraction": 0.5

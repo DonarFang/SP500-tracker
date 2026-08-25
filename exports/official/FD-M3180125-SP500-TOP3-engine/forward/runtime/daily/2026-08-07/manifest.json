@@ -1,20 +1,20 @@
 {
   "account_summary": {
-    "cash": 291351.65841856087,
-    "open_positions_count": 0,
-    "positions_value": 0.0,
-    "total_equity": 291351.65841856087
+    "cash": 93360.54103602468,
+    "open_positions_count": 2,
+    "positions_value": 208481.79079399217,
+    "total_equity": 301842.33183001686
   },
   "artifact_type": "OFFICIAL_FORWARD_DAILY_COMMIT",
   "artifacts": {
     "account_state.json": {
-      "sha256": "f9b69638dda57ab4d99e8caa9e1447f580c3e10da4f3d2f5a156cf6a84cac6da"
+      "sha256": "5483435c53f0e9d98ec31bdcf13756eaac909cbc0a08bbabdbdf605bd6a33cab"
     },
     "decision_trace.json": {
-      "sha256": "e529e03f0ef0ea6becbc77819f7795bd35c6d9feafd5cfaf59fdf6b988914c1b"
+      "sha256": "efdf95f8c8a2f09cd57a89ca600695b11d4b83ee1b9e29c7093ca52bbdc959cf"
     },
     "equity.json": {
-      "sha256": "1ac0034a123b759e11851f58cc1900ca7dd1fc8162fff46dd8bd8d92000e2bda"
+      "sha256": "8fb7d68e581c070ee9ffc50ec15816003d7b90b9f8ba2a5d3f07f8bb9170b7ab"
     },
     "execution.json": {
       "sha256": "496af265dd1435cd735888b6b6e3defbd459789c68a178bf639ad6a329f9a6ba"
@@ -23,14 +23,14 @@
       "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
     },
     "order_intents.json": {
-      "sha256": "170da8dc34485fb29e9827659e4eb3fde576ee4abf89028c57f1310539d1b191"
+      "sha256": "179c8e211e768e81034ed5ab7e9b3b1ef7e4285898a4471ba4cdc974c661452e"
     }
   },
   "date": "2026-08-07",
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
   "forward_track_end": "OPEN_ENDED",
   "last_committed_date": "2026-08-07",
-  "runtime_commit": "7ff7750b78b7831e0a4b7c7482482cf884b65a8e",
+  "runtime_commit": "0e5c44f94dd5ac92c87c1b2f4f352f714471e146",
   "schema_version": "1.0.0",
   "sim_end_performed": false,
   "source_hashes": {

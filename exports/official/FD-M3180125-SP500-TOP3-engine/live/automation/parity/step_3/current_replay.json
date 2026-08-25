@@ -10,7 +10,7 @@
   "date_count": 7,
   "decision": "PASS_PARITY_STEP_3_READ_ONLY_REPLAY",
   "end_date": "2026-08-21",
-  "evidence_hash": "06d879a1ba1692530ecaab03d7c8cb26a099d645d77ecd9b9acebecc7fa98a8a",
+  "evidence_hash": "1111bf2623bba6939aa0d2a488e3bfe17e2c508174d868ce0b41a44512cdfcb4",
   "five_year_mutated": false,
   "forward_mutated": false,
   "live_history_mutated": false,
@@ -53,7 +53,21 @@
       },
       "contract_comparison": {
         "decision": "PASS",
-        "mismatches": {}
+        "mismatches": {},
+        "reference_top3_diagnostic": {
+          "equal": true,
+          "forward": [
+            "NTAP",
+            "NET",
+            "VEEV"
+          ],
+          "live": [
+            "NTAP",
+            "NET",
+            "VEEV"
+          ],
+          "parity_gating": false
+        }
       },
       "formal_forward": {
         "entry_capacity": 2,
@@ -68,6 +82,7 @@
         "regime_subclass": "NO_SUBCLASS",
         "strategy_branch": "UPTREND"
       },
+      "forward_execution_errors": [],
       "legacy_live": {
         "date": "2026-08-13",
         "entry_capacity": 2,
@@ -102,7 +117,21 @@
       },
       "contract_comparison": {
         "decision": "PASS",
-        "mismatches": {}
+        "mismatches": {},
+        "reference_top3_diagnostic": {
+          "equal": true,
+          "forward": [
+            "NTAP",
+            "EXPE",
+            "VEEV"
+          ],
+          "live": [
+            "NTAP",
+            "EXPE",
+            "VEEV"
+          ],
+          "parity_gating": false
+        }
       },
       "formal_forward": {
         "entry_capacity": 2,
@@ -117,6 +146,7 @@
         "regime_subclass": "NO_SUBCLASS",
         "strategy_branch": "UPTREND"
       },
+      "forward_execution_errors": [],
       "legacy_live": {
         "date": "2026-08-14",
         "entry_capacity": 2,
@@ -151,7 +181,21 @@
       },
       "contract_comparison": {
         "decision": "PASS",
-        "mismatches": {}
+        "mismatches": {},
+        "reference_top3_diagnostic": {
+          "equal": true,
+          "forward": [
+            "NTAP",
+            "HPE",
+            "VLO"
+          ],
+          "live": [
+            "NTAP",
+            "HPE",
+            "VLO"
+          ],
+          "parity_gating": false
+        }
       },
       "formal_forward": {
         "entry_capacity": 3,
@@ -166,6 +210,7 @@
         "regime_subclass": "NO_SUBCLASS",
         "strategy_branch": "UPTREND"
       },
+      "forward_execution_errors": [],
       "legacy_live": {
         "date": "2026-08-17",
         "entry_capacity": 3,
@@ -200,7 +245,21 @@
       },
       "contract_comparison": {
         "decision": "PASS",
-        "mismatches": {}
+        "mismatches": {},
+        "reference_top3_diagnostic": {
+          "equal": true,
+          "forward": [
+            "VLO",
+            "PSX",
+            "MPC"
+          ],
+          "live": [
+            "VLO",
+            "PSX",
+            "MPC"
+          ],
+          "parity_gating": false
+        }
       },
       "formal_forward": {
         "entry_capacity": 2,
@@ -215,6 +274,7 @@
         "regime_subclass": "NO_SUBCLASS",
         "strategy_branch": "UPTREND"
       },
+      "forward_execution_errors": [],
       "legacy_live": {
         "date": "2026-08-18",
         "entry_capacity": 2,
@@ -249,7 +309,21 @@
       },
       "contract_comparison": {
         "decision": "PASS",
-        "mismatches": {}
+        "mismatches": {},
+        "reference_top3_diagnostic": {
+          "equal": true,
+          "forward": [
+            "PSX",
+            "MRNA",
+            "AXON"
+          ],
+          "live": [
+            "PSX",
+            "MRNA",
+            "AXON"
+          ],
+          "parity_gating": false
+        }
       },
       "formal_forward": {
         "entry_capacity": 2,
@@ -264,6 +338,7 @@
         "regime_subclass": "NO_SUBCLASS",
         "strategy_branch": "UPTREND"
       },
+      "forward_execution_errors": [],
       "legacy_live": {
         "date": "2026-08-19",
         "entry_capacity": 2,
@@ -298,7 +373,21 @@
       },
       "contract_comparison": {
         "decision": "PASS",
-        "mismatches": {}
+        "mismatches": {},
+        "reference_top3_diagnostic": {
+          "equal": true,
+          "forward": [
+            "VEEV",
+            "PSX",
+            "REGN"
+          ],
+          "live": [
+            "VEEV",
+            "PSX",
+            "REGN"
+          ],
+          "parity_gating": false
+        }
       },
       "formal_forward": {
         "entry_capacity": 0,
@@ -313,6 +402,7 @@
         "regime_subclass": "NO_SUBCLASS",
         "strategy_branch": "UPTREND"
       },
+      "forward_execution_errors": [],
       "legacy_live": {
         "date": "2026-08-20",
         "entry_capacity": 0,
@@ -347,7 +437,21 @@
       },
       "contract_comparison": {
         "decision": "PASS",
-        "mismatches": {}
+        "mismatches": {},
+        "reference_top3_diagnostic": {
+          "equal": true,
+          "forward": [
+            "DASH",
+            "VEEV",
+            "ABT"
+          ],
+          "live": [
+            "DASH",
+            "VEEV",
+            "ABT"
+          ],
+          "parity_gating": false
+        }
       },
       "formal_forward": {
         "entry_capacity": 0,
@@ -362,6 +466,7 @@
         "regime_subclass": "NO_SUBCLASS",
         "strategy_branch": "UPTREND"
       },
+      "forward_execution_errors": [],
       "legacy_live": {
         "date": "2026-08-21",
         "entry_capacity": 0,
