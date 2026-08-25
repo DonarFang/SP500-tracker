@@ -10,20 +10,20 @@
   "date_count": 7,
   "decision": "PASS_PARITY_STEP_3_READ_ONLY_REPLAY",
   "end_date": "2026-08-21",
-  "evidence_hash": "1111bf2623bba6939aa0d2a488e3bfe17e2c508174d868ce0b41a44512cdfcb4",
+  "evidence_hash": "44067e7dc2d08bf62724c9b921a9fbacf26d70c23f0eaba4b161f7ab4fe79e9b",
   "five_year_mutated": false,
   "forward_mutated": false,
   "live_history_mutated": false,
   "protected_hashes_after": {
     "contracts/live_runtime_contract.json": "b3b102bf6fbe3aa421e323f8edb3c6a9bb020adc6225b8ae079de6da2222b304",
-    "runtime/current/runtime_state.json": "e9af5135ea4aece3fd3b23fbadefc7a8b4531ae62e00d849d1dd66d8193efe52",
+    "runtime/current/runtime_state.json": "8457e699f22a10e659b1a23f9fde2011b40bb817f9b01e93cd855ec7032a3f13",
     "runtime/history/cash_control.jsonl": "39717fb9a9692c488b91fdc627f69f1dd4d21c64b6778965a1b64d4a7137dac7",
     "runtime/history/ledger_journal.jsonl": "a00ded3e7628b0743d022754df42e1dc82bd6b13879649d8e709341f0e9a666a",
     "runtime/history/transactions.jsonl": "b935e0dac96a35671f4b0267b48f484256fab5b93a278b858508958b9f5ccc96"
   },
   "protected_hashes_before": {
     "contracts/live_runtime_contract.json": "b3b102bf6fbe3aa421e323f8edb3c6a9bb020adc6225b8ae079de6da2222b304",
-    "runtime/current/runtime_state.json": "e9af5135ea4aece3fd3b23fbadefc7a8b4531ae62e00d849d1dd66d8193efe52",
+    "runtime/current/runtime_state.json": "8457e699f22a10e659b1a23f9fde2011b40bb817f9b01e93cd855ec7032a3f13",
     "runtime/history/cash_control.jsonl": "39717fb9a9692c488b91fdc627f69f1dd4d21c64b6778965a1b64d4a7137dac7",
     "runtime/history/ledger_journal.jsonl": "a00ded3e7628b0743d022754df42e1dc82bd6b13879649d8e709341f0e9a666a",
     "runtime/history/transactions.jsonl": "b935e0dac96a35671f4b0267b48f484256fab5b93a278b858508958b9f5ccc96"
