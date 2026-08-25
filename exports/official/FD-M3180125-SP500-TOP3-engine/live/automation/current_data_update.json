@@ -376,6 +376,7 @@
     "data/live_prices/QRVO.json",
     "data/live_prices/RBLX.json",
     "data/live_prices/RCL.json",
+    "data/live_prices/RDDT.json",
     "data/live_prices/REG.json",
     "data/live_prices/REGN.json",
     "data/live_prices/RF.json",
@@ -499,13 +500,13 @@
     "data/live_prices/ZTS.json"
   ],
   "data_status": "CURRENT",
-  "expected_latest_market_date": "2026-08-21",
-  "last_successful_update_at": "2026-08-21T23:50:09.712547+00:00",
-  "latest_market_date": "2026-08-21",
+  "expected_latest_market_date": "2026-08-24",
+  "last_successful_update_at": "2026-08-25T13:28:08.979973+00:00",
+  "latest_market_date": "2026-08-24",
   "missing_dates": [],
-  "source_commit": "2045da8f287a974d37844dfe63648e224379cc62",
-  "symbol_count": 498,
+  "source_commit": "1b87c1189280b067c8560ad0675d4c9b630dd68e",
+  "symbol_count": 499,
   "unavailable_symbols": [],
   "unchanged_symbol_count": 2,
-  "updated_symbol_count": 496
+  "updated_symbol_count": 497
 }

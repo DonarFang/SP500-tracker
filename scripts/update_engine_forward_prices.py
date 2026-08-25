@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import os
@@ -35,6 +36,7 @@ INDEX_TICKERS = {
     "_SOX": "^SOX",
     "_VIX": "^VIX",
 }
+REQUIRED_INDEX_FILES = tuple(sorted(f"{symbol}.json" for symbol in INDEX_TICKERS))
 LOOKBACK_DAYS = 10
 BATCH_SIZE = 60
 
@@ -192,6 +194,17 @@ def numeric(row: Any, field: str, default: float = 0.0) -> float:
     return round(float(value), 6)
 
 
+def clip_frame_to_expected_session(
+    frame: pd.DataFrame,
+    expected_latest_market_date: str,
+) -> pd.DataFrame | None:
+    """Exclude provider rows for an incomplete or future market session."""
+    clipped = frame.loc[
+        frame["date"] <= expected_latest_market_date
+    ].copy()
+    return clipped if not clipped.empty else None
+
+
 def merge_records(
     existing: list[dict[str, Any]],
     frame: pd.DataFrame,
@@ -219,6 +232,16 @@ def merge_records(
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--expected-latest-market-date",
+        required=True,
+        help="Latest completed US equity session; required fail-closed freshness gate.",
+    )
+    args = parser.parse_args()
+    expected_latest_market_date = date.fromisoformat(
+        args.expected_latest_market_date
+    ).isoformat()
     if not PRICE_ROOT.is_dir():
         raise RuntimeError(f"Missing Engine price root: {PRICE_ROOT}")
 
@@ -275,6 +298,12 @@ def main() -> int:
         old_records = existing[filename]
         frame = downloaded.get(symbol)
 
+        if frame is not None:
+            frame = clip_frame_to_expected_session(
+                frame,
+                expected_latest_market_date,
+            )
+
         if frame is None:
             unavailable_symbols.append(symbol)
             unchanged_files.append(filename)
@@ -291,12 +320,24 @@ def main() -> int:
         atomic_write_json(PRICE_ROOT / filename, merged)
         changed_files.append(filename)
 
+    required_index_latest_dates = {
+        filename: latest_dates.get(filename)
+        for filename in REQUIRED_INDEX_FILES
+    }
+    stale_required_indices = {
+        filename: actual
+        for filename, actual in required_index_latest_dates.items()
+        if actual != expected_latest_market_date
+    }
+    decision = (
+        "PASS_ENGINE_FORWARD_DAILY_INCREMENTAL_PRICE_UPDATE"
+        if not stale_required_indices
+        else "HOLD_ENGINE_FORWARD_REQUIRED_INDEX_FRESHNESS"
+    )
     status = {
         "schema_version": "1.0",
         "engine_id": "FD-M3180125-SP500-TOP3-engine",
-        "decision": (
-            "PASS_ENGINE_FORWARD_DAILY_INCREMENTAL_PRICE_UPDATE"
-        ),
+        "decision": decision,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "provider": "Yahoo Finance via yfinance",
         "price_root": "data/fw_prices",
@@ -311,12 +352,15 @@ def main() -> int:
         "unavailable_symbol_count": len(unavailable_symbols),
         "unavailable_symbols": unavailable_symbols,
         "changed_files": changed_files,
+        "expected_latest_market_date": expected_latest_market_date,
+        "required_index_latest_dates": required_index_latest_dates,
+        "stale_required_indices": stale_required_indices,
         "latest_date_min": min(latest_dates.values()),
         "latest_date_max": max(latest_dates.values()),
     }
     atomic_write_json(STATUS_PATH, status)
     print(json.dumps(status, ensure_ascii=False, indent=2))
-    return 0
+    return 0 if not stale_required_indices else 2
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: engine-forward-daily
+  group: fd-m3180125-production-main-writer
   cancel-in-progress: false
 
 jobs:
@@ -36,10 +36,22 @@ jobs:
           fi
           python -m pip install yfinance pandas numpy
 
+      - name: Resolve latest completed US market session
+        id: latest_session
+        env:
+          PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+        run: |
+          latest="$(python scripts/resolve_fd_m3180125_latest_completed_session.py)"
+          echo "date=$latest" >> "$GITHUB_OUTPUT"
+          echo "latest_completed_market_session=$latest"
+
       - name: Update Engine Forward prices
         env:
           PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
-        run: python scripts/update_engine_forward_prices.py
+        run: |
+          python scripts/update_engine_forward_prices.py \
+            --expected-latest-market-date \
+            "${{ steps.latest_session.outputs.date }}"
 
       - name: Run Engine Forward daily
         env:
@@ -63,6 +75,7 @@ jobs:
       - name: Stage Engine Forward input and output only
         run: |
           git add -f data/fw_prices/
+          git add -f data/fw_universe/state/ data/fw_universe/snapshots/
           git add -f \
             "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/"
           git add -f \
@@ -72,7 +85,7 @@ jobs:
             | tee /tmp/engine_staged.txt
 
           if grep -Ev \
-            '^(data/fw_prices/|exports/official/FD-M3180125-SP500-TOP3-engine/forward/(runtime|automation)/)' \
+            '^(data/fw_prices/|data/fw_universe/(state|snapshots)/|exports/official/FD-M3180125-SP500-TOP3-engine/forward/(runtime|automation)/)' \
             /tmp/engine_staged.txt
           then
             echo "Path outside Engine Forward staged"
@@ -93,5 +106,17 @@ jobs:
             "41898282+github-actions[bot]@users.noreply.github.com"
 
           git commit -m "Update Engine Forward daily"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          for attempt in $(seq 1 8); do
+            echo "Push attempt $attempt/8"
+            git fetch origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then
+              remote_head="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+              test "$remote_head" = "$(git rev-parse HEAD)"
+              echo "PASS_ENGINE_FORWARD_DAILY_PERSISTED"
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          echo "HOLD_ENGINE_FORWARD_DAILY_PERSISTENCE"
+          exit 1

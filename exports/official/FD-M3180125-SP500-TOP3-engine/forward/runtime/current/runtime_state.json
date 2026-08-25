@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 44380.030289156886,
-    "date": "2026-08-21",
+    "date": "2026-08-24",
     "metadata": {
-      "last_execution_date": "2026-08-21",
+      "last_execution_date": "2026-08-24",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "ETSY": {
         "avg_cost": 81.36546316841856,
         "entry_date": "2026-06-30",
-        "last_price": 81.02999877929688,
-        "last_update_date": "2026-08-21",
-        "market_value": 50419.76229143474,
+        "last_price": 87.029999,
+        "last_update_date": "2026-08-24",
+        "market_value": 54153.176945683765,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -73,14 +73,14 @@
         },
         "quantity": 622.2357528199416,
         "symbol": "ETSY",
-        "unrealized_pnl": -208.73793670941188
+        "unrealized_pnl": 3524.676717539615
       },
       "NTAP": {
         "avg_cost": 208.16796672058103,
         "entry_date": "2026-08-18",
-        "last_price": 192.27000427246094,
-        "last_update_date": "2026-08-21",
-        "market_value": 90085.93271125956,
+        "last_price": 186.860001,
+        "last_update_date": "2026-08-24",
+        "market_value": 87551.13695559933,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -132,14 +132,14 @@
         },
         "quantity": 468.5386732690819,
         "symbol": "NTAP",
-        "unrealized_pnl": -7448.810233123876
+        "unrealized_pnl": -9983.60598878411
       },
       "SNOW": {
         "avg_cost": 323.4231061096191,
         "entry_date": "2026-08-05",
-        "last_price": 332.7799987792969,
-        "last_update_date": "2026-08-21",
-        "market_value": 102724.14060948825,
+        "last_price": 322.779999,
+        "last_update_date": "2026-08-24",
+        "market_value": 99637.29227968637,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -191,11 +191,11 @@
         },
         "quantity": 308.6848397929587,
         "symbol": "SNOW",
-        "unrealized_pnl": 2888.3309146993984
+        "unrealized_pnl": -198.5174151024874
       }
     },
-    "positions_value": 243229.83561218256,
-    "total_equity": 287609.86590133945
+    "positions_value": 241341.60618096945,
+    "total_equity": 285721.63647012634
   },
   "closed_trades": [
     {
@@ -564,12 +564,19 @@
       "open_positions_count": 3,
       "positions_value": 243229.83561218256,
       "total_equity": 287609.86590133945
+    },
+    {
+      "cash": 44380.030289156886,
+      "date": "2026-08-24",
+      "open_positions_count": 3,
+      "positions_value": 241341.60618096945,
+      "total_equity": 285721.63647012634
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-08-21",
+  "last_committed_date": "2026-08-24",
   "metadata": {
-    "last_commit_date": "2026-08-21",
+    "last_commit_date": "2026-08-24",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",

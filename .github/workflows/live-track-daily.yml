@@ -30,7 +30,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: personal-live-track-daily
+  group: fd-m3180125-production-main-writer
   cancel-in-progress: false
 
 jobs:
@@ -51,14 +51,22 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
           python -m pip install yfinance pandas numpy
+      - name: Resolve latest completed US market session
+        id: latest_session
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.parity_shadow_only != true)
+        env:
+          PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+        run: |
+          latest="$(python scripts/resolve_fd_m3180125_latest_completed_session.py)"
+          echo "date=$latest" >> "$GITHUB_OUTPUT"
+          echo "latest_completed_market_session=$latest"
+
       - name: Update independent Personal Live prices
         if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.parity_shadow_only != true)
         env:
           PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
         run: |
-          EXPECTED_LATEST_MARKET_DATE="$(
-            TZ=America/New_York date +%F
-          )"
+          EXPECTED_LATEST_MARKET_DATE="${{ steps.latest_session.outputs.date }}"
           echo "expected_latest_market_date=$EXPECTED_LATEST_MARKET_DATE"
           python scripts/update_fd_m3180125_live_prices.py \
             --expected-latest-market-date \
@@ -118,10 +126,11 @@ jobs:
         run: |
           git add -f data/live_prices/
           git add -f data/live_prices_adjusted_v1/
+          git add -f data/live_universe/state/ data/live_universe/snapshots/
           git add -f "exports/official/FD-M3180125-SP500-TOP3-engine/live/runtime/"
           git add -f "exports/official/FD-M3180125-SP500-TOP3-engine/live/automation/"
           git diff --cached --name-only | tee /tmp/live_staged.txt
-          if grep -Ev '^(data/live_prices/|data/live_prices_adjusted_v1/|exports/official/FD-M3180125-SP500-TOP3-engine/live/(runtime|automation)/)' /tmp/live_staged.txt; then
+          if grep -Ev '^(data/live_prices/|data/live_prices_adjusted_v1/|data/live_universe/(state|snapshots)/|exports/official/FD-M3180125-SP500-TOP3-engine/live/(runtime|automation)/)' /tmp/live_staged.txt; then
             echo "Path outside Personal Live staged"; exit 1
           fi
           git diff --cached --check
@@ -131,5 +140,17 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Update Personal Live daily"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          for attempt in $(seq 1 8); do
+            echo "Push attempt $attempt/8"
+            git fetch origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then
+              remote_head="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+              test "$remote_head" = "$(git rev-parse HEAD)"
+              echo "PASS_PERSONAL_LIVE_DAILY_PERSISTED"
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          echo "HOLD_PERSONAL_LIVE_DAILY_PERSISTENCE"
+          exit 1

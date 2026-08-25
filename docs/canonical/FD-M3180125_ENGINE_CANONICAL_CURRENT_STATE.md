@@ -4,10 +4,35 @@ project: SP500趋势跟踪分析及交易辅助系统
 engine: FD-M3180125-SP500-TOP3-engine
 status: CANONICAL_CURRENT_STATE
 authority: CURRENT_IMPLEMENTATION_ENTRY
-last_updated: 2026-07-26
+last_updated: 2026-08-25
 ---
 
 # FD-M3180125 Engine Canonical Current State
+
+## 2026-08-25 Production Authority Update
+
+本节覆盖本文中所有带有 2026-07-26 时点的旧 `CURRENT` 描述；旧段落保留用于历史审计。
+
+```text
+Parity-step-2 frozen acceptance: PASS (48 tests)
+Parity-step-3 frozen acceptance: PASS (56 tests)
+Forward adjusted-price + Canonical 5Y REDUCE contract: ACTIVE
+Live adjusted-price + Canonical 5Y REDUCE contract: ACTIVE
+Forward T+1 execution repair: PASS through 2026-08-21
+Forward and Live accounts: STRICTLY ISOLATED
+Forward Top3 and Live Top3: TRACK-LOCAL REFERENCES; equality is not an acceptance gate
+Live mode: ACTIVE_RECOMMENDATION_ONLY
+Automatic execution: DISABLED
+Broker API: NOT CONNECTED
+```
+
+本次 Production Acceptance Repair 的正式约束：
+
+1. 两条 daily workflow 使用同一个 Git writer lock，提交前 fetch/rebase，push 后核验 remote SHA；未持久化即 `HOLD`。
+2. Forward 数据更新必须以交易日历计算的 latest completed session 校验四个 required indices；任一过期即 `HOLD`，不得运行策略。
+3. Live Universe 使用 track-local pre-activation reconciliation：`CTRA -> VEEV`（2026-05-07）和 `EA -> FERG`（2026-08-05），生产 Data-ready 股票数必须为 491。
+4. Forward 与 Live 只共享策略合同（复权价格语义与 Canonical 5Y REDUCE），不共享账户、持仓、交易、Top3 reference 或运行事实。
+5. Dashboard 只读取成功持久化的 Official Artifacts；不得把本地未推送结果当作生产数据。
 
 ## 0. 文档地位
 
