@@ -162,11 +162,25 @@ def replay(runtime_root: Path, runtime_commit: str) -> dict[str, Any]:
         raise RuntimeError("SIM_END is prohibited in Forward replay")
 
     fills_count = 0
+    fill_count_by_month: dict[str, int] = {}
+    fills_by_reason: dict[str, int] = {}
     intents_count = 0
+    skipped_order_count = 0
+    skipped_orders_by_reason: dict[str, int] = {}
+    false_missing_t1_bars: list[dict[str, str]] = []
     for day in (runtime_root / "daily").iterdir():
         if not day.is_dir():
             continue
-        fills_count += len(load_json(day / "fills.json"))
+        day_fills = load_json(day / "fills.json")
+        fills_count += len(day_fills)
+        if day_fills:
+            month = day.name[:7]
+            fill_count_by_month[month] = (
+                fill_count_by_month.get(month, 0) + len(day_fills)
+            )
+        for fill in day_fills:
+            reason = str(fill.get("reason") or "UNKNOWN")
+            fills_by_reason[reason] = fills_by_reason.get(reason, 0) + 1
         intents_count += len(load_json(day / "order_intents.json"))
         trace = load_json(day / "decision_trace.json")
         metadata = trace.get("metadata") or {}
@@ -174,6 +188,32 @@ def replay(runtime_root: Path, runtime_commit: str) -> dict[str, Any]:
             raise RuntimeError(f"{day.name}: not a canonical single-step decision")
         if metadata.get("external_strategy_inputs") is not False:
             raise RuntimeError(f"{day.name}: external strategy inputs detected")
+        execution = load_json(day / "execution.json")
+        for row in execution.get("skipped_orders", []):
+            skipped_order_count += 1
+            reason = str(row.get("skip_reason") or row.get("reason") or "UNKNOWN")
+            skipped_orders_by_reason[reason] = (
+                skipped_orders_by_reason.get(reason, 0) + 1
+            )
+            if reason != "MISSING_T1_BAR":
+                continue
+            symbol = str(row.get("symbol") or "").strip().upper()
+            source_series = composition.runner.series_by_symbol.get(symbol, {})
+            if symbol and day.name in source_series:
+                false_missing_t1_bars.append(
+                    {
+                        "execution_date": day.name,
+                        "signal_date": str(row.get("signal_date") or ""),
+                        "symbol": symbol,
+                        "intent_type": str(row.get("intent_type") or ""),
+                    }
+                )
+
+    if false_missing_t1_bars:
+        raise RuntimeError(
+            "Forward replay dropped data-backed T+1 orders: "
+            + json.dumps(false_missing_t1_bars, sort_keys=True)
+        )
 
     pending = load_json(runtime_root / "current" / "pending_orders.json")
     orders = (runtime_root / "history" / "orders.jsonl").read_text(
@@ -190,6 +230,11 @@ def replay(runtime_root: Path, runtime_commit: str) -> dict[str, Any]:
         "orders_history_count": len(orders),
         "order_intent_count": intents_count,
         "fill_count": fills_count,
+        "fill_count_by_month": dict(sorted(fill_count_by_month.items())),
+        "fills_by_reason": dict(sorted(fills_by_reason.items())),
+        "skipped_order_count": skipped_order_count,
+        "skipped_orders_by_reason": dict(sorted(skipped_orders_by_reason.items())),
+        "false_missing_t1_bar_count": len(false_missing_t1_bars),
         "final_equity": state.account.total_equity,
         "final_cash": state.account.cash,
         "final_positions": sorted(state.account.positions),

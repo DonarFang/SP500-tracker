@@ -21,6 +21,7 @@ from e1r_engine.parity_step3_replay import (
     normalize_live,
     protected_hashes,
     validate_actions,
+    validate_forward_execution,
 )
 
 ENGINE_ROOT = Path("exports/official/FD-M3180125-SP500-TOP3-engine")
@@ -86,6 +87,9 @@ def main() -> int:
             legacy = load_json(LIVE_ROOT / "runtime/daily" / market_date.isoformat() / "market_status.json")
             contract = compare_contract(normalize_live(adjusted), forward)
             action_errors = validate_actions(adjusted)
+            execution_errors = validate_forward_execution(
+                load_json(FORWARD_DAILY / market_date.isoformat() / "execution.json")
+            )
             rows.append({
                 "market_date": market_date.isoformat(),
                 "causal_ledger": counts,
@@ -94,11 +98,17 @@ def main() -> int:
                 "legacy_live": legacy,
                 "contract_comparison": contract,
                 "action_contract_errors": action_errors,
+                "forward_execution_errors": execution_errors,
                 "legacy_to_adjusted_changed": normalize_live(adjusted) != {"regime": legacy.get("regime"), "regime_subclass": legacy.get("subclass"), "market_state": legacy.get("market_state"), "market_gate": legacy.get("market_gate"), "entry_capacity": legacy.get("entry_capacity"), "strategy_branch": legacy.get("strategy_branch"), "reference_top3": [x.get("symbol") for x in load_json(LIVE_ROOT / "runtime/daily" / market_date.isoformat() / "reference_top3.json").get("top3", [])]},
             })
     after = protected_hashes(LIVE_ROOT)
     protected = before == after
-    failures = sum(row["contract_comparison"]["decision"] != "PASS" or bool(row["action_contract_errors"]) for row in rows)
+    failures = sum(
+        row["contract_comparison"]["decision"] != "PASS"
+        or bool(row["action_contract_errors"])
+        or bool(row["forward_execution_errors"])
+        for row in rows
+    )
     payload = {
         "decision": "PASS_PARITY_STEP_3_READ_ONLY_REPLAY" if protected and failures == 0 else "HOLD_PARITY_STEP_3",
         "classification": "DIAGNOSTIC_ONLY_NOT_EXECUTION_APPROVED",

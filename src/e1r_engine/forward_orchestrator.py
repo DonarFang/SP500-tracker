@@ -600,11 +600,23 @@ class OfficialForwardCatchupRunner:
     def _required_symbols_for_account(
         self,
         account: AccountState,
+        pending_orders: Sequence[Any] = (),
     ) -> tuple[str, ...]:
+        """Return every symbol whose T+1 bar can affect execution.
+
+        New BUY orders are not positions yet.  Excluding pending-order symbols
+        therefore turns an available T+1 bar into a false ``MISSING_T1_BAR``
+        skip.  Keep the stable index/holding set, and add every pending order.
+        """
         return tuple(
             sorted(
                 set(self.required_execution_symbols)
                 | set(account.positions)
+                | {
+                    str(order.symbol).strip().upper()
+                    for order in pending_orders
+                    if getattr(order, "symbol", None)
+                }
             )
         )
 
@@ -779,7 +791,8 @@ class OfficialForwardCatchupRunner:
 
             execution_symbols = (
                 self._required_symbols_for_account(
-                    current_state.account
+                    current_state.account,
+                    current_state.pending_orders,
                 )
             )
 
@@ -917,7 +930,8 @@ class OfficialForwardCatchupRunner:
 
             execution_symbols = (
                 self._required_symbols_for_account(
-                    state.account
+                    state.account,
+                    state.pending_orders,
                 )
             )
 

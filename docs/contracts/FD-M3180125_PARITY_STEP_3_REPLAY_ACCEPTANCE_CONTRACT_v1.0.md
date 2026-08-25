@@ -21,9 +21,9 @@ Each date uses an isolated temporary Live root. Confirmed transaction events wit
 
 ## Daily parity
 
-The exact account-independent fields are `regime`, `regime_subclass`, `market_state`, `market_gate`, `entry_capacity`, `strategy_branch`, and ordered `reference_top3`. Live actions are validated against the shared action vocabulary; account-dependent actions are not required to equal Forward holdings.
+The exact account-independent fields are `regime`, `regime_subclass`, `market_state`, `market_gate`, `entry_capacity`, and `strategy_branch`. Forward and Live are isolated accounts, so different holdings may legitimately produce different ordered `reference_top3`; Top3 equality is recorded as diagnostic evidence and is not a parity gate. Live actions are validated against the shared action vocabulary; account-dependent actions are not required to equal Forward holdings.
 
-Legacy-to-adjusted differences are diagnostic evidence, not automatic failures. Any formal Forward contract mismatch, action-contract error, forbidden ETF in the stock universe, missing adjusted evidence, or protected-file hash change results in `HOLD_PARITY_STEP_3`.
+Legacy-to-adjusted differences are diagnostic evidence, not automatic failures. Any formal Forward contract mismatch, action-contract error, Forward `MISSING_T1_BAR` execution skip, forbidden ETF in the stock universe, missing adjusted evidence, or protected-file hash change results in `HOLD_PARITY_STEP_3`.
 
 ## PASS meaning
 

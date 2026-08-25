@@ -126,9 +126,21 @@ def normalize_live(payload: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def compare_contract(live: Mapping[str, Any], forward: Mapping[str, Any]) -> dict[str, Any]:
-    fields = (*PARITY_FIELDS, "reference_top3")
+    # Forward and Live have isolated accounts.  Their holdings can therefore
+    # legitimately remove different names from each account's reference Top3.
+    # Only the account-independent contract is a parity gate.
+    fields = PARITY_FIELDS
     mismatches = {field: {"live": live.get(field), "forward": forward.get(field)} for field in fields if live.get(field) != forward.get(field)}
-    return {"decision": "PASS" if not mismatches else "FAIL", "mismatches": mismatches}
+    return {
+        "decision": "PASS" if not mismatches else "FAIL",
+        "mismatches": mismatches,
+        "reference_top3_diagnostic": {
+            "live": live.get("reference_top3"),
+            "forward": forward.get("reference_top3"),
+            "equal": live.get("reference_top3") == forward.get("reference_top3"),
+            "parity_gating": False,
+        },
+    }
 
 
 def validate_actions(payload: Mapping[str, Any]) -> list[str]:
@@ -139,4 +151,21 @@ def validate_actions(payload: Mapping[str, Any]) -> list[str]:
             errors.append(f"unsupported action: {action}")
         if action == "REDUCE" and row.get("target_shares") is not None:
             errors.append(f"REDUCE must not carry target_shares: {row.get('symbol')}")
+    return errors
+
+
+def validate_forward_execution(payload: Mapping[str, Any]) -> list[str]:
+    """Reject silent T+1 execution loss in the Forward authority.
+
+    Step-3 previously compared decision fields only, so it could pass while
+    executable BUY orders were discarded before fills were produced.
+    """
+    errors: list[str] = []
+    for row in payload.get("skipped_orders", []):
+        reason = str(row.get("skip_reason") or row.get("reason") or "")
+        if reason == "MISSING_T1_BAR":
+            errors.append(
+                "Forward T+1 bar missing: "
+                f"{row.get('symbol')} signal={row.get('signal_date')}"
+            )
     return errors

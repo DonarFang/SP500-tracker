@@ -20,6 +20,7 @@ from e1r_engine.forward_runtime import (
     ForwardDatePlanner,
     ForwardMarketDataAdapter,
     ForwardSeedLoader,
+    PendingOrderRecord,
 )
 from e1r_engine.market_gate import MarketGateDecision
 from e1r_engine.state import AccountState
@@ -218,8 +219,10 @@ class TestForwardOrchestrator(unittest.TestCase):
         )
         self.assertEqual(
             snapshot.metadata["regime_source"],
-            "engine://canonical_regime",
+            "E1RCoreEngine.step",
         )
+        self.assertIsNone(snapshot.regime)
+        self.assertFalse(snapshot.metadata["external_regime_injected"])
 
     def test_uptrend_inputs_reuse_signal_adapter(
         self,
@@ -244,10 +247,11 @@ class TestForwardOrchestrator(unittest.TestCase):
         )
 
         object.__setattr__(
-            snapshot.regime,
-            "spx_regime",
-            "UPTREND",
+            snapshot,
+            "regime",
+            provider.record_for_date(self.forward_date),
         )
+        object.__setattr__(snapshot.regime, "spx_regime", "UPTREND")
 
         gate = GateProvider()
         management = ManagementProvider()
@@ -306,10 +310,11 @@ class TestForwardOrchestrator(unittest.TestCase):
         )
 
         object.__setattr__(
-            snapshot.regime,
-            "spx_regime",
-            "SIDEWAYS",
+            snapshot,
+            "regime",
+            provider.record_for_date(self.forward_date),
         )
+        object.__setattr__(snapshot.regime, "spx_regime", "SIDEWAYS")
         object.__setattr__(
             snapshot.regime,
             "subclass",
@@ -472,6 +477,33 @@ class TestForwardOrchestrator(unittest.TestCase):
         self.assertEqual(
             runner._daily_data_ready_universe("2026-08-21"),
             ("BBB", "CCC"),
+        )
+
+    def test_t1_execution_symbols_include_pending_new_buy(
+        self,
+    ) -> None:
+        runner = object.__new__(OfficialForwardCatchupRunner)
+        runner.required_execution_symbols = ("SPX", "NDX", "SOX")
+        account = AccountState.empty(
+            date="2026-08-04",
+            initial_cash=100000.0,
+        )
+        pending = PendingOrderRecord(
+            order_id="ORDER-SNOW-BUY",
+            signal_date="2026-08-04",
+            symbol="SNOW",
+            intent_type="BUY",
+            side="BUY",
+            branch="UPTREND",
+            sequence=1,
+            reason="test",
+            target_quantity=None,
+            quantity_delta=None,
+        )
+
+        self.assertEqual(
+            runner._required_symbols_for_account(account, (pending,)),
+            ("NDX", "SNOW", "SOX", "SPX"),
         )
 
 
