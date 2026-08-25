@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 44380.030289156886,
-    "date": "2026-08-24",
+    "date": "2026-08-25",
     "metadata": {
-      "last_execution_date": "2026-08-24",
+      "last_execution_date": "2026-08-25",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "ETSY": {
         "avg_cost": 81.36546316841856,
         "entry_date": "2026-06-30",
-        "last_price": 87.029999,
-        "last_update_date": "2026-08-24",
-        "market_value": 54153.176945683765,
+        "last_price": 84.43,
+        "last_update_date": "2026-08-25",
+        "market_value": 52535.36461058767,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -73,14 +73,14 @@
         },
         "quantity": 622.2357528199416,
         "symbol": "ETSY",
-        "unrealized_pnl": 3524.676717539615
+        "unrealized_pnl": 1906.8643824435217
       },
       "NTAP": {
         "avg_cost": 208.16796672058103,
         "entry_date": "2026-08-18",
-        "last_price": 186.860001,
-        "last_update_date": "2026-08-24",
-        "market_value": 87551.13695559933,
+        "last_price": 187.429993,
+        "last_update_date": "2026-08-25",
+        "market_value": 87818.2002510533,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -132,14 +132,14 @@
         },
         "quantity": 468.5386732690819,
         "symbol": "NTAP",
-        "unrealized_pnl": -9983.60598878411
+        "unrealized_pnl": -9716.542693330126
       },
       "SNOW": {
         "avg_cost": 323.4231061096191,
         "entry_date": "2026-08-05",
-        "last_price": 322.779999,
-        "last_update_date": "2026-08-24",
-        "market_value": 99637.29227968637,
+        "last_price": 317.019989,
+        "last_update_date": "2026-08-25",
+        "market_value": 97859.26451563054,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -191,11 +191,11 @@
         },
         "quantity": 308.6848397929587,
         "symbol": "SNOW",
-        "unrealized_pnl": -198.5174151024874
+        "unrealized_pnl": -1976.5451791583168
       }
     },
-    "positions_value": 241341.60618096945,
-    "total_equity": 285721.63647012634
+    "positions_value": 238212.82937727153,
+    "total_equity": 282592.8596664284
   },
   "closed_trades": [
     {
@@ -571,12 +571,19 @@
       "open_positions_count": 3,
       "positions_value": 241341.60618096945,
       "total_equity": 285721.63647012634
+    },
+    {
+      "cash": 44380.030289156886,
+      "date": "2026-08-25",
+      "open_positions_count": 3,
+      "positions_value": 238212.82937727153,
+      "total_equity": 282592.8596664284
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-08-24",
+  "last_committed_date": "2026-08-25",
   "metadata": {
-    "last_commit_date": "2026-08-24",
+    "last_commit_date": "2026-08-25",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
@@ -586,7 +593,28 @@
     "sim_end_replayed": false,
     "unknown_pending_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
   },
-  "pending_orders": [],
+  "pending_orders": [
+    {
+      "branch": "UPTREND",
+      "intent_type": "REDUCE",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 67.66,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "67ed0d345a1c6b3238a5058eaf2c8d8b5000d4d84f8cf793812c632500311acc",
+      "quantity_delta": -154.34241989647936,
+      "reason": "canonical_position_reduce",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-08-25",
+      "status": "PENDING",
+      "symbol": "SNOW",
+      "target_quantity": null
+    }
+  ],
   "schema_version": "1.0.0",
   "seed_date": "2026-06-16"
 }
