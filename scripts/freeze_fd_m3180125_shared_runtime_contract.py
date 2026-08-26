@@ -105,9 +105,9 @@ def build_contract() -> dict[str, Any]:
             ),
         },
         "forward_time_contract": {
-            "seed_date": "2026-06-18",
+            "seed_date": "2026-06-16",
             "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
-            "first_forward_market_date": "2026-06-19",
+            "first_forward_market_date": "2026-06-17",
             "forward_track_end": "OPEN_ENDED",
             "initial_catchup_target": "LATEST_COMPLETE_COMMON_DATA_DATE",
             "subsequent_run_mode": "INCREMENTAL_FROM_LAST_COMMITTED_DATE",
@@ -119,7 +119,7 @@ def build_contract() -> dict[str, Any]:
             "source_root": (
                 "exports/official/"
                 + ENGINE_ID
-                + "/forward/seed_2026-06-18"
+                + "/forward/seed_2026-06-16"
             ),
             "required_cash": 70154.33556161943,
             "required_position_symbols": [
@@ -180,7 +180,7 @@ def build_contract() -> dict[str, Any]:
                 ],
                 "rules": [
                     (
-                        "First planned date is 2026-06-19 when no Forward "
+                        "First planned date is 2026-06-17 when no Forward "
                         "daily commit exists."
                     ),
                     (
@@ -566,8 +566,8 @@ def build_markdown(contract: dict[str, Any]) -> str:
         f"- Contract version: `{CONTRACT_VERSION}`",
         "- Status: `FROZEN`",
         "- Forward track: `OPEN_ENDED`",
-        "- Seed date: `2026-06-18`",
-        "- First Forward market date: `2026-06-19`",
+        "- Seed date: `2026-06-16`",
+        "- First Forward market date: `2026-06-17`",
         "",
         "## Frozen premise",
         "",

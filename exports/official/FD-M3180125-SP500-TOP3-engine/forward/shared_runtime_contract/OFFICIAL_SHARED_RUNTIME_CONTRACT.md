@@ -5,8 +5,8 @@
 - Contract version: `1.0.0`
 - Status: `FROZEN`
 - Forward track: `OPEN_ENDED`
-- Seed date: `2026-06-18`
-- First Forward market date: `2026-06-19`
+- Seed date: `2026-06-16`
+- First Forward market date: `2026-06-17`
 
 ## Frozen premise
 

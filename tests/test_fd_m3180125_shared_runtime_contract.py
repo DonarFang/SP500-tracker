@@ -68,10 +68,10 @@ def test_official_shared_runtime_contract() -> None:
 
     time_contract = contract["forward_time_contract"]
 
-    assert time_contract["seed_date"] == "2026-06-18"
+    assert time_contract["seed_date"] == "2026-06-16"
     assert (
         time_contract["first_forward_market_date"]
-        == "2026-06-19"
+        == "2026-06-17"
     )
     assert time_contract["forward_track_end"] == "OPEN_ENDED"
     assert (
@@ -83,6 +83,9 @@ def test_official_shared_runtime_contract() -> None:
 
     seed = contract["frozen_seed_boundary"]
 
+    assert seed["source_root"].endswith(
+        "/forward/seed_2026-06-16"
+    )
     assert seed["required_position_count"] == 3
     assert sorted(seed["required_position_symbols"]) == [
         "DELL",
@@ -109,6 +112,11 @@ def test_official_shared_runtime_contract() -> None:
         "ForwardDailyCommitter",
         "OfficialForwardArtifactWriter",
     }
+
+    assert (
+        modules["ForwardDatePlanner"]["rules"][0]
+        == "First planned date is 2026-06-17 when no Forward daily commit exists."
+    )
 
     routing = modules[
         "CanonicalDailyDecisionRouter"

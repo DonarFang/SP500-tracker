@@ -184,7 +184,7 @@
       ],
       "responsibility": "Plan all uncommitted trading dates in ascending order.",
       "rules": [
-        "First planned date is 2026-06-19 when no Forward daily commit exists.",
+        "First planned date is 2026-06-17 when no Forward daily commit exists.",
         "Otherwise first planned date is the first trading date after last_committed_date.",
         "No date later than latest_complete_common_data_date may be processed.",
         "Empty plan produces NO_OP_DATA_NOT_ADVANCED."

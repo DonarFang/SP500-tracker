@@ -1,6 +1,6 @@
 {
   "canonical_5y_backtest_rerun": false,
-  "contract_sha256": "227c3e51d3966afde6176fa7a8ac4cd6504056619ad0d7284a4e5bdd3b5886d8",
+  "contract_sha256": "b135c0f29dec7b7e6d6ee34ec8403ebae13ba2b027ed2740b6e973bc0c78e529",
   "dashboard_step3_started": false,
   "decision": "PASS_STEP2_OFFICIAL_SHARED_RUNTIME_IMPLEMENTATION",
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
@@ -30,10 +30,10 @@
   "real_forward_run_performed": false,
   "source_files": {
     "src/e1r_engine/forward_runtime.py": {
-      "sha256": "3a68b2c18b016b10636458b63ba4fc5854d01868f00c2167addbbdeae09dd7e0"
+      "sha256": "83dc3813d80ecd3c7a757125e609a55965d6d6a38a773327b64b9c1d5693879b"
     },
     "tests/test_fd_m3180125_shared_runtime_implementation.py": {
-      "sha256": "b650d4fe085358d9a48980f9bc73996216fbb1313ded83b45a31c7e484dd4157"
+      "sha256": "9f787e43faed06fe479a6b1797bd6cf88586f7d7d4df26f475cbf0145a516411"
     }
   },
   "step": "STEP2_OFFICIAL_SHARED_RUNTIME_IMPLEMENTATION",

@@ -60,6 +60,7 @@ class FakeEngine:
         account,
         *,
         uptrend_inputs=None,
+        entry_atr20_provider=None,
     ):
         class Result:
             order_intents = [
@@ -83,6 +84,7 @@ class FakeEngine:
             }
 
         assert uptrend_inputs is not None
+        assert entry_atr20_provider is None
         return Result()
 
 
@@ -94,10 +96,10 @@ class SharedRuntimeImplementationTests(
     ) -> None:
         planner = ForwardDatePlanner(
             [
+                "2026-06-16",
+                "2026-06-17",
                 "2026-06-18",
                 "2026-06-19",
-                "2026-06-22",
-                "2026-06-23",
             ]
         )
 
@@ -105,23 +107,23 @@ class SharedRuntimeImplementationTests(
             planner.plan(
                 last_committed_date=None,
                 latest_complete_common_data_date=(
-                    "2026-06-22"
+                    "2026-06-18"
                 ),
             ),
             [
-                "2026-06-19",
-                "2026-06-22",
+                "2026-06-17",
+                "2026-06-18",
             ],
         )
 
         self.assertEqual(
             planner.plan(
-                last_committed_date="2026-06-22",
+                last_committed_date="2026-06-18",
                 latest_complete_common_data_date=(
-                    "2026-06-23"
+                    "2026-06-19"
                 ),
             ),
-            ["2026-06-23"],
+            ["2026-06-19"],
         )
 
     def test_order_and_fill_identity_are_deterministic(
@@ -351,7 +353,7 @@ class SharedRuntimeImplementationTests(
     ) -> None:
         account = account_from_dict(
             {
-                "date": "2026-06-18",
+                "date": "2026-06-16",
                 "cash": 70000.0,
                 "positions": {
                     "MRVL": {
@@ -370,7 +372,7 @@ class SharedRuntimeImplementationTests(
         state = ForwardRuntimeState(
             schema_version=RUNTIME_SCHEMA_VERSION,
             engine_id=ENGINE_ID,
-            seed_date="2026-06-18",
+            seed_date="2026-06-16",
             first_forward_market_date=(
                 FIRST_FORWARD_MARKET_DATE
             ),
@@ -465,9 +467,9 @@ class SharedRuntimeImplementationTests(
                     RUNTIME_SCHEMA_VERSION
                 ),
                 engine_id=ENGINE_ID,
-                seed_date="2026-06-18",
+                seed_date="2026-06-16",
                 first_forward_market_date=(
-                    "2026-06-19"
+                    "2026-06-17"
                 ),
                 last_committed_date=(
                     "2026-06-19"
