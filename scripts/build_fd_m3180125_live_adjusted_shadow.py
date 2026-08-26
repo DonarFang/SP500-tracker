@@ -436,6 +436,7 @@ def build_adjusted_shadow(
 ) -> Dict[str, object]:
     allowed_roots = {
         ("live_prices_adjusted_v1", "live_prices"),
+        ("live_prices_adjusted_shadow_v1", "live_prices"),
         ("forward_prices_adjusted_v1", "fw_prices"),
     }
     if (shadow_root.parent.name, shadow_root.name) not in allowed_roots:

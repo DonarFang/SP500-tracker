@@ -2,6 +2,7 @@
 from __future__ import annotations
 import argparse
 from datetime import date
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -80,29 +81,64 @@ def main()->int:
         output=result.to_dict()
         output.update({"market_date":market_date.isoformat(),"production_catalogue_hash_source":"discover_live_stock_symbols","excluded_stock_symbols":list(excluded),"production_runs_performed":False,"production_data_updated":False,"production_membership_activated":False,"production_side_effect_calls":[]})
         print(json.dumps(output,ensure_ascii=False,indent=2,sort_keys=True)); return 0
+    if last_raw is not None:
+        committed_through=date.fromisoformat(str(last_raw))
+        verify_date=opening_date
+        while verify_date<=committed_through:
+            manifest_path=LIVE_ROOT/"runtime/daily"/verify_date.isoformat()/"manifest.json"
+            if not manifest_path.is_file():
+                raise RuntimeError("HOLD_LIVE_DAILY_CONTINUITY: missing manifest for "+verify_date.isoformat())
+            manifest=load_json(manifest_path)
+            if manifest.get("market_date")!=verify_date.isoformat() or manifest.get("validation_status")!="PASS":
+                raise RuntimeError("HOLD_LIVE_DAILY_CONTINUITY: invalid manifest for "+verify_date.isoformat())
+            files=manifest.get("files")
+            if not isinstance(files,dict) or not files:
+                raise RuntimeError("HOLD_LIVE_DAILY_CONTINUITY: missing hashes for "+verify_date.isoformat())
+            for filename,expected_hash in files.items():
+                artifact_path=manifest_path.parent/str(filename)
+                if not artifact_path.is_file() or hashlib.sha256(artifact_path.read_bytes()).hexdigest()!=expected_hash:
+                    raise RuntimeError("HOLD_LIVE_DAILY_CONTINUITY: artifact hash mismatch for "+verify_date.isoformat()+"/"+str(filename))
+            verify_date=live_calendar.next_session(verify_date)
+    pending_dates=[]
+    if last_raw is None:
+        candidate=opening_date
+    else:
+        candidate=live_calendar.next_session(date.fromisoformat(str(last_raw)))
+    while candidate<=market_date:
+        pending_dates.append(candidate)
+        candidate=live_calendar.next_session(candidate)
+    if not pending_dates:
+        raise RuntimeError("HOLD_LIVE_DAILY_CONTINUITY: no pending session resolved")
+
     from e1r_engine.universe_versioning.production_integration import ProductionUniverseGate
     production_gate=ProductionUniverseGate(Path.cwd(),"live")
-    universe_decision=None
-    eligible_override=None
-    required_override=None
-    if production_gate.mode()=="ENFORCE":
-        catalogue=discover_live_stock_symbols(price_root=PRICE_ROOT,expected_stock_count=491)
-        eligible,_excluded=discover_live_eligible_stock_symbols(price_root=PRICE_ROOT,market_date=market_date,catalogue_stock_symbols=catalogue)
-        account_path=LIVE_ROOT/"runtime/current/account_state.json"
-        account=load_json(account_path) if account_path.is_file() else {"positions":state.get("positions",{})}
-        positions=account.get("positions",{})
-        if not isinstance(positions,dict): raise RuntimeError("HOLD_UV_STEP_4_LIVE_PRODUCTION: positions must be an object")
-        universe_decision=production_gate.resolve(expected_execution_date=expected_execution_date.isoformat(),production_catalogue=catalogue,production_eligible=eligible,holdings_symbols=positions.keys(),data_ready_symbols=eligible,required_indices=("SPX","NDX","SOX","VIX"))
-        eligible_override=universe_decision.eligible_buy_universe
-        required_override=tuple(symbol for symbol in universe_decision.required_data_universe if symbol not in {"SPX","NDX","SOX","VIX"})
-    composition=compose_active_live_production(price_root=PRICE_ROOT,live_root=LIVE_ROOT,data_status_path=STATUS_PATH,market_date=market_date,expected_execution_date=expected_execution_date,expected_stock_count=491,min_bars=120,eligible_stock_symbols_override=eligible_override,required_data_symbols_override=required_override)
-    result=composition.runtime.dry_run(market_date=composition.market_date,market_data=composition.market_data)
-    if universe_decision is not None:
-        actions=tuple({"symbol":row.symbol,"action":row.action} for row in result.decision.position_recommendations)
-        final_decision=production_gate.resolve(expected_execution_date=expected_execution_date.isoformat(),production_catalogue=composition.catalogue_stock_symbols,production_eligible=composition.required_data_symbols,holdings_symbols=result.account.positions.keys(),data_ready_symbols=composition.required_data_symbols,required_indices=("SPX","NDX","SOX","VIX"),candidate_actions=actions)
-        if final_decision.blocked_risk_increases: raise RuntimeError("HOLD_UV_STEP_4_LIVE_PRODUCTION: Engine BUY/ADD failed pre-publication Universe gate")
-    committed=composition.runtime.commit_active_daily(result=result,expected_execution_date=expected_execution_date)
-    committed.update({"catalogue_stock_symbol_count":len(composition.catalogue_stock_symbols),"eligible_stock_symbol_count":len(composition.stock_symbols),"excluded_stock_symbols":list(composition.excluded_stock_symbols),"workflow_created":True,"broker_api_connected":False,"universe_production_mode":production_gate.mode(),"universe_evidence_hash":None if universe_decision is None else universe_decision.evidence_hash,"live_price_mode":PRICE_MODE})
-    print(json.dumps(committed,ensure_ascii=False,indent=2,sort_keys=True)); return 0
+    committed_runs=[]
+    for run_market_date in pending_dates:
+        run_execution_date=live_calendar.next_session(run_market_date)
+        universe_decision=None
+        eligible_override=None
+        required_override=None
+        if production_gate.mode()=="ENFORCE":
+            catalogue=discover_live_stock_symbols(price_root=PRICE_ROOT,expected_stock_count=491)
+            eligible,_excluded=discover_live_eligible_stock_symbols(price_root=PRICE_ROOT,market_date=run_market_date,catalogue_stock_symbols=catalogue)
+            account_path=LIVE_ROOT/"runtime/current/account_state.json"
+            account=load_json(account_path) if account_path.is_file() else {"positions":state.get("positions",{})}
+            positions=account.get("positions",{})
+            if not isinstance(positions,dict): raise RuntimeError("HOLD_UV_STEP_4_LIVE_PRODUCTION: positions must be an object")
+            universe_decision=production_gate.resolve(expected_execution_date=run_execution_date.isoformat(),production_catalogue=catalogue,production_eligible=eligible,holdings_symbols=positions.keys(),data_ready_symbols=eligible,required_indices=("SPX","NDX","SOX","VIX"))
+            eligible_override=universe_decision.eligible_buy_universe
+            required_override=tuple(symbol for symbol in universe_decision.required_data_universe if symbol not in {"SPX","NDX","SOX","VIX"})
+        composition=compose_active_live_production(price_root=PRICE_ROOT,live_root=LIVE_ROOT,data_status_path=STATUS_PATH,market_date=run_market_date,expected_execution_date=run_execution_date,expected_stock_count=491,min_bars=120,eligible_stock_symbols_override=eligible_override,required_data_symbols_override=required_override,allow_status_ahead=run_market_date<market_date)
+        result=composition.runtime.dry_run(market_date=composition.market_date,market_data=composition.market_data)
+        if universe_decision is not None:
+            actions=tuple({"symbol":row.symbol,"action":row.action} for row in result.decision.position_recommendations)
+            final_decision=production_gate.resolve(expected_execution_date=run_execution_date.isoformat(),production_catalogue=composition.catalogue_stock_symbols,production_eligible=composition.required_data_symbols,holdings_symbols=result.account.positions.keys(),data_ready_symbols=composition.required_data_symbols,required_indices=("SPX","NDX","SOX","VIX"),candidate_actions=actions)
+            if final_decision.blocked_risk_increases: raise RuntimeError("HOLD_UV_STEP_4_LIVE_PRODUCTION: Engine BUY/ADD failed pre-publication Universe gate")
+        committed=composition.runtime.commit_active_daily(result=result,expected_execution_date=run_execution_date)
+        committed.update({"catalogue_stock_symbol_count":len(composition.catalogue_stock_symbols),"eligible_stock_symbol_count":len(composition.stock_symbols),"excluded_stock_symbols":list(composition.excluded_stock_symbols),"workflow_created":True,"broker_api_connected":False,"universe_production_mode":production_gate.mode(),"universe_evidence_hash":None if universe_decision is None else universe_decision.evidence_hash,"live_price_mode":PRICE_MODE})
+        committed_runs.append(committed)
+    output=dict(committed_runs[-1])
+    output.update({"catchup_session_count":len(committed_runs),"catchup_market_dates":[item["market_date"] for item in committed_runs],"continuity_status":"PASS"})
+    print(json.dumps(output,ensure_ascii=False,indent=2,sort_keys=True)); return 0
 
 if __name__=="__main__": raise SystemExit(main())

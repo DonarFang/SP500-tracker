@@ -14,15 +14,15 @@ def test_live_defaults_to_adjusted_accepted_and_preserves_rollback():
     assert 'Path("data/live_prices_adjusted_v1/live_prices")' in source
 
 
-def test_active_workflow_rebuilds_adjusted_prices_before_live():
+def test_active_workflow_incrementally_updates_adjusted_prices_before_live():
     workflow = (ROOT / ".github/workflows/live-track-daily.yml").read_text()
     build_at = workflow.index("Build accepted adjusted Personal Live prices")
     live_at = workflow.index("Run ACTIVE Personal Live daily")
     assert build_at < live_at
-    assert "--accepted-production" in workflow
-    assert "PASS_LIVE_ADJUSTED_PRICE_LIBRARY_BUILT" in workflow
+    assert "update_fd_m3180125_live_adjusted_prices.py" in workflow
+    assert "--expected-latest-market-date" in workflow
     assert "FD_M3180125_LIVE_PRICE_MODE: ADJUSTED_ACCEPTED" in workflow
-    assert "Activate Forward and Live adjusted price and REDUCE parity" in workflow
+    assert "python scripts/update_fd_m3180125_live_prices.py" not in workflow
 
 
 def test_accepted_builder_keeps_shadow_default_for_isolated_checks():

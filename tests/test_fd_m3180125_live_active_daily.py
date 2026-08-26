@@ -10,13 +10,14 @@ def test_active_live_workflow_contract():
     assert "cron: '30 23 * * 1-5'" in workflow
     assert "workflow_dispatch:" in workflow
     assert "workflow_run:" not in workflow
-    assert "TZ=America/New_York date +%F" in workflow
+    assert "resolve_fd_m3180125_latest_completed_session.py" in workflow
     assert "--expected-latest-market-date" in workflow
-    assert '"$EXPECTED_LATEST_MARKET_DATE"' in workflow
+    assert 'steps.latest_session.outputs.date' in workflow
     assert "commit_active_daily" in production
     assert "ACTIVE_RECOMMENDATION_ONLY" in production
     assert "commit_active_daily" in runner
     assert "PASS_LIVE_ACTIVE_NO_NEW_DATE" in runner
+    assert "for run_market_date in pending_dates" in runner
 
 
 def test_active_runner_never_uses_unactivated_composition():

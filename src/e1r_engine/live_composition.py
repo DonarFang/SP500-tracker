@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from datetime import date
 import json
 from pathlib import Path
-from typing import Sequence
+from typing import Optional, Sequence
 
 from .adapters.live_data import LiveDataAdapter
 from .live_account import LiveOpeningState
@@ -122,6 +122,7 @@ def validate_current_data_status(
     *,
     status_path: Path,
     market_date: date,
+    allow_status_ahead: bool = False,
 ) -> dict[str, object]:
     path = Path(status_path)
 
@@ -145,12 +146,17 @@ def validate_current_data_status(
             "Live data status must be CURRENT"
         )
 
-    if payload.get("latest_market_date") != (
-        market_date.isoformat()
-    ):
+    try:
+        status_date = date.fromisoformat(str(payload.get("latest_market_date")))
+    except ValueError as exc:
         raise LiveCompositionError(
-            "Live data latest_market_date mismatch"
-        )
+            "Live data latest_market_date invalid"
+        ) from exc
+    if (
+        status_date != market_date
+        and (not allow_status_ahead or status_date < market_date)
+    ):
+        raise LiveCompositionError("Live data latest_market_date mismatch")
 
     if payload.get("catalogue_changed") is not False:
         raise LiveCompositionError(
@@ -216,8 +222,9 @@ def _compose_live_production_components(
     min_bars: int,
     opening: LiveOpeningState,
     initialize_unactivated: bool,
-    eligible_stock_symbols_override: Sequence[str] | None = None,
-    required_data_symbols_override: Sequence[str] | None = None,
+    eligible_stock_symbols_override: Optional[Sequence[str]] = None,
+    required_data_symbols_override: Optional[Sequence[str]] = None,
+    allow_status_ahead: bool = False,
 ) -> LiveProductionComposition:
     if expected_execution_date <= market_date:
         raise LiveCompositionError(
@@ -231,6 +238,7 @@ def _compose_live_production_components(
     validate_current_data_status(
         status_path=data_status_path,
         market_date=market_date,
+        allow_status_ahead=allow_status_ahead,
     )
 
     catalogue_stock_symbols = discover_live_stock_symbols(
@@ -314,8 +322,8 @@ def compose_unactivated_live_production(
     expected_execution_date: date,
     expected_stock_count: int = 498,
     min_bars: int = 120,
-    eligible_stock_symbols_override: Sequence[str] | None = None,
-    required_data_symbols_override: Sequence[str] | None = None,
+    eligible_stock_symbols_override: Optional[Sequence[str]] = None,
+    required_data_symbols_override: Optional[Sequence[str]] = None,
 ) -> LiveProductionComposition:
     """Compose only the Official Unactivated Acceptance lifecycle."""
     return _compose_live_production_components(
@@ -342,8 +350,9 @@ def compose_active_live_production(
     expected_execution_date: date,
     expected_stock_count: int = 498,
     min_bars: int = 120,
-    eligible_stock_symbols_override: Sequence[str] | None = None,
-    required_data_symbols_override: Sequence[str] | None = None,
+    eligible_stock_symbols_override: Optional[Sequence[str]] = None,
+    required_data_symbols_override: Optional[Sequence[str]] = None,
+    allow_status_ahead: bool = False,
 ) -> LiveProductionComposition:
     """Compose ACTIVE Live without repository initialization."""
     return _compose_live_production_components(
@@ -360,6 +369,7 @@ def compose_active_live_production(
         initialize_unactivated=False,
         eligible_stock_symbols_override=eligible_stock_symbols_override,
         required_data_symbols_override=required_data_symbols_override,
+        allow_status_ahead=allow_status_ahead,
     )
 
 

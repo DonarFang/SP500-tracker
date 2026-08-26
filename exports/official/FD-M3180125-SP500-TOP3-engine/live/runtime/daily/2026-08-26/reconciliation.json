@@ -1,0 +1,30 @@
+{
+  "records": [
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-08-27",
+      "notes": "",
+      "recommended_action": "HOLD",
+      "recommended_shares": null,
+      "reconciliation_id": "2026-08-26::2026-08-27::HPE::HOLD",
+      "signal_date": "2026-08-26",
+      "status": "INFORMATIONAL",
+      "symbol": "HPE"
+    },
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-08-27",
+      "notes": "",
+      "recommended_action": "HOLD",
+      "recommended_shares": null,
+      "reconciliation_id": "2026-08-26::2026-08-27::NTAP::HOLD",
+      "signal_date": "2026-08-26",
+      "status": "INFORMATIONAL",
+      "symbol": "NTAP"
+    }
+  ]
+}

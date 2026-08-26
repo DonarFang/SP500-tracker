@@ -1,6 +1,8 @@
 name: Personal Live Track Daily
 
 on:
+  # github.event_name == 'push' is validation-only; it never updates accepted
+  # prices and never runs ACTIVE Live.
   push:
     branches:
       - main
@@ -8,6 +10,7 @@ on:
       - '.github/workflows/live-track-daily.yml'
       - 'docs/contracts/FD-M3180125_PARITY_REPAIR_CONTRACT_v1.0.md'
       - 'scripts/build_fd_m3180125_live_adjusted_shadow.py'
+      - 'scripts/update_fd_m3180125_live_adjusted_prices.py'
       - 'scripts/record_fd_m3180125_live_interaction.py'
       - 'scripts/run_fd_m3180125_live_daily.py'
       - 'scripts/update_fd_m3180125_live_prices.py'
@@ -61,41 +64,29 @@ jobs:
           echo "date=$latest" >> "$GITHUB_OUTPUT"
           echo "latest_completed_market_session=$latest"
 
-      - name: Update independent Personal Live prices
+      - name: Build accepted adjusted Personal Live prices
         if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.parity_shadow_only != true)
         env:
           PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
         run: |
-          EXPECTED_LATEST_MARKET_DATE="${{ steps.latest_session.outputs.date }}"
-          echo "expected_latest_market_date=$EXPECTED_LATEST_MARKET_DATE"
-          python scripts/update_fd_m3180125_live_prices.py \
+          python scripts/update_fd_m3180125_live_adjusted_prices.py \
             --expected-latest-market-date \
-            "$EXPECTED_LATEST_MARKET_DATE"
-      - name: Build accepted adjusted Personal Live prices
-        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.parity_shadow_only != true) || (github.event_name == 'push' && github.event.head_commit.message == 'Activate Forward and Live adjusted price and REDUCE parity')
-        env:
-          PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
-        run: |
-          python scripts/build_fd_m3180125_live_adjusted_shadow.py \
-            --accepted-production \
-            --as-of-utc "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-            --evidence-path "exports/official/FD-M3180125-SP500-TOP3-engine/live/automation/parity/current_adjusted_accepted.json" \
-            2>&1 | tee /tmp/live_adjusted_accepted.log
-          grep -F 'PASS_LIVE_ADJUSTED_PRICE_LIBRARY_BUILT' /tmp/live_adjusted_accepted.log
+            "${{ steps.latest_session.outputs.date }}"
       - name: Run ACTIVE Personal Live daily
-        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.parity_shadow_only != true) || (github.event_name == 'push' && github.event.head_commit.message == 'Activate Forward and Live adjusted price and REDUCE parity')
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.parity_shadow_only != true)
         env:
           PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
           FD_M3180125_LIVE_PRICE_MODE: ADJUSTED_ACCEPTED
         run: python scripts/run_fd_m3180125_live_daily.py
       - name: Build adjusted Live price shadow only
         id: adjusted_shadow
-        if: (github.event_name == 'push' && github.event.head_commit.message != 'Activate Forward and Live adjusted price and REDUCE parity') || (github.event_name == 'workflow_dispatch' && inputs.parity_shadow_only == true)
+        if: github.event_name == 'workflow_dispatch' && inputs.parity_shadow_only == true
         env:
           PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
         run: |
           set +e
           python scripts/build_fd_m3180125_live_adjusted_shadow.py \
+            --shadow-root data/live_prices_adjusted_shadow_v1/live_prices \
             --as-of-utc "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             2>&1 | tee /tmp/parity_step_2_adjusted_shadow.log
           build_status=${PIPESTATUS[0]}
@@ -118,19 +109,18 @@ jobs:
       - name: Enforce Live-only isolation
         run: |
           git diff --name-only | tee /tmp/live_changed.txt
-          if grep -E '^(data/fw_prices/|data/prices/|data/oos/|exports/oos_|exports/e1r_v0_2_|exports/official/FD-M3180125-SP500-TOP3-engine/(forward|backtest)/|dashboard/|public/)' /tmp/live_changed.txt; then
+          if grep -E '^(data/fw_prices/|data/live_prices/|data/prices/|data/oos/|exports/oos_|exports/e1r_v0_2_|exports/official/FD-M3180125-SP500-TOP3-engine/(forward|backtest)/|dashboard/|public/)' /tmp/live_changed.txt; then
             echo "Forbidden non-Live path changed"; exit 1
           fi
           git diff --exit-code -- ".github/workflows/update.yml" ".github/workflows/engine-forward-daily.yml"
       - name: Stage Personal Live input and output only
         run: |
-          git add -f data/live_prices/
           git add -f data/live_prices_adjusted_v1/
           git add -f data/live_universe/state/ data/live_universe/snapshots/
           git add -f "exports/official/FD-M3180125-SP500-TOP3-engine/live/runtime/"
           git add -f "exports/official/FD-M3180125-SP500-TOP3-engine/live/automation/"
           git diff --cached --name-only | tee /tmp/live_staged.txt
-          if grep -Ev '^(data/live_prices/|data/live_prices_adjusted_v1/|data/live_universe/(state|snapshots)/|exports/official/FD-M3180125-SP500-TOP3-engine/live/(runtime|automation)/)' /tmp/live_staged.txt; then
+          if grep -Ev '^(data/live_prices_adjusted_v1/|data/live_universe/(state|snapshots)/|exports/official/FD-M3180125-SP500-TOP3-engine/live/(runtime|automation)/)' /tmp/live_staged.txt; then
             echo "Path outside Personal Live staged"; exit 1
           fi
           git diff --cached --check
