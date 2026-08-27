@@ -7,23 +7,23 @@
   "buy_add_manual_pause_remains": true,
   "classification": "DIAGNOSTIC_ONLY_NOT_EXECUTION_APPROVED",
   "contract_failure_count": 0,
-  "date_count": 7,
+  "date_count": 8,
   "decision": "PASS_PARITY_STEP_3_READ_ONLY_REPLAY",
-  "end_date": "2026-08-21",
-  "evidence_hash": "44067e7dc2d08bf62724c9b921a9fbacf26d70c23f0eaba4b161f7ab4fe79e9b",
+  "end_date": "2026-08-24",
+  "evidence_hash": "4464a027f84dd498bb81f84dfba81750c3b1ff32e562f8bf54814edc8b4483e0",
   "five_year_mutated": false,
   "forward_mutated": false,
   "live_history_mutated": false,
   "protected_hashes_after": {
     "contracts/live_runtime_contract.json": "b3b102bf6fbe3aa421e323f8edb3c6a9bb020adc6225b8ae079de6da2222b304",
-    "runtime/current/runtime_state.json": "8457e699f22a10e659b1a23f9fde2011b40bb817f9b01e93cd855ec7032a3f13",
+    "runtime/current/runtime_state.json": "16c0b6f61d0cc9f6430ef3b74b58bcc90cc1722e3f080a8085f6f5f9440b6ee5",
     "runtime/history/cash_control.jsonl": "39717fb9a9692c488b91fdc627f69f1dd4d21c64b6778965a1b64d4a7137dac7",
     "runtime/history/ledger_journal.jsonl": "a00ded3e7628b0743d022754df42e1dc82bd6b13879649d8e709341f0e9a666a",
     "runtime/history/transactions.jsonl": "b935e0dac96a35671f4b0267b48f484256fab5b93a278b858508958b9f5ccc96"
   },
   "protected_hashes_before": {
     "contracts/live_runtime_contract.json": "b3b102bf6fbe3aa421e323f8edb3c6a9bb020adc6225b8ae079de6da2222b304",
-    "runtime/current/runtime_state.json": "8457e699f22a10e659b1a23f9fde2011b40bb817f9b01e93cd855ec7032a3f13",
+    "runtime/current/runtime_state.json": "16c0b6f61d0cc9f6430ef3b74b58bcc90cc1722e3f080a8085f6f5f9440b6ee5",
     "runtime/history/cash_control.jsonl": "39717fb9a9692c488b91fdc627f69f1dd4d21c64b6778965a1b64d4a7137dac7",
     "runtime/history/ledger_journal.jsonl": "a00ded3e7628b0743d022754df42e1dc82bd6b13879649d8e709341f0e9a666a",
     "runtime/history/transactions.jsonl": "b935e0dac96a35671f4b0267b48f484256fab5b93a278b858508958b9f5ccc96"
@@ -478,6 +478,70 @@
       },
       "legacy_to_adjusted_changed": true,
       "market_date": "2026-08-21"
+    },
+    {
+      "action_contract_errors": [],
+      "adjusted_live": {
+        "entry_capacity": 0,
+        "market_gate": "RISK_OFF",
+        "market_state": "CASH_MODE",
+        "reference_top3": [
+          "DASH",
+          "IQV",
+          "TGT"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "causal_ledger": {
+        "cash_controls": 2,
+        "journal_events": 4,
+        "transactions": 2
+      },
+      "contract_comparison": {
+        "decision": "PASS",
+        "mismatches": {},
+        "reference_top3_diagnostic": {
+          "equal": true,
+          "forward": [
+            "DASH",
+            "IQV",
+            "TGT"
+          ],
+          "live": [
+            "DASH",
+            "IQV",
+            "TGT"
+          ],
+          "parity_gating": false
+        }
+      },
+      "formal_forward": {
+        "entry_capacity": 0,
+        "market_gate": "RISK_OFF",
+        "market_state": "CASH_MODE",
+        "reference_top3": [
+          "DASH",
+          "IQV",
+          "TGT"
+        ],
+        "regime": "UPTREND",
+        "regime_subclass": "NO_SUBCLASS",
+        "strategy_branch": "UPTREND"
+      },
+      "forward_execution_errors": [],
+      "legacy_live": {
+        "date": "2026-08-24",
+        "entry_capacity": 0,
+        "market_gate": "RISK_OFF",
+        "market_state": "CASH_MODE",
+        "regime": "UPTREND",
+        "strategy_branch": "UPTREND",
+        "subclass": "NO_SUBCLASS"
+      },
+      "legacy_to_adjusted_changed": false,
+      "market_date": "2026-08-24"
     }
   ],
   "start_date": "2026-08-13"
