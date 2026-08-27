@@ -162,6 +162,49 @@ def numeric(row: Any, field: str, default: float = 0.0) -> float:
     return round(float(value), 6)
 
 
+def valid_ohlc_record(row: dict[str, Any]) -> bool:
+    values: dict[str, float] = {}
+    for field in ("open", "high", "low", "close"):
+        value = row.get(field)
+        if (
+            not isinstance(value, (int, float))
+            or isinstance(value, bool)
+            or not math.isfinite(float(value))
+            or float(value) <= 0
+        ):
+            return False
+        values[field] = float(value)
+
+    tolerance = max(values.values()) * 1e-12
+    return (
+        values["low"] <= min(values["open"], values["close"]) + tolerance
+        and values["high"] + tolerance
+        >= max(values["open"], values["close"])
+        and values["low"] <= values["high"] + tolerance
+    )
+
+
+def downloaded_record(item: Any) -> Optional[dict[str, Any]]:
+    trading_date = str(item.date)[:10]
+    record = {
+        "date": trading_date,
+        "open": numeric(item, "open"),
+        "high": numeric(item, "high"),
+        "low": numeric(item, "low"),
+        "close": numeric(item, "close"),
+        "volume": round(numeric(item, "volume"), 0),
+    }
+    return record if valid_ohlc_record(record) else None
+
+
+def invalid_ohlc_dates(records: list[dict[str, Any]]) -> list[str]:
+    return [
+        str(row.get("date", "UNKNOWN"))
+        for row in records
+        if not valid_ohlc_record(row)
+    ]
+
+
 def clip_frame_to_expected_session(
     frame: pd.DataFrame, expected_latest_market_date: str
 ) -> Optional[pd.DataFrame]:
@@ -174,18 +217,10 @@ def merge_records(
 ) -> list[dict[str, Any]]:
     rows = {str(row["date"]): dict(row) for row in existing}
     for item in frame.itertuples(index=False):
-        close = numeric(item, "close")
-        if close <= 0:
+        record = downloaded_record(item)
+        if record is None:
             continue
-        trading_date = str(item.date)[:10]
-        rows[trading_date] = {
-            "date": trading_date,
-            "open": numeric(item, "open"),
-            "high": numeric(item, "high"),
-            "low": numeric(item, "low"),
-            "close": close,
-            "volume": round(numeric(item, "volume"), 0),
-        }
+        rows[record["date"]] = record
     return [rows[key] for key in sorted(rows)]
 
 
@@ -270,10 +305,20 @@ def main() -> int:
     changed_files = sorted(
         name for name in merged_by_file if merged_by_file[name] != existing[name]
     )
-    if stale_required:
+    invalid_files = {
+        filename: dates
+        for filename, records in merged_by_file.items()
+        if (dates := invalid_ohlc_dates(records))
+    }
+    if stale_required or invalid_files:
+        decision = (
+            "HOLD_LIVE_ADJUSTED_INVALID_OHLC"
+            if invalid_files
+            else "HOLD_LIVE_ADJUSTED_REQUIRED_INDEX_FRESHNESS"
+        )
         status = {
             "schema_version": "2.0",
-            "decision": "HOLD_LIVE_ADJUSTED_REQUIRED_INDEX_FRESHNESS",
+            "decision": decision,
             "data_status": "HOLD",
             "price_mode": "ADJUSTED_ACCEPTED",
             "auto_adjust": True,
@@ -283,6 +328,7 @@ def main() -> int:
             "latest_market_date": max(latest_dates.values()),
             "required_index_latest_dates": required_latest,
             "stale_required_indices": stale_required,
+            "invalid_ohlc_files": invalid_files,
             "fetch_unavailable_symbols": sorted(fetch_unavailable),
             "ordinary_stale_symbols": ordinary_stale,
             "unavailable_symbols": [],
@@ -330,6 +376,7 @@ def main() -> int:
         "latest_market_date": expected,
         "required_index_latest_dates": required_latest,
         "stale_required_indices": {},
+        "invalid_ohlc_files": {},
         "changed_file_count": len(changed_files),
         "changed_files": changed_files,
         "fetch_unavailable_symbols": sorted(fetch_unavailable),

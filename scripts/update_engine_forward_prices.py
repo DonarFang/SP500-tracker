@@ -13,7 +13,7 @@ import tempfile
 import time
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import pandas as pd
 import yfinance as yf
@@ -94,7 +94,7 @@ def yahoo_symbol(path: Path) -> str:
 def normalize_frame(
     raw: pd.DataFrame,
     symbol: str,
-) -> pd.DataFrame | None:
+) -> Optional[pd.DataFrame]:
     if raw is None or raw.empty:
         return None
 
@@ -174,7 +174,7 @@ def download_single(
     symbol: str,
     start: str,
     end: str,
-) -> pd.DataFrame | None:
+) -> Optional[pd.DataFrame]:
     try:
         raw = yf.Ticker(symbol).history(
             start=start,
@@ -194,10 +194,53 @@ def numeric(row: Any, field: str, default: float = 0.0) -> float:
     return round(float(value), 6)
 
 
+def valid_ohlc_record(row: dict[str, Any]) -> bool:
+    values: dict[str, float] = {}
+    for field in ("open", "high", "low", "close"):
+        value = row.get(field)
+        if (
+            not isinstance(value, (int, float))
+            or isinstance(value, bool)
+            or not math.isfinite(float(value))
+            or float(value) <= 0
+        ):
+            return False
+        values[field] = float(value)
+
+    tolerance = max(values.values()) * 1e-12
+    return (
+        values["low"] <= min(values["open"], values["close"]) + tolerance
+        and values["high"] + tolerance
+        >= max(values["open"], values["close"])
+        and values["low"] <= values["high"] + tolerance
+    )
+
+
+def downloaded_record(item: Any) -> Optional[dict[str, Any]]:
+    trading_date = str(item.date)[:10]
+    record = {
+        "date": trading_date,
+        "open": numeric(item, "open"),
+        "high": numeric(item, "high"),
+        "low": numeric(item, "low"),
+        "close": numeric(item, "close"),
+        "volume": round(numeric(item, "volume"), 0),
+    }
+    return record if valid_ohlc_record(record) else None
+
+
+def invalid_ohlc_dates(records: list[dict[str, Any]]) -> list[str]:
+    return [
+        str(row.get("date", "UNKNOWN"))
+        for row in records
+        if not valid_ohlc_record(row)
+    ]
+
+
 def clip_frame_to_expected_session(
     frame: pd.DataFrame,
     expected_latest_market_date: str,
-) -> pd.DataFrame | None:
+) -> Optional[pd.DataFrame]:
     """Exclude provider rows for an incomplete or future market session."""
     clipped = frame.loc[
         frame["date"] <= expected_latest_market_date
@@ -215,18 +258,10 @@ def merge_records(
     }
 
     for item in frame.itertuples(index=False):
-        close = numeric(item, "close")
-        if close <= 0:
+        record = downloaded_record(item)
+        if record is None:
             continue
-        trading_date = str(item.date)[:10]
-        rows[trading_date] = {
-            "date": trading_date,
-            "open": numeric(item, "open"),
-            "high": numeric(item, "high"),
-            "low": numeric(item, "low"),
-            "close": close,
-            "volume": round(numeric(item, "volume"), 0),
-        }
+        rows[record["date"]] = record
 
     return [rows[key] for key in sorted(rows)]
 
@@ -288,8 +323,7 @@ def main() -> int:
         if fallback is not None:
             downloaded[symbol] = fallback
 
-    changed_files: list[str] = []
-    unchanged_files: list[str] = []
+    merged_by_file: dict[str, list[dict[str, Any]]] = {}
     unavailable_symbols: list[str] = []
     latest_dates: dict[str, str] = {}
 
@@ -306,19 +340,17 @@ def main() -> int:
 
         if frame is None:
             unavailable_symbols.append(symbol)
-            unchanged_files.append(filename)
-            latest_dates[filename] = old_records[-1]["date"]
-            continue
-
-        merged = merge_records(old_records, frame)
+            merged = old_records
+        else:
+            merged = merge_records(old_records, frame)
+        merged_by_file[filename] = merged
         latest_dates[filename] = merged[-1]["date"]
 
-        if merged == old_records:
-            unchanged_files.append(filename)
-            continue
-
-        atomic_write_json(PRICE_ROOT / filename, merged)
-        changed_files.append(filename)
+    invalid_files = {
+        filename: dates
+        for filename, records in merged_by_file.items()
+        if (dates := invalid_ohlc_dates(records))
+    }
 
     required_index_latest_dates = {
         filename: latest_dates.get(filename)
@@ -329,11 +361,19 @@ def main() -> int:
         for filename, actual in required_index_latest_dates.items()
         if actual != expected_latest_market_date
     }
-    decision = (
-        "PASS_ENGINE_FORWARD_DAILY_INCREMENTAL_PRICE_UPDATE"
-        if not stale_required_indices
-        else "HOLD_ENGINE_FORWARD_REQUIRED_INDEX_FRESHNESS"
+    if invalid_files:
+        decision = "HOLD_ENGINE_FORWARD_INVALID_OHLC"
+    elif stale_required_indices:
+        decision = "HOLD_ENGINE_FORWARD_REQUIRED_INDEX_FRESHNESS"
+    else:
+        decision = "PASS_ENGINE_FORWARD_DAILY_INCREMENTAL_PRICE_UPDATE"
+
+    changed_files = sorted(
+        filename
+        for filename, records in merged_by_file.items()
+        if records != existing[filename]
     )
+    unchanged_files = sorted(set(existing) - set(changed_files))
     status = {
         "schema_version": "1.0",
         "engine_id": "FD-M3180125-SP500-TOP3-engine",
@@ -355,12 +395,20 @@ def main() -> int:
         "expected_latest_market_date": expected_latest_market_date,
         "required_index_latest_dates": required_index_latest_dates,
         "stale_required_indices": stale_required_indices,
+        "invalid_ohlc_files": invalid_files,
         "latest_date_min": min(latest_dates.values()),
         "latest_date_max": max(latest_dates.values()),
     }
+    if invalid_files or stale_required_indices:
+        atomic_write_json(STATUS_PATH, status)
+        print(json.dumps(status, ensure_ascii=False, indent=2))
+        return 2
+
+    for filename in changed_files:
+        atomic_write_json(PRICE_ROOT / filename, merged_by_file[filename])
     atomic_write_json(STATUS_PATH, status)
     print(json.dumps(status, ensure_ascii=False, indent=2))
-    return 0 if not stale_required_indices else 2
+    return 0
 
 
 if __name__ == "__main__":
