@@ -1,0 +1,29 @@
+{
+  "closed_trades": [],
+  "resolved_orders": [
+    {
+      "branch": "UPTREND",
+      "execution_date": "2026-08-26",
+      "fill_id": "6374a057ddef828a9ee5365e12d77d2a54452ad91cbb8248eb93e5f71e4fd8b2",
+      "intent_type": "REDUCE",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 67.66,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "67ed0d345a1c6b3238a5058eaf2c8d8b5000d4d84f8cf793812c632500311acc",
+      "quantity_delta": -154.34241989647936,
+      "reason": "canonical_position_reduce",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-08-25",
+      "status": "FILLED",
+      "symbol": "SNOW",
+      "target_quantity": null
+    }
+  ],
+  "sim_end_performed": false,
+  "skipped_orders": []
+}
