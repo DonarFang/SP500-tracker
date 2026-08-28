@@ -1,0 +1,44 @@
+{
+  "closed_trades": [
+    {
+      "average_cost": 323.4231061096191,
+      "entry_date": "2026-08-05",
+      "execution_price": 319.68,
+      "exit_date": "2026-08-27",
+      "exit_reason": "canonical_position_exit",
+      "fill_id": "d579063ba618f7d0ccf9eeee47be53719bc09a43447e6ff5fa7576f85d1caa41",
+      "is_sim_end": false,
+      "order_id": "46cf9b2fcc6f20c849df0b05cad476cba75aced3cf0e4bbd7f65d06a33c2457a",
+      "origin_branch": "UPTREND",
+      "quantity": 154.34241989647936,
+      "realized_pnl": -577.7200548879049,
+      "symbol": "SNOW"
+    }
+  ],
+  "resolved_orders": [
+    {
+      "branch": "UPTREND",
+      "execution_date": "2026-08-27",
+      "fill_id": "d579063ba618f7d0ccf9eeee47be53719bc09a43447e6ff5fa7576f85d1caa41",
+      "intent_type": "EXIT",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 55.57,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "46cf9b2fcc6f20c849df0b05cad476cba75aced3cf0e4bbd7f65d06a33c2457a",
+      "quantity_delta": null,
+      "reason": "canonical_position_exit",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-08-26",
+      "status": "FILLED",
+      "symbol": "SNOW",
+      "target_quantity": 0.0
+    }
+  ],
+  "sim_end_performed": false,
+  "skipped_orders": []
+}
