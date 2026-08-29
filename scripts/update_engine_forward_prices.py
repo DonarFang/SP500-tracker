@@ -38,7 +38,10 @@ INDEX_TICKERS = {
 }
 REQUIRED_INDEX_FILES = tuple(sorted(f"{symbol}.json" for symbol in INDEX_TICKERS))
 LOOKBACK_DAYS = 10
-BATCH_SIZE = 60
+BATCH_SIZE = 40
+DOWNLOAD_ATTEMPTS = 3
+DOWNLOAD_RETRY_SECONDS = (20.0, 60.0)
+BATCH_PAUSE_SECONDS = 2.0
 
 
 def atomic_write_json(path: Path, value: Any) -> None:
@@ -143,29 +146,41 @@ def download_bulk(
 ) -> dict[str, pd.DataFrame]:
     downloaded: dict[str, pd.DataFrame] = {}
 
-    for offset in range(0, len(symbols), BATCH_SIZE):
-        batch = symbols[offset : offset + BATCH_SIZE]
-        try:
-            raw = yf.download(
-                batch,
-                start=start,
-                end=end,
-                interval="1d",
-                auto_adjust=True,
-                progress=False,
-                threads=True,
-                group_by="column",
-            )
-        except Exception:
-            raw = pd.DataFrame()
+    pending = list(symbols)
+    for attempt in range(DOWNLOAD_ATTEMPTS):
+        if attempt:
+            time.sleep(DOWNLOAD_RETRY_SECONDS[attempt - 1])
+        print(
+            f"ENGINE_PRICE_DOWNLOAD_ATTEMPT={attempt + 1}/"
+            f"{DOWNLOAD_ATTEMPTS} SYMBOLS={len(pending)}"
+        )
+        for offset in range(0, len(pending), BATCH_SIZE):
+            batch = pending[offset : offset + BATCH_SIZE]
+            try:
+                raw = yf.download(
+                    batch,
+                    start=start,
+                    end=end,
+                    interval="1d",
+                    auto_adjust=True,
+                    progress=False,
+                    threads=False,
+                    group_by="column",
+                )
+            except Exception:
+                raw = pd.DataFrame()
 
-        for symbol in batch:
-            parsed = normalize_frame(raw, symbol)
-            if parsed is not None:
-                downloaded[symbol] = parsed
+            for symbol in batch:
+                parsed = normalize_frame(raw, symbol)
+                if parsed is not None:
+                    downloaded[symbol] = parsed
 
-        if offset + BATCH_SIZE < len(symbols):
-            time.sleep(1.0)
+            if offset + BATCH_SIZE < len(pending):
+                time.sleep(BATCH_PAUSE_SECONDS)
+
+        pending = [symbol for symbol in symbols if symbol not in downloaded]
+        if not pending:
+            break
 
     return downloaded
 
@@ -316,7 +331,19 @@ def main() -> int:
     symbols = sorted(file_by_symbol)
     downloaded = download_bulk(symbols, start, end)
 
-    for symbol in symbols:
+    required_symbols = set(INDEX_TICKERS.values())
+    missing_symbols = [symbol for symbol in symbols if symbol not in downloaded]
+    # If every bulk request was rejected, probing all catalogue symbols one by
+    # one only extends a provider ban. Probe the four publication gates first
+    # and fail closed if they remain unavailable.
+    fallback_symbols = (
+        sorted(required_symbols)
+        if not downloaded
+        else sorted(missing_symbols, key=lambda item: (item not in required_symbols, item))
+    )
+    if not downloaded:
+        print("ENGINE_PRICE_GLOBAL_FETCH_FAILURE_REQUIRED_INDEX_PROBE=true")
+    for symbol in fallback_symbols:
         if symbol in downloaded:
             continue
         fallback = download_single(symbol, start, end)

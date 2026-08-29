@@ -48,7 +48,10 @@ EXCLUDED_SYMBOLS = frozenset({"QQQ", "SOXX", "VIXY"})
 EXPECTED_STOCK_COUNT = 491
 EXPECTED_FILE_COUNT = EXPECTED_STOCK_COUNT + len(INDEX_TICKERS)
 LOOKBACK_DAYS = 10
-BATCH_SIZE = 60
+BATCH_SIZE = 40
+DOWNLOAD_ATTEMPTS = 3
+DOWNLOAD_RETRY_SECONDS = (20.0, 60.0)
+BATCH_PAUSE_SECONDS = 2.0
 
 
 def atomic_write_json(path: Path, value: Any) -> None:
@@ -121,27 +124,38 @@ def normalize_frame(raw: pd.DataFrame, symbol: str) -> Optional[pd.DataFrame]:
 
 def download_bulk(symbols: list[str], start: str, end: str) -> dict[str, pd.DataFrame]:
     downloaded: dict[str, pd.DataFrame] = {}
-    for offset in range(0, len(symbols), BATCH_SIZE):
-        batch = symbols[offset : offset + BATCH_SIZE]
-        try:
-            raw = yf.download(
-                batch,
-                start=start,
-                end=end,
-                interval="1d",
-                auto_adjust=True,
-                progress=False,
-                threads=True,
-                group_by="column",
-            )
-        except Exception:
-            raw = pd.DataFrame()
-        for symbol in batch:
-            parsed = normalize_frame(raw, symbol)
-            if parsed is not None:
-                downloaded[symbol] = parsed
-        if offset + BATCH_SIZE < len(symbols):
-            time.sleep(1.0)
+    pending = list(symbols)
+    for attempt in range(DOWNLOAD_ATTEMPTS):
+        if attempt:
+            time.sleep(DOWNLOAD_RETRY_SECONDS[attempt - 1])
+        print(
+            f"LIVE_PRICE_DOWNLOAD_ATTEMPT={attempt + 1}/"
+            f"{DOWNLOAD_ATTEMPTS} SYMBOLS={len(pending)}"
+        )
+        for offset in range(0, len(pending), BATCH_SIZE):
+            batch = pending[offset : offset + BATCH_SIZE]
+            try:
+                raw = yf.download(
+                    batch,
+                    start=start,
+                    end=end,
+                    interval="1d",
+                    auto_adjust=True,
+                    progress=False,
+                    threads=False,
+                    group_by="column",
+                )
+            except Exception:
+                raw = pd.DataFrame()
+            for symbol in batch:
+                parsed = normalize_frame(raw, symbol)
+                if parsed is not None:
+                    downloaded[symbol] = parsed
+            if offset + BATCH_SIZE < len(pending):
+                time.sleep(BATCH_PAUSE_SECONDS)
+        pending = [symbol for symbol in symbols if symbol not in downloaded]
+        if not pending:
+            break
     return downloaded
 
 
@@ -270,7 +284,16 @@ def main() -> int:
     end = (date.fromisoformat(expected) + timedelta(days=1)).isoformat()
     symbols = sorted(file_by_symbol)
     downloaded = download_bulk(symbols, start, end)
-    for symbol in symbols:
+    required_symbols = set(INDEX_TICKERS.values())
+    missing_symbols = [symbol for symbol in symbols if symbol not in downloaded]
+    fallback_symbols = (
+        sorted(required_symbols)
+        if not downloaded
+        else sorted(missing_symbols, key=lambda item: (item not in required_symbols, item))
+    )
+    if not downloaded:
+        print("LIVE_PRICE_GLOBAL_FETCH_FAILURE_REQUIRED_INDEX_PROBE=true")
+    for symbol in fallback_symbols:
         if symbol not in downloaded:
             fallback = download_single(symbol, start, end)
             if fallback is not None:

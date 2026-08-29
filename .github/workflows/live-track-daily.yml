@@ -27,7 +27,9 @@ on:
         type: boolean
         default: false
   schedule:
-    - cron: '30 23 * * 1-5'
+    # 00:30 UTC Tue-Sat is the session after the corresponding US
+    # Mon-Fri market date. Forward remains at 23:30 UTC Mon-Fri.
+    - cron: '30 0 * * 2-6'
 
 permissions:
   contents: write
