@@ -42,6 +42,8 @@ BATCH_SIZE = 40
 DOWNLOAD_ATTEMPTS = 3
 DOWNLOAD_RETRY_SECONDS = (20.0, 60.0)
 BATCH_PAUSE_SECONDS = 2.0
+DOWNLOAD_EXPECTED_DATE: Optional[str] = None
+DOWNLOAD_FRESHNESS_SYMBOLS: frozenset[str] = frozenset()
 
 
 def atomic_write_json(path: Path, value: Any) -> None:
@@ -139,6 +141,16 @@ def normalize_frame(
     return frame if not frame.empty else None
 
 
+def frame_contains_date(frame: Optional[pd.DataFrame], trading_date: str) -> bool:
+    if frame is None:
+        return False
+    if not hasattr(frame, "columns"):
+        return True
+    if "date" not in frame.columns:
+        return False
+    return trading_date in set(frame["date"].astype(str).str[:10])
+
+
 def download_bulk(
     symbols: list[str],
     start: str,
@@ -156,17 +168,24 @@ def download_bulk(
         )
         for offset in range(0, len(pending), BATCH_SIZE):
             batch = pending[offset : offset + BATCH_SIZE]
+            raw_index_retry = (
+                attempt > 0
+                and batch
+                and all(symbol in DOWNLOAD_FRESHNESS_SYMBOLS for symbol in batch)
+            )
             try:
-                raw = yf.download(
-                    batch,
-                    start=start,
-                    end=end,
-                    interval="1d",
-                    auto_adjust=True,
-                    progress=False,
-                    threads=False,
-                    group_by="column",
-                )
+                if raw_index_retry:
+                    raw = yf.download(
+                        batch, start=start, end=end, interval="1d",
+                        auto_adjust=False, progress=False, threads=False,
+                        group_by="column",
+                    )
+                else:
+                    raw = yf.download(
+                        batch, start=start, end=end, interval="1d",
+                        auto_adjust=True, progress=False, threads=False,
+                        group_by="column",
+                    )
             except Exception:
                 raw = pd.DataFrame()
 
@@ -178,7 +197,19 @@ def download_bulk(
             if offset + BATCH_SIZE < len(pending):
                 time.sleep(BATCH_PAUSE_SECONDS)
 
-        pending = [symbol for symbol in symbols if symbol not in downloaded]
+        pending = [
+            symbol
+            for symbol in symbols
+            if symbol not in downloaded
+            or (
+                DOWNLOAD_EXPECTED_DATE is not None
+                and symbol in DOWNLOAD_FRESHNESS_SYMBOLS
+                and not frame_contains_date(
+                    downloaded.get(symbol),
+                    DOWNLOAD_EXPECTED_DATE,
+                )
+            )
+        ]
         if not pending:
             break
 
@@ -191,12 +222,15 @@ def download_single(
     end: str,
 ) -> Optional[pd.DataFrame]:
     try:
-        raw = yf.Ticker(symbol).history(
-            start=start,
-            end=end,
-            interval="1d",
-            auto_adjust=True,
-        )
+        ticker = yf.Ticker(symbol)
+        if symbol in INDEX_TICKERS.values():
+            raw = ticker.history(
+                start=start, end=end, interval="1d", auto_adjust=False
+            )
+        else:
+            raw = ticker.history(
+                start=start, end=end, interval="1d", auto_adjust=True
+            )
     except Exception:
         return None
     return normalize_frame(raw, symbol)
@@ -282,6 +316,7 @@ def merge_records(
 
 
 def main() -> int:
+    global DOWNLOAD_EXPECTED_DATE, DOWNLOAD_FRESHNESS_SYMBOLS
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--expected-latest-market-date",
@@ -329,25 +364,41 @@ def main() -> int:
     ).isoformat()
 
     symbols = sorted(file_by_symbol)
+    required_symbols = set(INDEX_TICKERS.values())
+    DOWNLOAD_EXPECTED_DATE = expected_latest_market_date
+    DOWNLOAD_FRESHNESS_SYMBOLS = frozenset(required_symbols)
     downloaded = download_bulk(symbols, start, end)
 
-    required_symbols = set(INDEX_TICKERS.values())
     missing_symbols = [symbol for symbol in symbols if symbol not in downloaded]
+    stale_required_symbols = [
+        symbol
+        for symbol in required_symbols
+        if not frame_contains_date(
+            downloaded.get(symbol),
+            expected_latest_market_date,
+        )
+    ]
     # If every bulk request was rejected, probing all catalogue symbols one by
     # one only extends a provider ban. Probe the four publication gates first
     # and fail closed if they remain unavailable.
     fallback_symbols = (
         sorted(required_symbols)
         if not downloaded
-        else sorted(missing_symbols, key=lambda item: (item not in required_symbols, item))
+        else sorted(
+            set(missing_symbols) | set(stale_required_symbols),
+            key=lambda item: (item not in required_symbols, item),
+        )
     )
     if not downloaded:
         print("ENGINE_PRICE_GLOBAL_FETCH_FAILURE_REQUIRED_INDEX_PROBE=true")
     for symbol in fallback_symbols:
-        if symbol in downloaded:
+        if symbol in downloaded and symbol not in stale_required_symbols:
             continue
         fallback = download_single(symbol, start, end)
-        if fallback is not None:
+        if fallback is not None and (
+            symbol not in required_symbols
+            or frame_contains_date(fallback, expected_latest_market_date)
+        ):
             downloaded[symbol] = fallback
 
     merged_by_file: dict[str, list[dict[str, Any]]] = {}
