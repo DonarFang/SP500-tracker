@@ -7,7 +7,7 @@ def test_active_live_workflow_contract():
     runner=(ROOT/"scripts/run_fd_m3180125_live_daily.py").read_text()
     production=(ROOT/"src/e1r_engine/live_production.py").read_text()
     ast.parse(runner); ast.parse(production)
-    assert "cron: '30 23 * * 1-5'" in workflow
+    assert "cron: '30 0,2,4,8 * * 2-6'" in workflow
     assert "workflow_dispatch:" in workflow
     assert "workflow_run:" not in workflow
     assert "resolve_fd_m3180125_latest_completed_session.py" in workflow

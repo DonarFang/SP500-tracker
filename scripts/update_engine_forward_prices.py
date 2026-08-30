@@ -42,6 +42,8 @@ BATCH_SIZE = 40
 DOWNLOAD_ATTEMPTS = 3
 DOWNLOAD_RETRY_SECONDS = (20.0, 60.0)
 BATCH_PAUSE_SECONDS = 2.0
+REQUIRED_INDEX_DIRECT_ATTEMPTS = 3
+REQUIRED_INDEX_DIRECT_RETRY_SECONDS = (20.0, 60.0)
 
 
 def atomic_write_json(path: Path, value: Any) -> None:
@@ -208,6 +210,34 @@ def download_single(
     return normalize_frame(raw, symbol)
 
 
+def download_required_indices(
+    symbols: set[str],
+    start: str,
+    end: str,
+    expected_latest_market_date: str,
+) -> dict[str, pd.DataFrame]:
+    accepted: dict[str, pd.DataFrame] = {}
+    pending = sorted(symbols)
+    for attempt in range(REQUIRED_INDEX_DIRECT_ATTEMPTS):
+        if attempt:
+            time.sleep(REQUIRED_INDEX_DIRECT_RETRY_SECONDS[attempt - 1])
+        print(
+            f"ENGINE_REQUIRED_INDEX_DIRECT_ATTEMPT={attempt + 1}/"
+            f"{REQUIRED_INDEX_DIRECT_ATTEMPTS} SYMBOLS={len(pending)}"
+        )
+        for symbol in pending:
+            direct = download_single(symbol, start, end)
+            if direct is not None and frame_contains_date(
+                direct,
+                expected_latest_market_date,
+            ):
+                accepted[symbol] = direct
+        pending = [symbol for symbol in pending if symbol not in accepted]
+        if not pending:
+            break
+    return accepted
+
+
 def numeric(row: Any, field: str, default: float = 0.0) -> float:
     value = getattr(row, field, default)
     if value is None or pd.isna(value):
@@ -342,13 +372,14 @@ def main() -> int:
     # The proven daily index path downloads each publication gate through
     # Ticker.history(auto_adjust=True).  A non-empty stale bulk frame must not
     # suppress this direct fetch.
-    for symbol in sorted(required_symbols):
-        direct = download_single(symbol, start, end)
-        if direct is not None and frame_contains_date(
-            direct,
+    downloaded.update(
+        download_required_indices(
+            required_symbols,
+            start,
+            end,
             expected_latest_market_date,
-        ):
-            downloaded[symbol] = direct
+        )
+    )
 
     missing_symbols = [symbol for symbol in symbols if symbol not in downloaded]
     # If every bulk request was rejected, probing all catalogue symbols one by
