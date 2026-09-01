@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 141097.58395182417,
-    "date": "2026-08-28",
+    "date": "2026-08-31",
     "metadata": {
-      "last_execution_date": "2026-08-28",
+      "last_execution_date": "2026-08-31",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "ETSY": {
         "avg_cost": 81.36546316841856,
         "entry_date": "2026-06-30",
-        "last_price": 83.589996,
-        "last_update_date": "2026-08-28",
-        "market_value": 52012.68408927591,
+        "last_price": 81.330002,
+        "last_update_date": "2026-08-31",
+        "market_value": 50606.43502131735,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -73,14 +73,14 @@
         },
         "quantity": 622.2357528199416,
         "symbol": "ETSY",
-        "unrealized_pnl": 1384.1838611317548
+        "unrealized_pnl": -22.065206826800015
       },
       "NTAP": {
         "avg_cost": 208.16796672058103,
         "entry_date": "2026-08-18",
-        "last_price": 187.020004,
-        "last_update_date": "2026-08-28",
-        "market_value": 87626.1045489384,
+        "last_price": 185.289993,
+        "last_update_date": "2026-08-31",
+        "market_value": 86815.52749025747,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -132,11 +132,11 @@
         },
         "quantity": 468.5386732690819,
         "symbol": "NTAP",
-        "unrealized_pnl": -9908.638395445043
+        "unrealized_pnl": -10719.215454125955
       }
     },
-    "positions_value": 139638.7886382143,
-    "total_equity": 280736.37259003846
+    "positions_value": 137421.96251157482,
+    "total_equity": 278519.54646339896
   },
   "closed_trades": [
     {
@@ -554,12 +554,19 @@
       "open_positions_count": 2,
       "positions_value": 139638.7886382143,
       "total_equity": 280736.37259003846
+    },
+    {
+      "cash": 141097.58395182417,
+      "date": "2026-08-31",
+      "open_positions_count": 2,
+      "positions_value": 137421.96251157482,
+      "total_equity": 278519.54646339896
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-08-28",
+  "last_committed_date": "2026-08-31",
   "metadata": {
-    "last_commit_date": "2026-08-28",
+    "last_commit_date": "2026-08-31",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
@@ -569,7 +576,28 @@
     "sim_end_replayed": false,
     "unknown_pending_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
   },
-  "pending_orders": [],
+  "pending_orders": [
+    {
+      "branch": "UPTREND",
+      "intent_type": "EXIT",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 44.79,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "e6aab900c3590e6f5765542dc546d98f28415a8f0de9ce22e3c81a322bc9f5d9",
+      "quantity_delta": null,
+      "reason": "canonical_position_exit",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-08-31",
+      "status": "PENDING",
+      "symbol": "NTAP",
+      "target_quantity": 0.0
+    }
+  ],
   "schema_version": "1.0.0",
   "seed_date": "2026-06-16"
 }

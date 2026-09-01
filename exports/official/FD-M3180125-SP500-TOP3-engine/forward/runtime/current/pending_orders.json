@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "branch": "UPTREND",
+    "intent_type": "EXIT",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 44.79,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "order_id": "e6aab900c3590e6f5765542dc546d98f28415a8f0de9ce22e3c81a322bc9f5d9",
+    "quantity_delta": null,
+    "reason": "canonical_position_exit",
+    "sequence": 1,
+    "side": "SELL",
+    "signal_date": "2026-08-31",
+    "status": "PENDING",
+    "symbol": "NTAP",
+    "target_quantity": 0.0
+  }
+]
