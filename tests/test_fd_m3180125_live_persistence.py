@@ -60,6 +60,12 @@ def test_two_ledgers_round_trip_preserves_global_sequence(
             action="ADD",
             price="110",
             shares="1",
+            recommendation_id="REC-20260727-AAPL-ADD",
+            signal_date=date(2026, 7, 27),
+            expected_execution_date=date(2026, 7, 28),
+            origin_branch="UPTREND",
+            strategy_variant="E1R-CAPPED-ATR",
+            target_size_units="1.0",
         )
     )
 
@@ -74,6 +80,8 @@ def test_two_ledgers_round_trip_preserves_global_sequence(
     assert restored.transactions[0].trade_date == date(2026, 7, 27)
     assert restored.transactions[0].action is ManualAction.BUY
     assert restored.transactions[0].price == Decimal("100")
+    assert restored.transactions[1].signal_date == date(2026, 7, 27)
+    assert restored.transactions[1].expected_execution_date == date(2026, 7, 28)
     assert restored.cash_controls[0].actual_cash == Decimal("99850")
 
 

@@ -28,7 +28,7 @@ from e1r_engine.live_persistence import LiveRuntimeRepository
 
 ENGINE = "FD-M3180125-SP500-TOP3-engine"
 LIVE_ROOT = Path("exports/official") / ENGINE / "live"
-PRICE_ROOT = Path("data/live_prices")
+PRICE_ROOT = Path("data/live_prices_adjusted_v1/live_prices")
 ISSUE_MARKER = "FD_M3180125_LIVE_ACCOUNT_EVENT_V1"
 ALLOWED_OWNER = "DonarFang"
 

@@ -11,6 +11,11 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts/record_fd_m3180125_live_interaction.py"
 
 
+def test_production_default_price_root_is_active_adjusted_live_source() -> None:
+    source = SCRIPT.read_text(encoding="utf-8")
+    assert 'PRICE_ROOT = Path("data/live_prices_adjusted_v1/live_prices")' in source
+
+
 def write_json(path: Path, payload: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
@@ -160,3 +165,56 @@ def test_confirmed_cash_control_preserves_trading_pnl(
     assert account["calculated_cash"] == "100000.00"
     assert account["cash_difference"] == "250.00"
     assert account["trading_pnl"] == "0"
+
+
+def test_recommendation_linked_transaction_round_trips_before_next_event(
+    tmp_path: Path,
+) -> None:
+    live_root, price_root = live_fixture(tmp_path)
+    write_json(
+        live_root / "runtime/current/latest_recommendations.json",
+        {
+            "signal_date": "2026-08-07",
+            "expected_execution_date": "2026-08-08",
+            "recommendations": [
+                {"symbol": "AAPL", "action": "BUY", "target_size_units": "1.0"}
+            ],
+        },
+    )
+    first = run_event(
+        tmp_path,
+        live_root,
+        price_root,
+        base_event(
+            event_id="TX-20260808-AAPL-BUY-LINKED",
+            trade_date="2026-08-08",
+        ),
+    )
+    assert "PASS_USER_CONFIRMED_LIVE_INTERACTION" in first.stdout
+
+    write_json(
+        live_root / "runtime/current/latest_recommendations.json",
+        {
+            "signal_date": "2026-08-08",
+            "expected_execution_date": "2026-08-09",
+            "recommendations": [{"symbol": "AAPL", "action": "EXIT"}],
+        },
+    )
+    second = run_event(
+        tmp_path,
+        live_root,
+        price_root,
+        base_event(
+            event_id="TX-20260809-AAPL-EXIT-LINKED",
+            trade_date="2026-08-09",
+            action="EXIT",
+            price="101",
+            shares=None,
+        ),
+    )
+    assert "PASS_USER_CONFIRMED_LIVE_INTERACTION" in second.stdout
+    account = json.loads(
+        (live_root / "runtime/current/account_state.json").read_text(encoding="utf-8")
+    )
+    assert account["positions"] == {}
+    assert account["actual_cash"] == "100010.00"

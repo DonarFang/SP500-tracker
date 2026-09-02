@@ -301,9 +301,15 @@ class LiveRuntimeRepository:
             if ledger_name == "TRANSACTION":
                 if event_type != "TRANSACTION":
                     raise LivePersistenceError("transaction type mismatch")
-                clean["trade_date"] = date.fromisoformat(
-                    str(clean["trade_date"])
-                )
+                for field_name in (
+                    "trade_date",
+                    "signal_date",
+                    "expected_execution_date",
+                ):
+                    if clean.get(field_name) is not None:
+                        clean[field_name] = date.fromisoformat(
+                            str(clean[field_name])
+                        )
                 ledger.append_transaction(TransactionEvent(**clean))
             elif ledger_name == "CASH_CONTROL":
                 if event_type != "CASH_CONTROL":
