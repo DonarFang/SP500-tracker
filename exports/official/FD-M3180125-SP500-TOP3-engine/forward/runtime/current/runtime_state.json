@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 224825.97196867387,
-    "date": "2026-09-01",
+    "date": "2026-09-02",
     "metadata": {
-      "last_execution_date": "2026-09-01",
+      "last_execution_date": "2026-09-02",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "ETSY": {
         "avg_cost": 81.36546316841856,
         "entry_date": "2026-06-30",
-        "last_price": 81.75,
-        "last_update_date": "2026-09-01",
-        "market_value": 50867.77279303022,
+        "last_price": 81.720001,
+        "last_update_date": "2026-09-02",
+        "market_value": 50849.10634268138,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -73,11 +73,11 @@
         },
         "quantity": 622.2357528199416,
         "symbol": "ETSY",
-        "unrealized_pnl": 239.272564886074
+        "unrealized_pnl": 220.60611453722632
       }
     },
-    "positions_value": 50867.77279303022,
-    "total_equity": 275693.7447617041
+    "positions_value": 50849.10634268138,
+    "total_equity": 275675.07831135526
   },
   "closed_trades": [
     {
@@ -523,12 +523,19 @@
       "open_positions_count": 1,
       "positions_value": 50867.77279303022,
       "total_equity": 275693.7447617041
+    },
+    {
+      "cash": 224825.97196867387,
+      "date": "2026-09-02",
+      "open_positions_count": 1,
+      "positions_value": 50849.10634268138,
+      "total_equity": 275675.07831135526
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-09-01",
+  "last_committed_date": "2026-09-02",
   "metadata": {
-    "last_commit_date": "2026-09-01",
+    "last_commit_date": "2026-09-02",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
