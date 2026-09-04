@@ -1,11 +1,21 @@
 {
-  "actual_cash": "9304.80",
-  "calculated_cash": "99304.80",
+  "actual_cash": "6196.80",
+  "calculated_cash": "96196.80",
   "cash_difference": "-90000.00",
-  "positions": {},
-  "positions_value": "0",
+  "positions": {
+    "MPC": {
+      "average_cost": "388.50",
+      "cost_basis": "3108.00",
+      "last_price": "388.50",
+      "market_value": "3108.00",
+      "position_source": "USER_CONFIRMED_TRANSACTION_LEDGER",
+      "shares": "8",
+      "unrealized_pnl": "0.00"
+    }
+  },
+  "positions_value": "3108.00",
   "realized_pnl": "-695.20",
   "total_equity": "9304.80",
   "trading_pnl": "-695.20",
-  "unrealized_pnl": "0"
+  "unrealized_pnl": "0.00"
 }
