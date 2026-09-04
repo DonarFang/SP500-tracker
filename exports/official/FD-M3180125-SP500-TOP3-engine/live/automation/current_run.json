@@ -3,20 +3,20 @@
   "artifact_hashes": {
     "account_state.json": "65d97bc44efc2e302894b0ab49e0b7652d7b08cbc271b1ddec3c0a77ffb46f29",
     "active_positions.json": "a419ae4d6a820820b354a55d993e754da9538fddad07bbd8fc30e5bd17c79f5c",
-    "engine_recommendations.json": "5133e60e65c2e35b7b698eb25c9a9c5b38d62890680466438b965d6efadbd1e6",
-    "equity.json": "a6b1f55084a2c0a2dc877a2c50d7a5a767eeb5b7164f517cb0b1393f4067e745",
-    "manifest.json": "06c30903f30d2c8c61db6a17bc597d8195e4427fcf57138b8d8f72cb70bc0b3b",
+    "engine_recommendations.json": "35a34bad46073cb2e9133ef1595f8315e845e96e967e38a200a41a3cf3a07dcd",
+    "equity.json": "6f47a3a58f83c346df4b5cff21c2102da3f814c9bb2429d3f673b64542c98b9d",
+    "manifest.json": "153939e9bb0282691610cd74557f1518d1de9ca4a704014303064c7f47084d31",
     "manual_transactions.json": "93edefb73b34dd55784da00019648fac8faf9ed250d7c3f03aded7d10c2473b6",
-    "market_status.json": "16d8f01a4e28d4246f8a907dedd241be02450a22279ea803c970b8a1d9ff3088",
-    "reconciliation.json": "6c1db664439054b14cf5baade95beb5c1b194266ecf60003a2aab24c85fd8359",
-    "reference_top3.json": "754b82312bd9c4083d49920c9cd22db9be05d93ebcd427f571308082fe103fd5"
+    "market_status.json": "7a2b39dfa064cb2f35a855d832801bd622dcab0aa6e8c82ecb679a1111e51fd4",
+    "reconciliation.json": "3c1427e44ebfc5e4dc287e97051a9e2037a8f2fb8f33c5152270b36a473faa6d",
+    "reference_top3.json": "61353a69729e70b78e792c561c03527efc88eadb496a1213ee429478f3c6cb7b"
   },
   "automatic_execution_enabled": false,
-  "completed_at": "2026-09-03T12:59:04.795854+00:00",
+  "completed_at": "2026-09-04T12:53:58.158154+00:00",
   "decision": "PASS_LIVE_ACTIVE_DAILY",
-  "expected_execution_date": "2026-09-03",
-  "market_date": "2026-09-02",
+  "expected_execution_date": "2026-09-04",
+  "market_date": "2026-09-03",
   "opening_activated": true,
-  "result_hash": "26fc48286758c7ee10f7fb7c10d933bfebacc1b00df603e1ca792987edab46c6",
+  "result_hash": "d8856a73e133ba485963a158ac202653d3ed66765c4629dd05e8bddcc028dd68",
   "run_mode": "ACTIVE_RECOMMENDATION_ONLY"
 }
