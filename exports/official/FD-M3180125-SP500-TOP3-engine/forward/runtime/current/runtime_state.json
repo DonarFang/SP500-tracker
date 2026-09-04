@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 224825.97196867387,
-    "date": "2026-09-02",
+    "date": "2026-09-03",
     "metadata": {
-      "last_execution_date": "2026-09-02",
+      "last_execution_date": "2026-09-03",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "ETSY": {
         "avg_cost": 81.36546316841856,
         "entry_date": "2026-06-30",
-        "last_price": 81.720001,
-        "last_update_date": "2026-09-02",
-        "market_value": 50849.10634268138,
+        "last_price": 82.029999,
+        "last_update_date": "2026-09-03",
+        "market_value": 51041.99818158406,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -73,11 +73,11 @@
         },
         "quantity": 622.2357528199416,
         "symbol": "ETSY",
-        "unrealized_pnl": 220.60611453722632
+        "unrealized_pnl": 413.4979534399071
       }
     },
-    "positions_value": 50849.10634268138,
-    "total_equity": 275675.07831135526
+    "positions_value": 51041.99818158406,
+    "total_equity": 275867.9701502579
   },
   "closed_trades": [
     {
@@ -530,12 +530,19 @@
       "open_positions_count": 1,
       "positions_value": 50849.10634268138,
       "total_equity": 275675.07831135526
+    },
+    {
+      "cash": 224825.97196867387,
+      "date": "2026-09-03",
+      "open_positions_count": 1,
+      "positions_value": 51041.99818158406,
+      "total_equity": 275867.9701502579
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-09-02",
+  "last_committed_date": "2026-09-03",
   "metadata": {
-    "last_commit_date": "2026-09-02",
+    "last_commit_date": "2026-09-03",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
@@ -545,7 +552,50 @@
     "sim_end_replayed": false,
     "unknown_pending_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
   },
-  "pending_orders": [],
+  "pending_orders": [
+    {
+      "branch": "UPTREND",
+      "intent_type": "BUY",
+      "metadata": {
+        "account_mutated": false,
+        "capped_atr_entry": {
+          "atr20": 11.551341250000004,
+          "atr_as_of": "2026-09-03",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "close_t": 387.709991,
+        "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+        "entry_capacity": 2,
+        "entry_reasons": [
+          "rs_above_90",
+          "leader_rank_top5",
+          "leader_score_above_75",
+          "momentum_above_75",
+          "trend_health_above_70",
+          "close_above_ma50",
+          "ma50_slope_non_negative"
+        ],
+        "leader_rank_all": 1,
+        "leader_score": 97.67,
+        "market_entry_allowed": true,
+        "market_gate_state": "ALLOW",
+        "order_executed": false,
+        "source": "UptrendDecisionConsumer",
+        "strategy_logic_source": "UptrendCore",
+        "target_size_units": 1.0
+      },
+      "order_id": "8e6775f4fe871adf9d573d14450f614b37d5d8d45af27d7f7c379e333f3ee2fc",
+      "quantity_delta": null,
+      "reason": "E1R_UPTREND_CONFIRMED",
+      "sequence": 1,
+      "side": "BUY",
+      "signal_date": "2026-09-03",
+      "status": "PENDING",
+      "symbol": "MPC",
+      "target_quantity": null
+    }
+  ],
   "schema_version": "1.0.0",
   "seed_date": "2026-06-16"
 }
