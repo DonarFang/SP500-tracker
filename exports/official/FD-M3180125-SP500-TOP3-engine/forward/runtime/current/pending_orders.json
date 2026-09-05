@@ -1,44 +1,22 @@
 [
   {
     "branch": "UPTREND",
-    "intent_type": "BUY",
+    "intent_type": "EXIT",
     "metadata": {
-      "account_mutated": false,
-      "capped_atr_entry": {
-        "atr20": 11.551341250000004,
-        "atr_as_of": "2026-09-03",
-        "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
-        "variant_id": "E1R_CAPPED_ATR_A0_V1"
-      },
-      "close_t": 387.709991,
-      "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
-      "entry_capacity": 2,
-      "entry_reasons": [
-        "rs_above_90",
-        "leader_rank_top5",
-        "leader_score_above_75",
-        "momentum_above_75",
-        "trend_health_above_70",
-        "close_above_ma50",
-        "ma50_slope_non_negative"
-      ],
-      "leader_rank_all": 1,
-      "leader_score": 97.67,
-      "market_entry_allowed": true,
-      "market_gate_state": "ALLOW",
-      "order_executed": false,
-      "source": "UptrendDecisionConsumer",
-      "strategy_logic_source": "UptrendCore",
-      "target_size_units": 1.0
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 43.55,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
     },
-    "order_id": "8e6775f4fe871adf9d573d14450f614b37d5d8d45af27d7f7c379e333f3ee2fc",
+    "order_id": "b81e43d24421df3f2bf1021d4bf1d251fd9668bac23807a56db5345760c9c9aa",
     "quantity_delta": null,
-    "reason": "E1R_UPTREND_CONFIRMED",
+    "reason": "canonical_position_exit",
     "sequence": 1,
-    "side": "BUY",
-    "signal_date": "2026-09-03",
+    "side": "SELL",
+    "signal_date": "2026-09-04",
     "status": "PENDING",
-    "symbol": "MPC",
-    "target_quantity": null
+    "symbol": "ETSY",
+    "target_quantity": 0.0
   }
 ]
