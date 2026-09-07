@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-04T20:36:10.475300-04:00",
-  "generated_at_display": "2026年9月4日 20:36 ET",
+  "generated_at": "2026-09-07T19:53:02.458436-04:00",
+  "generated_at_display": "2026年9月7日 19:53 ET",
   "data_source": "Yahoo Finance",
   "phase": "2",
   "market": {
@@ -11,14 +11,14 @@
     "spx_slope20": -0.00048,
     "pct_above_ma50": 1.67,
     "advance_decline": 0.55,
-    "date": "2026-09-04",
+    "date": "2026-09-07",
     "advance_count": 174,
     "decline_count": 316,
     "notes": "上涨174只 下跌316只",
     "state_zh": "风险偏好",
     "state_icon": "🟢",
     "state_color": "#1D9E75",
-    "market_score": 67.5,
+    "market_score": 64.5,
     "score_breakdown": {
       "SPX": {
         "score": 73.0,
@@ -36,20 +36,20 @@
         "above_ma50": false
       },
       "VIX": {
-        "score": 100.0,
+        "score": 80,
         "weight": "15%",
-        "vix_state": "低恐惧",
-        "vix_color": "#1D9E75"
+        "vix_state": "正常",
+        "vix_color": "#378ADD"
       }
     },
     "leadership_confirmed": false,
     "leadership_label": "Leadership Unconfirmed ⚠️",
-    "vix_state": "低恐惧",
-    "vix_color": "#1D9E75",
+    "vix_state": "正常",
+    "vix_color": "#378ADD",
     "spx_score": 73.0,
     "ndx_score": 73.0,
     "sox_score": 35.0,
-    "vix_score": 100.0,
+    "vix_score": 80,
     "indices": {
       "SPX": {
         "code": "SPX",
@@ -597,21 +597,20 @@
         "name": "波动率指数",
         "desc": "市场恐惧/情绪指标",
         "available": true,
-        "price": 14.53,
-        "change_pct": 1.47,
-        "change": 0.21,
-        "ma20": 15.1,
-        "ma50": 16.15,
-        "ma200": 18.17,
-        "above_ma20": false,
+        "price": 15.3,
+        "change_pct": 5.3,
+        "change": 0.77,
+        "ma20": 15.09,
+        "ma50": 16.1,
+        "ma200": 18.13,
+        "above_ma20": true,
         "above_ma50": false,
         "above_ma200": false,
-        "slope20": -0.000505,
+        "slope20": 6.1e-05,
         "high52w": 31.05,
         "low52w": 13.47,
-        "pct_from_high": 53.2,
+        "pct_from_high": 50.72,
         "chart_dates": [
-          "2026-06-15",
           "2026-06-16",
           "2026-06-17",
           "2026-06-18",
@@ -670,10 +669,10 @@
           "2026-09-01",
           "2026-09-02",
           "2026-09-03",
-          "2026-09-04"
+          "2026-09-04",
+          "2026-09-07"
         ],
         "chart_prices": [
-          16.2,
           16.41,
           18.44,
           16.4,
@@ -732,10 +731,10 @@
           16.34,
           15.2,
           14.32,
-          14.53
+          14.53,
+          15.3
         ],
         "chart_ma20": [
-          17.52,
           17.44,
           17.49,
           17.47,
@@ -794,10 +793,10 @@
           15.19,
           15.16,
           15.12,
-          15.1
+          15.1,
+          15.09
         ],
         "chart_ma50": [
-          18.12,
           17.93,
           17.88,
           17.82,
@@ -856,10 +855,11 @@
           16.39,
           16.32,
           16.23,
-          16.15
+          16.15,
+          16.1
         ],
-        "vix_state": "低恐惧",
-        "vix_color": "#1D9E75",
+        "vix_state": "正常",
+        "vix_color": "#378ADD",
         "vix_trend": "横盘"
       },
       "SOX": {
