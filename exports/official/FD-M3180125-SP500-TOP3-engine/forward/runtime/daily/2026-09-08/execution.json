@@ -1,0 +1,44 @@
+{
+  "closed_trades": [
+    {
+      "average_cost": 81.36546316841856,
+      "entry_date": "2026-06-30",
+      "execution_price": 71.368561998,
+      "exit_date": "2026-09-08",
+      "exit_reason": "canonical_position_exit",
+      "fill_id": "1f560a05341bdcc5c60eaa06d4923e6ebd72ceb7b9fe0e44ebd8e51484ca7295",
+      "is_sim_end": false,
+      "order_id": "b81e43d24421df3f2bf1021d4bf1d251fd9668bac23807a56db5345760c9c9aa",
+      "origin_branch": "UPTREND",
+      "quantity": 622.2357528199416,
+      "realized_pnl": -6220.429325641943,
+      "symbol": "ETSY"
+    }
+  ],
+  "resolved_orders": [
+    {
+      "branch": "UPTREND",
+      "execution_date": "2026-09-08",
+      "fill_id": "1f560a05341bdcc5c60eaa06d4923e6ebd72ceb7b9fe0e44ebd8e51484ca7295",
+      "intent_type": "EXIT",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 43.55,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "b81e43d24421df3f2bf1021d4bf1d251fd9668bac23807a56db5345760c9c9aa",
+      "quantity_delta": null,
+      "reason": "canonical_position_exit",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-09-04",
+      "status": "FILLED",
+      "symbol": "ETSY",
+      "target_quantity": 0.0
+    }
+  ],
+  "sim_end_performed": false,
+  "skipped_orders": []
+}
