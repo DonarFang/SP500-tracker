@@ -1,23 +1,23 @@
 {
   "account": {
-    "cash": 177278.0528210901,
-    "date": "2026-09-08",
+    "cash": 87033.79790941518,
+    "date": "2026-09-09",
     "metadata": {
-      "last_execution_date": "2026-09-08",
+      "last_execution_date": "2026-09-09",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
       "strategy_display_name": "E1R CAPPED-ATR Engine",
       "strategy_variant": "E1R_CAPPED_ATR_A0_V1"
     },
-    "open_positions_count": 1,
+    "open_positions_count": 2,
     "positions": {
       "MPC": {
         "avg_cost": 391.39099999999996,
         "entry_date": "2026-09-04",
-        "last_price": 397.769989,
-        "last_update_date": "2026-09-08",
-        "market_value": 93454.71191393468,
+        "last_price": 399.440002,
+        "last_update_date": "2026-09-09",
+        "market_value": 93847.07581298068,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -69,11 +69,70 @@
         },
         "quantity": 234.94661361678212,
         "symbol": "MPC",
-        "unrealized_pnl": 1498.7218638487143
+        "unrealized_pnl": 1891.0857628947135
+      },
+      "VLO": {
+        "avg_cost": 389.569172993,
+        "entry_date": "2026-09-09",
+        "last_price": 388.950012,
+        "last_update_date": "2026-09-09",
+        "market_value": 90100.82538398828,
+        "metadata": {
+          "account_mutated": false,
+          "capped_atr_entry": {
+            "atr20": 10.383502099999992,
+            "atr_as_of": "2026-09-08",
+            "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+            "variant_id": "E1R_CAPPED_ATR_A0_V1"
+          },
+          "capped_atr_stop": {
+            "a0": 389.569172993,
+            "add_updates_stop_anchor": false,
+            "atr20": 10.383502099999992,
+            "atr_as_of": "2026-09-08",
+            "atr_frozen_for_cycle": true,
+            "block_same_day_reentry_after_hard_stop": false,
+            "distance": 46.748300759159996,
+            "distance_fraction": 0.12,
+            "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+            "trigger_price": 342.82087223384,
+            "variant_id": "E1R_CAPPED_ATR_A0_V1"
+          },
+          "close_t": 382.850006,
+          "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
+          "entry_capacity": 2,
+          "entry_execution_price": 389.569172993,
+          "entry_reasons": [
+            "rs_above_90",
+            "leader_rank_top5",
+            "leader_score_above_75",
+            "momentum_above_75",
+            "trend_health_above_70",
+            "close_above_ma50",
+            "ma50_slope_non_negative"
+          ],
+          "entry_shares": 231.65142718645367,
+          "fill_id": "8b757910f9d5503f0e1036c5d1fed20c6cd9cd00182b2efb6580352e67f77641",
+          "leader_rank_all": 1,
+          "leader_score": 96.91,
+          "market_entry_allowed": true,
+          "market_gate_state": "ALLOW",
+          "order_executed": false,
+          "order_id": "6af0835a952e9b68303e40b6a7198b9b0c0de1a01d0b05eaee634482af678b15",
+          "origin_branch": "UPTREND",
+          "remaining_cost_basis": 90244.25491167491,
+          "size_units": 1.0,
+          "source": "UptrendDecisionConsumer",
+          "strategy_logic_source": "UptrendCore",
+          "target_size_units": 1.0
+        },
+        "quantity": 231.65142718645367,
+        "symbol": "VLO",
+        "unrealized_pnl": -143.4295276866272
       }
     },
-    "positions_value": 93454.71191393468,
-    "total_equity": 270732.7647350248
+    "positions_value": 183947.90119696897,
+    "total_equity": 270981.6991063842
   },
   "closed_trades": [
     {
@@ -561,12 +620,19 @@
       "open_positions_count": 1,
       "positions_value": 93454.71191393468,
       "total_equity": 270732.7647350248
+    },
+    {
+      "cash": 87033.79790941518,
+      "date": "2026-09-09",
+      "open_positions_count": 2,
+      "positions_value": 183947.90119696897,
+      "total_equity": 270981.6991063842
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-09-08",
+  "last_committed_date": "2026-09-09",
   "metadata": {
-    "last_commit_date": "2026-09-08",
+    "last_commit_date": "2026-09-09",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
@@ -576,50 +642,7 @@
     "sim_end_replayed": false,
     "unknown_pending_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
   },
-  "pending_orders": [
-    {
-      "branch": "UPTREND",
-      "intent_type": "BUY",
-      "metadata": {
-        "account_mutated": false,
-        "capped_atr_entry": {
-          "atr20": 10.383502099999992,
-          "atr_as_of": "2026-09-08",
-          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
-          "variant_id": "E1R_CAPPED_ATR_A0_V1"
-        },
-        "close_t": 382.850006,
-        "e1r_entry_type": "E1R_UPTREND_CONFIRMED",
-        "entry_capacity": 2,
-        "entry_reasons": [
-          "rs_above_90",
-          "leader_rank_top5",
-          "leader_score_above_75",
-          "momentum_above_75",
-          "trend_health_above_70",
-          "close_above_ma50",
-          "ma50_slope_non_negative"
-        ],
-        "leader_rank_all": 1,
-        "leader_score": 96.91,
-        "market_entry_allowed": true,
-        "market_gate_state": "ALLOW",
-        "order_executed": false,
-        "source": "UptrendDecisionConsumer",
-        "strategy_logic_source": "UptrendCore",
-        "target_size_units": 1.0
-      },
-      "order_id": "6af0835a952e9b68303e40b6a7198b9b0c0de1a01d0b05eaee634482af678b15",
-      "quantity_delta": null,
-      "reason": "E1R_UPTREND_CONFIRMED",
-      "sequence": 1,
-      "side": "BUY",
-      "signal_date": "2026-09-08",
-      "status": "PENDING",
-      "symbol": "VLO",
-      "target_quantity": null
-    }
-  ],
+  "pending_orders": [],
   "schema_version": "1.0.0",
   "seed_date": "2026-06-16"
 }
