@@ -1,0 +1,30 @@
+{
+  "records": [
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-09-11",
+      "notes": "",
+      "recommended_action": "HOLD",
+      "recommended_shares": null,
+      "reconciliation_id": "2026-09-10::2026-09-11::MPC::HOLD",
+      "signal_date": "2026-09-10",
+      "status": "INFORMATIONAL",
+      "symbol": "MPC"
+    },
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-09-11",
+      "notes": "",
+      "recommended_action": "HOLD",
+      "recommended_shares": null,
+      "reconciliation_id": "2026-09-10::2026-09-11::VLO::HOLD",
+      "signal_date": "2026-09-10",
+      "status": "INFORMATIONAL",
+      "symbol": "VLO"
+    }
+  ]
+}
