@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
   "decision": "PASS_ENGINE_FORWARD_DAILY_INCREMENTAL_PRICE_UPDATE",
-  "generated_at": "2026-09-12T06:08:58.432836+00:00",
+  "generated_at": "2026-09-15T01:41:02.100760+00:00",
   "provider": "Yahoo Finance via yfinance",
   "price_root": "data/fw_prices",
   "catalogue_source": "existing data/fw_prices filenames",
@@ -11,8 +11,8 @@
   "legacy_price_root_written": false,
   "existing_file_count": 497,
   "downloaded_symbol_count": 497,
-  "changed_file_count": 493,
-  "unchanged_file_count": 4,
+  "changed_file_count": 491,
+  "unchanged_file_count": 6,
   "unavailable_symbol_count": 0,
   "unavailable_symbols": [],
   "changed_files": [
@@ -240,7 +240,6 @@
     "HSIC.json",
     "HST.json",
     "HSY.json",
-    "HUBB.json",
     "HUM.json",
     "HWM.json",
     "IBM.json",
@@ -268,7 +267,6 @@
     "KDP.json",
     "KEY.json",
     "KEYS.json",
-    "KHC.json",
     "KIM.json",
     "KLAC.json",
     "KMB.json",
@@ -510,15 +508,15 @@
     "_SOX.json",
     "_VIX.json"
   ],
-  "expected_latest_market_date": "2026-09-11",
+  "expected_latest_market_date": "2026-09-14",
   "required_index_latest_dates": {
-    "_GSPC.json": "2026-09-11",
-    "_NDX.json": "2026-09-11",
-    "_SOX.json": "2026-09-11",
-    "_VIX.json": "2026-09-11"
+    "_GSPC.json": "2026-09-14",
+    "_NDX.json": "2026-09-14",
+    "_SOX.json": "2026-09-14",
+    "_VIX.json": "2026-09-14"
   },
   "stale_required_indices": {},
   "invalid_ohlc_files": {},
   "latest_date_min": "2026-08-10",
-  "latest_date_max": "2026-09-11"
+  "latest_date_max": "2026-09-14"
 }
