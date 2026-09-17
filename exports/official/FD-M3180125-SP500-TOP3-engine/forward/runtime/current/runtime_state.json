@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 87033.79790941518,
-    "date": "2026-09-15",
+    "date": "2026-09-16",
     "metadata": {
-      "last_execution_date": "2026-09-15",
+      "last_execution_date": "2026-09-16",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "MPC": {
         "avg_cost": 391.39099999999996,
         "entry_date": "2026-09-04",
-        "last_price": 410.839996,
-        "last_update_date": "2026-09-15",
-        "market_value": 96525.46579853231,
+        "last_price": 413.920013,
+        "last_update_date": "2026-09-16",
+        "market_value": 97249.10536256443,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -69,14 +69,14 @@
         },
         "quantity": 234.94661361678212,
         "symbol": "MPC",
-        "unrealized_pnl": 4569.475748446346
+        "unrealized_pnl": 5293.115312478466
       },
       "VLO": {
         "avg_cost": 389.569172993,
         "entry_date": "2026-09-09",
-        "last_price": 397.040009,
-        "last_update_date": "2026-09-15",
-        "market_value": 91974.88473497241,
+        "last_price": 403.279999,
+        "last_update_date": "2026-09-16",
+        "market_value": 93420.38732410161,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -128,11 +128,11 @@
         },
         "quantity": 231.65142718645367,
         "symbol": "VLO",
-        "unrealized_pnl": 1730.6298232974975
+        "unrealized_pnl": 3176.132412426691
       }
     },
-    "positions_value": 188500.35053350474,
-    "total_equity": 275534.14844291995
+    "positions_value": 190669.49268666602,
+    "total_equity": 277703.2905960812
   },
   "closed_trades": [
     {
@@ -655,12 +655,19 @@
       "open_positions_count": 2,
       "positions_value": 188500.35053350474,
       "total_equity": 275534.14844291995
+    },
+    {
+      "cash": 87033.79790941518,
+      "date": "2026-09-16",
+      "open_positions_count": 2,
+      "positions_value": 190669.49268666602,
+      "total_equity": 277703.2905960812
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-09-15",
+  "last_committed_date": "2026-09-16",
   "metadata": {
-    "last_commit_date": "2026-09-15",
+    "last_commit_date": "2026-09-16",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
