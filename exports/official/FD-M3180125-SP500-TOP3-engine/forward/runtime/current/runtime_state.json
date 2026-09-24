@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 0.0,
-    "date": "2026-09-21",
+    "date": "2026-09-23",
     "metadata": {
-      "last_execution_date": "2026-09-21",
+      "last_execution_date": "2026-09-23",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "MPC": {
         "avg_cost": 391.39099999999996,
         "entry_date": "2026-09-04",
-        "last_price": 402.380005,
-        "last_update_date": "2026-09-21",
-        "market_value": 94537.81956185384,
+        "last_price": 388.380005,
+        "last_update_date": "2026-09-23",
+        "market_value": 91248.5669712189,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -69,14 +69,14 @@
         },
         "quantity": 234.94661361678212,
         "symbol": "MPC",
-        "unrealized_pnl": 2581.8295117678913
+        "unrealized_pnl": -707.4230788670582
       },
       "RVTY": {
         "avg_cost": 145.695553003,
         "entry_date": "2026-09-21",
-        "last_price": 143.589996,
-        "last_update_date": "2026-09-21",
-        "market_value": 85776.00644695318,
+        "last_price": 142.110001,
+        "last_update_date": "2026-09-23",
+        "market_value": 84891.90543575559,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -128,14 +128,14 @@
         },
         "quantity": 597.3675662401521,
         "symbol": "RVTY",
-        "unrealized_pnl": -1257.7914624620023
+        "unrealized_pnl": -2141.8924736595977
       },
       "VLO": {
         "avg_cost": 389.569172993,
         "entry_date": "2026-09-09",
-        "last_price": 393.269989,
-        "last_update_date": "2026-09-21",
-        "market_value": 91101.55422145093,
+        "last_price": 375.839996,
+        "last_update_date": "2026-09-23",
+        "market_value": 87063.87146715104,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -187,11 +187,11 @@
         },
         "quantity": 231.65142718645367,
         "symbol": "VLO",
-        "unrealized_pnl": 857.2993097760261
+        "unrealized_pnl": -3180.3834445238767
       }
     },
-    "positions_value": 271415.3802302579,
-    "total_equity": 271415.3802302579
+    "positions_value": 263204.3438741255,
+    "total_equity": 263204.3438741255
   },
   "closed_trades": [
     {
@@ -742,12 +742,19 @@
       "open_positions_count": 3,
       "positions_value": 271415.3802302579,
       "total_equity": 271415.3802302579
+    },
+    {
+      "cash": 0.0,
+      "date": "2026-09-23",
+      "open_positions_count": 3,
+      "positions_value": 263204.3438741255,
+      "total_equity": 263204.3438741255
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-09-21",
+  "last_committed_date": "2026-09-23",
   "metadata": {
-    "last_commit_date": "2026-09-21",
+    "last_commit_date": "2026-09-23",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
@@ -757,7 +764,48 @@
     "sim_end_replayed": false,
     "unknown_pending_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
   },
-  "pending_orders": [],
+  "pending_orders": [
+    {
+      "branch": "UPTREND",
+      "intent_type": "REDUCE",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 70.46,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "883ff864a226ef91972078dc0ddcd2248d430958077e2fd132f96167be5f4999",
+      "quantity_delta": -117.47330680839106,
+      "reason": "canonical_position_reduce",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-09-23",
+      "status": "PENDING",
+      "symbol": "MPC",
+      "target_quantity": null
+    },
+    {
+      "branch": "UPTREND",
+      "intent_type": "REDUCE",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 68.55,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "11233c8d330146fe9b4735933efb5f92b8d84f074c8e513182b1d79fb89746e2",
+      "quantity_delta": -115.82571359322684,
+      "reason": "canonical_position_reduce",
+      "sequence": 2,
+      "side": "SELL",
+      "signal_date": "2026-09-23",
+      "status": "PENDING",
+      "symbol": "VLO",
+      "target_quantity": null
+    }
+  ],
   "schema_version": "1.0.0",
   "seed_date": "2026-06-16"
 }
