@@ -1,0 +1,39 @@
+{
+  "actual_cash": "171.80",
+  "calculated_cash": "90171.80",
+  "cash_difference": "-90000.00",
+  "positions": {
+    "MPC": {
+      "average_cost": "388.50",
+      "cost_basis": "3108.00",
+      "last_price": "388.380005",
+      "market_value": "3107.040040",
+      "position_source": "USER_CONFIRMED_TRANSACTION_LEDGER",
+      "shares": "8",
+      "unrealized_pnl": "-0.959960"
+    },
+    "PSX": {
+      "average_cost": "271",
+      "cost_basis": "2981",
+      "last_price": "256.480011",
+      "market_value": "2821.280121",
+      "position_source": "USER_CONFIRMED_TRANSACTION_LEDGER",
+      "shares": "11",
+      "unrealized_pnl": "-159.719879"
+    },
+    "VLO": {
+      "average_cost": "380.50",
+      "cost_basis": "3044.00",
+      "last_price": "375.839996",
+      "market_value": "3006.719968",
+      "position_source": "USER_CONFIRMED_TRANSACTION_LEDGER",
+      "shares": "8",
+      "unrealized_pnl": "-37.280032"
+    }
+  },
+  "positions_value": "8935.040129",
+  "realized_pnl": "-695.20",
+  "total_equity": "9106.840129",
+  "trading_pnl": "-893.159871",
+  "unrealized_pnl": "-197.959871"
+}

@@ -1,0 +1,43 @@
+{
+  "records": [
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-09-24",
+      "notes": "",
+      "recommended_action": "REDUCE",
+      "recommended_shares": "4.0",
+      "reconciliation_id": "2026-09-23::2026-09-24::MPC::REDUCE",
+      "signal_date": "2026-09-23",
+      "status": "PENDING",
+      "symbol": "MPC"
+    },
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-09-24",
+      "notes": "",
+      "recommended_action": "HOLD",
+      "recommended_shares": null,
+      "reconciliation_id": "2026-09-23::2026-09-24::PSX::HOLD",
+      "signal_date": "2026-09-23",
+      "status": "INFORMATIONAL",
+      "symbol": "PSX"
+    },
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-09-24",
+      "notes": "",
+      "recommended_action": "REDUCE",
+      "recommended_shares": "4.0",
+      "reconciliation_id": "2026-09-23::2026-09-24::VLO::REDUCE",
+      "signal_date": "2026-09-23",
+      "status": "PENDING",
+      "symbol": "VLO"
+    }
+  ]
+}

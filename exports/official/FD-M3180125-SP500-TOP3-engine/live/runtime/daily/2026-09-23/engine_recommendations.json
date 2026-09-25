@@ -1,0 +1,26 @@
+{
+  "automatic_execution": false,
+  "expected_execution_date": "2026-09-24",
+  "recommendation_only": true,
+  "recommendations": [
+    {
+      "action": "REDUCE",
+      "reason": "canonical_position_reduce",
+      "symbol": "MPC",
+      "target_shares": "4.0"
+    },
+    {
+      "action": "HOLD",
+      "reason": "canonical_position_hold",
+      "symbol": "PSX",
+      "target_shares": "11.0"
+    },
+    {
+      "action": "REDUCE",
+      "reason": "canonical_position_reduce",
+      "symbol": "VLO",
+      "target_shares": "4.0"
+    }
+  ],
+  "signal_date": "2026-09-23"
+}
