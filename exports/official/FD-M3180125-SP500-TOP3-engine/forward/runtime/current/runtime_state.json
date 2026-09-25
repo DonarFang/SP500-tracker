@@ -1,9 +1,9 @@
 {
   "account": {
-    "cash": 0.0,
-    "date": "2026-09-23",
+    "cash": 88683.01007261674,
+    "date": "2026-09-24",
     "metadata": {
-      "last_execution_date": "2026-09-23",
+      "last_execution_date": "2026-09-24",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "MPC": {
         "avg_cost": 391.39099999999996,
         "entry_date": "2026-09-04",
-        "last_price": 388.380005,
-        "last_update_date": "2026-09-23",
-        "market_value": 91248.5669712189,
+        "last_price": 390.950012,
+        "last_update_date": "2026-09-24",
+        "market_value": 45926.190706420166,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -54,6 +54,8 @@
           ],
           "entry_shares": 234.94661361678212,
           "fill_id": "5503c8384f61109bc91d249b860b9de044ecb7d4ca5a6931d14a0a90160e35cf",
+          "last_fill_id": "49b477d3103f59a0b0742ab4ee0efa0a9a3909af88f9e428099e758778e7cfdc",
+          "last_order_id": "883ff864a226ef91972078dc0ddcd2248d430958077e2fd132f96167be5f4999",
           "leader_rank_all": 1,
           "leader_score": 97.67,
           "market_entry_allowed": true,
@@ -61,22 +63,24 @@
           "order_executed": false,
           "order_id": "8e6775f4fe871adf9d573d14450f614b37d5d8d45af27d7f7c379e333f3ee2fc",
           "origin_branch": "UPTREND",
-          "remaining_cost_basis": 91955.99005008597,
-          "size_units": 1.0,
+          "realized_cost_basis": 45977.99502504298,
+          "realized_pnl": -474.44531669765456,
+          "remaining_cost_basis": 45977.99502504298,
+          "size_units": 0.5,
           "source": "UptrendDecisionConsumer",
           "strategy_logic_source": "UptrendCore",
           "target_size_units": 1.0
         },
-        "quantity": 234.94661361678212,
+        "quantity": 117.47330680839106,
         "symbol": "MPC",
-        "unrealized_pnl": -707.4230788670582
+        "unrealized_pnl": -51.804318622812595
       },
       "RVTY": {
         "avg_cost": 145.695553003,
         "entry_date": "2026-09-21",
-        "last_price": 142.110001,
-        "last_update_date": "2026-09-23",
-        "market_value": 84891.90543575559,
+        "last_price": 150.679993,
+        "last_update_date": "2026-09-24",
+        "market_value": 90011.34069949316,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -128,14 +132,14 @@
         },
         "quantity": 597.3675662401521,
         "symbol": "RVTY",
-        "unrealized_pnl": -2141.8924736595977
+        "unrealized_pnl": 2977.542790077967
       },
       "VLO": {
         "avg_cost": 389.569172993,
         "entry_date": "2026-09-09",
-        "last_price": 375.839996,
-        "last_update_date": "2026-09-23",
-        "market_value": 87063.87146715104,
+        "last_price": 382.859985,
+        "last_update_date": "2026-09-24",
+        "market_value": 44345.03096891712,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -172,6 +176,8 @@
           ],
           "entry_shares": 231.65142718645367,
           "fill_id": "8b757910f9d5503f0e1036c5d1fed20c6cd9cd00182b2efb6580352e67f77641",
+          "last_fill_id": "e4c6a68754fbc7bb1c04b9856f424c2a1ce8353059b881ce7f0dee9289c3ff80",
+          "last_order_id": "11233c8d330146fe9b4735933efb5f92b8d84f074c8e513182b1d79fb89746e2",
           "leader_rank_all": 1,
           "leader_score": 96.91,
           "market_entry_allowed": true,
@@ -179,19 +185,21 @@
           "order_executed": false,
           "order_id": "6af0835a952e9b68303e40b6a7198b9b0c0de1a01d0b05eaee634482af678b15",
           "origin_branch": "UPTREND",
-          "remaining_cost_basis": 90244.25491167491,
-          "size_units": 1.0,
+          "realized_cost_basis": 45122.12745583746,
+          "realized_pnl": -1942.667091566041,
+          "remaining_cost_basis": 45122.12745583746,
+          "size_units": 0.5,
           "source": "UptrendDecisionConsumer",
           "strategy_logic_source": "UptrendCore",
           "target_size_units": 1.0
         },
-        "quantity": 231.65142718645367,
+        "quantity": 115.82571359322684,
         "symbol": "VLO",
-        "unrealized_pnl": -3180.3834445238767
+        "unrealized_pnl": -777.0964869203344
       }
     },
-    "positions_value": 263204.3438741255,
-    "total_equity": 263204.3438741255
+    "positions_value": 180282.56237483045,
+    "total_equity": 268965.5724474472
   },
   "closed_trades": [
     {
@@ -749,12 +757,19 @@
       "open_positions_count": 3,
       "positions_value": 263204.3438741255,
       "total_equity": 263204.3438741255
+    },
+    {
+      "cash": 88683.01007261674,
+      "date": "2026-09-24",
+      "open_positions_count": 3,
+      "positions_value": 180282.56237483045,
+      "total_equity": 268965.5724474472
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-09-23",
+  "last_committed_date": "2026-09-24",
   "metadata": {
-    "last_commit_date": "2026-09-23",
+    "last_commit_date": "2026-09-24",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
@@ -764,48 +779,7 @@
     "sim_end_replayed": false,
     "unknown_pending_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
   },
-  "pending_orders": [
-    {
-      "branch": "UPTREND",
-      "intent_type": "REDUCE",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 70.46,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "order_id": "883ff864a226ef91972078dc0ddcd2248d430958077e2fd132f96167be5f4999",
-      "quantity_delta": -117.47330680839106,
-      "reason": "canonical_position_reduce",
-      "sequence": 1,
-      "side": "SELL",
-      "signal_date": "2026-09-23",
-      "status": "PENDING",
-      "symbol": "MPC",
-      "target_quantity": null
-    },
-    {
-      "branch": "UPTREND",
-      "intent_type": "REDUCE",
-      "metadata": {
-        "add_size_units": 0.5,
-        "engine_owned_position_management": true,
-        "leader_score": 68.55,
-        "origin_branch": "UPTREND",
-        "reduce_fraction": 0.5
-      },
-      "order_id": "11233c8d330146fe9b4735933efb5f92b8d84f074c8e513182b1d79fb89746e2",
-      "quantity_delta": -115.82571359322684,
-      "reason": "canonical_position_reduce",
-      "sequence": 2,
-      "side": "SELL",
-      "signal_date": "2026-09-23",
-      "status": "PENDING",
-      "symbol": "VLO",
-      "target_quantity": null
-    }
-  ],
+  "pending_orders": [],
   "schema_version": "1.0.0",
   "seed_date": "2026-06-16"
 }
