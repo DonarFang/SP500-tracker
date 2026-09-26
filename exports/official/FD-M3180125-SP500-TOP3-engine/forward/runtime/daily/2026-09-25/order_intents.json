@@ -1,0 +1,53 @@
+[
+  {
+    "branch": "UPTREND",
+    "date": "2026-09-25",
+    "intent_type": "HOLD",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 71.21,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": 0.0,
+    "reason": "reduce_skipped_size_at_minimum",
+    "side": null,
+    "symbol": "MPC",
+    "target_quantity": 117.47330680839106
+  },
+  {
+    "branch": "UPTREND",
+    "date": "2026-09-25",
+    "intent_type": "HOLD",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 95.71,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": 0.0,
+    "reason": "canonical_position_hold",
+    "side": null,
+    "symbol": "RVTY",
+    "target_quantity": 597.3675662401521
+  },
+  {
+    "branch": "UPTREND",
+    "date": "2026-09-25",
+    "intent_type": "HOLD",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 76.88,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": 0.0,
+    "reason": "canonical_position_hold",
+    "side": null,
+    "symbol": "VLO",
+    "target_quantity": 115.82571359322684
+  }
+]
