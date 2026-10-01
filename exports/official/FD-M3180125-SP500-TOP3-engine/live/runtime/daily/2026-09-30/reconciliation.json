@@ -1,0 +1,43 @@
+{
+  "records": [
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-10-01",
+      "notes": "",
+      "recommended_action": "HOLD",
+      "recommended_shares": null,
+      "reconciliation_id": "2026-09-30::2026-10-01::A::HOLD",
+      "signal_date": "2026-09-30",
+      "status": "INFORMATIONAL",
+      "symbol": "A"
+    },
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-10-01",
+      "notes": "",
+      "recommended_action": "HOLD",
+      "recommended_shares": null,
+      "reconciliation_id": "2026-09-30::2026-10-01::PSX::HOLD",
+      "signal_date": "2026-09-30",
+      "status": "INFORMATIONAL",
+      "symbol": "PSX"
+    },
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-10-01",
+      "notes": "",
+      "recommended_action": "BUY",
+      "recommended_shares": "11.78369531004092",
+      "reconciliation_id": "2026-09-30::2026-10-01::CRWD::BUY",
+      "signal_date": "2026-09-30",
+      "status": "PENDING",
+      "symbol": "CRWD"
+    }
+  ]
+}
