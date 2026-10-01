@@ -1,6 +1,6 @@
 {
-  "actual_cash": "3401.50",
-  "calculated_cash": "93401.50",
+  "actual_cash": "483.20",
+  "calculated_cash": "90483.20",
   "cash_difference": "-90000.00",
   "positions": {
     "A": {
@@ -12,6 +12,15 @@
       "shares": "17",
       "unrealized_pnl": "-47.430034"
     },
+    "CRWD": {
+      "average_cost": "265.30",
+      "cost_basis": "2918.30",
+      "last_price": "265.30",
+      "market_value": "2918.30",
+      "position_source": "USER_CONFIRMED_TRANSACTION_LEDGER",
+      "shares": "11",
+      "unrealized_pnl": "0.00"
+    },
     "PSX": {
       "average_cost": "271",
       "cost_basis": "2981",
@@ -22,7 +31,7 @@
       "unrealized_pnl": "-172.590022"
     }
   },
-  "positions_value": "5737.679944",
+  "positions_value": "8655.979944",
   "realized_pnl": "-640.80",
   "total_equity": "9139.179944",
   "trading_pnl": "-860.820056",
