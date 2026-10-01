@@ -376,6 +376,15 @@ def main() -> int:
         merged_by_file[filename] = merged
         latest_dates[filename] = str(merged[-1]["date"])
 
+    from db_step2_price_gaps import ensure_pending_bars
+    ensure_pending_bars(
+        root=ROOT, merged_by_file=merged_by_file, expected=expected,
+        download=download_single, merge=merge_records,
+        clip=clip_frame_to_expected_session, valid=valid_ohlc_record,
+        write=atomic_write_json,
+    )
+    latest_dates = {name: str(rows[-1]["date"]) for name, rows in merged_by_file.items()}
+
     required_latest = {name: latest_dates[name] for name in REQUIRED_INDEX_FILES}
     stale_required = {
         name: actual for name, actual in required_latest.items() if actual != expected
