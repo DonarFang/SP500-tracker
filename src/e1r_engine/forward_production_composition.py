@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from e1r_engine.core import E1RCoreEngine
+from e1r_engine.lss07_deployment import production_engine
 
 import hashlib
 from dataclasses import dataclass
@@ -430,7 +431,7 @@ def build_production_forward_composition(
         )
 
     decision_router = CanonicalDailyDecisionRouter(
-        engine=E1RCoreEngine(),
+        engine=production_engine("forward", runtime_root),
         entry_atr20_provider=entry_atr20_provider,
     )
 

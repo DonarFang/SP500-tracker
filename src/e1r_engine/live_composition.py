@@ -23,6 +23,7 @@ from .live_data import (
     LivePriceRepository,
 )
 from .live_engine_adapter import LiveEngineAdapter
+from .lss07_deployment import production_engine
 from .live_persistence import LiveRuntimeRepository
 from .live_production import LiveProductionRuntime
 
@@ -280,6 +281,7 @@ def _compose_live_production_components(
         required_data_symbols,
     )
     engine_adapter = LiveEngineAdapter(
+        engine=(None if initialize_unactivated else production_engine("live", live_root)),
         data_adapter=LiveDataAdapter(
             Path(price_root)
         ),

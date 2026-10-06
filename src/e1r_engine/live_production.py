@@ -279,6 +279,12 @@ class LiveProductionRuntime:
                 "result_hash": result.result_hash,
             },
         }
+        # New daily advice only; old manifests and confirmed fills are untouched.
+        lss07 = payload.get("evidence", {}).get("engine_result_metadata", {}).get("lss07")
+        if lss07 is not None:
+            artifacts["engine_recommendations"]["lss07"] = lss07
+            artifacts["engine_recommendations"]["strategy_version"] = lss07["version"]
+            artifacts["engine_recommendations"]["effective_signal_date"] = lss07["effective_signal_date"]
         hashes = self.repository.commit_daily(
             market_date=result.market_date.isoformat(), artifacts=artifacts
         )

@@ -1,0 +1,24 @@
+{
+  "created_at": "2026-10-06T11:12:53.442806+00:00",
+  "deployment_id": "LSS07F-step-6-v1",
+  "earliest_execution_date": "2026-10-08",
+  "effective_signal_date": "2026-10-07",
+  "enabled": true,
+  "history_policy": "PRESERVE_NO_REPLAY",
+  "install_base_commit": "53459d6ea9ae44493a0b6815d309525d861f3e48",
+  "last_committed_at_install": {
+    "forward": "2026-10-05",
+    "live": "2026-10-05"
+  },
+  "live_execution": "RECOMMENDATION_USER_CONFIRMED",
+  "readiness_dates": {
+    "forward": "2026-10-05",
+    "live": "2026-10-05"
+  },
+  "schema_version": "1.0",
+  "strategy_version": "LSS07-SP500-FROZEN-1.0",
+  "tracks": [
+    "forward",
+    "live"
+  ]
+}
