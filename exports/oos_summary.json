@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-03T01:42:24.782788+00:00",
-  "generated_at_display": "2026年10月2日 21:42 ET",
-  "status": "NO_OP_MARKET_CLOSED",
-  "reason": "weekend",
-  "run_date": "2026-10-03",
+  "generated_at": "2026-10-06T02:00:04.132157+00:00",
+  "generated_at_display": "2026年10月5日 22:00 ET",
+  "status": "OOS_STALE",
+  "stale_reason": "market_data=2026-10-05, expected=2026-10-06",
+  "run_date": "2026-10-06",
   "last_successful_run": "2026-09-22",
-  "last_market_date": "2026-09-22",
-  "expected_market_date": "2026-10-02"
+  "last_market_date": "2026-10-05",
+  "expected_market_date": "2026-10-06"
 }
