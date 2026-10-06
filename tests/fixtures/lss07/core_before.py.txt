@@ -25,7 +25,6 @@ from e1r_engine.capped_atr_stop import (
     annotate_buy_intent,
 )
 
-from e1r_engine.lss07 import LSS07Config, apply_lss07
 from e1r_engine.contracts import MarketSnapshot
 from e1r_engine.regime_router import RegimeRouter, RegimeRoute
 from e1r_engine.state import (
@@ -58,7 +57,6 @@ class E1RCoreEngineConfig:
     market_gate_config: MarketGateConfig = field(
         default_factory=MarketGateConfig
     )
-    lss07: LSS07Config = field(default_factory=LSS07Config)
 
 
 class E1RCoreEngine:
@@ -182,13 +180,10 @@ class E1RCoreEngine:
                 snapshot=snapshot,
                 account=account,
             )
-            result = self._finalize_capped_atr(
+            return self._finalize_capped_atr(
                 result=result,
                 entry_atr20_provider=canonical_atr_provider,
             )
-            # Keep the frozen legacy 5Y path untouched. Existing full exits,
-            # including CAPPED-ATR, have priority over the LSS07 overlay.
-            return apply_lss07(snapshot=snapshot, result=result, config=self.config.lss07)
 
         route = self._route(snapshot)
         account_before = account
