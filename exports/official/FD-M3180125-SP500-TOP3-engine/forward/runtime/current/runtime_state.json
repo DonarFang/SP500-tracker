@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 88683.01007261674,
-    "date": "2026-10-05",
+    "date": "2026-10-06",
     "metadata": {
-      "last_execution_date": "2026-10-05",
+      "last_execution_date": "2026-10-06",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "MPC": {
         "avg_cost": 391.39099999999996,
         "entry_date": "2026-09-04",
-        "last_price": 433.470001,
-        "last_update_date": "2026-10-05",
-        "market_value": 50921.15441970658,
+        "last_price": 432.359985,
+        "last_update_date": "2026-10-06",
+        "market_value": 50790.757169576354,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -73,14 +73,14 @@
         },
         "quantity": 117.47330680839106,
         "symbol": "MPC",
-        "unrealized_pnl": 4943.159394663601
+        "unrealized_pnl": 4812.762144533375
       },
       "RVTY": {
         "avg_cost": 145.695553003,
         "entry_date": "2026-09-21",
-        "last_price": 157.360001,
-        "last_update_date": "2026-10-05",
-        "market_value": 94001.7608209179,
+        "last_price": 153.300003,
+        "last_update_date": "2026-10-06",
+        "market_value": 91576.44969671802,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -132,14 +132,14 @@
         },
         "quantity": 597.3675662401521,
         "symbol": "RVTY",
-        "unrealized_pnl": 6967.962911502722
+        "unrealized_pnl": 4542.651787302832
       },
       "VLO": {
         "avg_cost": 389.569172993,
         "entry_date": "2026-09-09",
-        "last_price": 419.329987,
-        "last_update_date": "2026-10-05",
-        "market_value": 48569.194975313534,
+        "last_price": 419.220001,
+        "last_update_date": "2026-10-06",
+        "market_value": 48556.45576837827,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -195,11 +195,11 @@
         },
         "quantity": 115.82571359322684,
         "symbol": "VLO",
-        "unrealized_pnl": 3447.067519476078
+        "unrealized_pnl": 3434.3283125408143
       }
     },
-    "positions_value": 193492.110215938,
-    "total_equity": 282175.12028855475
+    "positions_value": 190923.66263467266,
+    "total_equity": 279606.6727072894
   },
   "closed_trades": [
     {
@@ -813,12 +813,19 @@
       "open_positions_count": 3,
       "positions_value": 193492.110215938,
       "total_equity": 282175.12028855475
+    },
+    {
+      "cash": 88683.01007261674,
+      "date": "2026-10-06",
+      "open_positions_count": 3,
+      "positions_value": 190923.66263467266,
+      "total_equity": 279606.6727072894
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-10-05",
+  "last_committed_date": "2026-10-06",
   "metadata": {
-    "last_commit_date": "2026-10-05",
+    "last_commit_date": "2026-10-06",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
