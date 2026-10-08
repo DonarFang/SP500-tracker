@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
   "decision": "PASS_ENGINE_FORWARD_DAILY_INCREMENTAL_PRICE_UPDATE",
-  "generated_at": "2026-10-07T02:36:11.286101+00:00",
+  "generated_at": "2026-10-08T02:50:00.145304+00:00",
   "provider": "Yahoo Finance via yfinance",
   "price_root": "data/fw_prices",
   "catalogue_source": "existing data/fw_prices filenames",
@@ -11,8 +11,8 @@
   "legacy_price_root_written": false,
   "existing_file_count": 497,
   "downloaded_symbol_count": 497,
-  "changed_file_count": 493,
-  "unchanged_file_count": 4,
+  "changed_file_count": 491,
+  "unchanged_file_count": 6,
   "unavailable_symbol_count": 0,
   "unavailable_symbols": [],
   "changed_files": [
@@ -384,7 +384,6 @@
     "PWR.json",
     "PYPL.json",
     "QCOM.json",
-    "QRVO.json",
     "RBLX.json",
     "RCL.json",
     "RDDT.json",
@@ -482,7 +481,6 @@
     "W.json",
     "WAB.json",
     "WAT.json",
-    "WBD.json",
     "WDC.json",
     "WEC.json",
     "WELL.json",
@@ -510,15 +508,15 @@
     "_SOX.json",
     "_VIX.json"
   ],
-  "expected_latest_market_date": "2026-10-06",
+  "expected_latest_market_date": "2026-10-07",
   "required_index_latest_dates": {
-    "_GSPC.json": "2026-10-06",
-    "_NDX.json": "2026-10-06",
-    "_SOX.json": "2026-10-06",
-    "_VIX.json": "2026-10-06"
+    "_GSPC.json": "2026-10-07",
+    "_NDX.json": "2026-10-07",
+    "_SOX.json": "2026-10-07",
+    "_VIX.json": "2026-10-07"
   },
   "stale_required_indices": {},
   "invalid_ohlc_files": {},
   "latest_date_min": "2026-08-10",
-  "latest_date_max": "2026-10-06"
+  "latest_date_max": "2026-10-07"
 }
