@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-09T02:44:36.960042+00:00",
+  "generated_at": "2026-10-10T01:25:36.733590+00:00",
   "status_date": "2026-06-18",
   "strategy_id": "E1R_REGIME_AWARE_V0_2",
   "version": "v0.2",
@@ -32,7 +32,7 @@
       "source": "exports/leaderboard.json",
       "target_weight": 0.024999999999999998,
       "preview_weight": 0.024999999999999998,
-      "leader_score": 87.58,
+      "leader_score": 87.61,
       "price": 193.73,
       "raw": {
         "symbol": "PTC",
@@ -48,13 +48,13 @@
         "ma20_slope": 0.006871,
         "ma50_slope": 0.006048,
         "rs_score": 99.2,
-        "rs_raw": 54.18,
+        "rs_raw": 53.04,
         "ret60": 56.73,
-        "momentum_score": 79.7,
+        "momentum_score": 79.8,
         "ret20": 50.52,
         "ret60_pct": 72.7,
         "ret20_pct": 82.0,
-        "ma50_slope_pct": 80.6,
+        "ma50_slope_pct": 80.8,
         "slope5": 0.054952,
         "slope10": 0.04899,
         "slope20": 0.020656,
@@ -65,14 +65,14 @@
         "ma50_slope_score": 25.0,
         "drawdown_score": 25.0,
         "volatility_score": 0.0,
-        "leader_score": 87.58,
+        "leader_score": 87.61,
         "trend_state": "Healthy Trend",
         "trade_action": "HOLD",
         "action_label": "持有",
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 1,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -98,7 +98,7 @@
         "ma20_slope": 0.004171,
         "ma50_slope": 0.00592,
         "rs_score": 99.0,
-        "rs_raw": 52.32,
+        "rs_raw": 51.18,
         "ret60": 54.87,
         "momentum_score": 70.9,
         "ret20": 18.07,
@@ -122,7 +122,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 2,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -148,7 +148,7 @@
         "ma20_slope": 0.004854,
         "ma50_slope": 0.005738,
         "rs_score": 98.6,
-        "rs_raw": 49.1,
+        "rs_raw": 47.96,
         "ret60": 51.64,
         "momentum_score": 70.2,
         "ret20": 15.14,
@@ -172,7 +172,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 3,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -198,7 +198,7 @@
         "ma20_slope": 0.003907,
         "ma50_slope": 0.007415,
         "rs_score": 98.0,
-        "rs_raw": 46.06,
+        "rs_raw": 44.92,
         "ret60": 48.61,
         "momentum_score": 67.0,
         "ret20": 19.85,
@@ -222,7 +222,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 4,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -248,7 +248,7 @@
         "ma20_slope": 0.001915,
         "ma50_slope": 0.004671,
         "rs_score": 97.3,
-        "rs_raw": 41.01,
+        "rs_raw": 39.87,
         "ret60": 43.56,
         "momentum_score": 67.8,
         "ret20": 8.93,
@@ -272,7 +272,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 5,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -298,7 +298,7 @@
         "ma20_slope": -0.001942,
         "ma50_slope": 0.0071,
         "rs_score": 99.4,
-        "rs_raw": 56.3,
+        "rs_raw": 55.16,
         "ret60": 58.85,
         "momentum_score": 64.0,
         "ret20": 6.42,
@@ -322,7 +322,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 6,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -348,7 +348,7 @@
         "ma20_slope": 0.005197,
         "ma50_slope": 0.004834,
         "rs_score": 95.3,
-        "rs_raw": 30.64,
+        "rs_raw": 29.51,
         "ret60": 33.19,
         "momentum_score": 71.9,
         "ret20": 29.98,
@@ -372,7 +372,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 7,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -398,7 +398,7 @@
         "ma20_slope": 0.003528,
         "ma50_slope": 0.006436,
         "rs_score": 98.2,
-        "rs_raw": 47.21,
+        "rs_raw": 46.07,
         "ret60": 49.76,
         "momentum_score": 64.6,
         "ret20": 11.08,
@@ -422,7 +422,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 8,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -448,7 +448,7 @@
         "ma20_slope": 0.009104,
         "ma50_slope": 0.005586,
         "rs_score": 97.1,
-        "rs_raw": 39.99,
+        "rs_raw": 38.85,
         "ret60": 42.54,
         "momentum_score": 69.0,
         "ret20": 25.84,
@@ -472,7 +472,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 9,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -498,7 +498,7 @@
         "ma20_slope": 0.000312,
         "ma50_slope": 0.00604,
         "rs_score": 96.9,
-        "rs_raw": 39.55,
+        "rs_raw": 38.41,
         "ret60": 42.1,
         "momentum_score": 61.4,
         "ret20": 0.75,
@@ -522,7 +522,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 10,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     }
   ],
@@ -535,7 +535,7 @@
       "source": "exports/leaderboard.json",
       "target_weight": 0.024999999999999998,
       "preview_weight": 0.024999999999999998,
-      "leader_score": 87.58,
+      "leader_score": 87.61,
       "price": 193.73,
       "raw": {
         "symbol": "PTC",
@@ -551,13 +551,13 @@
         "ma20_slope": 0.006871,
         "ma50_slope": 0.006048,
         "rs_score": 99.2,
-        "rs_raw": 54.18,
+        "rs_raw": 53.04,
         "ret60": 56.73,
-        "momentum_score": 79.7,
+        "momentum_score": 79.8,
         "ret20": 50.52,
         "ret60_pct": 72.7,
         "ret20_pct": 82.0,
-        "ma50_slope_pct": 80.6,
+        "ma50_slope_pct": 80.8,
         "slope5": 0.054952,
         "slope10": 0.04899,
         "slope20": 0.020656,
@@ -568,14 +568,14 @@
         "ma50_slope_score": 25.0,
         "drawdown_score": 25.0,
         "volatility_score": 0.0,
-        "leader_score": 87.58,
+        "leader_score": 87.61,
         "trend_state": "Healthy Trend",
         "trade_action": "HOLD",
         "action_label": "持有",
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 1,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -601,7 +601,7 @@
         "ma20_slope": 0.004171,
         "ma50_slope": 0.00592,
         "rs_score": 99.0,
-        "rs_raw": 52.32,
+        "rs_raw": 51.18,
         "ret60": 54.87,
         "momentum_score": 70.9,
         "ret20": 18.07,
@@ -625,7 +625,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 2,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -651,7 +651,7 @@
         "ma20_slope": 0.004854,
         "ma50_slope": 0.005738,
         "rs_score": 98.6,
-        "rs_raw": 49.1,
+        "rs_raw": 47.96,
         "ret60": 51.64,
         "momentum_score": 70.2,
         "ret20": 15.14,
@@ -675,7 +675,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 3,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -701,7 +701,7 @@
         "ma20_slope": 0.003907,
         "ma50_slope": 0.007415,
         "rs_score": 98.0,
-        "rs_raw": 46.06,
+        "rs_raw": 44.92,
         "ret60": 48.61,
         "momentum_score": 67.0,
         "ret20": 19.85,
@@ -725,7 +725,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 4,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -751,7 +751,7 @@
         "ma20_slope": 0.001915,
         "ma50_slope": 0.004671,
         "rs_score": 97.3,
-        "rs_raw": 41.01,
+        "rs_raw": 39.87,
         "ret60": 43.56,
         "momentum_score": 67.8,
         "ret20": 8.93,
@@ -775,7 +775,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 5,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -801,7 +801,7 @@
         "ma20_slope": -0.001942,
         "ma50_slope": 0.0071,
         "rs_score": 99.4,
-        "rs_raw": 56.3,
+        "rs_raw": 55.16,
         "ret60": 58.85,
         "momentum_score": 64.0,
         "ret20": 6.42,
@@ -825,7 +825,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 6,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -851,7 +851,7 @@
         "ma20_slope": 0.005197,
         "ma50_slope": 0.004834,
         "rs_score": 95.3,
-        "rs_raw": 30.64,
+        "rs_raw": 29.51,
         "ret60": 33.19,
         "momentum_score": 71.9,
         "ret20": 29.98,
@@ -875,7 +875,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 7,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -901,7 +901,7 @@
         "ma20_slope": 0.003528,
         "ma50_slope": 0.006436,
         "rs_score": 98.2,
-        "rs_raw": 47.21,
+        "rs_raw": 46.07,
         "ret60": 49.76,
         "momentum_score": 64.6,
         "ret20": 11.08,
@@ -925,7 +925,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 8,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -951,7 +951,7 @@
         "ma20_slope": 0.009104,
         "ma50_slope": 0.005586,
         "rs_score": 97.1,
-        "rs_raw": 39.99,
+        "rs_raw": 38.85,
         "ret60": 42.54,
         "momentum_score": 69.0,
         "ret20": 25.84,
@@ -975,7 +975,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 9,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     },
     {
@@ -1001,7 +1001,7 @@
         "ma20_slope": 0.000312,
         "ma50_slope": 0.00604,
         "rs_score": 96.9,
-        "rs_raw": 39.55,
+        "rs_raw": 38.41,
         "ret60": 42.1,
         "momentum_score": 61.4,
         "ret20": 0.75,
@@ -1025,7 +1025,7 @@
         "action_color": "#BA7517",
         "action_description": "趋势健康，维持仓位",
         "rank": 10,
-        "market_score": 86.3
+        "market_score": 88.5
       }
     }
   ],
