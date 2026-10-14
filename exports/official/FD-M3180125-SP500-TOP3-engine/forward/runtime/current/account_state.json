@@ -1,8 +1,8 @@
 {
   "cash": 88683.01007261674,
-  "date": "2026-10-12",
+  "date": "2026-10-13",
   "metadata": {
-    "last_execution_date": "2026-10-12",
+    "last_execution_date": "2026-10-13",
     "sim_end_liquidation_replayed": false,
     "sim_end_performed": false,
     "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -14,9 +14,9 @@
     "MPC": {
       "avg_cost": 391.39099999999996,
       "entry_date": "2026-09-04",
-      "last_price": 458.809998,
-      "last_update_date": "2026-10-12",
-      "market_value": 53897.927661811285,
+      "last_price": 476.980011,
+      "last_update_date": "2026-10-13",
+      "market_value": 56032.41917367274,
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
@@ -72,14 +72,14 @@
       },
       "quantity": 117.47330680839106,
       "symbol": "MPC",
-      "unrealized_pnl": 7919.932636768308
+      "unrealized_pnl": 10054.42414862976
     },
     "RVTY": {
       "avg_cost": 145.695553003,
       "entry_date": "2026-09-21",
-      "last_price": 155.610001,
-      "last_update_date": "2026-10-12",
-      "market_value": 92956.36757999763,
+      "last_price": 155.080002,
+      "last_update_date": "2026-10-13",
+      "market_value": 92639.76336725792,
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
@@ -131,14 +131,14 @@
       },
       "quantity": 597.3675662401521,
       "symbol": "RVTY",
-      "unrealized_pnl": 5922.569670582456
+      "unrealized_pnl": 5605.965457842739
     },
     "VLO": {
       "avg_cost": 389.569172993,
       "entry_date": "2026-09-09",
-      "last_price": 436.0,
-      "last_update_date": "2026-10-12",
-      "market_value": 50500.0111266469,
+      "last_price": 456.459991,
+      "last_update_date": "2026-10-13",
+      "market_value": 52869.8041843329,
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
@@ -194,9 +194,9 @@
       },
       "quantity": 115.82571359322684,
       "symbol": "VLO",
-      "unrealized_pnl": 5377.883670809444
+      "unrealized_pnl": 7747.676728495443
     }
   },
-  "positions_value": 197354.30636845581,
-  "total_equity": 286037.31644107256
+  "positions_value": 201541.98672526356,
+  "total_equity": 290224.9967978803
 }
