@@ -1,7 +1,7 @@
 {
   "automatic_execution": false,
   "effective_signal_date": "2026-10-07",
-  "expected_execution_date": "2026-10-13",
+  "expected_execution_date": "2026-10-14",
   "lss07": {
     "changed_symbols": [],
     "effective_signal_date": "2026-10-07",
@@ -9,190 +9,190 @@
       {
         "entry_date": "2026-09-30",
         "observation": {
-          "close": 171.330002,
-          "previous_close": 170.539993,
-          "rank": 48,
+          "close": 171.600006,
+          "previous_close": 171.330002,
+          "rank": 40,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": 0.0022974963181148734,
+          "rank_slope": -0.0002351557907113468,
           "ready": true,
           "samples": [
             {
-              "date": "2026-10-05",
-              "rank": 57,
-              "rank_fraction": 0.1154639175257732,
-              "score": 76.41,
-              "universe_count": 486
-            },
-            {
               "date": "2026-10-06",
               "rank": 51,
-              "rank_fraction": 0.10309278350515463,
+              "rank_fraction": 0.102880658436214,
               "score": 81.2,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-07",
               "rank": 35,
-              "rank_fraction": 0.07010309278350516,
+              "rank_fraction": 0.06995884773662552,
               "score": 83.78,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-08",
               "rank": 59,
-              "rank_fraction": 0.11958762886597939,
+              "rank_fraction": 0.11934156378600823,
               "score": 78.81,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-09",
               "rank": 71,
-              "rank_fraction": 0.14432989690721648,
+              "rank_fraction": 0.1440329218106996,
               "score": 77.88,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-12",
               "rank": 48,
-              "rank_fraction": 0.09690721649484536,
+              "rank_fraction": 0.09670781893004116,
               "score": 82.91,
-              "universe_count": 486
+              "universe_count": 487
+            },
+            {
+              "date": "2026-10-13",
+              "rank": 40,
+              "rank_fraction": 0.08024691358024691,
+              "score": 85.35,
+              "universe_count": 487
             }
           ],
-          "score": 82.91,
-          "score_slope": 0.5019999999999994,
+          "score": 85.35,
+          "score_slope": 0.49171428571428394,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 17.0,
-        "signal_date": "2026-10-12",
+        "signal_date": "2026-10-13",
         "symbol": "A"
       },
       {
         "entry_date": "2026-10-01",
         "observation": {
-          "close": 263.01001,
-          "previous_close": 275.040009,
-          "rank": 116,
+          "close": 261.209991,
+          "previous_close": 263.01001,
+          "rank": 114,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": 0.04606774668630338,
+          "rank_slope": 0.04644326866549089,
           "ready": true,
           "samples": [
             {
-              "date": "2026-10-05",
-              "rank": 6,
-              "rank_fraction": 0.010309278350515464,
-              "score": 93.74,
-              "universe_count": 486
-            },
-            {
               "date": "2026-10-06",
               "rank": 4,
-              "rank_fraction": 0.006185567010309278,
+              "rank_fraction": 0.006172839506172839,
               "score": 94.64,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-07",
               "rank": 30,
-              "rank_fraction": 0.05979381443298969,
+              "rank_fraction": 0.059670781893004114,
               "score": 86.22,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-08",
               "rank": 82,
-              "rank_fraction": 0.1670103092783505,
+              "rank_fraction": 0.16666666666666666,
               "score": 74.5,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-09",
               "rank": 64,
-              "rank_fraction": 0.12989690721649486,
+              "rank_fraction": 0.12962962962962962,
               "score": 79.41,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-12",
               "rank": 116,
-              "rank_fraction": 0.23711340206185566,
+              "rank_fraction": 0.2366255144032922,
               "score": 71.97,
-              "universe_count": 486
+              "universe_count": 487
+            },
+            {
+              "date": "2026-10-13",
+              "rank": 114,
+              "rank_fraction": 0.23251028806584362,
+              "score": 74.79,
+              "universe_count": 487
             }
           ],
-          "score": 71.97,
-          "score_slope": -4.750285714285714,
+          "score": 74.79,
+          "score_slope": -3.916857142857142,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 11.0,
-        "signal_date": "2026-10-12",
+        "signal_date": "2026-10-13",
         "symbol": "CRWD"
       },
       {
         "entry_date": "2026-09-21",
         "observation": {
-          "close": 281.470001,
-          "previous_close": 278.179993,
-          "rank": 7,
+          "close": 292.730011,
+          "previous_close": 281.470001,
+          "rank": 6,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": -0.002474226804123711,
+          "rank_slope": -0.003174603174603174,
           "ready": true,
           "samples": [
             {
-              "date": "2026-10-05",
-              "rank": 10,
-              "rank_fraction": 0.018556701030927835,
-              "score": 91.47,
-              "universe_count": 486
-            },
-            {
               "date": "2026-10-06",
               "rank": 13,
-              "rank_fraction": 0.024742268041237112,
+              "rank_fraction": 0.024691358024691357,
               "score": 92.19,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-07",
               "rank": 13,
-              "rank_fraction": 0.024742268041237112,
+              "rank_fraction": 0.024691358024691357,
               "score": 91.0,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-08",
               "rank": 7,
-              "rank_fraction": 0.012371134020618556,
+              "rank_fraction": 0.012345679012345678,
               "score": 94.65,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-09",
               "rank": 6,
-              "rank_fraction": 0.010309278350515464,
+              "rank_fraction": 0.0102880658436214,
               "score": 94.59,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-12",
               "rank": 7,
-              "rank_fraction": 0.012371134020618556,
+              "rank_fraction": 0.012345679012345678,
               "score": 94.4,
-              "universe_count": 486
+              "universe_count": 487
+            },
+            {
+              "date": "2026-10-13",
+              "rank": 6,
+              "rank_fraction": 0.0102880658436214,
+              "score": 95.2,
+              "universe_count": 487
             }
           ],
-          "score": 94.4,
-          "score_slope": 0.7285714285714302,
+          "score": 95.2,
+          "score_slope": 0.7197142857142869,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 11.0,
-        "signal_date": "2026-10-12",
+        "signal_date": "2026-10-13",
         "symbol": "PSX"
       }
     ],
@@ -220,6 +220,6 @@
       "target_shares": "11.0"
     }
   ],
-  "signal_date": "2026-10-12",
+  "signal_date": "2026-10-13",
   "strategy_version": "LSS07-SP500-FROZEN-1.0"
 }
