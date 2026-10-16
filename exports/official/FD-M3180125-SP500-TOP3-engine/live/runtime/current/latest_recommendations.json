@@ -1,7 +1,7 @@
 {
   "automatic_execution": false,
   "effective_signal_date": "2026-10-07",
-  "expected_execution_date": "2026-10-15",
+  "expected_execution_date": "2026-10-16",
   "lss07": {
     "changed_symbols": [],
     "effective_signal_date": "2026-10-07",
@@ -9,20 +9,13 @@
       {
         "entry_date": "2026-09-30",
         "observation": {
-          "close": 174.0,
-          "previous_close": 171.600006,
-          "rank": 23,
+          "close": 175.550003,
+          "previous_close": 174.0,
+          "rank": 31,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": -0.00823045267489712,
+          "rank_slope": -0.01716637272192828,
           "ready": true,
           "samples": [
-            {
-              "date": "2026-10-07",
-              "rank": 35,
-              "rank_fraction": 0.06995884773662552,
-              "score": 83.78,
-              "universe_count": 487
-            },
             {
               "date": "2026-10-08",
               "rank": 59,
@@ -57,35 +50,35 @@
               "rank_fraction": 0.04526748971193416,
               "score": 88.81,
               "universe_count": 487
+            },
+            {
+              "date": "2026-10-15",
+              "rank": 31,
+              "rank_fraction": 0.06172839506172839,
+              "score": 88.74,
+              "universe_count": 487
             }
           ],
-          "score": 88.81,
-          "score_slope": 1.4228571428571424,
+          "score": 88.74,
+          "score_slope": 2.425142857142857,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 17.0,
-        "signal_date": "2026-10-14",
+        "signal_date": "2026-10-15",
         "symbol": "A"
       },
       {
         "entry_date": "2026-10-01",
         "observation": {
-          "close": 249.289993,
-          "previous_close": 261.209991,
-          "rank": 188,
+          "close": 244.570007,
+          "previous_close": 249.289993,
+          "rank": 236,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": 0.0551440329218107,
+          "rank_slope": 0.0670194003527337,
           "ready": true,
           "samples": [
-            {
-              "date": "2026-10-07",
-              "rank": 30,
-              "rank_fraction": 0.059670781893004114,
-              "score": 86.22,
-              "universe_count": 487
-            },
             {
               "date": "2026-10-08",
               "rank": 82,
@@ -120,35 +113,35 @@
               "rank_fraction": 0.38477366255144035,
               "score": 61.66,
               "universe_count": 487
+            },
+            {
+              "date": "2026-10-15",
+              "rank": 236,
+              "rank_fraction": 0.4835390946502058,
+              "score": 57.42,
+              "universe_count": 487
             }
           ],
-          "score": 61.66,
-          "score_slope": -3.6962857142857146,
+          "score": 57.42,
+          "score_slope": -3.8808571428571423,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
-        "reason": "NO_TRIGGER",
-        "remaining_quantity": 11.0,
-        "signal_date": "2026-10-14",
+        "reason": "CANONICAL_FULL_EXIT_PRIORITY",
+        "remaining_quantity": 6.0,
+        "signal_date": "2026-10-15",
         "symbol": "CRWD"
       },
       {
         "entry_date": "2026-09-21",
         "observation": {
-          "close": 297.290009,
-          "previous_close": 292.730011,
-          "rank": 5,
+          "close": 289.200012,
+          "previous_close": 297.290009,
+          "rank": 4,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": -0.0024691358024691358,
+          "rank_slope": -0.0011169900058788946,
           "ready": true,
           "samples": [
-            {
-              "date": "2026-10-07",
-              "rank": 13,
-              "rank_fraction": 0.024691358024691357,
-              "score": 91.0,
-              "universe_count": 487
-            },
             {
               "date": "2026-10-08",
               "rank": 7,
@@ -183,16 +176,23 @@
               "rank_fraction": 0.00823045267489712,
               "score": 96.05,
               "universe_count": 487
+            },
+            {
+              "date": "2026-10-15",
+              "rank": 4,
+              "rank_fraction": 0.006172839506172839,
+              "score": 96.06,
+              "universe_count": 487
             }
           ],
-          "score": 96.05,
-          "score_slope": 0.7631428571428566,
+          "score": 96.06,
+          "score_slope": 0.3494285714285703,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 11.0,
-        "signal_date": "2026-10-14",
+        "signal_date": "2026-10-15",
         "symbol": "PSX"
       }
     ],
@@ -208,10 +208,10 @@
       "target_shares": "17.0"
     },
     {
-      "action": "REDUCE",
-      "reason": "canonical_position_reduce",
+      "action": "EXIT",
+      "reason": "canonical_position_exit",
       "symbol": "CRWD",
-      "target_shares": "5.5"
+      "target_shares": "0.0"
     },
     {
       "action": "HOLD",
@@ -220,6 +220,6 @@
       "target_shares": "11.0"
     }
   ],
-  "signal_date": "2026-10-14",
+  "signal_date": "2026-10-15",
   "strategy_version": "LSS07-SP500-FROZEN-1.0"
 }
