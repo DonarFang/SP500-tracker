@@ -1,0 +1,53 @@
+[
+  {
+    "branch": "UPTREND",
+    "date": "2026-10-19",
+    "intent_type": "HOLD",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 86.99,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": 0.0,
+    "reason": "canonical_position_hold",
+    "side": null,
+    "symbol": "MPC",
+    "target_quantity": 117.47330680839106
+  },
+  {
+    "branch": "UPTREND",
+    "date": "2026-10-19",
+    "intent_type": "REDUCE",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 73.0,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": -298.68378312007604,
+    "reason": "canonical_position_reduce",
+    "side": "SELL",
+    "symbol": "RVTY",
+    "target_quantity": null
+  },
+  {
+    "branch": "UPTREND",
+    "date": "2026-10-19",
+    "intent_type": "HOLD",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 74.96,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": 0.0,
+    "reason": "reduce_skipped_size_at_minimum",
+    "side": null,
+    "symbol": "VLO",
+    "target_quantity": 115.82571359322684
+  }
+]
