@@ -1,0 +1,29 @@
+{
+  "closed_trades": [],
+  "resolved_orders": [
+    {
+      "branch": "UPTREND",
+      "execution_date": "2026-10-20",
+      "fill_id": "2255178b2328a7ff8f445a93c4d7a95684e1d388c5a245fb8b80f2089156ef9e",
+      "intent_type": "REDUCE",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 73.0,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "9a9cd3dcc56f8d1d4fe202607cab323594a5e720ea7f159e03c5c2d455fe7dfe",
+      "quantity_delta": -298.68378312007604,
+      "reason": "canonical_position_reduce",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-10-19",
+      "status": "FILLED",
+      "symbol": "RVTY",
+      "target_quantity": null
+    }
+  ],
+  "sim_end_performed": false,
+  "skipped_orders": []
+}

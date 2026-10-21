@@ -1,8 +1,8 @@
 {
-  "cash": 88683.01007261674,
-  "date": "2026-10-19",
+  "cash": 134094.23893747828,
+  "date": "2026-10-20",
   "metadata": {
-    "last_execution_date": "2026-10-19",
+    "last_execution_date": "2026-10-20",
     "sim_end_liquidation_replayed": false,
     "sim_end_performed": false,
     "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -14,9 +14,9 @@
     "MPC": {
       "avg_cost": 391.39099999999996,
       "entry_date": "2026-09-04",
-      "last_price": 473.690002,
-      "last_update_date": "2026-10-19",
-      "market_value": 55645.93093701337,
+      "last_price": 475.040009,
+      "last_update_date": "2026-10-20",
+      "market_value": 55804.520723517846,
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
@@ -72,14 +72,14 @@
       },
       "quantity": 117.47330680839106,
       "symbol": "MPC",
-      "unrealized_pnl": 9667.935911970393
+      "unrealized_pnl": 9826.525698474868
     },
     "RVTY": {
       "avg_cost": 145.695553003,
       "entry_date": "2026-09-21",
-      "last_price": 150.940002,
-      "last_update_date": "2026-10-19",
-      "market_value": 90166.66164302369,
+      "last_price": 156.009995,
+      "last_update_date": "2026-10-20",
+      "market_value": 46597.65551114415,
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
@@ -116,6 +116,8 @@
         ],
         "entry_shares": 597.3675662401521,
         "fill_id": "031bd00bd7fb9687270444f27695333adfbfc310c3f1a3f5105f9dce4ac6304d",
+        "last_fill_id": "2255178b2328a7ff8f445a93c4d7a95684e1d388c5a245fb8b80f2089156ef9e",
+        "last_order_id": "9a9cd3dcc56f8d1d4fe202607cab323594a5e720ea7f159e03c5c2d455fe7dfe",
         "leader_rank_all": 3,
         "leader_score": 95.31,
         "market_entry_allowed": true,
@@ -123,22 +125,24 @@
         "order_executed": false,
         "order_id": "81fe2c6c2b53d799b773a4648468bd83dfc0f46e450bdc94d09a53dea683389a",
         "origin_branch": "UPTREND",
-        "remaining_cost_basis": 87033.79790941518,
-        "size_units": 1.0,
+        "realized_cost_basis": 43516.89895470759,
+        "realized_pnl": 1894.3299101539342,
+        "remaining_cost_basis": 43516.89895470759,
+        "size_units": 0.5,
         "source": "UptrendDecisionConsumer",
         "strategy_logic_source": "UptrendCore",
         "target_size_units": 1.0
       },
-      "quantity": 597.3675662401521,
+      "quantity": 298.68378312007604,
       "symbol": "RVTY",
-      "unrealized_pnl": 3132.8637336085003
+      "unrealized_pnl": 3080.7565564365573
     },
     "VLO": {
       "avg_cost": 389.569172993,
       "entry_date": "2026-09-09",
-      "last_price": 433.309998,
-      "last_update_date": "2026-10-19",
-      "market_value": 50188.43972542969,
+      "last_price": 433.420013,
+      "last_update_date": "2026-10-20",
+      "market_value": 50201.18229131065,
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
@@ -194,9 +198,9 @@
       },
       "quantity": 115.82571359322684,
       "symbol": "VLO",
-      "unrealized_pnl": 5066.3122695922375
+      "unrealized_pnl": 5079.054835473194
     }
   },
-  "positions_value": 196001.03230546677,
-  "total_equity": 284684.0423780835
+  "positions_value": 152603.35852597264,
+  "total_equity": 286697.5974634509
 }
