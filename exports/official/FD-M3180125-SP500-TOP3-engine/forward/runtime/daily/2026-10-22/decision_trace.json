@@ -1,0 +1,321 @@
+{
+  "branch": "UPTREND",
+  "candidate_count": 8,
+  "date": "2026-10-22",
+  "inputs": {
+    "canonical_engine_entry": true,
+    "entry_capacity": 0,
+    "external_regime_injected": false,
+    "external_strategy_inputs": false,
+    "gate_state": "RISK_OFF",
+    "market_entry_allowed": false,
+    "market_state": "CASH_MODE"
+  },
+  "market_regime": "UPTREND",
+  "metadata": {
+    "capped_atr_stop": {
+      "display_name": "E1R CAPPED-ATR Engine",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "strict_cycle_state": true,
+      "triggered": [],
+      "variant_id": "E1R_CAPPED_ATR_A0_V1"
+    },
+    "external_regime_injected": false,
+    "external_strategy_inputs": false,
+    "ls60_exit_mode": "exit",
+    "lss07": {
+      "changed_symbols": [],
+      "effective_signal_date": "2026-10-07",
+      "evaluations": [
+        {
+          "entry_date": "2026-09-04",
+          "observation": {
+            "close": 459.279999,
+            "previous_close": 467.980011,
+            "rank": 146,
+            "rank_fraction_definition": "(rank-1)/(N-1)",
+            "rank_slope": 0.051322751322751325,
+            "ready": true,
+            "samples": [
+              {
+                "date": "2026-10-15",
+                "rank": 3,
+                "rank_fraction": 0.00411522633744856,
+                "score": 96.58,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-16",
+                "rank": 5,
+                "rank_fraction": 0.00823045267489712,
+                "score": 95.1,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-19",
+                "rank": 36,
+                "rank_fraction": 0.0720164609053498,
+                "score": 86.99,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-20",
+                "rank": 53,
+                "rank_fraction": 0.10699588477366255,
+                "score": 83.75,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-21",
+                "rank": 52,
+                "rank_fraction": 0.10493827160493827,
+                "score": 82.18,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-22",
+                "rank": 146,
+                "rank_fraction": 0.29835390946502055,
+                "score": 74.06,
+                "universe_count": 487
+              }
+            ],
+            "score": 74.06,
+            "score_slope": -4.4171428571428555,
+            "tie_order": "SYMBOL_ASCENDING",
+            "universe_policy": "CURRENT_TRACK_SNAPSHOT"
+          },
+          "reason": "NO_TRIGGER",
+          "remaining_quantity": 117.47330680839106,
+          "signal_date": "2026-10-22",
+          "symbol": "MPC"
+        },
+        {
+          "entry_date": "2026-09-21",
+          "observation": {
+            "close": 157.360001,
+            "previous_close": 156.610001,
+            "rank": 20,
+            "rank_fraction_definition": "(rank-1)/(N-1)",
+            "rank_slope": -0.03492063492063492,
+            "ready": true,
+            "samples": [
+              {
+                "date": "2026-10-15",
+                "rank": 80,
+                "rank_fraction": 0.16255144032921812,
+                "score": 79.98,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-16",
+                "rank": 112,
+                "rank_fraction": 0.22839506172839505,
+                "score": 76.56,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-19",
+                "rank": 131,
+                "rank_fraction": 0.2674897119341564,
+                "score": 73.0,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-20",
+                "rank": 59,
+                "rank_fraction": 0.11934156378600823,
+                "score": 83.22,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-21",
+                "rank": 38,
+                "rank_fraction": 0.07613168724279835,
+                "score": 85.13,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-22",
+                "rank": 20,
+                "rank_fraction": 0.03909465020576132,
+                "score": 90.09,
+                "universe_count": 487
+              }
+            ],
+            "score": 90.09,
+            "score_slope": 2.470857142857142,
+            "tie_order": "SYMBOL_ASCENDING",
+            "universe_policy": "CURRENT_TRACK_SNAPSHOT"
+          },
+          "reason": "NO_TRIGGER",
+          "remaining_quantity": 298.68378312007604,
+          "signal_date": "2026-10-22",
+          "symbol": "RVTY"
+        },
+        {
+          "entry_date": "2026-09-09",
+          "observation": {
+            "close": 426.279999,
+            "previous_close": 436.75,
+            "rank": 164,
+            "rank_fraction_definition": "(rank-1)/(N-1)",
+            "rank_slope": 0.06155202821869489,
+            "ready": true,
+            "samples": [
+              {
+                "date": "2026-10-15",
+                "rank": 5,
+                "rank_fraction": 0.00823045267489712,
+                "score": 96.0,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-16",
+                "rank": 40,
+                "rank_fraction": 0.08024691358024691,
+                "score": 87.84,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-19",
+                "rank": 115,
+                "rank_fraction": 0.2345679012345679,
+                "score": 74.96,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-20",
+                "rank": 148,
+                "rank_fraction": 0.30246913580246915,
+                "score": 72.87,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-21",
+                "rank": 113,
+                "rank_fraction": 0.23045267489711935,
+                "score": 75.0,
+                "universe_count": 487
+              },
+              {
+                "date": "2026-10-22",
+                "rank": 164,
+                "rank_fraction": 0.33539094650205764,
+                "score": 71.97,
+                "universe_count": 487
+              }
+            ],
+            "score": 71.97,
+            "score_slope": -4.5931428571428565,
+            "tie_order": "SYMBOL_ASCENDING",
+            "universe_policy": "CURRENT_TRACK_SNAPSHOT"
+          },
+          "reason": "NO_TRIGGER",
+          "remaining_quantity": 115.82571359322684,
+          "signal_date": "2026-10-22",
+          "symbol": "VLO"
+        }
+      ],
+      "status": "EVALUATED",
+      "version": "LSS07-SP500-FROZEN-1.0"
+    },
+    "max_positions": 3,
+    "min_holding_days": 10,
+    "ranking_source": "UptrendSignalAdapter.leader_rank_all",
+    "reference_top3": [
+      {
+        "rank": 1,
+        "regime": "UPTREND",
+        "score": 98.59,
+        "symbol": "PAYC"
+      },
+      {
+        "rank": 2,
+        "regime": "UPTREND",
+        "score": 96.96,
+        "symbol": "VEEV"
+      },
+      {
+        "rank": 3,
+        "regime": "UPTREND",
+        "score": 96.51,
+        "symbol": "IT"
+      }
+    ],
+    "route": {
+      "branch": "UPTREND",
+      "date": "2026-10-22",
+      "metadata": {
+        "combination_valid": true,
+        "no_strategy_decision": true,
+        "router_shell_only": true
+      },
+      "reason": "route_uptrend",
+      "spx_regime": "UPTREND",
+      "subclass": "NO_SUBCLASS"
+    },
+    "single_step_decision": true
+  },
+  "order_intents": [
+    {
+      "branch": "UPTREND",
+      "date": "2026-10-22",
+      "intent_type": "HOLD",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 74.06,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "quantity_delta": 0.0,
+      "reason": "reduce_skipped_size_at_minimum",
+      "side": null,
+      "symbol": "MPC",
+      "target_quantity": 117.47330680839106
+    },
+    {
+      "branch": "UPTREND",
+      "date": "2026-10-22",
+      "intent_type": "HOLD",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 90.09,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "quantity_delta": 0.0,
+      "reason": "canonical_position_hold",
+      "side": null,
+      "symbol": "RVTY",
+      "target_quantity": 298.68378312007604
+    },
+    {
+      "branch": "UPTREND",
+      "date": "2026-10-22",
+      "intent_type": "HOLD",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 71.97,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "quantity_delta": 0.0,
+      "reason": "reduce_skipped_size_at_minimum",
+      "side": null,
+      "symbol": "VLO",
+      "target_quantity": 115.82571359322684
+    }
+  ],
+  "reasons": [
+    "canonical_regime_generator",
+    "engine_market_state_and_gate",
+    "engine_router_and_strategy",
+    "route_uptrend"
+  ],
+  "regime_subclass": "NO_SUBCLASS",
+  "selected_symbols": []
+}
