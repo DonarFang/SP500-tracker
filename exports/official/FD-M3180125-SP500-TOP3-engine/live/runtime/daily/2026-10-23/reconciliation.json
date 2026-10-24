@@ -1,0 +1,30 @@
+{
+  "records": [
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-10-26",
+      "notes": "",
+      "recommended_action": "HOLD",
+      "recommended_shares": null,
+      "reconciliation_id": "2026-10-23::2026-10-26::A::HOLD",
+      "signal_date": "2026-10-23",
+      "status": "INFORMATIONAL",
+      "symbol": "A"
+    },
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-10-26",
+      "notes": "",
+      "recommended_action": "HOLD",
+      "recommended_shares": null,
+      "reconciliation_id": "2026-10-23::2026-10-26::PSX::HOLD",
+      "signal_date": "2026-10-23",
+      "status": "INFORMATIONAL",
+      "symbol": "PSX"
+    }
+  ]
+}

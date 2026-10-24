@@ -1,7 +1,7 @@
 {
   "automatic_execution": false,
   "effective_signal_date": "2026-10-07",
-  "expected_execution_date": "2026-10-23",
+  "expected_execution_date": "2026-10-26",
   "lss07": {
     "changed_symbols": [],
     "effective_signal_date": "2026-10-07",
@@ -9,20 +9,13 @@
       {
         "entry_date": "2026-09-30",
         "observation": {
-          "close": 173.889999,
-          "previous_close": 177.75,
-          "rank": 61,
+          "close": 173.070007,
+          "previous_close": 173.889999,
+          "rank": 68,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": 0.007466196355085243,
+          "rank_slope": -0.009523809523809525,
           "ready": true,
           "samples": [
-            {
-              "date": "2026-10-15",
-              "rank": 31,
-              "rank_fraction": 0.06172839506172839,
-              "score": 88.74,
-              "universe_count": 487
-            },
             {
               "date": "2026-10-16",
               "rank": 57,
@@ -57,35 +50,35 @@
               "rank_fraction": 0.12345679012345678,
               "score": 84.65,
               "universe_count": 487
+            },
+            {
+              "date": "2026-10-23",
+              "rank": 68,
+              "rank_fraction": 0.13786008230452676,
+              "score": 83.61,
+              "universe_count": 487
             }
           ],
-          "score": 84.65,
-          "score_slope": -0.6565714285714275,
+          "score": 83.61,
+          "score_slope": 0.8574285714285712,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 17.0,
-        "signal_date": "2026-10-22",
+        "signal_date": "2026-10-23",
         "symbol": "A"
       },
       {
         "entry_date": "2026-09-21",
         "observation": {
-          "close": 284.630005,
-          "previous_close": 290.070007,
-          "rank": 106,
+          "close": 283.179993,
+          "previous_close": 284.630005,
+          "rank": 141,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": 0.035332157554379774,
+          "rank_slope": 0.04867724867724868,
           "ready": true,
           "samples": [
-            {
-              "date": "2026-10-15",
-              "rank": 4,
-              "rank_fraction": 0.006172839506172839,
-              "score": 96.06,
-              "universe_count": 487
-            },
             {
               "date": "2026-10-16",
               "rank": 9,
@@ -120,16 +113,23 @@
               "rank_fraction": 0.21604938271604937,
               "score": 78.92,
               "universe_count": 487
+            },
+            {
+              "date": "2026-10-23",
+              "rank": 141,
+              "rank_fraction": 0.2880658436213992,
+              "score": 75.31,
+              "universe_count": 487
             }
           ],
-          "score": 78.92,
-          "score_slope": -3.2234285714285718,
+          "score": 75.31,
+          "score_slope": -3.1728571428571426,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 11.0,
-        "signal_date": "2026-10-22",
+        "signal_date": "2026-10-23",
         "symbol": "PSX"
       }
     ],
@@ -151,6 +151,6 @@
       "target_shares": "11.0"
     }
   ],
-  "signal_date": "2026-10-22",
+  "signal_date": "2026-10-23",
   "strategy_version": "LSS07-SP500-FROZEN-1.0"
 }
