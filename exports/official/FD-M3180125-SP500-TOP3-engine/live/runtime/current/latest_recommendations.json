@@ -1,7 +1,7 @@
 {
   "automatic_execution": false,
   "effective_signal_date": "2026-10-07",
-  "expected_execution_date": "2026-10-29",
+  "expected_execution_date": "2026-10-30",
   "lss07": {
     "changed_symbols": [],
     "effective_signal_date": "2026-10-07",
@@ -9,127 +9,127 @@
       {
         "entry_date": "2026-09-30",
         "observation": {
-          "close": 181.479996,
-          "previous_close": 177.490005,
+          "close": 181.149994,
+          "previous_close": 181.479996,
           "rank": 7,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": -0.012783505154639177,
+          "rank_slope": -0.028159905937683714,
           "ready": true,
           "samples": [
             {
-              "date": "2026-10-21",
-              "rank": 47,
-              "rank_fraction": 0.09484536082474226,
-              "score": 83.19,
-              "universe_count": 486
-            },
-            {
               "date": "2026-10-22",
               "rank": 61,
-              "rank_fraction": 0.12371134020618557,
+              "rank_fraction": 0.12345679012345678,
               "score": 84.65,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-23",
               "rank": 68,
-              "rank_fraction": 0.13814432989690723,
+              "rank_fraction": 0.13786008230452676,
               "score": 83.61,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-26",
               "rank": 78,
-              "rank_fraction": 0.15876288659793814,
+              "rank_fraction": 0.15843621399176955,
               "score": 81.09,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-27",
               "rank": 52,
-              "rank_fraction": 0.10515463917525773,
+              "rank_fraction": 0.10493827160493827,
               "score": 82.0,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-28",
               "rank": 7,
-              "rank_fraction": 0.012371134020618556,
+              "rank_fraction": 0.012345679012345678,
               "score": 91.91,
-              "universe_count": 486
+              "universe_count": 487
+            },
+            {
+              "date": "2026-10-29",
+              "rank": 7,
+              "rank_fraction": 0.012345679012345678,
+              "score": 93.03,
+              "universe_count": 487
             }
           ],
-          "score": 91.91,
-          "score_slope": 0.9465714285714281,
+          "score": 93.03,
+          "score_slope": 1.9345714285714275,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 17.0,
-        "signal_date": "2026-10-28",
+        "signal_date": "2026-10-29",
         "symbol": "A"
       },
       {
         "entry_date": "2026-09-21",
         "observation": {
-          "close": 273.76001,
-          "previous_close": 268.529999,
-          "rank": 181,
+          "close": 273.609985,
+          "previous_close": 273.76001,
+          "rank": 219,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": 0.06026509572901326,
+          "rank_slope": 0.04726631393298061,
           "ready": true,
           "samples": [
             {
-              "date": "2026-10-21",
-              "rank": 35,
-              "rank_fraction": 0.07010309278350516,
-              "score": 85.62,
-              "universe_count": 486
-            },
-            {
               "date": "2026-10-22",
               "rank": 106,
-              "rank_fraction": 0.21649484536082475,
+              "rank_fraction": 0.21604938271604937,
               "score": 78.92,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-23",
               "rank": 140,
-              "rank_fraction": 0.2865979381443299,
+              "rank_fraction": 0.28600823045267487,
               "score": 75.31,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-26",
               "rank": 103,
-              "rank_fraction": 0.21030927835051547,
+              "rank_fraction": 0.20987654320987653,
               "score": 77.03,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-27",
               "rank": 216,
-              "rank_fraction": 0.44329896907216493,
+              "rank_fraction": 0.44238683127572015,
               "score": 62.16,
-              "universe_count": 486
+              "universe_count": 487
             },
             {
               "date": "2026-10-28",
-              "rank": 181,
-              "rank_fraction": 0.3711340206185567,
+              "rank": 182,
+              "rank_fraction": 0.3724279835390947,
               "score": 63.59,
-              "universe_count": 486
+              "universe_count": 487
+            },
+            {
+              "date": "2026-10-29",
+              "rank": 219,
+              "rank_fraction": 0.448559670781893,
+              "score": 62.49,
+              "universe_count": 487
             }
           ],
-          "score": 63.59,
-          "score_slope": -4.53457142857143,
+          "score": 62.49,
+          "score_slope": -3.7765714285714287,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 5.0,
-        "signal_date": "2026-10-28",
+        "signal_date": "2026-10-29",
         "symbol": "PSX"
       }
     ],
@@ -151,6 +151,6 @@
       "target_shares": "5.0"
     }
   ],
-  "signal_date": "2026-10-28",
+  "signal_date": "2026-10-29",
   "strategy_version": "LSS07-SP500-FROZEN-1.0"
 }
