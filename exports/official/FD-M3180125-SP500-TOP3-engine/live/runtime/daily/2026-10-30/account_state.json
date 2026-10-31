@@ -1,0 +1,30 @@
+{
+  "actual_cash": "4692.55",
+  "calculated_cash": "94692.55",
+  "cash_difference": "-90000.00",
+  "positions": {
+    "A": {
+      "average_cost": "175.10",
+      "cost_basis": "2976.70",
+      "last_price": "174.869995",
+      "market_value": "2972.789915",
+      "position_source": "USER_CONFIRMED_TRANSACTION_LEDGER",
+      "shares": "17",
+      "unrealized_pnl": "-3.910085"
+    },
+    "PSX": {
+      "average_cost": "271",
+      "cost_basis": "1355",
+      "last_price": "282.829987",
+      "market_value": "1414.149935",
+      "position_source": "USER_CONFIRMED_TRANSACTION_LEDGER",
+      "shares": "5",
+      "unrealized_pnl": "59.149935"
+    }
+  },
+  "positions_value": "4386.939850",
+  "realized_pnl": "-975.75",
+  "total_equity": "9079.489850",
+  "trading_pnl": "-920.510150",
+  "unrealized_pnl": "55.239850"
+}
