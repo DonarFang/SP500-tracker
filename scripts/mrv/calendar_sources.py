@@ -32,16 +32,19 @@ def record(blob,meta):
 def unpack(rec,name,now,target_open):
  source=rec['source'];stamp=dt.datetime.fromisoformat(source['retrieved_utc'])
  if stamp.tzinfo is None or stamp>now or now-stamp>MAX_AGE or target_open>stamp+MAX_AGE:raise ValueError('CALENDAR_CACHE_EXPIRED_OR_FUTURE:'+name)
- if source['url'] not in URLS[name]:raise ValueError('CALENDAR_CACHE_SOURCE:'+name)
+ if source['url'] not in URLS[name] and not (name=='BLS' and source['url']==month_url(target_open.date())):raise ValueError('CALENDAR_CACHE_SOURCE:'+name)
  blob=gzip.decompress(base64.b64decode(rec['raw_gzip_base64'],validate=True))
  if sha(blob)!=source['sha256']:raise ValueError('CALENDAR_CACHE_HASH:'+name)
  return blob,dict(source,calendar_mode='CACHED',cache_expires_utc=(stamp+MAX_AGE).isoformat())
 
 def obtain(name,root,out,fetch,now,target_open,safe):
  errors=[]
- for i,url in enumerate(URLS[name]):
+ urls=list(URLS[name])
+ if name=='BLS':urls.append(month_url(target_open.date()))
+ for i,url in enumerate(urls):
   try:
-   blob,meta=fetch(url,out,name if i==0 else name+'_ICS')
+   blob,meta=fetch(url,out,name+'_'+str(i))
+   if name=='BLS' and url==month_url(target_open.date()):month_events(blob.decode('utf-8-sig'),target_open.date())
    return blob,dict(meta,calendar_mode='FRESH',fallback_attempts=errors)
   except ValueError as e:errors.append(str(e))
  records=[]
@@ -63,3 +66,34 @@ def obtain(name,root,out,fetch,now,target_open,safe):
 def retain(name,blob,meta,root,safe,write):
  # Called only after full combined calendar validation; reuse never renews age.
  if meta['calendar_mode']=='FRESH':write(safe(root,'data/mrv/calendar-cache/'+name+'.json'),record(blob,meta))
+
+def month_url(target):
+ return 'https://www.bls.gov/schedule/%04d/%02d_sched.htm'%(target.year,target.month)
+
+def month_events(text,target):
+ import calendar,html
+ def clean(s):return ' '.join(html.unescape(re.sub('<[^>]+>',' ',s)).split())
+ headings=[clean(x) for x in re.findall(r'<h1\b[^>]*>(.*?)</h1>',text,re.S|re.I)]
+ if headings!=[calendar.month_name[target.month]+' '+str(target.year)]:raise ValueError('BLS_MONTH_HEADING')
+ tables=re.findall(r'<table\b[^>]*class="release-calendar"[^>]*>(.*?)</table>',text,re.S|re.I)
+ if len(tables)!=1:raise ValueError('BLS_MONTH_TABLE')
+ seen=set();events=[]
+ for attrs,body in re.findall(r'<td\b([^>]*)>(.*?)</td>',tables[0],re.S|re.I):
+  if 'other-month' in attrs:continue
+  match=re.search(r'\bid="d(\d{2})(\d{2})"',attrs)
+  if not match or int(match[1])!=target.month:raise ValueError('BLS_MONTH_CELL')
+  date=dt.date(target.year,target.month,int(match[2]))
+  if date in seen:raise ValueError('BLS_MONTH_DUPLICATE_DAY')
+  seen.add(date)
+  for paragraph in re.findall(r'<p\b[^>]*>(.*?)</p>',body,re.S|re.I):
+   title=re.search(r'<strong\b[^>]*>(.*?)</strong>',paragraph,re.S|re.I)
+   if not title:continue
+   kind={'Consumer Price Index':'CPI','Employment Situation':'NFP'}.get(clean(title[1]))
+   if kind:
+    if not clean(paragraph).endswith('08:30 AM'):raise ValueError('BLS_MONTH_EVENT_TIME')
+    events.append({'date':date.isoformat(),'event':kind})
+ expected={dt.date(target.year,target.month,d) for d in range(1,calendar.monthrange(target.year,target.month)[1]+1) if dt.date(target.year,target.month,d).weekday()<5}
+ if not expected<=seen:raise ValueError('BLS_MONTH_INCOMPLETE_DAYS')
+ if {k:sum(r['event']==k for r in events) for k in ['CPI','NFP']}!={'CPI':1,'NFP':1}:raise ValueError('BLS_MONTH_EVENT_COVERAGE_REVIEW')
+ if 'All times on calendar are Eastern Time' not in clean(text):raise ValueError('BLS_MONTH_TIMEZONE')
+ return sorted(events,key=lambda r:(r['date'],r['event']))

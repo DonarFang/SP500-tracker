@@ -8,7 +8,7 @@ sys.path.insert(0,str(HERE/'vendor'))
 import core,daily,engine,incremental,combo,calibrate,live_calendar
 import calendar_sources
 NY=ZoneInfo('America/New_York'); UTC=dt.timezone.utc
-VERSION='MRV-step-4-v1.1'; ROOT=HERE.parents[1]
+VERSION='MRV-step-4-v1.2'; ROOT=HERE.parents[1]
 REQUIRED=['term3m','vix','spx_downside20','term9','spx_dd60','spx_rv5','spx_tail_max5','spx_range','spx_dd20','spx_down20','spx_ma20_gap','spx_down10','vix_delta5','rv5_20']
 
 def digest(b):return hashlib.sha256(b).hexdigest()
@@ -66,9 +66,13 @@ def infer(b,f,events):
  return {'four_scores':four,'score':score,'severe_threshold':threshold,'model_grade':grade,'final_grade':final,'events':events,'probabilities':pp,'probability_error':prob_error,'probability_status':'OBSERVATION_ESTIMATE' if pp else 'UNAVAILABLE','probability_model':'P2_BETA_FINAL','model':'LINEAR4_T2021_2022','bundle_id':b['bundle_id']}
 
 def clean(s):return ' '.join(html.unescape(re.sub('<[^>]+>',' ',s)).split())
-def parse_events(bls,fed,year):
+def parse_events(bls,fed,year,target=None):
  ev=[]
- if bls.lstrip().startswith('BEGIN:VCALENDAR'):
+ monthly='class="release-calendar"' in bls
+ if monthly:
+  if target is None or target.year!=year:raise ValueError('BLS_MONTH_TARGET_REQUIRED')
+  ev=calendar_sources.month_events(bls,target)
+ elif bls.lstrip().startswith('BEGIN:VCALENDAR'):
   ev=calendar_sources.ics_events(bls.lstrip(),year)
  else:
   for tr in re.findall(r'<tr\b[^>]*>(.*?)</tr>',bls,re.S|re.I):
@@ -89,7 +93,7 @@ def parse_events(bls,fed,year):
   if month not in list(calendar.month_name):raise ValueError('FED_UNREVIEWED_MONTH:'+month)
   date=dt.date(year,list(calendar.month_name).index(month),int(days.split('-')[-1])).isoformat();ev.append({'date':date,'event':'FOMC'})
  counts={k:sum(r['event']==k for r in ev) for k in ['CPI','NFP','FOMC']}
- if counts!={'CPI':12,'NFP':12,'FOMC':8} or len({(r['date'],r['event']) for r in ev})!=32:raise ValueError('EVENT_COVERAGE_REQUIRES_REVIEW:'+str(counts))
+ if counts!=({'CPI':1,'NFP':1,'FOMC':8} if monthly else {'CPI':12,'NFP':12,'FOMC':8}) or len({(r['date'],r['event']) for r in ev})!=(10 if monthly else 32):raise ValueError('EVENT_COVERAGE_REQUIRES_REVIEW:'+str(counts))
  return sorted(ev,key=lambda r:(r['date'],r['event']))
 
 def fetch(url,out,name):
@@ -181,7 +185,7 @@ def run(root,out,now):
   else:inputs[name],sources[name]=fetch(url,raw,name)
   write(out/'sources.json',sources)
  spx=yahoo(inputs['SPX'],'^GSPC');vix={k:v['close'] for k,v in yahoo(inputs['VIX'],'^VIX').items()};terms={k:cboe(inputs[k]) for k in ['VIX9D','VIX3M']}
- ev=parse_events(inputs['BLS'].decode('utf-8-sig'),inputs['FED'].decode('utf-8-sig'),2026)
+ ev=parse_events(inputs['BLS'].decode('utf-8-sig'),inputs['FED'].decode('utf-8-sig'),2026,target)
  write(out/'events.json',ev)
  for name in ['BLS','FED']:calendar_sources.retain(name,inputs[name],sources[name],root,safe,write)
  calendar_health={name:{k:v for k,v in sources[name].items() if k in ['url','retrieved_utc','calendar_mode','cache_expires_utc']} for name in ['BLS','FED']}
