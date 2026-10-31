@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 178149.62049167108,
-    "date": "2026-10-29",
+    "date": "2026-10-30",
     "metadata": {
-      "last_execution_date": "2026-10-29",
+      "last_execution_date": "2026-10-30",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "MPC": {
         "avg_cost": 391.39099999999996,
         "entry_date": "2026-09-04",
-        "last_price": 432.51001,
-        "last_update_date": "2026-10-29",
-        "market_value": 50808.381102430285,
+        "last_price": 444.730011,
+        "last_update_date": "2026-10-30",
+        "market_value": 52243.90502910213,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -73,14 +73,14 @@
         },
         "quantity": 117.47330680839106,
         "symbol": "MPC",
-        "unrealized_pnl": 4830.386077387307
+        "unrealized_pnl": 6265.910004059148
       },
       "RVTY": {
         "avg_cost": 145.695553003,
         "entry_date": "2026-09-21",
-        "last_price": 165.779999,
-        "last_update_date": "2026-10-29",
-        "market_value": 49515.79726696242,
+        "last_price": 157.0,
+        "last_update_date": "2026-10-30",
+        "market_value": 46893.35394985194,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -136,11 +136,11 @@
         },
         "quantity": 298.68378312007604,
         "symbol": "RVTY",
-        "unrealized_pnl": 5998.8983122548325
+        "unrealized_pnl": 3376.454995144347
       }
     },
-    "positions_value": 100324.1783693927,
-    "total_equity": 278473.7988610638
+    "positions_value": 99137.25897895407,
+    "total_equity": 277286.87947062514
   },
   "closed_trades": [
     {
@@ -894,12 +894,19 @@
       "open_positions_count": 2,
       "positions_value": 100324.1783693927,
       "total_equity": 278473.7988610638
+    },
+    {
+      "cash": 178149.62049167108,
+      "date": "2026-10-30",
+      "open_positions_count": 2,
+      "positions_value": 99137.25897895407,
+      "total_equity": 277286.87947062514
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-10-29",
+  "last_committed_date": "2026-10-30",
   "metadata": {
-    "last_commit_date": "2026-10-29",
+    "last_commit_date": "2026-10-30",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
@@ -909,7 +916,28 @@
     "sim_end_replayed": false,
     "unknown_pending_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
   },
-  "pending_orders": [],
+  "pending_orders": [
+    {
+      "branch": "UPTREND",
+      "intent_type": "EXIT",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 59.95,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "25a7b307a746d530253c805f570c13c46e12d8f51b2a3584a69bffd9e7d88c96",
+      "quantity_delta": null,
+      "reason": "canonical_position_exit",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-10-30",
+      "status": "PENDING",
+      "symbol": "MPC",
+      "target_quantity": 0.0
+    }
+  ],
   "schema_version": "1.0.0",
   "seed_date": "2026-06-16"
 }

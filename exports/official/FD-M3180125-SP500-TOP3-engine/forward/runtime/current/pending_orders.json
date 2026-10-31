@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "branch": "UPTREND",
+    "intent_type": "EXIT",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 59.95,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "order_id": "25a7b307a746d530253c805f570c13c46e12d8f51b2a3584a69bffd9e7d88c96",
+    "quantity_delta": null,
+    "reason": "canonical_position_exit",
+    "sequence": 1,
+    "side": "SELL",
+    "signal_date": "2026-10-30",
+    "status": "PENDING",
+    "symbol": "MPC",
+    "target_quantity": 0.0
+  }
+]
