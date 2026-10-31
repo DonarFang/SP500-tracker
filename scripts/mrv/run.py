@@ -7,8 +7,9 @@ HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE/'vendor'))
 import core,daily,engine,incremental,combo,calibrate,live_calendar
 import calendar_sources
+import event_calendar
 NY=ZoneInfo('America/New_York'); UTC=dt.timezone.utc
-VERSION='MRV-step-4-v1.2'; ROOT=HERE.parents[1]
+VERSION='MRV-step-4-v1.4-annual-calendar'; ROOT=HERE.parents[1]
 REQUIRED=['term3m','vix','spx_downside20','term9','spx_dd60','spx_rv5','spx_tail_max5','spx_range','spx_dd20','spx_down20','spx_ma20_gap','spx_down10','vix_delta5','rv5_20']
 
 def digest(b):return hashlib.sha256(b).hexdigest()
@@ -175,20 +176,17 @@ def save_prediction(root,p):
 def run(root,out,now):
  cfg=safe(root,'config/live_calendar/us_equity_calendar_v1.0.json');cal=live_calendar.load_live_trading_calendar(cfg)
  b=bundle(root);t=latest_completed(cal,now);target=cal.next_session(t)
- if target.year!=2026:raise ValueError('FROZEN_ANNUAL_MODELS_ONLY_2026_REVIEW_REQUIRED')
  raw=out/'raw';raw.mkdir();sources={};inputs={}
  urls={'SPX':'https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?range=1y&interval=1d&includePrePost=false','VIX':'https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=1y&interval=1d&includePrePost=false','VIX9D':'https://cdn-api.cboe.com/api/global/us_indices/daily_prices/VIX9D_History.csv','VIX3M':'https://cdn-api.cboe.com/api/global/us_indices/daily_prices/VIX3M_History.csv','BLS':'https://www.bls.gov/schedule/2026/home.htm','FED':'https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm'}
- for name,url in urls.items():
+ ev,calendar_health,calendar_provenance=event_calendar.load(root,out,now,target,fetch,safe,write)
+ for name in ['SPX','VIX','VIX9D','VIX3M']:
   print('FETCH='+name,flush=True)
-  if name in ['BLS','FED']:
-   inputs[name],sources[name]=calendar_sources.obtain(name,root,raw,fetch,dt.datetime.now(UTC),moment(target,9,30),safe)
-  else:inputs[name],sources[name]=fetch(url,raw,name)
+  inputs[name],sources[name]=fetch(urls[name],raw,name)
   write(out/'sources.json',sources)
+ sources['EVENT_CALENDAR']={'calendar_health':calendar_health,'official_sources':calendar_provenance,'artifact':'event-calendar-used.json'}
+ write(out/'sources.json',sources)
  spx=yahoo(inputs['SPX'],'^GSPC');vix={k:v['close'] for k,v in yahoo(inputs['VIX'],'^VIX').items()};terms={k:cboe(inputs[k]) for k in ['VIX9D','VIX3M']}
- ev=parse_events(inputs['BLS'].decode('utf-8-sig'),inputs['FED'].decode('utf-8-sig'),2026,target)
  write(out/'events.json',ev)
- for name in ['BLS','FED']:calendar_sources.retain(name,inputs[name],sources[name],root,safe,write)
- calendar_health={name:{k:v for k,v in sources[name].items() if k in ['url','retrieved_utc','calendar_mode','cache_expires_utc']} for name in ['BLS','FED']}
  f,ds=features(cal,t,target,spx,vix,terms);events=[r['event'] for r in ev if r['date']==target.isoformat()]
  p=infer(b,f,events);created=dt.datetime.now(UTC)
  p.update(calendar_health=calendar_health,feature_date=t.isoformat(),target_date=target.isoformat(),generated_utc=created.isoformat(),target_open_utc=moment(target,9,30).astimezone(UTC).isoformat(),target_close_utc=moment(target,13 if target in cal.early_close_sessions else 16).astimezone(UTC).isoformat(),data_ready_utc=moment(target,18).astimezone(UTC).isoformat(),features={k:f[k] for k in REQUIRED},previous_close=spx[t.isoformat()]['close'],sources=sources,source_sessions=ds,event_calendar_sha256=digest(encoded(ev)),evidence_class='BEFORE_TARGET_OPEN' if created<moment(target,9,30) else 'LATE_RECONSTRUCTION',information_cutoff='T_CLOSE_NO_PREMARKET',source_quality='YAHOO_UNADJUSTED_EOD_PROXY_CBOE_EOD_NOT_EXCHANGE_TICK_CERTIFIED',version=VERSION)
@@ -209,7 +207,7 @@ def run(root,out,now):
   dst=dest/file.name
   if not dst.exists():dst.write_bytes(file.read_bytes())
  if not (dest/'sources.json').exists():write(dest/'sources.json',sources,True)
- write(out/'prediction.json',p);write(out/'result.json',{'status':'PASS','target_date':target.isoformat(),'evidence_class':p['evidence_class'],'revision':revision,'step5_acceptance':'PENDING_USER_RUN_REVIEW'})
+ write(out/'calendar-health.json',calendar_health);write(out/'prediction.json',p);write(out/'result.json',{'status':'PASS','target_date':target.isoformat(),'evidence_class':p['evidence_class'],'revision':revision,'step5_acceptance':'PENDING_USER_RUN_REVIEW'})
  print('MRV_DAILY=PASS TARGET='+target.isoformat(),flush=True)
 
 def selftest(root):

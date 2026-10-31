@@ -1,0 +1,149 @@
+{
+  "schema": "MRV_LOCAL_EVENTS_1",
+  "timezone": "America/New_York",
+  "coverage_start": "2026-01-01",
+  "coverage_end": "2026-12-31",
+  "verified_utc": "2026-10-31T10:38:46.573878+00:00",
+  "sources": {
+    "BLS": {
+      "url": "https://www.bls.gov/schedule/2026/home.htm",
+      "sha256": "1bfb9d805fb7b419504962aa22773506b558534daac3b47d72c9de99fd16acac",
+      "retrieved_utc": "2026-10-31T10:38:34.285819+00:00"
+    },
+    "FED": {
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "sha256": "f3f8e21c175d32960bfc2f36576475591c9cb7c4b8f352733442c79a94f04801",
+      "retrieved_utc": "2026-10-31T10:38:46.573878+00:00"
+    }
+  },
+  "events": [
+    {
+      "date": "2026-01-09",
+      "event": "NFP"
+    },
+    {
+      "date": "2026-01-13",
+      "event": "CPI"
+    },
+    {
+      "date": "2026-01-28",
+      "event": "FOMC"
+    },
+    {
+      "date": "2026-02-11",
+      "event": "NFP"
+    },
+    {
+      "date": "2026-02-13",
+      "event": "CPI"
+    },
+    {
+      "date": "2026-03-06",
+      "event": "NFP"
+    },
+    {
+      "date": "2026-03-11",
+      "event": "CPI"
+    },
+    {
+      "date": "2026-03-18",
+      "event": "FOMC"
+    },
+    {
+      "date": "2026-04-03",
+      "event": "NFP"
+    },
+    {
+      "date": "2026-04-10",
+      "event": "CPI"
+    },
+    {
+      "date": "2026-04-29",
+      "event": "FOMC"
+    },
+    {
+      "date": "2026-05-08",
+      "event": "NFP"
+    },
+    {
+      "date": "2026-05-12",
+      "event": "CPI"
+    },
+    {
+      "date": "2026-06-05",
+      "event": "NFP"
+    },
+    {
+      "date": "2026-06-10",
+      "event": "CPI"
+    },
+    {
+      "date": "2026-06-17",
+      "event": "FOMC"
+    },
+    {
+      "date": "2026-07-02",
+      "event": "NFP"
+    },
+    {
+      "date": "2026-07-14",
+      "event": "CPI"
+    },
+    {
+      "date": "2026-07-29",
+      "event": "FOMC"
+    },
+    {
+      "date": "2026-08-07",
+      "event": "NFP"
+    },
+    {
+      "date": "2026-08-12",
+      "event": "CPI"
+    },
+    {
+      "date": "2026-09-04",
+      "event": "NFP"
+    },
+    {
+      "date": "2026-09-11",
+      "event": "CPI"
+    },
+    {
+      "date": "2026-09-16",
+      "event": "FOMC"
+    },
+    {
+      "date": "2026-10-02",
+      "event": "NFP"
+    },
+    {
+      "date": "2026-10-14",
+      "event": "CPI"
+    },
+    {
+      "date": "2026-10-28",
+      "event": "FOMC"
+    },
+    {
+      "date": "2026-11-06",
+      "event": "NFP"
+    },
+    {
+      "date": "2026-11-10",
+      "event": "CPI"
+    },
+    {
+      "date": "2026-12-04",
+      "event": "NFP"
+    },
+    {
+      "date": "2026-12-09",
+      "event": "FOMC"
+    },
+    {
+      "date": "2026-12-10",
+      "event": "CPI"
+    }
+  ]
+}
