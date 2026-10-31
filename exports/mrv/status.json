@@ -1,18 +1,39 @@
 {
   "calendar_health": {
-    "BLS": {
-      "cache_expires_utc": "2026-11-03T10:38:34.285819+00:00",
-      "calendar_mode": "CACHED",
-      "retrieved_utc": "2026-10-31T10:38:34.285819+00:00",
-      "url": "https://www.bls.gov/schedule/2026/home.htm"
+    "ANNUAL_PREPARATION": {
+      "checked_utc": "2026-10-31T12:46:15.640916+00:00",
+      "current_year": 2026,
+      "next_year": 2027,
+      "preparation_enabled": false,
+      "rule": "NOVEMBER_START_14_DAY_INTERVAL",
+      "trading_calendar_note": "Shared trading calendar is frozen; insufficient year coverage blocks activation.",
+      "years": {
+        "2026": {
+          "available": true,
+          "error": null,
+          "last_attempt_utc": null,
+          "next_attempt_utc": null,
+          "pending_changes": false,
+          "review_status": "NOT_DUE",
+          "year": 2026
+        }
+      }
     },
-    "FED": {
-      "calendar_mode": "FRESH",
-      "retrieved_utc": "2026-10-31T12:38:29.221054+00:00",
-      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+    "LOCAL": {
+      "calendar_mode": "LOCAL_VERIFIED",
+      "coverage_end": "2026-12-31",
+      "coverage_start": "2026-01-01",
+      "last_attempt_utc": null,
+      "pending_changes": false,
+      "review_due_utc": "2026-11-14T10:38:46.573878+00:00",
+      "review_error": null,
+      "review_overdue": false,
+      "review_status": "NOT_DUE",
+      "verified_utc": "2026-10-31T10:38:46.573878+00:00",
+      "year": 2026
     }
   },
-  "checked_utc": "2026-10-31T12:38:29.332791+00:00",
+  "checked_utc": "2026-10-31T12:46:16.291268+00:00",
   "feature_date": "2026-10-30",
   "prediction_id": "60f6012e26e6d3b9b26df5654f3fbcbac3f018c519f255cabd6e265f715375bf",
   "probability_status": "OBSERVATION_ESTIMATE",
