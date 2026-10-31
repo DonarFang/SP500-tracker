@@ -1,0 +1,37 @@
+{
+  "calendar_and_model_tests": {
+    "status": "PASS",
+    "checks": [
+      "ICS_HTML_same_32_events",
+      "reject_expired",
+      "reject_target_expired",
+      "reject_future",
+      "reject_corrupt",
+      "cache_timestamp_not_renewed",
+      "empty_ICS_not_no_events",
+      "end_to_end_403_bounded_cache"
+    ],
+    "inference": {
+      "status": "PASS",
+      "historical_days": 199,
+      "four_score_max_error": 3.469446951953614e-17,
+      "probability_artifact_status": "VERIFIED",
+      "calendar_cases": 4
+    },
+    "simulation": "official source snapshots with deliberately injected calendar HTTP403; not user deployment",
+    "target_date": "2026-11-02",
+    "model_grade": "moderate",
+    "score": 0.018782828693991897
+  },
+  "recovery_pipeline": {
+    "status": "PASS",
+    "mode": "isolated local Git remote",
+    "network": "real public sources",
+    "frozen_models_unchanged": true,
+    "unrelated_file_preserved": true,
+    "head_equals_remote": true,
+    "tracked_clean": true,
+    "exact_manifest_members": 61,
+    "nested_zip_included": true
+  }
+}

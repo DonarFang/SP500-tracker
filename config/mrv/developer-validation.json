@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "historical_feature_days": 117,
+  "feature_values": 1638,
+  "max_feature_error": 3.885780586188048e-16,
+  "checks": [
+    "archived_feature_reproduction",
+    "target_OHLC_poison_no_effect",
+    "missing_T_price_blocked",
+    "missing_event_calendar_blocked",
+    "32_annual_event_records",
+    "nontrading_release_not_shifted",
+    "event_override_leaves_probability_unchanged",
+    "probability_failure_retains_grade",
+    "idempotent_rerun",
+    "immutable_first_prediction",
+    "separate_revision",
+    "weekend_preserves_T"
+  ],
+  "inference": {
+    "status": "PASS",
+    "historical_days": 199,
+    "four_score_max_error": 3.469446951953614e-17,
+    "probability_artifact_status": "VERIFIED",
+    "calendar_cases": 4
+  },
+  "live_sources": {
+    "status": "PASS",
+    "feature_date": "2026-10-30",
+    "target_date": "2026-11-02",
+    "source_timezone_check": "SPX America/New_York; VIX America/Chicago",
+    "scope": "isolated development run; not user deployment"
+  },
+  "installer_fixture": {
+    "status": "PASS",
+    "fast_forward": true,
+    "untracked_preserved": true,
+    "protected_unchanged": true,
+    "explicit_commit_and_push_to_local_test_remote": true
+  }
+}

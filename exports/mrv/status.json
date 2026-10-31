@@ -1,0 +1,21 @@
+{
+  "calendar_health": {
+    "BLS": {
+      "cache_expires_utc": "2026-11-03T10:38:34.285819+00:00",
+      "calendar_mode": "CACHED",
+      "retrieved_utc": "2026-10-31T10:38:34.285819+00:00",
+      "url": "https://www.bls.gov/schedule/2026/home.htm"
+    },
+    "FED": {
+      "calendar_mode": "FRESH",
+      "retrieved_utc": "2026-10-31T10:53:58.744116+00:00",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+    }
+  },
+  "checked_utc": "2026-10-31T10:53:58.806675+00:00",
+  "feature_date": "2026-10-30",
+  "prediction_id": "60f6012e26e6d3b9b26df5654f3fbcbac3f018c519f255cabd6e265f715375bf",
+  "probability_status": "OBSERVATION_ESTIMATE",
+  "status": "READY",
+  "target_date": "2026-11-02"
+}
