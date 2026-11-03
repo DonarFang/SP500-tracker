@@ -1,0 +1,44 @@
+{
+  "closed_trades": [
+    {
+      "average_cost": 391.39099999999996,
+      "entry_date": "2026-09-04",
+      "execution_price": 428.29128099900004,
+      "exit_date": "2026-11-02",
+      "exit_reason": "canonical_position_exit",
+      "fill_id": "f4da7b08c32c7ab9a474e715dcfa37c408760a617ae363632f12af8251fc410f",
+      "is_sim_end": false,
+      "order_id": "25a7b307a746d530253c805f570c13c46e12d8f51b2a3584a69bffd9e7d88c96",
+      "origin_branch": "UPTREND",
+      "quantity": 117.47330680839106,
+      "realized_pnl": 4334.798031111379,
+      "symbol": "MPC"
+    }
+  ],
+  "resolved_orders": [
+    {
+      "branch": "UPTREND",
+      "execution_date": "2026-11-02",
+      "fill_id": "f4da7b08c32c7ab9a474e715dcfa37c408760a617ae363632f12af8251fc410f",
+      "intent_type": "EXIT",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 59.95,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "25a7b307a746d530253c805f570c13c46e12d8f51b2a3584a69bffd9e7d88c96",
+      "quantity_delta": null,
+      "reason": "canonical_position_exit",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-10-30",
+      "status": "FILLED",
+      "symbol": "MPC",
+      "target_quantity": 0.0
+    }
+  ],
+  "sim_end_performed": false,
+  "skipped_orders": []
+}
