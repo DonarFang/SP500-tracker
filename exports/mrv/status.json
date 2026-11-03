@@ -1,10 +1,10 @@
 {
   "calendar_health": {
     "ANNUAL_PREPARATION": {
-      "checked_utc": "2026-10-31T12:46:15.640916+00:00",
+      "checked_utc": "2026-11-03T03:55:26.427314+00:00",
       "current_year": 2026,
       "next_year": 2027,
-      "preparation_enabled": false,
+      "preparation_enabled": true,
       "rule": "NOVEMBER_START_14_DAY_INTERVAL",
       "trading_calendar_note": "Shared trading calendar is frozen; insufficient year coverage blocks activation.",
       "years": {
@@ -16,6 +16,15 @@
           "pending_changes": false,
           "review_status": "NOT_DUE",
           "year": 2026
+        },
+        "2027": {
+          "available": false,
+          "error": "ValueError:SOURCE_UNAVAILABLE:BLS:['HTTPError:HTTP Error 403: Forbidden']",
+          "last_attempt_utc": "2026-11-03T03:55:26.427314+00:00",
+          "next_attempt_utc": "2026-11-17T03:55:26.427314+00:00",
+          "pending_changes": false,
+          "review_status": "FAILED",
+          "year": 2027
         }
       }
     },
@@ -33,10 +42,10 @@
       "year": 2026
     }
   },
-  "checked_utc": "2026-10-31T12:46:16.291268+00:00",
-  "feature_date": "2026-10-30",
-  "prediction_id": "60f6012e26e6d3b9b26df5654f3fbcbac3f018c519f255cabd6e265f715375bf",
+  "checked_utc": "2026-11-03T03:55:27.116681+00:00",
+  "feature_date": "2026-11-02",
+  "prediction_id": "710b0b3efb59a6317fb8da423e82c82f228e559e9152bfad6ef517159fea3a4c",
   "probability_status": "OBSERVATION_ESTIMATE",
   "status": "READY",
-  "target_date": "2026-11-02"
+  "target_date": "2026-11-03"
 }

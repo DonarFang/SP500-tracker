@@ -1,6 +1,20 @@
 [
   {
-    "actual": null,
+    "actual": {
+      "class": "light",
+      "date": "2026-11-02",
+      "loss": 0.0053680167003532534,
+      "prediction_id": "60f6012e26e6d3b9b26df5654f3fbcbac3f018c519f255cabd6e265f715375bf",
+      "previous_close": 7580.06982421875,
+      "recorded_utc": "2026-11-03T03:55:27.116681+00:00",
+      "source": {
+        "raw": "SPX.gz",
+        "retrieved_utc": "2026-11-03T03:55:26.644029+00:00",
+        "sha256": "d650c43bbb2c493fc095629abfef04b8e4217fccff8cab56dd50893e87128abd",
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?range=1y&interval=1d&includePrePost=false"
+      },
+      "target_low": 7539.3798828125
+    },
     "evidence_class": "BEFORE_TARGET_OPEN",
     "feature_date": "2026-10-30",
     "final_grade": "moderate",
@@ -13,5 +27,20 @@
       "severe": 0.009607547876214331
     },
     "target_date": "2026-11-02"
+  },
+  {
+    "actual": null,
+    "evidence_class": "BEFORE_TARGET_OPEN",
+    "feature_date": "2026-11-02",
+    "final_grade": "moderate",
+    "generated_utc": "2026-11-03T03:55:27.116681+00:00",
+    "model_grade": "moderate",
+    "probabilities": {
+      "light": 0.780944983489942,
+      "moderate": 0.2023241595386914,
+      "moderate_or_severe": 0.21905501651005801,
+      "severe": 0.016730856971366632
+    },
+    "target_date": "2026-11-03"
   }
 ]
