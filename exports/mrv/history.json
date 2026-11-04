@@ -29,7 +29,21 @@
     "target_date": "2026-11-02"
   },
   {
-    "actual": null,
+    "actual": {
+      "class": "light",
+      "date": "2026-11-03",
+      "loss": 0.0,
+      "prediction_id": "710b0b3efb59a6317fb8da423e82c82f228e559e9152bfad6ef517159fea3a4c",
+      "previous_close": 7541.39990234375,
+      "recorded_utc": "2026-11-04T03:00:32.894516+00:00",
+      "source": {
+        "raw": "SPX.gz",
+        "retrieved_utc": "2026-11-04T03:00:32.349631+00:00",
+        "sha256": "48e1eb27c7dcef862021455c32d5492de8290b40b740ea0590b3c3c2e5d818eb",
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?range=1y&interval=1d&includePrePost=false"
+      },
+      "target_low": 7545.39013671875
+    },
     "evidence_class": "BEFORE_TARGET_OPEN",
     "feature_date": "2026-11-02",
     "final_grade": "moderate",
@@ -42,5 +56,20 @@
       "severe": 0.016730856971366632
     },
     "target_date": "2026-11-03"
+  },
+  {
+    "actual": null,
+    "evidence_class": "BEFORE_TARGET_OPEN",
+    "feature_date": "2026-11-03",
+    "final_grade": "moderate",
+    "generated_utc": "2026-11-04T03:00:32.894516+00:00",
+    "model_grade": "moderate",
+    "probabilities": {
+      "light": 0.7976290625675339,
+      "moderate": 0.18975149389729962,
+      "moderate_or_severe": 0.20237093743246615,
+      "severe": 0.012619443535166527
+    },
+    "target_date": "2026-11-04"
   }
 ]
