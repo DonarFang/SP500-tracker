@@ -1,7 +1,7 @@
 {
   "automatic_execution": false,
   "effective_signal_date": "2026-10-07",
-  "expected_execution_date": "2026-11-03",
+  "expected_execution_date": "2026-11-04",
   "lss07": {
     "changed_symbols": [],
     "effective_signal_date": "2026-10-07",
@@ -9,20 +9,13 @@
       {
         "entry_date": "2026-09-30",
         "observation": {
-          "close": 171.990005,
-          "previous_close": 174.869995,
-          "rank": 204,
+          "close": 175.460007,
+          "previous_close": 171.990005,
+          "rank": 162,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": 0.03835051546391753,
+          "rank_slope": 0.070279823269514,
           "ready": true,
           "samples": [
-            {
-              "date": "2026-10-26",
-              "rank": 78,
-              "rank_fraction": 0.15876288659793814,
-              "score": 81.09,
-              "universe_count": 486
-            },
             {
               "date": "2026-10-27",
               "rank": 52,
@@ -57,35 +50,35 @@
               "rank_fraction": 0.41855670103092785,
               "score": 67.61,
               "universe_count": 486
+            },
+            {
+              "date": "2026-11-03",
+              "rank": 162,
+              "rank_fraction": 0.3319587628865979,
+              "score": 70.84,
+              "universe_count": 486
             }
           ],
-          "score": 67.61,
-          "score_slope": -1.7522857142857142,
+          "score": 70.84,
+          "score_slope": -3.945142857142857,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
-        "remaining_quantity": 17.0,
-        "signal_date": "2026-11-02",
+        "remaining_quantity": 8.0,
+        "signal_date": "2026-11-03",
         "symbol": "A"
       },
       {
         "entry_date": "2026-09-21",
         "observation": {
-          "close": 275.040009,
-          "previous_close": 282.829987,
-          "rank": 100,
+          "close": 271.940002,
+          "previous_close": 275.040009,
+          "rank": 178,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": -0.012488954344624444,
+          "rank_slope": -0.030338733431516943,
           "ready": true,
           "samples": [
-            {
-              "date": "2026-10-26",
-              "rank": 101,
-              "rank_fraction": 0.20618556701030927,
-              "score": 77.03,
-              "universe_count": 486
-            },
             {
               "date": "2026-10-27",
               "rank": 215,
@@ -120,16 +113,23 @@
               "rank_fraction": 0.20412371134020618,
               "score": 79.31,
               "universe_count": 486
+            },
+            {
+              "date": "2026-11-03",
+              "rank": 178,
+              "rank_fraction": 0.3649484536082474,
+              "score": 69.04,
+              "universe_count": 486
             }
           ],
-          "score": 79.31,
-          "score_slope": 1.294571428571429,
+          "score": 69.04,
+          "score_slope": 2.6542857142857157,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 5.0,
-        "signal_date": "2026-11-02",
+        "signal_date": "2026-11-03",
         "symbol": "PSX"
       }
     ],
@@ -139,18 +139,18 @@
   "recommendation_only": true,
   "recommendations": [
     {
-      "action": "REDUCE",
-      "reason": "canonical_position_reduce",
+      "action": "HOLD",
+      "reason": "reduce_skipped_size_at_minimum",
       "symbol": "A",
-      "target_shares": "8.5"
+      "target_shares": "8.0"
     },
     {
       "action": "HOLD",
-      "reason": "canonical_position_hold",
+      "reason": "reduce_skipped_size_at_minimum",
       "symbol": "PSX",
       "target_shares": "5.0"
     }
   ],
-  "signal_date": "2026-11-02",
+  "signal_date": "2026-11-03",
   "strategy_version": "LSS07-SP500-FROZEN-1.0"
 }
