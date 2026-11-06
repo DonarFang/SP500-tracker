@@ -1,0 +1,254 @@
+{
+  "bundle_id": "61b62ffc66d51d541060c77d511712013b1509d483c23c9655159ab5a61a979e",
+  "calendar_health": {
+    "ANNUAL_PREPARATION": {
+      "checked_utc": "2026-11-06T03:24:30.073760+00:00",
+      "current_year": 2026,
+      "next_year": 2027,
+      "preparation_enabled": true,
+      "rule": "NOVEMBER_START_14_DAY_INTERVAL",
+      "trading_calendar_note": "Shared trading calendar is frozen; insufficient year coverage blocks activation.",
+      "years": {
+        "2026": {
+          "available": true,
+          "error": null,
+          "last_attempt_utc": null,
+          "next_attempt_utc": null,
+          "pending_changes": false,
+          "review_status": "NOT_DUE",
+          "year": 2026
+        },
+        "2027": {
+          "available": false,
+          "error": "ValueError:SOURCE_UNAVAILABLE:BLS:['HTTPError:HTTP Error 403: Forbidden']",
+          "last_attempt_utc": "2026-11-03T03:55:26.427314+00:00",
+          "next_attempt_utc": "2026-11-17T03:55:26.427314+00:00",
+          "pending_changes": false,
+          "review_status": "FAILED",
+          "year": 2027
+        }
+      }
+    },
+    "LOCAL": {
+      "calendar_mode": "LOCAL_VERIFIED",
+      "coverage_end": "2026-12-31",
+      "coverage_start": "2026-01-01",
+      "last_attempt_utc": null,
+      "pending_changes": false,
+      "review_due_utc": "2026-11-14T10:38:46.573878+00:00",
+      "review_error": null,
+      "review_overdue": false,
+      "review_status": "NOT_DUE",
+      "verified_utc": "2026-10-31T10:38:46.573878+00:00",
+      "year": 2026
+    }
+  },
+  "data_ready_utc": "2026-11-06T23:00:00+00:00",
+  "event_calendar_sha256": "20c3aa0b9fe4673d7228f145b1ca66dba0691c7cd0264a1015ef0c2998157906",
+  "events": [
+    "NFP"
+  ],
+  "evidence_class": "BEFORE_TARGET_OPEN",
+  "feature_date": "2026-11-05",
+  "features": {
+    "rv5_20": 0.5948822820645215,
+    "spx_dd20": 0.05860688882146392,
+    "spx_dd60": 0.05949665553395456,
+    "spx_down10": 0.04125202230914099,
+    "spx_down20": 0.054465134963936256,
+    "spx_downside20": 0.01177987734182783,
+    "spx_ma20_gap": 0.04242528725195949,
+    "spx_range": 0.04304282645808595,
+    "spx_rv5": 0.3664761604335413,
+    "spx_tail_max5": 0.04399619364404094,
+    "term3m": 0.0979752006503373,
+    "term9": 0.1475385702422682,
+    "vix": 3.3386125173000507,
+    "vix_delta5": 0.4937030891236995
+  },
+  "final_grade": "severe",
+  "four_scores": {
+    "F6": 0.031444765413392375,
+    "F7": 0.028740966718539127,
+    "I6V": 0.09476778940682846,
+    "I7R": 0.052002528645153555
+  },
+  "generated_utc": "2026-11-06T03:24:30.691293+00:00",
+  "information_cutoff": "T_CLOSE_NO_PREMARKET",
+  "model": "LINEAR4_T2021_2022",
+  "model_grade": "severe",
+  "prediction_id": "5d2843147983107c690d90f756c35fbb3d85364c625846dbb9084c4da31bef35",
+  "previous_close": 7353.72998046875,
+  "probabilities": {
+    "light": 0.6660493410339892,
+    "moderate": 0.25294696211046475,
+    "moderate_or_severe": 0.33395065896601084,
+    "severe": 0.0810036968555461
+  },
+  "probability_error": null,
+  "probability_model": "P2_BETA_FINAL",
+  "probability_status": "OBSERVATION_ESTIMATE",
+  "score": 0.04587785827299027,
+  "severe_threshold": 0.026803055017853218,
+  "source_quality": "YAHOO_UNADJUSTED_EOD_PROXY_CBOE_EOD_NOT_EXCHANGE_TICK_CERTIFIED",
+  "source_sessions": [
+    "2026-07-30",
+    "2026-07-31",
+    "2026-08-03",
+    "2026-08-04",
+    "2026-08-05",
+    "2026-08-06",
+    "2026-08-07",
+    "2026-08-10",
+    "2026-08-11",
+    "2026-08-12",
+    "2026-08-13",
+    "2026-08-14",
+    "2026-08-17",
+    "2026-08-18",
+    "2026-08-19",
+    "2026-08-20",
+    "2026-08-21",
+    "2026-08-24",
+    "2026-08-25",
+    "2026-08-26",
+    "2026-08-27",
+    "2026-08-28",
+    "2026-08-31",
+    "2026-09-01",
+    "2026-09-02",
+    "2026-09-03",
+    "2026-09-04",
+    "2026-09-08",
+    "2026-09-09",
+    "2026-09-10",
+    "2026-09-11",
+    "2026-09-14",
+    "2026-09-15",
+    "2026-09-16",
+    "2026-09-17",
+    "2026-09-18",
+    "2026-09-21",
+    "2026-09-22",
+    "2026-09-23",
+    "2026-09-24",
+    "2026-09-25",
+    "2026-09-28",
+    "2026-09-29",
+    "2026-09-30",
+    "2026-10-01",
+    "2026-10-02",
+    "2026-10-05",
+    "2026-10-06",
+    "2026-10-07",
+    "2026-10-08",
+    "2026-10-09",
+    "2026-10-12",
+    "2026-10-13",
+    "2026-10-14",
+    "2026-10-15",
+    "2026-10-16",
+    "2026-10-19",
+    "2026-10-20",
+    "2026-10-21",
+    "2026-10-22",
+    "2026-10-23",
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30",
+    "2026-11-02",
+    "2026-11-03",
+    "2026-11-04",
+    "2026-11-05"
+  ],
+  "sources": {
+    "EVENT_CALENDAR": {
+      "artifact": "event-calendar-used.json",
+      "calendar_health": {
+        "ANNUAL_PREPARATION": {
+          "checked_utc": "2026-11-06T03:24:30.073760+00:00",
+          "current_year": 2026,
+          "next_year": 2027,
+          "preparation_enabled": true,
+          "rule": "NOVEMBER_START_14_DAY_INTERVAL",
+          "trading_calendar_note": "Shared trading calendar is frozen; insufficient year coverage blocks activation.",
+          "years": {
+            "2026": {
+              "available": true,
+              "error": null,
+              "last_attempt_utc": null,
+              "next_attempt_utc": null,
+              "pending_changes": false,
+              "review_status": "NOT_DUE",
+              "year": 2026
+            },
+            "2027": {
+              "available": false,
+              "error": "ValueError:SOURCE_UNAVAILABLE:BLS:['HTTPError:HTTP Error 403: Forbidden']",
+              "last_attempt_utc": "2026-11-03T03:55:26.427314+00:00",
+              "next_attempt_utc": "2026-11-17T03:55:26.427314+00:00",
+              "pending_changes": false,
+              "review_status": "FAILED",
+              "year": 2027
+            }
+          }
+        },
+        "LOCAL": {
+          "calendar_mode": "LOCAL_VERIFIED",
+          "coverage_end": "2026-12-31",
+          "coverage_start": "2026-01-01",
+          "last_attempt_utc": null,
+          "pending_changes": false,
+          "review_due_utc": "2026-11-14T10:38:46.573878+00:00",
+          "review_error": null,
+          "review_overdue": false,
+          "review_status": "NOT_DUE",
+          "verified_utc": "2026-10-31T10:38:46.573878+00:00",
+          "year": 2026
+        }
+      },
+      "official_sources": {
+        "BLS": {
+          "retrieved_utc": "2026-10-31T10:38:34.285819+00:00",
+          "sha256": "1bfb9d805fb7b419504962aa22773506b558534daac3b47d72c9de99fd16acac",
+          "url": "https://www.bls.gov/schedule/2026/home.htm"
+        },
+        "FED": {
+          "retrieved_utc": "2026-10-31T10:38:46.573878+00:00",
+          "sha256": "f3f8e21c175d32960bfc2f36576475591c9cb7c4b8f352733442c79a94f04801",
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+        }
+      }
+    },
+    "SPX": {
+      "raw": "SPX.gz",
+      "retrieved_utc": "2026-11-06T03:24:30.205623+00:00",
+      "sha256": "9948cf169a39ea273f51843089c52ca88e009ec2cc0ab1bea5212eec16be91bd",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?range=1y&interval=1d&includePrePost=false"
+    },
+    "VIX": {
+      "raw": "VIX.gz",
+      "retrieved_utc": "2026-11-06T03:24:30.285632+00:00",
+      "sha256": "47459a0441bbffa38bca8f6ba7d86bed1848c4c9145ced3f3300550610ffb738",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=1y&interval=1d&includePrePost=false"
+    },
+    "VIX3M": {
+      "raw": "VIX3M.gz",
+      "retrieved_utc": "2026-11-06T03:24:30.608485+00:00",
+      "sha256": "a9de1f40f0e4876f22d3093e7e0123bd2f0edae898f2afc53780031287f66f9c",
+      "url": "https://cdn-api.cboe.com/api/global/us_indices/daily_prices/VIX3M_History.csv"
+    },
+    "VIX9D": {
+      "raw": "VIX9D.gz",
+      "retrieved_utc": "2026-11-06T03:24:30.465882+00:00",
+      "sha256": "8f454eaa671f7388384b5ccd1ab1072654c702a33d58b6170c4881746e1847a8",
+      "url": "https://cdn-api.cboe.com/api/global/us_indices/daily_prices/VIX9D_History.csv"
+    }
+  },
+  "target_close_utc": "2026-11-06T21:00:00+00:00",
+  "target_date": "2026-11-06",
+  "target_open_utc": "2026-11-06T14:30:00+00:00",
+  "version": "MRV-step-4-v1.4-annual-calendar"
+}
