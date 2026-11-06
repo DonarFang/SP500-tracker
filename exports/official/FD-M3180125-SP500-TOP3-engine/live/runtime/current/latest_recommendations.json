@@ -1,7 +1,7 @@
 {
   "automatic_execution": false,
   "effective_signal_date": "2026-10-07",
-  "expected_execution_date": "2026-11-05",
+  "expected_execution_date": "2026-11-06",
   "lss07": {
     "changed_symbols": [],
     "effective_signal_date": "2026-10-07",
@@ -9,20 +9,13 @@
       {
         "entry_date": "2026-09-30",
         "observation": {
-          "close": 177.169998,
-          "previous_close": 175.460007,
-          "rank": 144,
+          "close": 171.779999,
+          "previous_close": 177.169998,
+          "rank": 161,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": 0.07628865979381443,
+          "rank_slope": 0.05790868924889543,
           "ready": true,
           "samples": [
-            {
-              "date": "2026-10-28",
-              "rank": 7,
-              "rank_fraction": 0.012371134020618556,
-              "score": 91.91,
-              "universe_count": 486
-            },
             {
               "date": "2026-10-29",
               "rank": 7,
@@ -57,80 +50,24 @@
               "rank_fraction": 0.2948453608247423,
               "score": 75.28,
               "universe_count": 486
+            },
+            {
+              "date": "2026-11-05",
+              "rank": 161,
+              "rank_fraction": 0.32989690721649484,
+              "score": 72.93,
+              "universe_count": 486
             }
           ],
-          "score": 75.28,
-          "score_slope": -4.736,
+          "score": 72.93,
+          "score_slope": -3.496571428571428,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 8.0,
-        "signal_date": "2026-11-04",
+        "signal_date": "2026-11-05",
         "symbol": "A"
-      },
-      {
-        "entry_date": "2026-09-21",
-        "observation": {
-          "close": 259.630005,
-          "previous_close": 271.940002,
-          "rank": 312,
-          "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": 0.029219440353460968,
-          "ready": true,
-          "samples": [
-            {
-              "date": "2026-10-28",
-              "rank": 182,
-              "rank_fraction": 0.3731958762886598,
-              "score": 63.59,
-              "universe_count": 486
-            },
-            {
-              "date": "2026-10-29",
-              "rank": 218,
-              "rank_fraction": 0.44742268041237115,
-              "score": 62.49,
-              "universe_count": 486
-            },
-            {
-              "date": "2026-10-30",
-              "rank": 134,
-              "rank_fraction": 0.27422680412371137,
-              "score": 73.83,
-              "universe_count": 486
-            },
-            {
-              "date": "2026-11-02",
-              "rank": 100,
-              "rank_fraction": 0.20412371134020618,
-              "score": 79.31,
-              "universe_count": 486
-            },
-            {
-              "date": "2026-11-03",
-              "rank": 178,
-              "rank_fraction": 0.3649484536082474,
-              "score": 69.04,
-              "universe_count": 486
-            },
-            {
-              "date": "2026-11-04",
-              "rank": 312,
-              "rank_fraction": 0.6412371134020619,
-              "score": 51.49,
-              "universe_count": 486
-            }
-          ],
-          "score": 51.49,
-          "score_slope": -1.0105714285714285,
-          "tie_order": "SYMBOL_ASCENDING",
-          "universe_policy": "CURRENT_TRACK_SNAPSHOT"
-        },
-        "reason": "CANONICAL_FULL_EXIT_PRIORITY",
-        "remaining_quantity": 5.0,
-        "signal_date": "2026-11-04",
-        "symbol": "PSX"
       }
     ],
     "status": "EVALUATED",
@@ -140,17 +77,11 @@
   "recommendations": [
     {
       "action": "HOLD",
-      "reason": "canonical_position_hold",
+      "reason": "reduce_skipped_size_at_minimum",
       "symbol": "A",
       "target_shares": "8.0"
-    },
-    {
-      "action": "EXIT",
-      "reason": "canonical_position_exit",
-      "symbol": "PSX",
-      "target_shares": "0.0"
     }
   ],
-  "signal_date": "2026-11-04",
+  "signal_date": "2026-11-05",
   "strategy_version": "LSS07-SP500-FROZEN-1.0"
 }
