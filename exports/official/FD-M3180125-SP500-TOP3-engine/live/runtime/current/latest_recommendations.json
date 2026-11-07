@@ -1,7 +1,7 @@
 {
   "automatic_execution": false,
   "effective_signal_date": "2026-10-07",
-  "expected_execution_date": "2026-11-06",
+  "expected_execution_date": "2026-11-09",
   "lss07": {
     "changed_symbols": [],
     "effective_signal_date": "2026-10-07",
@@ -9,38 +9,31 @@
       {
         "entry_date": "2026-09-30",
         "observation": {
-          "close": 171.779999,
-          "previous_close": 177.169998,
-          "rank": 161,
+          "close": 174.759995,
+          "previous_close": 171.779999,
+          "rank": 82,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": 0.05790868924889543,
+          "rank_slope": -0.001296023564064806,
           "ready": true,
           "samples": [
             {
-              "date": "2026-10-29",
-              "rank": 7,
-              "rank_fraction": 0.012371134020618556,
-              "score": 93.03,
-              "universe_count": 486
-            },
-            {
               "date": "2026-10-30",
-              "rank": 59,
-              "rank_fraction": 0.11958762886597939,
+              "rank": 58,
+              "rank_fraction": 0.11752577319587629,
               "score": 83.65,
               "universe_count": 486
             },
             {
               "date": "2026-11-02",
-              "rank": 204,
-              "rank_fraction": 0.41855670103092785,
+              "rank": 202,
+              "rank_fraction": 0.4144329896907217,
               "score": 67.61,
               "universe_count": 486
             },
             {
               "date": "2026-11-03",
-              "rank": 162,
-              "rank_fraction": 0.3319587628865979,
+              "rank": 163,
+              "rank_fraction": 0.334020618556701,
               "score": 70.84,
               "universe_count": 486
             },
@@ -57,16 +50,23 @@
               "rank_fraction": 0.32989690721649484,
               "score": 72.93,
               "universe_count": 486
+            },
+            {
+              "date": "2026-11-06",
+              "rank": 82,
+              "rank_fraction": 0.1670103092783505,
+              "score": 78.09,
+              "universe_count": 486
             }
           ],
-          "score": 72.93,
-          "score_slope": -3.496571428571428,
+          "score": 78.09,
+          "score_slope": -0.2114285714285712,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 8.0,
-        "signal_date": "2026-11-05",
+        "signal_date": "2026-11-06",
         "symbol": "A"
       }
     ],
@@ -77,11 +77,11 @@
   "recommendations": [
     {
       "action": "HOLD",
-      "reason": "reduce_skipped_size_at_minimum",
+      "reason": "canonical_position_hold",
       "symbol": "A",
       "target_shares": "8.0"
     }
   ],
-  "signal_date": "2026-11-05",
+  "signal_date": "2026-11-06",
   "strategy_version": "LSS07-SP500-FROZEN-1.0"
 }
