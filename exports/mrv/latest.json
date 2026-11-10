@@ -2,7 +2,7 @@
   "bundle_id": "61b62ffc66d51d541060c77d511712013b1509d483c23c9655159ab5a61a979e",
   "calendar_health": {
     "ANNUAL_PREPARATION": {
-      "checked_utc": "2026-11-07T08:43:32.398101+00:00",
+      "checked_utc": "2026-11-10T04:37:04.596948+00:00",
       "current_year": 2026,
       "next_year": 2027,
       "preparation_enabled": true,
@@ -43,55 +43,56 @@
       "year": 2026
     }
   },
-  "data_ready_utc": "2026-11-09T23:00:00+00:00",
+  "data_ready_utc": "2026-11-10T23:00:00+00:00",
   "event_calendar_sha256": "20c3aa0b9fe4673d7228f145b1ca66dba0691c7cd0264a1015ef0c2998157906",
-  "events": [],
+  "events": [
+    "CPI"
+  ],
   "evidence_class": "BEFORE_TARGET_OPEN",
-  "feature_date": "2026-11-06",
+  "feature_date": "2026-11-09",
   "features": {
-    "rv5_20": 0.6013788872888901,
-    "spx_dd20": 0.05512580094548658,
-    "spx_dd60": 0.056538465309396324,
-    "spx_down10": 0.032911160526234544,
-    "spx_down20": 0.05725407722844473,
-    "spx_downside20": 0.01177987734182783,
-    "spx_ma20_gap": 0.03668711106479683,
-    "spx_range": 0.010151364113622451,
-    "spx_rv5": 0.36641008741711484,
+    "rv5_20": 0.6398893024861525,
+    "spx_dd20": 0.03273485161172318,
+    "spx_dd60": 0.03440243464613402,
+    "spx_down10": 0.016659279872856744,
+    "spx_down20": 0.033511929879302016,
+    "spx_downside20": 0.011779233951776824,
+    "spx_ma20_gap": 0.012426204739247382,
+    "spx_range": 0.021031970949593023,
+    "spx_rv5": 0.41926250200007986,
     "spx_tail_max5": 0.04399619364404094,
-    "term3m": 0.04140716530948872,
-    "term9": 0.058327800475191774,
-    "vix": 3.2441536082478057,
-    "vix_delta5": 0.2778501414559996
+    "term3m": -0.04562969225834107,
+    "term9": -0.0020100547580415946,
+    "vix": 2.9917242559864694,
+    "vix_delta5": -0.05991563146942357
   },
   "final_grade": "severe",
   "four_scores": {
-    "F6": 0.030224210809080793,
-    "F7": 0.0256302449501567,
-    "I6V": 0.07054348293092319,
-    "I7R": 0.04821746173885843
+    "F6": 0.028755038166798128,
+    "F7": 0.022785800556313587,
+    "I6V": 0.030417010437603847,
+    "I7R": 0.0453154607244966
   },
-  "generated_utc": "2026-11-07T02:45:56.124702+00:00",
+  "generated_utc": "2026-11-10T04:37:05.516504+00:00",
   "information_cutoff": "T_CLOSE_NO_PREMARKET",
   "is_revision": false,
   "model": "LINEAR4_T2021_2022",
   "model_grade": "severe",
-  "prediction_id": "718befa321a9a71c4560356714ce060a5578111f33c8c68a9b73125208cd37c2",
-  "previous_close": 7376.85986328125,
+  "prediction_id": "f075b76ab86204e40bca321edc9ecf0a39c297c44cc74dbcf9e09b294735105a",
+  "previous_close": 7549.93994140625,
   "probabilities": {
-    "light": 0.6976434351899952,
-    "moderate": 0.24697058384066078,
-    "moderate_or_severe": 0.3023565648100049,
-    "severe": 0.05538598096934412
+    "light": 0.7506208662867733,
+    "moderate": 0.22254336542050554,
+    "moderate_or_severe": 0.24937913371322673,
+    "severe": 0.026835768292721194
   },
   "probability_error": null,
   "probability_model": "P2_BETA_FINAL",
   "probability_status": "OBSERVATION_ESTIMATE",
-  "score": 0.03924762455510088,
+  "score": 0.029106564308368832,
   "severe_threshold": 0.026803055017853218,
   "source_quality": "YAHOO_UNADJUSTED_EOD_PROXY_CBOE_EOD_NOT_EXCHANGE_TICK_CERTIFIED",
   "source_sessions": [
-    "2026-07-31",
     "2026-08-03",
     "2026-08-04",
     "2026-08-05",
@@ -160,14 +161,15 @@
     "2026-11-03",
     "2026-11-04",
     "2026-11-05",
-    "2026-11-06"
+    "2026-11-06",
+    "2026-11-09"
   ],
   "sources": {
     "EVENT_CALENDAR": {
       "artifact": "event-calendar-used.json",
       "calendar_health": {
         "ANNUAL_PREPARATION": {
-          "checked_utc": "2026-11-07T02:45:55.512212+00:00",
+          "checked_utc": "2026-11-10T04:37:04.596948+00:00",
           "current_year": 2026,
           "next_year": 2027,
           "preparation_enabled": true,
@@ -223,31 +225,31 @@
     },
     "SPX": {
       "raw": "SPX.gz",
-      "retrieved_utc": "2026-11-07T02:45:55.634117+00:00",
-      "sha256": "c0c45a5119b99d69c20cabf594e44ecfe5084174b05ad36529ca6fc46b39dd5d",
+      "retrieved_utc": "2026-11-10T04:37:04.876051+00:00",
+      "sha256": "93eb3eb0df7dc28dd74cf57bfb3d7f432a59cded9f6d9faa7b5a2e5fd5f930e6",
       "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?range=1y&interval=1d&includePrePost=false"
     },
     "VIX": {
       "raw": "VIX.gz",
-      "retrieved_utc": "2026-11-07T02:45:55.705874+00:00",
-      "sha256": "81133773dc6d5d9de2bac83cb10c182e4835f20e3be488977dcb485432353b51",
+      "retrieved_utc": "2026-11-10T04:37:05.024798+00:00",
+      "sha256": "8cf8542206dd6414ed8203f4cc882534db13fb6f2282f43901be26eae4aee10d",
       "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=1y&interval=1d&includePrePost=false"
     },
     "VIX3M": {
       "raw": "VIX3M.gz",
-      "retrieved_utc": "2026-11-07T02:45:56.039954+00:00",
-      "sha256": "79463638e26e9838952a0625ddb08e96f260c4bd6e84c2699e3b1337d7c39e2b",
+      "retrieved_utc": "2026-11-10T04:37:05.432449+00:00",
+      "sha256": "5c4eb471701cd7984d74c0aa0f8b2ee86a328583133942097543b79a4a8d5e2d",
       "url": "https://cdn-api.cboe.com/api/global/us_indices/daily_prices/VIX3M_History.csv"
     },
     "VIX9D": {
       "raw": "VIX9D.gz",
-      "retrieved_utc": "2026-11-07T02:45:55.881706+00:00",
-      "sha256": "98b2b7523f828e099446eebbc89f8422314ec0456b2085e161b781035ce15e55",
+      "retrieved_utc": "2026-11-10T04:37:05.239919+00:00",
+      "sha256": "72dd97f9638f19e0fa372760942dcda236536bd30dcb01f62ba04eeb82c990b7",
       "url": "https://cdn-api.cboe.com/api/global/us_indices/daily_prices/VIX9D_History.csv"
     }
   },
-  "target_close_utc": "2026-11-09T21:00:00+00:00",
-  "target_date": "2026-11-09",
-  "target_open_utc": "2026-11-09T14:30:00+00:00",
+  "target_close_utc": "2026-11-10T21:00:00+00:00",
+  "target_date": "2026-11-10",
+  "target_open_utc": "2026-11-10T14:30:00+00:00",
   "version": "MRV-step-4-v1.4-annual-calendar"
 }
