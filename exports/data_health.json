@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-11-09T23:29:42.868006-05:00",
-  "generated_at_display": "2026年11月9日 23:29 ET",
+  "generated_at": "2026-11-10T20:36:52.456870-05:00",
+  "generated_at_display": "2026年11月10日 20:36 ET",
   "data_status": "PASS",
   "universe_count": 506,
   "valid_symbols": 488,
   "failed_symbols": 15,
   "history_coverage_pct": 96.4,
-  "latest_data_date": "2026-11-09",
+  "latest_data_date": "2026-11-10",
   "signal_engine_enabled": true,
   "checks": {
     "universe": {
@@ -28,9 +28,9 @@
     },
     "freshness": {
       "check": "freshness",
-      "latest_date": "2026-11-09",
+      "latest_date": "2026-11-10",
       "status": "PASS",
-      "message": "最新日期：2026-11-09"
+      "message": "最新日期：2026-11-10"
     }
   }
 }
