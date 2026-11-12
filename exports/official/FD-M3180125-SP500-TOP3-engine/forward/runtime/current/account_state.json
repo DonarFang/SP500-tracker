@@ -1,8 +1,8 @@
 {
   "cash": 228462.41354782545,
-  "date": "2026-11-10",
+  "date": "2026-11-11",
   "metadata": {
-    "last_execution_date": "2026-11-10",
+    "last_execution_date": "2026-11-11",
     "sim_end_liquidation_replayed": false,
     "sim_end_performed": false,
     "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -14,9 +14,9 @@
     "RVTY": {
       "avg_cost": 145.695553003,
       "entry_date": "2026-09-21",
-      "last_price": 159.100006,
-      "last_update_date": "2026-11-10",
-      "market_value": 47520.5916865068,
+      "last_price": 158.25,
+      "last_update_date": "2026-11-11",
+      "market_value": 47266.70867875203,
       "metadata": {
         "account_mutated": false,
         "capped_atr_entry": {
@@ -72,9 +72,9 @@
       },
       "quantity": 298.68378312007604,
       "symbol": "RVTY",
-      "unrealized_pnl": 4003.6927317992076
+      "unrealized_pnl": 3749.809724044442
     }
   },
-  "positions_value": 47520.5916865068,
-  "total_equity": 275983.00523433223
+  "positions_value": 47266.70867875203,
+  "total_equity": 275729.1222265775
 }
