@@ -1,7 +1,7 @@
 {
   "automatic_execution": false,
   "effective_signal_date": "2026-10-07",
-  "expected_execution_date": "2026-11-12",
+  "expected_execution_date": "2026-11-13",
   "lss07": {
     "changed_symbols": [],
     "effective_signal_date": "2026-10-07",
@@ -9,20 +9,13 @@
       {
         "entry_date": "2026-09-30",
         "observation": {
-          "close": 176.949997,
-          "previous_close": 177.880005,
-          "rank": 49,
+          "close": 173.009995,
+          "previous_close": 176.949997,
+          "rank": 153,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": -0.049543446244477166,
+          "rank_slope": -0.009072164948453608,
           "ready": true,
           "samples": [
-            {
-              "date": "2026-11-04",
-              "rank": 144,
-              "rank_fraction": 0.2948453608247423,
-              "score": 75.28,
-              "universe_count": 486
-            },
             {
               "date": "2026-11-05",
               "rank": 161,
@@ -57,16 +50,23 @@
               "rank_fraction": 0.09896907216494845,
               "score": 85.62,
               "universe_count": 486
+            },
+            {
+              "date": "2026-11-12",
+              "rank": 153,
+              "rank_fraction": 0.3134020618556701,
+              "score": 69.75,
+              "universe_count": 486
             }
           ],
-          "score": 85.62,
-          "score_slope": 2.409142857142857,
+          "score": 69.75,
+          "score_slope": 0.20542857142857054,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 8.0,
-        "signal_date": "2026-11-11",
+        "signal_date": "2026-11-12",
         "symbol": "A"
       }
     ],
@@ -77,11 +77,11 @@
   "recommendations": [
     {
       "action": "HOLD",
-      "reason": "canonical_position_hold",
+      "reason": "reduce_skipped_size_at_minimum",
       "symbol": "A",
       "target_shares": "8.0"
     }
   ],
-  "signal_date": "2026-11-11",
+  "signal_date": "2026-11-12",
   "strategy_version": "LSS07-SP500-FROZEN-1.0"
 }
