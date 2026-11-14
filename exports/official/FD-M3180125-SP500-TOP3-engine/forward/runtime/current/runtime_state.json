@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 228462.41354782545,
-    "date": "2026-11-12",
+    "date": "2026-11-13",
     "metadata": {
-      "last_execution_date": "2026-11-12",
+      "last_execution_date": "2026-11-13",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "RVTY": {
         "avg_cost": 145.695553003,
         "entry_date": "2026-09-21",
-        "last_price": 157.020004,
-        "last_update_date": "2026-11-12",
-        "market_value": 46899.32882024947,
+        "last_price": 154.389999,
+        "last_update_date": "2026-11-13",
+        "market_value": 46113.78897722475,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -73,11 +73,11 @@
         },
         "quantity": 298.68378312007604,
         "symbol": "RVTY",
-        "unrealized_pnl": 3382.429865541881
+        "unrealized_pnl": 2596.890022517162
       }
     },
-    "positions_value": 46899.32882024947,
-    "total_equity": 275361.74236807495
+    "positions_value": 46113.78897722475,
+    "total_equity": 274576.2025250502
   },
   "closed_trades": [
     {
@@ -915,12 +915,19 @@
       "open_positions_count": 1,
       "positions_value": 46899.32882024947,
       "total_equity": 275361.74236807495
+    },
+    {
+      "cash": 228462.41354782545,
+      "date": "2026-11-13",
+      "open_positions_count": 1,
+      "positions_value": 46113.78897722475,
+      "total_equity": 274576.2025250502
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-11-12",
+  "last_committed_date": "2026-11-13",
   "metadata": {
-    "last_commit_date": "2026-11-12",
+    "last_commit_date": "2026-11-13",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
