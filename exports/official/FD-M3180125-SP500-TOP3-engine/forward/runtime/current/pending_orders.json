@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "branch": "UPTREND",
+    "intent_type": "EXIT",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 57.66,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "order_id": "604df00a382a1b8662a9f28f353ec8feda8549c1518f8fd87444c4bd22350977",
+    "quantity_delta": null,
+    "reason": "canonical_position_exit",
+    "sequence": 1,
+    "side": "SELL",
+    "signal_date": "2026-11-16",
+    "status": "PENDING",
+    "symbol": "RVTY",
+    "target_quantity": 0.0
+  }
+]

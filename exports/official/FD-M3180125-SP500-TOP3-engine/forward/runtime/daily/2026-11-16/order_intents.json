@@ -1,0 +1,19 @@
+[
+  {
+    "branch": "UPTREND",
+    "date": "2026-11-16",
+    "intent_type": "EXIT",
+    "metadata": {
+      "add_size_units": 0.5,
+      "engine_owned_position_management": true,
+      "leader_score": 57.66,
+      "origin_branch": "UPTREND",
+      "reduce_fraction": 0.5
+    },
+    "quantity_delta": null,
+    "reason": "canonical_position_exit",
+    "side": "SELL",
+    "symbol": "RVTY",
+    "target_quantity": 0.0
+  }
+]

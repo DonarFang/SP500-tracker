@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 228462.41354782545,
-    "date": "2026-11-13",
+    "date": "2026-11-16",
     "metadata": {
-      "last_execution_date": "2026-11-13",
+      "last_execution_date": "2026-11-16",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "RVTY": {
         "avg_cost": 145.695553003,
         "entry_date": "2026-09-21",
-        "last_price": 154.389999,
-        "last_update_date": "2026-11-13",
-        "market_value": 46113.78897722475,
+        "last_price": 148.850006,
+        "last_update_date": "2026-11-16",
+        "market_value": 44459.08290952602,
         "metadata": {
           "account_mutated": false,
           "capped_atr_entry": {
@@ -73,11 +73,11 @@
         },
         "quantity": 298.68378312007604,
         "symbol": "RVTY",
-        "unrealized_pnl": 2596.890022517162
+        "unrealized_pnl": 942.1839548184282
       }
     },
-    "positions_value": 46113.78897722475,
-    "total_equity": 274576.2025250502
+    "positions_value": 44459.08290952602,
+    "total_equity": 272921.4964573515
   },
   "closed_trades": [
     {
@@ -922,12 +922,19 @@
       "open_positions_count": 1,
       "positions_value": 46113.78897722475,
       "total_equity": 274576.2025250502
+    },
+    {
+      "cash": 228462.41354782545,
+      "date": "2026-11-16",
+      "open_positions_count": 1,
+      "positions_value": 44459.08290952602,
+      "total_equity": 272921.4964573515
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-11-13",
+  "last_committed_date": "2026-11-16",
   "metadata": {
-    "last_commit_date": "2026-11-13",
+    "last_commit_date": "2026-11-16",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
@@ -937,7 +944,28 @@
     "sim_end_replayed": false,
     "unknown_pending_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
   },
-  "pending_orders": [],
+  "pending_orders": [
+    {
+      "branch": "UPTREND",
+      "intent_type": "EXIT",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 57.66,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "604df00a382a1b8662a9f28f353ec8feda8549c1518f8fd87444c4bd22350977",
+      "quantity_delta": null,
+      "reason": "canonical_position_exit",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-11-16",
+      "status": "PENDING",
+      "symbol": "RVTY",
+      "target_quantity": 0.0
+    }
+  ],
   "schema_version": "1.0.0",
   "seed_date": "2026-06-16"
 }
