@@ -1,7 +1,167 @@
 {
-  "attempted_utc": "2026-11-03T03:55:26.427314+00:00",
-  "error": "ValueError:SOURCE_UNAVAILABLE:BLS:['HTTPError:HTTP Error 403: Forbidden']",
-  "next_attempt_utc": "2026-11-17T03:55:26.427314+00:00",
-  "status": "FAILED",
+  "attempted_utc": "2026-11-17T05:04:04.988510+00:00",
+  "candidate": "data/mrv/event-calendar/reviews/2027-20261117T050404Z-025b31/candidate.json",
+  "changes": {
+    "added": [
+      [
+        "2027-01-08",
+        "NFP"
+      ],
+      [
+        "2027-01-13",
+        "CPI"
+      ],
+      [
+        "2027-01-27",
+        "FOMC"
+      ],
+      [
+        "2027-02-05",
+        "NFP"
+      ],
+      [
+        "2027-02-11",
+        "CPI"
+      ],
+      [
+        "2027-03-05",
+        "NFP"
+      ],
+      [
+        "2027-03-10",
+        "CPI"
+      ],
+      [
+        "2027-03-17",
+        "FOMC"
+      ],
+      [
+        "2027-04-02",
+        "NFP"
+      ],
+      [
+        "2027-04-13",
+        "CPI"
+      ],
+      [
+        "2027-04-28",
+        "FOMC"
+      ],
+      [
+        "2027-05-07",
+        "NFP"
+      ],
+      [
+        "2027-05-12",
+        "CPI"
+      ],
+      [
+        "2027-06-04",
+        "NFP"
+      ],
+      [
+        "2027-06-09",
+        "FOMC"
+      ],
+      [
+        "2027-06-10",
+        "CPI"
+      ],
+      [
+        "2027-07-02",
+        "NFP"
+      ],
+      [
+        "2027-07-14",
+        "CPI"
+      ],
+      [
+        "2027-07-28",
+        "FOMC"
+      ],
+      [
+        "2027-08-06",
+        "NFP"
+      ],
+      [
+        "2027-08-11",
+        "CPI"
+      ],
+      [
+        "2027-09-03",
+        "NFP"
+      ],
+      [
+        "2027-09-14",
+        "CPI"
+      ],
+      [
+        "2027-09-15",
+        "FOMC"
+      ],
+      [
+        "2027-10-08",
+        "NFP"
+      ],
+      [
+        "2027-10-14",
+        "CPI"
+      ],
+      [
+        "2027-10-27",
+        "FOMC"
+      ],
+      [
+        "2027-11-05",
+        "NFP"
+      ],
+      [
+        "2027-11-10",
+        "CPI"
+      ],
+      [
+        "2027-11-17",
+        "FOMC"
+      ],
+      [
+        "2027-12-03",
+        "NFP"
+      ],
+      [
+        "2027-12-10",
+        "CPI"
+      ]
+    ],
+    "removed": []
+  },
+  "compatibility": {
+    "checked_utc": "2026-11-17T05:04:04.988510+00:00",
+    "checks": [
+      "calendar_year_coverage",
+      "year_boundary",
+      "frozen_artifacts",
+      "70_session_window",
+      "no_target_price_input",
+      "probability_output",
+      "event_override"
+    ],
+    "evidence_class": "ENGINEERING_SYNTHETIC_NOT_PREDICTIVE_PERFORMANCE",
+    "fingerprint": "a5ef5169e3141bd7208e05da7c51027906b3aa8e54877397566e2b95c3a0354c",
+    "golden": {
+      "calendar_cases": 4,
+      "four_score_max_error": 2.0816681711721685e-17,
+      "historical_days": 199,
+      "probability_artifact_status": "VERIFIED",
+      "status": "PASS"
+    },
+    "history_days": 70,
+    "signal_date": "2026-12-31",
+    "status": "PASS",
+    "target_date": "2027-01-04",
+    "year": 2027
+  },
+  "error": null,
+  "next_attempt_utc": "2026-12-01T05:04:04.988510+00:00",
+  "status": "NEW_YEAR_READY",
   "year": 2027
 }

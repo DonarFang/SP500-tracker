@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-11-14T08:56:18.874342+00:00",
+  "checked_utc": "2026-11-17T05:04:04.988510+00:00",
   "current_year": 2026,
   "next_year": 2027,
   "preparation_enabled": true,
@@ -9,19 +9,19 @@
     "2026": {
       "available": true,
       "error": null,
-      "last_attempt_utc": null,
-      "next_attempt_utc": null,
+      "last_attempt_utc": "2026-11-17T05:04:04.988510+00:00",
+      "next_attempt_utc": "2026-12-01T05:04:04.988510+00:00",
       "pending_changes": false,
-      "review_status": "NOT_DUE",
+      "review_status": "VERIFIED_UNCHANGED",
       "year": 2026
     },
     "2027": {
-      "available": false,
-      "error": "ValueError:SOURCE_UNAVAILABLE:BLS:['HTTPError:HTTP Error 403: Forbidden']",
-      "last_attempt_utc": "2026-11-03T03:55:26.427314+00:00",
-      "next_attempt_utc": "2026-11-17T03:55:26.427314+00:00",
+      "available": true,
+      "error": null,
+      "last_attempt_utc": "2026-11-17T05:04:04.988510+00:00",
+      "next_attempt_utc": "2026-12-01T05:04:04.988510+00:00",
       "pending_changes": false,
-      "review_status": "FAILED",
+      "review_status": "NEW_YEAR_READY",
       "year": 2027
     }
   }

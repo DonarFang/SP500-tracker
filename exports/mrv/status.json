@@ -1,7 +1,7 @@
 {
   "calendar_health": {
     "ANNUAL_PREPARATION": {
-      "checked_utc": "2026-11-14T08:56:18.874342+00:00",
+      "checked_utc": "2026-11-17T05:04:04.988510+00:00",
       "current_year": 2026,
       "next_year": 2027,
       "preparation_enabled": true,
@@ -11,19 +11,19 @@
         "2026": {
           "available": true,
           "error": null,
-          "last_attempt_utc": null,
-          "next_attempt_utc": null,
+          "last_attempt_utc": "2026-11-17T05:04:04.988510+00:00",
+          "next_attempt_utc": "2026-12-01T05:04:04.988510+00:00",
           "pending_changes": false,
-          "review_status": "NOT_DUE",
+          "review_status": "VERIFIED_UNCHANGED",
           "year": 2026
         },
         "2027": {
-          "available": false,
-          "error": "ValueError:SOURCE_UNAVAILABLE:BLS:['HTTPError:HTTP Error 403: Forbidden']",
-          "last_attempt_utc": "2026-11-03T03:55:26.427314+00:00",
-          "next_attempt_utc": "2026-11-17T03:55:26.427314+00:00",
+          "available": true,
+          "error": null,
+          "last_attempt_utc": "2026-11-17T05:04:04.988510+00:00",
+          "next_attempt_utc": "2026-12-01T05:04:04.988510+00:00",
           "pending_changes": false,
-          "review_status": "FAILED",
+          "review_status": "NEW_YEAR_READY",
           "year": 2027
         }
       }
@@ -32,20 +32,20 @@
       "calendar_mode": "LOCAL_VERIFIED",
       "coverage_end": "2026-12-31",
       "coverage_start": "2026-01-01",
-      "last_attempt_utc": null,
+      "last_attempt_utc": "2026-11-17T05:04:04.988510+00:00",
       "pending_changes": false,
-      "review_due_utc": "2026-11-14T10:38:46.573878+00:00",
+      "review_due_utc": "2026-12-01T05:04:05.337740+00:00",
       "review_error": null,
       "review_overdue": false,
-      "review_status": "NOT_DUE",
-      "verified_utc": "2026-10-31T10:38:46.573878+00:00",
+      "review_status": "VERIFIED_UNCHANGED",
+      "verified_utc": "2026-11-17T05:04:05.337740+00:00",
       "year": 2026
     }
   },
-  "checked_utc": "2026-11-14T08:56:19.555886+00:00",
-  "feature_date": "2026-11-13",
-  "prediction_id": "a53262dd532a57a28ae8557ccd1f57cd70777bb78a6f1ac9fb36ed5d68c5eeb4",
+  "checked_utc": "2026-11-17T05:04:07.168153+00:00",
+  "feature_date": "2026-11-16",
+  "prediction_id": "0c14cde8223b20e5588cc219658c717670442c92a9451e0e900f0e0a8b6df70f",
   "probability_status": "OBSERVATION_ESTIMATE",
   "status": "READY",
-  "target_date": "2026-11-16"
+  "target_date": "2026-11-17"
 }

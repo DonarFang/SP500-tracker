@@ -1,0 +1,151 @@
+{
+  "coverage_end": "2027-12-31",
+  "coverage_start": "2027-01-01",
+  "events": [
+    {
+      "date": "2027-01-08",
+      "event": "NFP"
+    },
+    {
+      "date": "2027-01-13",
+      "event": "CPI"
+    },
+    {
+      "date": "2027-01-27",
+      "event": "FOMC"
+    },
+    {
+      "date": "2027-02-05",
+      "event": "NFP"
+    },
+    {
+      "date": "2027-02-11",
+      "event": "CPI"
+    },
+    {
+      "date": "2027-03-05",
+      "event": "NFP"
+    },
+    {
+      "date": "2027-03-10",
+      "event": "CPI"
+    },
+    {
+      "date": "2027-03-17",
+      "event": "FOMC"
+    },
+    {
+      "date": "2027-04-02",
+      "event": "NFP"
+    },
+    {
+      "date": "2027-04-13",
+      "event": "CPI"
+    },
+    {
+      "date": "2027-04-28",
+      "event": "FOMC"
+    },
+    {
+      "date": "2027-05-07",
+      "event": "NFP"
+    },
+    {
+      "date": "2027-05-12",
+      "event": "CPI"
+    },
+    {
+      "date": "2027-06-04",
+      "event": "NFP"
+    },
+    {
+      "date": "2027-06-09",
+      "event": "FOMC"
+    },
+    {
+      "date": "2027-06-10",
+      "event": "CPI"
+    },
+    {
+      "date": "2027-07-02",
+      "event": "NFP"
+    },
+    {
+      "date": "2027-07-14",
+      "event": "CPI"
+    },
+    {
+      "date": "2027-07-28",
+      "event": "FOMC"
+    },
+    {
+      "date": "2027-08-06",
+      "event": "NFP"
+    },
+    {
+      "date": "2027-08-11",
+      "event": "CPI"
+    },
+    {
+      "date": "2027-09-03",
+      "event": "NFP"
+    },
+    {
+      "date": "2027-09-14",
+      "event": "CPI"
+    },
+    {
+      "date": "2027-09-15",
+      "event": "FOMC"
+    },
+    {
+      "date": "2027-10-08",
+      "event": "NFP"
+    },
+    {
+      "date": "2027-10-14",
+      "event": "CPI"
+    },
+    {
+      "date": "2027-10-27",
+      "event": "FOMC"
+    },
+    {
+      "date": "2027-11-05",
+      "event": "NFP"
+    },
+    {
+      "date": "2027-11-10",
+      "event": "CPI"
+    },
+    {
+      "date": "2027-11-17",
+      "event": "FOMC"
+    },
+    {
+      "date": "2027-12-03",
+      "event": "NFP"
+    },
+    {
+      "date": "2027-12-10",
+      "event": "CPI"
+    }
+  ],
+  "schema": "MRV_LOCAL_EVENTS_1",
+  "sources": {
+    "BLS": {
+      "raw": "BLS.gz",
+      "retrieved_utc": "2026-11-17T05:04:05.466681+00:00",
+      "sha256": "8206009b9d936f89af6585f8f67a60ca17513652e8f95933ab309f260e4aac2f",
+      "url": "https://www.bls.gov/schedule/2027/home.htm"
+    },
+    "FED": {
+      "raw": "FED.gz",
+      "retrieved_utc": "2026-11-17T05:04:05.546070+00:00",
+      "sha256": "f35b9fe399e4bde8df7e98959a2121cc21eab5cb48332199a7e548958d750ea1",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+    }
+  },
+  "timezone": "America/New_York",
+  "verified_utc": "2026-11-17T05:04:05.548939+00:00"
+}

@@ -1,0 +1,26 @@
+{
+  "checked_utc": "2026-11-17T05:04:04.988510+00:00",
+  "checks": [
+    "calendar_year_coverage",
+    "year_boundary",
+    "frozen_artifacts",
+    "70_session_window",
+    "no_target_price_input",
+    "probability_output",
+    "event_override"
+  ],
+  "evidence_class": "ENGINEERING_SYNTHETIC_NOT_PREDICTIVE_PERFORMANCE",
+  "fingerprint": "a5ef5169e3141bd7208e05da7c51027906b3aa8e54877397566e2b95c3a0354c",
+  "golden": {
+    "calendar_cases": 4,
+    "four_score_max_error": 2.0816681711721685e-17,
+    "historical_days": 199,
+    "probability_artifact_status": "VERIFIED",
+    "status": "PASS"
+  },
+  "history_days": 70,
+  "signal_date": "2026-12-31",
+  "status": "PASS",
+  "target_date": "2027-01-04",
+  "year": 2027
+}
