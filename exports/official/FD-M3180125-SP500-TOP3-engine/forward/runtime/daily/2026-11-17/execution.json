@@ -1,0 +1,44 @@
+{
+  "closed_trades": [
+    {
+      "average_cost": 145.695553003,
+      "entry_date": "2026-09-21",
+      "execution_price": 146.693156004,
+      "exit_date": "2026-11-17",
+      "exit_reason": "canonical_position_exit",
+      "fill_id": "25039d5b7c03e3030f3f17506cb49b79b58d7fda47b598acc06602f4f5602a9b",
+      "is_sim_end": false,
+      "order_id": "604df00a382a1b8662a9f28f353ec8feda8549c1518f8fd87444c4bd22350977",
+      "origin_branch": "UPTREND",
+      "quantity": 298.68378312007604,
+      "realized_pnl": 297.96783839062573,
+      "symbol": "RVTY"
+    }
+  ],
+  "resolved_orders": [
+    {
+      "branch": "UPTREND",
+      "execution_date": "2026-11-17",
+      "fill_id": "25039d5b7c03e3030f3f17506cb49b79b58d7fda47b598acc06602f4f5602a9b",
+      "intent_type": "EXIT",
+      "metadata": {
+        "add_size_units": 0.5,
+        "engine_owned_position_management": true,
+        "leader_score": 57.66,
+        "origin_branch": "UPTREND",
+        "reduce_fraction": 0.5
+      },
+      "order_id": "604df00a382a1b8662a9f28f353ec8feda8549c1518f8fd87444c4bd22350977",
+      "quantity_delta": null,
+      "reason": "canonical_position_exit",
+      "sequence": 1,
+      "side": "SELL",
+      "signal_date": "2026-11-16",
+      "status": "FILLED",
+      "symbol": "RVTY",
+      "target_quantity": 0.0
+    }
+  ],
+  "sim_end_performed": false,
+  "skipped_orders": []
+}
