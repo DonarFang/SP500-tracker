@@ -1,0 +1,93 @@
+{
+  "branch": "UPTREND",
+  "candidate_count": 3,
+  "date": "2026-11-19",
+  "inputs": {
+    "canonical_engine_entry": true,
+    "entry_capacity": 0,
+    "external_regime_injected": false,
+    "external_strategy_inputs": false,
+    "gate_state": "RISK_OFF",
+    "market_entry_allowed": false,
+    "market_state": "CASH_MODE"
+  },
+  "market_regime": "UPTREND",
+  "metadata": {
+    "capped_atr_stop": {
+      "display_name": "E1R CAPPED-ATR Engine",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "strict_cycle_state": true,
+      "triggered": [],
+      "variant_id": "E1R_CAPPED_ATR_A0_V1"
+    },
+    "external_regime_injected": false,
+    "external_strategy_inputs": false,
+    "ls60_exit_mode": "exit",
+    "lss07": {
+      "changed_symbols": [],
+      "effective_signal_date": "2026-10-07",
+      "evaluations": [],
+      "status": "EVALUATED",
+      "version": "LSS07-SP500-FROZEN-1.0"
+    },
+    "max_positions": 3,
+    "min_holding_days": 10,
+    "ranking_source": "UptrendSignalAdapter.leader_rank_all",
+    "reference_top3": [
+      {
+        "rank": 1,
+        "regime": "UPTREND",
+        "score": 96.94,
+        "symbol": "TFX"
+      },
+      {
+        "rank": 2,
+        "regime": "UPTREND",
+        "score": 94.35,
+        "symbol": "TSN"
+      },
+      {
+        "rank": 3,
+        "regime": "UPTREND",
+        "score": 90.31,
+        "symbol": "TSCO"
+      }
+    ],
+    "route": {
+      "branch": "UPTREND",
+      "date": "2026-11-19",
+      "metadata": {
+        "combination_valid": true,
+        "no_strategy_decision": true,
+        "router_shell_only": true
+      },
+      "reason": "route_uptrend",
+      "spx_regime": "UPTREND",
+      "subclass": "NO_SUBCLASS"
+    },
+    "single_step_decision": true
+  },
+  "order_intents": [
+    {
+      "branch": "UPTREND",
+      "date": "2026-11-19",
+      "intent_type": "NOOP",
+      "metadata": {
+        "engine_owned_decision": true
+      },
+      "quantity_delta": null,
+      "reason": "canonical_engine_no_action",
+      "side": null,
+      "symbol": "",
+      "target_quantity": null
+    }
+  ],
+  "reasons": [
+    "canonical_regime_generator",
+    "engine_market_state_and_gate",
+    "engine_router_and_strategy",
+    "route_uptrend"
+  ],
+  "regime_subclass": "NO_SUBCLASS",
+  "selected_symbols": []
+}
