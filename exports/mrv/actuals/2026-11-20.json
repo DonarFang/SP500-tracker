@@ -1,0 +1,15 @@
+{
+  "class": "severe",
+  "date": "2026-11-20",
+  "loss": 0.040855192874299985,
+  "prediction_id": "2b1fc4984dbe979e3b73adfe45d4be65b2a91bb98cddf0a2937366948a50e2fb",
+  "previous_close": 7175.830078125,
+  "recorded_utc": "2026-11-21T09:43:28.823283+00:00",
+  "source": {
+    "raw": "SPX.gz",
+    "retrieved_utc": "2026-11-21T09:43:28.343642+00:00",
+    "sha256": "e703d90ee6ecc8cd5658298fecbb503a72bd063587c5632c3d6363d51b6bea78",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?range=1y&interval=1d&includePrePost=false"
+  },
+  "target_low": 6882.66015625
+}
