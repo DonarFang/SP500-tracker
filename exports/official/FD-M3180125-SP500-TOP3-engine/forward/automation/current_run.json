@@ -1,6 +1,6 @@
 {
   "committed_dates": [
-    "2026-11-20"
+    "2026-11-23"
   ],
   "decision": "PASS_INDEPENDENT_ENGINE_FORWARD_DAILY_UPDATE",
   "dry_run_commit_day_called": false,
@@ -9,37 +9,37 @@
   "dry_run_repository_initialized": false,
   "dry_run_status": "PASS_FORWARD_ORCHESTRATOR_DRY_RUN",
   "engine_equity_curve": "exports/official/FD-M3180125-SP500-TOP3-engine/forward/runtime/history/equity_curve.json",
-  "engine_equity_curve_last_date": "2026-11-20",
-  "engine_equity_curve_point_count": 109,
+  "engine_equity_curve_last_date": "2026-11-23",
+  "engine_equity_curve_point_count": 110,
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
-  "final_account_date": "2026-11-20",
+  "final_account_date": "2026-11-23",
   "final_equity": 272277.2803409237,
   "first_forward_market_date": "2026-06-17",
-  "generated_at": "2026-11-21T04:10:04.239164+00:00",
-  "last_committed_date_after": "2026-11-20",
-  "last_committed_date_before": "2026-11-19",
+  "generated_at": "2026-11-24T07:02:57.001305+00:00",
+  "last_committed_date_after": "2026-11-23",
+  "last_committed_date_before": "2026-11-20",
   "legacy_equity_curve_changed": false,
   "legacy_equity_curve_used": false,
   "legacy_forward_changed": false,
   "legacy_forward_used": false,
   "mode": "OFFICIAL_WRITE",
   "planned_dates": [
-    "2026-11-20"
+    "2026-11-23"
   ],
   "price_sync": {
-    "latest_required_index_date": "2026-11-20",
+    "latest_required_index_date": "2026-11-23",
     "legacy_price_root_read": false,
     "legacy_price_root_written": false,
     "mode": "ENGINE_OWNED_FW_PRICES",
     "price_root": "data/fw_prices",
     "required_index_latest_dates": {
-      "NDX": "2026-11-20",
-      "SOX": "2026-11-20",
-      "SPX": "2026-11-20"
+      "NDX": "2026-11-23",
+      "SOX": "2026-11-23",
+      "SPX": "2026-11-23"
     },
     "source_file_count": 497
   },
   "result_count": 1,
-  "runtime_commit": "7b633d7b00a522d6b9aa535892eebec0cea01f6e",
+  "runtime_commit": "2ffbaa07dde0fd77482b4457aeabcf0a7f6703ba",
   "seed_date": "2026-06-16"
 }

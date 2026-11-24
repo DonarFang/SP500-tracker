@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 272277.2803409237,
-    "date": "2026-11-20",
+    "date": "2026-11-23",
     "metadata": {
-      "last_execution_date": "2026-11-20",
+      "last_execution_date": "2026-11-23",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -907,12 +907,19 @@
       "open_positions_count": 0,
       "positions_value": 0.0,
       "total_equity": 272277.2803409237
+    },
+    {
+      "cash": 272277.2803409237,
+      "date": "2026-11-23",
+      "open_positions_count": 0,
+      "positions_value": 0.0,
+      "total_equity": 272277.2803409237
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-11-20",
+  "last_committed_date": "2026-11-23",
   "metadata": {
-    "last_commit_date": "2026-11-20",
+    "last_commit_date": "2026-11-23",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",
@@ -922,7 +929,98 @@
     "sim_end_replayed": false,
     "unknown_pending_resolution": "EXPIRED_UNPROVEN_AT_FORWARD_BOUNDARY"
   },
-  "pending_orders": [],
+  "pending_orders": [
+    {
+      "branch": "SIDEWAYS_MA_CONFLICT",
+      "intent_type": "BUY",
+      "metadata": {
+        "candidate_top_n": 10,
+        "capital_fraction_of_tradable_cash": 0.3,
+        "capped_atr_entry": {
+          "atr20": 7.801999050000004,
+          "atr_as_of": "2026-11-23",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "entry_regime": "SIDEWAYS",
+        "entry_subclass": "MA_CONFLICT",
+        "entry_type": "E1R_SIDEWAYS_MA_CONFLICT",
+        "origin_branch": "SIDEWAYS_MA_CONFLICT",
+        "sideways_entry_rank": 1,
+        "sideways_entry_score": 120.36648152100926,
+        "target_fraction_of_tradable_cash": 0.1
+      },
+      "order_id": "c317ca98e977301025cd3495a5bdd9d28536be05b5b779eb5ab9729bb45a2ab9",
+      "quantity_delta": null,
+      "reason": "sideways_ma_conflict_ranked_entry",
+      "sequence": 1,
+      "side": "BUY",
+      "signal_date": "2026-11-23",
+      "status": "PENDING",
+      "symbol": "EPAM",
+      "target_quantity": null
+    },
+    {
+      "branch": "SIDEWAYS_MA_CONFLICT",
+      "intent_type": "BUY",
+      "metadata": {
+        "candidate_top_n": 10,
+        "capital_fraction_of_tradable_cash": 0.3,
+        "capped_atr_entry": {
+          "atr20": 28.077505350000003,
+          "atr_as_of": "2026-11-23",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "entry_regime": "SIDEWAYS",
+        "entry_subclass": "MA_CONFLICT",
+        "entry_type": "E1R_SIDEWAYS_MA_CONFLICT",
+        "origin_branch": "SIDEWAYS_MA_CONFLICT",
+        "sideways_entry_rank": 2,
+        "sideways_entry_score": 118.14417062589254,
+        "target_fraction_of_tradable_cash": 0.1
+      },
+      "order_id": "8fe087908fef168a96cfd8c4612bc8cca42473ffa845e2247cb7fe34971cd7ac",
+      "quantity_delta": null,
+      "reason": "sideways_ma_conflict_ranked_entry",
+      "sequence": 2,
+      "side": "BUY",
+      "signal_date": "2026-11-23",
+      "status": "PENDING",
+      "symbol": "IDXX",
+      "target_quantity": null
+    },
+    {
+      "branch": "SIDEWAYS_MA_CONFLICT",
+      "intent_type": "BUY",
+      "metadata": {
+        "candidate_top_n": 10,
+        "capital_fraction_of_tradable_cash": 0.3,
+        "capped_atr_entry": {
+          "atr20": 5.1091046,
+          "atr_as_of": "2026-11-23",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "entry_regime": "SIDEWAYS",
+        "entry_subclass": "MA_CONFLICT",
+        "entry_type": "E1R_SIDEWAYS_MA_CONFLICT",
+        "origin_branch": "SIDEWAYS_MA_CONFLICT",
+        "sideways_entry_rank": 3,
+        "sideways_entry_score": 100.81724290332515,
+        "target_fraction_of_tradable_cash": 0.1
+      },
+      "order_id": "92932d5bd7e362629f46081fd43f684ca2a6ab224380dfa74a67a9308d390107",
+      "quantity_delta": null,
+      "reason": "sideways_ma_conflict_ranked_entry",
+      "sequence": 3,
+      "side": "BUY",
+      "signal_date": "2026-11-23",
+      "status": "PENDING",
+      "symbol": "TFX",
+      "target_quantity": null
+    }
+  ],
   "schema_version": "1.0.0",
   "seed_date": "2026-06-16"
 }
