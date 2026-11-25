@@ -1,0 +1,155 @@
+{
+  "cash": 190594.09623864657,
+  "date": "2026-11-24",
+  "metadata": {
+    "last_execution_date": "2026-11-24",
+    "sim_end_liquidation_replayed": false,
+    "sim_end_performed": false,
+    "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
+    "strategy_display_name": "E1R CAPPED-ATR Engine",
+    "strategy_variant": "E1R_CAPPED_ATR_A0_V1"
+  },
+  "open_positions_count": 3,
+  "positions": {
+    "EPAM": {
+      "avg_cost": 164.974807998,
+      "entry_date": "2026-11-24",
+      "last_price": 161.479996,
+      "last_update_date": "2026-11-24",
+      "market_value": 26650.938209230262,
+      "metadata": {
+        "candidate_top_n": 10,
+        "capital_fraction_of_tradable_cash": 0.3,
+        "capped_atr_entry": {
+          "atr20": 7.801999050000004,
+          "atr_as_of": "2026-11-23",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "capped_atr_stop": {
+          "a0": 164.974807998,
+          "add_updates_stop_anchor": false,
+          "atr20": 7.801999050000004,
+          "atr_as_of": "2026-11-23",
+          "atr_frozen_for_cycle": true,
+          "block_same_day_reentry_after_hard_stop": false,
+          "distance": 23.40599715000001,
+          "distance_fraction": 0.14187618966820537,
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "trigger_price": 141.56881084799997,
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "entry_execution_price": 164.974807998,
+        "entry_regime": "SIDEWAYS",
+        "entry_shares": 165.04173191353226,
+        "entry_subclass": "MA_CONFLICT",
+        "entry_type": "E1R_SIDEWAYS_MA_CONFLICT",
+        "fill_id": "3178401f187495b822ad4ec883a15d057586e423d098690681912c89ad569fa6",
+        "order_id": "c317ca98e977301025cd3495a5bdd9d28536be05b5b779eb5ab9729bb45a2ab9",
+        "origin_branch": "SIDEWAYS_MA_CONFLICT",
+        "remaining_cost_basis": 27227.72803409237,
+        "sideways_entry_rank": 1,
+        "sideways_entry_score": 120.36648152100926,
+        "size_units": 1.0,
+        "target_fraction_of_tradable_cash": 0.1
+      },
+      "quantity": 165.04173191353226,
+      "symbol": "EPAM",
+      "unrealized_pnl": -576.7898248621102
+    },
+    "IDXX": {
+      "avg_cost": 714.093385005,
+      "entry_date": "2026-11-24",
+      "last_price": 712.080017,
+      "last_update_date": "2026-11-24",
+      "market_value": 27150.96015243457,
+      "metadata": {
+        "candidate_top_n": 10,
+        "capital_fraction_of_tradable_cash": 0.3,
+        "capped_atr_entry": {
+          "atr20": 28.077505350000003,
+          "atr_as_of": "2026-11-23",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "capped_atr_stop": {
+          "a0": 714.093385005,
+          "add_updates_stop_anchor": false,
+          "atr20": 28.077505350000003,
+          "atr_as_of": "2026-11-23",
+          "atr_frozen_for_cycle": true,
+          "block_same_day_reentry_after_hard_stop": false,
+          "distance": 85.69120620059999,
+          "distance_fraction": 0.12,
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "trigger_price": 628.4021788043999,
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "entry_execution_price": 714.093385005,
+        "entry_regime": "SIDEWAYS",
+        "entry_shares": 38.129085923267205,
+        "entry_subclass": "MA_CONFLICT",
+        "entry_type": "E1R_SIDEWAYS_MA_CONFLICT",
+        "fill_id": "ea46f241f61cf1b8e3f7fc263eba20a6d0a7813baf524476aa5a9ea84879905c",
+        "order_id": "8fe087908fef168a96cfd8c4612bc8cca42473ffa845e2247cb7fe34971cd7ac",
+        "origin_branch": "SIDEWAYS_MA_CONFLICT",
+        "remaining_cost_basis": 27227.72803409237,
+        "sideways_entry_rank": 2,
+        "sideways_entry_score": 118.14417062589254,
+        "size_units": 1.0,
+        "target_fraction_of_tradable_cash": 0.1
+      },
+      "quantity": 38.129085923267205,
+      "symbol": "IDXX",
+      "unrealized_pnl": -76.7678816578006
+    },
+    "TFX": {
+      "avg_cost": 168.61844699699998,
+      "entry_date": "2026-11-24",
+      "last_price": 166.960007,
+      "last_update_date": "2026-11-24",
+      "market_value": 26959.93080310506,
+      "metadata": {
+        "candidate_top_n": 10,
+        "capital_fraction_of_tradable_cash": 0.3,
+        "capped_atr_entry": {
+          "atr20": 5.1091046,
+          "atr_as_of": "2026-11-23",
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "capped_atr_stop": {
+          "a0": 168.61844699699998,
+          "add_updates_stop_anchor": false,
+          "atr20": 5.1091046,
+          "atr_as_of": "2026-11-23",
+          "atr_frozen_for_cycle": true,
+          "block_same_day_reentry_after_hard_stop": false,
+          "distance": 20.234213639639997,
+          "distance_fraction": 0.12,
+          "hard_stop_model": "CAPPED_ATR_FROZEN_ENTRY_A0",
+          "trigger_price": 148.38423335736,
+          "variant_id": "E1R_CAPPED_ATR_A0_V1"
+        },
+        "entry_execution_price": 168.61844699699998,
+        "entry_regime": "SIDEWAYS",
+        "entry_shares": 161.47538136546115,
+        "entry_subclass": "MA_CONFLICT",
+        "entry_type": "E1R_SIDEWAYS_MA_CONFLICT",
+        "fill_id": "7865987308673ef61cc819e6d6f3d42f2bc8efc07bf19054f11162f96dc0de22",
+        "order_id": "92932d5bd7e362629f46081fd43f684ca2a6ab224380dfa74a67a9308d390107",
+        "origin_branch": "SIDEWAYS_MA_CONFLICT",
+        "remaining_cost_basis": 27227.728034092368,
+        "sideways_entry_rank": 3,
+        "sideways_entry_score": 100.81724290332515,
+        "size_units": 1.0,
+        "target_fraction_of_tradable_cash": 0.1
+      },
+      "quantity": 161.47538136546115,
+      "symbol": "TFX",
+      "unrealized_pnl": -267.7972309873073
+    }
+  },
+  "positions_value": 80761.8291647699,
+  "total_equity": 271355.92540341645
+}

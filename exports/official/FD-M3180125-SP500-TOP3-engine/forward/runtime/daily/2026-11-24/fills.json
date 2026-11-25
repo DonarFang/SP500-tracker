@@ -1,0 +1,59 @@
+[
+  {
+    "date": "2026-11-24",
+    "gross_amount": 27227.72803409237,
+    "metadata": {
+      "branch": "SIDEWAYS_MA_CONFLICT",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "fill_id": "3178401f187495b822ad4ec883a15d057586e423d098690681912c89ad569fa6",
+      "intent_type": "BUY",
+      "order_id": "c317ca98e977301025cd3495a5bdd9d28536be05b5b779eb5ab9729bb45a2ab9",
+      "signal_date": "2026-11-23",
+      "sim_end": false
+    },
+    "price": 164.974807998,
+    "quantity": 165.04173191353226,
+    "reason": "T1_BUY_EXECUTED",
+    "side": "BUY",
+    "status": "FILLED",
+    "symbol": "EPAM"
+  },
+  {
+    "date": "2026-11-24",
+    "gross_amount": 27227.72803409237,
+    "metadata": {
+      "branch": "SIDEWAYS_MA_CONFLICT",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "fill_id": "ea46f241f61cf1b8e3f7fc263eba20a6d0a7813baf524476aa5a9ea84879905c",
+      "intent_type": "BUY",
+      "order_id": "8fe087908fef168a96cfd8c4612bc8cca42473ffa845e2247cb7fe34971cd7ac",
+      "signal_date": "2026-11-23",
+      "sim_end": false
+    },
+    "price": 714.093385005,
+    "quantity": 38.129085923267205,
+    "reason": "T1_BUY_EXECUTED",
+    "side": "BUY",
+    "status": "FILLED",
+    "symbol": "IDXX"
+  },
+  {
+    "date": "2026-11-24",
+    "gross_amount": 27227.728034092368,
+    "metadata": {
+      "branch": "SIDEWAYS_MA_CONFLICT",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "fill_id": "7865987308673ef61cc819e6d6f3d42f2bc8efc07bf19054f11162f96dc0de22",
+      "intent_type": "BUY",
+      "order_id": "92932d5bd7e362629f46081fd43f684ca2a6ab224380dfa74a67a9308d390107",
+      "signal_date": "2026-11-23",
+      "sim_end": false
+    },
+    "price": 168.61844699699998,
+    "quantity": 161.47538136546115,
+    "reason": "T1_BUY_EXECUTED",
+    "side": "BUY",
+    "status": "FILLED",
+    "symbol": "TFX"
+  }
+]
