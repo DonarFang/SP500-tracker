@@ -1,7 +1,7 @@
 {
   "automatic_execution": false,
   "effective_signal_date": "2026-10-07",
-  "expected_execution_date": "2026-11-24",
+  "expected_execution_date": "2026-11-25",
   "lss07": {
     "changed_symbols": [],
     "effective_signal_date": "2026-10-07",
@@ -9,20 +9,13 @@
       {
         "entry_date": "2026-09-30",
         "observation": {
-          "close": 176.039993,
-          "previous_close": 170.380005,
-          "rank": 26,
+          "close": 183.520004,
+          "previous_close": 176.039993,
+          "rank": 10,
           "rank_fraction_definition": "(rank-1)/(N-1)",
-          "rank_slope": -0.05312868949232586,
+          "rank_slope": -0.024439197166469896,
           "ready": true,
           "samples": [
-            {
-              "date": "2026-11-16",
-              "rank": 188,
-              "rank_fraction": 0.38636363636363635,
-              "score": 61.16,
-              "universe_count": 485
-            },
             {
               "date": "2026-11-17",
               "rank": 112,
@@ -57,16 +50,23 @@
               "rank_fraction": 0.05165289256198347,
               "score": 77.41,
               "universe_count": 485
+            },
+            {
+              "date": "2026-11-24",
+              "rank": 10,
+              "rank_fraction": 0.01859504132231405,
+              "score": 85.7,
+              "universe_count": 485
             }
           ],
-          "score": 77.41,
-          "score_slope": 2.0551428571428567,
+          "score": 85.7,
+          "score_slope": 1.9374285714285715,
           "tie_order": "SYMBOL_ASCENDING",
           "universe_policy": "CURRENT_TRACK_SNAPSHOT"
         },
         "reason": "NO_TRIGGER",
         "remaining_quantity": 8.0,
-        "signal_date": "2026-11-23",
+        "signal_date": "2026-11-24",
         "symbol": "A"
       }
     ],
@@ -84,16 +84,16 @@
     {
       "action": "BUY",
       "reason": "sideways_ma_conflict_ranked_entry",
-      "symbol": "EPAM",
-      "target_shares": "18.96102786185839"
+      "symbol": "IDXX",
+      "target_shares": "4.199715287521308"
     },
     {
       "action": "BUY",
       "reason": "sideways_ma_conflict_ranked_entry",
-      "symbol": "IDXX",
-      "target_shares": "4.352905659624494"
+      "symbol": "EPAM",
+      "target_shares": "18.519528160833826"
     }
   ],
-  "signal_date": "2026-11-23",
+  "signal_date": "2026-11-24",
   "strategy_version": "LSS07-SP500-FROZEN-1.0"
 }

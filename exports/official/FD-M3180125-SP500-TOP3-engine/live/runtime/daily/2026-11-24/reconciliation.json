@@ -1,0 +1,43 @@
+{
+  "records": [
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-11-25",
+      "notes": "",
+      "recommended_action": "HOLD",
+      "recommended_shares": null,
+      "reconciliation_id": "2026-11-24::2026-11-25::A::HOLD",
+      "signal_date": "2026-11-24",
+      "status": "INFORMATIONAL",
+      "symbol": "A"
+    },
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-11-25",
+      "notes": "",
+      "recommended_action": "BUY",
+      "recommended_shares": "4.199715287521308",
+      "reconciliation_id": "2026-11-24::2026-11-25::IDXX::BUY",
+      "signal_date": "2026-11-24",
+      "status": "PENDING",
+      "symbol": "IDXX"
+    },
+    {
+      "actual_action": null,
+      "actual_price": null,
+      "actual_shares": null,
+      "expected_execution_date": "2026-11-25",
+      "notes": "",
+      "recommended_action": "BUY",
+      "recommended_shares": "18.519528160833826",
+      "reconciliation_id": "2026-11-24::2026-11-25::EPAM::BUY",
+      "signal_date": "2026-11-24",
+      "status": "PENDING",
+      "symbol": "EPAM"
+    }
+  ]
+}
