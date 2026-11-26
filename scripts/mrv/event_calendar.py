@@ -79,40 +79,11 @@ def read_active(root,safe,now,year):
 def compatibility(root,year,now,safe,write):
  """Engineering checks only: frozen artifacts and synthetic cross-year inputs, not OOS validation."""
  import run as m
- import math
+ import j4_daily as j
  calpath=safe(root,'config/live_calendar/us_equity_calendar_v1.0.json')
- cal=m.live_calendar.load_live_trading_calendar(calpath);b=m.bundle(root)
- fingerprint=m.digest(m.encoded({'year':year,'bundle':b['bundle_id'],'calendar':m.digest(calpath.read_bytes()),'run':m.digest((root/'scripts/mrv/run.py').read_bytes()),'adapter':m.digest(Path(__file__).read_bytes())}))
- report=safe(root,BASE+'/years/%d/compatibility.json'%year)
- if report.exists():
-  old=json.loads(report.read_bytes())
-  if old.get('fingerprint')==fingerprint and old.get('status')=='PASS':return old
- result={'year':year,'fingerprint':fingerprint,'checked_utc':now.isoformat(),'status':'FAIL','evidence_class':'ENGINEERING_SYNTHETIC_NOT_PREDICTIVE_PERFORMANCE'}
- try:
-  if dt.date(year,1,1)<cal.coverage_start or dt.date(year,12,31)>cal.coverage_end:raise ValueError('TRADING_CALENDAR_YEAR_NOT_COVERED')
-  first=dt.date(year,1,1)
-  while not cal.is_session(first):first+=dt.timedelta(days=1)
-  prior=first-dt.timedelta(days=1)
-  while not cal.is_session(prior):prior-=dt.timedelta(days=1)
-  if prior.year!=year-1 or cal.next_session(prior)!=first:raise ValueError('YEAR_BOUNDARY_SESSION')
-  golden=m.selftest(root)
-  if b['probability_error']:raise ValueError('PROBABILITY_ARTIFACT_NOT_VERIFIED')
-  dates=m.prior_sessions(cal,prior);spx={};vix={};terms={'VIX9D':{},'VIX3M':{}}
-  for i,d in enumerate(dates):
-   price=100+i*.1+math.sin(i*.4)
-   spx[d]={'open':price-.1,'high':price+1,'low':price-1,'close':price};vix[d]=20+math.sin(i*.3)
-   terms['VIX9D'][d]=vix[d]*.95;terms['VIX3M'][d]=vix[d]*1.05
-  f,used=m.features(cal,prior,first,spx,vix,terms)
-  if len(used)!=70 or used[-1]!=prior.isoformat() or any(d>=first.isoformat() for d in used):raise ValueError('CROSS_YEAR_FEATURE_WINDOW')
-  ordinary=m.infer(b,f,[]);event=m.infer(b,f,['CPI'])
-  if ordinary['probabilities'] is None or event['probabilities'] is None or event['final_grade']!='severe':raise ValueError('CROSS_YEAR_INFERENCE')
-  spx[first.isoformat()]={'open':1,'high':99999,'low':.001,'close':99999};vix[first.isoformat()]=999
-  f2,_=m.features(cal,prior,first,spx,vix,terms)
-  if any(f[k]!=f2[k] for k in m.REQUIRED):raise ValueError('TARGET_DATA_LEAKAGE')
-  result.update(status='PASS',signal_date=prior.isoformat(),target_date=first.isoformat(),history_days=len(used),golden=golden,checks=['calendar_year_coverage','year_boundary','frozen_artifacts','70_session_window','no_target_price_input','probability_output','event_override'])
- except Exception as ex:result['error']=str(ex)
- write(report,result)
- if result['status']!='PASS':raise ValueError('CROSS_YEAR_COMPATIBILITY:'+result['error'])
+ cal=m.live_calendar.load_live_trading_calendar(calpath)
+ result=j.check_year(root,cal,year)
+ write(safe(root,BASE+'/years/%d/j4-compatibility.json'%year),result)
  return result
 
 def review(root,out,now,fetch,safe,write,year,force=False,files=None):
