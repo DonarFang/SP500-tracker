@@ -1,0 +1,312 @@
+{
+  "branch": "SIDEWAYS_MA_CONFLICT",
+  "candidate_count": 484,
+  "date": "2026-11-25",
+  "inputs": {
+    "canonical_engine_entry": true,
+    "entry_capacity": 0,
+    "external_regime_injected": false,
+    "external_strategy_inputs": false,
+    "gate_state": "RISK_OFF",
+    "market_entry_allowed": false,
+    "market_state": "CASH_MODE"
+  },
+  "market_regime": "SIDEWAYS",
+  "metadata": {
+    "capped_atr_stop": {
+      "display_name": "E1R CAPPED-ATR Engine",
+      "engine_id": "FD-M3180125-SP500-TOP3-engine",
+      "strict_cycle_state": true,
+      "triggered": [],
+      "variant_id": "E1R_CAPPED_ATR_A0_V1"
+    },
+    "external_regime_injected": false,
+    "external_strategy_inputs": false,
+    "ls60_exit_mode": "exit",
+    "lss07": {
+      "changed_symbols": [],
+      "effective_signal_date": "2026-10-07",
+      "evaluations": [
+        {
+          "entry_date": "2026-11-24",
+          "observation": {
+            "close": 164.630005,
+            "previous_close": 161.479996,
+            "rank": 20,
+            "rank_fraction_definition": "(rank-1)/(N-1)",
+            "rank_slope": -0.041086186540732,
+            "ready": true,
+            "samples": [
+              {
+                "date": "2026-11-18",
+                "rank": 101,
+                "rank_fraction": 0.2066115702479339,
+                "score": 68.61,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-19",
+                "rank": 87,
+                "rank_fraction": 0.17768595041322313,
+                "score": 66.0,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-20",
+                "rank": 74,
+                "rank_fraction": 0.15082644628099173,
+                "score": 66.47,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-23",
+                "rank": 17,
+                "rank_fraction": 0.03305785123966942,
+                "score": 79.27,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-24",
+                "rank": 9,
+                "rank_fraction": 0.01652892561983471,
+                "score": 85.88,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-25",
+                "rank": 20,
+                "rank_fraction": 0.03925619834710744,
+                "score": 87.77,
+                "universe_count": 485
+              }
+            ],
+            "score": 87.77,
+            "score_slope": 4.806857142857141,
+            "tie_order": "SYMBOL_ASCENDING",
+            "universe_policy": "CURRENT_TRACK_SNAPSHOT"
+          },
+          "reason": "NO_TRIGGER",
+          "remaining_quantity": 165.04173191353226,
+          "signal_date": "2026-11-25",
+          "symbol": "EPAM"
+        },
+        {
+          "entry_date": "2026-11-24",
+          "observation": {
+            "close": 709.460022,
+            "previous_close": 712.080017,
+            "rank": 16,
+            "rank_fraction_definition": "(rank-1)/(N-1)",
+            "rank_slope": -0.0018890200708382527,
+            "ready": true,
+            "samples": [
+              {
+                "date": "2026-11-18",
+                "rank": 24,
+                "rank_fraction": 0.047520661157024795,
+                "score": 80.58,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-19",
+                "rank": 22,
+                "rank_fraction": 0.04338842975206612,
+                "score": 76.82,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-20",
+                "rank": 33,
+                "rank_fraction": 0.06611570247933884,
+                "score": 72.74,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-23",
+                "rank": 41,
+                "rank_fraction": 0.08264462809917356,
+                "score": 75.16,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-24",
+                "rank": 22,
+                "rank_fraction": 0.04338842975206612,
+                "score": 82.47,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-25",
+                "rank": 16,
+                "rank_fraction": 0.030991735537190084,
+                "score": 88.34,
+                "universe_count": 485
+              }
+            ],
+            "score": 88.34,
+            "score_slope": 1.6620000000000013,
+            "tie_order": "SYMBOL_ASCENDING",
+            "universe_policy": "CURRENT_TRACK_SNAPSHOT"
+          },
+          "reason": "NO_TRIGGER",
+          "remaining_quantity": 38.129085923267205,
+          "signal_date": "2026-11-25",
+          "symbol": "IDXX"
+        },
+        {
+          "entry_date": "2026-11-24",
+          "observation": {
+            "close": 168.279999,
+            "previous_close": 166.960007,
+            "rank": 1,
+            "rank_fraction_definition": "(rank-1)/(N-1)",
+            "rank_slope": 0.0008854781582054308,
+            "ready": true,
+            "samples": [
+              {
+                "date": "2026-11-18",
+                "rank": 1,
+                "rank_fraction": 0.0,
+                "score": 95.37,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-19",
+                "rank": 1,
+                "rank_fraction": 0.0,
+                "score": 96.59,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-20",
+                "rank": 1,
+                "rank_fraction": 0.0,
+                "score": 94.31,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-23",
+                "rank": 1,
+                "rank_fraction": 0.0,
+                "score": 89.33,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-24",
+                "rank": 6,
+                "rank_fraction": 0.010330578512396695,
+                "score": 87.74,
+                "universe_count": 485
+              },
+              {
+                "date": "2026-11-25",
+                "rank": 1,
+                "rank_fraction": 0.0,
+                "score": 95.92,
+                "universe_count": 485
+              }
+            ],
+            "score": 95.92,
+            "score_slope": -0.8222857142857155,
+            "tie_order": "SYMBOL_ASCENDING",
+            "universe_policy": "CURRENT_TRACK_SNAPSHOT"
+          },
+          "reason": "NO_TRIGGER",
+          "remaining_quantity": 161.47538136546115,
+          "signal_date": "2026-11-25",
+          "symbol": "TFX"
+        }
+      ],
+      "status": "EVALUATED",
+      "version": "LSS07-SP500-FROZEN-1.0"
+    },
+    "max_positions": 3,
+    "min_holding_days": 10,
+    "ranking_source": "SidewaysCore.rank_date",
+    "reference_top3": [
+      {
+        "rank": 1,
+        "regime": "SIDEWAYS",
+        "score": 141.24463091678493,
+        "symbol": "EPAM"
+      },
+      {
+        "rank": 2,
+        "regime": "SIDEWAYS",
+        "score": 132.63485326762486,
+        "symbol": "IDXX"
+      },
+      {
+        "rank": 3,
+        "regime": "SIDEWAYS",
+        "score": 119.26627230546882,
+        "symbol": "CLX"
+      }
+    ],
+    "route": {
+      "branch": "SIDEWAYS_MA_CONFLICT",
+      "date": "2026-11-25",
+      "metadata": {
+        "combination_valid": true,
+        "no_strategy_decision": true,
+        "router_shell_only": true
+      },
+      "reason": "route_sideways_ma_conflict",
+      "spx_regime": "SIDEWAYS",
+      "subclass": "MA_CONFLICT"
+    },
+    "single_step_decision": true
+  },
+  "order_intents": [
+    {
+      "branch": "SIDEWAYS_MA_CONFLICT",
+      "date": "2026-11-25",
+      "intent_type": "HOLD",
+      "metadata": {
+        "origin_branch": "SIDEWAYS_MA_CONFLICT",
+        "sideways_add_disabled": false
+      },
+      "quantity_delta": 0.0,
+      "reason": "sideways_existing_position_hold",
+      "side": null,
+      "symbol": "EPAM",
+      "target_quantity": 165.04173191353226
+    },
+    {
+      "branch": "SIDEWAYS_MA_CONFLICT",
+      "date": "2026-11-25",
+      "intent_type": "HOLD",
+      "metadata": {
+        "origin_branch": "SIDEWAYS_MA_CONFLICT",
+        "sideways_add_disabled": true
+      },
+      "quantity_delta": 0.0,
+      "reason": "sideways_add_disabled_hold",
+      "side": null,
+      "symbol": "IDXX",
+      "target_quantity": 38.129085923267205
+    },
+    {
+      "branch": "SIDEWAYS_MA_CONFLICT",
+      "date": "2026-11-25",
+      "intent_type": "HOLD",
+      "metadata": {
+        "origin_branch": "SIDEWAYS_MA_CONFLICT",
+        "sideways_add_disabled": false
+      },
+      "quantity_delta": 0.0,
+      "reason": "sideways_existing_position_hold",
+      "side": null,
+      "symbol": "TFX",
+      "target_quantity": 161.47538136546115
+    }
+  ],
+  "reasons": [
+    "canonical_regime_generator",
+    "engine_market_state_and_gate",
+    "engine_router_and_strategy",
+    "route_sideways_ma_conflict"
+  ],
+  "regime_subclass": "MA_CONFLICT",
+  "selected_symbols": []
+}

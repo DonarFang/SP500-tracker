@@ -1,9 +1,9 @@
 {
   "account": {
     "cash": 190594.09623864657,
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "metadata": {
-      "last_execution_date": "2026-11-24",
+      "last_execution_date": "2026-11-25",
       "sim_end_liquidation_replayed": false,
       "sim_end_performed": false,
       "source": "AE_STEP1_CANONICAL_5Y_NORMAL_EOD",
@@ -15,9 +15,9 @@
       "EPAM": {
         "avg_cost": 164.974807998,
         "entry_date": "2026-11-24",
-        "last_price": 161.479996,
-        "last_update_date": "2026-11-24",
-        "market_value": 26650.938209230262,
+        "last_price": 164.630005,
+        "last_update_date": "2026-11-25",
+        "market_value": 27170.821150133477,
         "metadata": {
           "candidate_top_n": 10,
           "capital_fraction_of_tradable_cash": 0.3,
@@ -56,14 +56,14 @@
         },
         "quantity": 165.04173191353226,
         "symbol": "EPAM",
-        "unrealized_pnl": -576.7898248621102
+        "unrealized_pnl": -56.90688395889447
       },
       "IDXX": {
         "avg_cost": 714.093385005,
         "entry_date": "2026-11-24",
-        "last_price": 712.080017,
-        "last_update_date": "2026-11-24",
-        "market_value": 27150.96015243457,
+        "last_price": 709.460022,
+        "last_update_date": "2026-11-25",
+        "market_value": 27051.062137961042,
         "metadata": {
           "candidate_top_n": 10,
           "capital_fraction_of_tradable_cash": 0.3,
@@ -102,14 +102,14 @@
         },
         "quantity": 38.129085923267205,
         "symbol": "IDXX",
-        "unrealized_pnl": -76.7678816578006
+        "unrealized_pnl": -176.66589613133172
       },
       "TFX": {
         "avg_cost": 168.61844699699998,
         "entry_date": "2026-11-24",
-        "last_price": 166.960007,
-        "last_update_date": "2026-11-24",
-        "market_value": 26959.93080310506,
+        "last_price": 168.279999,
+        "last_update_date": "2026-11-25",
+        "market_value": 27173.07701470442,
         "metadata": {
           "candidate_top_n": 10,
           "capital_fraction_of_tradable_cash": 0.3,
@@ -148,11 +148,11 @@
         },
         "quantity": 161.47538136546115,
         "symbol": "TFX",
-        "unrealized_pnl": -267.7972309873073
+        "unrealized_pnl": -54.651019387947336
       }
     },
-    "positions_value": 80761.8291647699,
-    "total_equity": 271355.92540341645
+    "positions_value": 81394.96030279894,
+    "total_equity": 271989.0565414455
   },
   "closed_trades": [
     {
@@ -1060,12 +1060,19 @@
       "open_positions_count": 3,
       "positions_value": 80761.8291647699,
       "total_equity": 271355.92540341645
+    },
+    {
+      "cash": 190594.09623864657,
+      "date": "2026-11-25",
+      "open_positions_count": 3,
+      "positions_value": 81394.96030279894,
+      "total_equity": 271989.0565414455
     }
   ],
   "first_forward_market_date": "2026-06-17",
-  "last_committed_date": "2026-11-24",
+  "last_committed_date": "2026-11-25",
   "metadata": {
-    "last_commit_date": "2026-11-24",
+    "last_commit_date": "2026-11-25",
     "last_decision_source": "E1RCoreEngine.step",
     "seed_contract_sha256": "c0e022679963499320b7c80a169fee33a8615e19f45a88cfcae13e151f11dadf",
     "seed_semantics": "PRE_SIM_END_CONTINUOUS_ACCOUNT_STATE",

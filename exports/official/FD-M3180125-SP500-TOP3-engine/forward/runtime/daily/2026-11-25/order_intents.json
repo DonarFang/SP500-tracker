@@ -1,0 +1,44 @@
+[
+  {
+    "branch": "SIDEWAYS_MA_CONFLICT",
+    "date": "2026-11-25",
+    "intent_type": "HOLD",
+    "metadata": {
+      "origin_branch": "SIDEWAYS_MA_CONFLICT",
+      "sideways_add_disabled": false
+    },
+    "quantity_delta": 0.0,
+    "reason": "sideways_existing_position_hold",
+    "side": null,
+    "symbol": "EPAM",
+    "target_quantity": 165.04173191353226
+  },
+  {
+    "branch": "SIDEWAYS_MA_CONFLICT",
+    "date": "2026-11-25",
+    "intent_type": "HOLD",
+    "metadata": {
+      "origin_branch": "SIDEWAYS_MA_CONFLICT",
+      "sideways_add_disabled": true
+    },
+    "quantity_delta": 0.0,
+    "reason": "sideways_add_disabled_hold",
+    "side": null,
+    "symbol": "IDXX",
+    "target_quantity": 38.129085923267205
+  },
+  {
+    "branch": "SIDEWAYS_MA_CONFLICT",
+    "date": "2026-11-25",
+    "intent_type": "HOLD",
+    "metadata": {
+      "origin_branch": "SIDEWAYS_MA_CONFLICT",
+      "sideways_add_disabled": false
+    },
+    "quantity_delta": 0.0,
+    "reason": "sideways_existing_position_hold",
+    "side": null,
+    "symbol": "TFX",
+    "target_quantity": 161.47538136546115
+  }
+]

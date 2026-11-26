@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "engine_id": "FD-M3180125-SP500-TOP3-engine",
   "decision": "PASS_ENGINE_FORWARD_DAILY_INCREMENTAL_PRICE_UPDATE",
-  "generated_at": "2026-11-25T10:06:39.859757+00:00",
+  "generated_at": "2026-11-26T05:17:55.967251+00:00",
   "provider": "Yahoo Finance via yfinance",
   "price_root": "data/fw_prices",
   "catalogue_source": "existing data/fw_prices filenames",
@@ -506,15 +506,15 @@
     "_SOX.json",
     "_VIX.json"
   ],
-  "expected_latest_market_date": "2026-11-24",
+  "expected_latest_market_date": "2026-11-25",
   "required_index_latest_dates": {
-    "_GSPC.json": "2026-11-24",
-    "_NDX.json": "2026-11-24",
-    "_SOX.json": "2026-11-24",
-    "_VIX.json": "2026-11-24"
+    "_GSPC.json": "2026-11-25",
+    "_NDX.json": "2026-11-25",
+    "_SOX.json": "2026-11-25",
+    "_VIX.json": "2026-11-25"
   },
   "stale_required_indices": {},
   "invalid_ohlc_files": {},
   "latest_date_min": "2026-08-10",
-  "latest_date_max": "2026-11-24"
+  "latest_date_max": "2026-11-25"
 }
