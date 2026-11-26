@@ -1,0 +1,99 @@
+{
+  "automatic_execution": false,
+  "effective_signal_date": "2026-10-07",
+  "expected_execution_date": "2026-11-27",
+  "lss07": {
+    "changed_symbols": [],
+    "effective_signal_date": "2026-10-07",
+    "evaluations": [
+      {
+        "entry_date": "2026-09-30",
+        "observation": {
+          "close": 178.440002,
+          "previous_close": 183.520004,
+          "rank": 15,
+          "rank_fraction_definition": "(rank-1)/(N-1)",
+          "rank_slope": -0.004663518299881935,
+          "ready": true,
+          "samples": [
+            {
+              "date": "2026-11-18",
+              "rank": 16,
+              "rank_fraction": 0.030991735537190084,
+              "score": 81.39,
+              "universe_count": 485
+            },
+            {
+              "date": "2026-11-19",
+              "rank": 16,
+              "rank_fraction": 0.030991735537190084,
+              "score": 78.25,
+              "universe_count": 485
+            },
+            {
+              "date": "2026-11-20",
+              "rank": 82,
+              "rank_fraction": 0.16735537190082644,
+              "score": 65.05,
+              "universe_count": 485
+            },
+            {
+              "date": "2026-11-23",
+              "rank": 26,
+              "rank_fraction": 0.05165289256198347,
+              "score": 77.41,
+              "universe_count": 485
+            },
+            {
+              "date": "2026-11-24",
+              "rank": 10,
+              "rank_fraction": 0.01859504132231405,
+              "score": 85.7,
+              "universe_count": 485
+            },
+            {
+              "date": "2026-11-25",
+              "rank": 15,
+              "rank_fraction": 0.028925619834710745,
+              "score": 88.58,
+              "universe_count": 485
+            }
+          ],
+          "score": 88.58,
+          "score_slope": 2.0188571428571427,
+          "tie_order": "SYMBOL_ASCENDING",
+          "universe_policy": "CURRENT_TRACK_SNAPSHOT"
+        },
+        "reason": "NO_TRIGGER",
+        "remaining_quantity": 8.0,
+        "signal_date": "2026-11-25",
+        "symbol": "A"
+      }
+    ],
+    "status": "EVALUATED",
+    "version": "LSS07-SP500-FROZEN-1.0"
+  },
+  "recommendation_only": true,
+  "recommendations": [
+    {
+      "action": "HOLD",
+      "reason": "canonical_position_hold",
+      "symbol": "A",
+      "target_shares": "8.0"
+    },
+    {
+      "action": "BUY",
+      "reason": "sideways_ma_conflict_ranked_entry",
+      "symbol": "EPAM",
+      "target_shares": "18.165177929341212"
+    },
+    {
+      "action": "BUY",
+      "reason": "sideways_ma_conflict_ranked_entry",
+      "symbol": "IDXX",
+      "target_shares": "4.215224594196139"
+    }
+  ],
+  "signal_date": "2026-11-25",
+  "strategy_version": "LSS07-SP500-FROZEN-1.0"
+}
