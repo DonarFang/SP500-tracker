@@ -1,22 +1,22 @@
 {
   "actual_trades_recorded": false,
   "artifact_hashes": {
-    "account_state.json": "268c35861689f198839d3b0e0dcd8d212bcf36e748fc56386fa67061810804b3",
-    "active_positions.json": "79e62f4a47d69d87a53334b1287e93a845a847f7d9f24bd78a327b53fd6e0add",
-    "engine_recommendations.json": "9afc27f570f7d929e39ece0b2d762b89a6264914e9b7212dfc415960dcd70112",
-    "equity.json": "b6a8e074870ab533b7252eaef75c12fe099a54cf9f300b7f13242ddf965761a4",
-    "manifest.json": "458f4732d82e99803ae6fee3b8bfbf45f95a75258043a1ba70363c964425015f",
+    "account_state.json": "8330354e42f3431f6c9c567ac4c7b9a0fad693055865b5ef86c6c11a4a016c57",
+    "active_positions.json": "bd08f9c62e3042d8cf5c96884224c2ac9962b90bfc0fc9689f97117ea1e3ef0f",
+    "engine_recommendations.json": "2b201fe9939caacd2b0615bb7eca2a5156db82cf3ec5f1437ff99edf1647e199",
+    "equity.json": "5e1f823131ee83ebe5b23a67b94773e83faa812eac30809c1f93276eba9dfe7f",
+    "manifest.json": "54c73b14a374993a400d3d3624d341b611240f9f93861070ff8e2ea08ca59af4",
     "manual_transactions.json": "93edefb73b34dd55784da00019648fac8faf9ed250d7c3f03aded7d10c2473b6",
-    "market_status.json": "dcc0b79a497568a7c18d09b241899f649e0500ce36b9f9d4fc32a20ddc07b81c",
-    "reconciliation.json": "2504fe31e03a6a89dbf885c18a42abb039b3fdaa23107fad2ec6bfc47de6463e",
-    "reference_top3.json": "a53edaa39255980cbdf43ef3225d9b696aa3a973f7f6f149ea8f4d977cdd3460"
+    "market_status.json": "6b00e4cd462c0dd147a53b8314741e4d34979fdb2afe7d0c84bd11ac71eafa39",
+    "reconciliation.json": "7b70b569bfc864b0ef51da50112b012bcc053f9721509923bf2bcffb8683707a",
+    "reference_top3.json": "27ce752feb32cfcf8d1d17b45e6e685f3efef594a00ffd9a4fb2599483f2c573"
   },
   "automatic_execution_enabled": false,
-  "completed_at": "2026-11-26T08:47:18.057253+00:00",
+  "completed_at": "2026-11-28T08:19:16.752066+00:00",
   "decision": "PASS_LIVE_ACTIVE_DAILY",
-  "expected_execution_date": "2026-11-27",
-  "market_date": "2026-11-25",
+  "expected_execution_date": "2026-11-30",
+  "market_date": "2026-11-27",
   "opening_activated": true,
-  "result_hash": "65441e985d6e4c7ba5c15454fa961bbd36329bd8e95e8c4ad5a0279ffe83017a",
+  "result_hash": "53e0ba42ba78f25b30d446da0034ca62aa09b45c9d334137e41158e5e18731bc",
   "run_mode": "ACTIVE_RECOMMENDATION_ONLY"
 }
